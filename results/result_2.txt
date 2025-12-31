@@ -1,0 +1,230 @@
+Loading game...
+Loading dictionary from NWL2023.txt...
+Dictionary loaded.
+Loading neural network from checkpoint-100...
+
+--- STARTING MATCH ---
+Initial Rack P0: ['O', 'H', 'N', 'Q', 'I', 'I', 'D']
+Player 0: Plays 'IODIN' at 3,7 Across
+   Rack P1 (Next): ['E', 'D', 'U', '?', 'A', 'I', 'E']
+Player 1: Plays 'IDEATE' at 4,6 Across
+   Rack P0 (Next): ['H', 'Q', 'L', 'T', 'L', 'N', 'H']
+Player 0: Plays 'NTH' at 5,6 Across
+   Rack P1 (Next): ['U', 'V', 'G', 'K', 'I', 'A', 'I']
+Player 1: EXCHANGE
+   Rack P0 (Next): ['Q', 'L', 'L', 'H', 'M', 'M', 'I']
+Player 0: Plays 'HIM' at 3,12 Across
+   Rack P1 (Next): ['R', 'N', 'W', 'B', 'E', 'E', 'C']
+Player 1: Plays 'TERCE' at 4,10 Across
+   Rack P0 (Next): ['Q', 'L', 'L', 'M', 'E', 'X', 'B']
+Player 0: Plays 'BELL' at 5,11 Across
+   Rack P1 (Next): ['N', 'W', 'B', 'E', 'F', 'U', 'R']
+Player 1: Plays 'BREN' at 5,11 Across
+   Rack P0 (Next): ['Q', 'M', 'X', 'R', 'S', 'D', 'G']
+Player 0: Plays 'HM' at 5,8 Across
+   Rack P1 (Next): ['N', 'W', 'B', 'E', 'F', 'U', 'R']
+Player 1: Plays 'DAMNER' at 3,9 Across
+   Rack P0 (Next): ['Q', 'X', 'R', 'S', 'D', 'G', 'I']
+Player 0: Plays 'GIRDS' at 6,2 Across
+   Rack P1 (Next): ['N', 'W', 'B', 'E', 'F', 'U', 'R']
+Player 1: Plays 'INFER' at 6,3 Across
+   Rack P0 (Next): ['Q', 'X', 'U', 'E', 'E', 'Y', 'A']
+Player 0: Plays 'QUA' at 5,0 Across
+   Rack P1 (Next): ['N', 'W', 'B', 'E', 'F', 'U', 'Y']
+Player 1: Plays 'ENUF' at 7,6 Across
+   Rack P0 (Next): ['X', 'E', 'E', 'Y', 'A', 'E', 'V']
+Player 0: Plays 'VEENA' at 3,4 Across
+   Rack P1 (Next): ['W', 'B', 'Y', 'E', 'A', 'I', 'T']
+Player 1: Plays 'BAWTIE' at 8,9 Across
+   Rack P0 (Next): ['X', 'Y', 'A', 'E', 'T', 'A', 'P']
+Player 0: Plays 'ATAXY' at 9,9 Across
+   Rack P1 (Next): ['Y', 'O', 'T', 'W', 'R', 'G', 'C']
+Player 1: Plays 'COWRY' at 6,0 Across
+   Rack P0 (Next): ['E', 'P', 'O', 'T', 'I', 'N', 'S']
+Player 0: Plays 'EOSIN' at 10,9 Across
+   Rack P1 (Next): ['Y', 'T', 'W', 'R', 'G', 'F', 'O']
+Player 1: Plays 'WAST' at 8,11 Across
+   Rack P0 (Next): ['P', 'T', 'E', 'O', 'S', 'S', 'A']
+Player 0: Plays 'APSE' at 0,5 Across
+   Rack P1 (Next): ['Y', 'T', 'W', 'R', 'G', 'F', 'O']
+Player 1: Plays 'COWRY' at 6,0 Across
+   Rack P0 (Next): ['T', 'O', 'S', 'R', 'O', 'O', 'O']
+Player 0: Plays 'ROOST' at 1,1 Across
+   Rack P1 (Next): ['Y', 'T', 'W', 'R', 'G', 'F', 'O']
+Player 1: Plays 'COWRY' at 6,0 Across
+   Rack P0 (Next): ['O', 'O', 'E', '?', 'U', 'D', 'A']
+Player 0: Plays 'AUTOED' at 0,9 Across
+   Rack P1 (Next): ['Y', 'T', 'W', 'R', 'G', 'F', 'O']
+Player 1: Plays 'TOR' at 1,10 Across
+   Rack P0 (Next): ['O', 'N', 'I', 'L', 'T', 'P', 'A']
+Player 0: Plays 'ALIT' at 11,9 Across
+   Rack P1 (Next): ['Y', 'W', 'G', 'F', 'R', 'Z', 'E']
+Player 1: Plays 'FE' at 2,5 Across
+   Rack P0 (Next): ['O', 'N', 'P', 'N', 'A', 'J', 'G']
+Player 0: Plays 'AGO' at 12,10 Across
+   Rack P1 (Next): ['Y', 'W', 'G', 'R', 'Z', 'V', 'I']
+Player 1: Plays 'GRIZ' at 7,0 Across
+   Rack P0 (Next): ['N', 'P', 'N', 'J', 'L', 'K', 'U']
+Player 0: Plays 'TOLAN' at 9,10 Across
+   Rack P1 (Next): ['Y', 'W', 'V']
+Player 1: Plays 'LAV' at 11,10 Across
+   Rack P0 (Next): ['P', 'N', 'J', 'L', 'K', 'U']
+Player 0: Plays 'PLUNK' at 8,7 Across
+   Rack P1 (Next): ['Y', 'W', 'V']
+Player 1: Plays 'IVY' at 7,2 Across
+   Rack P0 (Next): ['N', 'J', 'K', 'U']
+Player 0: Plays 'NU' at 2,1 Across
+   Rack P1 (Next): ['W', 'V']
+Player 1: Plays 'OW' at 12,12 Across
+   Rack P0 (Next): ['J', 'K']
+Player 0: Plays 'GOWK' at 12,11 Across
+   Rack P1 (Next): ['V']
+Player 1: Plays 'LAV' at 11,10 Across
+   Rack P0 (Next): ['J']
+Player 0: PASS
+   Rack P1 (Next): ['V']
+Player 1: Plays 'LAV' at 11,10 Across
+   Rack P0 (Next): ['J']
+Player 0: PASS
+   Rack P1 (Next): ['V']
+Player 1: Plays 'LAV' at 11,10 Across
+   Rack P0 (Next): ['J']
+Player 0: PASS
+   Rack P1 (Next): ['V']
+Player 1: Plays 'LAV' at 11,10 Across
+   Rack P0 (Next): ['J']
+Player 0: PASS
+   Rack P1 (Next): ['V']
+Player 1: Plays 'LAV' at 11,10 Across
+   Rack P0 (Next): ['J']
+Player 0: PASS
+   Rack P1 (Next): ['V']
+Player 1: Plays 'LAV' at 11,10 Across
+   Rack P0 (Next): ['J']
+Player 0: PASS
+   Rack P1 (Next): ['V']
+Player 1: Plays 'LAV' at 11,10 Across
+   Rack P0 (Next): ['J']
+Player 0: PASS
+   Rack P1 (Next): ['V']
+Player 1: Plays 'LAV' at 11,10 Across
+   Rack P0 (Next): ['J']
+Player 0: PASS
+   Rack P1 (Next): ['V']
+Player 1: Plays 'LAV' at 11,10 Across
+   Rack P0 (Next): ['J']
+Player 0: PASS
+   Rack P1 (Next): ['V']
+Player 1: Plays 'LAV' at 11,10 Across
+   Rack P0 (Next): ['J']
+Player 0: PASS
+   Rack P1 (Next): ['V']
+Player 1: Plays 'LAV' at 11,10 Across
+   Rack P0 (Next): ['J']
+Player 0: PASS
+   Rack P1 (Next): ['V']
+Player 1: Plays 'LAV' at 11,10 Across
+   Rack P0 (Next): ['J']
+Player 0: PASS
+   Rack P1 (Next): ['V']
+Player 1: Plays 'LAV' at 11,10 Across
+   Rack P0 (Next): ['J']
+Player 0: PASS
+   Rack P1 (Next): ['V']
+Player 1: Plays 'LAV' at 11,10 Across
+   Rack P0 (Next): ['J']
+Player 0: PASS
+   Rack P1 (Next): ['V']
+Player 1: Plays 'LAV' at 11,10 Across
+   Rack P0 (Next): ['J']
+Player 0: PASS
+   Rack P1 (Next): ['V']
+Player 1: Plays 'LAV' at 11,10 Across
+   Rack P0 (Next): ['J']
+Player 0: PASS
+   Rack P1 (Next): ['V']
+Player 1: Plays 'LAV' at 11,10 Across
+   Rack P0 (Next): ['J']
+Player 0: PASS
+   Rack P1 (Next): ['V']
+Player 1: Plays 'LAV' at 11,10 Across
+   Rack P0 (Next): ['J']
+Player 0: PASS
+   Rack P1 (Next): ['V']
+Player 1: Plays 'LAV' at 11,10 Across
+   Rack P0 (Next): ['J']
+Player 0: PASS
+   Rack P1 (Next): ['V']
+Player 1: Plays 'LAV' at 11,10 Across
+   Rack P0 (Next): ['J']
+Player 0: PASS
+   Rack P1 (Next): ['V']
+Player 1: Plays 'LAV' at 11,10 Across
+   Rack P0 (Next): ['J']
+Player 0: PASS
+   Rack P1 (Next): ['V']
+Player 1: Plays 'LAV' at 11,10 Across
+   Rack P0 (Next): ['J']
+Player 0: PASS
+   Rack P1 (Next): ['V']
+Player 1: Plays 'LAV' at 11,10 Across
+   Rack P0 (Next): ['J']
+Player 0: PASS
+   Rack P1 (Next): ['V']
+Player 1: Plays 'LAV' at 11,10 Across
+   Rack P0 (Next): ['J']
+Player 0: PASS
+   Rack P1 (Next): ['V']
+Player 1: Plays 'LAV' at 11,10 Across
+   Rack P0 (Next): ['J']
+Player 0: PASS
+   Rack P1 (Next): ['V']
+Player 1: Plays 'LAV' at 11,10 Across
+   Rack P0 (Next): ['J']
+Player 0: PASS
+   Rack P1 (Next): ['V']
+Player 1: Plays 'LAV' at 11,10 Across
+   Rack P0 (Next): ['J']
+Player 0: PASS
+   Rack P1 (Next): ['V']
+Player 1: Plays 'LAV' at 11,10 Across
+   Rack P0 (Next): ['J']
+Player 0: PASS
+   Rack P1 (Next): ['V']
+Player 1: Plays 'LAV' at 11,10 Across
+   Rack P0 (Next): ['J']
+Player 0: PASS
+   Rack P1 (Next): ['V']
+Player 1: Plays 'LAV' at 11,10 Across
+   Rack P0 (Next): ['J']
+Player 0: PASS
+   Rack P1 (Next): ['V']
+Player 1: Plays 'LAV' at 11,10 Across
+   Rack P0 (Next): ['J']
+Player 0: PASS
+   Rack P1 (Next): ['V']
+Player 1: Plays 'LAV' at 11,10 Across
+   Rack P0 (Next): ['J']
+Player 0: PASS
+
+--- GAME OVER ---
+Turn: Player 0
+Scores: P0=460.0 P1=582.0
+Bag: 0 tiles
+   A B C D E F G H I J K L M N O
+ 0 . . . . . A P S E A U T O E D 
+ 1 . R O O S T . . . . T O R . . 
+ 2 . N U . . F E . . . . . . . . 
+ 3 . . . . V E E N A D A M N E R 
+ 4 . . . . . . I D E A T E R C E 
+ 5 Q U A . . . N T H M . B R E N 
+ 6 C O W R Y F E R . . . . . . . 
+ 7 G R I V Y . E N U F . . . . . 
+ 8 . . . . . . . P L U N K A S T 
+ 9 . . . . . . . . . A T O L A N 
+10 . . . . . . . . . E O S I N . 
+11 . . . . . . . . . A L A V . . 
+12 . . . . . . . . . . A G O W K 
+13 . . . . . . . . . . . . . . . 
+14 . . . . . . . . . . . . . . . 
+Final Score: [460.0, 582.0]

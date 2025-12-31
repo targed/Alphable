@@ -1,0 +1,230 @@
+Loading game...
+Loading dictionary from NWL2023.txt...
+Dictionary loaded.
+Loading neural network from checkpoint-100...
+
+--- STARTING MATCH ---
+Initial Rack P0: ['A', 'T', 'U', 'T', 'B', 'T', 'I']
+Player 0: Plays 'BATTU' at 3,7 Across
+   Rack P1 (Next): ['N', 'K', 'R', 'O', 'R', 'G', 'G']
+Player 1: Plays 'BONG' at 3,7 Across
+   Rack P0 (Next): ['T', 'I', 'A', 'A', 'E', 'A', 'E']
+Player 0: Plays 'EAT' at 2,6 Across
+   Rack P1 (Next): ['N', 'K', 'R', 'O', 'R', 'G', 'G']
+Player 1: Plays 'ONO' at 3,8 Across
+   Rack P0 (Next): ['I', 'A', 'A', 'E', 'V', 'C', 'O']
+Player 0: Plays 'VOICE' at 2,10 Across
+   Rack P1 (Next): ['N', 'K', 'R', 'O', 'R', 'G', 'G']
+Player 1: Plays 'GONG' at 4,10 Across
+   Rack P0 (Next): ['A', 'A', 'A', 'W', 'N', 'S', 'E']
+Player 0: Plays 'SEAWAN' at 1,1 Across
+   Rack P1 (Next): ['K', 'R', 'R', 'A', 'I', 'E', '?']
+Player 1: Plays 'KERRIAS' at 0,2 Across
+   Rack P0 (Next): ['A', 'E', 'A', 'I', 'O', 'E', 'G']
+Player 0: Plays 'AGEE' at 5,10 Across
+   Rack P1 (Next): ['I', 'O', 'S', 'M', 'L', 'B', 'L']
+Player 1: Plays 'NEB' at 4,12 Across
+   Rack P0 (Next): ['A', 'I', 'O', 'M', 'H', 'N', 'I']
+Player 0: Plays 'HOMA' at 4,4 Across
+   Rack P1 (Next): ['I', 'O', 'S', 'M', 'L', 'L', 'I']
+Player 1: Plays 'OSMOL' at 3,8 Across
+   Rack P0 (Next): ['I', 'N', 'I', 'N', 'I', 'D', 'O']
+Player 0: Plays 'INION' at 5,1 Across
+   Rack P1 (Next): ['I', 'O', 'S', 'M', 'L', 'I', 'F']
+Player 1: Plays 'MONOFILS' at 3,5 Across
+   Rack P0 (Next): ['I', 'D', 'W', 'R', 'E', 'D', 'N']
+Player 0: Plays 'DWINED' at 0,9 Across
+   Rack P1 (Next): ['I', 'S', 'L', 'I', 'F', 'H', 'F']
+Player 1: Plays 'WANS' at 1,4 Across
+   Rack P0 (Next): ['R', 'J', 'V', 'E', 'U', 'Y', 'L']
+Player 0: Plays 'NERVY' at 5,5 Across
+   Rack P1 (Next): ['I', 'L', 'I', 'F', 'H', 'F', 'A']
+Player 1: Plays 'ILIA' at 5,1 Across
+   Rack P0 (Next): ['J', 'U', 'L', 'A', 'E', 'P', 'R']
+Player 0: Plays 'ALE' at 4,0 Across
+   Rack P1 (Next): ['I', 'L', 'I', 'F', 'H', 'F', 'A']
+Player 1: Plays 'DA' at 0,9 Across
+   Rack P0 (Next): ['J', 'U', 'P', 'R', 'S', 'S', 'T']
+Player 0: Plays 'PSST' at 6,0 Across
+   Rack P1 (Next): ['I', 'L', 'I', 'F', 'H', 'F', 'A']
+Player 1: Plays 'MEAL' at 4,6 Across
+   Rack P0 (Next): ['J', 'U', 'R', 'T', 'R', 'P', 'R']
+Player 0: Plays 'PURR' at 7,2 Across
+   Rack P1 (Next): ['I', 'I', 'F', 'H', 'F', 'T', 'I']
+Player 1: Plays 'FIFTH' at 7,6 Across
+   Rack P0 (Next): ['J', 'T', 'R', 'E', 'Z', 'O', 'N']
+Player 0: Plays 'JETON' at 8,3 Across
+   Rack P1 (Next): ['I', 'I', '?', 'Q', 'D', 'E', 'O']
+Player 1: Plays 'IODIDE' at 8,9 Across
+   Rack P0 (Next): ['R', 'Z', 'X', 'Y', 'E', 'U', 'U']
+Player 0: Plays 'YUZU' at 9,10 Across
+   Rack P1 (Next): ['Q', 'O', 'I', 'C', 'L', 'D']
+Player 1: Plays 'DO' at 2,3 Across
+   Rack P0 (Next): ['R', 'X', 'E']
+Player 0: Plays 'TE' at 8,5 Across
+   Rack P1 (Next): ['Q', 'I', 'C', 'L']
+Player 1: Plays 'LI' at 2,0 Across
+   Rack P0 (Next): ['R', 'X', 'E']
+Player 0: Plays 'ER' at 5,12 Across
+   Rack P1 (Next): ['Q', 'C']
+Player 1: Plays 'REC' at 7,4 Across
+   Rack P0 (Next): ['R', 'X', 'E']
+Player 0: Plays 'ER' at 6,13 Across
+   Rack P1 (Next): ['Q', 'C']
+Player 1: Plays 'REC' at 7,4 Across
+   Rack P0 (Next): ['X']
+Player 0: Plays 'EX' at 8,6 Across
+   Rack P1 (Next): ['Q', 'C']
+Player 1: Plays 'REC' at 7,4 Across
+   Rack P0 (Next): ['X']
+Player 0: Plays 'EX' at 8,6 Across
+   Rack P1 (Next): ['Q', 'C']
+Player 1: Plays 'REC' at 7,4 Across
+   Rack P0 (Next): ['X']
+Player 0: Plays 'EX' at 8,6 Across
+   Rack P1 (Next): ['Q', 'C']
+Player 1: Plays 'REC' at 7,4 Across
+   Rack P0 (Next): ['X']
+Player 0: Plays 'EX' at 8,6 Across
+   Rack P1 (Next): ['Q', 'C']
+Player 1: Plays 'REC' at 7,4 Across
+   Rack P0 (Next): ['X']
+Player 0: Plays 'EX' at 8,6 Across
+   Rack P1 (Next): ['Q', 'C']
+Player 1: Plays 'REC' at 7,4 Across
+   Rack P0 (Next): ['X']
+Player 0: Plays 'EX' at 8,6 Across
+   Rack P1 (Next): ['Q', 'C']
+Player 1: Plays 'REC' at 7,4 Across
+   Rack P0 (Next): ['X']
+Player 0: Plays 'REX' at 7,4 Across
+   Rack P1 (Next): ['Q', 'C']
+Player 1: Plays 'REC' at 7,4 Across
+   Rack P0 (Next): ['X']
+Player 0: Plays 'EX' at 8,6 Across
+   Rack P1 (Next): ['Q', 'C']
+Player 1: Plays 'REC' at 7,4 Across
+   Rack P0 (Next): ['X']
+Player 0: Plays 'EX' at 8,6 Across
+   Rack P1 (Next): ['Q', 'C']
+Player 1: Plays 'REC' at 7,4 Across
+   Rack P0 (Next): ['X']
+Player 0: Plays 'REX' at 7,4 Across
+   Rack P1 (Next): ['Q', 'C']
+Player 1: Plays 'REC' at 7,4 Across
+   Rack P0 (Next): ['X']
+Player 0: Plays 'EX' at 8,6 Across
+   Rack P1 (Next): ['Q', 'C']
+Player 1: Plays 'REC' at 7,4 Across
+   Rack P0 (Next): ['X']
+Player 0: Plays 'EX' at 8,6 Across
+   Rack P1 (Next): ['Q', 'C']
+Player 1: Plays 'REC' at 7,4 Across
+   Rack P0 (Next): ['X']
+Player 0: Plays 'EX' at 8,6 Across
+   Rack P1 (Next): ['Q', 'C']
+Player 1: Plays 'REC' at 7,4 Across
+   Rack P0 (Next): ['X']
+Player 0: Plays 'EX' at 8,6 Across
+   Rack P1 (Next): ['Q', 'C']
+Player 1: Plays 'REC' at 7,4 Across
+   Rack P0 (Next): ['X']
+Player 0: Plays 'EX' at 8,6 Across
+   Rack P1 (Next): ['Q', 'C']
+Player 1: Plays 'REC' at 7,4 Across
+   Rack P0 (Next): ['X']
+Player 0: Plays 'EX' at 8,6 Across
+   Rack P1 (Next): ['Q', 'C']
+Player 1: Plays 'REC' at 7,4 Across
+   Rack P0 (Next): ['X']
+Player 0: Plays 'EX' at 8,6 Across
+   Rack P1 (Next): ['Q', 'C']
+Player 1: Plays 'ONCET' at 4,5 Across
+   Rack P0 (Next): ['X']
+Player 0: Plays 'REX' at 7,4 Across
+   Rack P1 (Next): ['Q', 'C']
+Player 1: Plays 'ONCET' at 4,5 Across
+   Rack P0 (Next): ['X']
+Player 0: Plays 'REX' at 7,4 Across
+   Rack P1 (Next): ['Q', 'C']
+Player 1: Plays 'ONCET' at 4,5 Across
+   Rack P0 (Next): ['X']
+Player 0: Plays 'REX' at 7,4 Across
+   Rack P1 (Next): ['Q', 'C']
+Player 1: Plays 'ONCET' at 4,5 Across
+   Rack P0 (Next): ['X']
+Player 0: Plays 'REX' at 7,4 Across
+   Rack P1 (Next): ['Q', 'C']
+Player 1: Plays 'ONCET' at 4,5 Across
+   Rack P0 (Next): ['X']
+Player 0: Plays 'REX' at 7,4 Across
+   Rack P1 (Next): ['Q', 'C']
+Player 1: Plays 'ONCET' at 4,5 Across
+   Rack P0 (Next): ['X']
+Player 0: Plays 'EX' at 8,6 Across
+   Rack P1 (Next): ['Q', 'C']
+Player 1: Plays 'ONCET' at 4,5 Across
+   Rack P0 (Next): ['X']
+Player 0: Plays 'REX' at 7,4 Across
+   Rack P1 (Next): ['Q', 'C']
+Player 1: Plays 'ONCET' at 4,5 Across
+   Rack P0 (Next): ['X']
+Player 0: Plays 'EX' at 8,6 Across
+   Rack P1 (Next): ['Q', 'C']
+Player 1: Plays 'ONCET' at 4,5 Across
+   Rack P0 (Next): ['X']
+Player 0: Plays 'REX' at 7,4 Across
+   Rack P1 (Next): ['Q', 'C']
+Player 1: Plays 'ONCET' at 4,5 Across
+   Rack P0 (Next): ['X']
+Player 0: Plays 'REX' at 7,4 Across
+   Rack P1 (Next): ['Q', 'C']
+Player 1: Plays 'ONCET' at 4,5 Across
+   Rack P0 (Next): ['X']
+Player 0: Plays 'REX' at 7,4 Across
+   Rack P1 (Next): ['Q', 'C']
+Player 1: Plays 'ONCET' at 4,5 Across
+   Rack P0 (Next): ['X']
+Player 0: Plays 'REX' at 7,4 Across
+   Rack P1 (Next): ['Q', 'C']
+Player 1: Plays 'ONCET' at 4,5 Across
+   Rack P0 (Next): ['X']
+Player 0: Plays 'EX' at 8,6 Across
+   Rack P1 (Next): ['Q', 'C']
+Player 1: Plays 'ONCET' at 4,5 Across
+   Rack P0 (Next): ['X']
+Player 0: Plays 'REX' at 7,4 Across
+   Rack P1 (Next): ['Q', 'C']
+Player 1: Plays 'ONCET' at 4,5 Across
+   Rack P0 (Next): ['X']
+Player 0: Plays 'EX' at 8,6 Across
+   Rack P1 (Next): ['Q', 'C']
+Player 1: Plays 'ONCET' at 4,5 Across
+   Rack P0 (Next): ['X']
+Player 0: Plays 'REX' at 7,4 Across
+   Rack P1 (Next): ['Q', 'C']
+Player 1: Plays 'ONCET' at 4,5 Across
+   Rack P0 (Next): ['X']
+Player 0: Plays 'REX' at 7,4 Across
+
+--- GAME OVER ---
+Turn: Player 0
+Scores: P0=662.0 P1=496.0
+Bag: 0 tiles
+   A B C D E F G H I J K L M N O
+ 0 . . K E R R I A S D A I N E D 
+ 1 . S E A W A N S . . . . . . . 
+ 2 L I . D O . E A T . V O I C E 
+ 3 . . . . . M O N O F I L S . . 
+ 4 A L E . H O N C E T G O N E B 
+ 5 . I L I A N E R V Y A G E R . 
+ 6 P S S T . . . . . . . . . E R 
+ 7 . . P U R E X I F T H . . . . 
+ 8 . . . J E T E X . I O D I D E 
+ 9 . . . . . . . . . . Y U Z U . 
+10 . . . . . . . . . . . . . . . 
+11 . . . . . . . . . . . . . . . 
+12 . . . . . . . . . . . . . . . 
+13 . . . . . . . . . . . . . . . 
+14 . . . . . . . . . . . . . . . 
+Final Score: [662.0, 496.0]

@@ -1,0 +1,230 @@
+Loading game...
+Loading dictionary from NWL2023.txt...
+Dictionary loaded.
+Loading neural network from checkpoint-100...
+
+--- STARTING MATCH ---
+Initial Rack P0: ['O', 'A', 'O', 'A', 'M', 'E', 'I']
+Player 0: Plays 'AMIA' at 4,7 Across
+   Rack P1 (Next): ['E', 'O', 'E', 'N', 'W', 'E', 'R']
+Player 1: Plays 'NE' at 3,7 Across
+   Rack P0 (Next): ['O', 'O', 'E', 'I', 'J', 'E', 'L']
+Player 0: Plays 'LOOIE' at 5,10 Across
+   Rack P1 (Next): ['O', 'E', 'W', 'E', 'R', 'H', '?']
+Player 1: Plays 'BOWER' at 6,10 Across
+   Rack P0 (Next): ['J', 'E', 'H', 'Z', 'R', 'B', 'T']
+Player 0: Plays 'BERTH' at 5,3 Across
+   Rack P1 (Next): ['E', 'H', 'A', 'E', 'U', 'L', 'B']
+Player 1: Plays 'ABELE' at 7,10 Across
+   Rack P0 (Next): ['J', 'Z', 'V', 'Y', 'I', 'D', 'U']
+Player 0: Plays 'DUI' at 6,1 Across
+   Rack P1 (Next): ['H', 'U', 'E', 'R', 'C', 'T', 'E']
+Player 1: Plays 'BIRCH' at 5,3 Across
+   Rack P0 (Next): ['J', 'Z', 'V', 'Y', 'I', 'G', 'I']
+Player 0: Plays 'LI' at 7,13 Across
+   Rack P1 (Next): ['H', 'U', 'E', 'R', 'C', 'T', 'E']
+Player 1: Plays 'BIRCH' at 5,3 Across
+   Rack P0 (Next): ['J', 'Z', 'V', 'Y', 'I', 'G', 'I']
+Player 0: Plays 'OBI' at 6,11 Across
+   Rack P1 (Next): ['H', 'U', 'E', 'R', 'C', 'T', 'E']
+Player 1: Plays 'EH' at 3,8 Across
+   Rack P0 (Next): ['J', 'Z', 'V', 'Y', 'I', 'G', 'I']
+Player 0: Plays 'JIVY' at 8,11 Across
+   Rack P1 (Next): ['U', 'E', 'R', 'C', 'T', 'E', 'S']
+Player 1: Plays 'DESERT' at 6,1 Across
+   Rack P0 (Next): ['Z', 'G', 'I', 'I', 'O', 'I', 'E']
+Player 0: Plays 'EGO' at 9,12 Across
+   Rack P1 (Next): ['U', 'C', 'E', 'S', 'D', 'N', 'D']
+Player 1: Plays 'SCUD' at 9,11 Across
+   Rack P0 (Next): ['Z', 'I', 'I', 'I', 'U', 'N', 'S']
+Player 0: Plays 'NISI' at 10,11 Across
+   Rack P1 (Next): ['U', 'C', 'E', 'D', 'N', 'D', 'I']
+Player 1: Plays 'SNED' at 9,11 Across
+   Rack P0 (Next): ['Z', 'I', 'U', 'O', 'I', 'N', 'F']
+Player 0: Plays 'FINO' at 11,11 Across
+   Rack P1 (Next): ['U', 'C', 'E', 'D', 'N', 'D', 'I']
+Player 1: EXCHANGE
+   Rack P0 (Next): ['Z', 'U', 'I', 'S', 'X', 'D', 'T']
+Player 0: Plays 'STUD' at 3,1 Across
+   Rack P1 (Next): ['P', 'A', 'R', 'N', 'R', 'L', 'A']
+Player 1: Plays 'AA' at 12,13 Across
+   Rack P0 (Next): ['Z', 'I', 'X', 'A', 'O', '?', 'A']
+Player 0: Plays 'ANOXIA' at 2,9 Across
+   Rack P1 (Next): ['P', 'R', 'N', 'R', 'L', 'O', 'U']
+Player 1: Plays 'PUN' at 3,11 Across
+   Rack P0 (Next): ['Z', 'F', 'G', 'T', 'Q', 'C', 'M']
+Player 0: EXCHANGE
+   Rack P1 (Next): ['R', 'R', 'L', 'O', 'W', 'C', 'I']
+Player 1: Plays 'DOLCI' at 6,1 Across
+   Rack P0 (Next): ['E', 'Z', 'U', 'T', 'M', 'R', 'A']
+Player 0: Plays 'MATE' at 1,2 Across
+   Rack P1 (Next): ['R', 'R', 'L', 'O', 'W', 'C', 'I']
+Player 1: Plays 'UNI' at 3,12 Across
+   Rack P0 (Next): ['Z', 'U', 'R', 'E', 'V', 'A', 'K']
+Player 0: Plays 'AZURE' at 0,5 Across
+   Rack P1 (Next): ['R', 'R', 'L', 'O', 'W', 'C', 'D']
+Player 1: Plays 'CROWD' at 7,3 Across
+   Rack P0 (Next): ['V', 'K', 'G', 'L', 'N', 'E', 'D']
+Player 0: Plays 'DEL' at 12,11 Across
+   Rack P1 (Next): ['R', 'L', 'Y', 'S', 'C', 'Q', 'E']
+Player 1: Plays 'CRESYL' at 7,1 Across
+   Rack P0 (Next): ['V', 'K', 'G', 'L', 'N', 'O', 'N']
+Player 0: Plays 'KLONG' at 8,3 Across
+   Rack P1 (Next): ['L', 'Y', 'S', 'Q', 'E', 'G', 'T']
+Player 1: Plays 'STY' at 2,2 Across
+   Rack P0 (Next): ['V', 'N', 'T', 'F', 'P']
+Player 0: Plays 'YON' at 7,5 Across
+   Rack P1 (Next): ['L', 'Q', 'E', 'G']
+Player 1: Plays 'EL' at 8,8 Across
+   Rack P0 (Next): ['V', 'N', 'T', 'F', 'P']
+Player 0: Plays 'EFT' at 8,8 Across
+   Rack P1 (Next): ['Q', 'G']
+Player 1: Plays 'REG' at 0,8 Across
+   Rack P0 (Next): ['V', 'N', 'F', 'P']
+Player 0: Plays 'OF' at 8,5 Across
+   Rack P1 (Next): ['Q']
+Player 1: PASS
+   Rack P0 (Next): ['V', 'N', 'F', 'P']
+Player 0: Plays 'OFF' at 7,6 Across
+   Rack P1 (Next): ['Q']
+Player 1: PASS
+   Rack P0 (Next): ['V', 'N', 'P']
+Player 0: Plays 'YON' at 7,5 Across
+   Rack P1 (Next): ['Q']
+Player 1: PASS
+   Rack P0 (Next): ['V', 'N', 'P']
+Player 0: Plays 'YON' at 7,5 Across
+   Rack P1 (Next): ['Q']
+Player 1: PASS
+   Rack P0 (Next): ['V', 'N', 'P']
+Player 0: Plays 'YON' at 7,5 Across
+   Rack P1 (Next): ['Q']
+Player 1: PASS
+   Rack P0 (Next): ['V', 'N', 'P']
+Player 0: Plays 'YON' at 7,5 Across
+   Rack P1 (Next): ['Q']
+Player 1: PASS
+   Rack P0 (Next): ['V', 'N', 'P']
+Player 0: Plays 'YON' at 7,5 Across
+   Rack P1 (Next): ['Q']
+Player 1: PASS
+   Rack P0 (Next): ['V', 'N', 'P']
+Player 0: Plays 'YON' at 7,5 Across
+   Rack P1 (Next): ['Q']
+Player 1: PASS
+   Rack P0 (Next): ['V', 'N', 'P']
+Player 0: Plays 'YON' at 7,5 Across
+   Rack P1 (Next): ['Q']
+Player 1: PASS
+   Rack P0 (Next): ['V', 'N', 'P']
+Player 0: Plays 'YON' at 7,5 Across
+   Rack P1 (Next): ['Q']
+Player 1: PASS
+   Rack P0 (Next): ['V', 'N', 'P']
+Player 0: Plays 'YON' at 7,5 Across
+   Rack P1 (Next): ['Q']
+Player 1: PASS
+   Rack P0 (Next): ['V', 'N', 'P']
+Player 0: Plays 'YON' at 7,5 Across
+   Rack P1 (Next): ['Q']
+Player 1: PASS
+   Rack P0 (Next): ['V', 'N', 'P']
+Player 0: Plays 'YON' at 7,5 Across
+   Rack P1 (Next): ['Q']
+Player 1: PASS
+   Rack P0 (Next): ['V', 'N', 'P']
+Player 0: Plays 'YON' at 7,5 Across
+   Rack P1 (Next): ['Q']
+Player 1: PASS
+   Rack P0 (Next): ['V', 'N', 'P']
+Player 0: Plays 'YON' at 7,5 Across
+   Rack P1 (Next): ['Q']
+Player 1: PASS
+   Rack P0 (Next): ['V', 'N', 'P']
+Player 0: Plays 'YON' at 7,5 Across
+   Rack P1 (Next): ['Q']
+Player 1: PASS
+   Rack P0 (Next): ['V', 'N', 'P']
+Player 0: Plays 'YON' at 7,5 Across
+   Rack P1 (Next): ['Q']
+Player 1: PASS
+   Rack P0 (Next): ['V', 'N', 'P']
+Player 0: Plays 'YON' at 7,5 Across
+   Rack P1 (Next): ['Q']
+Player 1: PASS
+   Rack P0 (Next): ['V', 'N', 'P']
+Player 0: Plays 'YON' at 7,5 Across
+   Rack P1 (Next): ['Q']
+Player 1: PASS
+   Rack P0 (Next): ['V', 'N', 'P']
+Player 0: Plays 'YON' at 7,5 Across
+   Rack P1 (Next): ['Q']
+Player 1: PASS
+   Rack P0 (Next): ['V', 'N', 'P']
+Player 0: Plays 'YON' at 7,5 Across
+   Rack P1 (Next): ['Q']
+Player 1: PASS
+   Rack P0 (Next): ['V', 'N', 'P']
+Player 0: Plays 'YON' at 7,5 Across
+   Rack P1 (Next): ['Q']
+Player 1: PASS
+   Rack P0 (Next): ['V', 'N', 'P']
+Player 0: Plays 'YON' at 7,5 Across
+   Rack P1 (Next): ['Q']
+Player 1: PASS
+   Rack P0 (Next): ['V', 'N', 'P']
+Player 0: Plays 'YON' at 7,5 Across
+   Rack P1 (Next): ['Q']
+Player 1: PASS
+   Rack P0 (Next): ['V', 'N', 'P']
+Player 0: Plays 'YON' at 7,5 Across
+   Rack P1 (Next): ['Q']
+Player 1: PASS
+   Rack P0 (Next): ['V', 'N', 'P']
+Player 0: Plays 'YON' at 7,5 Across
+   Rack P1 (Next): ['Q']
+Player 1: PASS
+   Rack P0 (Next): ['V', 'N', 'P']
+Player 0: Plays 'YON' at 7,5 Across
+   Rack P1 (Next): ['Q']
+Player 1: PASS
+   Rack P0 (Next): ['V', 'N', 'P']
+Player 0: Plays 'YON' at 7,5 Across
+   Rack P1 (Next): ['Q']
+Player 1: PASS
+   Rack P0 (Next): ['V', 'N', 'P']
+Player 0: Plays 'YON' at 7,5 Across
+   Rack P1 (Next): ['Q']
+Player 1: PASS
+   Rack P0 (Next): ['V', 'N', 'P']
+Player 0: Plays 'YON' at 7,5 Across
+   Rack P1 (Next): ['Q']
+Player 1: PASS
+   Rack P0 (Next): ['V', 'N', 'P']
+Player 0: Plays 'YON' at 7,5 Across
+   Rack P1 (Next): ['Q']
+Player 1: PASS
+   Rack P0 (Next): ['V', 'N', 'P']
+Player 0: Plays 'YON' at 7,5 Across
+
+--- GAME OVER ---
+Turn: Player 0
+Scores: P0=676.0 P1=363.0
+Bag: 0 tiles
+   A B C D E F G H I J K L M N O
+ 0 . . . . . A Z U R E G . . . . 
+ 1 . . M A T E . . . . . . . . . 
+ 2 . . S T Y . . . . A N O X I A 
+ 3 . S T U D . . N E H . P U N I 
+ 4 . . . . . . . A M I A . . . . 
+ 5 . . . B I R C H . . L O O I E 
+ 6 . D O L C I T . . . B O B I R 
+ 7 . C R E S Y O N F . A B E L I 
+ 8 . . . K L O F G E F T J I V Y 
+ 9 . . . . . . . . . . . S N E D 
+10 . . . . . . . . . . . N I S I 
+11 . . . . . . . . . . . F I N O 
+12 . . . . . . . . . . . D E L A 
+13 . . . . . . . . . . . . . . . 
+14 . . . . . . . . . . . . . . . 
+Final Score: [676.0, 363.0]

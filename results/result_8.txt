@@ -1,0 +1,230 @@
+Loading game...
+Loading dictionary from NWL2023.txt...
+Dictionary loaded.
+Loading neural network from checkpoint-100...
+
+--- STARTING MATCH ---
+Initial Rack P0: ['N', '?', 'A', 'I', 'F', 'N', 'E']
+Player 0: Plays 'FANNIES' at 3,7 Across
+   Rack P1 (Next): ['Y', 'N', 'C', 'O', 'R', 'E', 'V']
+Player 1: Plays 'CONVEY' at 4,8 Across
+   Rack P0 (Next): ['S', 'I', 'O', 'T', 'A', 'I', 'E']
+Player 0: Plays 'STOAE' at 5,4 Across
+   Rack P1 (Next): ['R', 'H', 'G', 'A', 'N', 'P', 'S']
+Player 1: Plays 'YA' at 4,13 Across
+   Rack P0 (Next): ['I', 'I', 'D', 'U', 'O', '?', 'E']
+Player 0: Plays 'IODISE' at 1,4 Across
+   Rack P1 (Next): ['R', 'H', 'G', 'N', 'P', 'S', 'A']
+Player 1: Plays 'GAP' at 0,5 Across
+   Rack P0 (Next): ['U', 'T', 'N', 'L', 'A', 'O', 'G']
+Player 0: Plays 'ALONG' at 1,10 Across
+   Rack P1 (Next): ['R', 'H', 'N', 'S', 'U', 'C', 'T']
+Player 1: Plays 'STRUNT' at 4,5 Across
+   Rack P0 (Next): ['U', 'T', 'Y', 'Z', 'R', 'U', 'A']
+Player 0: Plays 'YURTA' at 2,1 Across
+   Rack P1 (Next): ['H', 'N', 'U', 'C', 'T', 'L', 'E']
+Player 1: Plays 'YECH' at 2,1 Across
+   Rack P0 (Next): ['Z', 'U', 'A', 'G', 'A', 'V', 'O']
+Player 0: Plays 'GUAVA' at 3,1 Across
+   Rack P1 (Next): ['H', 'N', 'U', 'C', 'T', 'L', 'E']
+Player 1: Plays 'EUNUCH' at 2,2 Across
+   Rack P0 (Next): ['Z', 'O', 'E', 'N', 'O', 'U', 'E']
+Player 0: Plays 'OUZO' at 6,1 Across
+   Rack P1 (Next): ['N', 'U', 'T', 'L', 'E', 'I', 'L']
+Player 1: Plays 'INTEL' at 2,10 Across
+   Rack P0 (Next): ['E', 'N', 'E', 'I', 'E', 'L', 'Q']
+Player 0: Plays 'LIEN' at 5,10 Across
+   Rack P1 (Next): ['U', 'L', 'T', 'I', 'E', 'M', 'I']
+Player 1: Plays 'SI' at 3,13 Across
+   Rack P0 (Next): ['E', 'E', 'Q', 'X', 'D', 'B', 'T']
+Player 0: Plays 'ED' at 5,0 Across
+   Rack P1 (Next): ['U', 'L', 'T', 'E', 'M', 'I', 'I']
+Player 1: Plays 'EEL' at 4,12 Across
+   Rack P0 (Next): ['E', 'Q', 'X', 'B', 'T', 'O', 'E']
+Player 0: Plays 'BE' at 6,13 Across
+   Rack P1 (Next): ['U', 'L', 'T', 'E', 'M', 'I', 'I']
+Player 1: Plays 'EL' at 7,13 Across
+   Rack P0 (Next): ['Q', 'X', 'T', 'O', 'E', 'P', 'K']
+Player 0: Plays 'EXPO' at 7,2 Across
+   Rack P1 (Next): ['U', 'T', 'M', 'I', 'I', 'I', 'W']
+Player 1: Plays 'MEL' at 7,12 Across
+   Rack P0 (Next): ['Q', 'T', 'K', 'S', 'E', 'A', 'R']
+Player 0: Plays 'AR' at 0,8 Across
+   Rack P1 (Next): ['U', 'T', 'I', 'I', 'I', 'W', 'O']
+Player 1: Plays 'OI' at 8,11 Across
+   Rack P0 (Next): ['Q', 'T', 'K', 'S', 'E', 'D', 'R']
+Player 0: Plays 'EDS' at 9,12 Across
+   Rack P1 (Next): ['U', 'T', 'I', 'I', 'W', 'S', 'H']
+Player 1: Plays 'SWITH' at 8,5 Across
+   Rack P0 (Next): ['Q', 'T', 'K', 'R', 'M', 'F', 'R']
+Player 0: Plays 'OFT' at 8,11 Across
+   Rack P1 (Next): ['U', 'I', 'E', 'R', 'D', 'W', 'J']
+Player 1: Plays 'WEIRD' at 6,7 Across
+   Rack P0 (Next): ['Q', 'K', 'R', 'M', 'F', 'R', 'B']
+Player 0: Plays 'BRR' at 9,8 Across
+   Rack P1 (Next): ['U', 'J']
+Player 1: Plays 'FEU' at 8,12 Across
+   Rack P0 (Next): ['Q', 'K', 'M', 'F']
+Player 0: Plays 'FEDS' at 9,11 Across
+   Rack P1 (Next): ['J']
+Player 1: PASS
+   Rack P0 (Next): ['Q', 'K', 'M']
+Player 0: Plays 'AM' at 3,3 Across
+   Rack P1 (Next): ['J']
+Player 1: PASS
+   Rack P0 (Next): ['Q', 'K', 'M']
+Player 0: Plays 'AM' at 3,3 Across
+   Rack P1 (Next): ['J']
+Player 1: PASS
+   Rack P0 (Next): ['Q', 'K', 'M']
+Player 0: Plays 'AM' at 3,3 Across
+   Rack P1 (Next): ['J']
+Player 1: PASS
+   Rack P0 (Next): ['Q', 'K', 'M']
+Player 0: Plays 'AM' at 3,3 Across
+   Rack P1 (Next): ['J']
+Player 1: PASS
+   Rack P0 (Next): ['Q', 'K', 'M']
+Player 0: Plays 'AM' at 3,3 Across
+   Rack P1 (Next): ['J']
+Player 1: PASS
+   Rack P0 (Next): ['Q', 'K', 'M']
+Player 0: Plays 'AM' at 3,3 Across
+   Rack P1 (Next): ['J']
+Player 1: PASS
+   Rack P0 (Next): ['Q', 'K', 'M']
+Player 0: Plays 'AM' at 3,3 Across
+   Rack P1 (Next): ['J']
+Player 1: PASS
+   Rack P0 (Next): ['Q', 'K', 'M']
+Player 0: Plays 'AM' at 3,3 Across
+   Rack P1 (Next): ['J']
+Player 1: PASS
+   Rack P0 (Next): ['Q', 'K', 'M']
+Player 0: Plays 'AM' at 3,3 Across
+   Rack P1 (Next): ['J']
+Player 1: PASS
+   Rack P0 (Next): ['Q', 'K', 'M']
+Player 0: Plays 'FEM' at 8,12 Across
+   Rack P1 (Next): ['J']
+Player 1: PASS
+   Rack P0 (Next): ['Q', 'K', 'M']
+Player 0: Plays 'FEM' at 8,12 Across
+   Rack P1 (Next): ['J']
+Player 1: PASS
+   Rack P0 (Next): ['Q', 'K', 'M']
+Player 0: Plays 'FEM' at 8,12 Across
+   Rack P1 (Next): ['J']
+Player 1: PASS
+   Rack P0 (Next): ['Q', 'K', 'M']
+Player 0: Plays 'FEM' at 8,12 Across
+   Rack P1 (Next): ['J']
+Player 1: PASS
+   Rack P0 (Next): ['Q', 'K', 'M']
+Player 0: Plays 'FEM' at 8,12 Across
+   Rack P1 (Next): ['J']
+Player 1: PASS
+   Rack P0 (Next): ['Q', 'K', 'M']
+Player 0: Plays 'FEM' at 8,12 Across
+   Rack P1 (Next): ['J']
+Player 1: PASS
+   Rack P0 (Next): ['Q', 'K', 'M']
+Player 0: Plays 'FEM' at 8,12 Across
+   Rack P1 (Next): ['J']
+Player 1: PASS
+   Rack P0 (Next): ['Q', 'K', 'M']
+Player 0: Plays 'FEM' at 8,12 Across
+   Rack P1 (Next): ['J']
+Player 1: PASS
+   Rack P0 (Next): ['Q', 'K', 'M']
+Player 0: Plays 'FEM' at 8,12 Across
+   Rack P1 (Next): ['J']
+Player 1: PASS
+   Rack P0 (Next): ['Q', 'K', 'M']
+Player 0: Plays 'FEM' at 8,12 Across
+   Rack P1 (Next): ['J']
+Player 1: PASS
+   Rack P0 (Next): ['Q', 'K', 'M']
+Player 0: Plays 'FEM' at 8,12 Across
+   Rack P1 (Next): ['J']
+Player 1: PASS
+   Rack P0 (Next): ['Q', 'K', 'M']
+Player 0: Plays 'FEM' at 8,12 Across
+   Rack P1 (Next): ['J']
+Player 1: PASS
+   Rack P0 (Next): ['Q', 'K', 'M']
+Player 0: Plays 'FEM' at 8,12 Across
+   Rack P1 (Next): ['J']
+Player 1: PASS
+   Rack P0 (Next): ['Q', 'K', 'M']
+Player 0: Plays 'FEM' at 8,12 Across
+   Rack P1 (Next): ['J']
+Player 1: PASS
+   Rack P0 (Next): ['Q', 'K', 'M']
+Player 0: Plays 'FEM' at 8,12 Across
+   Rack P1 (Next): ['J']
+Player 1: PASS
+   Rack P0 (Next): ['Q', 'K', 'M']
+Player 0: Plays 'AM' at 3,3 Across
+   Rack P1 (Next): ['J']
+Player 1: PASS
+   Rack P0 (Next): ['Q', 'K', 'M']
+Player 0: Plays 'AM' at 3,3 Across
+   Rack P1 (Next): ['J']
+Player 1: PASS
+   Rack P0 (Next): ['Q', 'K', 'M']
+Player 0: Plays 'AM' at 3,3 Across
+   Rack P1 (Next): ['J']
+Player 1: PASS
+   Rack P0 (Next): ['Q', 'K', 'M']
+Player 0: Plays 'AM' at 3,3 Across
+   Rack P1 (Next): ['J']
+Player 1: PASS
+   Rack P0 (Next): ['Q', 'K', 'M']
+Player 0: Plays 'AM' at 3,3 Across
+   Rack P1 (Next): ['J']
+Player 1: PASS
+   Rack P0 (Next): ['Q', 'K', 'M']
+Player 0: Plays 'FEM' at 8,12 Across
+   Rack P1 (Next): ['J']
+Player 1: PASS
+   Rack P0 (Next): ['Q', 'K', 'M']
+Player 0: Plays 'FEM' at 8,12 Across
+   Rack P1 (Next): ['J']
+Player 1: PASS
+   Rack P0 (Next): ['Q', 'K', 'M']
+Player 0: Plays 'FEM' at 8,12 Across
+   Rack P1 (Next): ['J']
+Player 1: PASS
+   Rack P0 (Next): ['Q', 'K', 'M']
+Player 0: Plays 'FEM' at 8,12 Across
+   Rack P1 (Next): ['J']
+Player 1: PASS
+   Rack P0 (Next): ['Q', 'K', 'M']
+Player 0: Plays 'UM' at 3,2 Across
+   Rack P1 (Next): ['J']
+Player 1: PASS
+   Rack P0 (Next): ['Q', 'K', 'M']
+Player 0: Plays 'MM' at 3,3 Across
+
+--- GAME OVER ---
+Turn: Player 0
+Scores: P0=595.0 P1=318.0
+Bag: 0 tiles
+   A B C D E F G H I J K L M N O
+ 0 . . . . . G A P A R . . . . . 
+ 1 . . . . I O D I S E A L O N G 
+ 2 . Y E U N U C H . . I N T E L 
+ 3 . G U M M A . F A N N I E S I 
+ 4 . . . . . S T R U N T V E E L 
+ 5 E D . . S T O A E . L I E N . 
+ 6 . O U Z O . . W E I R D . B E 
+ 7 . . E X P O . . . . . . M E L 
+ 8 . . . . . S W I T H . O F E M 
+ 9 . . . . . . . . B R R F E D S 
+10 . . . . . . . . . . . . . . . 
+11 . . . . . . . . . . . . . . . 
+12 . . . . . . . . . . . . . . . 
+13 . . . . . . . . . . . . . . . 
+14 . . . . . . . . . . . . . . . 
+Final Score: [595.0, 318.0]

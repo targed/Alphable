@@ -86,7 +86,8 @@ def play_match():
 
     state = game.new_initial_state()
     print("\n--- STARTING MATCH ---")
-    print(f"Initial Rack P0: {state.racks[0]}")
+    
+    prev_board_str = str(state) # Snapshot board
     
     while not state.is_terminal():
         player_id = state.current_player()
@@ -95,16 +96,28 @@ def play_match():
             action = bot.step(state)
             action_desc = get_action_string(state, action)
             
-            print(f"Player {player_id}: {action_desc}")
-            
+            # Apply
             state.apply_action(action)
             
-            # Print Rack after move to see what's left/drawn
-            if not state.is_terminal():
-                print(f"   Rack P{1-player_id} (Next): {state.racks[1-player_id]}")
-                
+            # Check if it was a real move or a failure-pass
+            new_board_str = str(state)
+            
+            if "PASS" in action_desc or "EXCHANGE" in action_desc:
+                print(f"Player {player_id}: {action_desc}")
+            elif new_board_str == prev_board_str:
+                # Board didn't change = Invalid Move treated as Pass
+                print(f"Player {player_id}: TRIED {action_desc} -> FAILED (Invalid/Disallowed)")
+            else:
+                # Success
+                print(f"Player {player_id}: {action_desc}")
+                # Print rack for next player
+                next_p = 1 - player_id
+                print(f"   Rack P{next_p}: {state.racks[next_p]}")
+
+            prev_board_str = new_board_str
+
         except Exception as e:
-            print(f"Player {player_id} crashed or game ended error: {e}")
+            print(f"CRASH: {e}")
             break
 
     print("\n--- GAME OVER ---")

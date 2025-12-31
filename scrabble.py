@@ -133,6 +133,70 @@ class ScrabbleState(pyspiel.State):
 
     def current_player(self):
         return self._current_player
+    
+    def _validate_move(self, row, col, word, direction, rack):
+        """
+        Returns (True, tiles_used) if valid, (False, None) otherwise.
+        Checks: Boundaries, Connectivity, Rack availability.
+        """
+        dr, dc = (0, 1) if direction == 'Across' else (1, 0)
+        
+        # 1. Boundary Check
+        end_r = row + dr * (len(word) - 1)
+        end_c = col + dc * (len(word) - 1)
+        if not (0 <= row < 15 and 0 <= col < 15 and 0 <= end_r < 15 and 0 <= end_c < 15):
+            return False, None
+
+        # 2. Connectivity & Rack Check
+        tiles_needed = []
+        is_connected = False
+        is_first_move = (self.board[7][7] == '.')
+        
+        curr_r, curr_c = row, col
+        for char in word:
+            board_char = self.board[curr_r][curr_c]
+            
+            if board_char != '.':
+                # Must match existing tile
+                if board_char != char:
+                    return False, None
+                is_connected = True
+            else:
+                # Must use from rack
+                tiles_needed.append(char)
+                # Check neighbors for connectivity
+                if not is_connected:
+                    for nr, nc in [(curr_r+1, curr_c), (curr_r-1, curr_c), 
+                                   (curr_r, curr_c+1), (curr_r, curr_c-1)]:
+                        if 0 <= nr < 15 and 0 <= nc < 15 and self.board[nr][nc] != '.':
+                            is_connected = True
+                            break
+            
+            # First move check
+            if is_first_move and curr_r == 7 and curr_c == 7:
+                is_connected = True
+                
+            curr_r += dr
+            curr_c += dc
+
+        if not is_connected:
+            return False, None
+
+        # 3. Rack Counting (Handle Blanks)
+        rack_counts = collections.Counter(rack)
+        final_tiles_used = []
+        
+        for char in tiles_needed:
+            if rack_counts[char] > 0:
+                rack_counts[char] -= 1
+                final_tiles_used.append(char)
+            elif rack_counts['?'] > 0:
+                rack_counts['?'] -= 1
+                final_tiles_used.append('?') # Use blank
+            else:
+                return False, None # Missing tile
+
+        return True, final_tiles_used
 
     def _legal_actions(self, player):
         if self._game_over or player != self._current_player:
@@ -141,48 +205,18 @@ class ScrabbleState(pyspiel.State):
         rack = self.racks[player]
         moves = self.get_game().move_gen.generate(self.board, rack)
         
-        # 1. FILTER INVALID MOVES
         valid_moves = []
-        player_rack_counter = collections.Counter(rack)
         
         for m in moves:
-            r, c = m['row'], m['col']
-            word = m['word']
-            dr, dc = (0, 1) if m['dir'] == 'Across' else (1, 0)
-            
-            # Boundary Check
-            end_r = r + dr * (len(word) - 1)
-            end_c = c + dc * (len(word) - 1)
-            if not (0 <= r < 15 and 0 <= c < 15 and 0 <= end_r < 15 and 0 <= end_c < 15):
-                continue 
-                
-            # Rack Check
-            temp_rack = player_rack_counter.copy()
-            possible = True
-            curr_r, curr_c = r, c
-            
-            for char in word:
-                if self.board[curr_r][curr_c] == '.':
-                    if temp_rack[char] > 0:
-                        temp_rack[char] -= 1
-                    elif temp_rack['?'] > 0:
-                        temp_rack['?'] -= 1
-                    else:
-                        possible = False
-                        break
-                curr_r += dr
-                curr_c += dc
-            
-            if possible:
+            # STRICT VALIDATION
+            is_valid, _ = self._validate_move(m['row'], m['col'], m['word'], m['dir'], rack)
+            if is_valid:
                 valid_moves.append(m)
 
         if not valid_moves:
-            return [450] 
+            return [450] # Pass
 
-        # 2. DETERMINISTIC GROUPING
-        # We sort the valid moves by Word Length (desc) then Alphabetical (asc).
-        # This ensures that if there are multiple words for one position, 
-        # the "winner" is always the longest one, or the first alphabetically.
+        # Deterministic Sorting
         valid_moves.sort(key=lambda x: (-len(x['word']), x['word']))
 
         best_moves_by_loc = {}
@@ -191,8 +225,6 @@ class ScrabbleState(pyspiel.State):
             d = 0 if d_str == 'Across' else 1
             action_id = (r * 15 + c) * 2 + d
             
-            # Since we sorted valid_moves above, the first one we encounter
-            # for this action_id is guaranteed to be the "Best" (Longest/Alpha).
             if action_id not in best_moves_by_loc:
                 best_moves_by_loc[action_id] = m
         
@@ -228,47 +260,38 @@ class ScrabbleState(pyspiel.State):
 
     def _apply_action(self, action_id):
         self.turn_count += 1
-        
-        # Hard limit to prevent infinite games during training
         if self.turn_count > 100:
             self._game_over = True
-            self._current_move_map = {}
             return
 
-        # Action 450: PASS
-        if action_id == 450:
+        if action_id == 450: # PASS
             self.consecutive_passes += 1
-            if self.consecutive_passes >= 6:
-                self._game_over = True
+            if self.consecutive_passes >= 6: self._game_over = True
             self._current_player = 1 - self._current_player
             self._current_move_map = {}
             return
 
-        # Action 451: EXCHANGE
-        if action_id == 451:
-            # Exchange is a zero-score turn, so it counts towards the limit
-            self.consecutive_passes += 1 
-            if self.consecutive_passes >= 6:
-                self._game_over = True
-                
+        if action_id == 451: # EXCHANGE
+            self.consecutive_passes += 1
+            if self.consecutive_passes >= 6: self._game_over = True
             if len(self.bag) >= 7:
                 self.bag.extend(self.racks[self._current_player])
                 np.random.shuffle(self.bag)
                 self.racks[self._current_player] = []
                 self._refill_rack(self._current_player)
-            
             self._current_player = 1 - self._current_player
-            self._current_move_map = {} 
+            self._current_move_map = {}
             return
 
-        # Action 0-449: PLAY WORD
-        if not self._current_move_map:
+        # PLAY WORD
+        if action_id not in self._current_move_map:
              self._legal_actions(self._current_player)
 
+        # Safety Fallback
         if action_id not in self._current_move_map:
-            # Treat illegal move as Pass
+            # This should NEVER happen with the new _validate_move logic
+            # But if it does, it's a Pass.
             self.consecutive_passes += 1
-            if self.consecutive_passes >= 6: self._game_over = True
             self._current_player = 1 - self._current_player
             self._current_move_map = {}
             return
@@ -278,18 +301,16 @@ class ScrabbleState(pyspiel.State):
         word = move['word']
         direction = move['dir']
         
-        try:
-            score, tiles_used = self._score_move(row, col, word, direction)
-            
-            # Verify rack
-            player_rack = self.racks[self._current_player].copy()
-            for char in tiles_used:
-                if char in player_rack: player_rack.remove(char)
-                elif '?' in player_rack: player_rack.remove('?')
-                else: raise ValueError(f"Missing tile {char}")
-
-            # --- SUCCESSFUL MOVE ---
-            self.consecutive_passes = 0 # Reset pass counter
+        # Double check with validator to get tiles_used correctly
+        is_valid, tiles_used = self._validate_move(row, col, word, direction, self.racks[self._current_player])
+        
+        if not is_valid:
+            # Logic error: Generator said yes, Validator said no. Treat as Pass.
+            self.consecutive_passes += 1
+        else:
+            # SUCCESSFUL EXECUTION
+            self.consecutive_passes = 0
+            score, _ = self._score_move(row, col, word, direction)
             self.scores[self._current_player] += score
             
             dr, dc = (0, 1) if direction == 'Across' else (1, 0)
@@ -302,17 +323,11 @@ class ScrabbleState(pyspiel.State):
             real_rack = self.racks[self._current_player]
             for char in tiles_used:
                 if char in real_rack: real_rack.remove(char)
-                else: real_rack.remove('?')
+                else: real_rack.remove('?') # Blank
 
             self._refill_rack(self._current_player)
-            
             if not self.racks[self._current_player] and not self.bag:
                 self._game_over = True
-                
-        except (ValueError, IndexError) as e:
-            # Failed move -> Pass
-            self.consecutive_passes += 1 
-            if self.consecutive_passes >= 6: self._game_over = True
 
         self._current_player = 1 - self._current_player
         self._current_move_map = {}
@@ -424,9 +439,6 @@ class ScrabbleState(pyspiel.State):
             curr_c += cross_dc
             
         return score * word_mult
-        
-        # TODO: Logic to place tiles on self.board
-        print(f"Playing {word} at {row},{col} {direction}")
 
     def _action_to_string(self, player, action):
         return f"Move {action}"
