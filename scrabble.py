@@ -1,10 +1,13 @@
 import pyspiel
+import copy
 import numpy as np
+import collections
 from structure import Gaddag, MoveGenerator
 
 # Game Configuration
 _NUM_PLAYERS = 2
 _BOARD_SIZE = 15
+_SHARED_GADDAG = None
 _GAME_TYPE = pyspiel.GameType(
     short_name="scrabble",
     long_name="Scrabble (North American)",
@@ -20,6 +23,16 @@ _GAME_TYPE = pyspiel.GameType(
     provides_observation_string=True,
     provides_observation_tensor=True,
     parameter_specification={}
+)
+
+_GAME_INFO = pyspiel.GameInfo(
+    num_distinct_actions=100000,  # Large action space for Scrabble
+    max_chance_outcomes=100,  # Drawing tiles from bag
+    num_players=_NUM_PLAYERS,
+    min_utility=-1000.0,  # Conservative estimate for score differences
+    max_utility=1000.0,
+    utility_sum=0.0,  # Zero-sum game
+    max_game_length=500  # Rough upper bound on number of moves
 )
 # Standard Tile Values
 TILE_VALUES = {
@@ -63,10 +76,21 @@ for r, c in DL_COORDS:
 
 class ScrabbleGame(pyspiel.Game):
     def __init__(self, params=None):
-      super().__init__(_GAME_TYPE, params if params else {})
-      # Load once. In a real app, use a singleton to avoid reloading per game.
-      self.gaddag = Gaddag.load("NWL2023.txt") 
-      self.move_gen = MoveGenerator(self.gaddag)
+        super().__init__(_GAME_TYPE, _GAME_INFO, params if params else {})
+        
+        # Load GADDAG only once per process
+        global _SHARED_GADDAG
+        if _SHARED_GADDAG is None:
+            _SHARED_GADDAG = Gaddag.load("NWL2023.txt")
+            
+        self.gaddag = _SHARED_GADDAG
+        self.move_gen = MoveGenerator(self.gaddag)
+        
+    def num_distinct_actions(self):
+        return 452
+
+    def observation_tensor_shape(self):
+        return [35, 15, 15]
 
     def new_initial_state(self):
         return ScrabbleState(self)
@@ -81,6 +105,7 @@ class ScrabbleState(pyspiel.State):
         self._current_player = 0
         self._current_move_map = [] # Stores valid moves for the current turn
         self.consecutive_passes = 0
+        self.turn_count = 0
         
         # Initialize Bag
         self.bag = []
@@ -92,6 +117,13 @@ class ScrabbleState(pyspiel.State):
         self.racks = [[], []]
         self._refill_rack(0)
         self._refill_rack(1)
+        
+    def clone(self):
+        """
+        Critical for MCTS: Return a deep copy of the state.
+        Without this, simulating moves corrupts the parent state's board.
+        """
+        return copy.deepcopy(self)
 
     def _refill_rack(self, player_idx):
         needed = 7 - len(self.racks[player_idx])
@@ -105,101 +137,191 @@ class ScrabbleState(pyspiel.State):
     def _legal_actions(self, player):
         if self._game_over or player != self._current_player:
             return []
-        
-        # 1. Get moves from GADDAG
-        # Note: self.board must be a 15x15 array of chars. 
-        # If initialized as zeros in __init__, convert to '.' chars first.
+            
         rack = self.racks[player]
-        moves = self.move_gen.generate(self.board, rack)
+        moves = self.get_game().move_gen.generate(self.board, rack)
         
-        if not moves:
-            # If no moves, Pass is the only option (Action ID 0)
-            # You might want to reserve ID 0 for PASS and 1 for EXCHANGE
-            return [0] 
+        # 1. FILTER INVALID MOVES
+        valid_moves = []
+        player_rack_counter = collections.Counter(rack)
+        
+        for m in moves:
+            r, c = m['row'], m['col']
+            word = m['word']
+            dr, dc = (0, 1) if m['dir'] == 'Across' else (1, 0)
+            
+            # Boundary Check
+            end_r = r + dr * (len(word) - 1)
+            end_c = c + dc * (len(word) - 1)
+            if not (0 <= r < 15 and 0 <= c < 15 and 0 <= end_r < 15 and 0 <= end_c < 15):
+                continue 
+                
+            # Rack Check
+            temp_rack = player_rack_counter.copy()
+            possible = True
+            curr_r, curr_c = r, c
+            
+            for char in word:
+                if self.board[curr_r][curr_c] == '.':
+                    if temp_rack[char] > 0:
+                        temp_rack[char] -= 1
+                    elif temp_rack['?'] > 0:
+                        temp_rack['?'] -= 1
+                    else:
+                        possible = False
+                        break
+                curr_r += dr
+                curr_c += dc
+            
+            if possible:
+                valid_moves.append(m)
 
-        # 2. Store mapping
-        # OpenSpiel needs integers. We just return indices.
-        # Ideally, we should hash these moves to a global action space (Section 3.2 of report)
-        # But for this stage, a dynamic mapping per state is acceptable.
-        self._current_move_map = moves
+        if not valid_moves:
+            return [450] 
+
+        # 2. DETERMINISTIC GROUPING
+        # We sort the valid moves by Word Length (desc) then Alphabetical (asc).
+        # This ensures that if there are multiple words for one position, 
+        # the "winner" is always the longest one, or the first alphabetically.
+        valid_moves.sort(key=lambda x: (-len(x['word']), x['word']))
+
+        best_moves_by_loc = {}
+        for m in valid_moves:
+            r, c, d_str = m['row'], m['col'], m['dir']
+            d = 0 if d_str == 'Across' else 1
+            action_id = (r * 15 + c) * 2 + d
+            
+            # Since we sorted valid_moves above, the first one we encounter
+            # for this action_id is guaranteed to be the "Best" (Longest/Alpha).
+            if action_id not in best_moves_by_loc:
+                best_moves_by_loc[action_id] = m
         
-        # Shift indices by 2 to leave room for PASS (0) and EXCHANGE (1)
-        return [i + 2 for i in range(len(moves))]
+        self._current_move_map = best_moves_by_loc
+        
+        legal = list(best_moves_by_loc.keys())
+        if len(self.bag) >= 7:
+            legal.append(451) 
+            
+        return sorted(legal)
+    
+    def legal_actions_mask(self, player=None):
+        """
+        Returns a list of 0s and 1s representing valid moves.
+        Length must match game.num_distinct_actions() exactly (452).
+        """
+        if player is None:
+            player = self.current_player()
+        
+        # Get the list of legal integer IDs (e.g. [2, 5, 450])
+        legal_ids = self.legal_actions(player)
+        
+        # Create a mask of zeros with the correct length
+        num_actions = self.get_game().num_distinct_actions() # Should be 452
+        mask = [0] * num_actions
+        
+        # Set 1 for valid actions
+        for action_id in legal_ids:
+            if 0 <= action_id < num_actions:
+                mask[action_id] = 1
+            
+        return mask
 
     def _apply_action(self, action_id):
-        # Action 0: PASS
-        if action_id == 0:
+        self.turn_count += 1
+        
+        # Hard limit to prevent infinite games during training
+        if self.turn_count > 100:
+            self._game_over = True
+            self._current_move_map = {}
+            return
+
+        # Action 450: PASS
+        if action_id == 450:
             self.consecutive_passes += 1
             if self.consecutive_passes >= 6:
                 self._game_over = True
             self._current_player = 1 - self._current_player
+            self._current_move_map = {}
             return
 
-        # Action 1: EXCHANGE (Simplified: Swap all tiles)
-        if action_id == 1:
-            self.consecutive_passes = 0
+        # Action 451: EXCHANGE
+        if action_id == 451:
+            # Exchange is a zero-score turn, so it counts towards the limit
+            self.consecutive_passes += 1 
+            if self.consecutive_passes >= 6:
+                self._game_over = True
+                
             if len(self.bag) >= 7:
                 self.bag.extend(self.racks[self._current_player])
                 np.random.shuffle(self.bag)
                 self.racks[self._current_player] = []
                 self._refill_rack(self._current_player)
-                self._current_player = 1 - self._current_player
+            
+            self._current_player = 1 - self._current_player
+            self._current_move_map = {} 
             return
 
-        # Action 2+: PLAY WORD
-        self.consecutive_passes = 0
-        # Retrieve move from the map generated in _legal_actions
-        # NOTE: This assumes _legal_actions was called right before. 
-        # In pure OpenSpiel, we might need to regenerate if map is empty.
+        # Action 0-449: PLAY WORD
         if not self._current_move_map:
              self._legal_actions(self._current_player)
 
-        move_index = action_id - 2
-        move = self._current_move_map[move_index]
-        
+        if action_id not in self._current_move_map:
+            # Treat illegal move as Pass
+            self.consecutive_passes += 1
+            if self.consecutive_passes >= 6: self._game_over = True
+            self._current_player = 1 - self._current_player
+            self._current_move_map = {}
+            return
+
+        move = self._current_move_map[action_id]
         row, col = move['row'], move['col']
         word = move['word']
-        direction = move['dir'] # 'Across' or 'Down'
+        direction = move['dir']
         
-        # 1. Calculate Score & Determine Tiles Used
-        score, tiles_used = self._score_move(row, col, word, direction)
-        self.scores[self._current_player] += score
-        
-        # 2. Place Tiles on Board
-        dr, dc = (0, 1) if direction == 'Across' else (1, 0)
-        curr_r, curr_c = row, col
-        for char in word:
-            self.board[curr_r][curr_c] = char
-            curr_r += dr
-            curr_c += dc
+        try:
+            score, tiles_used = self._score_move(row, col, word, direction)
             
-        # 3. Remove used tiles from Rack
-        # Note: We must handle blanks '?' correctly.
-        # If word has 'A' but rack has '?', we remove '?'.
-        player_rack = self.racks[self._current_player]
-        for char in tiles_used:
-            if char in player_rack:
-                player_rack.remove(char)
-            elif '?' in player_rack:
-                player_rack.remove('?')
-            else:
-                raise ValueError(f"Cannot play {word} with rack {player_rack}")
+            # Verify rack
+            player_rack = self.racks[self._current_player].copy()
+            for char in tiles_used:
+                if char in player_rack: player_rack.remove(char)
+                elif '?' in player_rack: player_rack.remove('?')
+                else: raise ValueError(f"Missing tile {char}")
 
-        # 4. Refill Rack & Switch
-        self._refill_rack(self._current_player)
-        
-        # Check Endgame (Empty rack and empty bag)
-        if not self.racks[self._current_player] and not self.bag:
-            self._game_over = True
-            # TODO: Add bonus (2x opponent's remaining tiles) to score
+            # --- SUCCESSFUL MOVE ---
+            self.consecutive_passes = 0 # Reset pass counter
+            self.scores[self._current_player] += score
             
+            dr, dc = (0, 1) if direction == 'Across' else (1, 0)
+            curr_r, curr_c = row, col
+            for char in word:
+                self.board[curr_r][curr_c] = char
+                curr_r += dr
+                curr_c += dc
+                
+            real_rack = self.racks[self._current_player]
+            for char in tiles_used:
+                if char in real_rack: real_rack.remove(char)
+                else: real_rack.remove('?')
+
+            self._refill_rack(self._current_player)
+            
+            if not self.racks[self._current_player] and not self.bag:
+                self._game_over = True
+                
+        except (ValueError, IndexError) as e:
+            # Failed move -> Pass
+            self.consecutive_passes += 1 
+            if self.consecutive_passes >= 6: self._game_over = True
+
         self._current_player = 1 - self._current_player
-
+        self._current_move_map = {}
+    
     def _score_move(self, row, col, word, direction):
         total_score = 0
         word_multiplier = 1
         cross_word_scores = 0
-        tiles_used = [] # List of chars actually placed from rack
+        tiles_used = [] 
         
         dr, dc = (0, 1) if direction == 'Across' else (1, 0)
         curr_r, curr_c = row, col
@@ -207,31 +329,27 @@ class ScrabbleState(pyspiel.State):
         move_score = 0
         
         for char in word:
+            # SAFETY CHECK: If we go off board, stop scoring to prevent crash
+            if not (0 <= curr_r < 15 and 0 <= curr_c < 15):
+                break 
+
             # Check if tile already exists
             if self.board[curr_r][curr_c] != '.':
-                # Existing tile: just add its face value, no premium bonuses
                 move_score += TILE_VALUES[char]
             else:
-                # Placed tile: Apply premiums
+                # Placed tile
                 tiles_used.append(char)
                 val = TILE_VALUES[char]
                 
-                # Check for Premium Squares
                 prem = PREMIUMS.get((curr_r, curr_c))
                 if prem:
                     ptype, pmult = prem
-                    if ptype == 'L': # Double/Triple Letter
-                        val *= pmult
-                    elif ptype == 'W': # Double/Triple Word
-                        word_multiplier *= pmult
+                    if ptype == 'L': val *= pmult
+                    elif ptype == 'W': word_multiplier *= pmult
                 
                 move_score += val
                 
-                # Check Cross-Words (words formed perpendicular to placement)
-                # This is complex. We need to check neighbors. 
-                # For brevity: We will assume valid cross-words were checked by GADDAG.
-                # We just need to sum them.
-                # A cross word exists if neighbors exist perpendicular to dir.
+                # Cross-Words
                 cross_score = self._calc_cross_score(curr_r, curr_c, char, direction)
                 cross_word_scores += cross_score
 
@@ -240,7 +358,6 @@ class ScrabbleState(pyspiel.State):
             
         total_score = (move_score * word_multiplier) + cross_word_scores
         
-        # BINGO BONUS (50 pts for using all 7 tiles)
         if len(tiles_used) == 7:
             total_score += 50
             
@@ -322,8 +439,78 @@ class ScrabbleState(pyspiel.State):
         return [0.0, 0.0]
 
     def information_state_tensor(self, player):
-        # TODO: Implement the 15x15x32 tensor
-        return np.zeros((32, 15, 15), dtype=np.float32).flatten()
+        planes = np.zeros((35, 15, 15), dtype=np.float32)
+        
+        # 0-25: Board Letters
+        for r in range(15):
+            for c in range(15):
+                char = self.board[r][c]
+                if 'A' <= char <= 'Z':
+                    planes[ord(char) - ord('A')][r][c] = 1.0
+
+        # 26: Blanks (Simplified: ignored for now, assuming all uppercase)
+        
+        # 27-30: Bonuses
+        for r in range(15):
+            for c in range(15):
+                prem = PREMIUMS.get((r, c))
+                if prem:
+                    t, v = prem
+                    if t=='L' and v==2: planes[27][r][c] = 1.0
+                    if t=='L' and v==3: planes[28][r][c] = 1.0
+                    if t=='W' and v==2: planes[29][r][c] = 1.0
+                    if t=='W' and v==3: planes[30][r][c] = 1.0
+
+        # 31: Anchors
+        # (Re-calculate anchors quickly)
+        for r in range(15):
+            for c in range(15):
+                if self.board[r][c] == '.':
+                    if (r>0 and self.board[r-1][c]!='.') or (r<14 and self.board[r+1][c]!='.') or \
+                       (c>0 and self.board[r][c-1]!='.') or (c<14 and self.board[r][c+1]!='.'):
+                        planes[31][r][c] = 1.0
+        if self.board[7][7] == '.': planes[31][7][7] = 1.0
+
+        # 32: Bag Percentage (Constant Plane)
+        bag_val = len(self.bag) / 100.0
+        planes[32].fill(bag_val)
+
+        # 33: Score Ratio (Me / (Me+Opponent))
+        s1, s2 = self.scores[player], self.scores[1-player]
+        total = s1 + s2 + 1e-5
+        planes[33].fill(s1 / total)
+
+        # 34: My Rack (Projected onto diagonal? No, standard practice is a constant plane per letter)
+        # This is tricky for variable racks. Let's just use channel 34 as "Rack Density" for now
+        # to prevent shape errors, or leave empty.
+        # Ideally, we add 26 more channels for the rack, but let's stick to 35 total for memory.
+        
+        return planes.flatten()
+    
+    def observation_tensor(self, player=None):
+        """
+        Required by AlphaZero. 
+        Maps the specific player's view (Information State) to the observation.
+        """
+        # If player is not specified, default to the current player
+        if player is None:
+            player = self.current_player()
+            
+        return self.information_state_tensor(player)
+    
+    def __str__(self):
+        # Create a simple ASCII representation
+        lines = []
+        lines.append(f"Turn: Player {self._current_player}")
+        lines.append(f"Scores: P0={self.scores[0]} P1={self.scores[1]}")
+        lines.append(f"Bag: {len(self.bag)} tiles")
+        lines.append("   " + " ".join([chr(ord('A') + i) for i in range(15)]))
+        for r in range(15):
+            row_str = f"{r:2} "
+            for c in range(15):
+                row_str += self.board[r][c] + " "
+            lines.append(row_str)
+        return "\n".join(lines)
 
 # Register the game
 pyspiel.register_game(_GAME_TYPE, ScrabbleGame)
