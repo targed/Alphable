@@ -4,165 +4,175 @@ Dictionary loaded.
 Loading neural network from checkpoint-100...
 
 --- STARTING MATCH ---
-Player 0: Plays 'TWITCH' at 5,7 Across
-   Rack P1: ['I', 'S', 'L', 'T', 'U', 'A', 'L']
-Player 0: Plays 'TWITCH' at 7,2 Across
-   Rack P1: ['I', 'S', 'L', 'T', 'U', 'A', 'L']
-Player 1: Plays 'TALLIS' at 3,4 Across
-   Rack P0: ['T', 'I', 'R', 'O', 'G', 'I', 'W']
-Player 1: Plays 'LIAS' at 6,1 Across
-   Rack P0: ['T', 'I', 'R', 'O', 'G', 'I', 'W']
-Player 0: Plays 'IT' at 7,4 Across
-   Rack P1: ['T', 'U', 'L', 'T', 'B', 'E', 'E']
-Player 1: Plays 'BELT' at 5,0 Across
-   Rack P0: ['T', 'I', 'R', 'O', 'G', 'I', 'W']
-Player 0: Plays 'GRIOT' at 8,2 Across
-   Rack P1: ['U', 'T', 'E', 'F', 'N', 'R', 'H']
-Player 0: Plays 'RIEL' at 3,1 Across
-   Rack P1: ['U', 'T', 'E', 'F', 'N', 'R', 'H']
-Player 0: Plays 'GRIOT' at 8,7 Across
-   Rack P1: ['U', 'T', 'E', 'F', 'N', 'R', 'H']
-Player 1: Plays 'HUNTER' at 8,7 Across
-   Rack P0: ['T', 'I', 'R', 'O', 'G', 'I', 'W']
-Player 1: Plays 'WUTHER' at 7,3 Across
-   Rack P0: ['T', 'I', 'R', 'O', 'G', 'I', 'W']
-Player 1: Plays 'RELIT' at 3,2 Across
-   Rack P0: ['T', 'I', 'R', 'O', 'G', 'I', 'W']
-Player 0: Plays 'CHIRO' at 7,6 Across
-   Rack P1: ['U', 'T', 'E', 'F', 'N', 'R', 'H']
-Player 0: Plays 'TWILIT' at 2,2 Across
-   Rack P1: ['U', 'T', 'E', 'F', 'N', 'R', 'H']
-Player 0: Plays 'GRIOT' at 8,3 Across
-   Rack P1: ['U', 'T', 'E', 'F', 'N', 'R', 'H']
-Player 1: Plays 'HETH' at 4,7 Across
-   Rack P0: ['T', 'I', 'R', 'O', 'G', 'I', 'W']
-Player 1: Plays 'FEU' at 8,0 Across
-   Rack P0: ['T', 'I', 'R', 'O', 'G', 'I', 'W']
-Player 0: Plays 'GRIOT' at 9,2 Across
-   Rack P1: ['T', 'N', 'R', 'H', 'E', 'A', 'A']
-Player 0: Plays 'TROWEL' at 1,1 Across
-   Rack P1: ['T', 'N', 'R', 'H', 'E', 'A', 'A']
-Player 0: Plays 'GRIOT' at 9,1 Across
-   Rack P1: ['T', 'N', 'R', 'H', 'E', 'A', 'A']
-Player 1: Plays 'FANART' at 8,0 Across
-   Rack P0: ['T', 'I', 'R', 'O', 'G', 'I', 'W']
-Player 1: Plays 'TANREC' at 2,6 Across
-   Rack P0: ['T', 'I', 'R', 'O', 'G', 'I', 'W']
-Player 1: Plays 'HEEL' at 3,1 Across
-   Rack P0: ['T', 'I', 'R', 'O', 'G', 'I', 'W']
-Player 0: Plays 'IT' at 7,4 Across
-   Rack P1: ['T', 'N', 'R', 'H', 'E', 'A', 'A']
-Player 1: Plays 'TANTRA' at 7,5 Across
-   Rack P0: ['T', 'I', 'R', 'O', 'G', 'I', 'W']
-Player 1: Plays 'INEARTH' at 7,4 Across
-   Rack P0: ['T', 'I', 'R', 'O', 'G', 'I', 'W']
-Player 1: Plays 'ANTHER' at 7,8 Across
-   Rack P0: ['T', 'I', 'R', 'O', 'G', 'I', 'W']
-Player 0: Plays 'TUTOR' at 7,2 Across
-   Rack P1: ['T', 'N', 'R', 'H', 'E', 'A', 'A']
-Player 0: Plays 'THROW' at 6,7 Across
-   Rack P1: ['T', 'N', 'R', 'H', 'E', 'A', 'A']
-Player 0: Plays 'GEL' at 4,1 Across
-   Rack P1: ['T', 'N', 'R', 'H', 'E', 'A', 'A']
-Player 1: Plays 'ABA' at 4,0 Across
-   Rack P0: ['T', 'I', 'R', 'O', 'G', 'I', 'W']
-Player 1: Plays 'HEEL' at 3,1 Across
-   Rack P0: ['T', 'I', 'R', 'O', 'G', 'I', 'W']
-Player 1: Plays 'REHAB' at 1,0 Across
-   Rack P0: ['T', 'I', 'R', 'O', 'G', 'I', 'W']
-Player 0: Plays 'RIGHTO' at 4,7 Across
-   Rack P1: ['T', 'N', 'R', 'H', 'E', 'A', 'A']
-Player 0: Plays 'TUTOR' at 7,2 Across
-   Rack P1: ['T', 'N', 'R', 'H', 'E', 'A', 'A']
-Player 0: Plays 'IT' at 7,4 Across
-   Rack P1: ['T', 'N', 'R', 'H', 'E', 'A', 'A']
-Player 1: Plays 'HERB' at 2,0 Across
-   Rack P0: ['T', 'I', 'R', 'O', 'G', 'I', 'W']
-Player 1: Plays 'ARB' at 3,0 Across
-   Rack P0: ['T', 'I', 'R', 'O', 'G', 'I', 'W']
-Player 1: Plays 'CATERAN' at 7,6 Across
-   Rack P0: ['T', 'I', 'R', 'O', 'G', 'I', 'W']
-Player 0: Plays 'IT' at 7,4 Across
-   Rack P1: ['T', 'N', 'R', 'H', 'E', 'A', 'A']
-Player 1: Plays 'HEARTH' at 2,7 Across
-   Rack P0: ['T', 'I', 'R', 'O', 'G', 'I', 'W']
-Player 1: Plays 'ANTHER' at 4,7 Across
-   Rack P0: ['T', 'I', 'R', 'O', 'G', 'I', 'W']
-Player 1: Plays 'ANTHER' at 9,0 Across
-   Rack P0: ['T', 'I', 'R', 'O', 'G', 'I', 'W']
-Player 0: Plays 'GRIOT' at 7,8 Across
-   Rack P1: ['T', 'N', 'R', 'H', 'E', 'A', 'A']
-Player 0: Plays 'GIFT' at 6,0 Across
-   Rack P1: ['T', 'N', 'R', 'H', 'E', 'A', 'A']
-Player 0: Plays 'GRIOT' at 9,0 Across
-   Rack P1: ['T', 'N', 'R', 'H', 'E', 'A', 'A']
+Player 0: Plays 'JOYING' at 6,7 Across
+   Rack P1: ['G', 'D', 'O', 'Q', 'E', 'R', 'L']
+Player 0: Plays 'JOYING' at 4,7 Across
+   Rack P1: ['G', 'D', 'O', 'Q', 'E', 'R', 'L']
+Player 0: Plays 'JOYING' at 3,7 Across
+   Rack P1: ['G', 'D', 'O', 'Q', 'E', 'R', 'L']
+Player 1: Plays 'GOLDER' at 7,4 Across
+   Rack P0: ['J', 'N', 'I', 'G', 'O', 'Y', 'N']
+Player 0: Plays 'YOND' at 4,7 Across
+   Rack P1: ['Q', 'N', 'L', 'A', '?', 'T', 'A']
+Player 0: Plays 'NYLON' at 5,6 Across
+   Rack P1: ['Q', 'N', 'L', 'A', '?', 'T', 'A']
+Player 0: Plays 'ID' at 6,7 Across
+   Rack P1: ['Q', 'N', 'L', 'A', '?', 'T', 'A']
+Player 1: Plays 'LATINA' at 8,1 Across
+   Rack P0: ['J', 'N', 'I', 'G', 'O', 'Y', 'N']
+Player 0: Plays 'GONE' at 4,8 Across
+   Rack P1: ['Q', 'I', 'R', 'T', 'H', 'A', 'A']
+Player 0: Plays 'JOYING' at 9,5 Across
+   Rack P1: ['Q', 'I', 'R', 'T', 'H', 'A', 'A']
+Player 0: Plays 'NOILY' at 5,1 Across
+   Rack P1: ['Q', 'I', 'R', 'T', 'H', 'A', 'A']
+Player 1: Plays 'RAIA' at 9,0 Across
+   Rack P0: ['J', 'N', 'I', 'G', 'O', 'Y', 'N']
+Player 0: Plays 'GIEN' at 5,8 Across
+   Rack P1: ['Q', 'T', 'H', 'E', 'I', 'I', 'I']
+Player 0: Plays 'RONIN' at 7,9 Across
+   Rack P1: ['Q', 'T', 'H', 'E', 'I', 'I', 'I']
+Player 0: Plays 'ID' at 6,7 Across
+   Rack P1: ['Q', 'T', 'H', 'E', 'I', 'I', 'I']
+Player 1: Plays 'HONE' at 6,5 Across
+   Rack P0: ['J', 'N', 'I', 'G', 'O', 'Y', 'N']
+Player 1: Plays 'HIRE' at 5,9 Across
+   Rack P0: ['J', 'N', 'I', 'G', 'O', 'Y', 'N']
+Player 1: Plays 'ETH' at 9,5 Across
+   Rack P0: ['J', 'N', 'I', 'G', 'O', 'Y', 'N']
+Player 0: Plays 'ATONING' at 8,6 Across
+   Rack P1: ['Q', 'I', 'I', 'I', 'E', 'W', 'O']
+Player 0: Plays 'RONIN' at 7,9 Across
+   Rack P1: ['Q', 'I', 'I', 'I', 'E', 'W', 'O']
+Player 0: Plays 'YOGIN' at 6,8 Across
+   Rack P1: ['Q', 'I', 'I', 'I', 'E', 'W', 'O']
+Player 1: Plays 'OE' at 5,11 Across
+   Rack P0: ['J', 'N', 'A', 'A', 'V', 'E', 'S']
+Player 0: Plays 'RAVENS' at 7,9 Across
+   Rack P1: ['Q', 'I', 'I', 'I', 'W', 'S', 'C']
+Player 0: Plays 'ANLAS' at 6,1 Across
+   Rack P1: ['Q', 'I', 'I', 'I', 'W', 'S', 'C']
+Player 0: Plays 'LANES' at 8,1 Across
+   Rack P1: ['Q', 'I', 'I', 'I', 'W', 'S', 'C']
+Player 1: Plays 'AIS' at 8,2 Across
+   Rack P0: ['J', 'N', 'A', 'A', 'V', 'E', 'S']
+Player 1: Plays 'IWIS' at 9,2 Across
+   Rack P0: ['J', 'N', 'A', 'A', 'V', 'E', 'S']
+Player 1: Plays 'OES' at 5,11 Across
+   Rack P0: ['J', 'N', 'A', 'A', 'V', 'E', 'S']
+Player 0: Plays 'NAE' at 6,12 Across
+   Rack P1: ['Q', 'I', 'I', 'I', 'W', 'C', 'O']
+Player 0: Plays 'SENORA' at 3,9 Across
+   Rack P1: ['Q', 'I', 'I', 'I', 'W', 'C', 'O']
+Player 0: Plays 'SANG' at 3,10 Across
+   Rack P1: ['Q', 'I', 'I', 'I', 'W', 'C', 'O']
+Player 1: Plays 'NOW' at 6,12 Across
+   Rack P0: ['J', 'N', 'A', 'A', 'V', 'E', 'S']
+Player 1: Plays 'NEW' at 8,5 Across
+   Rack P0: ['J', 'N', 'A', 'A', 'V', 'E', 'S']
+Player 1: Plays 'COW' at 5,6 Across
+   Rack P0: ['J', 'N', 'A', 'A', 'V', 'E', 'S']
+Player 0: Plays 'ANSAE' at 10,3 Across
+   Rack P1: ['Q', 'I', 'I', 'I', 'R', 'T', 'T']
+Player 0: Plays 'SORA' at 5,9 Across
+   Rack P1: ['Q', 'I', 'I', 'I', 'R', 'T', 'T']
+Player 0: Plays 'ANSAE' at 10,7 Across
+   Rack P1: ['Q', 'I', 'I', 'I', 'R', 'T', 'T']
+Player 1: Plays 'TITI' at 11,11 Across
+   Rack P0: ['J', 'V', 'E', 'W', 'O', 'A', 'F']
+Player 0: Plays 'AVOW' at 11,8 Across
+   Rack P1: ['Q', 'I', 'R', 'I', 'U', 'N', 'E']
+Player 0: Plays 'OE' at 6,13 Across
+   Rack P1: ['Q', 'I', 'R', 'I', 'U', 'N', 'E']
+Player 0: Plays 'AVOW' at 9,10 Across
+   Rack P1: ['Q', 'I', 'R', 'I', 'U', 'N', 'E']
+Player 1: Plays 'INURE' at 10,2 Across
+   Rack P0: ['J', 'E', 'F', 'I', 'R', 'P', 'U']
 Player 1: EXCHANGE
-Player 0: Plays 'RIGHTO' at 4,7 Across
-   Rack P1: ['D', 'E', 'P', 'E', '?', 'B', 'C']
-Player 0: Plays 'GRIOT' at 8,5 Across
-   Rack P1: ['D', 'E', 'P', 'E', '?', 'B', 'C']
-Player 0: Plays 'IT' at 7,4 Across
-   Rack P1: ['D', 'E', 'P', 'E', '?', 'B', 'C']
-Player 1: Plays 'ALIAS' at 6,0 Across
-   Rack P0: ['T', 'I', 'R', 'O', 'G', 'I', 'W']
-Player 0: Plays 'OBA' at 4,0 Across
-   Rack P1: ['D', 'E', 'P', 'E', 'B', 'C', 'I']
-Player 0: Plays 'GEL' at 4,1 Across
-   Rack P1: ['D', 'E', 'P', 'E', 'B', 'C', 'I']
-Player 0: Plays 'RIEL' at 3,1 Across
-   Rack P1: ['D', 'E', 'P', 'E', 'B', 'C', 'I']
-Player 1: Plays 'TWITCHED' at 7,2 Across
-   Rack P0: ['T', 'I', 'R', 'O', 'G', 'I', 'W']
-Player 0: Plays 'CORGI' at 7,6 Across
-   Rack P1: ['P', 'E', 'B', 'C', 'I', 'A', 'A']
-Player 0: Plays 'OBA' at 4,0 Across
-   Rack P1: ['P', 'E', 'B', 'C', 'I', 'A', 'A']
-Player 0: Plays 'TUTOR' at 7,2 Across
-   Rack P1: ['P', 'E', 'B', 'C', 'I', 'A', 'A']
-Player 1: Plays 'CAECA' at 7,6 Across
-   Rack P0: ['T', 'I', 'R', 'O', 'G', 'I', 'W']
-Player 1: Plays 'AECIA' at 6,8 Across
-   Rack P0: ['T', 'I', 'R', 'O', 'G', 'I', 'W']
-Player 0: Plays 'IT' at 7,4 Across
-   Rack P1: ['P', 'B', 'L', 'I', 'A', 'T', 'N']
-Player 1: Plays 'BEDPAN' at 5,9 Across
-   Rack P0: ['T', 'I', 'R', 'O', 'G', 'I', 'W']
-Player 1: Plays 'ABLED' at 3,9 Across
-   Rack P0: ['T', 'I', 'R', 'O', 'G', 'I', 'W']
-Player 1: Plays 'ALIT' at 5,11 Across
-   Rack P0: ['T', 'I', 'R', 'O', 'G', 'I', 'W']
-Player 0: Plays 'ERGOT' at 7,8 Across
-   Rack P1: ['P', 'B', 'N', 'U', 'J', 'U', 'R']
-Player 0: Plays 'BARFI' at 5,0 Across
-   Rack P1: ['P', 'B', 'N', 'U', 'J', 'U', 'R']
-Player 0: Plays 'OR' at 4,10 Across
-   Rack P1: ['P', 'B', 'N', 'U', 'J', 'U', 'R']
-Player 1: Plays 'AIRN' at 5,11 Across
-   Rack P0: ['T', 'I', 'G', 'I', 'W', 'S', 'N']
-Player 1: Plays 'BURN' at 8,5 Across
-   Rack P0: ['T', 'I', 'G', 'I', 'W', 'S', 'N']
-Player 1: Plays 'URB' at 8,2 Across
-   Rack P0: ['T', 'I', 'G', 'I', 'W', 'S', 'N']
-Player 0: Plays 'GIST' at 1,9 Across
-   Rack P1: ['P', 'B', 'N', 'U', 'J', 'U', 'R']
-Player 0: Plays 'TINSEL' at 1,1 Across
-   Rack P1: ['P', 'B', 'N', 'U', 'J', 'U', 'R']
+Player 0: Plays 'FIRE' at 11,4 Across
+   Rack P1: ['I', 'X', 'U', 'E', 'L', 'C', 'M']
+Player 1: Plays 'EL' at 10,13 Across
+   Rack P0: ['J', 'P', 'U', '?', 'E', 'O', 'K']
+Player 0: Plays 'JOUKED' at 12,0 Across
+   Rack P1: ['I', 'X', 'U', 'C', 'M', 'I', 'S']
+Player 1: EXCHANGE
+Player 0: Plays 'BEE' at 4,12 Across
+   Rack P1: ['E', 'I', 'Q', 'P', 'I', 'N', 'T']
+Player 1: EXCHANGE
+Player 0: Plays 'COWL' at 5,6 Across
+   Rack P1: ['R', 'G', 'I', 'O', 'E', 'N', 'N']
+Player 1: EXCHANGE
+Player 0: Plays 'TURD' at 12,7 Across
+   Rack P1: ['P', 'M', 'U', 'Q', 'O', 'D', 'I']
+Player 1: EXCHANGE
+Player 0: EXCHANGE
+Player 1: Plays 'ESSE' at 10,0 Across
+   Rack P0: ['F', 'C', 'I', 'E', 'P', 'H', 'O']
+Player 0: Plays 'EPOCH' at 13,10 Across
+   Rack P1: ['U', 'D', 'Q', 'Y', 'N', 'M', 'O']
+Player 1: EXCHANGE
+Player 0: Plays 'FAR' at 7,0 Across
+   Rack P1: ['B', 'N', 'A', 'M', 'U', 'Z', 'O']
+Player 1: Plays 'IN' at 6,11 Across
+   Rack P0: ['I', 'T', 'I', 'G', 'N', 'X', 'I']
+Player 0: Plays 'TIN' at 7,12 Across
+   Rack P1: ['B', 'N', 'A', 'M', 'U', 'Z', 'O']
+Player 1: Plays 'BAM' at 14,10 Across
+   Rack P0: ['I', 'G', 'X', 'I', 'V', 'N', 'M']
+Player 0: Plays 'NIM' at 13,2 Across
+   Rack P1: ['N', 'U', 'Z', 'O', 'D', 'P', 'U']
+Player 1: Plays 'NO' at 13,2 Across
+   Rack P0: ['G', 'X', 'I', 'V', 'Q', 'R', 'Y']
+Player 1: Plays 'DOM' at 12,12 Across
+   Rack P0: ['G', 'X', 'I', 'V', 'Q', 'R', 'Y']
+Player 1: Plays 'EMO' at 12,4 Across
+   Rack P0: ['G', 'X', 'I', 'V', 'Q', 'R', 'Y']
+Player 0: Plays 'KIR' at 12,3 Across
+   Rack P1: ['N', 'U', 'Z', 'O', 'D', 'P', 'U']
+Player 0: Plays 'GO' at 4,7 Across
+   Rack P1: ['N', 'U', 'Z', 'O', 'D', 'P', 'U']
+Player 0: Plays 'GI' at 14,1 Across
+   Rack P1: ['N', 'U', 'Z', 'O', 'D', 'P', 'U']
+Player 1: Plays 'EMO' at 12,4 Across
+   Rack P0: ['X', 'V', 'Q', 'R', 'Y', 'D', 'I']
+Player 1: Plays 'DUO' at 3,7 Across
+   Rack P0: ['X', 'V', 'Q', 'R', 'Y', 'D', 'I']
+Player 1: Plays 'ED' at 7,8 Across
+   Rack P0: ['X', 'V', 'Q', 'R', 'Y', 'D', 'I']
+Player 0: Plays 'HI' at 9,7 Across
+   Rack P1: ['N', 'U', 'Z', 'O', 'D', 'P', 'U']
+Player 0: Plays 'DO' at 11,1 Across
+   Rack P1: ['N', 'U', 'Z', 'O', 'D', 'P', 'U']
+Player 0: Plays 'DUI' at 11,8 Across
+   Rack P1: ['N', 'U', 'Z', 'O', 'D', 'P', 'U']
+Player 1: Plays 'DOLOR' at 3,9 Across
+   Rack P0: ['X', 'V', 'Q', 'R', 'Y', 'D', 'I']
+Player 1: Plays 'UDO' at 12,8 Across
+   Rack P0: ['X', 'V', 'Q', 'R', 'Y', 'D', 'I']
+Player 1: Plays 'NALAS' at 6,1 Across
+   Rack P0: ['X', 'V', 'Q', 'R', 'Y', 'D', 'I']
+Player 0: Plays 'KID' at 12,3 Across
+   Rack P1: ['N', 'U', 'Z', 'O', 'D', 'P', 'U']
+Player 0: Plays 'LORD' at 5,9 Across
+   Rack P1: ['N', 'U', 'Z', 'O', 'D', 'P', 'U']
+Player 0: Plays 'ED' at 7,8 Across
+   Rack P1: ['N', 'U', 'Z', 'O', 'D', 'P', 'U']
 
 --- GAME OVER ---
 ======================================================================
-SCRABBLE GAME STATE - Turn 30
+SCRABBLE GAME STATE - Turn 43
 ======================================================================
 Status: GAME OVER
-Reason: Mercy rule: turn > 20 with zero total score
+Reason: Four consecutive passes (count=4)
 
-Scores: P0=0.0  P1=0.0
-Consecutive Passes: 1
-Consecutive Zero Scores: 1
-Banned Actions: 1
+Scores: P0=133.0  P1=0.0
+Consecutive Passes: 4
+Consecutive Zero Scores: 4
+Banned Actions: 0
 
-Bag: 55 tiles remaining
-P0 Rack (7 tiles): T I G I W S N
-P1 Rack (7 tiles): P B N U J U R
+Bag: 0 tiles remaining
+P0 Rack (7 tiles): X V Q R Y D I
+P1 Rack (7 tiles): N U Z O D P U
 
 Board:
    A B C D E F G H I J K L M N O
@@ -170,35 +180,34 @@ Board:
  1 . . . . . . . . . . . . . . . 
  2 . . . . . . . . . . . . . . . 
  3 . . . . . . . . . . . . . . . 
- 4 . . . . . . . . . . O R . . . 
- 5 B E L T . . . . . . . A L I T 
- 6 A L I A S . . . A E C I A . . 
- 7 . . T W I T C H E D . . . . . 
- 8 F E U . . . . . . . . . . . . 
- 9 . . . . . . . . . . . . . . . 
-10 . . . . . . . . . . . . . . . 
-11 . . . . . . . . . . . . . . . 
-12 . . . . . . . . . . . . . . . 
-13 . . . . . . . . . . . . . . . 
-14 . . . . . . . . . . . . . . . 
+ 4 . . . . . . . . . . . . B E E 
+ 5 . . . . . . C O W L . O E S . 
+ 6 . . . . . . . . Y O G I N . . 
+ 7 F A R . G O L D E R . . T I N 
+ 8 . L A T I N A . . . . . . . . 
+ 9 R A I A . E T H . . A V O W . 
+10 E S S E . . . A N S A E . E L 
+11 . . . . F I R E . . . T I T I 
+12 J O U K E D . T U R D . . . . 
+13 . . N I M . . . . . E P O C H 
+14 . G I . . . . . . . B A M . . 
 
-Move Log Summary (100 entries)
+Move Log Summary (103 entries)
 ============================================================
-Turn 28, P0: FAILED - Action 226
+Turn 41, P1: FAILED - Action 376
   Reason: Validation failed: connectivity, rack, or cross-word issue
-Turn 28, P0: FAILED - Action 150
+Turn 41, P1: FAILED - Action 182
   Reason: Validation failed: connectivity, rack, or cross-word issue
-Turn 28, P0: SUCCESS - Action 140
-Turn 29, P1: FAILED - Action 172
+Turn 41, P1: SUCCESS - Action 450
+Turn 41, P1: SUCCESS - Action 450
+Turn 42, P0: FAILED - Action 366
   Reason: Validation failed: connectivity, rack, or cross-word issue
-Turn 29, P1: FAILED - Action 250
+Turn 42, P0: FAILED - Action 168
   Reason: Validation failed: connectivity, rack, or cross-word issue
-Turn 29, P1: FAILED - Action 244
+Turn 42, P0: FAILED - Action 226
   Reason: Validation failed: connectivity, rack, or cross-word issue
-Turn 29, P1: SUCCESS - Action 450
-Turn 29, P1: SUCCESS - Action 450
-Turn 30, P0: FAILED - Action 48
-  Reason: Validation failed: connectivity, rack, or cross-word issue
-Turn 30: GAME_TERMINATED - Mercy rule: turn > 20 with zero total score
+Turn 42, P0: SUCCESS - Action 450
+Turn 42, P0: SUCCESS - Action 450
+Turn 42: GAME_TERMINATED - Four consecutive passes (count=4)
 ======================================================================
-Final Score: [0.0, 0.0]
+Final Score: [133.0, 0.0]
