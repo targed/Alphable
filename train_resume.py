@@ -56,8 +56,8 @@ def main(unused_argv):
         replay_buffer_size=64,
         replay_buffer_reuse=4,
         
-        # WE WANT 100 MORE STEPS
-        max_steps=100, 
+        # WE WANT 1000 MORE STEPS
+        max_steps=1000, 
         
         checkpoint_freq=10,
         actors=2,

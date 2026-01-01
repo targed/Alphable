@@ -1,0 +1,159 @@
+Loading game...
+Loading dictionary from resources/NWL2023.txt...
+Dictionary loaded.
+Loading neural network from checkpoint-100...
+
+--- STARTING MATCH ---
+Player 0: EXCHANGE
+Player 1: Plays 'ABATOR' at 7,4 Across
+   Rack P0: ['A', 'R', 'Q', 'O', 'T', 'D', 'L']
+Player 0: Plays 'AORTAL' at 3,4 Across
+   Rack P1: ['G', 'I', 'I', 'I', 'T', 'O', 'O']
+Player 0: Plays 'TARDO' at 8,1 Across
+   Rack P1: ['G', 'I', 'I', 'I', 'T', 'O', 'O']
+Player 1: Plays 'GAIT' at 7,2 Across
+   Rack P0: ['Q', 'L', 'E', 'A', 'C', 'H', 'S']
+Player 1: Plays 'OTTO' at 7,1 Across
+   Rack P0: ['Q', 'L', 'E', 'A', 'C', 'H', 'S']
+Player 1: Plays 'GIT' at 9,5 Across
+   Rack P0: ['Q', 'L', 'E', 'A', 'C', 'H', 'S']
+Player 0: Plays 'HEALS' at 8,8 Across
+   Rack P1: ['I', 'I', 'O', 'O', 'R', 'N', 'R']
+Player 1: Plays 'ORA' at 5,6 Across
+   Rack P0: ['Q', 'C', 'N', 'B', 'F', 'Y', 'W']
+Player 1: Plays 'INROAD' at 3,4 Across
+   Rack P0: ['Q', 'C', 'N', 'B', 'F', 'Y', 'W']
+Player 1: Plays 'INRO' at 9,6 Across
+   Rack P0: ['Q', 'C', 'N', 'B', 'F', 'Y', 'W']
+Player 0: Plays 'BA' at 6,6 Across
+   Rack P1: ['I', 'I', 'O', 'O', 'R', 'N', 'R']
+Player 0: Plays 'ORB' at 7,8 Across
+   Rack P1: ['I', 'I', 'O', 'O', 'R', 'N', 'R']
+Player 0: Plays 'WYN' at 9,11 Across
+   Rack P1: ['I', 'I', 'O', 'O', 'R', 'N', 'R']
+Player 1: Plays 'DON' at 8,4 Across
+   Rack P0: ['Q', 'C', 'N', 'B', 'F', 'Y', 'W']
+Player 1: Plays 'INRO' at 6,9 Across
+   Rack P0: ['Q', 'C', 'N', 'B', 'F', 'Y', 'W']
+Player 0: Plays 'WYN' at 10,4 Across
+   Rack P1: ['I', 'O', 'R', 'A', 'J', 'P', 'I']
+Player 1: Plays 'TO' at 9,7 Across
+   Rack P0: ['Q', 'C', 'B', 'F', 'L', 'O', 'S']
+Player 1: Plays 'APO' at 11,2 Across
+   Rack P0: ['Q', 'C', 'B', 'F', 'L', 'O', 'S']
+Player 0: Plays 'BAD' at 6,4 Across
+   Rack P1: ['I', 'R', 'J', 'I', 'W', 'E', 'K']
+Player 0: Plays 'ALBS' at 8,10 Across
+   Rack P1: ['I', 'R', 'J', 'I', 'W', 'E', 'K']
+Player 0: Plays 'BOS' at 9,0 Across
+   Rack P1: ['I', 'R', 'J', 'I', 'W', 'E', 'K']
+Player 1: Plays 'IRE' at 10,7 Across
+   Rack P0: ['Q', 'C', 'F', 'L', 'D', 'A', 'O']
+Player 1: Plays 'KERN' at 3,10 Across
+   Rack P0: ['Q', 'C', 'F', 'L', 'D', 'A', 'O']
+Player 1: Plays 'KA' at 6,6 Across
+   Rack P0: ['Q', 'C', 'F', 'L', 'D', 'A', 'O']
+Player 0: Plays 'AA' at 6,6 Across
+   Rack P1: ['I', 'R', 'J', 'I', 'W', 'E', 'K']
+Player 0: Plays 'ADO' at 12,2 Across
+   Rack P1: ['I', 'R', 'J', 'I', 'W', 'E', 'K']
+Player 0: Plays 'ECO' at 8,9 Across
+   Rack P1: ['I', 'R', 'J', 'I', 'W', 'E', 'K']
+Player 1: Plays 'ELK' at 7,11 Across
+   Rack P0: ['Q', 'C', 'F', 'L', 'D', 'A', 'O']
+Player 1: Plays 'ER' at 9,8 Across
+   Rack P0: ['Q', 'C', 'F', 'L', 'D', 'A', 'O']
+Player 1: Plays 'JERK' at 11,6 Across
+   Rack P0: ['Q', 'C', 'F', 'L', 'D', 'A', 'O']
+Player 0: Plays 'ACOLD' at 5,5 Across
+   Rack P1: ['I', 'R', 'J', 'I', 'W', 'E', 'K']
+Player 1: Plays 'TOE' at 8,1 Across
+   Rack P0: ['Q', 'F', 'N', 'E', 'S', 'T', 'N']
+Player 1: Plays 'ARIE' at 8,10 Across
+   Rack P0: ['Q', 'F', 'N', 'E', 'S', 'T', 'N']
+Player 1: Plays 'OES' at 6,12 Across
+   Rack P0: ['Q', 'F', 'N', 'E', 'S', 'T', 'N']
+Player 0: Plays 'ENS' at 5,11 Across
+   Rack P1: ['I', 'R', 'J', 'I', 'W', 'E', 'K']
+Player 1: Plays 'ER' at 6,3 Across
+   Rack P0: ['Q', 'F', 'T', 'N', 'I', 'U', 'O']
+Player 0: Plays 'FINO' at 9,11 Across
+   Rack P1: ['I', 'J', 'I', 'W', 'K', 'E', 'V']
+Player 0: Plays 'SNAFU' at 9,2 Across
+   Rack P1: ['I', 'J', 'I', 'W', 'K', 'E', 'V']
+Player 0: Plays 'QUINOL' at 0,8 Across
+   Rack P1: ['I', 'J', 'I', 'W', 'K', 'E', 'V']
+Player 1: Plays 'EEK' at 8,9 Across
+   Rack P0: ['Q', 'F', 'T', 'N', 'I', 'U', 'O']
+Player 1: Plays 'VLEI' at 7,11 Across
+   Rack P0: ['Q', 'F', 'T', 'N', 'I', 'U', 'O']
+Player 1: Plays 'JIVE' at 11,6 Across
+   Rack P0: ['Q', 'F', 'T', 'N', 'I', 'U', 'O']
+Player 0: Plays 'ONTIC' at 1,6 Across
+   Rack P1: ['I', 'J', 'I', 'W', 'K', 'E', 'V']
+Player 0: Plays 'IF' at 4,13 Across
+   Rack P1: ['I', 'J', 'I', 'W', 'K', 'E', 'V']
+Player 1: Plays 'VIE' at 9,12 Across
+   Rack P0: ['Q', 'T', 'N', 'U', 'O', 'M', 'G']
+Player 1: Plays 'OES' at 6,12 Across
+   Rack P0: ['Q', 'T', 'N', 'U', 'O', 'M', 'G']
+Player 1: Plays 'EVER' at 3,11 Across
+   Rack P0: ['Q', 'T', 'N', 'U', 'O', 'M', 'G']
+Player 0: Plays 'GOUT' at 4,7 Across
+   Rack P1: ['I', 'J', 'I', 'W', 'K', 'E', 'V']
+Player 0: Plays 'GO' at 3,13 Across
+   Rack P1: ['I', 'J', 'I', 'W', 'K', 'E', 'V']
+
+--- GAME OVER ---
+======================================================================
+SCRABBLE GAME STATE - Turn 22
+======================================================================
+Status: GAME OVER
+Reason: Mercy rule: turn > 20 with zero total score
+
+Scores: P0=0.0  P1=0.0
+Consecutive Passes: 1
+Consecutive Zero Scores: 1
+Banned Actions: 1
+
+Bag: 42 tiles remaining
+P0 Rack (7 tiles): Q T N U O M G
+P1 Rack (7 tiles): I J I W K E V
+
+Board:
+   A B C D E F G H I J K L M N O
+ 0 . . . . . . . . . . . . . . . 
+ 1 . . . . . . . . . . . . . . . 
+ 2 . . . . . . . . . . . . . . . 
+ 3 . . . . . . . . . . . . . . . 
+ 4 . . . . . . . . . . . . . I F 
+ 5 . . . . . A C O L D . E N S . 
+ 6 . . . E R . . . . I N R O . . 
+ 7 . . . . A B A T O R . . . . . 
+ 8 . T A R D O . . H E A L S . . 
+ 9 B O S . . G I T . . . . . . . 
+10 . . . . W Y N . . . . . . . . 
+11 . . A P O . . . . . . . . . . 
+12 . . . . . . . . . . . . . . . 
+13 . . . . . . . . . . . . . . . 
+14 . . . . . . . . . . . . . . . 
+
+Move Log Summary (68 entries)
+============================================================
+Turn 19, P1: SUCCESS - Action 450
+Turn 20, P0: FAILED - Action 42
+  Reason: Validation failed: connectivity, rack, or cross-word issue
+Turn 20, P0: SUCCESS - Action 146
+Turn 21, P1: FAILED - Action 294
+  Reason: Validation failed: connectivity, rack, or cross-word issue
+Turn 21, P1: FAILED - Action 204
+  Reason: Validation failed: connectivity, rack, or cross-word issue
+Turn 21, P1: FAILED - Action 112
+  Reason: Validation failed: connectivity, rack, or cross-word issue
+Turn 21, P1: SUCCESS - Action 450
+Turn 21, P1: SUCCESS - Action 450
+Turn 22, P0: FAILED - Action 134
+  Reason: Validation failed: connectivity, rack, or cross-word issue
+Turn 22: GAME_TERMINATED - Mercy rule: turn > 20 with zero total score
+======================================================================
+Final Score: [0.0, 0.0]

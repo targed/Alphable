@@ -1,0 +1,97 @@
+Loading game...
+Loading dictionary from resources/NWL2023.txt...
+Dictionary loaded.
+Loading neural network from checkpoint-100...
+
+--- STARTING MATCH ---
+Player 0: Plays 'AZONS' at 7,3 Across
+   Rack P1: ['E', '?', 'C', 'S', 'V', 'E', 'S']
+Player 1: Plays 'SEIZES' at 4,4 Across
+   Rack P0: ['Q', 'W', 'A', 'M', 'A', 'I', 'N']
+Player 1: Plays 'CHOSES' at 5,5 Across
+   Rack P0: ['Q', 'W', 'A', 'M', 'A', 'I', 'N']
+Player 1: Plays 'CORVEES' at 6,5 Across
+   Rack P0: ['Q', 'W', 'A', 'M', 'A', 'I', 'N']
+Player 0: Plays 'ANSA' at 5,7 Across
+   Rack P1: ['E', '?', 'C', 'S', 'V', 'E', 'S']
+Player 0: Plays 'AMIA' at 6,0 Across
+   Rack P1: ['E', '?', 'C', 'S', 'V', 'E', 'S']
+Player 1: Plays 'CHESSES' at 4,7 Across
+   Rack P0: ['Q', 'W', 'N', 'I', 'B', 'I', 'T']
+Player 1: Plays 'CASSENE' at 2,6 Across
+   Rack P0: ['Q', 'W', 'N', 'I', 'B', 'I', 'T']
+Player 1: Plays 'CASEASE' at 5,0 Across
+   Rack P0: ['Q', 'W', 'N', 'I', 'B', 'I', 'T']
+Player 0: Plays 'INTI' at 6,7 Across
+   Rack P1: ['E', '?', 'C', 'S', 'V', 'E', 'S']
+Player 1: Plays 'OASES' at 7,5 Across
+   Rack P0: ['Q', 'W', 'B', 'I', 'O', 'L', 'E']
+Player 1: Plays 'SKEES' at 5,6 Across
+   Rack P0: ['Q', 'W', 'B', 'I', 'O', 'L', 'E']
+Player 0: EXCHANGE
+Player 1: Plays 'CEILI' at 2,2 Across
+   Rack P0: ['W', 'O', 'A', 'L', 'H', 'U', 'I']
+Player 1: Plays 'LATEEN' at 1,8 Across
+   Rack P0: ['W', 'O', 'A', 'L', 'H', 'U', 'I']
+Player 1: Plays 'LOCATIVE' at 6,5 Across
+   Rack P0: ['W', 'O', 'A', 'L', 'H', 'U', 'I']
+Player 0: Plays 'AHIS' at 2,6 Across
+   Rack P1: ['C', 'V', 'E', 'I', 'L', 'T', 'A']
+Player 0: Plays 'HAET' at 3,9 Across
+   Rack P1: ['C', 'V', 'E', 'I', 'L', 'T', 'A']
+Player 0: Plays 'ALOW' at 8,4 Across
+   Rack P1: ['C', 'V', 'E', 'I', 'L', 'T', 'A']
+Player 1: EXCHANGE
+
+--- GAME OVER ---
+======================================================================
+SCRABBLE GAME STATE - Turn 10
+======================================================================
+Status: GAME OVER
+Reason: Four consecutive passes (count=4)
+
+Scores: P0=1.0  P1=0.0
+Consecutive Passes: 4
+Consecutive Zero Scores: 4
+Banned Actions: 0
+
+Bag: 68 tiles remaining
+P0 Rack (7 tiles): W O A L H U I
+P1 Rack (7 tiles): Q T I N D I A
+
+Board:
+   A B C D E F G H I J K L M N O
+ 0 . . . . . . . . . . . . . . . 
+ 1 . . . . . . . . . . . . . . . 
+ 2 . . . . . . . . . . . . . . . 
+ 3 . . . . . . . . . . . . . . . 
+ 4 . . . . . . . . . . . . . . . 
+ 5 . . . . . . S K E E S . . . . 
+ 6 A M I A . . . I N T I . . . . 
+ 7 . . . A Z O N S . . . . . . . 
+ 8 . . . . . . . . . . . . . . . 
+ 9 . . . . . . . . . . . . . . . 
+10 . . . . . . . . . . . . . . . 
+11 . . . . . . . . . . . . . . . 
+12 . . . . . . . . . . . . . . . 
+13 . . . . . . . . . . . . . . . 
+14 . . . . . . . . . . . . . . . 
+
+Move Log Summary (29 entries)
+============================================================
+Turn 7, P1: FAILED - Action 190
+  Reason: Validation failed: connectivity, rack, or cross-word issue
+Turn 7, P1: SUCCESS - Action 450
+Turn 7, P1: SUCCESS - Action 450
+Turn 8, P0: FAILED - Action 72
+  Reason: Validation failed: connectivity, rack, or cross-word issue
+Turn 8, P0: FAILED - Action 108
+  Reason: Validation failed: connectivity, rack, or cross-word issue
+Turn 8, P0: FAILED - Action 248
+  Reason: Validation failed: connectivity, rack, or cross-word issue
+Turn 8, P0: SUCCESS - Action 450
+Turn 8, P0: SUCCESS - Action 450
+Turn 9, P1: SUCCESS - Action 451
+Turn 9: GAME_TERMINATED - Four consecutive passes (count=4)
+======================================================================
+Final Score: [1.0, 0.0]

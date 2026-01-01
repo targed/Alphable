@@ -617,160 +617,126 @@ class ScrabbleState(pyspiel.State):
         return mask
 
     def _apply_action(self, action_id):
-        # --- STEP 5: EARLY TERMINATION (Mercy Rule) ---
-        # If 20 turns have passed and score is still 0, the game is dead. Kill it.
+        # --- EARLY TERMINATION ---
         if self.turn_count > 20 and sum(self.scores) == 0:
             self._game_over = True
             self.log_termination("Mercy rule: turn > 20 with zero total score")
             return
 
-        # Hard limit to prevent infinite games
         if self.turn_count > 100:
             self._game_over = True
-            self.log_termination("Hard turn limit exceeded (turn > 100)")
+            self.log_termination("Hard turn limit")
             return
 
-        # Action 450: PASS
+        # --- PASS ---
         if action_id == 450:
             self.log_move_attempt(450, {'action': 'PASS'}, True)
-            
             self.consecutive_passes += 1
-            self.consecutive_zero_scores += 1  # Pass scores 0
-            
-            # STEP 5: Tighter Pass Limit (4 instead of 6)
             if self.consecutive_passes >= 4: 
                 self._game_over = True
-                self.log_termination(f"Four consecutive passes (count={self.consecutive_passes})")
+                self.log_termination("Four consecutive passes")
             
-            # Six-zero rule: 6 consecutive zero scores ends game
-            if self.consecutive_zero_scores >= 6:
-                self._game_over = True
-                self.log_termination(f"Six consecutive zero scores (count={self.consecutive_zero_scores})")
-            
-            self.turn_count += 1
-            self._current_player = 1 - self._current_player
-            self._current_move_map = {}
-            self.banned_actions = set() # Reset bans
-            return
-
-        # Action 451: EXCHANGE
-        if action_id == 451:
-            # Bag Limit Rule: Cannot exchange if bag < 7
-            if len(self.bag) >= 7:
-                self.log_move_attempt(451, {'action': 'EXCHANGE', 'tiles': len(self.racks[self._current_player])}, True)
-            else:
-                self.log_move_attempt(451, {'action': 'EXCHANGE', 'bag_size': len(self.bag)}, False, 
-                                     f"Illegal exchange: bag has {len(self.bag)} tiles (need 7)")
-            
-            self.consecutive_passes += 1
-            self.consecutive_zero_scores += 1  # Exchange scores 0
-            
-            # STEP 5: Tighter Pass Limit
-            if self.consecutive_passes >= 4: 
-                self._game_over = True
-                self.log_termination(f"Four consecutive passes (count={self.consecutive_passes})")
-            
-            # Six-zero rule: 6 consecutive zero scores ends game
-            if self.consecutive_zero_scores >= 6:
-                self._game_over = True
-                self.log_termination(f"Six consecutive zero scores (count={self.consecutive_zero_scores})")
-                
-            # Bag Limit Rule: Cannot exchange if bag < 7
-            if len(self.bag) >= 7:
-                self.bag.extend(self.racks[self._current_player])
-                np.random.shuffle(self.bag)
-                self.racks[self._current_player] = []
-                self._refill_rack(self._current_player)
-                
-                # EXCHANGE PENALTY: Discourage excessive exchanges
-                # Small penalty makes exchanges costly, encouraging word play instead
-                self.apply_penalty(self._current_player, 5.0)
-            else:
-                # STEP 4: Penalty for illegal exchange attempt
-                self.apply_penalty(self._current_player, 10.0)
-            
+            # Reset counters/state for NEXT player
             self.turn_count += 1
             self._current_player = 1 - self._current_player
             self._current_move_map = {}
             self.banned_actions = set() 
             return
 
-        # PLAY WORD Logic
+        # --- EXCHANGE ---
+        if action_id == 451:
+            if len(self.bag) >= 7:
+                self.log_move_attempt(451, {'action': 'EXCHANGE'}, True)
+                self.bag.extend(self.racks[self._current_player])
+                np.random.shuffle(self.bag)
+                self.racks[self._current_player] = []
+                self._refill_rack(self._current_player)
+                self.consecutive_passes += 1 # Exchanges count towards pass limit
+            else:
+                self.log_move_attempt(451, {'action': 'EXCHANGE'}, False, "Bag < 7")
+                self.consecutive_passes += 1
+            
+            if self.consecutive_passes >= 4:
+                self._game_over = True
+                
+            self.turn_count += 1
+            self._current_player = 1 - self._current_player
+            self._current_move_map = {}
+            self.banned_actions = set()
+            return
+
+        # --- PLAY WORD ---
+        # Generate map if missing
         if not self._current_move_map:
              self._legal_actions(self._current_player)
 
-        # 1. Hallucination Check
+        # 1. Hallucination / Banned Move Check
         if action_id not in self._current_move_map:
-            # STEP 4: Reward Shaping (Penalty)
-            # The agent tried to play a move that doesn't exist. Slap its wrist.
-            self.log_move_attempt(action_id, {'action': 'HALLUCINATION'}, False, 
-                                 f"Action {action_id} not in legal move map")
-            self.apply_penalty(self._current_player, 10.0)
+            self.log_move_attempt(action_id, {'action': 'INVALID_ID'}, False, "Action not in map (or banned)")
             
+            # NO PENALTY. Just ban and retry.
             self.banned_actions.add(action_id)
+            
+            # If we fail 3 times, we burn the turn (Pass)
             if len(self.banned_actions) >= 3:
-                self.log_move_attempt(450, {'action': 'FORCED_PASS', 'reason': '3 failed attempts'}, True)
-                self._apply_action(450) # Force Pass
-            return # Retry same player
+                self.log_move_attempt(450, {'action': 'FORCED_PASS'}, True)
+                # Manually execute pass logic without recursion to avoid stack weirdness
+                self.consecutive_passes += 1
+                if self.consecutive_passes >= 4: self._game_over = True
+                self.turn_count += 1
+                self._current_player = 1 - self._current_player
+                self._current_move_map = {}
+                self.banned_actions = set()
+            return
 
         move = self._current_move_map[action_id]
-        row, col, word, direction = move['row'], move['col'], move['word'], move['dir']
         
         # 2. Strict Validation
-        is_valid, tiles_used = self._validate_move(row, col, word, direction, self.racks[self._current_player])
+        is_valid, tiles_used = self._validate_move(move['row'], move['col'], move['word'], move['dir'], self.racks[self._current_player])
         
         if not is_valid:
-            # STEP 4: Reward Shaping (Penalty)
-            # The agent tried an invalid placement. Penalize.
-            self.log_move_attempt(action_id, 
-                                 {'action': 'PLAY_WORD', 'word': word, 'pos': (row, col), 'dir': direction}, 
-                                 False, "Validation failed: connectivity, rack, or cross-word issue")
-            self.apply_penalty(self._current_player, 10.0)
+            self.log_move_attempt(action_id, move, False, "Validation Failed")
             
+            # NO PENALTY.
             self.banned_actions.add(action_id)
+            
             if len(self.banned_actions) >= 3:
-                self.log_move_attempt(450, {'action': 'FORCED_PASS', 'reason': '3 failed attempts'}, True)
-                self._apply_action(450)
-            return # Retry same player
+                self.log_move_attempt(450, {'action': 'FORCED_PASS'}, True)
+                self.consecutive_passes += 1
+                if self.consecutive_passes >= 4: self._game_over = True
+                self.turn_count += 1
+                self._current_player = 1 - self._current_player
+                self._current_move_map = {}
+                self.banned_actions = set()
+            return
 
         # 3. SUCCESS
-        self.log_move_attempt(action_id, 
-                             {'action': 'PLAY_WORD', 'word': word, 'pos': (row, col), 'dir': direction, 'score': None}, 
-                             True)
-        
+        self.log_move_attempt(action_id, move, True)
         self.consecutive_passes = 0
-        score, _ = self._score_move(row, col, word, direction)
+        self.consecutive_zero_scores = 0
+        
+        score, _ = self._score_move(move['row'], move['col'], move['word'], move['dir'])
         self.scores[self._current_player] += score
         
-        # Update the log with the actual score
-        if self.move_log and self.move_log[-1]['action_id'] == action_id:
-            self.move_log[-1]['move_details']['score'] = score
-        
-        # Track zero scores for six-zero rule
-        if score == 0:
-            self.consecutive_zero_scores += 1
-            if self.consecutive_zero_scores >= 6:
-                self._game_over = True
-                self.log_termination(f"Six consecutive zero scores (count={self.consecutive_zero_scores})")
-        else:
-            self.consecutive_zero_scores = 0  # Reset on non-zero score
-        
-        dr, dc = (0, 1) if direction == 'Across' else (1, 0)
-        curr_r, curr_c = row, col
-        for char in word:
+        # Place tiles
+        dr, dc = (0, 1) if move['dir'] == 'Across' else (1, 0)
+        curr_r, curr_c = move['row'], move['col']
+        for char in move['word']:
             self.board[curr_r][curr_c] = char
             curr_r += dr
             curr_c += dc
             
+        # Update Rack
         real_rack = self.racks[self._current_player]
         for char in tiles_used:
             if char in real_rack: real_rack.remove(char)
             else: real_rack.remove('?')
 
         self._refill_rack(self._current_player)
+        
         if not self.racks[self._current_player] and not self.bag:
             self._game_over = True
-            self.log_termination(f"Player {self._current_player} used last tile with empty bag")
+            self.adjust_final_scores()
 
         self.turn_count += 1
         self._current_player = 1 - self._current_player
