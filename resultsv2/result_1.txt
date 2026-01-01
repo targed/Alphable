@@ -1,0 +1,93 @@
+Loading game...
+Loading dictionary from NWL2023.txt...
+Dictionary loaded.
+Loading neural network from checkpoint-100...
+
+--- STARTING MATCH ---
+Player 0: Plays 'INTRON' at 7,2 Across
+   Rack P1: ['E', 'E', 'W', 'R', 'N', 'I', 'O']
+Player 1: Plays 'ERENOW' at 8,7 Across
+   Rack P0: ['K', 'N', 'D', 'H', 'I', 'M', 'U']
+Player 0: Plays 'DINKUM' at 9,8 Across
+   Rack P1: ['I', 'A', 'P', 'V', 'L', 'H', 'I']
+Player 1: Plays 'AH' at 6,5 Across
+   Rack P0: ['H', 'A', 'T', 'M', 'I', 'I', 'F']
+Player 0: Plays 'FAITH' at 5,2 Across
+   Rack P1: ['I', 'P', 'V', 'L', 'I', '?', 'O']
+Player 1: Plays 'ID' at 8,1 Across
+   Rack P0: ['M', 'I', 'A', 'D', 'I', 'U', 'S']
+Player 0: Plays 'AUDISM' at 5,7 Across
+   Rack P1: ['P', 'V', 'L', 'I', 'O', 'X', 'E']
+Player 1: Plays 'LO' at 4,3 Across
+   Rack P0: ['I', 'O', 'E', 'A', 'R', 'T', 'S']
+Player 0: Plays 'OATIER' at 3,0 Across
+   Rack P1: ['P', 'V', 'I', 'X', 'E', 'E', 'Z']
+Player 1: Plays 'EVE' at 4,0 Across
+   Rack P0: ['S', 'W', 'Q', 'L', 'E', 'L', 'E']
+Player 0: Plays 'RESELL' at 3,5 Across
+   Rack P1: ['P', 'I', 'X', 'Z', 'I', 'G', 'O']
+Player 1: Plays 'GIP' at 4,10 Across
+   Rack P0: ['W', 'Q', 'C', 'I', 'G', 'O', 'A']
+Player 0: Plays 'AGIO' at 10,9 Across
+   Rack P1: ['X', 'Z', 'I', 'O', 'O', 'T', 'G']
+Player 1: Plays 'AGIO' at 10,9 Across
+   Rack P0: ['W', 'Q', 'C', 'R', 'E', 'U', 'L']
+Player 0: Plays 'CURLEW' at 9,2 Across
+   Rack P1: ['X', 'Z', 'I', 'O', 'O', 'T', 'G']
+Player 1: Plays 'AGIO' at 10,9 Across
+   Rack P0: ['Q', 'C', 'N', 'E', 'B', 'O', 'D']
+Player 0: Plays 'BEND' at 11,10 Across
+   Rack P1: ['X', 'Z', 'I', 'O', 'O', 'T', 'G']
+Player 1: Plays 'GIT' at 12,10 Across
+   Rack P0: ['Q', 'C', 'O', 'E', 'V', 'U', 'Y']
+Player 0: Plays 'COVEY' at 10,3 Across
+   Rack P1: ['X', 'Z', 'O', 'O', 'S', 'N', 'A']
+Player 1: Plays 'AN' at 6,3 Across
+   Rack P0: ['Q', 'U', 'P', 'Y', 'B', 'I', 'J']
+Player 0: Plays 'PIP' at 4,12 Across
+   Rack P1: ['X', 'Z', 'O', 'O', 'S', 'A', 'S']
+Player 1: Plays 'ZA' at 4,7 Across
+   Rack P0: ['Q', 'U', 'Y', 'B', 'J', 'T', 'E']
+Player 0: Plays 'BUTE' at 11,4 Across
+   Rack P1: ['X', 'O', 'O', 'S', 'S', 'F', 'R']
+Player 1: Plays 'OF' at 2,5 Across
+   Rack P0: ['Q', 'Y', 'J', 'A', 'E', 'T', 'A']
+Player 0: Plays 'YAJE' at 12,1 Across
+   Rack P1: ['X', 'O', 'S', 'S', 'R', 'D', 'R']
+Player 1: Plays 'EDS' at 12,4 Across
+   Rack P0: ['Q', 'T', 'A']
+Player 0: Plays 'TA' at 7,0 Across
+   Rack P1: ['X', 'O', 'S', 'R', 'R']
+Player 1: Plays 'SO' at 5,13 Across
+   Rack P0: ['Q']
+Player 0: PASS
+Player 1: Plays 'ER' at 11,7 Across
+   Rack P0: ['Q']
+Player 0: PASS
+Player 1: PASS
+Player 0: PASS
+Player 1: PASS
+Player 0: PASS
+Player 1: PASS
+
+--- GAME OVER ---
+Turn: Player 0
+Scores: P0=361.0 P1=245.0
+Bag: 0 tiles
+   A B C D E F G H I J K L M N O
+ 0 . . . . . . . . . . . . . . . 
+ 1 . . . . . . . . . . . . . . . 
+ 2 . . . . . O F . . . . . . . . 
+ 3 O A T I E R E S E L L . . . . 
+ 4 E V E L O . . Z A . G I P I P 
+ 5 . . F A I T H A U D I S M S O 
+ 6 . . . A N A H . . . . . . . . 
+ 7 T A I N T R O N . . . . . . . 
+ 8 . I D . . . . E R E N O W . . 
+ 9 . . C U R L E W D I N K U M . 
+10 . . . C O V E Y . A G I O . . 
+11 . . . . B U T E R . B E N D . 
+12 . Y A J E D S . . . G I T . . 
+13 . . . . . . . . . . . . . . . 
+14 . . . . . . . . . . . . . . . 
+Final Score: [361.0, 245.0]

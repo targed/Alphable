@@ -1,606 +1,606 @@
-[2025-12-30 19:21:33.248] learner started
-[2025-12-30 19:21:33.248] Initializing model
-[2025-12-30 19:21:49.931] Model type: resnet(64, 2)
-[2025-12-30 19:21:49.932] Model size: 666038 variables
-[2025-12-30 19:21:50.127] Initial checkpoint: ./scrabble_az_checkpoints/checkpoint-0
-[2025-12-30 19:23:01.593] Step: 1
-[2025-12-30 19:23:01.601] Collected   101 states from   1 games, 0.8 states/s. 0.4 states/(s*actor), game length: 101.0
-[2025-12-30 19:23:01.616] Buffer size: 64. States seen: 101
-[2025-12-30 19:23:36.351] Losses(total: 2.358, policy: 1.486, value: 0.818, l2: 0.054)
-[2025-12-30 19:23:36.351] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
-[2025-12-30 19:23:36.353]
-[2025-12-30 19:24:27.220] Step: 2
-[2025-12-30 19:24:27.220] Collected   101 states from   1 games, 1.2 states/s. 0.6 states/(s*actor), game length: 101.0
-[2025-12-30 19:24:27.220] Buffer size: 64. States seen: 202
-[2025-12-30 19:24:32.686] Losses(total: 3.977, policy: 3.373, value: 0.560, l2: 0.044)
-[2025-12-30 19:24:32.686] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
-[2025-12-30 19:24:32.687]
-[2025-12-30 19:24:45.540] Step: 3
-[2025-12-30 19:24:45.540] Collected   101 states from   1 games, 5.5 states/s. 2.8 states/(s*actor), game length: 101.0
-[2025-12-30 19:24:45.540] Buffer size: 64. States seen: 303
-[2025-12-30 19:24:49.710] Losses(total: 1.976, policy: 1.880, value: 0.043, l2: 0.052)
-[2025-12-30 19:24:49.710] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
-[2025-12-30 19:24:49.711]
-[2025-12-30 19:28:15.894] Step: 4
-[2025-12-30 19:28:15.923] Collected   101 states from   1 games, 0.5 states/s. 0.2 states/(s*actor), game length: 101.0
-[2025-12-30 19:28:15.929] Buffer size: 64. States seen: 404
-[2025-12-30 19:28:23.169] Losses(total: 2.048, policy: 1.854, value: 0.136, l2: 0.058)
-[2025-12-30 19:28:23.170] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
-[2025-12-30 19:28:23.171]
-[2025-12-30 19:30:50.502] Step: 5
-[2025-12-30 19:30:50.502] Collected   101 states from   1 games, 0.7 states/s. 0.3 states/(s*actor), game length: 101.0
-[2025-12-30 19:30:50.502] Buffer size: 64. States seen: 505
-[2025-12-30 19:30:54.369] Losses(total: 3.979, policy: 3.885, value: 0.033, l2: 0.061)
-[2025-12-30 19:30:54.370] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
-[2025-12-30 19:30:54.370]
-[2025-12-30 19:33:00.182] Step: 6
-[2025-12-30 19:33:00.182] Collected   101 states from   1 games, 0.8 states/s. 0.4 states/(s*actor), game length: 101.0
-[2025-12-30 19:33:00.182] Buffer size: 64. States seen: 606
-[2025-12-30 19:33:06.649] Losses(total: 2.142, policy: 2.062, value: 0.014, l2: 0.065)
-[2025-12-30 19:33:06.649] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
-[2025-12-30 19:33:06.650]
-[2025-12-30 19:33:33.532] Step: 7
-[2025-12-30 19:33:33.532] Collected   101 states from   1 games, 3.0 states/s. 1.5 states/(s*actor), game length: 101.0
-[2025-12-30 19:33:33.532] Buffer size: 64. States seen: 707
-[2025-12-30 19:33:40.241] Losses(total: 2.653, policy: 2.573, value: 0.010, l2: 0.069)
-[2025-12-30 19:33:40.242] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
-[2025-12-30 19:33:40.242]
-[2025-12-30 19:36:51.248] Step: 8
-[2025-12-30 19:36:51.248] Collected   101 states from   1 games, 0.5 states/s. 0.3 states/(s*actor), game length: 101.0
-[2025-12-30 19:36:51.248] Buffer size: 64. States seen: 808
-[2025-12-30 19:36:56.910] Losses(total: 6.024, policy: 5.946, value: 0.006, l2: 0.071)
-[2025-12-30 19:36:56.911] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
-[2025-12-30 19:36:56.912]
-[2025-12-30 19:38:01.720] Step: 9
-[2025-12-30 19:38:01.720] Collected   101 states from   1 games, 1.4 states/s. 0.7 states/(s*actor), game length: 101.0
-[2025-12-30 19:38:01.720] Buffer size: 64. States seen: 909
-[2025-12-30 19:38:07.540] Losses(total: 1.650, policy: 1.570, value: 0.006, l2: 0.073)
-[2025-12-30 19:38:07.541] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
-[2025-12-30 19:38:07.541]
-[2025-12-30 19:40:47.443] Step: 10
-[2025-12-30 19:40:47.443] Collected   101 states from   1 games, 0.6 states/s. 0.3 states/(s*actor), game length: 101.0
-[2025-12-30 19:40:47.443] Buffer size: 64. States seen: 1010
-[2025-12-30 19:40:51.403] Losses(total: 6.457, policy: 6.382, value: 0.000, l2: 0.075)
-[2025-12-30 19:40:51.403] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint-10
-[2025-12-30 19:40:51.404]
-[2025-12-30 19:42:25.136] Step: 11
-[2025-12-30 19:42:25.136] Collected   101 states from   1 games, 1.0 states/s. 0.5 states/(s*actor), game length: 101.0
-[2025-12-30 19:42:25.136] Buffer size: 64. States seen: 1111
-[2025-12-30 19:42:31.030] Losses(total: 2.914, policy: 2.836, value: 0.002, l2: 0.077)
-[2025-12-30 19:42:31.031] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
-[2025-12-30 19:42:31.032]
-[2025-12-30 19:44:55.915] Step: 12
-[2025-12-30 19:44:55.916] Collected   101 states from   1 games, 0.7 states/s. 0.3 states/(s*actor), game length: 101.0
-[2025-12-30 19:44:55.916] Buffer size: 64. States seen: 1212
-[2025-12-30 19:45:01.196] Losses(total: 1.655, policy: 1.567, value: 0.010, l2: 0.078)
-[2025-12-30 19:45:01.196] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
-[2025-12-30 19:45:01.197]
-[2025-12-30 19:46:53.318] Step: 13
-[2025-12-30 19:46:53.318] Collected   101 states from   1 games, 0.9 states/s. 0.4 states/(s*actor), game length: 101.0
-[2025-12-30 19:46:53.318] Buffer size: 64. States seen: 1313
-[2025-12-30 19:46:59.481] Losses(total: 3.115, policy: 3.033, value: 0.004, l2: 0.078)
-[2025-12-30 19:46:59.481] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
-[2025-12-30 19:46:59.482]
-[2025-12-30 19:54:37.569] Step: 14
-[2025-12-30 19:54:37.569] Collected   101 states from   1 games, 0.2 states/s. 0.1 states/(s*actor), game length: 101.0
-[2025-12-30 19:54:37.570] Buffer size: 64. States seen: 1414
-[2025-12-30 19:54:40.576] Losses(total: 5.331, policy: 5.250, value: 0.003, l2: 0.079)
-[2025-12-30 19:54:40.577] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
-[2025-12-30 19:54:40.578]
-[2025-12-30 19:59:08.181] Step: 15
-[2025-12-30 19:59:08.181] Collected   101 states from   1 games, 0.4 states/s. 0.2 states/(s*actor), game length: 101.0
-[2025-12-30 19:59:08.181] Buffer size: 64. States seen: 1515
-[2025-12-30 19:59:11.515] Losses(total: 0.960, policy: 0.879, value: 0.002, l2: 0.079)
-[2025-12-30 19:59:11.515] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
-[2025-12-30 19:59:11.516]
-[2025-12-30 20:01:38.273] Step: 16
-[2025-12-30 20:01:38.274] Collected   101 states from   1 games, 0.7 states/s. 0.3 states/(s*actor), game length: 101.0
-[2025-12-30 20:01:38.274] Buffer size: 64. States seen: 1616
-[2025-12-30 20:01:42.560] Losses(total: 1.161, policy: 1.074, value: 0.007, l2: 0.079)
-[2025-12-30 20:01:42.561] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
-[2025-12-30 20:01:42.562]
-[2025-12-30 20:03:03.153] Step: 17
-[2025-12-30 20:03:03.153] Collected   101 states from   1 games, 1.2 states/s. 0.6 states/(s*actor), game length: 101.0
-[2025-12-30 20:03:03.154] Buffer size: 64. States seen: 1717
-[2025-12-30 20:03:05.951] Losses(total: 0.666, policy: 0.575, value: 0.011, l2: 0.080)
-[2025-12-30 20:03:05.952] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
-[2025-12-30 20:03:05.952]
-[2025-12-30 20:03:13.947] Step: 18
-[2025-12-30 20:03:14.000] Collected   101 states from   1 games, 9.4 states/s. 4.7 states/(s*actor), game length: 101.0
-[2025-12-30 20:03:14.000] Buffer size: 64. States seen: 1818
-[2025-12-30 20:03:17.915] Losses(total: 0.385, policy: 0.298, value: 0.007, l2: 0.079)
-[2025-12-30 20:03:17.916] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
-[2025-12-30 20:03:17.916]
-[2025-12-30 20:05:46.509] Step: 19
-[2025-12-30 20:05:46.510] Collected   101 states from   1 games, 0.7 states/s. 0.3 states/(s*actor), game length: 101.0
-[2025-12-30 20:05:46.510] Buffer size: 64. States seen: 1919
-[2025-12-30 20:05:52.524] Losses(total: 2.513, policy: 2.433, value: 0.001, l2: 0.079)
-[2025-12-30 20:05:52.525] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
-[2025-12-30 20:05:52.526]
-[2025-12-30 20:07:38.537] Step: 20
-[2025-12-30 20:07:38.537] Collected   101 states from   1 games, 0.9 states/s. 0.5 states/(s*actor), game length: 101.0
-[2025-12-30 20:07:38.537] Buffer size: 64. States seen: 2020
-[2025-12-30 20:07:41.673] Losses(total: 1.953, policy: 1.874, value: 0.001, l2: 0.079)
-[2025-12-30 20:07:41.673] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint-20
-[2025-12-30 20:07:41.674]
-[2025-12-30 20:11:02.769] Step: 21
-[2025-12-30 20:11:02.769] Collected   101 states from   1 games, 0.5 states/s. 0.2 states/(s*actor), game length: 101.0
-[2025-12-30 20:11:02.770] Buffer size: 64. States seen: 2121
-[2025-12-30 20:11:08.035] Losses(total: 1.087, policy: 1.007, value: 0.000, l2: 0.079)
-[2025-12-30 20:11:08.035] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
-[2025-12-30 20:11:08.036]
-[2025-12-30 20:13:28.752] Step: 22
-[2025-12-30 20:13:28.752] Collected   101 states from   1 games, 0.7 states/s. 0.3 states/(s*actor), game length: 101.0
-[2025-12-30 20:13:28.752] Buffer size: 64. States seen: 2222
-[2025-12-30 20:13:32.350] Losses(total: 0.307, policy: 0.228, value: 0.000, l2: 0.079)
-[2025-12-30 20:13:32.351] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
-[2025-12-30 20:13:32.351]
-[2025-12-30 20:17:29.926] Step: 23
-[2025-12-30 20:17:29.926] Collected   101 states from   1 games, 0.4 states/s. 0.2 states/(s*actor), game length: 101.0
-[2025-12-30 20:17:29.926] Buffer size: 64. States seen: 2323
-[2025-12-30 20:17:30.845] Losses(total: 0.641, policy: 0.563, value: 0.000, l2: 0.078)
-[2025-12-30 20:17:30.845] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
-[2025-12-30 20:17:30.846]
-[2025-12-30 20:18:43.896] Step: 24
-[2025-12-30 20:18:43.898] Collected   101 states from   1 games, 1.4 states/s. 0.7 states/(s*actor), game length: 101.0
-[2025-12-30 20:18:43.898] Buffer size: 64. States seen: 2424
-[2025-12-30 20:18:48.145] Losses(total: 1.483, policy: 1.405, value: 0.001, l2: 0.078)
-[2025-12-30 20:18:48.145] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
-[2025-12-30 20:18:48.146]
-[2025-12-30 20:19:06.837] Step: 25
-[2025-12-30 20:19:06.838] Collected   101 states from   1 games, 4.4 states/s. 2.2 states/(s*actor), game length: 101.0
-[2025-12-30 20:19:06.838] Buffer size: 64. States seen: 2525
-[2025-12-30 20:19:10.224] Losses(total: 2.187, policy: 2.108, value: 0.002, l2: 0.078)
-[2025-12-30 20:19:10.224] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
-[2025-12-30 20:19:10.225]
-[2025-12-30 20:22:11.560] Step: 26
-[2025-12-30 20:22:11.560] Collected   101 states from   1 games, 0.5 states/s. 0.3 states/(s*actor), game length: 101.0
-[2025-12-30 20:22:11.560] Buffer size: 64. States seen: 2626
-[2025-12-30 20:22:14.790] Losses(total: 0.749, policy: 0.670, value: 0.001, l2: 0.077)
-[2025-12-30 20:22:14.791] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
-[2025-12-30 20:22:14.791]
-[2025-12-30 20:24:55.277] Step: 27
-[2025-12-30 20:24:55.277] Collected   101 states from   1 games, 0.6 states/s. 0.3 states/(s*actor), game length: 101.0
-[2025-12-30 20:24:55.277] Buffer size: 64. States seen: 2727
-[2025-12-30 20:24:57.159] Losses(total: 0.288, policy: 0.210, value: 0.001, l2: 0.077)
-[2025-12-30 20:24:57.159] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
-[2025-12-30 20:24:57.160]
-[2025-12-30 20:28:27.132] Step: 28
-[2025-12-30 20:28:27.133] Collected   101 states from   1 games, 0.5 states/s. 0.2 states/(s*actor), game length: 101.0
-[2025-12-30 20:28:27.133] Buffer size: 64. States seen: 2828
-[2025-12-30 20:28:29.166] Losses(total: 0.377, policy: 0.297, value: 0.003, l2: 0.077)
-[2025-12-30 20:28:29.166] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
-[2025-12-30 20:28:29.166]
-[2025-12-30 20:30:40.890] Step: 29
-[2025-12-30 20:30:40.890] Collected   101 states from   1 games, 0.8 states/s. 0.4 states/(s*actor), game length: 101.0
-[2025-12-30 20:30:40.890] Buffer size: 64. States seen: 2929
-[2025-12-30 20:30:44.575] Losses(total: 0.550, policy: 0.467, value: 0.006, l2: 0.077)
-[2025-12-30 20:30:44.575] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
-[2025-12-30 20:30:44.576]
-[2025-12-30 20:32:05.905] Step: 30
-[2025-12-30 20:32:05.906] Collected   101 states from   1 games, 1.2 states/s. 0.6 states/(s*actor), game length: 101.0
-[2025-12-30 20:32:05.906] Buffer size: 64. States seen: 3030
-[2025-12-30 20:32:07.763] Losses(total: 0.239, policy: 0.157, value: 0.005, l2: 0.077)
-[2025-12-30 20:32:07.763] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint-30
-[2025-12-30 20:32:07.763]
-[2025-12-30 20:32:28.353] Step: 31
-[2025-12-30 20:32:28.354] Collected   101 states from   1 games, 4.5 states/s. 2.2 states/(s*actor), game length: 101.0
-[2025-12-30 20:32:28.354] Buffer size: 64. States seen: 3131
-[2025-12-30 20:32:32.768] Losses(total: 0.886, policy: 0.805, value: 0.004, l2: 0.076)
-[2025-12-30 20:32:32.768] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
-[2025-12-30 20:32:32.769]
-[2025-12-30 20:35:18.118] Step: 32
-[2025-12-30 20:35:18.120] Collected   101 states from   1 games, 0.6 states/s. 0.3 states/(s*actor), game length: 101.0
-[2025-12-30 20:35:18.121] Buffer size: 64. States seen: 3232
-[2025-12-30 20:35:21.097] Losses(total: 0.310, policy: 0.231, value: 0.003, l2: 0.076)
-[2025-12-30 20:35:21.097] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
-[2025-12-30 20:35:21.098]
-[2025-12-30 20:42:31.749] Step: 33
-[2025-12-30 20:42:31.749] Collected   101 states from   1 games, 0.2 states/s. 0.1 states/(s*actor), game length: 101.0
-[2025-12-30 20:42:31.749] Buffer size: 64. States seen: 3333
-[2025-12-30 20:42:36.791] Losses(total: 0.205, policy: 0.128, value: 0.001, l2: 0.076)
-[2025-12-30 20:42:36.791] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
-[2025-12-30 20:42:36.792]
-[2025-12-30 20:45:21.018] Step: 34
-[2025-12-30 20:45:21.018] Collected   101 states from   1 games, 0.6 states/s. 0.3 states/(s*actor), game length: 101.0
-[2025-12-30 20:45:21.018] Buffer size: 64. States seen: 3434
-[2025-12-30 20:45:24.656] Losses(total: 0.089, policy: 0.013, value: 0.001, l2: 0.075)
-[2025-12-30 20:45:24.656] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
-[2025-12-30 20:45:24.657]
-[2025-12-30 20:52:32.780] Step: 35
-[2025-12-30 20:52:32.780] Collected   101 states from   1 games, 0.2 states/s. 0.1 states/(s*actor), game length: 101.0
-[2025-12-30 20:52:32.780] Buffer size: 64. States seen: 3535
-[2025-12-30 20:52:35.024] Losses(total: 0.288, policy: 0.212, value: 0.000, l2: 0.075)
-[2025-12-30 20:52:35.024] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
-[2025-12-30 20:52:35.025]
-[2025-12-30 20:57:57.103] Step: 36
-[2025-12-30 20:57:57.103] Collected   101 states from   1 games, 0.3 states/s. 0.2 states/(s*actor), game length: 101.0
-[2025-12-30 20:57:57.103] Buffer size: 64. States seen: 3636
-[2025-12-30 20:58:01.561] Losses(total: 0.469, policy: 0.394, value: 0.000, l2: 0.075)
-[2025-12-30 20:58:01.561] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
-[2025-12-30 20:58:01.562]
-[2025-12-30 20:59:43.483] Step: 37
-[2025-12-30 20:59:43.483] Collected   101 states from   1 games, 0.9 states/s. 0.5 states/(s*actor), game length: 101.0
-[2025-12-30 20:59:43.484] Buffer size: 64. States seen: 3737
-[2025-12-30 20:59:45.419] Losses(total: 0.785, policy: 0.710, value: 0.000, l2: 0.075)
-[2025-12-30 20:59:45.419] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
-[2025-12-30 20:59:45.420]
-[2025-12-30 21:00:03.743] Step: 38
-[2025-12-30 21:00:03.743] Collected   101 states from   1 games, 5.0 states/s. 2.5 states/(s*actor), game length: 101.0
-[2025-12-30 21:00:03.744] Buffer size: 64. States seen: 3838
-[2025-12-30 21:00:06.619] Losses(total: 0.285, policy: 0.211, value: 0.000, l2: 0.074)
-[2025-12-30 21:00:06.620] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
-[2025-12-30 21:00:06.620]
-[2025-12-30 21:02:00.786] Step: 39
-[2025-12-30 21:02:00.786] Collected   101 states from   1 games, 0.9 states/s. 0.4 states/(s*actor), game length: 101.0
-[2025-12-30 21:02:00.786] Buffer size: 64. States seen: 3939
-[2025-12-30 21:02:04.270] Losses(total: 0.093, policy: 0.019, value: 0.001, l2: 0.074)
-[2025-12-30 21:02:04.270] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
-[2025-12-30 21:02:04.271]
-[2025-12-30 21:02:04.277] Step: 40
-[2025-12-30 21:02:04.278] Collected   101 states from   1 games, 28.9 states/s. 14.5 states/(s*actor), game length: 101.0
-[2025-12-30 21:02:04.278] Buffer size: 64. States seen: 4040
-[2025-12-30 21:02:04.574] Losses(total: 0.375, policy: 0.301, value: 0.000, l2: 0.074)
-[2025-12-30 21:02:04.574] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint-40
-[2025-12-30 21:02:04.575]
-[2025-12-30 21:03:58.394] Step: 41
-[2025-12-30 21:03:58.394] Collected   101 states from   1 games, 0.9 states/s. 0.4 states/(s*actor), game length: 101.0
-[2025-12-30 21:03:58.394] Buffer size: 64. States seen: 4141
-[2025-12-30 21:04:02.433] Losses(total: 0.197, policy: 0.123, value: 0.000, l2: 0.074)
-[2025-12-30 21:04:02.433] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
-[2025-12-30 21:04:02.434]
-[2025-12-30 21:04:40.353] Step: 42
-[2025-12-30 21:04:40.353] Collected   101 states from   1 games, 2.4 states/s. 1.2 states/(s*actor), game length: 101.0
-[2025-12-30 21:04:40.354] Buffer size: 64. States seen: 4242
-[2025-12-30 21:04:45.254] Losses(total: 0.181, policy: 0.107, value: 0.001, l2: 0.073)
-[2025-12-30 21:04:45.254] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
-[2025-12-30 21:04:45.255]
-[2025-12-30 21:07:44.332] Step: 43
-[2025-12-30 21:07:44.332] Collected   101 states from   1 games, 0.5 states/s. 0.3 states/(s*actor), game length: 101.0
-[2025-12-30 21:07:44.333] Buffer size: 64. States seen: 4343
-[2025-12-30 21:07:46.626] Losses(total: 0.236, policy: 0.160, value: 0.003, l2: 0.073)
-[2025-12-30 21:07:46.626] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
-[2025-12-30 21:07:46.627]
-[2025-12-30 21:10:39.675] Step: 44
-[2025-12-30 21:10:39.675] Collected   101 states from   1 games, 0.6 states/s. 0.3 states/(s*actor), game length: 101.0
-[2025-12-30 21:10:39.675] Buffer size: 64. States seen: 4444
-[2025-12-30 21:10:41.827] Losses(total: 0.086, policy: 0.011, value: 0.002, l2: 0.073)
-[2025-12-30 21:10:41.827] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
-[2025-12-30 21:10:41.828]
-[2025-12-30 21:11:34.797] Step: 45
-[2025-12-30 21:11:34.797] Collected   101 states from   1 games, 1.8 states/s. 0.9 states/(s*actor), game length: 101.0
-[2025-12-30 21:11:34.798] Buffer size: 64. States seen: 4545
-[2025-12-30 21:11:36.712] Losses(total: 0.241, policy: 0.167, value: 0.001, l2: 0.073)
-[2025-12-30 21:11:36.713] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
-[2025-12-30 21:11:36.713]
-[2025-12-30 21:14:08.044] Step: 46
-[2025-12-30 21:14:08.045] Collected   101 states from   1 games, 0.7 states/s. 0.3 states/(s*actor), game length: 101.0
-[2025-12-30 21:14:08.045] Buffer size: 64. States seen: 4646
-[2025-12-30 21:14:12.602] Losses(total: 0.230, policy: 0.156, value: 0.001, l2: 0.072)
-[2025-12-30 21:14:12.602] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
-[2025-12-30 21:14:12.603]
-[2025-12-30 21:15:14.709] Step: 47
-[2025-12-30 21:15:14.709] Collected   101 states from   1 games, 1.5 states/s. 0.8 states/(s*actor), game length: 101.0
-[2025-12-30 21:15:14.709] Buffer size: 64. States seen: 4747
-[2025-12-30 21:15:16.898] Losses(total: 0.075, policy: 0.002, value: 0.001, l2: 0.072)
-[2025-12-30 21:15:16.898] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
-[2025-12-30 21:15:16.899]
-[2025-12-30 21:18:08.835] Step: 48
-[2025-12-30 21:18:08.836] Collected   101 states from   1 games, 0.6 states/s. 0.3 states/(s*actor), game length: 101.0
-[2025-12-30 21:18:08.836] Buffer size: 64. States seen: 4848
-[2025-12-30 21:18:13.159] Losses(total: 0.130, policy: 0.058, value: 0.000, l2: 0.072)
-[2025-12-30 21:18:13.159] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
-[2025-12-30 21:18:13.160]
-[2025-12-30 21:19:14.196] Step: 49
-[2025-12-30 21:19:14.196] Collected   101 states from   1 games, 1.5 states/s. 0.8 states/(s*actor), game length: 101.0
-[2025-12-30 21:19:14.197] Buffer size: 64. States seen: 4949
-[2025-12-30 21:19:17.006] Losses(total: 0.142, policy: 0.070, value: 0.000, l2: 0.072)
-[2025-12-30 21:19:17.006] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
-[2025-12-30 21:19:17.006]
-[2025-12-30 21:22:03.983] Step: 50
-[2025-12-30 21:22:03.983] Collected   101 states from   1 games, 0.6 states/s. 0.3 states/(s*actor), game length: 101.0
-[2025-12-30 21:22:03.983] Buffer size: 64. States seen: 5050
-[2025-12-30 21:22:08.096] Losses(total: 0.075, policy: 0.003, value: 0.001, l2: 0.071)
-[2025-12-30 21:22:08.096] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint-50
-[2025-12-30 21:22:08.097]
-[2025-12-30 21:23:17.408] Step: 51
-[2025-12-30 21:23:17.409] Collected   101 states from   1 games, 1.4 states/s. 0.7 states/(s*actor), game length: 101.0
-[2025-12-30 21:23:17.411] Buffer size: 64. States seen: 5151
-[2025-12-30 21:23:19.572] Losses(total: 0.072, policy: 0.001, value: 0.001, l2: 0.071)
-[2025-12-30 21:23:19.572] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
-[2025-12-30 21:23:19.573]
-[2025-12-30 21:23:56.730] Step: 52
-[2025-12-30 21:23:56.730] Collected   101 states from   1 games, 2.6 states/s. 1.3 states/(s*actor), game length: 101.0
-[2025-12-30 21:23:56.731] Buffer size: 64. States seen: 5252
-[2025-12-30 21:24:00.396] Losses(total: 0.281, policy: 0.210, value: 0.000, l2: 0.071)
-[2025-12-30 21:24:00.396] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
-[2025-12-30 21:24:00.396]
-[2025-12-30 21:26:25.150] Step: 53
-[2025-12-30 21:26:25.150] Collected   101 states from   1 games, 0.7 states/s. 0.3 states/(s*actor), game length: 101.0
-[2025-12-30 21:26:25.150] Buffer size: 64. States seen: 5353
-[2025-12-30 21:26:28.580] Losses(total: 0.258, policy: 0.187, value: 0.000, l2: 0.071)
-[2025-12-30 21:26:28.580] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
-[2025-12-30 21:26:28.581]
-[2025-12-30 21:28:31.776] Step: 54
-[2025-12-30 21:28:31.777] Collected   101 states from   1 games, 0.8 states/s. 0.4 states/(s*actor), game length: 101.0
-[2025-12-30 21:28:31.777] Buffer size: 64. States seen: 5454
-[2025-12-30 21:28:34.155] Losses(total: 0.379, policy: 0.309, value: 0.000, l2: 0.070)
-[2025-12-30 21:28:34.155] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
-[2025-12-30 21:28:34.156]
-[2025-12-30 21:31:18.497] Step: 55
-[2025-12-30 21:31:18.498] Collected   101 states from   1 games, 0.6 states/s. 0.3 states/(s*actor), game length: 101.0
-[2025-12-30 21:31:18.498] Buffer size: 64. States seen: 5555
-[2025-12-30 21:31:21.421] Losses(total: 0.228, policy: 0.158, value: 0.000, l2: 0.070)
-[2025-12-30 21:31:21.421] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
-[2025-12-30 21:31:21.422]
-[2025-12-30 21:32:23.738] Step: 56
-[2025-12-30 21:32:23.738] Collected   101 states from   1 games, 1.5 states/s. 0.8 states/(s*actor), game length: 101.0
-[2025-12-30 21:32:23.738] Buffer size: 64. States seen: 5656
-[2025-12-30 21:32:27.557] Losses(total: 0.203, policy: 0.133, value: 0.000, l2: 0.070)
-[2025-12-30 21:32:27.557] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
-[2025-12-30 21:32:27.558]
-[2025-12-30 21:35:01.959] Step: 57
-[2025-12-30 21:35:01.959] Collected   101 states from   1 games, 0.6 states/s. 0.3 states/(s*actor), game length: 101.0
-[2025-12-30 21:35:01.959] Buffer size: 64. States seen: 5757
-[2025-12-30 21:35:06.468] Losses(total: 0.213, policy: 0.143, value: 0.000, l2: 0.070)
-[2025-12-30 21:35:06.469] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
-[2025-12-30 21:35:06.470]
-[2025-12-30 21:36:19.516] Step: 58
-[2025-12-30 21:36:19.516] Collected   101 states from   1 games, 1.3 states/s. 0.7 states/(s*actor), game length: 101.0
-[2025-12-30 21:36:19.516] Buffer size: 64. States seen: 5858
-[2025-12-30 21:36:23.380] Losses(total: 0.149, policy: 0.079, value: 0.000, l2: 0.069)
-[2025-12-30 21:36:23.380] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
-[2025-12-30 21:36:23.381]
-[2025-12-30 21:37:42.138] Step: 59
-[2025-12-30 21:37:42.138] Collected   101 states from   1 games, 1.2 states/s. 0.6 states/(s*actor), game length: 101.0
-[2025-12-30 21:37:42.138] Buffer size: 64. States seen: 5959
-[2025-12-30 21:37:45.113] Losses(total: 0.113, policy: 0.044, value: 0.000, l2: 0.069)
-[2025-12-30 21:37:45.114] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
-[2025-12-30 21:37:45.114]
-[2025-12-30 21:38:57.231] Step: 60
-[2025-12-30 21:38:57.231] Collected   101 states from   1 games, 1.3 states/s. 0.7 states/(s*actor), game length: 101.0
-[2025-12-30 21:38:57.231] Buffer size: 64. States seen: 6060
-[2025-12-30 21:38:58.622] Losses(total: 0.092, policy: 0.022, value: 0.000, l2: 0.069)
-[2025-12-30 21:38:58.622] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint-60
-[2025-12-30 21:38:58.622]
-[2025-12-30 21:41:33.163] Step: 61
-[2025-12-30 21:41:33.163] Collected   101 states from   1 games, 0.6 states/s. 0.3 states/(s*actor), game length: 101.0
-[2025-12-30 21:41:33.164] Buffer size: 64. States seen: 6161
-[2025-12-30 21:41:34.895] Losses(total: 0.216, policy: 0.147, value: 0.001, l2: 0.069)
-[2025-12-30 21:41:34.895] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
-[2025-12-30 21:41:34.896]
-[2025-12-30 21:43:44.751] Step: 62
-[2025-12-30 21:43:44.751] Collected   101 states from   1 games, 0.8 states/s. 0.4 states/(s*actor), game length: 101.0
-[2025-12-30 21:43:44.752] Buffer size: 64. States seen: 6262
-[2025-12-30 21:43:46.801] Losses(total: 0.325, policy: 0.256, value: 0.001, l2: 0.068)
-[2025-12-30 21:43:46.801] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
-[2025-12-30 21:43:46.802]
-[2025-12-30 21:46:03.759] Step: 63
-[2025-12-30 21:46:03.759] Collected   101 states from   1 games, 0.7 states/s. 0.4 states/(s*actor), game length: 101.0
-[2025-12-30 21:46:03.759] Buffer size: 64. States seen: 6363
-[2025-12-30 21:46:06.501] Losses(total: 0.329, policy: 0.260, value: 0.001, l2: 0.068)
-[2025-12-30 21:46:06.502] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
-[2025-12-30 21:46:06.502]
-[2025-12-30 21:47:25.144] Step: 64
-[2025-12-30 21:47:25.145] Collected   101 states from   1 games, 1.2 states/s. 0.6 states/(s*actor), game length: 101.0
-[2025-12-30 21:47:25.145] Buffer size: 64. States seen: 6464
-[2025-12-30 21:47:27.303] Losses(total: 0.359, policy: 0.290, value: 0.000, l2: 0.068)
-[2025-12-30 21:47:27.303] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
-[2025-12-30 21:47:27.304]
-[2025-12-30 21:52:47.986] Step: 65
-[2025-12-30 21:52:47.986] Collected   101 states from   1 games, 0.3 states/s. 0.2 states/(s*actor), game length: 101.0
-[2025-12-30 21:52:47.986] Buffer size: 64. States seen: 6565
-[2025-12-30 21:52:50.099] Losses(total: 0.300, policy: 0.232, value: 0.000, l2: 0.068)
-[2025-12-30 21:52:50.099] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
-[2025-12-30 21:52:50.099]
-[2025-12-30 21:54:37.027] Step: 66
-[2025-12-30 21:54:37.027] Collected   101 states from   1 games, 0.9 states/s. 0.5 states/(s*actor), game length: 101.0
-[2025-12-30 21:54:37.027] Buffer size: 64. States seen: 6666
-[2025-12-30 21:54:40.951] Losses(total: 0.318, policy: 0.250, value: 0.000, l2: 0.068)
-[2025-12-30 21:54:40.951] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
-[2025-12-30 21:54:40.952]
-[2025-12-30 21:57:10.227] Step: 67
-[2025-12-30 21:57:10.227] Collected   101 states from   1 games, 0.7 states/s. 0.3 states/(s*actor), game length: 101.0
-[2025-12-30 21:57:10.227] Buffer size: 64. States seen: 6767
-[2025-12-30 21:57:12.121] Losses(total: 0.359, policy: 0.291, value: 0.000, l2: 0.067)
-[2025-12-30 21:57:12.122] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
-[2025-12-30 21:57:12.122]
-[2025-12-30 22:00:35.382] Step: 68
-[2025-12-30 22:00:35.382] Collected   101 states from   1 games, 0.5 states/s. 0.2 states/(s*actor), game length: 101.0
-[2025-12-30 22:00:35.382] Buffer size: 64. States seen: 6868
-[2025-12-30 22:00:37.070] Losses(total: 0.201, policy: 0.133, value: 0.000, l2: 0.067)
-[2025-12-30 22:00:37.070] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
-[2025-12-30 22:00:37.070]
-[2025-12-30 22:03:44.411] Step: 69
-[2025-12-30 22:03:44.412] Collected   101 states from   1 games, 0.5 states/s. 0.3 states/(s*actor), game length: 101.0
-[2025-12-30 22:03:44.412] Buffer size: 64. States seen: 6969
-[2025-12-30 22:03:46.485] Losses(total: 0.303, policy: 0.236, value: 0.000, l2: 0.067)
-[2025-12-30 22:03:46.485] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
-[2025-12-30 22:03:46.486]
-[2025-12-30 22:04:02.404] Step: 70
-[2025-12-30 22:04:02.405] Collected   101 states from   1 games, 5.6 states/s. 2.8 states/(s*actor), game length: 101.0
-[2025-12-30 22:04:02.405] Buffer size: 64. States seen: 7070
-[2025-12-30 22:04:05.005] Losses(total: 0.088, policy: 0.021, value: 0.000, l2: 0.067)
-[2025-12-30 22:04:05.005] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint-70
-[2025-12-30 22:04:05.006]
-[2025-12-30 22:07:49.569] Step: 71
-[2025-12-30 22:07:49.569] Collected   101 states from   1 games, 0.4 states/s. 0.2 states/(s*actor), game length: 101.0
-[2025-12-30 22:07:49.569] Buffer size: 64. States seen: 7171
-[2025-12-30 22:07:53.968] Losses(total: 0.287, policy: 0.220, value: 0.000, l2: 0.066)
-[2025-12-30 22:07:53.968] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
-[2025-12-30 22:07:53.969]
-[2025-12-30 22:11:06.864] Step: 72
-[2025-12-30 22:11:06.865] Collected   101 states from   1 games, 0.5 states/s. 0.3 states/(s*actor), game length: 101.0
-[2025-12-30 22:11:06.865] Buffer size: 64. States seen: 7272
-[2025-12-30 22:11:11.060] Losses(total: 0.069, policy: 0.002, value: 0.000, l2: 0.066)
-[2025-12-30 22:11:11.060] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
-[2025-12-30 22:11:11.061]
-[2025-12-30 22:18:34.152] Step: 73
-[2025-12-30 22:18:34.152] Collected   101 states from   1 games, 0.2 states/s. 0.1 states/(s*actor), game length: 101.0
-[2025-12-30 22:18:34.153] Buffer size: 64. States seen: 7373
-[2025-12-30 22:18:36.084] Losses(total: 0.358, policy: 0.292, value: 0.001, l2: 0.066)
-[2025-12-30 22:18:36.084] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
-[2025-12-30 22:18:36.084]
-[2025-12-30 22:20:13.419] Step: 74
-[2025-12-30 22:20:13.419] Collected   101 states from   1 games, 1.0 states/s. 0.5 states/(s*actor), game length: 101.0
-[2025-12-30 22:20:13.419] Buffer size: 64. States seen: 7474
-[2025-12-30 22:20:17.276] Losses(total: 0.534, policy: 0.467, value: 0.001, l2: 0.066)
-[2025-12-30 22:20:17.277] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
-[2025-12-30 22:20:17.277]
-[2025-12-30 22:21:53.284] Step: 75
-[2025-12-30 22:21:53.284] Collected   101 states from   1 games, 1.0 states/s. 0.5 states/(s*actor), game length: 101.0
-[2025-12-30 22:21:53.284] Buffer size: 64. States seen: 7575
-[2025-12-30 22:21:57.330] Losses(total: 0.386, policy: 0.319, value: 0.001, l2: 0.066)
-[2025-12-30 22:21:57.330] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
-[2025-12-30 22:21:57.331]
-[2025-12-30 22:24:11.165] Step: 76
-[2025-12-30 22:24:11.165] Collected   101 states from   1 games, 0.7 states/s. 0.4 states/(s*actor), game length: 101.0
-[2025-12-30 22:24:11.165] Buffer size: 64. States seen: 7676
-[2025-12-30 22:24:15.144] Losses(total: 0.369, policy: 0.304, value: 0.000, l2: 0.065)
-[2025-12-30 22:24:15.144] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
-[2025-12-30 22:24:15.145]
-[2025-12-30 22:25:53.263] Step: 77
-[2025-12-30 22:25:53.263] Collected   101 states from   1 games, 1.0 states/s. 0.5 states/(s*actor), game length: 101.0
-[2025-12-30 22:25:53.263] Buffer size: 64. States seen: 7777
-[2025-12-30 22:25:55.307] Losses(total: 0.311, policy: 0.246, value: 0.000, l2: 0.065)
-[2025-12-30 22:25:55.307] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
-[2025-12-30 22:25:55.308]
-[2025-12-30 22:27:50.814] Step: 78
-[2025-12-30 22:27:50.815] Collected   101 states from   1 games, 0.9 states/s. 0.4 states/(s*actor), game length: 101.0
-[2025-12-30 22:27:50.815] Buffer size: 64. States seen: 7878
-[2025-12-30 22:27:55.450] Losses(total: 0.203, policy: 0.138, value: 0.000, l2: 0.065)
-[2025-12-30 22:27:55.450] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
-[2025-12-30 22:27:55.451]
-[2025-12-30 22:27:57.343] Step: 79
-[2025-12-30 22:27:57.343] Collected   101 states from   1 games, 15.5 states/s. 7.7 states/(s*actor), game length: 101.0
-[2025-12-30 22:27:57.343] Buffer size: 64. States seen: 7979
-[2025-12-30 22:27:59.836] Losses(total: 0.212, policy: 0.147, value: 0.000, l2: 0.065)
-[2025-12-30 22:27:59.836] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
-[2025-12-30 22:27:59.837]
-[2025-12-30 22:35:32.536] Step: 80
-[2025-12-30 22:35:32.536] Collected   101 states from   1 games, 0.2 states/s. 0.1 states/(s*actor), game length: 101.0
-[2025-12-30 22:35:32.536] Buffer size: 64. States seen: 8080
-[2025-12-30 22:35:34.926] Losses(total: 0.190, policy: 0.126, value: 0.000, l2: 0.064)
-[2025-12-30 22:35:34.926] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint-80
-[2025-12-30 22:35:34.926]
-[2025-12-30 22:35:39.951] Step: 81
-[2025-12-30 22:35:39.951] Collected   101 states from   1 games, 13.6 states/s. 6.8 states/(s*actor), game length: 101.0
-[2025-12-30 22:35:39.952] Buffer size: 64. States seen: 8181
-[2025-12-30 22:35:43.960] Losses(total: 0.100, policy: 0.035, value: 0.000, l2: 0.064)
-[2025-12-30 22:35:43.960] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
-[2025-12-30 22:35:43.960]
-[2025-12-30 22:39:12.430] Step: 82
-[2025-12-30 22:39:12.431] Collected   101 states from   1 games, 0.5 states/s. 0.2 states/(s*actor), game length: 101.0
-[2025-12-30 22:39:12.431] Buffer size: 64. States seen: 8282
-[2025-12-30 22:39:16.849] Losses(total: 0.417, policy: 0.353, value: 0.000, l2: 0.064)
-[2025-12-30 22:39:16.849] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
-[2025-12-30 22:39:16.850]
-[2025-12-30 22:39:36.510] Step: 83
-[2025-12-30 22:39:36.510] Collected   101 states from   1 games, 4.2 states/s. 2.1 states/(s*actor), game length: 101.0
-[2025-12-30 22:39:36.510] Buffer size: 64. States seen: 8383
-[2025-12-30 22:39:38.224] Losses(total: 0.225, policy: 0.161, value: 0.000, l2: 0.064)
-[2025-12-30 22:39:38.224] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
-[2025-12-30 22:39:38.225]
-[2025-12-30 22:42:53.171] Step: 84
-[2025-12-30 22:42:53.172] Collected   101 states from   1 games, 0.5 states/s. 0.3 states/(s*actor), game length: 101.0
-[2025-12-30 22:42:53.172] Buffer size: 64. States seen: 8484
-[2025-12-30 22:42:57.986] Losses(total: 0.537, policy: 0.473, value: 0.000, l2: 0.064)
-[2025-12-30 22:42:57.986] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
-[2025-12-30 22:42:57.986]
-[2025-12-30 22:45:44.969] Step: 85
-[2025-12-30 22:45:44.969] Collected   101 states from   1 games, 0.6 states/s. 0.3 states/(s*actor), game length: 101.0
-[2025-12-30 22:45:44.970] Buffer size: 64. States seen: 8585
-[2025-12-30 22:45:47.528] Losses(total: 0.070, policy: 0.007, value: 0.000, l2: 0.063)
-[2025-12-30 22:45:47.528] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
-[2025-12-30 22:45:47.529]
-[2025-12-30 22:49:02.273] Step: 86
-[2025-12-30 22:49:02.273] Collected   101 states from   1 games, 0.5 states/s. 0.3 states/(s*actor), game length: 101.0
-[2025-12-30 22:49:02.274] Buffer size: 64. States seen: 8686
-[2025-12-30 22:49:05.748] Losses(total: 0.513, policy: 0.450, value: 0.000, l2: 0.063)
-[2025-12-30 22:49:05.748] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
-[2025-12-30 22:49:05.749]
-[2025-12-30 22:49:14.886] Step: 87
-[2025-12-30 22:49:14.887] Collected   101 states from   1 games, 8.0 states/s. 4.0 states/(s*actor), game length: 101.0
-[2025-12-30 22:49:14.887] Buffer size: 64. States seen: 8787
-[2025-12-30 22:49:18.406] Losses(total: 0.237, policy: 0.174, value: 0.000, l2: 0.063)
-[2025-12-30 22:49:18.406] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
-[2025-12-30 22:49:18.406]
-[2025-12-30 22:52:28.787] Step: 88
-[2025-12-30 22:52:28.788] Collected   101 states from   1 games, 0.5 states/s. 0.3 states/(s*actor), game length: 101.0
-[2025-12-30 22:52:28.788] Buffer size: 64. States seen: 8888
-[2025-12-30 22:52:32.679] Losses(total: 0.066, policy: 0.003, value: 0.000, l2: 0.063)
-[2025-12-30 22:52:32.679] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
-[2025-12-30 22:52:32.680]
-[2025-12-30 22:53:18.615] Step: 89
-[2025-12-30 22:53:18.615] Collected   101 states from   1 games, 2.0 states/s. 1.0 states/(s*actor), game length: 101.0
-[2025-12-30 22:53:18.615] Buffer size: 64. States seen: 8989
-[2025-12-30 22:53:22.893] Losses(total: 0.646, policy: 0.584, value: 0.000, l2: 0.063)
-[2025-12-30 22:53:22.893] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
-[2025-12-30 22:53:22.894]
-[2025-12-30 22:55:04.811] Step: 90
-[2025-12-30 22:55:04.812] Collected   101 states from   1 games, 1.0 states/s. 0.5 states/(s*actor), game length: 101.0
-[2025-12-30 22:55:04.812] Buffer size: 64. States seen: 9090
-[2025-12-30 22:55:09.397] Losses(total: 0.170, policy: 0.108, value: 0.000, l2: 0.062)
-[2025-12-30 22:55:09.397] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint-90
-[2025-12-30 22:55:09.398]
-[2025-12-30 22:56:26.812] Step: 91
-[2025-12-30 22:56:26.812] Collected   101 states from   1 games, 1.2 states/s. 0.6 states/(s*actor), game length: 101.0
-[2025-12-30 22:56:26.812] Buffer size: 64. States seen: 9191
-[2025-12-30 22:56:28.488] Losses(total: 0.206, policy: 0.144, value: 0.000, l2: 0.062)
-[2025-12-30 22:56:28.488] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
-[2025-12-30 22:56:28.488]
-[2025-12-30 22:59:00.194] Step: 92
-[2025-12-30 22:59:00.195] Collected   101 states from   1 games, 0.7 states/s. 0.3 states/(s*actor), game length: 101.0
-[2025-12-30 22:59:00.195] Buffer size: 64. States seen: 9292
-[2025-12-30 22:59:03.095] Losses(total: 0.343, policy: 0.281, value: 0.000, l2: 0.062)
-[2025-12-30 22:59:03.095] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
-[2025-12-30 22:59:03.096]
-[2025-12-30 22:59:09.492] Step: 93
-[2025-12-30 22:59:09.496] Collected   101 states from   1 games, 10.9 states/s. 5.4 states/(s*actor), game length: 101.0
-[2025-12-30 22:59:09.500] Buffer size: 64. States seen: 9393
-[2025-12-30 22:59:12.266] Losses(total: 0.212, policy: 0.150, value: 0.000, l2: 0.062)
-[2025-12-30 22:59:12.266] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
-[2025-12-30 22:59:12.267]
-[2025-12-30 23:01:35.989] Step: 94
-[2025-12-30 23:01:35.989] Collected   101 states from   1 games, 0.7 states/s. 0.3 states/(s*actor), game length: 101.0
-[2025-12-30 23:01:35.989] Buffer size: 64. States seen: 9494
-[2025-12-30 23:01:39.276] Losses(total: 0.078, policy: 0.016, value: 0.000, l2: 0.062)
-[2025-12-30 23:01:39.276] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
-[2025-12-30 23:01:39.277]
-[2025-12-30 23:02:53.670] Step: 95
-[2025-12-30 23:02:53.670] Collected   101 states from   1 games, 1.3 states/s. 0.7 states/(s*actor), game length: 101.0
-[2025-12-30 23:02:53.671] Buffer size: 64. States seen: 9595
-[2025-12-30 23:02:57.292] Losses(total: 0.189, policy: 0.127, value: 0.000, l2: 0.061)
-[2025-12-30 23:02:57.293] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
-[2025-12-30 23:02:57.293]
-[2025-12-30 23:04:56.611] Step: 96
-[2025-12-30 23:04:56.612] Collected   101 states from   1 games, 0.8 states/s. 0.4 states/(s*actor), game length: 101.0
-[2025-12-30 23:04:56.612] Buffer size: 64. States seen: 9696
-[2025-12-30 23:04:59.512] Losses(total: 0.524, policy: 0.463, value: 0.000, l2: 0.061)
-[2025-12-30 23:04:59.512] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
-[2025-12-30 23:04:59.513]
-[2025-12-30 23:07:59.552] Step: 97
-[2025-12-30 23:07:59.552] Collected   101 states from   1 games, 0.6 states/s. 0.3 states/(s*actor), game length: 101.0
-[2025-12-30 23:07:59.552] Buffer size: 64. States seen: 9797
-[2025-12-30 23:08:01.630] Losses(total: 0.397, policy: 0.336, value: 0.000, l2: 0.061)
-[2025-12-30 23:08:01.630] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
-[2025-12-30 23:08:01.631]
-[2025-12-30 23:13:26.579] Step: 98
-[2025-12-30 23:13:26.580] Collected   101 states from   1 games, 0.3 states/s. 0.2 states/(s*actor), game length: 101.0
-[2025-12-30 23:13:26.580] Buffer size: 64. States seen: 9898
-[2025-12-30 23:13:28.879] Losses(total: 0.217, policy: 0.156, value: 0.000, l2: 0.061)
-[2025-12-30 23:13:28.879] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
-[2025-12-30 23:13:28.880]
-[2025-12-30 23:14:47.802] Step: 99
-[2025-12-30 23:14:47.803] Collected   101 states from   1 games, 1.2 states/s. 0.6 states/(s*actor), game length: 101.0
-[2025-12-30 23:14:47.803] Buffer size: 64. States seen: 9999
-[2025-12-30 23:14:51.994] Losses(total: 0.070, policy: 0.009, value: 0.000, l2: 0.061)
-[2025-12-30 23:14:51.994] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
-[2025-12-30 23:14:51.994]
-[2025-12-30 23:16:45.993] Step: 100
-[2025-12-30 23:16:45.993] Collected   101 states from   1 games, 0.9 states/s. 0.4 states/(s*actor), game length: 101.0
-[2025-12-30 23:16:45.993] Buffer size: 64. States seen: 10100
-[2025-12-30 23:16:48.804] Losses(total: 0.110, policy: 0.049, value: 0.000, l2: 0.060)
-[2025-12-30 23:16:48.804] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint-100
-[2025-12-30 23:16:48.804]
-[2025-12-30 23:16:49.033] learner exiting
+[2025-12-31 13:56:15.549] learner started
+[2025-12-31 13:56:15.550] Initializing model
+[2025-12-31 13:56:21.646] Model type: resnet(64, 2)
+[2025-12-31 13:56:21.646] Model size: 666038 variables
+[2025-12-31 13:56:21.806] Initial checkpoint: ./scrabble_az_checkpoints/checkpoint-0
+[2025-12-31 13:58:53.040] Step: 1
+[2025-12-31 13:58:53.040] Collected    50 states from   1 games, 0.2 states/s. 0.1 states/(s*actor), game length: 50.0
+[2025-12-31 13:58:53.041] Buffer size: 50. States seen: 50
+[2025-12-31 13:59:17.986] Losses(total: 1.909, policy: 1.843, value: 0.000, l2: 0.066)
+[2025-12-31 13:59:17.987] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
+[2025-12-31 13:59:17.988]
+[2025-12-31 14:00:06.714] Step: 2
+[2025-12-31 14:00:06.714] Collected    46 states from   1 games, 0.6 states/s. 0.3 states/(s*actor), game length: 46.0
+[2025-12-31 14:00:06.714] Buffer size: 64. States seen: 96
+[2025-12-31 14:00:10.820] Losses(total: 1.664, policy: 1.599, value: 0.000, l2: 0.066)
+[2025-12-31 14:00:10.820] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
+[2025-12-31 14:00:10.821]
+[2025-12-31 14:01:28.893] Step: 3
+[2025-12-31 14:01:28.893] Collected    67 states from   1 games, 0.8 states/s. 0.4 states/(s*actor), game length: 67.0
+[2025-12-31 14:01:28.893] Buffer size: 64. States seen: 163
+[2025-12-31 14:01:36.596] Losses(total: 1.760, policy: 1.695, value: 0.000, l2: 0.065)
+[2025-12-31 14:01:36.596] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
+[2025-12-31 14:01:36.597]
+[2025-12-31 14:04:37.294] Step: 4
+[2025-12-31 14:04:37.294] Collected    57 states from   2 games, 0.3 states/s. 0.2 states/(s*actor), game length: 28.5
+[2025-12-31 14:04:37.295] Buffer size: 64. States seen: 220
+[2025-12-31 14:04:53.426] Losses(total: 1.788, policy: 1.723, value: 0.000, l2: 0.065)
+[2025-12-31 14:04:53.427] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
+[2025-12-31 14:04:53.428]
+[2025-12-31 14:06:39.082] Step: 5
+[2025-12-31 14:06:39.082] Collected    70 states from   1 games, 0.6 states/s. 0.3 states/(s*actor), game length: 70.0
+[2025-12-31 14:06:39.083] Buffer size: 64. States seen: 290
+[2025-12-31 14:06:46.840] Losses(total: 2.014, policy: 1.950, value: 0.000, l2: 0.064)
+[2025-12-31 14:06:46.840] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
+[2025-12-31 14:06:46.841]
+[2025-12-31 14:07:26.132] Step: 6
+[2025-12-31 14:07:26.182] Collected    18 states from   1 games, 0.4 states/s. 0.2 states/(s*actor), game length: 18.0
+[2025-12-31 14:07:26.185] Buffer size: 64. States seen: 308
+[2025-12-31 14:07:30.941] Losses(total: 2.072, policy: 2.009, value: 0.000, l2: 0.064)
+[2025-12-31 14:07:30.941] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
+[2025-12-31 14:07:30.942]
+[2025-12-31 14:09:04.610] Step: 7
+[2025-12-31 14:09:04.610] Collected   157 states from   1 games, 1.6 states/s. 0.8 states/(s*actor), game length: 157.0
+[2025-12-31 14:09:04.610] Buffer size: 64. States seen: 465
+[2025-12-31 14:09:10.201] Losses(total: 1.947, policy: 1.885, value: 0.000, l2: 0.063)
+[2025-12-31 14:09:10.202] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
+[2025-12-31 14:09:10.202]
+[2025-12-31 14:09:15.537] Step: 8
+[2025-12-31 14:09:15.537] Collected    63 states from   1 games, 5.8 states/s. 2.9 states/(s*actor), game length: 63.0
+[2025-12-31 14:09:15.538] Buffer size: 64. States seen: 528
+[2025-12-31 14:09:21.824] Losses(total: 1.841, policy: 1.779, value: 0.000, l2: 0.062)
+[2025-12-31 14:09:21.825] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
+[2025-12-31 14:09:21.825]
+[2025-12-31 14:11:01.158] Step: 9
+[2025-12-31 14:11:01.158] Collected    34 states from   1 games, 0.3 states/s. 0.2 states/(s*actor), game length: 34.0
+[2025-12-31 14:11:01.159] Buffer size: 64. States seen: 562
+[2025-12-31 14:11:08.935] Losses(total: 1.721, policy: 1.659, value: 0.000, l2: 0.062)
+[2025-12-31 14:11:08.936] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
+[2025-12-31 14:11:08.937]
+[2025-12-31 14:12:14.365] Step: 10
+[2025-12-31 14:12:14.365] Collected    20 states from   1 games, 0.3 states/s. 0.1 states/(s*actor), game length: 20.0
+[2025-12-31 14:12:14.365] Buffer size: 64. States seen: 582
+[2025-12-31 14:12:18.419] Losses(total: 1.853, policy: 1.791, value: 0.000, l2: 0.062)
+[2025-12-31 14:12:18.420] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint-10
+[2025-12-31 14:12:18.420]
+[2025-12-31 14:13:58.427] Step: 11
+[2025-12-31 14:13:58.428] Collected   218 states from   1 games, 2.1 states/s. 1.0 states/(s*actor), game length: 218.0
+[2025-12-31 14:13:58.431] Buffer size: 64. States seen: 800
+[2025-12-31 14:14:01.867] Losses(total: 1.819, policy: 1.758, value: 0.000, l2: 0.061)
+[2025-12-31 14:14:01.868] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
+[2025-12-31 14:14:01.869]
+[2025-12-31 14:14:36.300] Step: 12
+[2025-12-31 14:14:36.300] Collected    28 states from   1 games, 0.7 states/s. 0.4 states/(s*actor), game length: 28.0
+[2025-12-31 14:14:36.301] Buffer size: 64. States seen: 828
+[2025-12-31 14:14:40.835] Losses(total: 1.754, policy: 1.693, value: 0.000, l2: 0.061)
+[2025-12-31 14:14:40.835] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
+[2025-12-31 14:14:40.836]
+[2025-12-31 14:15:17.446] Step: 13
+[2025-12-31 14:15:17.446] Collected   106 states from   1 games, 2.6 states/s. 1.3 states/(s*actor), game length: 106.0
+[2025-12-31 14:15:17.446] Buffer size: 64. States seen: 934
+[2025-12-31 14:15:22.033] Losses(total: 1.392, policy: 1.331, value: 0.000, l2: 0.060)
+[2025-12-31 14:15:22.033] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
+[2025-12-31 14:15:22.034]
+[2025-12-31 14:17:15.026] Step: 14
+[2025-12-31 14:17:15.026] Collected    73 states from   2 games, 0.6 states/s. 0.3 states/(s*actor), game length: 36.5
+[2025-12-31 14:17:15.026] Buffer size: 64. States seen: 1007
+[2025-12-31 14:17:21.695] Losses(total: 1.978, policy: 1.918, value: 0.000, l2: 0.060)
+[2025-12-31 14:17:21.695] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
+[2025-12-31 14:17:21.696]
+[2025-12-31 14:17:54.742] Step: 15
+[2025-12-31 14:17:54.743] Collected    95 states from   1 games, 2.4 states/s. 1.2 states/(s*actor), game length: 95.0
+[2025-12-31 14:17:54.743] Buffer size: 64. States seen: 1102
+[2025-12-31 14:17:59.327] Losses(total: 1.667, policy: 1.608, value: 0.000, l2: 0.060)
+[2025-12-31 14:17:59.328] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
+[2025-12-31 14:17:59.329]
+[2025-12-31 14:21:14.377] Step: 16
+[2025-12-31 14:21:14.377] Collected   260 states from   1 games, 1.3 states/s. 0.7 states/(s*actor), game length: 260.0
+[2025-12-31 14:21:14.377] Buffer size: 64. States seen: 1362
+[2025-12-31 14:21:21.419] Losses(total: 1.484, policy: 1.425, value: 0.000, l2: 0.059)
+[2025-12-31 14:21:21.420] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
+[2025-12-31 14:21:21.421]
+[2025-12-31 14:22:10.055] Step: 17
+[2025-12-31 14:22:10.055] Collected   270 states from   1 games, 4.8 states/s. 2.4 states/(s*actor), game length: 270.0
+[2025-12-31 14:22:10.056] Buffer size: 64. States seen: 1632
+[2025-12-31 14:22:13.565] Losses(total: 1.708, policy: 1.649, value: 0.000, l2: 0.059)
+[2025-12-31 14:22:13.565] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
+[2025-12-31 14:22:13.566]
+[2025-12-31 14:22:17.902] Step: 18
+[2025-12-31 14:22:17.902] Collected    45 states from   1 games, 5.7 states/s. 2.9 states/(s*actor), game length: 45.0
+[2025-12-31 14:22:17.902] Buffer size: 64. States seen: 1677
+[2025-12-31 14:22:28.335] Losses(total: 1.796, policy: 1.737, value: 0.000, l2: 0.059)
+[2025-12-31 14:22:28.336] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
+[2025-12-31 14:22:28.336]
+[2025-12-31 14:23:16.990] Step: 19
+[2025-12-31 14:23:16.990] Collected    38 states from   1 games, 0.6 states/s. 0.3 states/(s*actor), game length: 38.0
+[2025-12-31 14:23:16.990] Buffer size: 64. States seen: 1715
+[2025-12-31 14:23:20.629] Losses(total: 1.758, policy: 1.700, value: 0.000, l2: 0.058)
+[2025-12-31 14:23:20.630] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
+[2025-12-31 14:23:20.630]
+[2025-12-31 14:24:23.494] Step: 20
+[2025-12-31 14:24:23.494] Collected    72 states from   1 games, 1.1 states/s. 0.5 states/(s*actor), game length: 72.0
+[2025-12-31 14:24:23.494] Buffer size: 64. States seen: 1787
+[2025-12-31 14:24:28.054] Losses(total: 1.861, policy: 1.803, value: 0.000, l2: 0.058)
+[2025-12-31 14:24:28.054] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint-20
+[2025-12-31 14:24:28.055]
+[2025-12-31 14:24:59.170] Step: 21
+[2025-12-31 14:24:59.170] Collected    29 states from   1 games, 0.8 states/s. 0.4 states/(s*actor), game length: 29.0
+[2025-12-31 14:24:59.170] Buffer size: 64. States seen: 1816
+[2025-12-31 14:25:06.436] Losses(total: 1.811, policy: 1.753, value: 0.000, l2: 0.058)
+[2025-12-31 14:25:06.437] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
+[2025-12-31 14:25:06.437]
+[2025-12-31 14:26:35.472] Step: 22
+[2025-12-31 14:26:35.472] Collected    36 states from   1 games, 0.4 states/s. 0.2 states/(s*actor), game length: 36.0
+[2025-12-31 14:26:35.472] Buffer size: 64. States seen: 1852
+[2025-12-31 14:26:40.301] Losses(total: 1.673, policy: 1.616, value: 0.000, l2: 0.057)
+[2025-12-31 14:26:40.301] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
+[2025-12-31 14:26:40.302]
+[2025-12-31 14:27:40.689] Step: 23
+[2025-12-31 14:27:40.689] Collected    46 states from   1 games, 0.7 states/s. 0.4 states/(s*actor), game length: 46.0
+[2025-12-31 14:27:40.690] Buffer size: 64. States seen: 1898
+[2025-12-31 14:27:46.646] Losses(total: 1.592, policy: 1.535, value: 0.000, l2: 0.057)
+[2025-12-31 14:27:46.646] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
+[2025-12-31 14:27:46.647]
+[2025-12-31 14:28:23.015] Step: 24
+[2025-12-31 14:28:23.015] Collected   243 states from   1 games, 5.7 states/s. 2.9 states/(s*actor), game length: 243.0
+[2025-12-31 14:28:23.016] Buffer size: 64. States seen: 2141
+[2025-12-31 14:28:30.690] Losses(total: 1.387, policy: 1.331, value: 0.000, l2: 0.057)
+[2025-12-31 14:28:30.690] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
+[2025-12-31 14:28:30.691]
+[2025-12-31 14:29:59.990] Step: 25
+[2025-12-31 14:29:59.991] Collected    55 states from   1 games, 0.6 states/s. 0.3 states/(s*actor), game length: 55.0
+[2025-12-31 14:29:59.991] Buffer size: 64. States seen: 2196
+[2025-12-31 14:30:06.582] Losses(total: 1.969, policy: 1.913, value: 0.000, l2: 0.056)
+[2025-12-31 14:30:06.582] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
+[2025-12-31 14:30:06.583]
+[2025-12-31 14:30:55.383] Step: 26
+[2025-12-31 14:30:55.383] Collected    51 states from   2 games, 0.9 states/s. 0.5 states/(s*actor), game length: 25.5
+[2025-12-31 14:30:55.384] Buffer size: 64. States seen: 2247
+[2025-12-31 14:31:03.134] Losses(total: 1.677, policy: 1.621, value: 0.000, l2: 0.056)
+[2025-12-31 14:31:03.134] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
+[2025-12-31 14:31:03.135]
+[2025-12-31 14:31:21.300] Step: 27
+[2025-12-31 14:31:21.300] Collected    16 states from   1 games, 0.6 states/s. 0.3 states/(s*actor), game length: 16.0
+[2025-12-31 14:31:21.301] Buffer size: 64. States seen: 2263
+[2025-12-31 14:31:25.248] Losses(total: 1.897, policy: 1.841, value: 0.000, l2: 0.056)
+[2025-12-31 14:31:25.249] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
+[2025-12-31 14:31:25.250]
+[2025-12-31 14:31:54.808] Step: 28
+[2025-12-31 14:31:54.808] Collected    37 states from   1 games, 1.1 states/s. 0.6 states/(s*actor), game length: 37.0
+[2025-12-31 14:31:54.809] Buffer size: 64. States seen: 2300
+[2025-12-31 14:32:02.175] Losses(total: 1.628, policy: 1.572, value: 0.000, l2: 0.055)
+[2025-12-31 14:32:02.175] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
+[2025-12-31 14:32:02.176]
+[2025-12-31 14:32:28.432] Step: 29
+[2025-12-31 14:32:28.433] Collected    36 states from   1 games, 1.1 states/s. 0.5 states/(s*actor), game length: 36.0
+[2025-12-31 14:32:28.433] Buffer size: 64. States seen: 2336
+[2025-12-31 14:32:34.248] Losses(total: 1.807, policy: 1.752, value: 0.000, l2: 0.055)
+[2025-12-31 14:32:34.248] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
+[2025-12-31 14:32:34.249]
+[2025-12-31 14:32:34.252] Step: 30
+[2025-12-31 14:32:34.252] Collected    20 states from   1 games, 3.4 states/s. 1.7 states/(s*actor), game length: 20.0
+[2025-12-31 14:32:34.252] Buffer size: 64. States seen: 2356
+[2025-12-31 14:32:34.595] Losses(total: 1.474, policy: 1.419, value: 0.000, l2: 0.055)
+[2025-12-31 14:32:34.596] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint-30
+[2025-12-31 14:32:34.596]
+[2025-12-31 14:33:00.736] Step: 31
+[2025-12-31 14:33:00.736] Collected    19 states from   1 games, 0.7 states/s. 0.4 states/(s*actor), game length: 19.0
+[2025-12-31 14:33:00.736] Buffer size: 64. States seen: 2375
+[2025-12-31 14:33:04.909] Losses(total: 1.740, policy: 1.686, value: 0.000, l2: 0.054)
+[2025-12-31 14:33:04.909] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
+[2025-12-31 14:33:04.910]
+[2025-12-31 14:33:25.567] Step: 32
+[2025-12-31 14:33:25.567] Collected    16 states from   1 games, 0.6 states/s. 0.3 states/(s*actor), game length: 16.0
+[2025-12-31 14:33:25.568] Buffer size: 64. States seen: 2391
+[2025-12-31 14:33:30.407] Losses(total: 1.614, policy: 1.560, value: 0.000, l2: 0.054)
+[2025-12-31 14:33:30.407] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
+[2025-12-31 14:33:30.408]
+[2025-12-31 14:34:04.308] Step: 33
+[2025-12-31 14:34:04.308] Collected    32 states from   1 games, 0.8 states/s. 0.4 states/(s*actor), game length: 32.0
+[2025-12-31 14:34:04.308] Buffer size: 64. States seen: 2423
+[2025-12-31 14:34:12.493] Losses(total: 1.785, policy: 1.731, value: 0.000, l2: 0.054)
+[2025-12-31 14:34:12.493] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
+[2025-12-31 14:34:12.494]
+[2025-12-31 14:35:26.801] Step: 34
+[2025-12-31 14:35:26.802] Collected    56 states from   1 games, 0.7 states/s. 0.3 states/(s*actor), game length: 56.0
+[2025-12-31 14:35:26.802] Buffer size: 64. States seen: 2479
+[2025-12-31 14:35:33.005] Losses(total: 1.544, policy: 1.490, value: 0.000, l2: 0.054)
+[2025-12-31 14:35:33.006] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
+[2025-12-31 14:35:33.007]
+[2025-12-31 14:37:22.763] Step: 35
+[2025-12-31 14:37:22.764] Collected    72 states from   1 games, 0.6 states/s. 0.3 states/(s*actor), game length: 72.0
+[2025-12-31 14:37:22.764] Buffer size: 64. States seen: 2551
+[2025-12-31 14:37:30.214] Losses(total: 1.246, policy: 1.192, value: 0.000, l2: 0.054)
+[2025-12-31 14:37:30.215] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
+[2025-12-31 14:37:30.216]
+[2025-12-31 14:38:31.256] Step: 36
+[2025-12-31 14:38:31.256] Collected    19 states from   1 games, 0.3 states/s. 0.1 states/(s*actor), game length: 19.0
+[2025-12-31 14:38:31.256] Buffer size: 64. States seen: 2570
+[2025-12-31 14:38:34.243] Losses(total: 1.303, policy: 1.249, value: 0.000, l2: 0.054)
+[2025-12-31 14:38:34.243] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
+[2025-12-31 14:38:34.244]
+[2025-12-31 14:39:03.370] Step: 37
+[2025-12-31 14:39:03.370] Collected   105 states from   1 games, 3.3 states/s. 1.6 states/(s*actor), game length: 105.0
+[2025-12-31 14:39:03.370] Buffer size: 64. States seen: 2675
+[2025-12-31 14:39:07.952] Losses(total: 1.368, policy: 1.313, value: 0.000, l2: 0.054)
+[2025-12-31 14:39:07.952] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
+[2025-12-31 14:39:07.953]
+[2025-12-31 14:40:01.112] Step: 38
+[2025-12-31 14:40:01.112] Collected    37 states from   1 games, 0.6 states/s. 0.3 states/(s*actor), game length: 37.0
+[2025-12-31 14:40:01.112] Buffer size: 64. States seen: 2712
+[2025-12-31 14:40:04.267] Losses(total: 1.212, policy: 1.157, value: 0.000, l2: 0.055)
+[2025-12-31 14:40:04.268] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
+[2025-12-31 14:40:04.269]
+[2025-12-31 14:40:09.253] Step: 39
+[2025-12-31 14:40:09.253] Collected    55 states from   1 games, 6.8 states/s. 3.4 states/(s*actor), game length: 55.0
+[2025-12-31 14:40:09.253] Buffer size: 64. States seen: 2767
+[2025-12-31 14:40:19.485] Losses(total: 1.315, policy: 1.260, value: 0.000, l2: 0.055)
+[2025-12-31 14:40:19.485] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
+[2025-12-31 14:40:19.486]
+[2025-12-31 14:41:06.448] Step: 40
+[2025-12-31 14:41:06.448] Collected    23 states from   2 games, 0.4 states/s. 0.2 states/(s*actor), game length: 11.5
+[2025-12-31 14:41:06.448] Buffer size: 64. States seen: 2790
+[2025-12-31 14:41:09.583] Losses(total: 1.575, policy: 1.520, value: 0.000, l2: 0.056)
+[2025-12-31 14:41:09.584] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint-40
+[2025-12-31 14:41:09.584]
+[2025-12-31 14:41:46.852] Step: 41
+[2025-12-31 14:41:46.852] Collected    39 states from   1 games, 1.0 states/s. 0.5 states/(s*actor), game length: 39.0
+[2025-12-31 14:41:46.852] Buffer size: 64. States seen: 2829
+[2025-12-31 14:41:54.751] Losses(total: 1.529, policy: 1.473, value: 0.000, l2: 0.056)
+[2025-12-31 14:41:54.751] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
+[2025-12-31 14:41:54.752]
+[2025-12-31 14:48:13.618] Step: 42
+[2025-12-31 14:48:13.618] Collected   270 states from   1 games, 0.7 states/s. 0.3 states/(s*actor), game length: 270.0
+[2025-12-31 14:48:13.618] Buffer size: 64. States seen: 3099
+[2025-12-31 14:48:17.558] Losses(total: 0.998, policy: 0.943, value: 0.000, l2: 0.056)
+[2025-12-31 14:48:17.558] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
+[2025-12-31 14:48:17.559]
+[2025-12-31 14:49:05.284] Step: 43
+[2025-12-31 14:49:05.284] Collected   258 states from   1 games, 5.0 states/s. 2.5 states/(s*actor), game length: 258.0
+[2025-12-31 14:49:05.285] Buffer size: 64. States seen: 3357
+[2025-12-31 14:49:10.359] Losses(total: 0.391, policy: 0.335, value: 0.000, l2: 0.056)
+[2025-12-31 14:49:10.359] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
+[2025-12-31 14:49:10.360]
+[2025-12-31 14:49:30.404] Step: 44
+[2025-12-31 14:49:30.404] Collected    19 states from   1 games, 0.8 states/s. 0.4 states/(s*actor), game length: 19.0
+[2025-12-31 14:49:30.404] Buffer size: 64. States seen: 3376
+[2025-12-31 14:49:34.494] Losses(total: 0.644, policy: 0.588, value: 0.000, l2: 0.056)
+[2025-12-31 14:49:34.494] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
+[2025-12-31 14:49:34.495]
+[2025-12-31 14:51:47.602] Step: 45
+[2025-12-31 14:51:47.602] Collected   168 states from   1 games, 1.2 states/s. 0.6 states/(s*actor), game length: 168.0
+[2025-12-31 14:51:47.603] Buffer size: 64. States seen: 3544
+[2025-12-31 14:51:52.135] Losses(total: 1.209, policy: 1.153, value: 0.000, l2: 0.056)
+[2025-12-31 14:51:52.136] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
+[2025-12-31 14:51:52.137]
+[2025-12-31 14:52:29.527] Step: 46
+[2025-12-31 14:52:29.527] Collected    28 states from   1 games, 0.7 states/s. 0.3 states/(s*actor), game length: 28.0
+[2025-12-31 14:52:29.527] Buffer size: 64. States seen: 3572
+[2025-12-31 14:52:37.063] Losses(total: 1.024, policy: 0.968, value: 0.000, l2: 0.056)
+[2025-12-31 14:52:37.063] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
+[2025-12-31 14:52:37.064]
+[2025-12-31 14:53:37.406] Step: 47
+[2025-12-31 14:53:37.406] Collected    28 states from   1 games, 0.4 states/s. 0.2 states/(s*actor), game length: 28.0
+[2025-12-31 14:53:37.406] Buffer size: 64. States seen: 3600
+[2025-12-31 14:53:43.083] Losses(total: 0.834, policy: 0.778, value: 0.000, l2: 0.056)
+[2025-12-31 14:53:43.083] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
+[2025-12-31 14:53:43.084]
+[2025-12-31 14:57:53.570] Step: 48
+[2025-12-31 14:57:53.591] Collected   202 states from   1 games, 0.8 states/s. 0.4 states/(s*actor), game length: 202.0
+[2025-12-31 14:57:53.591] Buffer size: 64. States seen: 3802
+[2025-12-31 14:57:56.986] Losses(total: 0.763, policy: 0.708, value: 0.000, l2: 0.056)
+[2025-12-31 14:57:56.986] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
+[2025-12-31 14:57:56.987]
+[2025-12-31 15:01:59.306] Step: 49
+[2025-12-31 15:01:59.306] Collected    83 states from   1 games, 0.3 states/s. 0.2 states/(s*actor), game length: 83.0
+[2025-12-31 15:01:59.307] Buffer size: 64. States seen: 3885
+[2025-12-31 15:02:03.152] Losses(total: 0.732, policy: 0.676, value: 0.000, l2: 0.056)
+[2025-12-31 15:02:03.153] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
+[2025-12-31 15:02:03.154]
+[2025-12-31 15:03:46.076] Step: 50
+[2025-12-31 15:03:46.076] Collected    66 states from   1 games, 0.6 states/s. 0.3 states/(s*actor), game length: 66.0
+[2025-12-31 15:03:46.078] Buffer size: 64. States seen: 3951
+[2025-12-31 15:03:53.135] Losses(total: 0.703, policy: 0.648, value: 0.000, l2: 0.056)
+[2025-12-31 15:03:53.135] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint-50
+[2025-12-31 15:03:53.136]
+[2025-12-31 15:04:43.073] Step: 51
+[2025-12-31 15:04:43.073] Collected    24 states from   1 games, 0.4 states/s. 0.2 states/(s*actor), game length: 24.0
+[2025-12-31 15:04:43.073] Buffer size: 64. States seen: 3975
+[2025-12-31 15:04:47.724] Losses(total: 0.806, policy: 0.751, value: 0.000, l2: 0.055)
+[2025-12-31 15:04:47.725] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
+[2025-12-31 15:04:47.726]
+[2025-12-31 15:04:56.679] Step: 52
+[2025-12-31 15:04:56.679] Collected   218 states from   1 games, 16.0 states/s. 8.0 states/(s*actor), game length: 218.0
+[2025-12-31 15:04:56.679] Buffer size: 64. States seen: 4193
+[2025-12-31 15:04:59.861] Losses(total: 0.277, policy: 0.222, value: 0.000, l2: 0.055)
+[2025-12-31 15:04:59.861] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
+[2025-12-31 15:04:59.861]
+[2025-12-31 15:06:10.457] Step: 53
+[2025-12-31 15:06:10.457] Collected    35 states from   1 games, 0.5 states/s. 0.2 states/(s*actor), game length: 35.0
+[2025-12-31 15:06:10.457] Buffer size: 64. States seen: 4228
+[2025-12-31 15:06:15.730] Losses(total: 0.571, policy: 0.516, value: 0.000, l2: 0.055)
+[2025-12-31 15:06:15.730] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
+[2025-12-31 15:06:15.731]
+[2025-12-31 15:06:21.824] Step: 54
+[2025-12-31 15:06:21.825] Collected    46 states from   1 games, 4.0 states/s. 2.0 states/(s*actor), game length: 46.0
+[2025-12-31 15:06:21.825] Buffer size: 64. States seen: 4274
+[2025-12-31 15:06:25.263] Losses(total: 0.672, policy: 0.618, value: 0.000, l2: 0.055)
+[2025-12-31 15:06:25.263] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
+[2025-12-31 15:06:25.264]
+[2025-12-31 15:07:15.333] Step: 55
+[2025-12-31 15:07:15.333] Collected    16 states from   1 games, 0.3 states/s. 0.1 states/(s*actor), game length: 16.0
+[2025-12-31 15:07:15.333] Buffer size: 64. States seen: 4290
+[2025-12-31 15:07:20.654] Losses(total: 0.965, policy: 0.911, value: 0.000, l2: 0.054)
+[2025-12-31 15:07:20.655] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
+[2025-12-31 15:07:20.656]
+[2025-12-31 15:08:19.624] Step: 56
+[2025-12-31 15:08:19.624] Collected    72 states from   1 games, 1.1 states/s. 0.6 states/(s*actor), game length: 72.0
+[2025-12-31 15:08:19.625] Buffer size: 64. States seen: 4362
+[2025-12-31 15:08:23.555] Losses(total: 0.728, policy: 0.674, value: 0.000, l2: 0.054)
+[2025-12-31 15:08:23.555] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
+[2025-12-31 15:08:23.556]
+[2025-12-31 15:10:08.684] Step: 57
+[2025-12-31 15:10:08.685] Collected    33 states from   1 games, 0.3 states/s. 0.2 states/(s*actor), game length: 33.0
+[2025-12-31 15:10:08.685] Buffer size: 64. States seen: 4395
+[2025-12-31 15:10:11.479] Losses(total: 1.073, policy: 1.019, value: 0.000, l2: 0.053)
+[2025-12-31 15:10:11.479] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
+[2025-12-31 15:10:11.480]
+[2025-12-31 15:10:29.685] Step: 58
+[2025-12-31 15:10:29.685] Collected    19 states from   1 games, 0.9 states/s. 0.5 states/(s*actor), game length: 19.0
+[2025-12-31 15:10:29.685] Buffer size: 64. States seen: 4414
+[2025-12-31 15:10:34.871] Losses(total: 0.995, policy: 0.942, value: 0.000, l2: 0.053)
+[2025-12-31 15:10:34.871] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
+[2025-12-31 15:10:34.872]
+[2025-12-31 15:11:06.342] Step: 59
+[2025-12-31 15:11:06.344] Collected    19 states from   1 games, 0.5 states/s. 0.3 states/(s*actor), game length: 19.0
+[2025-12-31 15:11:06.345] Buffer size: 64. States seen: 4433
+[2025-12-31 15:11:09.133] Losses(total: 0.832, policy: 0.780, value: 0.000, l2: 0.053)
+[2025-12-31 15:11:09.133] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
+[2025-12-31 15:11:09.134]
+[2025-12-31 15:11:45.933] Step: 60
+[2025-12-31 15:11:45.933] Collected    41 states from   1 games, 1.0 states/s. 0.5 states/(s*actor), game length: 41.0
+[2025-12-31 15:11:45.933] Buffer size: 64. States seen: 4474
+[2025-12-31 15:11:52.126] Losses(total: 1.025, policy: 0.973, value: 0.000, l2: 0.052)
+[2025-12-31 15:11:52.127] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint-60
+[2025-12-31 15:11:52.127]
+[2025-12-31 15:14:02.233] Step: 61
+[2025-12-31 15:14:02.233] Collected   111 states from   1 games, 0.8 states/s. 0.4 states/(s*actor), game length: 111.0
+[2025-12-31 15:14:02.233] Buffer size: 64. States seen: 4585
+[2025-12-31 15:14:08.986] Losses(total: 0.788, policy: 0.736, value: 0.000, l2: 0.052)
+[2025-12-31 15:14:08.986] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
+[2025-12-31 15:14:08.987]
+[2025-12-31 15:15:36.430] Step: 62
+[2025-12-31 15:15:36.430] Collected    71 states from   1 games, 0.8 states/s. 0.4 states/(s*actor), game length: 71.0
+[2025-12-31 15:15:36.430] Buffer size: 64. States seen: 4656
+[2025-12-31 15:15:42.551] Losses(total: 0.617, policy: 0.565, value: 0.000, l2: 0.052)
+[2025-12-31 15:15:42.552] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
+[2025-12-31 15:15:42.553]
+[2025-12-31 15:29:01.323] Step: 63
+[2025-12-31 15:29:01.349] Collected   291 states from   2 games, 0.4 states/s. 0.2 states/(s*actor), game length: 145.5
+[2025-12-31 15:29:01.364] Buffer size: 64. States seen: 4947
+[2025-12-31 15:29:06.096] Losses(total: 0.723, policy: 0.671, value: 0.000, l2: 0.052)
+[2025-12-31 15:29:06.097] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
+[2025-12-31 15:29:06.097]
+[2025-12-31 15:29:28.077] Step: 64
+[2025-12-31 15:29:28.077] Collected    22 states from   1 games, 0.8 states/s. 0.4 states/(s*actor), game length: 22.0
+[2025-12-31 15:29:28.078] Buffer size: 64. States seen: 4969
+[2025-12-31 15:29:32.168] Losses(total: 1.031, policy: 0.979, value: 0.000, l2: 0.052)
+[2025-12-31 15:29:32.168] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
+[2025-12-31 15:29:32.169]
+[2025-12-31 15:29:56.204] Step: 65
+[2025-12-31 15:29:56.204] Collected    17 states from   1 games, 0.6 states/s. 0.3 states/(s*actor), game length: 17.0
+[2025-12-31 15:29:56.205] Buffer size: 64. States seen: 4986
+[2025-12-31 15:30:02.577] Losses(total: 1.017, policy: 0.966, value: 0.000, l2: 0.052)
+[2025-12-31 15:30:02.577] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
+[2025-12-31 15:30:02.578]
+[2025-12-31 15:32:05.663] Step: 66
+[2025-12-31 15:32:05.663] Collected    61 states from   1 games, 0.5 states/s. 0.2 states/(s*actor), game length: 61.0
+[2025-12-31 15:32:05.663] Buffer size: 64. States seen: 5047
+[2025-12-31 15:32:11.480] Losses(total: 0.572, policy: 0.521, value: 0.000, l2: 0.051)
+[2025-12-31 15:32:11.480] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
+[2025-12-31 15:32:11.481]
+[2025-12-31 15:33:11.001] Step: 67
+[2025-12-31 15:33:11.002] Collected    37 states from   1 games, 0.6 states/s. 0.3 states/(s*actor), game length: 37.0
+[2025-12-31 15:33:11.002] Buffer size: 64. States seen: 5084
+[2025-12-31 15:33:15.224] Losses(total: 0.789, policy: 0.738, value: 0.000, l2: 0.051)
+[2025-12-31 15:33:15.224] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
+[2025-12-31 15:33:15.226]
+[2025-12-31 15:34:45.352] Step: 68
+[2025-12-31 15:34:45.352] Collected    55 states from   1 games, 0.6 states/s. 0.3 states/(s*actor), game length: 55.0
+[2025-12-31 15:34:45.352] Buffer size: 64. States seen: 5139
+[2025-12-31 15:34:48.928] Losses(total: 0.664, policy: 0.613, value: 0.000, l2: 0.050)
+[2025-12-31 15:34:48.929] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
+[2025-12-31 15:34:48.930]
+[2025-12-31 15:36:17.165] Step: 69
+[2025-12-31 15:36:17.165] Collected    69 states from   1 games, 0.8 states/s. 0.4 states/(s*actor), game length: 69.0
+[2025-12-31 15:36:17.165] Buffer size: 64. States seen: 5208
+[2025-12-31 15:36:23.048] Losses(total: 1.109, policy: 1.059, value: 0.000, l2: 0.050)
+[2025-12-31 15:36:23.048] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
+[2025-12-31 15:36:23.049]
+[2025-12-31 15:36:33.300] Step: 70
+[2025-12-31 15:36:33.300] Collected   302 states from   1 games, 18.7 states/s. 9.4 states/(s*actor), game length: 302.0
+[2025-12-31 15:36:33.300] Buffer size: 64. States seen: 5510
+[2025-12-31 15:36:38.326] Losses(total: 0.441, policy: 0.391, value: 0.000, l2: 0.050)
+[2025-12-31 15:36:38.326] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint-70
+[2025-12-31 15:36:38.327]
+[2025-12-31 15:39:21.567] Step: 71
+[2025-12-31 15:39:21.567] Collected   117 states from   1 games, 0.7 states/s. 0.3 states/(s*actor), game length: 117.0
+[2025-12-31 15:39:21.567] Buffer size: 64. States seen: 5627
+[2025-12-31 15:39:24.422] Losses(total: 0.773, policy: 0.724, value: 0.000, l2: 0.049)
+[2025-12-31 15:39:24.422] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
+[2025-12-31 15:39:24.423]
+[2025-12-31 15:40:40.149] Step: 72
+[2025-12-31 15:40:40.149] Collected    81 states from   2 games, 1.0 states/s. 0.5 states/(s*actor), game length: 40.5
+[2025-12-31 15:40:40.149] Buffer size: 64. States seen: 5708
+[2025-12-31 15:40:48.385] Losses(total: 0.810, policy: 0.761, value: 0.000, l2: 0.049)
+[2025-12-31 15:40:48.385] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
+[2025-12-31 15:40:48.386]
+[2025-12-31 15:41:47.571] Step: 73
+[2025-12-31 15:41:47.571] Collected    60 states from   1 games, 0.9 states/s. 0.4 states/(s*actor), game length: 60.0
+[2025-12-31 15:41:47.571] Buffer size: 64. States seen: 5768
+[2025-12-31 15:41:53.465] Losses(total: 0.575, policy: 0.527, value: 0.000, l2: 0.049)
+[2025-12-31 15:41:53.466] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
+[2025-12-31 15:41:53.467]
+[2025-12-31 15:43:29.225] Step: 74
+[2025-12-31 15:43:29.225] Collected    46 states from   1 games, 0.5 states/s. 0.2 states/(s*actor), game length: 46.0
+[2025-12-31 15:43:29.226] Buffer size: 64. States seen: 5814
+[2025-12-31 15:43:34.328] Losses(total: 0.600, policy: 0.552, value: 0.000, l2: 0.048)
+[2025-12-31 15:43:34.328] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
+[2025-12-31 15:43:34.329]
+[2025-12-31 15:44:14.648] Step: 75
+[2025-12-31 15:44:14.648] Collected    22 states from   1 games, 0.5 states/s. 0.2 states/(s*actor), game length: 22.0
+[2025-12-31 15:44:14.648] Buffer size: 64. States seen: 5836
+[2025-12-31 15:44:20.269] Losses(total: 0.394, policy: 0.346, value: 0.000, l2: 0.048)
+[2025-12-31 15:44:20.270] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
+[2025-12-31 15:44:20.270]
+[2025-12-31 15:44:45.722] Step: 76
+[2025-12-31 15:44:45.722] Collected   222 states from   1 games, 7.1 states/s. 3.6 states/(s*actor), game length: 222.0
+[2025-12-31 15:44:45.722] Buffer size: 64. States seen: 6058
+[2025-12-31 15:44:51.263] Losses(total: 0.383, policy: 0.336, value: 0.000, l2: 0.048)
+[2025-12-31 15:44:51.263] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
+[2025-12-31 15:44:51.264]
+[2025-12-31 15:45:23.397] Step: 77
+[2025-12-31 15:45:23.398] Collected    17 states from   1 games, 0.5 states/s. 0.2 states/(s*actor), game length: 17.0
+[2025-12-31 15:45:23.398] Buffer size: 64. States seen: 6075
+[2025-12-31 15:45:25.077] Losses(total: 0.489, policy: 0.441, value: 0.000, l2: 0.047)
+[2025-12-31 15:45:25.078] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
+[2025-12-31 15:45:25.079]
+[2025-12-31 15:45:53.290] Step: 78
+[2025-12-31 15:45:53.290] Collected    24 states from   1 games, 0.8 states/s. 0.4 states/(s*actor), game length: 24.0
+[2025-12-31 15:45:53.291] Buffer size: 64. States seen: 6099
+[2025-12-31 15:45:54.486] Losses(total: 0.954, policy: 0.907, value: 0.000, l2: 0.047)
+[2025-12-31 15:45:54.486] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
+[2025-12-31 15:45:54.487]
+[2025-12-31 15:46:13.079] Step: 79
+[2025-12-31 15:46:13.079] Collected    39 states from   1 games, 2.0 states/s. 1.0 states/(s*actor), game length: 39.0
+[2025-12-31 15:46:13.079] Buffer size: 64. States seen: 6138
+[2025-12-31 15:46:18.603] Losses(total: 0.729, policy: 0.682, value: 0.000, l2: 0.047)
+[2025-12-31 15:46:18.603] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
+[2025-12-31 15:46:18.604]
+[2025-12-31 15:46:41.329] Step: 80
+[2025-12-31 15:46:41.330] Collected    28 states from   1 games, 1.0 states/s. 0.5 states/(s*actor), game length: 28.0
+[2025-12-31 15:46:41.341] Buffer size: 64. States seen: 6166
+[2025-12-31 15:46:46.494] Losses(total: 0.626, policy: 0.579, value: 0.000, l2: 0.047)
+[2025-12-31 15:46:46.494] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint-80
+[2025-12-31 15:46:46.495]
+[2025-12-31 15:47:12.661] Step: 81
+[2025-12-31 15:47:12.661] Collected    19 states from   1 games, 0.6 states/s. 0.3 states/(s*actor), game length: 19.0
+[2025-12-31 15:47:12.661] Buffer size: 64. States seen: 6185
+[2025-12-31 15:47:19.718] Losses(total: 0.570, policy: 0.523, value: 0.000, l2: 0.047)
+[2025-12-31 15:47:19.718] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
+[2025-12-31 15:47:19.720]
+[2025-12-31 15:48:08.076] Step: 82
+[2025-12-31 15:48:08.082] Collected    26 states from   1 games, 0.5 states/s. 0.2 states/(s*actor), game length: 26.0
+[2025-12-31 15:48:08.083] Buffer size: 64. States seen: 6211
+[2025-12-31 15:48:15.693] Losses(total: 0.509, policy: 0.463, value: 0.000, l2: 0.046)
+[2025-12-31 15:48:15.693] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
+[2025-12-31 15:48:15.694]
+[2025-12-31 15:48:40.226] Step: 83
+[2025-12-31 15:48:40.227] Collected    43 states from   1 games, 1.3 states/s. 0.7 states/(s*actor), game length: 43.0
+[2025-12-31 15:48:40.235] Buffer size: 64. States seen: 6254
+[2025-12-31 15:48:44.885] Losses(total: 0.978, policy: 0.931, value: 0.000, l2: 0.046)
+[2025-12-31 15:48:44.886] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
+[2025-12-31 15:48:44.886]
+[2025-12-31 15:50:14.995] Step: 84
+[2025-12-31 15:50:14.995] Collected    39 states from   1 games, 0.4 states/s. 0.2 states/(s*actor), game length: 39.0
+[2025-12-31 15:50:14.996] Buffer size: 64. States seen: 6293
+[2025-12-31 15:50:21.791] Losses(total: 1.015, policy: 0.969, value: 0.000, l2: 0.046)
+[2025-12-31 15:50:21.791] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
+[2025-12-31 15:50:21.792]
+[2025-12-31 15:50:51.720] Step: 85
+[2025-12-31 15:50:51.720] Collected    23 states from   1 games, 0.6 states/s. 0.3 states/(s*actor), game length: 23.0
+[2025-12-31 15:50:51.720] Buffer size: 64. States seen: 6316
+[2025-12-31 15:50:56.979] Losses(total: 0.770, policy: 0.724, value: 0.000, l2: 0.046)
+[2025-12-31 15:50:56.980] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
+[2025-12-31 15:50:56.981]
+[2025-12-31 15:51:33.222] Step: 86
+[2025-12-31 15:51:33.222] Collected    25 states from   1 games, 0.6 states/s. 0.3 states/(s*actor), game length: 25.0
+[2025-12-31 15:51:33.222] Buffer size: 64. States seen: 6341
+[2025-12-31 15:51:38.568] Losses(total: 0.842, policy: 0.796, value: 0.000, l2: 0.046)
+[2025-12-31 15:51:38.568] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
+[2025-12-31 15:51:38.569]
+[2025-12-31 15:52:31.138] Step: 87
+[2025-12-31 15:52:31.138] Collected    57 states from   1 games, 1.0 states/s. 0.5 states/(s*actor), game length: 57.0
+[2025-12-31 15:52:31.138] Buffer size: 64. States seen: 6398
+[2025-12-31 15:52:33.874] Losses(total: 0.714, policy: 0.669, value: 0.000, l2: 0.046)
+[2025-12-31 15:52:33.875] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
+[2025-12-31 15:52:33.876]
+[2025-12-31 15:53:34.143] Step: 88
+[2025-12-31 15:53:34.143] Collected    41 states from   1 games, 0.7 states/s. 0.3 states/(s*actor), game length: 41.0
+[2025-12-31 15:53:34.143] Buffer size: 64. States seen: 6439
+[2025-12-31 15:53:40.558] Losses(total: 0.855, policy: 0.810, value: 0.000, l2: 0.045)
+[2025-12-31 15:53:40.558] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
+[2025-12-31 15:53:40.559]
+[2025-12-31 15:55:08.215] Step: 89
+[2025-12-31 15:55:08.215] Collected   246 states from   1 games, 2.6 states/s. 1.3 states/(s*actor), game length: 246.0
+[2025-12-31 15:55:08.215] Buffer size: 64. States seen: 6685
+[2025-12-31 15:55:11.780] Losses(total: 0.491, policy: 0.446, value: 0.000, l2: 0.045)
+[2025-12-31 15:55:11.780] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
+[2025-12-31 15:55:11.782]
+[2025-12-31 15:56:28.760] Step: 90
+[2025-12-31 15:56:28.760] Collected    34 states from   1 games, 0.4 states/s. 0.2 states/(s*actor), game length: 34.0
+[2025-12-31 15:56:28.760] Buffer size: 64. States seen: 6719
+[2025-12-31 15:56:33.598] Losses(total: 0.822, policy: 0.777, value: 0.000, l2: 0.045)
+[2025-12-31 15:56:33.598] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint-90
+[2025-12-31 15:56:33.599]
+[2025-12-31 15:56:58.043] Step: 91
+[2025-12-31 15:56:58.043] Collected    26 states from   1 games, 0.9 states/s. 0.4 states/(s*actor), game length: 26.0
+[2025-12-31 15:56:58.043] Buffer size: 64. States seen: 6745
+[2025-12-31 15:57:01.429] Losses(total: 1.094, policy: 1.049, value: 0.000, l2: 0.045)
+[2025-12-31 15:57:01.429] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
+[2025-12-31 15:57:01.430]
+[2025-12-31 15:58:18.311] Step: 92
+[2025-12-31 15:58:18.311] Collected    45 states from   1 games, 0.6 states/s. 0.3 states/(s*actor), game length: 45.0
+[2025-12-31 15:58:18.311] Buffer size: 64. States seen: 6790
+[2025-12-31 15:58:23.519] Losses(total: 0.556, policy: 0.511, value: 0.000, l2: 0.045)
+[2025-12-31 15:58:23.520] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
+[2025-12-31 15:58:23.521]
+[2025-12-31 16:00:47.062] Step: 93
+[2025-12-31 16:00:47.062] Collected    28 states from   1 games, 0.2 states/s. 0.1 states/(s*actor), game length: 28.0
+[2025-12-31 16:00:47.063] Buffer size: 64. States seen: 6818
+[2025-12-31 16:00:53.277] Losses(total: 0.852, policy: 0.808, value: 0.000, l2: 0.044)
+[2025-12-31 16:00:53.278] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
+[2025-12-31 16:00:53.279]
+[2025-12-31 16:03:04.534] Step: 94
+[2025-12-31 16:03:04.556] Collected   114 states from   1 games, 0.8 states/s. 0.4 states/(s*actor), game length: 114.0
+[2025-12-31 16:03:04.559] Buffer size: 64. States seen: 6932
+[2025-12-31 16:03:10.728] Losses(total: 0.510, policy: 0.466, value: 0.000, l2: 0.044)
+[2025-12-31 16:03:10.728] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
+[2025-12-31 16:03:10.728]
+[2025-12-31 16:03:57.792] Step: 95
+[2025-12-31 16:03:57.793] Collected    34 states from   1 games, 0.6 states/s. 0.3 states/(s*actor), game length: 34.0
+[2025-12-31 16:03:57.793] Buffer size: 64. States seen: 6966
+[2025-12-31 16:04:00.181] Losses(total: 0.571, policy: 0.527, value: 0.000, l2: 0.044)
+[2025-12-31 16:04:00.181] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
+[2025-12-31 16:04:00.182]
+[2025-12-31 16:04:50.995] Step: 96
+[2025-12-31 16:04:50.995] Collected    30 states from   1 games, 0.6 states/s. 0.3 states/(s*actor), game length: 30.0
+[2025-12-31 16:04:50.995] Buffer size: 64. States seen: 6996
+[2025-12-31 16:04:58.661] Losses(total: 0.465, policy: 0.421, value: 0.000, l2: 0.044)
+[2025-12-31 16:04:58.661] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
+[2025-12-31 16:04:58.662]
+[2025-12-31 16:06:16.667] Step: 97
+[2025-12-31 16:06:16.667] Collected    65 states from   1 games, 0.8 states/s. 0.4 states/(s*actor), game length: 65.0
+[2025-12-31 16:06:16.667] Buffer size: 64. States seen: 7061
+[2025-12-31 16:06:22.084] Losses(total: 0.852, policy: 0.808, value: 0.000, l2: 0.044)
+[2025-12-31 16:06:22.084] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
+[2025-12-31 16:06:22.085]
+[2025-12-31 16:07:00.409] Step: 98
+[2025-12-31 16:07:00.409] Collected    17 states from   1 games, 0.4 states/s. 0.2 states/(s*actor), game length: 17.0
+[2025-12-31 16:07:00.409] Buffer size: 64. States seen: 7078
+[2025-12-31 16:07:04.180] Losses(total: 0.824, policy: 0.781, value: 0.000, l2: 0.043)
+[2025-12-31 16:07:04.180] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
+[2025-12-31 16:07:04.181]
+[2025-12-31 16:13:21.382] Step: 99
+[2025-12-31 16:13:21.382] Collected    98 states from   1 games, 0.3 states/s. 0.1 states/(s*actor), game length: 98.0
+[2025-12-31 16:13:21.382] Buffer size: 64. States seen: 7176
+[2025-12-31 16:13:28.999] Losses(total: 0.918, policy: 0.875, value: 0.000, l2: 0.043)
+[2025-12-31 16:13:29.000] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint--1
+[2025-12-31 16:13:29.001]
+[2025-12-31 16:15:13.476] Step: 100
+[2025-12-31 16:15:13.476] Collected    46 states from   1 games, 0.4 states/s. 0.2 states/(s*actor), game length: 46.0
+[2025-12-31 16:15:13.476] Buffer size: 64. States seen: 7222
+[2025-12-31 16:15:18.209] Losses(total: 0.453, policy: 0.410, value: 0.000, l2: 0.043)
+[2025-12-31 16:15:18.210] Checkpoint saved: ./scrabble_az_checkpoints/checkpoint-100
+[2025-12-31 16:15:18.211]
+[2025-12-31 16:15:18.291] learner exiting

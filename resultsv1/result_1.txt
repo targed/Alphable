@@ -1,0 +1,488 @@
+Loading game...
+Loading dictionary from NWL2023.txt...
+Dictionary loaded.
+Loading neural network from checkpoint-100...
+
+--- STARTING MATCH ---
+Player 0: Plays 'ENTHRAL' at 7,4 Across
+   Rack P1: ['E', 'R', 'O', 'G', 'A', 'I', 'I']
+Player 1: Plays 'AERO' at 8,9 Across
+   Rack P0: ['E', 'S', 'O', 'Y', 'C', 'Z', 'P']
+Player 0: Plays 'PESTO' at 4,6 Across
+   Rack P1: ['G', 'I', 'I', 'J', 'S', 'O', 'N']
+Player 0: Plays 'COYEST' at 2,6 Across
+   Rack P1: ['G', 'I', 'I', 'J', 'S', 'O', 'N']
+Player 0: Plays 'ONCE' at 6,5 Across
+   Rack P1: ['G', 'I', 'I', 'J', 'S', 'O', 'N']
+Player 1: Plays 'SIGNIOR' at 1,8 Across
+   Rack P0: ['E', 'S', 'O', 'Y', 'C', 'Z', 'P']
+Player 1: Plays 'OR' at 6,8 Across
+   Rack P0: ['E', 'S', 'O', 'Y', 'C', 'Z', 'P']
+Player 1: Plays 'NOISE' at 3,4 Across
+   Rack P0: ['E', 'S', 'O', 'Y', 'C', 'Z', 'P']
+Player 0: Plays 'CHOPS' at 6,7 Across
+   Rack P1: ['G', 'I', 'I', 'J', 'S', 'O', 'N']
+Player 0: Plays 'COLES' at 5,10 Across
+   Rack P1: ['G', 'I', 'I', 'J', 'S', 'O', 'N']
+Player 0: Plays 'COPSE' at 8,1 Across
+   Rack P1: ['G', 'I', 'I', 'J', 'S', 'O', 'N']
+Player 1: Plays 'GOJIS' at 9,4 Across
+   Rack P0: ['Y', 'Z', 'T', 'D', 'L', 'T', 'C']
+Player 0: Plays 'SLY' at 9,8 Across
+   Rack P1: ['I', 'N', 'E', 'L', 'O', 'E', 'F']
+Player 1: Plays 'FEH' at 5,7 Across
+   Rack P0: ['Z', 'T', 'D', 'T', 'C', 'I', 'S']
+Player 1: Plays 'ELFIN' at 10,9 Across
+   Rack P0: ['Z', 'T', 'D', 'T', 'C', 'I', 'S']
+Player 0: Plays 'IDS' at 10,12 Across
+   Rack P1: ['O', 'E', 'N', 'R', 'H', 'A', 'T']
+Player 0: Plays 'DISC' at 5,1 Across
+   Rack P1: ['O', 'E', 'N', 'R', 'H', 'A', 'T']
+Player 0: Plays 'IS' at 6,6 Across
+   Rack P1: ['O', 'E', 'N', 'R', 'H', 'A', 'T']
+Player 1: Plays 'OCHREA' at 7,1 Across
+   Rack P0: ['Z', 'T', 'D', 'T', 'C', 'O', 'V']
+Player 1: Plays 'TRANCHE' at 4,1 Across
+   Rack P0: ['Z', 'T', 'D', 'T', 'C', 'O', 'V']
+Player 1: Plays 'LATEN' at 7,10 Across
+   Rack P0: ['Z', 'T', 'D', 'T', 'C', 'O', 'V']
+Player 0: Plays 'COD' at 10,4 Across
+   Rack P1: ['O', 'R', 'H', 'M', 'O', 'G', 'B']
+Player 1: Plays 'DOBRO' at 10,6 Across
+   Rack P0: ['Z', 'T', 'T', 'V', 'P', 'E', 'A']
+Player 1: Plays 'BOHO' at 11,5 Across
+   Rack P0: ['Z', 'T', 'T', 'V', 'P', 'E', 'A']
+Player 0: Plays 'PETIT' at 3,6 Across
+   Rack P1: ['R', 'M', 'G', 'O', 'I', 'V', 'Y']
+Player 0: Plays 'AZOTE' at 6,2 Across
+   Rack P1: ['R', 'M', 'G', 'O', 'I', 'V', 'Y']
+Player 0: Plays 'OAT' at 11,6 Across
+   Rack P1: ['R', 'M', 'G', 'O', 'I', 'V', 'Y']
+Player 1: Plays 'GIRSH' at 3,7 Across
+   Rack P0: ['Z', 'T', 'T', 'V', 'P', 'E', 'A']
+Player 1: Plays 'GOR' at 11,12 Across
+   Rack P0: ['Z', 'T', 'T', 'V', 'P', 'E', 'A']
+Player 0: Plays 'PIG' at 9,12 Across
+   Rack P1: ['M', 'I', 'V', 'Y', '?', 'D', 'I']
+Player 0: Plays 'PATE' at 11,10 Across
+   Rack P1: ['M', 'I', 'V', 'Y', '?', 'D', 'I']
+Player 0: Plays 'TEAPOT' at 4,2 Across
+   Rack P1: ['M', 'I', 'V', 'Y', '?', 'D', 'I']
+Player 1: Plays 'GAD' at 11,12 Across
+   Rack P0: ['Z', 'T', 'T', 'V', 'P', 'E', 'A']
+Player 1: Plays 'FINE' at 10,11 Across
+   Rack P0: ['Z', 'T', 'T', 'V', 'P', 'E', 'A']
+Player 0: Plays 'PIG' at 9,12 Across
+   Rack P1: ['M', 'I', 'V', 'Y', 'D', 'I', 'A']
+Player 0: Plays 'PASH' at 4,7 Across
+   Rack P1: ['M', 'I', 'V', 'Y', 'D', 'I', 'A']
+Player 0: Plays 'PATE' at 9,1 Across
+   Rack P1: ['M', 'I', 'V', 'Y', 'D', 'I', 'A']
+Player 1: Plays 'AMID' at 9,2 Across
+   Rack P0: ['Z', 'T', 'T', 'V', 'P', 'E', 'A']
+Player 1: Plays 'DASH' at 4,7 Across
+   Rack P0: ['Z', 'T', 'T', 'V', 'P', 'E', 'A']
+Player 1: Plays 'LIVID' at 10,10 Across
+   Rack P0: ['Z', 'T', 'T', 'V', 'P', 'E', 'A']
+Player 0: Plays 'PETIT' at 3,6 Across
+   Rack P1: ['M', 'I', 'V', 'Y', 'D', 'I', 'A']
+Player 0: Plays 'DOAT' at 10,6 Across
+   Rack P1: ['M', 'I', 'V', 'Y', 'D', 'I', 'A']
+Player 0: Plays 'PATE' at 11,10 Across
+   Rack P1: ['M', 'I', 'V', 'Y', 'D', 'I', 'A']
+Player 1: Plays 'DA' at 8,13 Across
+   Rack P0: ['Z', 'T', 'T', 'V', 'P', 'E', 'A']
+Player 0: Plays 'EPACT' at 5,1 Across
+   Rack P1: ['M', 'I', 'V', 'Y', 'I', 'W', 'E']
+Player 0: Plays 'APE' at 5,7 Across
+   Rack P1: ['M', 'I', 'V', 'Y', 'I', 'W', 'E']
+Player 1: Plays 'EEW' at 5,9 Across
+   Rack P0: ['Z', 'T', 'T', 'V', 'E', 'E', 'U']
+Player 0: Plays 'BEET' at 11,5 Across
+   Rack P1: ['M', 'I', 'V', 'Y', 'I', 'F', 'N']
+Player 0: Plays 'VETO' at 5,2 Across
+   Rack P1: ['M', 'I', 'V', 'Y', 'I', 'F', 'N']
+Player 0: EXCHANGE
+Player 1: Plays 'IMINE' at 1,9 Across
+   Rack P0: ['I', 'K', 'V', 'I', 'U', 'R', 'L']
+Player 1: Plays 'FIN' at 12,5 Across
+   Rack P0: ['I', 'K', 'V', 'I', 'U', 'R', 'L']
+Player 0: Plays 'LIRI' at 10,10 Across
+   Rack P1: ['M', 'V', 'Y', 'I', 'T', 'T', 'E']
+Player 0: Plays 'RE' at 4,9 Across
+   Rack P1: ['M', 'V', 'Y', 'I', 'T', 'T', 'E']
+Player 0: Plays 'NIL' at 12,7 Across
+   Rack P1: ['M', 'V', 'Y', 'I', 'T', 'T', 'E']
+Player 1: Plays 'VETO' at 5,2 Across
+   Rack P0: ['K', 'V', 'I', 'U', 'R', '?', 'T']
+Player 1: Plays 'EME' at 3,9 Across
+   Rack P0: ['K', 'V', 'I', 'U', 'R', '?', 'T']
+Player 1: Plays 'ICE' at 7,1 Across
+   Rack P0: ['K', 'V', 'I', 'U', 'R', '?', 'T']
+Player 0: Plays 'OIKS' at 11,8 Across
+   Rack P1: ['M', 'V', 'Y', 'I', 'T', 'T', 'E']
+Player 1: Plays 'ICE' at 7,1 Across
+   Rack P0: ['V', 'U', 'R', 'T', 'U', 'N', 'W']
+Player 1: Plays 'IVY' at 12,12 Across
+   Rack P0: ['V', 'U', 'R', 'T', 'U', 'N', 'W']
+Player 0: Plays 'UNCUT' at 6,1 Across
+   Rack P1: ['M', 'T', 'T', 'E', 'E', 'E', 'X']
+Player 0: Plays 'RUNE' at 2,10 Across
+   Rack P1: ['M', 'T', 'T', 'E', 'E', 'E', 'X']
+Player 0: Plays 'TURNUP' at 0,8 Across
+   Rack P1: ['M', 'T', 'T', 'E', 'E', 'E', 'X']
+Player 1: Plays 'EM' at 13,8 Across
+   Rack P0: ['V', 'U', 'R', 'T', 'U', 'N', 'W']
+Player 0: Plays 'NU' at 13,6 Across
+   Rack P1: ['T', 'T', 'E', 'E', 'X', 'D', 'N']
+Player 1: Plays 'DONEE' at 7,2 Across
+   Rack P0: ['V', 'R', 'T', 'U', 'W', 'A', 'G']
+Player 1: Plays 'EXEC' at 5,1 Across
+   Rack P0: ['V', 'R', 'T', 'U', 'W', 'A', 'G']
+Player 1: Plays 'DEE' at 3,10 Across
+   Rack P0: ['V', 'R', 'T', 'U', 'W', 'A', 'G']
+Player 0: Plays 'GAR' at 4,5 Across
+   Rack P1: ['T', 'T', 'E', 'E', 'X', 'D', 'N']
+Player 1: Plays 'ID' at 12,12 Across
+   Rack P0: ['V', 'T', 'U', 'W', 'E', 'U', 'S']
+Player 1: Plays 'DENE' at 2,9 Across
+   Rack P0: ['V', 'T', 'U', 'W', 'E', 'U', 'S']
+Player 1: Plays 'EWE' at 5,10 Across
+   Rack P0: ['V', 'T', 'U', 'W', 'E', 'U', 'S']
+Player 0: Plays 'MES' at 13,9 Across
+   Rack P1: ['T', 'T', 'E', 'X', 'D', 'N', 'B']
+Player 1: Plays 'BENE' at 2,9 Across
+   Rack P0: ['V', 'T', 'U', 'W', 'U', 'I', 'D']
+Player 1: Plays 'BEE' at 3,9 Across
+   Rack P0: ['V', 'T', 'U', 'W', 'U', 'I', 'D']
+Player 1: Plays 'BRASH' at 3,7 Across
+   Rack P0: ['V', 'T', 'U', 'W', 'U', 'I', 'D']
+Player 0: Plays 'ID' at 13,13 Across
+   Rack P1: ['T', 'T', 'E', 'X', 'D', 'N', 'B']
+Player 1: Plays 'BETTA' at 0,6 Across
+   Rack P0: ['V', 'T', 'U', 'W', 'U', 'Z', 'U']
+Player 1: EXCHANGE
+Player 0: Plays 'TI' at 8,7 Across
+   Rack P1: ['I', 'T', 'Q', 'T', 'M', 'X', 'E']
+Player 0: Plays 'WET' at 5,11 Across
+   Rack P1: ['I', 'T', 'Q', 'T', 'M', 'X', 'E']
+Player 1: Plays 'UM' at 13,7 Across
+   Rack P0: ['V', 'U', 'W', 'U', 'Z', 'U', 'A']
+Player 1: Plays 'NE' at 13,6 Across
+   Rack P0: ['V', 'U', 'W', 'U', 'Z', 'U', 'A']
+Player 1: Plays 'MA' at 3,6 Across
+   Rack P0: ['V', 'U', 'W', 'U', 'Z', 'U', 'A']
+Player 0: Plays 'AI' at 8,7 Across
+   Rack P1: ['I', 'T', 'Q', 'T', 'M', 'X', 'E']
+Player 0: Plays 'VAU' at 9,2 Across
+   Rack P1: ['I', 'T', 'Q', 'T', 'M', 'X', 'E']
+Player 0: Plays 'EW' at 13,8 Across
+   Rack P1: ['I', 'T', 'Q', 'T', 'M', 'X', 'E']
+Player 1: EXCHANGE
+Player 0: Plays 'VUG' at 2,5 Across
+   Rack P1: ['I', 'A', 'O', 'X', 'R', 'T', 'Q']
+Player 0: Plays 'AVE' at 3,12 Across
+   Rack P1: ['I', 'A', 'O', 'X', 'R', 'T', 'Q']
+Player 0: Plays 'AGAR' at 4,4 Across
+   Rack P1: ['I', 'A', 'O', 'X', 'R', 'T', 'Q']
+Player 1: Plays 'IXORA' at 3,0 Across
+   Rack P0: ['V', 'U', 'W', 'U', 'Z', 'U', 'R']
+Player 0: Plays 'WUZ' at 4,1 Across
+   Rack P1: ['T', 'Q', 'E', 'M', 'T', 'T', 'N']
+Player 1: Plays 'EME' at 3,12 Across
+   Rack P0: ['V', 'U', 'U', 'R', 'D', 'B', 'E']
+Player 1: Plays 'NE' at 13,6 Across
+   Rack P0: ['V', 'U', 'U', 'R', 'D', 'B', 'E']
+Player 1: Plays 'ETA' at 2,6 Across
+   Rack P0: ['V', 'U', 'U', 'R', 'D', 'B', 'E']
+Player 0: Plays 'ED' at 4,13 Across
+   Rack P1: ['T', 'Q', 'E', 'M', 'T', 'T', 'N']
+Player 1: Plays 'MEN' at 3,11 Across
+   Rack P0: ['V', 'U', 'U', 'R', 'B', 'A']
+Player 0: Plays 'NA' at 13,6 Across
+   Rack P1: ['T', 'Q', 'T', 'T']
+Player 0: Plays 'RUB' at 4,7 Across
+   Rack P1: ['T', 'Q', 'T', 'T']
+Player 1: Plays 'ET' at 13,8 Across
+   Rack P0: ['V', 'U', 'R', 'A']
+Player 1: Plays 'QI' at 2,0 Across
+   Rack P0: ['V', 'U', 'R', 'A']
+Player 1: Plays 'TUP' at 3,8 Across
+   Rack P0: ['V', 'U', 'R', 'A']
+Player 0: Plays 'AA' at 4,4 Across
+   Rack P1: ['T', 'Q', 'T', 'T']
+Player 0: Plays 'RUBE' at 2,9 Across
+   Rack P1: ['T', 'Q', 'T', 'T']
+Player 0: Plays 'ZA' at 4,3 Across
+   Rack P1: ['T', 'Q', 'T', 'T']
+Player 1: Plays 'TE' at 2,12 Across
+   Rack P0: ['V', 'U', 'R', 'A']
+Player 1: Plays 'UT' at 4,2 Across
+   Rack P0: ['V', 'U', 'R', 'A']
+Player 1: Plays 'ET' at 13,10 Across
+   Rack P0: ['V', 'U', 'R', 'A']
+Player 0: Plays 'VAR' at 9,1 Across
+   Rack P1: ['T', 'Q', 'T', 'T']
+Player 1: Plays 'OAT' at 8,2 Across
+   Rack P0: ['U']
+Player 1: Plays 'TOUT' at 2,2 Across
+   Rack P0: ['U']
+Player 1: Plays 'AT' at 4,4 Across
+   Rack P0: ['U']
+Player 0: Plays 'MU' at 13,9 Across
+   Rack P1: ['T', 'Q', 'T', 'T']
+Player 0: Plays 'NU' at 13,6 Across
+   Rack P1: ['T', 'Q', 'T', 'T']
+Player 1: Plays 'UT' at 4,2 Across
+   Rack P0: ['U']
+Player 1: Plays 'TE' at 4,12 Across
+   Rack P0: ['U']
+Player 0: Plays 'UM' at 2,11 Across
+   Rack P1: ['Q', 'T', 'T']
+Player 0: Plays 'NU' at 13,6 Across
+   Rack P1: ['Q', 'T', 'T']
+Player 1: Plays 'OUT' at 3,2 Across
+   Rack P0: ['U']
+Player 1: Plays 'ATT' at 9,2 Across
+   Rack P0: ['U']
+Player 1: Plays 'UT' at 13,7 Across
+   Rack P0: ['U']
+Player 0: Plays 'MU' at 13,9 Across
+   Rack P1: ['Q', 'T', 'T']
+Player 0: Plays 'NU' at 13,6 Across
+   Rack P1: ['Q', 'T', 'T']
+Player 1: Plays 'OAT' at 8,2 Across
+   Rack P0: ['U']
+Player 1: Plays 'OUT' at 3,2 Across
+   Rack P0: ['U']
+Player 1: Plays 'ET' at 13,8 Across
+   Rack P0: ['U']
+Player 0: Plays 'NU' at 13,6 Across
+   Rack P1: ['Q', 'T', 'T']
+Player 1: Plays 'TOUT' at 2,2 Across
+   Rack P0: ['U']
+Player 1: Plays 'ET' at 13,10 Across
+   Rack P0: ['U']
+Player 1: Plays 'NUT' at 12,7 Across
+   Rack P0: ['U']
+Player 0: Plays 'MU' at 13,9 Across
+   Rack P1: ['Q', 'T', 'T']
+Player 0: Plays 'UM' at 2,11 Across
+   Rack P1: ['Q', 'T', 'T']
+Player 0: Plays 'NU' at 13,6 Across
+   Rack P1: ['Q', 'T', 'T']
+Player 1: Plays 'OAT' at 8,2 Across
+   Rack P0: ['U']
+Player 1: Plays 'IT' at 13,13 Across
+   Rack P0: ['U']
+Player 1: Plays 'AT' at 4,4 Across
+   Rack P0: ['U']
+Player 0: Plays 'UM' at 2,11 Across
+   Rack P1: ['Q', 'T', 'T']
+Player 0: Plays 'NU' at 13,6 Across
+   Rack P1: ['Q', 'T', 'T']
+Player 1: Plays 'AT' at 4,4 Across
+   Rack P0: ['U']
+Player 1: Plays 'TUP' at 3,8 Across
+   Rack P0: ['U']
+Player 1: Plays 'NUT' at 12,7 Across
+   Rack P0: ['U']
+Player 0: Plays 'MU' at 13,9 Across
+   Rack P1: ['Q', 'T', 'T']
+Player 0: Plays 'UM' at 2,11 Across
+   Rack P1: ['Q', 'T', 'T']
+Player 0: Plays 'NU' at 13,6 Across
+   Rack P1: ['Q', 'T', 'T']
+Player 1: Plays 'QI' at 2,0 Across
+   Rack P0: ['U']
+Player 1: Plays 'TAR' at 6,11 Across
+   Rack P0: ['U']
+Player 1: Plays 'AT' at 4,4 Across
+   Rack P0: ['U']
+Player 0: Plays 'UM' at 2,11 Across
+   Rack P1: ['Q', 'T', 'T']
+Player 0: Plays 'MU' at 13,9 Across
+   Rack P1: ['Q', 'T', 'T']
+Player 0: Plays 'NU' at 13,6 Across
+   Rack P1: ['Q', 'T', 'T']
+Player 1: Plays 'ET' at 13,10 Across
+   Rack P0: ['U']
+Player 1: Plays 'IT' at 13,13 Across
+   Rack P0: ['U']
+Player 1: Plays 'ATT' at 9,2 Across
+   Rack P0: ['U']
+Player 0: Plays 'UM' at 2,11 Across
+   Rack P1: ['Q', 'T', 'T']
+Player 0: Plays 'MU' at 13,9 Across
+   Rack P1: ['Q', 'T', 'T']
+Player 0: Plays 'NU' at 13,6 Across
+   Rack P1: ['Q', 'T', 'T']
+Player 1: Plays 'UT' at 4,2 Across
+   Rack P0: ['U']
+Player 1: Plays 'ET' at 13,10 Across
+   Rack P0: ['U']
+Player 1: Plays 'TAR' at 6,11 Across
+   Rack P0: ['U']
+Player 0: Plays 'NU' at 13,6 Across
+   Rack P1: ['Q', 'T', 'T']
+Player 1: Plays 'NUT' at 12,7 Across
+   Rack P0: ['U']
+Player 1: Plays 'AT' at 4,4 Across
+   Rack P0: ['U']
+Player 1: Plays 'QI' at 2,0 Across
+   Rack P0: ['U']
+Player 0: Plays 'UM' at 2,11 Across
+   Rack P1: ['Q', 'T', 'T']
+Player 0: Plays 'MU' at 13,9 Across
+   Rack P1: ['Q', 'T', 'T']
+Player 0: Plays 'NU' at 13,6 Across
+   Rack P1: ['Q', 'T', 'T']
+Player 1: Plays 'TA' at 3,6 Across
+   Rack P0: ['U']
+Player 1: Plays 'TUP' at 3,8 Across
+   Rack P0: ['U']
+Player 1: Plays 'TRASH' at 3,7 Across
+   Rack P0: ['U']
+Player 0: Plays 'MU' at 13,9 Across
+   Rack P1: ['Q', 'T', 'T']
+Player 0: Plays 'NU' at 13,6 Across
+   Rack P1: ['Q', 'T', 'T']
+Player 1: Plays 'OUT' at 3,2 Across
+   Rack P0: ['U']
+Player 1: Plays 'IT' at 13,13 Across
+   Rack P0: ['U']
+Player 1: Plays 'QI' at 2,0 Across
+   Rack P0: ['U']
+Player 0: Plays 'MU' at 13,9 Across
+   Rack P1: ['Q', 'T', 'T']
+Player 0: Plays 'UM' at 2,11 Across
+   Rack P1: ['Q', 'T', 'T']
+Player 0: Plays 'NU' at 13,6 Across
+   Rack P1: ['Q', 'T', 'T']
+Player 1: Plays 'TA' at 3,6 Across
+   Rack P0: ['U']
+Player 1: Plays 'OAT' at 8,2 Across
+   Rack P0: ['U']
+Player 1: Plays 'ET' at 13,10 Across
+   Rack P0: ['U']
+Player 0: Plays 'NU' at 13,6 Across
+   Rack P1: ['Q', 'T', 'T']
+Player 1: Plays 'ATT' at 9,2 Across
+   Rack P0: ['U']
+Player 1: Plays 'TUP' at 3,8 Across
+   Rack P0: ['U']
+Player 1: Plays 'UT' at 4,2 Across
+   Rack P0: ['U']
+Player 0: Plays 'UM' at 2,11 Across
+   Rack P1: ['Q', 'T', 'T']
+Player 0: Plays 'NU' at 13,6 Across
+   Rack P1: ['Q', 'T', 'T']
+Player 1: Plays 'ATT' at 9,2 Across
+   Rack P0: ['U']
+Player 1: Plays 'TA' at 3,6 Across
+   Rack P0: ['U']
+Player 1: Plays 'OUT' at 3,2 Across
+   Rack P0: ['U']
+Player 0: Plays 'UM' at 2,11 Across
+   Rack P1: ['Q', 'T', 'T']
+Player 0: Plays 'NU' at 13,6 Across
+   Rack P1: ['Q', 'T', 'T']
+Player 1: Plays 'TA' at 3,6 Across
+   Rack P0: ['U']
+Player 1: Plays 'ET' at 13,10 Across
+   Rack P0: ['U']
+Player 1: Plays 'ATT' at 9,2 Across
+   Rack P0: ['U']
+Player 0: Plays 'NU' at 13,6 Across
+   Rack P1: ['Q', 'T', 'T']
+Player 1: Plays 'OUT' at 3,2 Across
+   Rack P0: ['U']
+Player 1: Plays 'TA' at 3,6 Across
+   Rack P0: ['U']
+Player 1: Plays 'ATT' at 9,2 Across
+   Rack P0: ['U']
+Player 0: Plays 'MU' at 13,9 Across
+   Rack P1: ['Q', 'T', 'T']
+Player 0: Plays 'NU' at 13,6 Across
+   Rack P1: ['Q', 'T', 'T']
+Player 1: Plays 'QI' at 2,0 Across
+   Rack P0: ['U']
+Player 1: Plays 'OAT' at 8,2 Across
+   Rack P0: ['U']
+Player 1: Plays 'NUT' at 12,7 Across
+   Rack P0: ['U']
+Player 0: Plays 'MU' at 13,9 Across
+   Rack P1: ['Q', 'T', 'T']
+Player 0: Plays 'UM' at 2,11 Across
+   Rack P1: ['Q', 'T', 'T']
+Player 0: Plays 'NU' at 13,6 Across
+   Rack P1: ['Q', 'T', 'T']
+Player 1: Plays 'ET' at 13,8 Across
+   Rack P0: ['U']
+Player 1: Plays 'AT' at 4,4 Across
+   Rack P0: ['U']
+Player 1: Plays 'TUP' at 3,8 Across
+   Rack P0: ['U']
+Player 0: Plays 'MU' at 13,9 Across
+   Rack P1: ['Q', 'T', 'T']
+Player 0: Plays 'NU' at 13,6 Across
+   Rack P1: ['Q', 'T', 'T']
+Player 1: Plays 'OUT' at 3,2 Across
+   Rack P0: ['U']
+Player 1: Plays 'TA' at 3,6 Across
+   Rack P0: ['U']
+Player 1: Plays 'NUT' at 12,7 Across
+   Rack P0: ['U']
+Player 0: Plays 'NU' at 13,6 Across
+   Rack P1: ['Q', 'T', 'T']
+Player 1: Plays 'QI' at 8,7 Across
+   Rack P0: ['U']
+Player 1: Plays 'UT' at 4,2 Across
+   Rack P0: ['U']
+Player 1: Plays 'TAR' at 6,11 Across
+   Rack P0: ['U']
+Player 0: Plays 'UM' at 2,11 Across
+   Rack P1: ['Q', 'T', 'T']
+Player 0: Plays 'MU' at 13,9 Across
+   Rack P1: ['Q', 'T', 'T']
+Player 0: Plays 'NU' at 13,6 Across
+   Rack P1: ['Q', 'T', 'T']
+Player 1: Plays 'OAT' at 8,2 Across
+   Rack P0: ['U']
+Player 1: Plays 'AT' at 4,4 Across
+   Rack P0: ['U']
+Player 1: Plays 'QI' at 8,7 Across
+   Rack P0: ['U']
+Player 0: Plays 'NU' at 13,6 Across
+   Rack P1: ['Q', 'T', 'T']
+Player 1: Plays 'ET' at 13,10 Across
+   Rack P0: ['U']
+Player 1: Plays 'UT' at 4,2 Across
+   Rack P0: ['U']
+Player 1: Plays 'TA' at 3,6 Across
+   Rack P0: ['U']
+Player 0: Plays 'NU' at 13,6 Across
+   Rack P1: ['Q', 'T', 'T']
+Player 1: TRIED Plays 'TAR' at 6,11 Across -> FAILED (Invalid/Disallowed)
+
+--- GAME OVER ---
+Turn: Player 1
+Scores: P0=-157.0 P1=-772.0
+Bag: 0 tiles
+   A B C D E F G H I J K L M N O
+ 0 . . . . . . . . . . . . . . . 
+ 1 . . . . . . . . . . . . . . . 
+ 2 . . . . . . . . . . . . . . . 
+ 3 I X O R A . . . . . . M E N . 
+ 4 . W U Z A G A R U B . . T E D 
+ 5 . . . . . . . A P E E W E T . 
+ 6 . . . . . . I S . . . . . . . 
+ 7 . . . . E N T H R A L A T E N 
+ 8 . C O P S E . . . A E R O D A 
+ 9 . V A R G O J I S L Y . . . . 
+10 . . . . C O D . . E L F I N E 
+11 . . . . . B O H O I K S G O R 
+12 . . . . . F I N I L . . I V Y 
+13 . . . . . . N U E M E S . I D 
+14 . . . . . . . . . . . . . . . 
+Final Score: [-157.0, -772.0]

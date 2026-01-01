@@ -1,0 +1,193 @@
+Loading game...
+Loading dictionary from NWL2023.txt...
+Dictionary loaded.
+Loading neural network from checkpoint-100...
+
+--- STARTING MATCH ---
+Player 0: Plays 'ASININE' at 7,1 Across
+   Rack P1: ['W', 'F', 'T', 'R', 'D', 'E', 'W']
+Player 1: Plays 'DEFT' at 8,4 Across
+   Rack P0: ['E', 'I', 'R', 'N', 'E', 'I', 'I']
+Player 0: Plays 'ERNE' at 9,5 Across
+   Rack P1: ['W', 'R', 'W', 'Q', 'I', 'P', 'G']
+Player 1: Plays 'TWIRP' at 8,7 Across
+   Rack P0: ['I', 'I', 'I', 'E', 'X', 'T', 'E']
+Player 0: Plays 'NEXT' at 9,7 Across
+   Rack P1: ['W', 'Q', 'G', 'N', 'D', 'U', 'M']
+Player 1: Plays 'DUG' at 8,12 Across
+   Rack P0: ['I', 'I', 'I', 'E', 'E', 'D', 'V']
+Player 0: Plays 'TEIID' at 9,10 Across
+   Rack P1: ['W', 'Q', 'N', 'M', 'T', 'K', 'O']
+Player 1: EXCHANGE
+Player 0: Plays 'ALIVE' at 10,8 Across
+   Rack P1: ['Q', 'U', 'L', '?', 'M', 'H', 'A']
+Player 1: Plays 'HAD' at 8,2 Across
+   Rack P0: ['B', 'A', 'E', 'A', 'O', 'J', 'T']
+Player 0: Plays 'ABET' at 11,11 Across
+   Rack P1: ['Q', 'U', 'L', '?', 'M', 'A', 'C']
+Player 1: Plays 'AAL' at 12,12 Across
+   Rack P0: ['A', 'O', 'J', 'R', 'Z', 'A', 'L']
+Player 0: Plays 'LAZAR' at 11,4 Across
+   Rack P1: ['Q', 'U', 'M', 'C', 'D', 'V', 'E']
+Player 1: Plays 'CUD' at 12,6 Across
+   Rack P0: ['O', 'J', 'R', 'N', 'Y', 'E', 'I']
+Player 0: Plays 'INRO' at 12,1 Across
+   Rack P1: ['Q', 'M', 'V', 'E', 'H', 'L', 'T']
+Player 1: Plays 'AL' at 12,13 Across
+   Rack P0: ['J', 'Y', 'E', 'E', 'U', 'W', 'M']
+Player 0: Plays 'EME' at 9,0 Across
+   Rack P1: ['Q', 'M', 'V', 'E', 'H', 'L', 'T']
+Player 1: EXCHANGE
+Player 0: Plays 'GO' at 13,4 Across
+   Rack P1: ['R', 'I', 'M', 'S', 'O', 'E', 'V']
+Player 1: Plays 'ME' at 9,1 Across
+   Rack P0: ['J', 'Y', 'U', 'W', 'T', 'O', 'E']
+Player 0: Plays 'ET' at 13,1 Across
+   Rack P1: ['R', 'I', 'M', 'S', 'O', 'E', 'V']
+Player 1: Plays 'TE' at 13,2 Across
+   Rack P0: ['J', 'Y', 'U', 'W', 'O', 'A', 'I']
+Player 0: Plays 'EW' at 9,2 Across
+   Rack P1: ['R', 'I', 'M', 'S', 'O', 'V', 'R']
+Player 1: EXCHANGE
+Player 0: Plays 'YAGI' at 14,5 Across
+   Rack P1: ['T', 'I', 'P', 'U', 'H', 'B', 'S']
+Player 1: EXCHANGE
+Player 0: Plays 'JIAOS' at 14,9 Across
+   Rack P1: ['E', 'O', 'S', 'N', 'I', 'H', 'L']
+Player 1: Plays 'CUDS' at 12,6 Across
+   Rack P0: ['U', 'Y', 'R', 'V', 'O', 'C', 'U']
+Player 0: Plays 'OY' at 6,0 Across
+   Rack P1: ['E', 'O', 'N', 'I', 'H', 'L', 'M']
+Player 1: Plays 'HI' at 13,8 Across
+   Rack P0: ['U', 'R', 'V', 'C', 'U', 'B', 'Q']
+Player 0: Plays 'RUB' at 5,1 Across
+   Rack P1: ['E', 'O', 'N', 'L', 'M', 'K', 'N']
+Player 1: Plays 'EN' at 10,1 Across
+   Rack P0: ['V', 'C', 'U', 'Q', 'F', 'O', 'P']
+Player 0: Plays 'COUP' at 5,4 Across
+   Rack P1: ['O', 'L', 'M', 'K', 'N', 'O', 'T']
+Player 1: Plays 'LO' at 13,12 Across
+   Rack P0: ['V', 'Q', 'F', 'O', 'T', 'S', 'R']
+Player 0: Plays 'FORTS' at 5,8 Across
+   Rack P1: ['M', 'K', 'N', 'O', 'T']
+Player 1: Plays 'MO' at 4,6 Across
+   Rack P0: ['V', 'Q']
+Player 0: PASS
+Player 1: Plays 'ET' at 13,1 Across
+   Rack P0: ['V', 'Q']
+Player 0: PASS
+Player 1: Plays 'ET' at 13,1 Across
+   Rack P0: ['V', 'Q']
+Player 0: PASS
+Player 1: Plays 'ET' at 13,1 Across
+   Rack P0: ['V', 'Q']
+Player 0: PASS
+Player 1: Plays 'ET' at 13,1 Across
+   Rack P0: ['V', 'Q']
+Player 0: PASS
+Player 1: Plays 'ET' at 13,1 Across
+   Rack P0: ['V', 'Q']
+Player 0: PASS
+Player 1: Plays 'ET' at 13,1 Across
+   Rack P0: ['V', 'Q']
+Player 0: PASS
+Player 1: Plays 'ET' at 13,1 Across
+   Rack P0: ['V', 'Q']
+Player 0: PASS
+Player 1: Plays 'ET' at 13,1 Across
+   Rack P0: ['V', 'Q']
+Player 0: PASS
+Player 1: Plays 'ET' at 13,1 Across
+   Rack P0: ['V', 'Q']
+Player 0: PASS
+Player 1: Plays 'ET' at 13,1 Across
+   Rack P0: ['V', 'Q']
+Player 0: PASS
+Player 1: Plays 'ET' at 13,1 Across
+   Rack P0: ['V', 'Q']
+Player 0: PASS
+Player 1: Plays 'ET' at 13,1 Across
+   Rack P0: ['V', 'Q']
+Player 0: PASS
+Player 1: Plays 'ET' at 13,1 Across
+   Rack P0: ['V', 'Q']
+Player 0: PASS
+Player 1: Plays 'ET' at 13,1 Across
+   Rack P0: ['V', 'Q']
+Player 0: PASS
+Player 1: Plays 'ET' at 13,1 Across
+   Rack P0: ['V', 'Q']
+Player 0: PASS
+Player 1: Plays 'ET' at 13,1 Across
+   Rack P0: ['V', 'Q']
+Player 0: PASS
+Player 1: Plays 'ET' at 13,1 Across
+   Rack P0: ['V', 'Q']
+Player 0: PASS
+Player 1: Plays 'ET' at 13,1 Across
+   Rack P0: ['V', 'Q']
+Player 0: PASS
+Player 1: Plays 'ET' at 13,1 Across
+   Rack P0: ['V', 'Q']
+Player 0: PASS
+Player 1: Plays 'ET' at 13,1 Across
+   Rack P0: ['V', 'Q']
+Player 0: PASS
+Player 1: Plays 'ET' at 13,1 Across
+   Rack P0: ['V', 'Q']
+Player 0: PASS
+Player 1: Plays 'ET' at 13,1 Across
+   Rack P0: ['V', 'Q']
+Player 0: PASS
+Player 1: Plays 'ET' at 13,1 Across
+   Rack P0: ['V', 'Q']
+Player 0: PASS
+Player 1: Plays 'ET' at 13,1 Across
+   Rack P0: ['V', 'Q']
+Player 0: PASS
+Player 1: Plays 'ET' at 13,1 Across
+   Rack P0: ['V', 'Q']
+Player 0: PASS
+Player 1: Plays 'ET' at 13,1 Across
+   Rack P0: ['V', 'Q']
+Player 0: PASS
+Player 1: Plays 'ET' at 13,1 Across
+   Rack P0: ['V', 'Q']
+Player 0: PASS
+Player 1: Plays 'ET' at 13,1 Across
+   Rack P0: ['V', 'Q']
+Player 0: PASS
+Player 1: Plays 'ET' at 13,1 Across
+   Rack P0: ['V', 'Q']
+Player 0: PASS
+Player 1: Plays 'TSK' at 5,11 Across
+   Rack P0: ['V', 'Q']
+Player 0: PASS
+Player 1: Plays 'ET' at 13,1 Across
+   Rack P0: ['V', 'Q']
+Player 0: PASS
+Player 1: Plays 'HIT' at 13,8 Across
+   Rack P0: ['V', 'Q']
+Player 0: PASS
+
+--- GAME OVER ---
+Turn: Player 0
+Scores: P0=418.0 P1=328.0
+Bag: 0 tiles
+   A B C D E F G H I J K L M N O
+ 0 . . . . . . . . . . . . . . . 
+ 1 . . . . . . . . . . . . . . . 
+ 2 . . . . . . . . . . . . . . . 
+ 3 . . . . . . . . . . . . . . . 
+ 4 . . . . . . M O . . . . . . . 
+ 5 . R U B C O U P F O R T S K . 
+ 6 O Y . . . . . . . . . . . . . 
+ 7 . A S I N I N E . . . . . . . 
+ 8 . . H A D E F T W I R P D U G 
+ 9 E M E W . E R N E X T E I I D 
+10 . E N . . . . . A L I V E . . 
+11 . . . . L A Z A R . . A B E T 
+12 . I N R O . C U D S . . A A L 
+13 . E T E G O . . H I T . L O . 
+14 . . . . . Y A G I J I A O S . 
+Final Score: [418.0, 328.0]

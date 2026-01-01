@@ -107,6 +107,9 @@ class ScrabbleState(pyspiel.State):
         self.consecutive_passes = 0
         self.turn_count = 0
         
+        # NEW: Track moves that failed validation this turn
+        self.banned_actions = set() 
+        
         # Initialize Bag
         self.bag = []
         for letter, count in BAG_DISTRIBUTION:
@@ -208,15 +211,23 @@ class ScrabbleState(pyspiel.State):
         valid_moves = []
         
         for m in moves:
-            # STRICT VALIDATION
-            is_valid, _ = self._validate_move(m['row'], m['col'], m['word'], m['dir'], rack)
-            if is_valid:
-                valid_moves.append(m)
+            # OPTIMIZATION: We only run strict validation if the move isn't already banned.
+            # However, we don't have the ID yet. So we generate, then ID, then check ban.
+            
+            # Basic geometry check (fast)
+            r, c, word = m['row'], m['col'], m['word']
+            dr, dc = (0, 1) if m['dir'] == 'Across' else (1, 0)
+            end_r = r + dr * (len(word) - 1)
+            end_c = c + dc * (len(word) - 1)
+            if not (0 <= r < 15 and 0 <= c < 15 and 0 <= end_r < 15 and 0 <= end_c < 15):
+                continue
+
+            valid_moves.append(m)
 
         if not valid_moves:
             return [450] # Pass
 
-        # Deterministic Sorting
+        # Deterministic Sort
         valid_moves.sort(key=lambda x: (-len(x['word']), x['word']))
 
         best_moves_by_loc = {}
@@ -234,7 +245,14 @@ class ScrabbleState(pyspiel.State):
         if len(self.bag) >= 7:
             legal.append(451) 
             
-        return sorted(legal)
+        # NEW: Filter out banned actions
+        final_legal = [a for a in legal if a not in self.banned_actions]
+        
+        # If we banned everything, forced Pass
+        if not final_legal:
+            return [450]
+            
+        return sorted(final_legal)
     
     def legal_actions_mask(self, player=None):
         """
@@ -259,78 +277,109 @@ class ScrabbleState(pyspiel.State):
         return mask
 
     def _apply_action(self, action_id):
-        self.turn_count += 1
+        # --- STEP 5: EARLY TERMINATION (Mercy Rule) ---
+        # If 20 turns have passed and score is still 0, the game is dead. Kill it.
+        if self.turn_count > 20 and sum(self.scores) == 0:
+            self._game_over = True
+            return
+
+        # Hard limit to prevent infinite games
         if self.turn_count > 100:
             self._game_over = True
             return
 
-        if action_id == 450: # PASS
+        # Action 450: PASS
+        if action_id == 450:
             self.consecutive_passes += 1
-            if self.consecutive_passes >= 6: self._game_over = True
+            # STEP 5: Tighter Pass Limit (4 instead of 6)
+            if self.consecutive_passes >= 4: 
+                self._game_over = True
+            
+            self.turn_count += 1
             self._current_player = 1 - self._current_player
             self._current_move_map = {}
+            self.banned_actions = set() # Reset bans
             return
 
-        if action_id == 451: # EXCHANGE
+        # Action 451: EXCHANGE
+        if action_id == 451:
             self.consecutive_passes += 1
-            if self.consecutive_passes >= 6: self._game_over = True
+            # STEP 5: Tighter Pass Limit
+            if self.consecutive_passes >= 4: 
+                self._game_over = True
+                
+            # Bag Limit Rule: Cannot exchange if bag < 7
             if len(self.bag) >= 7:
                 self.bag.extend(self.racks[self._current_player])
                 np.random.shuffle(self.bag)
                 self.racks[self._current_player] = []
                 self._refill_rack(self._current_player)
+            else:
+                # STEP 4: Penalty for illegal exchange attempt
+                self.scores[self._current_player] -= 10.0
+            
+            self.turn_count += 1
             self._current_player = 1 - self._current_player
             self._current_move_map = {}
+            self.banned_actions = set() 
             return
 
-        # PLAY WORD
-        if action_id not in self._current_move_map:
+        # PLAY WORD Logic
+        if not self._current_move_map:
              self._legal_actions(self._current_player)
 
-        # Safety Fallback
+        # 1. Hallucination Check
         if action_id not in self._current_move_map:
-            # This should NEVER happen with the new _validate_move logic
-            # But if it does, it's a Pass.
-            self.consecutive_passes += 1
-            self._current_player = 1 - self._current_player
-            self._current_move_map = {}
-            return
+            # STEP 4: Reward Shaping (Penalty)
+            # The agent tried to play a move that doesn't exist. Slap its wrist.
+            self.scores[self._current_player] -= 10.0
+            
+            self.banned_actions.add(action_id)
+            if len(self.banned_actions) >= 3:
+                self._apply_action(450) # Force Pass
+            return # Retry same player
 
         move = self._current_move_map[action_id]
-        row, col = move['row'], move['col']
-        word = move['word']
-        direction = move['dir']
+        row, col, word, direction = move['row'], move['col'], move['word'], move['dir']
         
-        # Double check with validator to get tiles_used correctly
+        # 2. Strict Validation
         is_valid, tiles_used = self._validate_move(row, col, word, direction, self.racks[self._current_player])
         
         if not is_valid:
-            # Logic error: Generator said yes, Validator said no. Treat as Pass.
-            self.consecutive_passes += 1
-        else:
-            # SUCCESSFUL EXECUTION
-            self.consecutive_passes = 0
-            score, _ = self._score_move(row, col, word, direction)
-            self.scores[self._current_player] += score
+            # STEP 4: Reward Shaping (Penalty)
+            # The agent tried an invalid placement. Penalize.
+            self.scores[self._current_player] -= 10.0
             
-            dr, dc = (0, 1) if direction == 'Across' else (1, 0)
-            curr_r, curr_c = row, col
-            for char in word:
-                self.board[curr_r][curr_c] = char
-                curr_r += dr
-                curr_c += dc
-                
-            real_rack = self.racks[self._current_player]
-            for char in tiles_used:
-                if char in real_rack: real_rack.remove(char)
-                else: real_rack.remove('?') # Blank
+            self.banned_actions.add(action_id)
+            if len(self.banned_actions) >= 3:
+                self._apply_action(450)
+            return # Retry same player
 
-            self._refill_rack(self._current_player)
-            if not self.racks[self._current_player] and not self.bag:
-                self._game_over = True
+        # 3. SUCCESS
+        self.consecutive_passes = 0
+        score, _ = self._score_move(row, col, word, direction)
+        self.scores[self._current_player] += score
+        
+        dr, dc = (0, 1) if direction == 'Across' else (1, 0)
+        curr_r, curr_c = row, col
+        for char in word:
+            self.board[curr_r][curr_c] = char
+            curr_r += dr
+            curr_c += dc
+            
+        real_rack = self.racks[self._current_player]
+        for char in tiles_used:
+            if char in real_rack: real_rack.remove(char)
+            else: real_rack.remove('?')
 
+        self._refill_rack(self._current_player)
+        if not self.racks[self._current_player] and not self.bag:
+            self._game_over = True
+
+        self.turn_count += 1
         self._current_player = 1 - self._current_player
         self._current_move_map = {}
+        self.banned_actions = set()
     
     def _score_move(self, row, col, word, direction):
         total_score = 0

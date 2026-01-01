@@ -1,0 +1,165 @@
+Loading game...
+Loading dictionary from NWL2023.txt...
+Dictionary loaded.
+Loading neural network from checkpoint-100...
+
+--- STARTING MATCH ---
+Player 0: Plays 'CELLIE' at 7,2 Across
+   Rack P1: ['G', 'G', 'E', 'H', 'Q', 'R', 'T']
+Player 1: Plays 'TEGG' at 8,6 Across
+   Rack P0: ['E', 'N', 'A', 'W', 'M', 'R', 'F']
+Player 0: Plays 'FAWNER' at 9,6 Across
+   Rack P1: ['H', 'Q', 'R', 'O', 'I', 'O', 'D']
+Player 1: Plays 'ERR' at 9,10 Across
+   Rack P0: ['M', 'H', 'N', 'I', 'S', 'T', 'E']
+Player 0: Plays 'EMITS' at 10,6 Across
+   Rack P1: ['H', 'Q', 'O', 'I', 'O', 'D', 'A']
+Player 1: Plays 'HOOD' at 11,6 Across
+   Rack P0: ['H', 'N', 'R', 'I', 'E', 'N', 'T']
+Player 0: Plays 'THEIN' at 11,10 Across
+   Rack P1: ['Q', 'I', 'A', 'O', 'I', 'U', 'B']
+Player 1: Plays 'HO' at 11,6 Across
+   Rack P0: ['R', 'N', 'S', 'C', 'N', 'O', 'V']
+Player 0: Plays 'NO' at 8,10 Across
+   Rack P1: ['Q', 'I', 'A', 'O', 'I', 'U', 'B']
+Player 1: Plays 'HO' at 11,6 Across
+   Rack P0: ['R', 'S', 'C', 'N', 'V', 'A', 'E']
+Player 0: Plays 'CANE' at 7,11 Across
+   Rack P1: ['Q', 'I', 'A', 'O', 'I', 'U', 'B']
+Player 1: Plays 'BIO' at 12,9 Across
+   Rack P0: ['R', 'S', 'V', 'U', 'A', 'I', 'L']
+Player 0: Plays 'SAIL' at 13,11 Across
+   Rack P1: ['Q', 'A', 'I', 'U', 'E', 'D', 'P']
+Player 1: Plays 'AI' at 13,12 Across
+   Rack P0: ['R', 'V', 'U', 'R', 'T', 'D', 'Z']
+Player 0: Plays 'RUT' at 8,3 Across
+   Rack P1: ['Q', 'A', 'I', 'U', 'E', 'D', 'P']
+Player 1: Plays 'AID' at 12,6 Across
+   Rack P0: ['V', 'R', 'D', 'Z', 'O', 'F', 'U']
+Player 0: Plays 'DOUR' at 9,0 Across
+   Rack P1: ['Q', 'U', 'E', 'P', '?', 'I', 'V']
+Player 1: Plays 'DO' at 9,0 Across
+   Rack P0: ['V', 'Z', 'F', 'E', 'W', 'P', 'K']
+Player 0: Plays 'EF' at 8,13 Across
+   Rack P1: ['Q', 'U', 'E', 'P', '?', 'I', 'V']
+Player 1: EXCHANGE
+Player 0: PASS
+Player 1: Plays 'AI' at 12,6 Across
+   Rack P0: ['V', 'Z', 'W', 'P', 'K', 'J', 'T']
+Player 0: PASS
+Player 1: Plays 'AI' at 12,6 Across
+   Rack P0: ['V', 'Z', 'W', 'P', 'K', 'J', 'T']
+Player 0: PASS
+Player 1: EXCHANGE
+Player 0: PASS
+Player 1: EXCHANGE
+Player 0: PASS
+Player 1: Plays 'OUR' at 9,1 Across
+   Rack P0: ['V', 'Z', 'W', 'P', 'K', 'J', 'T']
+Player 0: PASS
+Player 1: EXCHANGE
+Player 0: PASS
+Player 1: EXCHANGE
+Player 0: PASS
+Player 1: Plays 'AI' at 13,12 Across
+   Rack P0: ['V', 'Z', 'W', 'P', 'K', 'J', 'T']
+Player 0: PASS
+Player 1: EXCHANGE
+Player 0: PASS
+Player 1: Plays 'AI' at 13,12 Across
+   Rack P0: ['V', 'Z', 'W', 'P', 'K', 'J', 'T']
+Player 0: PASS
+Player 1: Plays 'AI' at 13,12 Across
+   Rack P0: ['V', 'Z', 'W', 'P', 'K', 'J', 'T']
+Player 0: PASS
+Player 1: EXCHANGE
+Player 0: PASS
+Player 1: Plays 'DO' at 9,0 Across
+   Rack P0: ['V', 'Z', 'W', 'P', 'K', 'J', 'T']
+Player 0: PASS
+Player 1: EXCHANGE
+Player 0: PASS
+Player 1: EXCHANGE
+Player 0: PASS
+Player 1: Plays 'AI' at 13,12 Across
+   Rack P0: ['V', 'Z', 'W', 'P', 'K', 'J', 'T']
+Player 0: PASS
+Player 1: EXCHANGE
+Player 0: PASS
+Player 1: EXCHANGE
+Player 0: PASS
+Player 1: Plays 'AI' at 13,12 Across
+   Rack P0: ['V', 'Z', 'W', 'P', 'K', 'J', 'T']
+Player 0: PASS
+Player 1: EXCHANGE
+Player 0: PASS
+Player 1: EXCHANGE
+Player 0: PASS
+Player 1: Plays 'AI' at 12,6 Across
+   Rack P0: ['V', 'Z', 'W', 'P', 'K', 'J', 'T']
+Player 0: PASS
+Player 1: EXCHANGE
+Player 0: PASS
+Player 1: EXCHANGE
+Player 0: PASS
+Player 1: Plays 'AI' at 12,6 Across
+   Rack P0: ['V', 'Z', 'W', 'P', 'K', 'J', 'T']
+Player 0: PASS
+Player 1: EXCHANGE
+Player 0: PASS
+Player 1: EXCHANGE
+Player 0: PASS
+Player 1: Plays 'AI' at 13,12 Across
+   Rack P0: ['V', 'Z', 'W', 'P', 'K', 'J', 'T']
+Player 0: PASS
+Player 1: EXCHANGE
+Player 0: PASS
+Player 1: EXCHANGE
+Player 0: PASS
+Player 1: Plays 'BIO' at 12,9 Across
+   Rack P0: ['V', 'Z', 'W', 'P', 'K', 'J', 'T']
+Player 0: PASS
+Player 1: Plays 'AI' at 12,6 Across
+   Rack P0: ['V', 'Z', 'W', 'P', 'K', 'J', 'T']
+Player 0: PASS
+Player 1: Plays 'BIO' at 12,9 Across
+   Rack P0: ['V', 'Z', 'W', 'P', 'K', 'J', 'T']
+Player 0: PASS
+Player 1: EXCHANGE
+Player 0: PASS
+Player 1: EXCHANGE
+Player 0: PASS
+Player 1: Plays 'AI' at 13,12 Across
+   Rack P0: ['V', 'Z', 'W', 'P', 'K', 'J', 'T']
+Player 0: PASS
+Player 1: EXCHANGE
+Player 0: PASS
+Player 1: EXCHANGE
+Player 0: PASS
+Player 1: Plays 'BI' at 12,9 Across
+   Rack P0: ['V', 'Z', 'W', 'P', 'K', 'J', 'T']
+Player 0: PASS
+Player 1: EXCHANGE
+Player 0: PASS
+
+--- GAME OVER ---
+Turn: Player 0
+Scores: P0=203.0 P1=182.0
+Bag: 30 tiles
+   A B C D E F G H I J K L M N O
+ 0 . . . . . . . . . . . . . . . 
+ 1 . . . . . . . . . . . . . . . 
+ 2 . . . . . . . . . . . . . . . 
+ 3 . . . . . . . . . . . . . . . 
+ 4 . . . . . . . . . . . . . . . 
+ 5 . . . . . . . . . . . . . . . 
+ 6 . . . . . . . . . . . . . . . 
+ 7 . . C E L L I E . . . C A N E 
+ 8 . . . R U T T E G G N O . E F 
+ 9 D O U R . . F A W N E R R . . 
+10 . . . . . . E M I T S . . . . 
+11 . . . . . . H O O D T H E I N 
+12 . . . . . . A I D B I O . . . 
+13 . . . . . . . . . . . S A I L 
+14 . . . . . . . . . . . . . . . 
+Final Score: [203.0, 182.0]

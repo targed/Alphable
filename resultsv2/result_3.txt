@@ -1,0 +1,194 @@
+Loading game...
+Loading dictionary from NWL2023.txt...
+Dictionary loaded.
+Loading neural network from checkpoint-100...
+
+--- STARTING MATCH ---
+Player 0: Plays 'GODLY' at 7,3 Across
+   Rack P1: ['A', 'V', 'L', 'U', 'A', 'O', 'I']
+Player 1: Plays 'AVAIL' at 8,6 Across
+   Rack P0: ['N', 'K', 'R', 'O', 'D', 'I', 'R']
+Player 0: Plays 'DRINK' at 9,6 Across
+   Rack P1: ['U', 'O', 'S', 'T', 'E', 'F', 'T']
+Player 1: Plays 'LEFTS' at 8,10 Across
+   Rack P0: ['O', 'R', 'T', 'U', 'S', 'O', '?']
+Player 0: Plays 'OUTROWS' at 10,0 Across
+   Rack P1: ['U', 'O', 'T', 'B', 'T', 'F', 'R']
+Player 1: Plays 'STOUR' at 10,6 Across
+   Rack P0: ['O', 'A', 'E', 'I', 'A', 'N', 'P']
+Player 0: Plays 'NAOI' at 9,11 Across
+   Rack P1: ['B', 'T', 'F', 'N', 'E', 'N', 'R']
+Player 1: Plays 'BE' at 6,4 Across
+   Rack P0: ['E', 'A', 'P', 'O', 'I', 'D', 'E']
+Player 0: Plays 'PODIA' at 5,5 Across
+   Rack P1: ['T', 'F', 'N', 'N', 'R', 'H', 'G']
+Player 1: Plays 'UT' at 10,1 Across
+   Rack P0: ['E', 'E', 'E', 'I', 'A', 'E', 'E']
+Player 0: Plays 'AE' at 5,10 Across
+   Rack P1: ['T', 'F', 'N', 'N', 'R', 'H', 'G']
+Player 1: EXCHANGE
+Player 0: Plays 'ALEE' at 11,10 Across
+   Rack P1: ['O', 'N', 'P', 'W', 'N', 'A', 'R']
+Player 1: Plays 'TROW' at 10,2 Across
+   Rack P0: ['I', 'E', 'E', 'N', 'X', 'Y', 'I']
+Player 0: Plays 'EYEN' at 5,11 Across
+   Rack P1: ['O', 'N', 'P', 'W', 'N', 'A', 'R']
+Player 1: Plays 'OPA' at 4,7 Across
+   Rack P0: ['I', 'E', 'X', 'I', 'I', 'E', 'T']
+Player 0: Plays 'EXIT' at 11,4 Across
+   Rack P1: ['N', 'W', 'N', 'R', 'U', 'I', 'B']
+Player 1: Plays 'XI' at 11,5 Across
+   Rack P0: ['I', 'I', 'E', 'I', 'E', 'E', 'J']
+Player 0: Plays 'JEE' at 12,12 Across
+   Rack P1: ['N', 'W', 'N', 'R', 'U', 'I', 'B']
+Player 1: Plays 'XI' at 11,5 Across
+   Rack P0: ['I', 'I', 'I', 'E', 'O', 'T', 'H']
+Player 0: Plays 'THIO' at 4,2 Across
+   Rack P1: ['N', 'W', 'N', 'R', 'U', 'I', 'B']
+Player 1: Plays 'IN' at 6,10 Across
+   Rack P0: ['I', 'I', 'E', 'A', 'C', 'T', 'S']
+Player 0: Plays 'ICIEST' at 3,0 Across
+   Rack P1: ['W', 'N', 'R', 'U', 'B', 'F', 'A']
+Player 1: Plays 'TAB' at 3,5 Across
+   Rack P0: ['A', 'N', 'S', 'E', 'H', 'G', 'G']
+Player 0: Plays 'AGS' at 5,0 Across
+   Rack P1: ['W', 'N', 'R', 'U', 'F', 'M', 'D']
+Player 1: Plays 'DOPA' at 4,6 Across
+   Rack P0: ['N', 'E', 'H', 'G', 'C', 'R', 'R']
+Player 0: Plays 'GEN' at 7,11 Across
+   Rack P1: ['W', 'N', 'R', 'U', 'F', 'M', 'Z']
+Player 1: Plays 'FUN' at 6,0 Across
+   Rack P0: ['H', 'C', 'R', 'R', 'E', 'U', 'L']
+Player 0: Plays 'CLUE' at 11,1 Across
+   Rack P1: ['W', 'R', 'M', 'Z', 'A', 'M', 'W']
+Player 1: Plays 'ARM' at 12,4 Across
+   Rack P0: ['H', 'R', 'R', 'E', 'V', 'Q']
+Player 0: Plays 'EH' at 13,6 Across
+   Rack P1: ['W', 'Z', 'M', 'W']
+Player 1: Plays 'EM' at 11,13 Across
+   Rack P0: ['R', 'R', 'V', 'Q']
+Player 0: Plays 'PAR' at 4,8 Across
+   Rack P1: ['W', 'Z', 'W']
+Player 1: PASS
+Player 0: Plays 'AR' at 12,4 Across
+   Rack P1: ['W', 'Z', 'W']
+Player 1: PASS
+Player 0: Plays 'AR' at 12,4 Across
+   Rack P1: ['W', 'Z', 'W']
+Player 1: PASS
+Player 0: Plays 'AR' at 12,4 Across
+   Rack P1: ['W', 'Z', 'W']
+Player 1: PASS
+Player 0: Plays 'AR' at 12,4 Across
+   Rack P1: ['W', 'Z', 'W']
+Player 1: PASS
+Player 0: Plays 'AR' at 12,4 Across
+   Rack P1: ['W', 'Z', 'W']
+Player 1: PASS
+Player 0: Plays 'AR' at 12,4 Across
+   Rack P1: ['W', 'Z', 'W']
+Player 1: PASS
+Player 0: Plays 'AR' at 12,4 Across
+   Rack P1: ['W', 'Z', 'W']
+Player 1: PASS
+Player 0: Plays 'AR' at 12,4 Across
+   Rack P1: ['W', 'Z', 'W']
+Player 1: PASS
+Player 0: Plays 'AR' at 12,4 Across
+   Rack P1: ['W', 'Z', 'W']
+Player 1: PASS
+Player 0: Plays 'AR' at 12,4 Across
+   Rack P1: ['W', 'Z', 'W']
+Player 1: PASS
+Player 0: Plays 'AR' at 12,4 Across
+   Rack P1: ['W', 'Z', 'W']
+Player 1: PASS
+Player 0: Plays 'AR' at 12,4 Across
+   Rack P1: ['W', 'Z', 'W']
+Player 1: PASS
+Player 0: Plays 'AR' at 12,4 Across
+   Rack P1: ['W', 'Z', 'W']
+Player 1: PASS
+Player 0: Plays 'AR' at 12,4 Across
+   Rack P1: ['W', 'Z', 'W']
+Player 1: PASS
+Player 0: Plays 'AR' at 12,4 Across
+   Rack P1: ['W', 'Z', 'W']
+Player 1: PASS
+Player 0: Plays 'AR' at 12,4 Across
+   Rack P1: ['W', 'Z', 'W']
+Player 1: PASS
+Player 0: Plays 'AR' at 12,4 Across
+   Rack P1: ['W', 'Z', 'W']
+Player 1: PASS
+Player 0: Plays 'AR' at 12,4 Across
+   Rack P1: ['W', 'Z', 'W']
+Player 1: PASS
+Player 0: Plays 'AR' at 12,4 Across
+   Rack P1: ['W', 'Z', 'W']
+Player 1: PASS
+Player 0: Plays 'AR' at 12,4 Across
+   Rack P1: ['W', 'Z', 'W']
+Player 1: PASS
+Player 0: Plays 'AR' at 12,4 Across
+   Rack P1: ['W', 'Z', 'W']
+Player 1: PASS
+Player 0: Plays 'AR' at 12,4 Across
+   Rack P1: ['W', 'Z', 'W']
+Player 1: PASS
+Player 0: Plays 'AR' at 12,4 Across
+   Rack P1: ['W', 'Z', 'W']
+Player 1: PASS
+Player 0: Plays 'AR' at 12,4 Across
+   Rack P1: ['W', 'Z', 'W']
+Player 1: PASS
+Player 0: Plays 'AR' at 12,4 Across
+   Rack P1: ['W', 'Z', 'W']
+Player 1: PASS
+Player 0: Plays 'AR' at 12,4 Across
+   Rack P1: ['W', 'Z', 'W']
+Player 1: PASS
+Player 0: Plays 'AR' at 12,4 Across
+   Rack P1: ['W', 'Z', 'W']
+Player 1: PASS
+Player 0: Plays 'AR' at 12,4 Across
+   Rack P1: ['W', 'Z', 'W']
+Player 1: PASS
+Player 0: Plays 'AR' at 12,4 Across
+   Rack P1: ['W', 'Z', 'W']
+Player 1: PASS
+Player 0: Plays 'AR' at 12,4 Across
+   Rack P1: ['W', 'Z', 'W']
+Player 1: PASS
+Player 0: Plays 'AR' at 12,4 Across
+   Rack P1: ['W', 'Z', 'W']
+Player 1: PASS
+Player 0: Plays 'AR' at 12,4 Across
+   Rack P1: ['W', 'Z', 'W']
+Player 1: PASS
+Player 0: Plays 'AR' at 12,4 Across
+   Rack P1: ['W', 'Z', 'W']
+Player 1: PASS
+Player 0: TRIED Plays 'AR' at 12,4 Across -> FAILED (Invalid/Disallowed)
+
+--- GAME OVER ---
+Turn: Player 0
+Scores: P0=508.0 P1=229.0
+Bag: 0 tiles
+   A B C D E F G H I J K L M N O
+ 0 . . . . . . . . . . . . . . . 
+ 1 . . . . . . . . . . . . . . . 
+ 2 . . . . . . . . . . . . . . . 
+ 3 I C I E S T A B . . . . . . . 
+ 4 . . T H I O D O P A R . . . . 
+ 5 A G S . . P O D I A A E Y E N 
+ 6 F U N . B E . . . . I N . . . 
+ 7 . . . G O D L Y . . . G E N . 
+ 8 . . . . . . A V A I L E F T S 
+ 9 . . . . . . D R I N K N A O I 
+10 O U T R O W S T O U R . . . . 
+11 . C L U E X I T . . A L E E M 
+12 . . . . A R M . . . . . J E E 
+13 . . . . . . E H . . . . . . . 
+14 . . . . . . . . . . . . . . . 
+Final Score: [508.0, 229.0]
