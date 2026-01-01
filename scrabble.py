@@ -681,6 +681,10 @@ class ScrabbleState(pyspiel.State):
                 np.random.shuffle(self.bag)
                 self.racks[self._current_player] = []
                 self._refill_rack(self._current_player)
+                
+                # EXCHANGE PENALTY: Discourage excessive exchanges
+                # Small penalty makes exchanges costly, encouraging word play instead
+                self.apply_penalty(self._current_player, 5.0)
             else:
                 # STEP 4: Penalty for illegal exchange attempt
                 self.apply_penalty(self._current_player, 10.0)
@@ -895,7 +899,18 @@ class ScrabbleState(pyspiel.State):
     def returns(self):
         # Apply end-game adjustments if game is over
         if self._game_over:
+            # EARLY TERMINATION PENALTY: Apply BEFORE final score adjustments
+            # If more than half the tiles remain in the bag, both players lose points
+            # This discourages exchange-heavy strategies that lead to stalemate
+            if len(self.bag) > 50:
+                self.scores[0] -= 20.0
+                self.scores[1] -= 20.0
+                self.scores[0] = max(0.0, self.scores[0])
+                self.scores[1] = max(0.0, self.scores[1])
+            
+            # Then apply standard end-game tile adjustments
             self.adjust_final_scores()
+        
         # Return actual scores
         return list(self.scores)
 

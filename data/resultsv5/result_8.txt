@@ -1,0 +1,146 @@
+Loading game...
+Loading dictionary from resources/NWL2023.txt...
+Dictionary loaded.
+Loading neural network from checkpoint-100...
+
+--- STARTING MATCH ---
+Player 0: Plays 'ROULADE' at 7,3 Across
+   Rack P1: ['U', 'S', 'N', 'N', 'X', '?', 'O']
+Player 1: Plays 'NELSON' at 5,6 Across
+   Rack P0: ['E', 'L', 'R', 'A', 'A', 'W', 'S']
+Player 1: EXCHANGE
+Player 0: Plays 'SEAWALL' at 2,6 Across
+   Rack P1: ['V', 'E', 'U', 'H', 'I', 'D', 'Y']
+Player 0: Plays 'WALERS' at 3,3 Across
+   Rack P1: ['V', 'E', 'U', 'H', 'I', 'D', 'Y']
+Player 0: Plays 'WALERS' at 8,0 Across
+   Rack P1: ['V', 'E', 'U', 'H', 'I', 'D', 'Y']
+Player 1: Plays 'EIDE' at 8,3 Across
+   Rack P0: ['A', 'V', 'A', 'O', 'O', 'E', 'T']
+Player 1: Plays 'DEVIL' at 3,6 Across
+   Rack P0: ['A', 'V', 'A', 'O', 'O', 'E', 'T']
+Player 1: Plays 'HIVED' at 4,9 Across
+   Rack P0: ['A', 'V', 'A', 'O', 'O', 'E', 'T']
+Player 0: Plays 'TOEA' at 5,9 Across
+   Rack P1: ['V', 'E', 'U', 'H', 'I', 'D', 'Y']
+Player 0: EXCHANGE
+Player 1: Plays 'HEADY' at 6,1 Across
+   Rack P0: ['E', 'A', 'N', 'Z', 'E', 'O', 'D']
+Player 1: Plays 'EIDE' at 7,9 Across
+   Rack P0: ['E', 'A', 'N', 'Z', 'E', 'O', 'D']
+Player 1: Plays 'ED' at 6,6 Across
+   Rack P0: ['E', 'A', 'N', 'Z', 'E', 'O', 'D']
+Player 0: Plays 'EARED' at 5,3 Across
+   Rack P1: ['V', 'U', 'H', 'I', 'Y', 'U', 'X']
+Player 0: Plays 'AWNED' at 7,0 Across
+   Rack P1: ['V', 'U', 'H', 'I', 'Y', 'U', 'X']
+Player 0: Plays 'DADA' at 4,7 Across
+   Rack P1: ['V', 'U', 'H', 'I', 'Y', 'U', 'X']
+Player 1: Plays 'IVY' at 8,7 Across
+   Rack P0: ['E', 'A', 'N', 'Z', 'E', 'O', 'D']
+Player 1: Plays 'HIE' at 5,9 Across
+   Rack P0: ['E', 'A', 'N', 'Z', 'E', 'O', 'D']
+Player 1: Plays 'WHY' at 8,0 Across
+   Rack P0: ['E', 'A', 'N', 'Z', 'E', 'O', 'D']
+Player 0: Plays 'ADOZE' at 8,7 Across
+   Rack P1: ['V', 'U', 'H', 'I', 'Y', 'U', 'X']
+Player 0: Plays 'DONZEL' at 2,6 Across
+   Rack P1: ['V', 'U', 'H', 'I', 'Y', 'U', 'X']
+Player 0: Plays 'DAN' at 6,2 Across
+   Rack P1: ['V', 'U', 'H', 'I', 'Y', 'U', 'X']
+Player 1: Plays 'HID' at 4,2 Across
+   Rack P0: ['E', 'Z', 'E', 'O', 'B', 'H', 'B']
+Player 1: Plays 'IVY' at 8,8 Across
+   Rack P0: ['E', 'Z', 'E', 'O', 'B', 'H', 'B']
+Player 1: Plays 'AHI' at 7,7 Across
+   Rack P0: ['E', 'Z', 'E', 'O', 'B', 'H', 'B']
+Player 0: Plays 'ORZO' at 7,4 Across
+   Rack P1: ['V', 'U', 'H', 'I', 'Y', 'U', 'X']
+Player 0: Plays 'BED' at 6,5 Across
+   Rack P1: ['V', 'U', 'H', 'I', 'Y', 'U', 'X']
+Player 0: Plays 'BEE' at 9,0 Across
+   Rack P1: ['V', 'U', 'H', 'I', 'Y', 'U', 'X']
+Player 1: Plays 'HARE' at 5,3 Across
+   Rack P0: ['E', 'Z', 'E', 'O', 'B', 'H', 'B']
+Player 1: Plays 'EH' at 7,9 Across
+   Rack P0: ['E', 'Z', 'E', 'O', 'B', 'H', 'B']
+Player 1: Plays 'NORI' at 6,4 Across
+   Rack P0: ['E', 'Z', 'E', 'O', 'B', 'H', 'B']
+Player 0: Plays 'USE' at 7,5 Across
+   Rack P1: ['V', 'U', 'H', 'I', 'Y', 'U', 'X']
+Player 0: Plays 'EWE' at 7,0 Across
+   Rack P1: ['V', 'U', 'H', 'I', 'Y', 'U', 'X']
+Player 0: Plays 'BEE' at 5,0 Across
+   Rack P1: ['V', 'U', 'H', 'I', 'Y', 'U', 'X']
+Player 1: Plays 'IVY' at 9,3 Across
+   Rack P0: ['Z', 'O', 'H', 'B', 'T', 'T', 'Y']
+Player 1: Plays 'HIVED' at 2,2 Across
+   Rack P0: ['Z', 'O', 'H', 'B', 'T', 'T', 'Y']
+Player 1: Plays 'RYU' at 8,4 Across
+   Rack P0: ['Z', 'O', 'H', 'B', 'T', 'T', 'Y']
+Player 0: Plays 'BYTE' at 4,9 Across
+   Rack P1: ['V', 'U', 'H', 'I', 'Y', 'U', 'X']
+Player 0: Plays 'BOTHY' at 7,10 Across
+   Rack P1: ['V', 'U', 'H', 'I', 'Y', 'U', 'X']
+Player 0: Plays 'BED' at 6,5 Across
+   Rack P1: ['V', 'U', 'H', 'I', 'Y', 'U', 'X']
+Player 1: Plays 'HIE' at 5,9 Across
+   Rack P0: ['Z', 'O', 'H', 'B', 'T', 'T', 'Y']
+Player 1: Plays 'IVY' at 9,2 Across
+   Rack P0: ['Z', 'O', 'H', 'B', 'T', 'T', 'Y']
+Player 1: Plays 'RYU' at 8,4 Across
+   Rack P0: ['Z', 'O', 'H', 'B', 'T', 'T', 'Y']
+Player 0: EXCHANGE
+
+--- GAME OVER ---
+======================================================================
+SCRABBLE GAME STATE - Turn 17
+======================================================================
+Status: GAME OVER
+Reason: Four consecutive passes (count=4)
+
+Scores: P0=0.0  P1=0.0
+Consecutive Passes: 4
+Consecutive Zero Scores: 4
+Banned Actions: 0
+
+Bag: 65 tiles remaining
+P0 Rack (7 tiles): Q R A E A E E
+P1 Rack (7 tiles): V U H I Y U X
+
+Board:
+   A B C D E F G H I J K L M N O
+ 0 . . . . . . . . . . . . . . . 
+ 1 . . . . . . . . . . . . . . . 
+ 2 . . . . . . . . . . . . . . . 
+ 3 . . . . . . . . . . . . . . . 
+ 4 . . . . . . . . . . . . . . . 
+ 5 B E E . . . . . . . . . . . . 
+ 6 . . D A N . E D . . . . . . . 
+ 7 . . . R O U L A D E . . . . . 
+ 8 W A L E R S . . . . . . . . . 
+ 9 . . . . . . . . . . . . . . . 
+10 . . . . . . . . . . . . . . . 
+11 . . . . . . . . . . . . . . . 
+12 . . . . . . . . . . . . . . . 
+13 . . . . . . . . . . . . . . . 
+14 . . . . . . . . . . . . . . . 
+
+Move Log Summary (64 entries)
+============================================================
+Turn 14, P0: FAILED - Action 190
+  Reason: Validation failed: connectivity, rack, or cross-word issue
+Turn 14, P0: SUCCESS - Action 450
+Turn 14, P0: SUCCESS - Action 450
+Turn 15, P1: FAILED - Action 168
+  Reason: Validation failed: connectivity, rack, or cross-word issue
+Turn 15, P1: FAILED - Action 274
+  Reason: Validation failed: connectivity, rack, or cross-word issue
+Turn 15, P1: FAILED - Action 248
+  Reason: Validation failed: connectivity, rack, or cross-word issue
+Turn 15, P1: SUCCESS - Action 450
+Turn 15, P1: SUCCESS - Action 450
+Turn 16, P0: SUCCESS - Action 451
+Turn 16: GAME_TERMINATED - Four consecutive passes (count=4)
+======================================================================
+Final Score: [0.0, 0.0]

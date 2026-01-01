@@ -23,7 +23,7 @@ def main(unused_argv):
         train_batch_size=16, # Was 64
         replay_buffer_size=64, # Was 200
         replay_buffer_reuse=4, # Was 3
-        max_steps=100,
+        max_steps=1000,
         checkpoint_freq=10,
         
         # MCTS Config
