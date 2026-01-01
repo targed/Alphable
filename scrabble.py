@@ -81,7 +81,7 @@ class ScrabbleGame(pyspiel.Game):
         # Load GADDAG only once per process
         global _SHARED_GADDAG
         if _SHARED_GADDAG is None:
-            _SHARED_GADDAG = Gaddag.load("NWL2023.txt")
+            _SHARED_GADDAG = Gaddag.load("resources/NWL2023.txt")
             
         self.gaddag = _SHARED_GADDAG
         self.move_gen = MoveGenerator(self.gaddag)
@@ -105,10 +105,19 @@ class ScrabbleState(pyspiel.State):
         self._current_player = 0
         self._current_move_map = [] # Stores valid moves for the current turn
         self.consecutive_passes = 0
+        self.consecutive_zero_scores = 0  # Track consecutive zero-score turns
         self.turn_count = 0
         
         # NEW: Track moves that failed validation this turn
         self.banned_actions = set() 
+        
+        # NEW: Track which premium squares have been used
+        self.used_premiums = set()  # Set of (row, col) tuples for used premium squares
+        
+        # Logging attributes
+        self.move_log = []  # List of move attempt records
+        self.termination_reason = None  # Reason for game termination
+        self.enable_logging = True  # Can be disabled for performance
         
         # Initialize Bag
         self.bag = []
@@ -133,40 +142,114 @@ class ScrabbleState(pyspiel.State):
         if needed > 0 and self.bag:
             draw = [self.bag.pop() for _ in range(min(needed, len(self.bag)))]
             self.racks[player_idx].extend(draw)
+    
+    def apply_penalty(self, player_idx, penalty):
+        """Apply penalty to player score, ensuring non-negative result"""
+        self.scores[player_idx] = max(0.0, self.scores[player_idx] - penalty)
+    
+    def adjust_final_scores(self):
+        """Apply end-game adjustments per official Scrabble rules"""
+        # Calculate unplayed tile values for each player
+        unplayed_values = [0, 0]
+        for player_idx in range(2):
+            for tile in self.racks[player_idx]:
+                unplayed_values[player_idx] += TILE_VALUES.get(tile, 0)
+        
+        # Check if either player went out (used all tiles)
+        player_went_out = -1
+        for player_idx in range(2):
+            if len(self.racks[player_idx]) == 0 and len(self.bag) == 0:
+                player_went_out = player_idx
+                break
+        
+        if player_went_out >= 0:
+            # Player who went out gets opponent's unplayed tiles added
+            opponent = 1 - player_went_out
+            self.scores[player_went_out] += unplayed_values[opponent]
+            self.scores[opponent] -= unplayed_values[opponent]
+        else:
+            # Both players subtract their own unplayed tiles
+            for player_idx in range(2):
+                self.scores[player_idx] -= unplayed_values[player_idx]
+        
+        # Ensure both scores remain non-negative
+        self.scores[0] = max(0.0, self.scores[0])
+        self.scores[1] = max(0.0, self.scores[1])
+
+    def log_move_attempt(self, action_id, move_details, success, failure_reason=None):
+        """Log a move attempt with details"""
+        if not self.enable_logging:
+            return
+        
+        log_entry = {
+            'turn': self.turn_count,
+            'player': self._current_player,
+            'action_id': action_id,
+            'move_details': move_details,
+            'success': success,
+            'failure_reason': failure_reason,
+            'banned_actions_count': len(self.banned_actions)
+        }
+        self.move_log.append(log_entry)
+    
+    def log_termination(self, reason):
+        """Log game termination with reason"""
+        if not self.enable_logging:
+            return
+        
+        self.termination_reason = reason
+        self.move_log.append({
+            'turn': self.turn_count,
+            'event': 'GAME_TERMINATED',
+            'reason': reason,
+            'final_scores': list(self.scores),
+            'consecutive_passes': self.consecutive_passes,
+            'consecutive_zero_scores': self.consecutive_zero_scores
+        })
+    
+    def get_move_log_summary(self):
+        """Get a summary of the move log"""
+        if not self.move_log:
+            return "No moves logged"
+        
+        lines = []
+        lines.append(f"Move Log Summary ({len(self.move_log)} entries)")
+        lines.append("=" * 60)
+        
+        for entry in self.move_log[-10:]:  # Last 10 entries
+            if 'event' in entry:
+                lines.append(f"Turn {entry['turn']}: {entry['event']} - {entry['reason']}")
+            else:
+                status = "SUCCESS" if entry['success'] else "FAILED"
+                lines.append(f"Turn {entry['turn']}, P{entry['player']}: {status} - Action {entry['action_id']}")
+                if not entry['success'] and entry['failure_reason']:
+                    lines.append(f"  Reason: {entry['failure_reason']}")
+        
+        return "\n".join(lines)
 
     def current_player(self):
         return self._current_player
     
-    def _validate_move(self, row, col, word, direction, rack):
+    def validate_board_connectivity(self, row, col, word, direction):
         """
-        Returns (True, tiles_used) if valid, (False, None) otherwise.
-        Checks: Boundaries, Connectivity, Rack availability.
+        Validate that the move connects to existing tiles on the board.
+        For the first move, verify it covers the center square (7,7).
+        For subsequent moves, verify it connects to at least one existing tile.
+        
+        Returns True if connectivity is valid, False otherwise.
         """
         dr, dc = (0, 1) if direction == 'Across' else (1, 0)
-        
-        # 1. Boundary Check
-        end_r = row + dr * (len(word) - 1)
-        end_c = col + dc * (len(word) - 1)
-        if not (0 <= row < 15 and 0 <= col < 15 and 0 <= end_r < 15 and 0 <= end_c < 15):
-            return False, None
-
-        # 2. Connectivity & Rack Check
-        tiles_needed = []
-        is_connected = False
         is_first_move = (self.board[7][7] == '.')
+        is_connected = False
         
         curr_r, curr_c = row, col
         for char in word:
             board_char = self.board[curr_r][curr_c]
             
             if board_char != '.':
-                # Must match existing tile
-                if board_char != char:
-                    return False, None
+                # Word uses existing tile - automatically connected
                 is_connected = True
             else:
-                # Must use from rack
-                tiles_needed.append(char)
                 # Check neighbors for connectivity
                 if not is_connected:
                     for nr, nc in [(curr_r+1, curr_c), (curr_r-1, curr_c), 
@@ -175,17 +258,50 @@ class ScrabbleState(pyspiel.State):
                             is_connected = True
                             break
             
-            # First move check
+            # First move check: must cover center square
             if is_first_move and curr_r == 7 and curr_c == 7:
                 is_connected = True
                 
             curr_r += dr
             curr_c += dc
-
-        if not is_connected:
-            return False, None
-
-        # 3. Rack Counting (Handle Blanks)
+        
+        return is_connected
+    
+    def validate_boundaries(self, row, col, word, direction):
+        """
+        Validate that all tiles in the word are within board boundaries [0, 14].
+        
+        Returns True if all coordinates are valid, False otherwise.
+        """
+        dr, dc = (0, 1) if direction == 'Across' else (1, 0)
+        end_r = row + dr * (len(word) - 1)
+        end_c = col + dc * (len(word) - 1)
+        
+        return (0 <= row < 15 and 0 <= col < 15 and 
+                0 <= end_r < 15 and 0 <= end_c < 15)
+    
+    def validate_rack_availability(self, word, direction, row, col, rack):
+        """
+        Validate that the player has all required tiles in their rack.
+        Handles blank tiles as wildcards.
+        
+        Returns (True, tiles_used) if valid, (False, None) otherwise.
+        """
+        dr, dc = (0, 1) if direction == 'Across' else (1, 0)
+        tiles_needed = []
+        
+        curr_r, curr_c = row, col
+        for char in word:
+            board_char = self.board[curr_r][curr_c]
+            
+            if board_char == '.':
+                # Must use from rack
+                tiles_needed.append(char)
+                
+            curr_r += dr
+            curr_c += dc
+        
+        # Rack Counting (Handle Blanks)
         rack_counts = collections.Counter(rack)
         final_tiles_used = []
         
@@ -195,11 +311,235 @@ class ScrabbleState(pyspiel.State):
                 final_tiles_used.append(char)
             elif rack_counts['?'] > 0:
                 rack_counts['?'] -= 1
-                final_tiles_used.append('?') # Use blank
+                final_tiles_used.append('?')  # Use blank
             else:
-                return False, None # Missing tile
-
+                return False, None  # Missing tile
+        
         return True, final_tiles_used
+    
+    def validate_tile_matching(self, row, col, word, direction):
+        """
+        Validate that the word matches existing board tiles at their positions.
+        
+        Returns True if all existing tiles match, False otherwise.
+        """
+        dr, dc = (0, 1) if direction == 'Across' else (1, 0)
+        
+        curr_r, curr_c = row, col
+        for char in word:
+            board_char = self.board[curr_r][curr_c]
+            
+            if board_char != '.':
+                # Must match existing tile
+                if board_char != char:
+                    return False
+                    
+            curr_r += dr
+            curr_c += dc
+        
+        return True
+    
+    def _validate_move(self, row, col, word, direction, rack):
+        """
+        Returns (True, tiles_used) if valid, (False, None) otherwise.
+        Checks: Boundaries, Connectivity, Rack availability, Tile matching, Cross-words.
+        """
+        # 1. Boundary Check
+        if not self.validate_boundaries(row, col, word, direction):
+            return False, None
+
+        # 2. Tile Matching Check
+        if not self.validate_tile_matching(row, col, word, direction):
+            return False, None
+
+        # 3. Connectivity Check
+        if not self.validate_board_connectivity(row, col, word, direction):
+            return False, None
+
+        # 4. Rack Availability Check
+        is_valid, tiles_used = self.validate_rack_availability(word, direction, row, col, rack)
+        if not is_valid:
+            return False, None
+
+        # 5. Cross-word validation
+        cross_words = self.find_cross_words(row, col, word, direction)
+        if not self.validate_cross_words(cross_words):
+            return False, None
+        
+        # 6. Adjacent word validation (same direction)
+        adjacent_words = self.find_adjacent_words_same_direction(row, col, word, direction)
+        if not self.validate_adjacent_words(adjacent_words):
+            return False, None
+
+        return True, tiles_used
+    
+    def find_cross_words(self, row, col, word, direction):
+        """
+        Find all cross-words formed perpendicular to the main word.
+        Returns list of (cross_word, start_row, start_col, cross_direction) tuples.
+        """
+        cross_words = []
+        dr, dc = (0, 1) if direction == 'Across' else (1, 0)
+        cross_dr, cross_dc = (1, 0) if direction == 'Across' else (0, 1)
+        
+        curr_r, curr_c = row, col
+        
+        for char in word:
+            # Only check tiles that will be newly placed
+            if self.board[curr_r][curr_c] == '.':
+                # Check if there are adjacent tiles perpendicular to main direction
+                has_adjacent = False
+                
+                # Check before
+                if 0 <= curr_r - cross_dr < 15 and 0 <= curr_c - cross_dc < 15:
+                    if self.board[curr_r - cross_dr][curr_c - cross_dc] != '.':
+                        has_adjacent = True
+                
+                # Check after
+                if 0 <= curr_r + cross_dr < 15 and 0 <= curr_c + cross_dc < 15:
+                    if self.board[curr_r + cross_dr][curr_c + cross_dc] != '.':
+                        has_adjacent = True
+                
+                if has_adjacent:
+                    # Extract the full cross-word
+                    # Scan backwards to find start
+                    start_r, start_c = curr_r, curr_c
+                    while 0 <= start_r - cross_dr < 15 and 0 <= start_c - cross_dc < 15:
+                        if self.board[start_r - cross_dr][start_c - cross_dc] != '.':
+                            start_r -= cross_dr
+                            start_c -= cross_dc
+                        else:
+                            break
+                    
+                    # Scan forwards to build the word
+                    cross_word = ""
+                    scan_r, scan_c = start_r, start_c
+                    while 0 <= scan_r < 15 and 0 <= scan_c < 15:
+                        if (scan_r, scan_c) == (curr_r, curr_c):
+                            # This is the tile we're placing
+                            cross_word += char
+                        else:
+                            tile = self.board[scan_r][scan_c]
+                            if tile == '.':
+                                break
+                            cross_word += tile
+                        
+                        scan_r += cross_dr
+                        scan_c += cross_dc
+                    
+                    # Only add if it's more than 1 letter (a real word)
+                    if len(cross_word) > 1:
+                        cross_dir = 'Down' if direction == 'Across' else 'Across'
+                        cross_words.append((cross_word, start_r, start_c, cross_dir))
+            
+            curr_r += dr
+            curr_c += dc
+        
+        return cross_words
+    
+    def validate_cross_words(self, cross_words):
+        """
+        Validate all cross-words using GADDAG.
+        Returns True only if all cross-words are valid.
+        """
+        if not cross_words:
+            return True
+        
+        gaddag = self.get_game().gaddag
+        for cross_word, _, _, _ in cross_words:
+            # Use GADDAG's fast word check
+            if not self._fast_word_check(cross_word, gaddag):
+                return False
+        
+        return True
+    
+    def _fast_word_check(self, word, gaddag):
+        """Check if word is in dictionary using GADDAG"""
+        path = word[::-1] + '>'
+        curr = gaddag.root
+        for char in path:
+            if char not in curr:
+                return False
+            curr = curr[char]
+        return '$' in curr
+    
+    def find_adjacent_words_same_direction(self, row, col, word, direction):
+        """
+        Find words that would be formed by placing tiles adjacent to existing tiles
+        in the SAME direction (parallel placement).
+        
+        This catches cases like placing "JOES" next to "BOXERS" which would create
+        the invalid word "BOXERSJOES".
+        
+        Returns list of (combined_word, start_row, start_col, direction) tuples.
+        """
+        adjacent_words = []
+        dr, dc = (0, 1) if direction == 'Across' else (1, 0)
+        
+        # First, check if there are tiles immediately before OR after
+        before_r, before_c = row - dr, col - dc
+        has_before = (0 <= before_r < 15 and 0 <= before_c < 15 and 
+                     self.board[before_r][before_c] != '.')
+        
+        end_r = row + dr * len(word)
+        end_c = col + dc * len(word)
+        has_after = (0 <= end_r < 15 and 0 <= end_c < 15 and 
+                    self.board[end_r][end_c] != '.')
+        
+        if not has_before and not has_after:
+            # No adjacent tiles in same direction
+            return []
+        
+        # Build the complete combined word
+        combined_word = ""
+        start_r, start_c = row, col
+        
+        # If there are tiles before, scan back to find the start
+        if has_before:
+            start_r, start_c = before_r, before_c
+            while 0 <= start_r - dr < 15 and 0 <= start_c - dc < 15:
+                if self.board[start_r - dr][start_c - dc] != '.':
+                    start_r -= dr
+                    start_c -= dc
+                else:
+                    break
+            
+            # Build word from start to the position where we're placing
+            scan_r, scan_c = start_r, start_c
+            while (scan_r, scan_c) != (row, col):
+                combined_word += self.board[scan_r][scan_c]
+                scan_r += dr
+                scan_c += dc
+        
+        # Add the new word
+        combined_word += word
+        
+        # If there are tiles after, add them
+        if has_after:
+            scan_r, scan_c = end_r, end_c
+            while 0 <= scan_r < 15 and 0 <= scan_c < 15 and self.board[scan_r][scan_c] != '.':
+                combined_word += self.board[scan_r][scan_c]
+                scan_r += dr
+                scan_c += dc
+        
+        adjacent_words.append((combined_word, start_r, start_c, direction))
+        return adjacent_words
+    
+    def validate_adjacent_words(self, adjacent_words):
+        """
+        Validate all adjacent words (same direction) using GADDAG.
+        Returns True only if all adjacent words are valid.
+        """
+        if not adjacent_words:
+            return True
+        
+        gaddag = self.get_game().gaddag
+        for adjacent_word, _, _, _ in adjacent_words:
+            # Use GADDAG's fast word check
+            if not self._fast_word_check(adjacent_word, gaddag):
+                return False
+        
+        return True
 
     def _legal_actions(self, player):
         if self._game_over or player != self._current_player:
@@ -281,19 +621,31 @@ class ScrabbleState(pyspiel.State):
         # If 20 turns have passed and score is still 0, the game is dead. Kill it.
         if self.turn_count > 20 and sum(self.scores) == 0:
             self._game_over = True
+            self.log_termination("Mercy rule: turn > 20 with zero total score")
             return
 
         # Hard limit to prevent infinite games
         if self.turn_count > 100:
             self._game_over = True
+            self.log_termination("Hard turn limit exceeded (turn > 100)")
             return
 
         # Action 450: PASS
         if action_id == 450:
+            self.log_move_attempt(450, {'action': 'PASS'}, True)
+            
             self.consecutive_passes += 1
+            self.consecutive_zero_scores += 1  # Pass scores 0
+            
             # STEP 5: Tighter Pass Limit (4 instead of 6)
             if self.consecutive_passes >= 4: 
                 self._game_over = True
+                self.log_termination(f"Four consecutive passes (count={self.consecutive_passes})")
+            
+            # Six-zero rule: 6 consecutive zero scores ends game
+            if self.consecutive_zero_scores >= 6:
+                self._game_over = True
+                self.log_termination(f"Six consecutive zero scores (count={self.consecutive_zero_scores})")
             
             self.turn_count += 1
             self._current_player = 1 - self._current_player
@@ -303,10 +655,25 @@ class ScrabbleState(pyspiel.State):
 
         # Action 451: EXCHANGE
         if action_id == 451:
+            # Bag Limit Rule: Cannot exchange if bag < 7
+            if len(self.bag) >= 7:
+                self.log_move_attempt(451, {'action': 'EXCHANGE', 'tiles': len(self.racks[self._current_player])}, True)
+            else:
+                self.log_move_attempt(451, {'action': 'EXCHANGE', 'bag_size': len(self.bag)}, False, 
+                                     f"Illegal exchange: bag has {len(self.bag)} tiles (need 7)")
+            
             self.consecutive_passes += 1
+            self.consecutive_zero_scores += 1  # Exchange scores 0
+            
             # STEP 5: Tighter Pass Limit
             if self.consecutive_passes >= 4: 
                 self._game_over = True
+                self.log_termination(f"Four consecutive passes (count={self.consecutive_passes})")
+            
+            # Six-zero rule: 6 consecutive zero scores ends game
+            if self.consecutive_zero_scores >= 6:
+                self._game_over = True
+                self.log_termination(f"Six consecutive zero scores (count={self.consecutive_zero_scores})")
                 
             # Bag Limit Rule: Cannot exchange if bag < 7
             if len(self.bag) >= 7:
@@ -316,7 +683,7 @@ class ScrabbleState(pyspiel.State):
                 self._refill_rack(self._current_player)
             else:
                 # STEP 4: Penalty for illegal exchange attempt
-                self.scores[self._current_player] -= 10.0
+                self.apply_penalty(self._current_player, 10.0)
             
             self.turn_count += 1
             self._current_player = 1 - self._current_player
@@ -332,10 +699,13 @@ class ScrabbleState(pyspiel.State):
         if action_id not in self._current_move_map:
             # STEP 4: Reward Shaping (Penalty)
             # The agent tried to play a move that doesn't exist. Slap its wrist.
-            self.scores[self._current_player] -= 10.0
+            self.log_move_attempt(action_id, {'action': 'HALLUCINATION'}, False, 
+                                 f"Action {action_id} not in legal move map")
+            self.apply_penalty(self._current_player, 10.0)
             
             self.banned_actions.add(action_id)
             if len(self.banned_actions) >= 3:
+                self.log_move_attempt(450, {'action': 'FORCED_PASS', 'reason': '3 failed attempts'}, True)
                 self._apply_action(450) # Force Pass
             return # Retry same player
 
@@ -348,17 +718,38 @@ class ScrabbleState(pyspiel.State):
         if not is_valid:
             # STEP 4: Reward Shaping (Penalty)
             # The agent tried an invalid placement. Penalize.
-            self.scores[self._current_player] -= 10.0
+            self.log_move_attempt(action_id, 
+                                 {'action': 'PLAY_WORD', 'word': word, 'pos': (row, col), 'dir': direction}, 
+                                 False, "Validation failed: connectivity, rack, or cross-word issue")
+            self.apply_penalty(self._current_player, 10.0)
             
             self.banned_actions.add(action_id)
             if len(self.banned_actions) >= 3:
+                self.log_move_attempt(450, {'action': 'FORCED_PASS', 'reason': '3 failed attempts'}, True)
                 self._apply_action(450)
             return # Retry same player
 
         # 3. SUCCESS
+        self.log_move_attempt(action_id, 
+                             {'action': 'PLAY_WORD', 'word': word, 'pos': (row, col), 'dir': direction, 'score': None}, 
+                             True)
+        
         self.consecutive_passes = 0
         score, _ = self._score_move(row, col, word, direction)
         self.scores[self._current_player] += score
+        
+        # Update the log with the actual score
+        if self.move_log and self.move_log[-1]['action_id'] == action_id:
+            self.move_log[-1]['move_details']['score'] = score
+        
+        # Track zero scores for six-zero rule
+        if score == 0:
+            self.consecutive_zero_scores += 1
+            if self.consecutive_zero_scores >= 6:
+                self._game_over = True
+                self.log_termination(f"Six consecutive zero scores (count={self.consecutive_zero_scores})")
+        else:
+            self.consecutive_zero_scores = 0  # Reset on non-zero score
         
         dr, dc = (0, 1) if direction == 'Across' else (1, 0)
         curr_r, curr_c = row, col
@@ -375,6 +766,7 @@ class ScrabbleState(pyspiel.State):
         self._refill_rack(self._current_player)
         if not self.racks[self._current_player] and not self.bag:
             self._game_over = True
+            self.log_termination(f"Player {self._current_player} used last tile with empty bag")
 
         self.turn_count += 1
         self._current_player = 1 - self._current_player
@@ -405,11 +797,15 @@ class ScrabbleState(pyspiel.State):
                 tiles_used.append(char)
                 val = TILE_VALUES[char]
                 
-                prem = PREMIUMS.get((curr_r, curr_c))
-                if prem:
-                    ptype, pmult = prem
-                    if ptype == 'L': val *= pmult
-                    elif ptype == 'W': word_multiplier *= pmult
+                # Only apply premium if this square hasn't been used before
+                if (curr_r, curr_c) not in self.used_premiums:
+                    prem = PREMIUMS.get((curr_r, curr_c))
+                    if prem:
+                        ptype, pmult = prem
+                        if ptype == 'L': val *= pmult
+                        elif ptype == 'W': word_multiplier *= pmult
+                        # Mark this premium square as used
+                        self.used_premiums.add((curr_r, curr_c))
                 
                 move_score += val
                 
@@ -470,12 +866,13 @@ class ScrabbleState(pyspiel.State):
             # Is this the tile we just placed?
             if (curr_r, curr_c) == (row, col):
                 val = TILE_VALUES[char]
-                # Apply Premium (It applies to BOTH words!)
-                prem = PREMIUMS.get((row, col))
-                if prem:
-                    ptype, pmult = prem
-                    if ptype == 'L': val *= pmult
-                    elif ptype == 'W': word_mult *= pmult
+                # Apply Premium only if not already used (It applies to BOTH words!)
+                if (row, col) not in self.used_premiums:
+                    prem = PREMIUMS.get((row, col))
+                    if prem:
+                        ptype, pmult = prem
+                        if ptype == 'L': val *= pmult
+                        elif ptype == 'W': word_mult *= pmult
                 score += val
             else:
                 # Existing tile
@@ -496,8 +893,11 @@ class ScrabbleState(pyspiel.State):
         return self._game_over
 
     def returns(self):
-        # Return scores [player_1_score, player_2_score]
-        return [0.0, 0.0]
+        # Apply end-game adjustments if game is over
+        if self._game_over:
+            self.adjust_final_scores()
+        # Return actual scores
+        return list(self.scores)
 
     def information_state_tensor(self, player):
         planes = np.zeros((35, 15, 15), dtype=np.float32)
@@ -560,17 +960,54 @@ class ScrabbleState(pyspiel.State):
         return self.information_state_tensor(player)
     
     def __str__(self):
-        # Create a simple ASCII representation
+        # Create a comprehensive ASCII representation
         lines = []
-        lines.append(f"Turn: Player {self._current_player}")
-        lines.append(f"Scores: P0={self.scores[0]} P1={self.scores[1]}")
-        lines.append(f"Bag: {len(self.bag)} tiles")
+        lines.append("=" * 70)
+        lines.append(f"SCRABBLE GAME STATE - Turn {self.turn_count}")
+        lines.append("=" * 70)
+        
+        # Current player and game status
+        if self._game_over:
+            lines.append(f"Status: GAME OVER")
+            if self.termination_reason:
+                lines.append(f"Reason: {self.termination_reason}")
+        else:
+            lines.append(f"Status: IN PROGRESS - Player {self._current_player}'s turn")
+        
+        lines.append("")
+        
+        # Scores
+        lines.append(f"Scores: P0={self.scores[0]:.1f}  P1={self.scores[1]:.1f}")
+        
+        # Game state counters
+        lines.append(f"Consecutive Passes: {self.consecutive_passes}")
+        lines.append(f"Consecutive Zero Scores: {self.consecutive_zero_scores}")
+        lines.append(f"Banned Actions: {len(self.banned_actions)}")
+        
+        lines.append("")
+        
+        # Bag and racks
+        lines.append(f"Bag: {len(self.bag)} tiles remaining")
+        lines.append(f"P0 Rack ({len(self.racks[0])} tiles): {' '.join(self.racks[0]) if self.racks[0] else 'empty'}")
+        lines.append(f"P1 Rack ({len(self.racks[1])} tiles): {' '.join(self.racks[1]) if self.racks[1] else 'empty'}")
+        
+        lines.append("")
+        lines.append("Board:")
+        
+        # Board with column headers
         lines.append("   " + " ".join([chr(ord('A') + i) for i in range(15)]))
         for r in range(15):
             row_str = f"{r:2} "
             for c in range(15):
                 row_str += self.board[r][c] + " "
             lines.append(row_str)
+        
+        # Add move log summary if available
+        if self.move_log:
+            lines.append("")
+            lines.append(self.get_move_log_summary())
+        
+        lines.append("=" * 70)
         return "\n".join(lines)
 
 # Register the game

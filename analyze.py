@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import os
 
-LOG_PATH = "./scrabble_az_checkpoints/learner.jsonl"
+LOG_PATH = "./data/scrabble_az_checkpoints/learner.jsonl"
 
 def plot_training():
     data = []

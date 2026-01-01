@@ -1,0 +1,86 @@
+Loading game...
+Loading dictionary from resources/NWL2023.txt...
+Dictionary loaded.
+Loading neural network from checkpoint-100...
+
+--- STARTING MATCH ---
+Player 0: Plays 'REVIVE' at 7,4 Across
+   Rack P1: ['D', 'T', 'O', 'U', 'E', 'Y', 'O']
+Player 1: Plays 'OUTDO' at 8,6 Across
+   Rack P0: ['H', 'P', 'X', 'E', 'L', 'E', 'O']
+Player 1: Plays 'DUET' at 8,2 Across
+   Rack P0: ['H', 'P', 'X', 'E', 'L', 'E', 'O']
+Player 0: Plays 'ELOPE' at 6,0 Across
+   Rack P1: ['O', 'Y', 'O', 'T', 'I', 'A', 'U']
+Player 1: Plays 'YETI' at 5,0 Across
+   Rack P0: ['H', 'X', 'N', 'F', 'S', 'O', 'N']
+Player 1: Plays 'TOADY' at 5,2 Across
+   Rack P0: ['H', 'X', 'N', 'F', 'S', 'O', 'N']
+Player 1: Plays 'LA' at 6,1 Across
+   Rack P0: ['H', 'X', 'N', 'F', 'S', 'O', 'N']
+Player 0: Plays 'DOHS' at 8,2 Across
+   Rack P1: ['O', 'Y', 'O', 'T', 'I', 'A', 'U']
+Player 0: Plays 'SHONE' at 2,0 Across
+   Rack P1: ['O', 'Y', 'O', 'T', 'I', 'A', 'U']
+Player 0: Plays 'FINOS' at 6,7 Across
+   Rack P1: ['O', 'Y', 'O', 'T', 'I', 'A', 'U']
+Player 1: Plays 'TUYERE' at 3,4 Across
+   Rack P0: ['H', 'X', 'N', 'F', 'S', 'O', 'N']
+Player 1: Plays 'ETUI' at 7,9 Across
+   Rack P0: ['H', 'X', 'N', 'F', 'S', 'O', 'N']
+Player 1: Plays 'TAUT' at 8,5 Across
+   Rack P0: ['H', 'X', 'N', 'F', 'S', 'O', 'N']
+Player 0: EXCHANGE
+
+--- GAME OVER ---
+======================================================================
+SCRABBLE GAME STATE - Turn 7
+======================================================================
+Status: GAME OVER
+Reason: Four consecutive passes (count=4)
+
+Scores: P0=5.0  P1=0.0
+Consecutive Passes: 4
+Consecutive Zero Scores: 4
+Banned Actions: 0
+
+Bag: 71 tiles remaining
+P0 Rack (7 tiles): I R I A N A R
+P1 Rack (7 tiles): O Y O T I A U
+
+Board:
+   A B C D E F G H I J K L M N O
+ 0 . . . . . . . . . . . . . . . 
+ 1 . . . . . . . . . . . . . . . 
+ 2 . . . . . . . . . . . . . . . 
+ 3 . . . . . . . . . . . . . . . 
+ 4 . . . . . . . . . . . . . . . 
+ 5 . . . . . . . . . . . . . . . 
+ 6 E L O P E . . . . . . . . . . 
+ 7 . . . . R E V I V E . . . . . 
+ 8 . . D U E T . . . . . . . . . 
+ 9 . . . . . . . . . . . . . . . 
+10 . . . . . . . . . . . . . . . 
+11 . . . . . . . . . . . . . . . 
+12 . . . . . . . . . . . . . . . 
+13 . . . . . . . . . . . . . . . 
+14 . . . . . . . . . . . . . . . 
+
+Move Log Summary (21 entries)
+============================================================
+Turn 4, P0: FAILED - Action 194
+  Reason: Validation failed: connectivity, rack, or cross-word issue
+Turn 4, P0: SUCCESS - Action 450
+Turn 4, P0: SUCCESS - Action 450
+Turn 5, P1: FAILED - Action 98
+  Reason: Validation failed: connectivity, rack, or cross-word issue
+Turn 5, P1: FAILED - Action 228
+  Reason: Validation failed: connectivity, rack, or cross-word issue
+Turn 5, P1: FAILED - Action 250
+  Reason: Validation failed: connectivity, rack, or cross-word issue
+Turn 5, P1: SUCCESS - Action 450
+Turn 5, P1: SUCCESS - Action 450
+Turn 6, P0: SUCCESS - Action 451
+Turn 6: GAME_TERMINATED - Four consecutive passes (count=4)
+======================================================================
+Final Score: [5.0, 0.0]

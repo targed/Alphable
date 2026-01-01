@@ -11,7 +11,7 @@ import scrabble
 # 2. Configuration 
 CONFIG = alpha_zero.Config(
     game="scrabble",
-    path="./scrabble_az_checkpoints",
+    path="./data/scrabble_az_checkpoints",
     nn_model="resnet",
     nn_width=64,
     nn_depth=2,
@@ -68,10 +68,10 @@ def play_match():
         2, 
         weight_decay=1e-4,   # <--- Added
         learning_rate=0.01,  # <--- Added
-        path="./scrabble_az_checkpoints"
+        path="./data/scrabble_az_checkpoints"
     )
     
-    model.load_checkpoint("./scrabble_az_checkpoints/checkpoint-100")
+    model.load_checkpoint("./data/scrabble_az_checkpoints/checkpoint-100")
     
     from open_spiel.python.algorithms.alpha_zero import evaluator as az_evaluator
     az_eval = az_evaluator.AlphaZeroEvaluator(game, model)

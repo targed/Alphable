@@ -1,0 +1,1233 @@
+
+
+
+
+
+NASPA
+Official Tournament Rules
+
+
+
+
+
+
+
+
+NASPA
+Official Tournament Rules
+Effective: January 4, 2017
+Revised: December 1, 2016
+Supersedes: September 30, 2014
+
+North
+American SCRABBLE(r)
+Players Association
+Making words, building friendships
+Dallas • Toronto
+
+
+
+
+Copyright (c) 2016 North American Word Game Players Association
+
+All rights reserved. Except as permitted under the U.S. Copyright Act of 1976, no part of this publication may be reproduced, distributed, or transmitted in any form or by any means, or stored in a database or retrieval system, without the prior written permission of the publisher.
+
+NASPA
+PO BOX 12115
+Dallas, TX 75225-0115
+info@scrabbleplayers.org www.scrabbleplayers.org
+
+First edition December 2016
+
+The North American Word Game Players Association (NAWGPA) is a 501(c)(4) nonprofit corporation incorporated in the State of Texas. It does business as under the registered DBA "North American SCRABBLE Players Association" (NASPA). HASBRO is the owner of the registered SCRABBLE(r) trademark in the United States and Canada, which is used by NAWGPA under license.
+
+This book is typeset in Adobe Garamond Pro 12/15 with headings in Myriad Pro Bold. 10 9 8 7 6 5 4 3 2 1
+Printed in the United States of America
+
+
+
+
+
+
+Acknowledgments
+
+      These updated June 2016 rules were compiled, reviewed, and agreed upon by the North American SCRABBLE Players Association Rules Committee. Members who provided signifi- cant input to this revision included committee chair Jan Cardia (DE), Paul Epstein (MI), Allen Pengelly (ON), Dan Stock (OH), Michael Thelen (UT), Ron Tiekert (FL), Dave Wiegand (OR), Paul Avrin (NY) and Bruce D'Ambrosio (CA).
+      The rulebook was redesigned in 2013 by the Publications Committee, including John Chew (ON), Kristen Chew (ON), and Alice Ching-Chew (ON). The redesign involved copy- editing, proofreading, indexing and the addition of a glossary, as well as marking all substantive changes in this edition.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+NASPA Rules 2016-12	v
+
+
+
+
+
+
+
+
+Contents
+
+
+
+I. Conduct	1
+I.A. Cheating and Collusion	1
+I.B. Resigning	1
+I.C. Abusive or Disruptive Behavior	2
+I.D. Distracting Speech or Behavior	2
+I.E. Inappropriate Conduct while Viewing Games	2
+I.F. Suspicious Behavior	2
+I.G. Simultaneous Games	2
+II. General Principles	3
+II.A. Clock Neutralization	3
+II.B. Observing Infractions	3
+II.C. Protocol	4
+II.D. Director's Discretion	4
+II.E. Right to a Second Opinion 	4
+II.F. Minor Infractions 	4
+III. Beginning the Game	5
+III.A. Equipment	5
+III.A.1. References	5
+III.A.2. Tiles	5
+III.A.3. Clocks	6
+III.A.4. Racks and Boards	6
+III.A.5. Tile Bags	7
+III.A.6. Papers	7
+III.A.7. Other Objects	7
+III.A.8. Choice of Equipment	7
+III.B. Confirming the Number of Tiles	7
+III.C. Arriving Late	8
+NASPA Rules 2016-12	vii
+III.D. Who Plays First?	8
+III.E. Who Draws Tiles First?	9
+III.F. Starting Play	9
+III.G. Positioning Tiles	9
+III.G.1. Missing the Center Square	9
+III.G.2. Establishing Orientation	9
+III.G.3. Misoriented Tiles	9
+III.G.4. Poorly Positioned Tiles	10
+III.G.5. Illegal Plays	10
+III.G.6. Irregularity Following a Successful Challenge	11
+IV. Playing the Game	12
+IV.A. Basic Rules	12
+IV.B. Tile Drawing	12
+IV.B.1. How to Draw Tiles	12
+IV.B.2. Erroneously Returning Tiles to the Bag	12
+IV.B.3. Loose Tiles	13
+IV.B.4. Played Tiles Gone Missing	13
+IV.B.5. Overdraws	14
+IV.B.5.a. Racks with More than Seven Tiles	14
+IV.B.5.b. Overdraw Procedure	14
+IV.B.5.c. Unusual Overdraw Situations	15
+IV.B.6. Drawing Out of Order	15
+IV.B.7. End of Game Underdrawing	15
+IV.B.8. Overdrawing Tiles when Fewer than Seven in the Bag 	16
+IV.B.9. Exposing Tiles when Fewer than Seven in the Bag	16
+IV.C. Managing Tiles	17
+IV.C.1. Keeping Tiles on the Rack	17
+IV.C.2. Counting Tiles	17
+IV.C.3. Tiles from an Adjacent Game	17
+IV.C.4. Tile Bag Access	18
+IV.D. Board Etiquette	18
+IV.E. Passing and Exchanging	19
+IV.E.1. Passing	19
+IV.E.2. Exchanging	19
+IV.E.2.a. Tile Exchange Procedure	19
+IV.E.2.b. Improper Tile Exchanges	19
+IV.F. Playing the Blank	20
+IV.F.1. How to Designate the Blank	20
+IV.F.2. Leftover Designations	21
+NASPA Rules 2016-12 • Contents	ix
+IV.F.3. Disputes	21
+IV.G. Completing a Turn	21
+IV.G.1. How to Complete a Turn	21
+IV.G.2. End of Turn Irregularities	22
+IV.G.2.a. Failing to Start Opponent's Clock	22
+IV.G.2.b. Tracking Out of Order	22
+IV.G.2.c. Not Allowing Sufficient Time for Holds or Challenges	22
+IV.G.2.d. Failing to Announce Score	22
+IV.H. Scoring Issues	23
+IV.H.1. Verifying the Play Score	23
+IV.H.2. Verifying Cumulative Scores	23
+IV.H.3. Willfully Fostering Incorrect Scores	23
+IV.I. Holding and Challenging	23
+IV.I.1. When to Hold or Challenge	23
+IV.I.2. Holding the Play	23
+IV.I.3. Challenging the Play	24
+IV.J. Adjudicating Challenges by Computer	25
+IV.J.1. Software Self-Lookup Procedure	25
+IV.J.2. Improper Self-Lookups	26
+IV.K. Adjudicating Challenges Manually	26
+IV.K.1. Who May Utilize Manual Lookups	26
+IV.K.2. Manual Lookup Procedure	26
+IV.K.3. Appropriate Word Judge Behavior	27
+IV.K.4. Requesting a Second Opinion	27
+IV.K.5. Compensating Erroneous Adjudications	27
+IV.L. Leaving the Playing Area during a Game	27
+IV.M. Leaving the Playing Area at the Director's Request	28
+V. Ending the Game	29
+V.A. Final Play	29
+V.B. Six-Zero Rule	29
+V.C. Finding Missing Tiles near the End of the Game	29
+V.D. Forced Overtime	30
+V.E. Neutralizing the Clock on the Out Play	30
+V.F. Director-Shortened Games	30
+V.G. Adjusting the Score	30
+V.G.1. Unplayed Tiles	30
+V.G.2. Overtime	31
+V.G.3. Overtime Exceeding 10 Minutes	31
+V.H. Winning the Game	31
+V.I. Recounting the Game	31
+V.J. Recording the Game	32
+V.K. Forfeits and Byes	32
+VI. Play Using the International Lexicon	34
+VI.A. Word Reference	34
+VI.B. Challenges	34
+Appendix: Basic Rules of Play and Scoring	35
+A.I. Making Plays	35
+A.I.A. The First Play of the Game	35
+A.I.B. Subsequent Plays	35
+A.I.C. How New Words are Formed on the Board	35
+A.II. Scoring	36
+A.II.A. Letter Values	36
+A.II.B. Scoring Each Play	36
+A.II.C. Double and Triple Letter Bonus Squares	36
+A.II.D. Double and Triple Word Bonus Squares	36
+A.II.E. Score DLSs and TLSs before DWSs and TWSs	36
+A.II.F. Double-Double (DWS-DWS)	36
+A.II.G. Triple-Triple (TWS-TWS)	36
+A.II.H. Bonus Squares Score on One Turn Only	37
+A.II.I. Using the Blank on a DWS or TWS	37
+Glossary	38
+Index	39
+
+
+
+I. Conduct
+
+All players are encouraged to play with a spirit of fun, guided by a sense of fairness.
+      Conduct at North American SCRABBLE(r) Players Association (NASPA) tournaments is subject to the terms of the Code of Conduct at the NASPA website.
+The inappropriate practices described in this section will not be tolerated.
+I.A. Cheating and Collusion
+      All players are honor-bound not to cheat. Purposefully attempting to lose a game, or to score fewer points in a game in order to benefit another person, is collusion.
+Directors will immediately, but discreetly, investigate suspected cheating or collusion.
+Players caught cheating or colluding will be immediately ejected and disqualified from the event, and subject to further penalties as detailed in the Code of Conduct. Any discussion that takes place after the game has ended about whether to recount is not collusion.
+I.B. Resigning
+      Except as specified below, resigning a game or quitting a tournament in progress are considered unsportsmanlike and subject to penalty unless approved by the Director for a medical or personal emergency. (See Rule V.K. Forfeits and Byes, p. 32.) "Tanking" a game
+by repeated passing or otherwise deliberately playing in an exaggeratedly poor manner is also subject to penalty.
+      Exception: The Director may allow a resignation option in any tournament where spreads and scores are totally irrelevant and where the Director has clearly stated the resignation policy in all tournament announcements and flyers. Under those circumstances, a player who
+is obviously losing a game may, on his or her own time, request to resign. The opponent then has the choice of honoring the resignation at the current score (minus any time penalties) or requiring that the game continue.
+
+
+
+
+
+
+NASPA Rules 2016-12	1
+
+2	I. Conduct • NASPA Rules 2016-12
+
+I.C. Abusive or Disruptive Behavior
+      Players who threaten, verbally abuse, or exhibit any seriously disruptive behavior will be penalized as detailed in the Code of Conduct. Players who are physically abusive will be immedi- ately ejected and disqualified. In addition, NASPA membership may be revoked.
+I.D. Distracting Speech or Behavior
+      Inappropriate speaking, moaning, or other distractive behavior during a game is unethi- cal. Each player has the right to ask any player to remain silent during a game except when they are quietly counting, announcing, verifying or correcting a score, holding or challenging a play, declaring a blank, or calling the Director. Any conversation that is not necessary for the progres- sion of the game is distracting to your opponent and to neighboring players. Do not hesitate to ask the Director to intervene on your behalf.
+I.E. Inappropriate Conduct while Viewing Games
+      Never assume it is your right to watch games in progress (kibitzing). Respect the wishes of any player who may seem disturbed by your presence or who asks you to leave the playing area unless you have been specifically authorized by the Director to annotate the game. If you are permitted to observe a game, guard that your demeanor does not give either player valuable information about the other player's rack. Never look up words while watching a game. Do so only after discreetly moving out of view of either player.
+I.F. Suspicious Behavior
+      It is every player's responsibility to guard against actions which might incur suspicion or misinterpretation, and to immediately inform opponents of any such action on their part.
+I.G. Simultaneous Games
+Playing more than one game at the same time is prohibited.
+
+
+
+
+II.A. Clock Neutralization
+      The clock should be stopped for scoring discrepancies, inappropriate procedures/ behavior, or anytime a Director is called. You must state your reason for stopping the clock at any time during the game other than the final play. While the clock is stopped, players may not track tiles, designate the blank, study either the board or their racks, or adjust the positioning of any tiles on the board (except as outlined in Rule III.G.4. Poorly Positioned Tiles, p. 10). Such improper adjustments may negatively affect the decision of any Director asked to adjudicate proper positioning of the tiles. Do not hesitate to call the Director if a rule, procedure, or question needs clarification.
+II.B. Observing Infractions
+      Notify the relevant players or tournament staff of any rules violations or improprieties you observe in your game or in other games. For example:
+1. Suggest that a player request a second opinion if you think a ruling or word adjudica- tion is incorrect.
+2. If you notice a rack with more than seven tiles, existing tiles being mistakenly moved or removed from the board, or a board containing disconnected tiles, inform the players and/or the Director. (See Rule IV.B.5. Overdraws, p. 14.)
+3. Inform players of stray tiles in their area. See Rule IV.B.3. Loose Tiles, p. 13, and Rule
+V.C. Finding Missing Tiles near the End of the Game, p. 29.
+4. Inform the players if you notice that the clock is not running during a game in progress, or if you notice that a clock is running during an adjudication.
+      Except as noted above, do not inform players of other games when you notice mistakes regarding scoring or time clocks (unless the game is over and the tally slip has been signed or initialed by both players). These are the sole responsibility of the players.
+
+
+
+
+NASPA Rules 2016-12	3
+
+4	II. General Principles • NASPA Rules 2016-12
+
+II.C. Protocol
+      Tournament rules are not meant to be used as a tool with which to intimidate your  opponent, but as a guideline for proper protocol. Whenever you are unsure of the application  of a rule, do not hesitate to call the Director.
+II.D. Director's Discretion
+      If a situation arises that is not explicitly covered in the rules, the Director has the discretion to extract what he or she can from the rule book to correct any irregularity in a fair and reasonable manner. Directors should do their best to insure that no player benefit from an  irregularity that he or she helped to create, and no player should be harmed by an irregularity  that he or she did not help to create. Directors should also keep in mind that a situation can  still be rectified as long as tiles have not been commingled and the board has not been changed  in any way, regardless of the starting of a player's clock. Should a clock have been started  before the mistake was discovered, the Director should determine whether that time should  be awarded back to that player, and that time should be added to the time left at the end of  the game. All players should be considered innocent of willful wrongdoing unless sufficient evidence exists to the contrary.
+      The goal of any remedy should be to eliminate to the fullest extent possible the impact of the irregularity on the aggrieved player. Such situations may be reported, along with the Director's remedy, to the NASPA Rules Committee for discussion and possible inclusion in a future edition of the Rules.
+II.E. Right to a Second Opinion
+      If a player feels that a Director has made an incorrect ruling, she or he has the right to request a second opinion from another Director or a Rules Committee Member, if either is available. If the two rulings differ, a third opinion may be requested. If no one is available to offer a third opinion, the Director who initially made the ruling has precedence.
+II.F. Minor Infractions
+      Rules infractions that do not substantially affect the outcome of the game, but which  can cause the opponent to spend clock time noticing or addressing ensuing issues, are penal- ized as follows. After every three such infractions brought immediately to the attention of the  opponent, a player may notify the Director in order to either receive an extra minute of playing  time, or deduct one minute of the opponent's playing time. Such infractions include, but are  not limited to, those described in Rule III.G.3. Misoriented Tiles, p. 9, Rule III.G.4. Poorly Positioned Tiles, p. 10, and Rule IV.H.1. Verifying the Play Score, p. 23.
+
+
+
+
+III.A. Equipment
+III.A.1. References
+      The Official Tournament & Club Word List, 2016 Edition, published by Merriam- Webster, Inc., contains all acceptable words.
+      Approved Software Self-Lookup programs for adjudicating challenges are posted on the NASPA website.
+III.A.2. Tiles
+      Tiles that can be distinguished by feel are not permitted, except as required by the Director for players who are blind.
+Tiles that give no visual clues are preferred over those that do. Legible tiles are preferred over significantly faded or worn tiles.
+      Tiles that can be lifted easily from the board (e.g. due to thickness) are preferred over  tiles that are hard to pick up.
+      One-piece tiles are preferred over three-piece tiles (with a paper letter insert) unless the  one-piece tiles are significantly faded or worn.
+      Tile sets must contain 100 tiles with the traditional distribution and point values that have been utilized since the game's inception. See also Rule III.B. Confirming the Number of Tiles, p. 7.
+      Adjacent games should not use identical tiles. If one game has already begun, the other game should change tiles. If neither has begun, then one player from each board draws a tile, and the player with the letter closest to Z changes tile sets. If three adjacent boards have identi- cal tiles, and none of the games have begun, the middle board should change tiles.
+
+
+
+
+
+
+NASPA Rules 2016-12	5
+
+III.A.3. Clocks
+      Clocks are required for all NASPA tournament games. Each player is allowed 25 min- utes to complete all plays, after which an overtime penalty applies (see Rule V.G.2. Overtime, p. 31). There is no limit on the time allowed per turn.
+Do not use a clock which cannot readily indicate minutes of overtime. Clock preferences are categorized below.
+Preferred:
+a. digital clocks that count down and show exact minutes and seconds of time remaining both in regulation and in overtime;
+Less, but equally, preferred:
+a. analog clocks that count down and show exact minutes and seconds of time remaining both in regulation and in overtime;
+b. Zarf app on an iPad;
+c. Zarf app on an iPhone;
+Least, but equally, preferred:
+a. analog or digital clocks that do not show exact minutes and seconds of overtime;
+b. clocks which the Director deems to be excessively loud;
+c. clocks known to not activate when pressed, or clocks known for being difficult to stop or neutralize.
+      Refer to the Technology Committee website for updates at http://www.scrabbleplayers. org/w/Technology_Committee.
+      If a player has been granted additional time for medical reasons, his/her opponent must be notified of this prior to the start of each game, either verbally or in writing. Failure to do so results in forfeiture of the additional time. Ideally, the clock should be set to reflect this time.
+III.A.4. Racks and Boards
+      The top of each tile on your rack must be visible to your opponent at all times. You may use any rack that meets this requirement.
+      Boards which are glary, do not turn easily, knock tiles off of racks, have distracting background designs, have any protuberances on any edge, or have premium square colors other than the traditional red, pink, and blue, are less preferred. Any board which blocks the
+opponent's view of the top of your rack is unacceptable. Any board without the standard 15×15 grid or without the traditional layout of premium squares (as specified by the original inventor and as utilized for decades thereafter) is unacceptable.
+
+
+III.A.5. Tile Bags
+       Tile bags which are too big (tending to hide tiles when nearly empty) or too small (causing players to drop tiles or inadvertently see letters in the bag) are less preferred.
+III.A.6. Papers
+      The only visible papers allowed in your playing area are blank paper, your contestant scorecard, blank or current game score sheets, challenge slips, blank-designation slips, tally slips, and letter-distribution lists. You may construct and use your own letter lists to track tiles, but such lists may not be designed to also act as memory aids. Two-sided score sheets and score sheets bound in a book are acceptable for use as long as those and any other papers in the playing area are kept out of sight and are not referred to at any time.
+III.A.7. Other Objects
+      Headphones, calculators, and other devices, electronic or otherwise, may not be utilized until game results have been entered and signed (or initialed) by both players. (See Rule V.J. Recording the Game, p. 32.) Exceptions may only be made for legitimate medical reasons, and must be approved by the Director. Earplugs, however, are acceptable.
+III.A.8. Choice of Equipment
+      If tables are assigned, equipment should not be moved from table to table. However, if a player can produce equipment that better meets the criteria set forth in sections Rule III.A.2. Tiles, p. 5, Rule III.A.3. Clocks, p. 6, Rule III.A.4. Racks and Boards, p. 6 and Rule
+III.A.5. Tile Bags, p. 7, then that equipment which conforms more to the standards above
+shall take precedence. If equally conforming, the player going second gets choice of equipment. The player going second also gets to choose where to position the clock, unless his/her choice would result in two tile bags being placed in the same area. If degree of conformity is disputed, the decision of the Director shall be final.
+III.B. Confirming the Number of Tiles
+      Before each game, verify that there are 100 tiles. Either player may also confirm exact distribution. Do not start a game with the wrong number of tiles or if distribution is proven to be incorrect. If it is determined after the game has started, however, that the tile count or the distribution is incorrect, check to see if any of the following apply:
+Rule IV.B.3. Loose Tiles, p. 13;
+Rule IV.B.4. Played Tiles Gone Missing, p. 13; Rule IV.C.3. Tiles from an Adjacent Game, p. 17.
+If none of these apply, the game proceeds with the incorrect set.
+
+
+      At the end of each game, leave tiles on the board to facilitate verifying the count for the next game.
+III.C. Arriving Late
+      If a player is late for a round with an announced starting time, the Director may start his/her clock no earlier than 5 minutes after the actual starting time of the round. After 25 minutes (or when a digital clock reads -0:01), the game is over and is forfeited. If the missing player arrives before then, the Director or the opponent may stop the clock. Otherwise, the arriving player stops it. If the late player does not opt to forfeit, s/he is allowed to become situated, count/bag the tiles, and draw for first (if necessary) before the game is begun with whatever time remains.
+      If both players are late, the Director should start either clock after 5 minutes. When the first player arrives, s/he (or the Director) should stop the clock. The Director should then note the elapsed time (which will be recorded to use against that player) and restart the clock. If/ when the second player arrives, the clock is stopped in the usual manner. If both players choose to proceed, the clock with the total elapsed time will become the later player's clock. The first player's clock can be left at 25 minutes with the previously recorded time subtracted at the end of the game. If, after the second player arrives, either player wishes not to continue, the other player shall be declared the forfeit winner. If neither player arrives within 25 minutes, or if both players wish not to continue, the game is double-forfeited. For permissibility to reschedule a game, see Rule V.K. Forfeits and Byes, p. 32.
+      For rounds without an announced starting time, players should generally be allowed 10-minute breaks between games. However, the Director, with proper notification, may limit any break to 5 minutes to maintain an overall schedule.
+III.D. Who Plays First?
+If the order of play is not predetermined, utilize the first method below that applies:
+1. the player with fewer firsts;
+2. the player with more seconds;
+3. the player who draws the tile closest to "A" - with the blank counted before "A" - repeating as needed. Both players must be present and aware that tiles are being drawn for this determination.
+      Note: A player who forfeits a game before it has begun will be considered to have gone first for that game, second for the next forfeited game, first for the third, etc. The opponents of such games, and all players who receive byes, are assigned neither firsts nor seconds for those unplayed games.
+
+
+III.E. Who Draws Tiles First?
+      The player who is supposed to go first should draw tiles first. However, if the player who was supposed to go second mistakenly draws tiles first, and the player who was supposed to go first does not catch this until s/he has also drawn tiles, then the player who was supposed to go first still plays first. If, however, the player who was supposed to go first starts his/her opponent's clock, s/he is considered to have passed his/her turn and will be charged with going first.
+III.F. Starting Play
+      Both players may shuffle the tiles before the game begins. If the second player has not already shuffled, the first player is encouraged to offer the bag for that purpose. If the second player is not afforded this opportunity, s/he may request to shuffle at any time during the first player's draw. Tiles already drawn will not be returned to the bag unless the second player was not present when they were drawn.
+The first player's clock should be started as soon as s/he has seen the face of any tile.
+III.G. Positioning Tiles
+III.G.1. Missing the Center Square
+      The first word should cover the center square. Otherwise, it may be challenged off the board regardless of acceptability. If not challenged, the play is scored accordingly, and the center square remains available as a double word bonus square.
+III.G.2. Establishing Orientation
+      The first play, which will establish the game's orientation, must create an accepted word from left to right or top to bottom. It should also conform to the orientation of the bonus square lettering. If not conforming, it may be placed in the equivalent conforming position at any time before the completion of the next successful play. After that, the orientation of the bonus square lettering is irrelevant. If all non-blank tiles are not oriented identically, restart the  offending player's clock, while stating that the tiles must be oriented correctly.
+III.G.3. Misoriented Tiles
+      If any played tiles (excluding blanks) do not follow the established orientation of the  game, but are in the correct position, restart the offending player's clock, stating that the tiles  must be oriented correctly. You also have the option to neutralize the clock to reorient the tiles  yourself. Making a play by placing misoriented tiles is a minor infraction (see Rule II.F. Minor Infractions, p. 4).
+
+
+III.G.4. Poorly Positioned Tiles
+      A tile not fully placed in one square will be considered to be on whichever square it most covers. If more of the tile is off the board than in any single square, then that tile is
+considered off the board (i.e., not played). If your opponent makes a correctly oriented play, but any placed tiles are askew, you (but not your opponent) may stop the clock, position the tile(s) properly and with reasonable quickness in the same squares, and restart the clock. If a tile is played facedown, the opponent's clock may be restarted until s/he places the tile faceup in the same square. Making a play by placing tiles facedown is a minor infraction. (see Rule II.F. Minor Infractions, p. 4)
+III.G.5. Illegal Plays
+      The following are considered illegal plays; upon discovery, either player is required to announce such plays.
+a. Except for the first play, if a tile or string of tiles does not join with at least one tile already on the board.
+b. If, on any play, more than one string of tiles is played in a single turn.
+c. If a player moves a tile from a previously played turn to a different position on the board, or to his/her rack, and finishes the turn without the restoring of such tiles.
+In such cases:
+      If the opponent has not yet played and started the offender's clock, the illegally placed tiles will be removed, the offender's score for the play will be nullified, and any tiles drawn by the offender to replace the illegally placed tiles will be handled via the overdraw procedure. (See Rule IV.B.5.c.2. Exchanging from a Rack with More Than Seven Tiles, p. 15.) The illegally played tiles should be counted as tiles in possession but not mixed with newly drawn tiles for the purposes of the overdraw procedure. After the overdraw procedure is complete, the illegally played tiles will be returned to the offender's rack.
+4. If the opponent has played and started the offender's clock, the score for the illegal play will be nullified, and any illegally played tiles which still do not join with tiles played before the illegal play will be returned to the bag.
+5. At any point after the offender makes another accepted play, the score for the play will still be nullified, but the only tiles removed from the board and returned to the bag will be tiles which are now disconnected from any legally played tiles.*
+6. If an illegal play is discovered, but it cannot be determined who caused the infraction, the game will continue as is; and any tiles which are still disconnected from any legally played tiles will be removed from the board and returned to the bag.*
+
+
+7. If disconnected tile(s) or a final play involving disconnected tiles is discovered within 20 seconds of the end of the game (and the tally slip has not been signed or initialed by both players), then the above procedures will apply and the game will continue.
+8. When determining whether or not six consecutive scores of zero have ended a game (Rule V.B. Six-Zero Rule, p. 29), illegal plays involving disconnected tiles will only be considered part of such a tally if no legal plays have been made after the illegal play(s) but before such plays are discovered.
+      *Note: Tiles played through or connected to a disconnected tile in an otherwise legal manner will not be considered illegally played tiles, and should not be returned to the bag per sections 3 and 4 above.
+III.G.6. Irregularity Following a Successful Challenge
+      If after having his/her unacceptable play successfully challenged, a player removes either too many or too few tiles from the board, followed by starting the opponent's clock, the opponent is entitled to one extra minute of playing time. If the opponent makes a play before this irregularity is corrected, then the clock shall be neutralized, the irregularity corrected, and the opponent's turn retaken on a corrected board. If the game proceeds with each player having taken a turn, the incorrect board will no longer be corrected.
+
+
+
+
+
+
+IV. Playing the Game
+
+IV.A. Basic Rules
+Please see Rule Appendix: Basic Rules of Play and Scoring, p. 35.
+IV.B. Tile Drawing
+IV.B.1. How to Draw Tiles
+      Mix the tiles, if desired. (Note: Total mixing time for the entire draw must not exceed 10 seconds.) Hold the bag so the opening is above eye level and look away from the bag. Do not hold the bag directly between you and your opponent, as your eyes must be visible to your opponent while you are drawing. Never hold tiles in one hand while drawing tiles with the other. Always open the drawing hand before drawing. Place tiles either onto your rack or, preferably, facedown on the table and then onto your rack.
+You should not keep drawn tiles in your hands longer than necessary.
+IV.B.2. Erroneously Returning Tiles to the Bag
+      A tile is defined as drawn when your hand has completely left the bag. If you errone- ously return any drawn tiles to the bag, the following penalty applies, where X = the number of tiles returned: The clock is stopped, and your opponent draws X+2 (or if there are not enough  tiles, all) tiles from the bag plus two (or if there are not enough, all) from your rack, exposing  them faceup to common view. Your opponent has 15 seconds to replenish the tiles on your  rack, and to return the remaining tiles to the bag. If your opponent requests more time, you  may start his/her clock.
+       Note: If there are fewer than seven tiles remaining in the bag when this infraction  occurs, and it is the offending player's turn to make a play, implement the above resolution  followed by the procedure presented under Rule IV.B.8. Overdrawing Tiles when Fewer than Seven in the Bag, p. 16.
+      Note: Improperly returning tiles to the bag may be viewed as a suspicious act; the Director should apply a harsher penalty if cheating is suspected.
+
+
+12	NASPA Rules 2016-12
+
+
+IV.B.3. Loose Tiles
+      If a tile spills out while drawing, and otherwise that player has not drawn all replace- ment tiles, that tile should be considered part of the draw. If more tiles spill out than are needed to replenish rack, place all exposed tiles facedown. Opponent will mix, and then player will  draw the appropriate number to place on rack. The remaining tiles are shown to both players  and returned to the bag.
+      As long as there are more than seven tiles remaining in the bag, any tiles that come out  of the bag inadvertently should be shown to both players and then returned to the bag.
+      If there are seven or fewer tiles remaining in the bag after the spill, even if those inad- vertent tiles land facedown, if the player responsible for exposing those tiles is the player whose turn it is to make a play, see Rule IV.B.8. Overdrawing Tiles when Fewer than Seven in the Bag,
+p. 16.
+      If a loose tile (or tiles) is discovered on or near the table, both players are responsible for checking the board to make sure that it (and/or any other tiles) was not dislodged from or moved on the board. If so, these tiles should be put back into place. If both players agree that it did not come from the board, the tiles will be returned to the bag. (If the bag is empty when a  loose tile is discovered, see Rule V.C. Finding Missing Tiles near the End of the Game, p. 29.
+IV.B.4. Played Tiles Gone Missing
+      If it is discovered that a previously played tile is missing from the board, and cannot be located in the playing area-excluding racks-call the Director.
+      The Director should first count how many of that lettered tile are on the board. The  Director should then look on each player's rack. If the last of that letter is on either rack, it  should be returned to the board and a new tile drawn. If the last two of that same letter are on  opposing racks, try to determine who picked up the missing tile so that it can be returned to  the board. If there are more of that letter unaccounted for, the Director should take the bag to  a separate area to determine if there is an excess number of that letter in the bag. If so, the tile  should be returned to the board. If all else fails, the Director should put a placeholder (a tile  from another set or a facsimile) in that spot.
+      If the spot vacated by the missing tile was subsequently taken by another tile, the found  tile should be set aside. 
+      In a recount, however, the original score is counted as if the tile were still in place, but only for those plays that were made when the tile was in place.
+
+
+IV.B.5. Overdraws
+IV.B.5.a. Racks with More than Seven Tiles
+      Anyone who notices a rack with more than seven tiles should always make this known to the players and/or the Director. Players are required to announce their overdraws as soon as they become aware of them.
+If a play is made from a rack with more than seven tiles, and:
+1. if the opponent has not yet played and started the offender's clock: the illegal play shall be withdrawn, the overdraw procedure applied, and the offender will lose that turn;
+2. if the opponent has already made a play and started the offender's clock: the offender simply loses the points scored from the illegal play.
+      Any intention to hide an overdraw is considered cheating and should be investigated by the Director, who may penalize the offender and/or file an Incident Report. Three such incidents in a tournament is punishable by forfeiture of the game in progress, expulsion from the tournament, and forfeiture of any prizes offered at the event.
+IV.B.5.b. Overdraw Procedure
+      If you draw too many tiles, or become aware at any time that you have more than seven tiles, inform your opponent, stop the clock, and complete the procedure below. If the non-offender is in the process of drawing when the overdraw is discovered, s/he stops further drawing and completes the overdraw procedure. The offender then mixes the bag (see Rule IV.B.1. How to Draw Tiles, p. 12) before the non-offender resumes drawing.
+Note: See "Glossary" on page 38 for the meaning of combine.
+      Note: Refer to Rule IV.B.5.c. Unusual Overdraw Situations, p. 15 or, near the end of the game, Rule IV.B.8. Overdrawing Tiles when Fewer than Seven in the Bag, p. 16 for excep- tions and/or more severe penalties.
+Here is the overdraw procedure, where X = the number of extra tiles.
+1. If you should have drawn a single tile, and have not combined any of the new tiles with your old tiles, your opponent selects only the (X+1) new tiles.
+2. If you should have drawn two (or more) tiles, and have not combined any of the new tiles with your old tiles, your opponent selects (X+2) of the new tiles.
+3. If you have combined at least one new tile with your old tiles, your opponent selects (X+2) tiles from the combined group of all tiles. The offender may combine and place all tiles facedown on the table before this selection is made.
+      In all cases, the opponent exposes the selected tiles faceup to common view. If, after 15 seconds, a decision has not been made, the opponent's clock should be started. There is no time limit to make a decision. Once a decision is made, s/he neutralizes the clock, returns the
+
+
+appropriate tiles to his/her opponent, and returns the remaining tiles to the bag. Play resumes with the player on turn's clock being restarted.
+IV.B.5.c. Unusual Overdraw Situations
+IV.B.5.c.1. Overdrawing While Applying Overdraw Procedure
+      If the non-offender exposes more tiles than specified in Rule IV.B.5.b. Overdraw Pro- cedure, p. 14, apply the following remedy: where Player A overdrew by X tiles, and Player B then turned over Y too many tiles, Player A now gets to return Y tiles of his/her choosing to his/ her rack and places the remaining (X+2) tiles facedown. Player B then selects X tiles, unseen, and replenishes Player A's rack. The remaining, unseen tiles are returned to the bag.
+IV.B.5.c.2. Exchanging from a Rack with More Than Seven Tiles
+      After announcing an exchange and starting the opponent's clock, if a player is discov- ered to have had an overdrawn rack, the correction procedure is as follows, and player loses his/ her turn.
+1. If no new tiles have been drawn: the overdraw procedure is applied and the player loses his/her turn, i.e., s/he cannot exchange.
+2. If the overdraw is discovered after any new tiles are drawn, but before any tiles have been returned to the bag: all exchanged, kept, and drawn tiles are combined. Let X = the number of overdrawn and newly drawn tiles. The opponent selects and exposes X+2 of the combined tiles, and returns X of them to the bag.
+3. If the overdraw is discovered after any tiles have been returned to the bag: redraw the number of tiles that have been returned to the bag. Combine the originally kept tiles, the replacement tiles, any tiles not yet returned to the bag and the newly drawn tiles. Let X = the number of originally overdrawn and newly drawn tiles. The opponent selects and exposes X+2 of the combined tiles, and returns X of them to the bag.
+IV.B.6. Drawing Out of Order
+      If you complete a play and draw tiles before your opponent has made his/her previous draw, there is no penalty or corrective procedure as long as there are at least seven tiles in the bag. Late in the game, the Director has the discretion to penalize either player 50 tournament spread points, particularly if the bag holds at least one but fewer than seven tiles. If there are too few tiles for your opponent to replenish his/her rack, Rule IV.B.7. End of Game Underdrawing,
+p. 15, applies. Note: Players are not to deliberately draw tiles out of order.
+IV.B.7. End of Game Underdrawing
+      Near the end of the game, if you fail to follow the designated procedure for completing  a turn, including recording the cumulative score, and your drawing out of order results in your  opponent having too few tiles remaining to complete his/her draw, then the standard overdraw 
+
+
+situation will apply (see Rule IV.B.5.b. Overdraw Procedure, p. 14). However, if Player A
+draws too few tiles, and Player B's subsequent draw leaves too few tiles for Player A to replenish his/her rack, then the correction procedure is as follows.
+a. If the mistake is noticed before Player B completes his/her next play (not the play which emp- ties the bag), the clock is stopped and within one minute Player B gives the appropriate number of tiles to Player A. If, however, none of the prematurely drawn tiles have been combined with any old tiles, then all of the newly drawn tiles should be returned to the bag for Player A to replenish his/her rack first.
+b. If the mistake is noticed after Player B completes his/her next play (not the play which empties the bag), there is no penalty.
+      There is no obligation to inform, nor is it an ethical violation to not inform, your opponent if s/he fails to draw the last tiles in the bag. It is each player's personal responsibility to be aware.
+IV.B.8. Overdrawing Tiles when Fewer than Seven in the Bag
+1. If the overdraw happens and is discovered when it is the non-offending player's turn to make a play, the standard X+2 penalty is applied for an overdraw, where X = the  number of tiles overdrawn.
+2. If the overdraw happens or is discovered when it is the offending player's turn to make a play, the following penalty is applied, where X = the number of tiles overdrawn.
+(a) If the offender has not combined any drawn tiles with the old tiles: the non- offender chooses X+2 of those tiles, up to the total number of tiles drawn,  but does not expose them to the offender. Those tiles will then be combined  with the non-offender's tiles. The non-offender, within one minute, returns  the appropriate number of tiles, of his/her choosing, from his/her rack, to the 
+offender, and any tiles in excess of seven, of his/her choosing, will be returned to the bag without revealing them to the offender.
+(b) If the offender has combined any drawn tiles with the old tiles: the non-offender chooses X+2 tiles from all of the opponent's tiles. Two of those tiles will be  returned to the offender's rack. The remaining tiles, X, will then be combined  with the non-offender's tiles. The non-offender, within one minute, returns X  tiles, of his/her choosing, from his/her rack, to the bag without revealing them  to the offender.
+IV.B.9. Exposing Tiles when Fewer than Seven in the Bag
+1. If a player exposes tiles from the bag when it is the non-offending player's turn to make  a play, there is no corrective action.
+
+
+2. If a player exposes tiles from the bag when it is the offending player's turn to make a  play, the non-offender should add those tiles to his/her rack, and within one minute,  return the same number of tiles to the bag without revealing them to the offender.
+IV.C. Managing Tiles
+IV.C.1. Keeping Tiles on the Rack
+      Never bring tiles below the plane of the table. Always keep your tiles in sight and on your rack unless moving them to/from the bag, board, or table when appropriate. Although you are free to change your play before starting your opponent's clock, do not use the board as a physical working area for deciding a play.
+IV.C.2. Counting Tiles
+      Either player may count the remaining tiles in the bag. It is permitted, but not required, to state the intention to count tiles.
+      Hold the bag so the opening is above eye level and look away from the bag. Do not hold the bag directly between you and your opponent, as your eyes must be visible to your opponent while you are counting. Open your hand before reaching into the bag, showing your open palm to the opponent. Show your open hand again to your opponent when removing it from the bag. Never hold your own tiles in either hand while counting tiles. Do not mention how many tiles remain.
+IV.C.3. Tiles from an Adjacent Game
+      If tiles from a nearby game are noticed on either player's rack, immediately stop the clock, return the foreign tiles to the proper bag, replenish tiles (if available), and restart clock.
+      If a play clearly includes one or more tiles from a nearby game, then the correction procedure is as follows.
+a. If the discovery is made before the next player completes a play, the clock is stopped, the first player withdraws his/her play, the foreign tiles are returned to the proper bag, and replacement tiles are drawn as necessary. If the player has already combined replacement tiles, and therefore has more than seven tiles on his/her rack, the overdraw procedure (Rule IV.B.5.b. Overdraw Procedure, p. 14) shall be invoked. Tiles returned to the
+player from the original play will not be part of the overdraw pool. After the player's rack has been established, the clock is restarted and he/she makes another play.
+b. If the discovery is made at any time after the next player completes a play, and it is possible  to determine, by distinguishing characteristics, which tiles came from which bag, those  excess tiles should be removed and returned to the proper bag. The Director should  replace the removed tiles with corresponding tiles from the following sources in decreas- ing order of preference, according to availability of the necessary tiles:
+
+
+• the correct bag 
+• the players' racks
+• a neutral bag
+If the Director has a choice to make about players' racks, the Director should try to  determine whether one player is solely responsible for the situation. If so, then that  player's rack should be used first before the player's opponent's rack; if not, then neither  rack should be used.
+c. If the discovery is made at any time after the next player completes a play, and it is not  possible to determine, by distinguishing characteristics, which tiles came from which  bag, the Director will check the tile distributions of each affected set, determine what  tiles are missing, and attempt to make all bags right. During this process, the Director  should use discretion to ensure that the contents of any of the player's racks are not  revealed to his/her opponent.
+IV.C.4. Tile Bag Access
+      If your clock is running, your opponent has the tile bag, and you need access to the tile  bag (e.g., to count or draw tiles), the proper procedure is as follows.
+1. You ask your opponent for the tile bag.
+2. You neutralize the clock.
+3. Your opponent gives you the tile bag.
+4. Your opponent starts your clock.
+If step 3 takes place before step 2, then omit steps 2 and 4.
+IV.D. Board Etiquette
+During your turn, you may rotate the board to whatever angle you prefer.
+      Allow your opponent clear visual access to the board at all times, except when making a play or verifying a score. Do not place arms, hands, or fingers directly over the board at any other time.
+Do not touch the board or any tiles on the board during your opponent's turn.
+      If your opponent inquires as to where you made your play, unless your clock is still running, you are required to show him/her. If you refuse, your opponent may stop the clock and call the Director.
+
+
+IV.E. Passing and Exchanging
+IV.E.1. Passing
+      You may pass your turn at any time during the game, scoring zero. To pass, announce that you are passing and start your opponent's clock. Note: If you start your opponent's clock in error, without having either properly completed your turn or citing a valid reason described in these rules, AND if your opponent has not subsequently exposed any tiles to you, then your turn will not have ended and your clock may be restarted. If this happens, your opponent
+will be awarded 1 extra minute of playing time. The granting of this time can be done by the Director or (to save time in case of no contest) by the opponent.
+IV.E.2. Exchanging
+IV.E.2.a. Tile Exchange Procedure
+      You may use your turn to trade one or more tiles for new tiles, provided the bag contains seven or more tiles. The exchange constitutes your turn and scores zero. The proper procedure is as follows.
+1. Announce the number of tiles you are exchanging.
+2. Place those tiles facedown on the table, even when exchanging seven tiles.
+3. Start your opponent's clock.
+4. Draw new tiles from the bag, either placing them facedown on the table or directly onto your rack.
+5. Place the old tiles into the bag and mix.
+6. Put any facedown tiles on your rack.
+IV.E.2.b. Improper Tile Exchanges
+1. If the number of tiles placed facedown does not equal the number of tiles announced, and you have started your opponent's clock, the facedown tiles shall be exchanged.
+2. If "Exchange" is announced but no number is specified and no tiles are placed on the table, and you have started your opponent's clock, the turn counts as a pass.
+3. There is no penalty for putting the old tiles into the bag before drawing new tiles.
+4. If the exchanger fails to put the facedown tiles back into the bag, and any new tiles have been drawn by either player before the discovery is made, then anything going back into the bag should be seen by both players.
+
+
+5. If you complete at least the first three steps of the Tile Exchange Procedure with fewer than seven tiles in the bag, stop the clock to resolve the situation. If your opponent
+has made a subsequent play and has drawn at least one new tile (or if your opponent has restarted your clock after having either passed or lost a challenge), subtract 30 points from your score. Otherwise:
+(a) If you have not combined new tiles with original tiles, and have not put original tiles into the bag, your turn is a pass. Show any new tiles to your opponent before returning them to the bag, and return original tiles to your rack.
+(b) If you have put at least one of your original tiles into the bag but have put no new tiles onto your rack, rerack any remaining original tiles. Your opponent then exposes all drawn tiles and all tiles in the bag. Within one minute s/he replen- ishes your rack and puts the remaining tiles into the bag. Your turn is a pass.
+(c) If you have put at least one new tile onto your rack, but no original tiles into the bag, your opponent exposes all tiles set aside to be traded plus all tiles from your rack. Your opponent then has one minute to choose 7 tiles to return to your rack, the remainder being returned to the bag.
+(d) If you have put at least one of your original tiles into the bag, and have put at least one new tile onto your rack, your opponent then exposes all tiles in the bag, any remaining tiles set aside to be traded, plus all tiles from your rack. Your opponent then has one minutes to choose 7 tiles to return to your rack, with the remainder being returned to the bag.
+IV.F. Playing the Blank
+IV.F.1. How to Designate the Blank
+      You must clearly circle or print the blank designation on an appropriate slip before hitting your clock. If you print the blank designation, you must do so using capital letters. The clock may be stopped to locate a slip if none are available. Use a blank sheet if no standard slips can be found. Place the completed slip midway between the players.
+      If two blanks are played on the same turn, and the blank slip does not specifically designate areas for recording the first and second blank, then the topmost or leftmost designa- tion represents the first blank that appears in the word.
+a. If you did not properly designate the blank in writing, your opponent should request that you do so and restart your clock.
+b. If your opponent is confused about the written designation, s/he may stop the clock for blank clarification.
+
+
+c. Any spoken blank designation must be accompanied by an identical written designa- tion. Verbally declaring one letter and writing another is considered suspicious and possibly unethical behavior. The written declaration, however, prevails. A spoken designation without a written designation is equivalent to no designation. In the event the game proceeds without a written designation, any future blank dispute shall be resolved by the Director, who shall disregard any claimed spoken designation. See item "e" below, and Rule IV.F.3. Disputes, p. 21.
+d. If a request for clarification is initiated after the normal window for challenging or holding has passed, no challenge or hold may be made. See Rule IV.I.1. When to Hold or Challenge, p. 23.
+e. If the blank is not designated in writing at the time of the play, or if the written designa- tion is determined by the Director to be unclear, an unadjudicated challenge involving the blank may be withdrawn. In this case, the Director should restart the clock of the player who played the blank tile, requesting a clearly written designation. The opponent then has the option to challenge any word formed by the blank, but only after the blank has been properly designated and the opponent's clock has been started.
+f. Once a subsequent play is made, a request for blank clarification or designation must be made on one's own time.
+g. The Director may modify the blank designation procedure as s/he sees fit to accom- modate blind players.
+IV.F.2. Leftover Designations
+      If a blank designation slip shows a previous blank designation that should have been obliterated, the clock should be neutralized until the slip is corrected.
+IV.F.3. Disputes
+All blank designation disputes shall be resolved by the Director.
+      If a game has proceeded without a proper blank designation, and that blank is involved in a challenged play later in the game, the Director should restart the clock of the blank player, requesting a clearly written designation. Should his/her opponent dispute the designation, the Director should then reasonably designate the blank. The challenger will then have the option of withdrawing the challenge, or of challenging any word formed on the current play.
+IV.G. Completing a Turn
+IV.G.1. How to Complete a Turn
+a. After your opponent's last play, record the cumulative score. (May be waived when bag is empty.)
+
+
+b. Position your tiles on the board. You may remove, reposition, or adjust the placement of tiles only if you have not yet started your opponent's clock.
+c. If playing a blank, designate it appropriately. (See Rule IV.F.1. How to Designate the Blank, p. 20.)
+d. Declare the score.
+e. Start your opponent's clock (or stop clock if playing out), ending your turn. If oppo- nent's clock has already been running or stopped, the turn ends after step "d".
+f. Record your cumulative score. (May be waived if bag is empty.)
+g. Record your play, if desired.
+h. Draw tiles to replenish your rack.
+i. Track tiles, if desired.
+IV.G.2. End of Turn Irregularities
+IV.G.2.a. Failing to Start Opponent's Clock
+      If you make a play, announce the score, and draw a tile before starting opponent's clock, your turn ends. Opponent has 20 seconds to hold the play. If the play is successfully challenged, new tiles not combined with old tiles are returned to the bag (and shown to your opponent). If any new tiles have been added to your rack, Rule IV.B.5.b. Overdraw Procedure, p. 14, shall be invoked, where X is the number of new tiles on your rack.
+IV.G.2.b. Tracking Out of Order
+      If you track tiles before drawing replenishment tiles, and if this delays your opponent from drawing tiles, the Director may be called to issue a warning. After each subsequent delay caused by tracking out of order, your opponent shall earn one extra minute of playing time.
+IV.G.2.c. Not Allowing Sufficient Time for Holds or Challenges
+      If a quick draw does not allow your opponent five seconds to consider holding or challenging, s/he may petition the Director to allow a hold or challenge to proceed. If the play is successfully challenged, new tiles not combined with old tiles are simply returned to the
+bag (and shown to your opponent). If any new tiles have been combined with old tiles, Rule
+IV.B.5.b. Overdraw Procedure, p. 14, shall be invoked, where X is the number of new tiles on your rack.
+IV.G.2.d. Failing to Announce Score
+      If you fail to announce your score, or if your opponent does not hear your announced score, this should be treated as a scoring discrepancy and handled on a stopped clock.
+
+
+IV.H. Scoring Issues
+IV.H.1. Verifying the Play Score
+      If you request your opponent's previous play and/or play score on your time, s/he must comply. If you do not agree with an announced play score, stop the clock to resolve the dis- crepancy. Announcing an incorrect score is a minor infraction. (see Rule II.F. Minor Infractions, p. 4)
+IV.H.2. Verifying Cumulative Scores
+      You may ask for cumulative score verification only when your own clock is running. Your opponent must then agree or disagree with the stated score. Stop the clock to resolve any discrepancy. Note: If the bag is empty and the opponent has waived recording the current cumulative score (as per Rule IV.G.1. How to Complete a Turn, p. 21), then s/he is only obligated to reveal his or her most recent cumulative score.
+IV.H.3. Willfully Fostering Incorrect Scores
+      It is considered cheating to knowingly announce an incorrect score, to verify an incorrect score, to allow an opponent's incorrect single turn or cumulative score to go unchallenged, or to allow a disconnected play to stand. Any scoring discrepancies should be announced as soon as  discovered.
+IV.I. Holding and Challenging
+IV.I.1. When to Hold or Challenge
+      When your opponent's turn ends, you may hold or challenge a play until your opponent has drawn at least one tile. The two exceptions to this are when your opponent quick draws (see Rule IV.G.2.c. Not Allowing Sufficient Time for Holds or Challenges, p. 22) or if your opponent fails to start your clock (see Rule IV.G.2.a. Failing to Start Opponent's Clock, p. 22).
+Recording a score does not affect your right to hold or challenge.
+      It is strongly recommended that you take possession of the bag when you put your opponent on hold, and offer it back to your opponent to signify acceptance of the play.
+      Once the tile bag is empty and there are no tiles to be drawn, but before the game has ended, there is no time limit for holding or challenging a play. There are separate rules concern- ing the final play of the game (see Rule V.E. Neutralizing the Clock on the Out Play, p. 30).
+IV.I.2. Holding the Play
+      To reserve the right to challenge a play, call "hold" or otherwise notify the opponent not to draw tiles; it is suggested that you take possession of the bag until the hold is released. A play
+
+
+may not be held simply as a ploy to delay an opponent from drawing. End a hold by saying "OK" or "I accept" or by offering the bag to your opponent.
+      Courtesy Rule: During the hold, your clock continues to run, and there is no limit on the time you take to challenge or release the hold. However, your opponent, after clearly 
+stating that she or he is doing so, may draw replacement tiles after 15 seconds, but must keep them separate (not on the same rack) from any unplayed tiles for the duration of the hold.
+When drawing courtesy tiles, your opponent remains on hold until you either (i) clearly state  "Release" or "I accept the play" or (ii) start your opponent's clock at the end of your turn. If, in  the middle of a courtesy draw, you state a desire to challenge, your opponent must not remove  any additional tiles from the bag. If you make a successful challenge, your opponent shows the drawn tiles to you and returns them to the bag before removing the challenged play from the board. If any new tiles have been combined (see "Glossary" on page 38) with unplayed tiles,
+the successful challenger will place, facedown, the original unplayed tiles and all newly drawn tiles. The illegally played tiles should be counted as tiles in possession but not mixed with newly drawn tiles for the purposes of the overdraw procedure. After the overdraw procedure is complete, the illegally played tiles will be returned to the offender's rack.
+      Furthermore, should a player return the courtesy tiles to the bag without showing them  to his/her opponent, his/her opponent will have the right to view X+2 tiles from the bag, where X is the number of tiles returned, or all of the tiles, whichever is fewer.
+IV.I.3. Challenging the Play
+      You may challenge any word(s) formed on a play by declaring you are challenging, BUT the challenge does not become binding until you neutralize the clock. Failing to neutralize
+the clock, you are considered to have committed to the challenge if you perform any of the following:
+a. Write the word(s) on a challenge slip
+b. Stand up and walk toward the challenge self-lookup station without another explanation
+c. Summon a word adjudicator for a manual look-up.
+      Neutralizing the clock after saying either "hold" or "challenge" is considered a binding challenge if no other valid explanation has been given for stopping the clock.
+The loser of a challenge loses his/her turn, scoring zero points.
+Challenge Irregularities:
+1. If you utter a challenge, but decide against doing so before you neutralize the clock or perform any of the above-listed steps, you may withdraw your challenge.
+2. The responsibility for neutralizing the clock is with the challenger. However, a third party is permitted to point out the failure to do so. (See Rule II.B. Observing Infractions, p. 3)
+
+
+3. If you try to challenge a play before your opponent's turn has ended (See Rule IV.G.1. How to Complete a Turn, p. 21), your challenge is void and in violation of Rule I.D. Distracting Speech or Behavior, p. 2.
+4. If a blank used in a challenged word was not designated in writing when you declared your challenge, and if you and your opponent disagree as to its designation, you may withdraw your challenge. (See Rule IV.F.1. How to Designate the Blank, p. 20)
+5. Either player may concede a challenge without a formal lookup.
+IV.J. Adjudicating Challenges by Computer
+IV.J.1. Software Self-Lookup Procedure
+a. If any onlooker notices that the clock is running at any time during the adjudication, they are to request that it be stopped before continuing.
+b. The challenger writes the challenged word(s) on a slip of paper. Note: Words may be added or removed from the challenge list at any time before the computer has adjudicated the play.
+c. Both players verify the challenged word(s) are written as played. If the challenged word(s) are not written, the opponent may require it.
+d. Both players place all racked tiles facedown.
+e. Both players walk to the computer station without speaking or disturbing others.
+f. If either player at any time before the adjudication feels a word was recorded wrongly, both should return to their board to verify spelling.
+g. The challenger types the word(s) being challenged. All word(s) must be typed before adjudication.
+h. Both players verify the word(s) have been entered correctly, and the player being chal- lenged presses the adjudication key (usually the TAB key).
+i. The adjudication result is marked on the challenge slip.
+j. Computer adjudication is final unless either player feels the computer or program is flawed (and requests a manual adjudication) or feels a word may not have been entered correctly (and chooses to repeat the procedure.)
+k. Both players return to their board without speaking or disturbing others.
+l. The appropriate player loses his/her turn.
+m. If the player losing the challenge had already drawn tiles, those are shown to the opponent and returned to the bag. If the drawn tiles have been combined with un- played tiles, see Rule IV.I.2. Holding the Play, p. 23.
+
+
+n. A second opinion may be suggested or a re-adjudication may be requested of the same  word(s) already adjudicated up until the time that 1) tiles have been combined or 2) a  subsequent play has been placed on the board and the clock started.
+o. The clock may only be restarted after both players are seated, all facedown tiles have been reracked, any successfully challenged play removed from the board, any blank designation involving a successfully challenged word crossed out or erased, and (in the case of an unsuccessful challenge) the drawer has seen the face of at least one
+replenishment tile. If either player delays these processes, the appropriate clock may be restarted immediately. Note: Recording the cumulative score and/or play before drawing replenishment tiles is not a delay of game.
+IV.J.2. Improper Self-Lookups
+      If any words are looked up separately in a multi-word challenge, then no penalty shall be imposed if both players contributed to the error. If one player is solely responsible and if the adjudication is "unacceptable," then that player shall receive a 10-point game penalty. In either case, if the error is discovered before all words have been checked and if the adjudication at that point is "unacceptable," then no further words shall be entered.
+IV.K. Adjudicating Challenges Manually
+IV.K.1. Who May Utilize Manual Lookups
+      Players with physical challenges should inform the Director prior to the event that they will require manual lookups. All others must utilize software self-lookup (see Rule IV.J.1. Software Self-Lookup Procedure, p. 25) unless adjudication computers are not available.
+IV.K.2. Manual Lookup Procedure
+a. The challenger writes the challenged word(s) on a slip of paper, verifies spelling and legibility with the opponent, and alerts a Word Judge. Only the Director or designated staff may act as Word Judge.
+b. Before the lookup, the Word Judge confirms that the words on the slip were actually played, and the players must resolve any discrepancies. Note: Words may be added or removed from the challenge list any time before the play has been adjudicated.
+c. The play will be designated acceptable or unacceptable, and the appropriate player loses his/her turn.
+d. Play proceeds as described in step l of the self-adjudication procedure (See Rule IV.J.1. Software Self-Lookup Procedure, p. 25).
+
+
+IV.K.3. Appropriate Word Judge Behavior
+a. If you notice at any time during the adjudication that the clock is running, you must request that it be stopped before continuing.
+b. Require a clearly printed challenge slip. If the spelling is in doubt, ask for clarification.
+c. Confirm that the word(s) on the slip were actually played, and require the players to resolve any discrepancy.
+d. Do not reveal the acceptability of specific words. Designate the play as acceptable or unacceptable.
+e. Check words in the Official Tournament & Club Word List. Note: Unless a player specifi- cally requests a manual adjudication, the word judge may optionally adjudicate the play by computer.
+f. Verify blank designations by using the blank designation slip.
+g. Never engage the players or show any personal responses to a challenge.
+h. Never research words while observing games because such actions can give extra infor- mation to the players.
+i. Never rush an adjudication.
+j. If time permits, verify after a challenge that the appropriate player loses his/her turn.
+IV.K.4. Requesting a Second Opinion
+      Either player may request a review of a manual adjudication from another Word Judge, and may obtain a third opinion if the first two differ. If no one is available to offer a third  opinion, the official who initially made the ruling has precedence.
+IV.K.5. Compensating Erroneous Adjudications
+      If you lose a turn because a manual adjudication was erroneous, and you notify the Director before leaving the tournament area for that day, your cumulative spread will be increased by the points scored for the play plus 25 points.
+IV.L. Leaving the Playing Area during a Game
+      If you must leave the playing area during a game, do so only after making a play, starting your opponent's clock, and recording the cumulative score. Do not draw tiles. If your opponent plays while you are gone, s/he starts your clock and records the cumulative score, but does not draw tiles. When you return, the clock should be stopped and s/he must point out the play. The clock will be started when you see your first new tile, and you then have 5 seconds to hold or challenge.
+      If any tiles (X) are drawn while a player is absent, the returning player shall expose X+2 tiles (if possible) from the pool of all tiles on the offender's rack plus all tiles drawn but not yet
+
+
+racked, and return X tiles to the bag within one minute. This procedure should be executed before any challenge is considered. In the event of a successful challenge, played tiles will be returned from the board to the offender's rack. If the play is acceptable, the offender will draw new tiles. If the violation is discovered after the returning player's subsequent play, there is no penalty.
+IV.M. Leaving the Playing Area at the Director's Request
+      When a qualified Director or Rules Committee member is asked for assistance on a ruling while playing their game, and it is his/her turn, the clock should be neutralized and both players should put their tiles facedown. If it is the opponent's turn, the clock should be neutral- ized at the end of his play and any remaining tiles be placed facedown. No replacement tiles may be drawn until the play is acknowledged and accepted.
+
+
+
+
+
+
+V. Ending the Game
+
+V.A. Final Play
+      The game ends when one player has successfully played all of his/her tiles, and the bag is empty. (See Rule "V.E. Neutralizing the Clock on the Out Play" on p. 30.)
+V.B. Six-Zero Rule
+      The game may also end by either player neutralizing the clock after a sixth successive zero-scoring play from passes exchanges, challenges, or illegal plays. (See Rule "III.G.5. Illegal Plays" on p. 10, item 6.)
+If a scoring play is eventually made, however, the game will continue.
+V.C. Finding Missing Tiles near the End of the Game
+1. If one or more tile(s) are found in your area (not in the bag) after the game has ended (see Rule "V.E. Neutralizing the Clock on the Out Play" on p. 30), they are ignored.
+2. If one or more tile(s) are found in your area (not in the bag) BEFORE the game has ended, but after the bag is empty, place them in the bag (unseen, if possible), call the Director for assistance, and try to decide who should have drawn them. That player then receives the tile(s), and play resumes without penalty. If the determination cannot be made, or if time is too short to continue deliberating, then play resumes without the found tile(s).
+3. If you find at least one tile IN THE BAG at the end of the game, and both players have not yet signed or initialed the tally slip, then the player who should have drawn it, gets it. If both players then have at least one tile on their racks, the game continues.
+4. If a tile is found in your area or in the bag during a final play adjudication then the player who should have drawn it, gets it. The challenge, if not yet adjudicated, may be rescinded if the tile goes to the player who had "gone out," but only if the tile is found outside the bag. (See Rule "V.E. Neutralizing the Clock on the Out Play" on p. 30.)
+
+
+
+NASPA Rules 2016-12	29
+
+V.D. Forced Overtime
+      If one player has unplayable tiles, it is unethical for the other player to play blatant phoneys or to pass in place solely to force overtime penalty points. The Director should be called to erase any overtime penalty resulting from this practice.
+V.E. Neutralizing the Clock on the Out Play
+      After the final play, stop the clock. The game is over unless your opponent holds or challenges within 20 seconds. If the play is held, start your opponent's clock. It will run until s/he releases the hold (ending the game) or challenges. The game is also over if your opponent reveals his/her tiles, declares their point value, agrees on a final score, or does any other action that concedes the game to be over unless one or more tiles are discovered IN the tile bag. (See Rule "V.C. Finding Missing Tiles near the End of the Game" on p. 29 )
+      When a player makes an alleged "out play" and stops the clock, it is his/her opponent's responsibility to verify that the tile bag is empty before making an "automatic challenge" of the play. (See Rule "V.C. Finding Missing Tiles near the End of the Game" on p. 29 item 4.)
+      If the clock is not stopped after the final play, the game is considered over and the clock is considered stopped when the player with tiles reveals them or declares their point value. It is unethical to attempt to earn overtime points when the out player either forgets to stop the clock or starts the opponent's clock. The Director, by estimating when unused tiles (or their point value) were revealed, may erase all time penalties caused by the failure to stop the clock.
+      Both players should avoid touching the clock or any played tiles until all required scorecards/tally slips have been signed or initialed. If a time penalty cannot be agreed upon, the Director should be called to assist.
+V.F. Director-Shortened Games
+      The Director may terminate any game which interferes with tournament function. A warning should be issued a few minutes before termination, giving the players a chance to finish naturally. Each player's score is then reduced by the total value of his/her unplayed tiles.
+V.G. Adjusting the Score
+V.G.1. Unplayed Tiles
+      When you make your outplay, increase your score by double the total value of the opponent's unplayed tiles.
+      If the game ends with neither player going out, each player's score is reduced by the total value of his/her unplayed tiles.
+See Rule "V.G.3. Overtime Exceeding 10 Minutes" on p. 31, for an exception to this rule.
+
+
+V.G.2. Overtime
+      If you use more than 25 minutes, reduce your score by 10 points for each minute or fraction of a minute of overtime. (Exception: See Rule "V.D. Forced Overtime" on p. 30.) A digital clock is not in overtime when it reads 0:00 or -0:00.
+V.G.3. Overtime Exceeding 10 Minutes
+      If the Director has not already terminated the game according to Rule "V.F. Director- Shortened Games" on p. 30, a game will automatically be terminated once either player exceeds 10 minutes of overtime.
+      The player who exceeds 10 minutes of overtime will automatically lose the game and will have 100 points deducted from his/her score. If his/her opponent has also gone overtime, the usual overtime penalty will apply.
+      If the player who has exceeded 10 minutes overtime still has a greater score than that of the opponent, the opponent's score is adjusted upward so that a one-point margin of victory will be awarded.
+      Any tiles remaining on the players' racks are to be disregarded. No recount of the game is permitted.
+      Note: This rule is not to be used as a strategical tool. If the Director deems that a player has abused this rule, at any point in a tournament, to ensure limiting point spread, any prize money will be forfeited to the next spot.
+V.H. Winning the Game
+      The player with the highest adjusted score wins the game. If scores are the same, the game is a tie, and each player is awarded one-half (1/2) a win.
+V.I. Recounting the Game
+      Either player, or both, may recount a game. No third party should participate. Recounts must be initiated within one minute of the players agreeing upon the score of the game after the final play, and also before the tally slip is signed. If your opponent wishes to recount, you must provide your score sheet whether or not you participate.
+      If you choose not to participate in the recount, you may contest only specific mistakes found by your opponent. You may not begin or demand another recount.
+      The Director, after issuing a one minute warning, may terminate a recount that inter- feres with tournament function, is deemed frivolous, or where neither player has the means to verify each turn quickly and without dispute. In that case, the Director will adjudicate the result by applying any adjustments agreed upon to that point.
+See also: Rule "V.G.3. Overtime Exceeding 10 Minutes" on p. 31.
+
+
+V.J. Recording the Game
+      Any recount must be made, and any discrepancy resolved, before results are submitted. Enter game results on the tally slip (results reporting slip), or on scorecards (used for recording all game results) if tally slips are not utilized. Both players must then sign or initial these results to certify their correctness. After that, no further adjustments may be made unless both players, in agreement, notify the Director of a reporting error (e.g., players' scores reversed or the score written on the tally slip differs from what both players agreed upon at the end of the game).
+Score sheets and/or scorecards may be used to substantiate the adjustment. In such a case, the  Director must make the change. No changes need to be made, however, once the final round  has been paired. Note that time penalty omissions, score adjustments for unplayed tiles, and scoring errors made during the game may not be corrected at this time. However, if unethical behavior is involved, and is proven or acknowledged by the wrongdoer, the Director may use his/her discretion to make adjustments after the fact.
+      If tally slips are used for submitting results, but scorecards are used to record/determine who goes first, they should be signed/initialed to verify firsts and seconds only
+      Note: It is the responsibility of the winner (or of the player going first if the game is a tie) to promptly submit the tally slip or scorecard.
+V.K. Forfeits and Byes
+1. If you fail to show for a game, you receive a forfeit loss and 50 points are subtracted from your total spread. Your opponent receives a forfeit win and 50 points are added to his/her total spread. The forfeit is not a rated game. However, if both players and the Director agree, the game may be postponed without forfeit and played as a rated game at a time convenient to all. Note: Double-forfeit games (where both players arrive late) may also be made up in this manner. See also Rule "III.C. Arriving Late" on p. 8.
+2. If you must leave a game in progress, and the game cannot be postponed to a time conve- nient to all, you receive a rated loss for that game. (See Rule "I.B. Resigning" on p. 1.)
+If you are ahead when you leave, your opponent's score is increased so that it is 50 points greater than yours. If you are behind, 50 points is deducted from your score. The game has begun - and is therefore considered a rated game - when the first player has drawn at least one tile and the second player is alerted to this action.
+3. If you forfeit a game (or leave a game in progress) to ensure winning a prize for yourself or another player, the Director has the discretion to increase the standard forfeit penalty as s/he sees fit, and to file an Incident Report with NASPA. Note: If you purposely forfeit a game (or leave a game in progress) simply to avoid participating in
+an annotated game, only standard forfeit penalties shall apply to first-time violators. For repeat offenses, please see the Code of Conduct, as NASPA considers this action to be a "classification 1 code violation."
+
+
+4. You receive a bye if you are present for a given round but are not assigned an opponent. A bye counts as a win, with 50 points added to total spread. A bye is not a rated game.
+
+
+
+
+
+
+VI. Play Using the International Lexicon
+
+VI.A. Word Reference
+      When playing using the international lexicon, the word reference is the third edition of  Collins Official Scrabble Words, commonly referred to as CSW2015.
+VI.B. Challenges
+1. The clock may always be started as soon as your opponent has reracked all his tiles.
+2. Upon a successful challenge, the player takes his tiles back, loses his turn and restarts the challenger's clock.
+3. Upon an unsuccessful challenge, the player adds either 5 or 10 points per word challenged to his cumulative score. This number must be specified by the Director when requesting tournament sanctioning. Alternatively, the Director may request that standard NASPA challenge rules be in effect.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+34	NASPA Rules 2016-12
+
+
+
+
+
+
+Appendix: Basic Rules of Play and Scoring
+
+A.I. Making Plays
+A.I.A. The First Play of the Game
+      The first player places two or more letters on the board to form a word in either a horizontal or vertical position, with one tile covering the center square. (See Rule III.G.1. Miss- ing the Center Square, p. 9.) The center square is considered a double word score square. Any player has the option of passing or exchanging tiles instead of playing. See Rule IV.E. Passing and Exchanging, p. 19, for details regarding passing and exchanging.
+A.I.B. Subsequent Plays
+      The game continues as players add one or more letters to those already played to form a new word or words. All words added to the board must join with tiles already played and
+must make new words wherever they join with existing tiles. The player gets credit for all words played in this fashion. Diagonal words are not permitted. All tiles added to the board in any individual play must help to spell one main horizontal or vertical word; otherwise the play must be removed. See also Rule III.G.5. Illegal Plays, p. 10.
+A.I.C. How New Words are Formed on the Board
+Assume A R M is already on the board. You may:
+1. Add one or more letters to a word already on the board.
+Examples: H A R M	A R M E D	C H A R M E D	A R M S
+2. Place a word at right angles to a word already on the board. The new word must use at least one of the letters already on the board or must add a letter to a word or words on the board.
+
+Examples: H A R M
+A D
+
+A R M
+I D
+
+
+
+
+NASPA Rules 2016-12	35
+
+36	Appendix: Basic Rules of Play and Scoring • NASPA Rules 2016-12
+
+3. Place a complete word parallel to a word already played, so that adjoining letters also form complete words.
+Example: M E A L
+A R M
+
+A.II. Scoring
+A.II.A. Letter Values
+      The score value of each letter is indicated by a number at the bottom of the tile. The blanks have a score value of zero.
+A.II.B. Scoring Each Play
+      The score for each turn is the sum of the letter values in each word formed or modified during the play, plus the additional points obtained from placing letters on premium squares.
+      A turn using all seven tiles earns a 50-point bonus. Such a play is commonly called a "Bingo."
+A.II.C. Double and Triple Letter Bonus Squares
+1. A Double Letter Score square doubles the score of a letter placed on it.
+2. A Triple Letter Score square triples the score of a letter placed on it.
+A.II.D. Double and Triple Word Bonus Squares
+1. The center square and any square labeled Double Word Score doubles the score of an entire word when one of its letters is placed on it.
+2. A Triple Word Score square triples the score for an entire word when one of its letters is placed on it.
+A.II.E. Score DLSs and TLSs before DWSs and TWSs
+      When scoring a turn, all premiums from double or triple letter values, if any, are totaled before doubling or tripling the word score.
+A.II.F. Double-Double (DWS-DWS)
+      If a word is formed that covers two Double Word Score squares, the score is doubled and then redoubled, or is four times the total letter count.
+A.II.G. Triple-Triple (TWS-TWS)
+      If a word is formed that covers two Triple Word Score squares, the score is tripled and then tripled again, or is nine times the total letter count.
+
+NASPA Rules 2016-12 • Appendix: Basic Rules of Play and Scoring	37
+
+A.II.H. Bonus Squares Score on One Turn Only
+      The letter premium squares and the word premium squares apply only to the turn in which they are originally covered by a word. In all subsequent turns, letters on those squares count only at face value.
+A.II.I. Using the Blank on a DWS or TWS
+      When a blank tile is played on a Double Word Score square or a Triple Word Score square, the value of the word is doubled or tripled even though the blank itself has a zero score value.
+
+
+
+
+
+
+Glossary
+
+      bingo n (pl. bingos, bingoes) a play made using all seven tiles, scoring a 50-point bonus. See Rule A.II.B. Scoring Each Play, p. 36; v (bingos, bingoes, bingoed*, bingoing*) to play a bingo, q.v.
+Collins n An edition of the international word list. See Rule VI.A. Word Reference,
+p. 34.
+combine tiles v (combines tiles, combined tiles, combining tiles) to place at least one
+tile from one (usually newly drawn) group together with another group (usually left from the previous play). In particular, placing one tile from one group on the same rack as another group constitutes combining the groups of tiles. This action renders the two groups of tiles inseparable under the rules, requiring that they be treated as one group for the purposes of any overdraw- like procedure.
+      cume* n (pl. cumes*) cumulative spread: the total difference between the points scored by a player and by the player's opponents, usually used as a secondary criterion for ranking players tied on wins and losses.
+      fast-bagging n (pl. fast-baggings) the act of drawing replacement tiles quickly to pre- vent a challenge. See Rule IV.G.2.c. Not Allowing Sufficient Time for Holds or Challenges, p. 22.
+      mix tiles v (mixes tiles, mixed tiles, mixing tiles) to stir the tiles in the bag to randomize their positions. As per Rule IV.B.1. How to Draw Tiles, p. 12, when you are entitled to mix
+the tiles, you may do so for up to ten seconds.
+      neutralize the clock v (neutralizes the clock, neutralized the clock, neutralizing the clock) See stop the clock.
+      OSPD5 n The Official SCRABBLE Players Dictionary, the word reference used for shorter words in School SCRABBLE play.
+      stop the clock v (stops the clock, stopped the clock, stopping the clock) to put the clock in the condition where neither player's time is counting down. See the Index for the long list of situations in which this is permitted. For historical reasons, this action is called neutral- izing the clock in the names of rules.
+
+
+
+38	NASPA Rules 2016-12
+
+
+
+
+
+
+Index
+
+
+
+A
+Abusive behavior 2
+Accepting a play 23, 28 Adjusting a final game score 30 Agreeing on a correct score 23 Annotated game
+annotators may observe 2 forfeiting 32
+B
+Bag
+how to hold 12 preferred design 7
+  who counts tiles first 17, 18 Behavior
+abusive or disruptive 2 distracting 2
+stop clock for inappropriate 3 suspicious 2
+Benefit from irregularity 4 Blank
+designation
+locating a slip 20 must be written 20
+not while clock stopped 3
+  
+undesignated 21 Blind player
+Braille tiles and 5
+modified blank designation 21 word adjudication 26
+Board
+allowing visual access. See also Visual access to board
+angle on own turn 18 etiquette 18
+nonstandard layout 6
+position 18
+preferred design 6 use as workspace 17 view
+do not impede 18
+    not while clock stopped 3 Break
+between games 8
+  during game 27 Bye
+counts as first or second 8 definition 33
+C
+Calculator 7
+
+
+NASPA Rules 2016-12	39
+
+
+Center square
+first play covers 35 is a DWS 35
+  play missed 9 Challenging a play
+clock not started 22 fast-bagging 22
+final play 30
+international point penalty 34 physically challenged player 26 procedure 24
+slip
+computer lookup 25
+manual lookup 26 permitted in playing area 7 word judge checks clarity 27
+when permitted 23 withdrawing
+    tile found after final play 29 Changing
+game result 32
+  play during turn 17 Cheating
+overdraw hidden 14
+prohibited 1
+score incorrect 23
+tile disconnected 23 tile returned to bag 12
+Clock
+analog 6
+digital 6 starting
+after declaring score 22
+
+
+after returning to play 27 at start of game 9
+blank designation and 20 failure 22
+in error 19
+  latecomer 8 stopping
+blank clarification 20
+challenging play 24
+confirming cume 23 confirming play score 23 Director called 3
+end of game underdrawing 16 exchanging with too few in bag 20 inappropriate procedure or behavior 3 latecomer arrives 8
+official assisting other game 28 overdrawing tiles 14
+returning from break 27 scoring discrepancy 23
+tile found from other game 17 waiting to count tiles 18
+  touching at end of game 30 Code of Conduct 1, 2, 32
+Collusion 1 Conceding game 1
+Conduct 1
+Courtesy draw 24
+Cume adjusted for bad adjudication 27
+D
+Delaying
+
+
+
+drawing by tile tracking 22 opponent drawing by calling hold 23
+Director, calling clarification 3
+distraction 2
+stopping clock 3
+Director's discretion 4
+Disconnected plays 10, 11
+Disruptive behavior 2
+Distracting behavior 2
+E
+Earplug 7
+Electronic device 7 End of game
+final play challenging 30
+overdraw emptying bag 17 recording result 32
+resigning 1
+shortened by director 30 six scoreless turns 29 stopping clock 30
+underdrawing 15
+  winning 31 End of turn
+irregularity 22
+  procedure 21 Equipment
+choice 7
+forbidden devices 7
+  forbidden papers 7 Exchanging tiles
+
+from more than 7 15 no number specified 19 procedure 19
+too few in the bag 20 wrong number 19
+F
+Fast-bagging 22 First or second
+byes and forfeits 8 determining who plays 8
+Flyer
+  resignation policy 1 Forfeiting a game
+after three hidden overdraws 14 both players missing 8
+counts as first or second 8 player missing 8
+procedure 32
+H
+Harm from irregularity 4 Headphones 7
+Holding a play courtesy draw 24
+five seconds to consider 22 procedure 23
+when permissible 23
+I
+Incident report
+forfeit, deliberate 32
+  hiding overdraw 14 Innocence, presumption of 4
+
+
+
+International play 34
+Irregularity, benefit or harm from 4
+K
+Keeping tiles in place 17 Kibitzing
+not a right 2
+noticing disconnected tile 3 noticing overfull rack 3 noticing stray tile 3 observing an irregularity 3
+suggesting a second opinion 3
+L
+Latecomer
+both players late 8 forfeiting game 32
+  starting clock 8 Leaving a game
+and forfeiting 32
+  temporarily 27 Leaving a tournament 1
+M
+Mixing tiles
+in bag before draw 12 in bag before game 9
+O
+Overdraw
+after fast-bagging 22
+after not starting clock 22 emptying bag on own turn 17 intentionally hiding 14
+
+noticing overfull rack 3 playing from overfull rack 14 procedure to resolve 14
+Overtime
+exceeding 10 minutes 31 negated
+  if clock running 30 penalty after 25 minutes 31
+resigning 1
+P
+Paper in playing area 7 Passing a turn
+is permissible, scores zero 19
+  not specifying tiles to exchange 19 Penalty
+1 minute
+delaying drawing by tracking 22 three minor infractions 4
+5 or 10 points per good word failed international challenge 34
+10 points
+  looking up words separately 26 10 points per minute
+overtime 31
+30 points
+  illegal exchange detected late 20 50 points spread
+drawing out of order late in game 15 missing a game 32
+clock restarted misoriented tiles 9
+not designating blank 20
+
+
+
+forfeit play score
+  play from overfull rack 14 forfeit prizes
+  three hidden overdraws 14 forfeit turn
+exchange from overfull rack 15
+not saying how many to exchange 19 play from overfull rack 14
+membership revocation physical abuse 2
+overdraw-like
+bag emptied after underdraw 15 drawing without opponent 27 exchange from overfull rack 15 exchange from underfull bag 20 improper tile return 12 overexposing overdrawn tiles 15
+removal from tournament
+abusive or disruptive behavior 2 cheating 1
+collusion 1
+three hidden overdraws 14
+Plays
+  illegal plays 10 Postponing a game
+late for game 32 missed whole game 32
+Q
+Quick draw 22 Quiet
+during game 2
+during SSL 25
+
+Quitting a tournament 1
+R
+Rack
+more than 7 tiles 3, 15
+no view while clock stopped 3 tile tops visible 6
+Rated games
+  byes and forfeits are not 32 Recount
+decide to recount 31 deemed frivolous 31
+not after maximum overtime 31 not after result submitted 32
+Reporting error 32 Resigning a game 1 Rotating the board 18
+S
+Score
+announcing or allowing incorrect 23 basic rules to calculate 36
+cume
+recording 22
+verifying 23
+errors 23
+final adjustment for overtime 31
+for unplayed tiles 30, 31 not after submitted 32
+play
+not announcing 22
+verifying 23
+stop clock for discrepancy 3
+
+
+
+Scorecard
+permitted in playing area 7 signed if no tally slips 32 signing 32
+Score sheet
+permitted in playing area 7 providing for recount 31
+Second opinion suggesting 3
+Shortened game, by director 30 Simultaneous games 2
+Square, tile not in 10 Start of game
+after latecomer arrival 8 first word
+correct placement 35
+  misplaced 9 who goes first 8
+Submitting game results 32 Suspicious behavior 2
+T
+Tally slip
+adjustable errors 32 permitted in playing area 7
+Terminated game, by director 30 Terminating a recount 31
+Threat 2
+Tie 31 Tile
+at adjacent game identical style 5
+used in wrong game 17
+
+combined 14 counting in bag
+do not mention 17 when and how 17
+disconnected noticing 3 should not be 35
+distribution confirming 7
+drawing
+order 9
+out of order 15 technique 12
+from another game 17 improperly returned to bag 12 keep visible on rack 17 loose/stray
+  notice and report 3 missing 13
+moved 3
+preferred design 5 spilled while drawing 13 stray 3
+unplayed 30, 31
+Tile orientation/position initial play and game 9 positioned incorrectly 10
+Time frame 12
+5 seconds
+hold/challenge upon returning from outside the playing area 27
+  hold/challenge when fast-bagged 22 10 seconds
+
+
+
+  maximum time to mix tiles 12 15 seconds
+choose in overdraw 14 draw replacement tiles 24
+20 seconds
+find disconnected play at end of game 11
+hold/challenge if clock is not started after a play 22
+  neutralize on out play 30 1 minute
+choose in improper exchange 20 choose in late game underdraw 16
+delaying opponent draw while tracking tiles 22
+every three errors 4
+if start clock in error 19 irregularity after challenge 11 to initiate a recount 31
+  warning before terminating a recount 31 5 minutes
+minimum between rounds 8
+  round start to latecomer clock start 8 10 minutes
+between unscheduled rounds 8 maximum overtime 31
+25 minutes
+latecomer clock start to game forfeit 8 overtime 31
+Touching board 18
+  clock at end of game 30 Tracking 22
+not while clock stopped 3
+
+out of order 22 sheet
+permitted in playing area 7
+U
+Underdrawing 15
+Unrated game 32, 33
+V
+Verbal abuse 2
+Verbal acceptance of a play 23 Verifying
+cume 23
+firsts and seconds 32 turn score 23
+Visual access to board 18
+W
+Withdrawing
+  from a tournament 1 Word judge
+approved software 5
+behavior 27 computer lookup
+procedure 25
+  words looked up separately 26 manual lookup 26
+Word list 5
+international 34
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

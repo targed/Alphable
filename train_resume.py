@@ -19,12 +19,12 @@ def _resuming_build_model(*args, **kwargs):
     
     # 2. Force load the checkpoint
     # UPDATE THIS NUMBER to your latest checkpoint (e.g., 80)
-    CHECKPOINT_STEP = 80 
+    CHECKPOINT_STEP = 100
     
     # Construct path (handles Colab vs Local)
     # If you are on Colab, ensure this path matches where you saved it!
     # If local, "./scrabble_az_checkpoints" is likely correct.
-    base_path = kwargs.get("path", "./scrabble_az_checkpoints")
+    base_path = kwargs.get("path", "data/scrabble_az_checkpoints")
     ckpt_path = os.path.join(base_path, f"checkpoint-{CHECKPOINT_STEP}")
     
     try:
@@ -47,7 +47,7 @@ def main(unused_argv):
     config = alpha_zero.Config(
         game="scrabble",
         # Ensure this matches your folder
-        path="./scrabble_az_checkpoints", 
+        path="data/scrabble_az_checkpoints", 
         # path="/content/drive/My Drive/Alphable_Checkpoints", # Use this if on Colab!
         
         learning_rate=0.01,

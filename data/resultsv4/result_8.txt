@@ -1,0 +1,124 @@
+Loading game...
+Loading dictionary from resources/NWL2023.txt...
+Dictionary loaded.
+Loading neural network from checkpoint-100...
+
+--- STARTING MATCH ---
+Player 0: Plays 'BOXERS' at 6,7 Across
+   Rack P1: ['A', 'I', 'F', 'A', 'I', 'Z', 'D']
+Player 0: Plays 'BOXERS' at 7,5 Across
+   Rack P1: ['A', 'I', 'F', 'A', 'I', 'Z', 'D']
+Player 1: Plays 'IXIA' at 6,7 Across
+   Rack P0: ['J', 'O', 'U', 'E', 'S', 'I', 'O']
+Player 1: Plays 'IDEA' at 5,8 Across
+   Rack P0: ['J', 'O', 'U', 'E', 'S', 'I', 'O']
+Player 1: Plays 'ZAIDA' at 8,7 Across
+   Rack P0: ['J', 'O', 'U', 'E', 'S', 'I', 'O']
+Player 0: Plays 'EROS' at 6,9 Across
+   Rack P1: ['A', 'I', 'F', 'A', 'I', 'Z', 'D']
+Player 0: Plays 'JOES' at 8,8 Across
+   Rack P1: ['A', 'I', 'F', 'A', 'I', 'Z', 'D']
+Player 0: Plays 'OSIER' at 3,9 Across
+   Rack P1: ['A', 'I', 'F', 'A', 'I', 'Z', 'D']
+Player 1: Plays 'FAX' at 5,7 Across
+   Rack P0: ['J', 'O', 'U', 'E', 'S', 'I', 'O']
+Player 1: Plays 'ARIA' at 6,9 Across
+   Rack P0: ['J', 'O', 'U', 'E', 'S', 'I', 'O']
+Player 1: Plays 'ZAIDA' at 8,6 Across
+   Rack P0: ['J', 'O', 'U', 'E', 'S', 'I', 'O']
+Player 0: Plays 'BIJOUS' at 7,5 Across
+   Rack P1: ['A', 'I', 'F', 'A', 'I', 'Z', 'D']
+Player 0: Plays 'JOES' at 8,8 Across
+   Rack P1: ['A', 'I', 'F', 'A', 'I', 'Z', 'D']
+Player 0: Plays 'JOES' at 7,11 Across
+   Rack P1: ['A', 'I', 'F', 'A', 'I', 'Z', 'D']
+Player 1: Plays 'AZIDE' at 3,8 Across
+   Rack P0: ['U', 'I', 'O', 'T', 'H', 'T', 'A']
+Player 1: Plays 'ZAIDA' at 8,6 Across
+   Rack P0: ['U', 'I', 'O', 'T', 'H', 'T', 'A']
+Player 1: Plays 'AA' at 8,13 Across
+   Rack P0: ['U', 'I', 'O', 'T', 'H', 'T', 'A']
+Player 0: Plays 'HAO' at 6,12 Across
+   Rack P1: ['A', 'I', 'F', 'A', 'I', 'Z', 'D']
+Player 1: Plays 'ZOA' at 6,6 Across
+   Rack P0: ['U', 'I', 'T', 'T', 'N', 'E', 'D']
+Player 1: Plays 'ED' at 7,8 Across
+   Rack P0: ['U', 'I', 'T', 'T', 'N', 'E', 'D']
+Player 1: Plays 'OIDIA' at 7,6 Across
+   Rack P0: ['U', 'I', 'T', 'T', 'N', 'E', 'D']
+Player 0: Plays 'DEIST' at 4,10 Across
+   Rack P1: ['A', 'I', 'F', 'A', 'I', 'Z', 'D']
+Player 0: Plays 'TEIN' at 8,3 Across
+   Rack P1: ['A', 'I', 'F', 'A', 'I', 'Z', 'D']
+Player 1: Plays 'DONA' at 6,6 Across
+   Rack P0: ['U', 'T', 'D', 'T', 'A', 'P', 'Q']
+Player 1: Plays 'ZAIDA' at 9,3 Across
+   Rack P0: ['U', 'T', 'D', 'T', 'A', 'P', 'Q']
+Player 1: Plays 'FAZED' at 4,8 Across
+   Rack P0: ['U', 'T', 'D', 'T', 'A', 'P', 'Q']
+Player 0: Plays 'RAPT' at 7,9 Across
+   Rack P1: ['A', 'I', 'F', 'A', 'I', 'Z', 'D']
+Player 0: Plays 'DAUT' at 8,8 Across
+   Rack P1: ['A', 'I', 'F', 'A', 'I', 'Z', 'D']
+Player 0: Plays 'OAT' at 7,12 Across
+   Rack P1: ['A', 'I', 'F', 'A', 'I', 'Z', 'D']
+Player 1: Plays 'SADI' at 7,10 Across
+   Rack P0: ['U', 'T', 'D', 'T', 'A', 'P', 'Q']
+Player 1: Plays 'FAZED' at 4,8 Across
+   Rack P0: ['U', 'T', 'D', 'T', 'A', 'P', 'Q']
+Player 1: Plays 'DONA' at 6,6 Across
+   Rack P0: ['U', 'T', 'D', 'T', 'A', 'P', 'Q']
+Player 0: EXCHANGE
+
+--- GAME OVER ---
+======================================================================
+SCRABBLE GAME STATE - Turn 13
+======================================================================
+Status: GAME OVER
+Reason: Four consecutive passes (count=4)
+
+Scores: P0=47.0  P1=0.0
+Consecutive Passes: 4
+Consecutive Zero Scores: 4
+Banned Actions: 0
+
+Bag: 69 tiles remaining
+P0 Rack (7 tiles): W T ? A T N I
+P1 Rack (7 tiles): A I F A I Z D
+
+Board:
+   A B C D E F G H I J K L M N O
+ 0 . . . . . . . . . . . . . . . 
+ 1 . . . . . . . . . . . . . . . 
+ 2 . . . . . . . . . . . . . . . 
+ 3 . . . . . . . . . . . . . . . 
+ 4 . . . . . . . . . . . . . . . 
+ 5 . . . . . . . . . . . . . . . 
+ 6 . . . . . . . . . . . . H A O 
+ 7 . . . . . B O X E R S J O E S 
+ 8 . . . T E I N . . . . . . . . 
+ 9 . . . . . . . . . . . . . . . 
+10 . . . . . . . . . . . . . . . 
+11 . . . . . . . . . . . . . . . 
+12 . . . . . . . . . . . . . . . 
+13 . . . . . . . . . . . . . . . 
+14 . . . . . . . . . . . . . . . 
+
+Move Log Summary (50 entries)
+============================================================
+Turn 10, P0: FAILED - Action 234
+  Reason: Validation failed: connectivity, rack, or cross-word issue
+Turn 10, P0: SUCCESS - Action 450
+Turn 10, P0: SUCCESS - Action 450
+Turn 11, P1: FAILED - Action 230
+  Reason: Validation failed: connectivity, rack, or cross-word issue
+Turn 11, P1: FAILED - Action 136
+  Reason: Validation failed: connectivity, rack, or cross-word issue
+Turn 11, P1: FAILED - Action 192
+  Reason: Validation failed: connectivity, rack, or cross-word issue
+Turn 11, P1: SUCCESS - Action 450
+Turn 11, P1: SUCCESS - Action 450
+Turn 12, P0: SUCCESS - Action 451
+Turn 12: GAME_TERMINATED - Four consecutive passes (count=4)
+======================================================================
+Final Score: [47.0, 0.0]

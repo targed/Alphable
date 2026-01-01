@@ -17,7 +17,7 @@ def main(unused_argv):
     # Configuration with ALL required parameters
     config = alpha_zero.Config(
         game="scrabble",
-        path="./scrabble_az_checkpoints",
+        path="data/scrabble_az_checkpoints",
         learning_rate=0.01,
         weight_decay=1e-4,
         train_batch_size=16, # Was 64

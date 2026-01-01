@@ -1,0 +1,66 @@
+[2025-12-31 20:59:22.486] learner started
+[2025-12-31 20:59:22.486] Initializing model
+[2025-12-31 20:59:39.879] Model type: resnet(32, 1)
+[2025-12-31 20:59:39.880] Model size: 515062 variables
+[2025-12-31 20:59:40.062] Initial checkpoint: ./data/results/test_training_checkpoints/checkpoint-0
+[2025-12-31 21:00:12.448] Step: 1
+[2025-12-31 21:00:12.448] Collected    75 states from   1 games, 0.8 states/s. 0.8 states/(s*actor), game length: 75.0
+[2025-12-31 21:00:12.448] Buffer size: 32. States seen: 75
+[2025-12-31 21:00:16.686] Losses(total: 374.050, policy: 5.363, value: 368.655, l2: 0.032)
+[2025-12-31 21:00:16.686] Checkpoint saved: ./data/results/test_training_checkpoints/checkpoint--1
+[2025-12-31 21:00:16.687]
+[2025-12-31 21:00:34.299] Step: 2
+[2025-12-31 21:00:34.299] Collected    64 states from   1 games, 2.9 states/s. 2.9 states/(s*actor), game length: 64.0
+[2025-12-31 21:00:34.299] Buffer size: 32. States seen: 139
+[2025-12-31 21:00:35.602] Losses(total: 6.479, policy: 5.456, value: 1.000, l2: 0.022)
+[2025-12-31 21:00:35.603] Checkpoint saved: ./data/results/test_training_checkpoints/checkpoint--1
+[2025-12-31 21:00:35.603]
+[2025-12-31 21:00:40.113] Step: 3
+[2025-12-31 21:00:40.113] Collected    20 states from   1 games, 3.4 states/s. 3.4 states/(s*actor), game length: 20.0
+[2025-12-31 21:00:40.114] Buffer size: 32. States seen: 159
+[2025-12-31 21:00:41.129] Losses(total: 9.540, policy: 3.762, value: 5.750, l2: 0.027)
+[2025-12-31 21:00:41.129] Checkpoint saved: ./data/results/test_training_checkpoints/checkpoint--1
+[2025-12-31 21:00:41.130]
+[2025-12-31 21:00:44.700] Step: 4
+[2025-12-31 21:00:44.700] Collected    16 states from   1 games, 3.5 states/s. 3.5 states/(s*actor), game length: 16.0
+[2025-12-31 21:00:44.700] Buffer size: 32. States seen: 175
+[2025-12-31 21:00:46.536] Losses(total: 8.412, policy: 2.381, value: 6.000, l2: 0.031)
+[2025-12-31 21:00:46.536] Checkpoint saved: ./data/results/test_training_checkpoints/checkpoint--1
+[2025-12-31 21:00:46.537]
+[2025-12-31 21:00:52.150] Step: 5
+[2025-12-31 21:00:52.150] Collected    26 states from   1 games, 3.5 states/s. 3.5 states/(s*actor), game length: 26.0
+[2025-12-31 21:00:52.150] Buffer size: 32. States seen: 201
+[2025-12-31 21:00:53.754] Losses(total: 2.727, policy: 1.694, value: 1.000, l2: 0.033)
+[2025-12-31 21:00:53.754] Checkpoint saved: ./data/results/test_training_checkpoints/checkpoint-5
+[2025-12-31 21:00:53.755]
+[2025-12-31 21:00:55.499] Step: 6
+[2025-12-31 21:00:55.499] Collected    17 states from   1 games, 5.1 states/s. 5.1 states/(s*actor), game length: 17.0
+[2025-12-31 21:00:55.499] Buffer size: 32. States seen: 218
+[2025-12-31 21:00:57.416] Losses(total: 2.738, policy: 1.702, value: 1.000, l2: 0.036)
+[2025-12-31 21:00:57.416] Checkpoint saved: ./data/results/test_training_checkpoints/checkpoint--1
+[2025-12-31 21:00:57.416]
+[2025-12-31 21:01:06.087] Step: 7
+[2025-12-31 21:01:06.088] Collected    29 states from   2 games, 2.7 states/s. 2.7 states/(s*actor), game length: 14.5
+[2025-12-31 21:01:06.088] Buffer size: 32. States seen: 247
+[2025-12-31 21:01:07.191] Losses(total: 2.754, policy: 1.715, value: 1.000, l2: 0.039)
+[2025-12-31 21:01:07.191] Checkpoint saved: ./data/results/test_training_checkpoints/checkpoint--1
+[2025-12-31 21:01:07.192]
+[2025-12-31 21:01:11.992] Step: 8
+[2025-12-31 21:01:11.992] Collected    21 states from   1 games, 3.6 states/s. 3.6 states/(s*actor), game length: 21.0
+[2025-12-31 21:01:11.992] Buffer size: 32. States seen: 268
+[2025-12-31 21:01:13.094] Losses(total: 2.548, policy: 1.509, value: 1.000, l2: 0.040)
+[2025-12-31 21:01:13.094] Checkpoint saved: ./data/results/test_training_checkpoints/checkpoint--1
+[2025-12-31 21:01:13.095]
+[2025-12-31 21:01:40.132] Step: 9
+[2025-12-31 21:01:40.132] Collected    35 states from   2 games, 1.2 states/s. 1.2 states/(s*actor), game length: 17.5
+[2025-12-31 21:01:40.132] Buffer size: 32. States seen: 303
+[2025-12-31 21:01:41.610] Losses(total: 2.399, policy: 1.358, value: 1.000, l2: 0.041)
+[2025-12-31 21:01:41.610] Checkpoint saved: ./data/results/test_training_checkpoints/checkpoint--1
+[2025-12-31 21:01:41.611]
+[2025-12-31 21:01:53.936] Step: 10
+[2025-12-31 21:01:53.936] Collected    29 states from   2 games, 2.1 states/s. 2.1 states/(s*actor), game length: 14.5
+[2025-12-31 21:01:53.937] Buffer size: 32. States seen: 332
+[2025-12-31 21:01:55.123] Losses(total: 2.877, policy: 1.835, value: 1.000, l2: 0.041)
+[2025-12-31 21:01:55.123] Checkpoint saved: ./data/results/test_training_checkpoints/checkpoint-10
+[2025-12-31 21:01:55.124]
+[2025-12-31 21:01:55.146] learner exiting
