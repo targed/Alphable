@@ -4,38 +4,77 @@ Dictionary loaded.
 Loading neural network from checkpoint-100...
 
 --- STARTING MATCH ---
+Player 0: Plays 'ETUIS' at 7,3 Across
+   Rack P1: ['E', 'H', 'C', 'I', 'E', 'E', 'E']
+Player 1: Plays 'ETHIC' at 6,4 Across
+   Rack P0: ['A', 'Y', 'P', 'I', 'O', 'L', 'A']
+Player 1: Plays 'ECHE' at 6,7 Across
+   Rack P0: ['A', 'Y', 'P', 'I', 'O', 'L', 'A']
+Player 0: Plays 'PAYOLA' at 7,9 Across
+   Rack P1: ['I', 'E', 'E', 'O', 'F', 'I', 'E']
 Player 0: EXCHANGE
-Player 1: Plays 'DONNISH' at 7,1 Across
-   Rack P0: ['A', 'E', 'L', 'I', 'O', 'E', 'B']
-Player 0: Plays 'BINAL' at 5,4 Across
-   Rack P1: ['D', 'T', 'F', 'A', 'T', 'F', 'D']
-Player 0: Plays 'DOABLE' at 7,1 Across
-   Rack P1: ['D', 'T', 'F', 'A', 'T', 'F', 'D']
-Player 0: Plays 'BAILEE' at 8,7 Across
-   Rack P1: ['D', 'T', 'F', 'A', 'T', 'F', 'D']
-Player 1: Plays 'NAFF' at 7,4 Across
-   Rack P0: ['A', 'E', 'L', 'I', 'O', 'E', 'B']
-Player 1: Plays 'DIFF' at 6,5 Across
-   Rack P0: ['A', 'E', 'L', 'I', 'O', 'E', 'B']
-Player 1: Plays 'DAFF' at 8,6 Across
-   Rack P0: ['A', 'E', 'L', 'I', 'O', 'E', 'B']
-Player 0: EXCHANGE
+Player 1: Plays 'FEE' at 6,3 Across
+   Rack P0: ['?', 'N', 'N', 'N', 'C', 'J', 'O']
+Player 1: Plays 'SEIF' at 7,7 Across
+   Rack P0: ['?', 'N', 'N', 'N', 'C', 'J', 'O']
+Player 1: Plays 'FEE' at 5,3 Across
+   Rack P0: ['?', 'N', 'N', 'N', 'C', 'J', 'O']
+Player 0: Plays 'UNCOS' at 7,5 Across
+   Rack P1: ['I', 'E', 'E', 'O', 'F', 'I', 'E']
+Player 0: Plays 'INCONNU' at 7,6 Across
+   Rack P1: ['I', 'E', 'E', 'O', 'F', 'I', 'E']
+Player 0: Plays 'ANON' at 6,0 Across
+   Rack P1: ['I', 'E', 'E', 'O', 'F', 'I', 'E']
+Player 1: Plays 'OAF' at 5,0 Across
+   Rack P0: ['N', 'C', 'J', 'R', 'B', 'L', 'N']
+Player 1: Plays 'FEE' at 8,3 Across
+   Rack P0: ['N', 'C', 'J', 'R', 'B', 'L', 'N']
+Player 1: Plays 'FEES' at 4,7 Across
+   Rack P0: ['N', 'C', 'J', 'R', 'B', 'L', 'N']
+Player 0: Plays 'INN' at 7,6 Across
+   Rack P1: ['I', 'E', 'E', 'O', 'F', 'I', 'E']
+Player 0: Plays 'ERN' at 6,10 Across
+   Rack P1: ['I', 'E', 'E', 'O', 'F', 'I', 'E']
+Player 0: Plays 'BLUR' at 5,5 Across
+   Rack P1: ['I', 'E', 'E', 'O', 'F', 'I', 'E']
+Player 1: Plays 'FEU' at 5,5 Across
+   Rack P0: ['N', 'C', 'J', 'R', 'B', 'L', 'N']
+Player 1: Plays 'EF' at 5,9 Across
+   Rack P0: ['N', 'C', 'J', 'R', 'B', 'L', 'N']
+Player 0: Plays 'INN' at 7,6 Across
+   Rack P1: ['I', 'E', 'O', 'I', 'E', 'O', 'D']
+Player 0: Plays 'ALB' at 6,0 Across
+   Rack P1: ['I', 'E', 'O', 'I', 'E', 'O', 'D']
+Player 0: Plays 'URB' at 7,5 Across
+   Rack P1: ['I', 'E', 'O', 'I', 'E', 'O', 'D']
+Player 1: Plays 'IDEA' at 3,0 Across
+   Rack P0: ['N', 'C', 'J', 'R', 'B', 'L', 'N']
+Player 1: Plays 'HOODIE' at 6,9 Across
+   Rack P0: ['N', 'C', 'J', 'R', 'B', 'L', 'N']
+Player 1: Plays 'DONEE' at 4,1 Across
+   Rack P0: ['N', 'C', 'J', 'R', 'B', 'L', 'N']
+Player 0: Plays 'ALB' at 6,0 Across
+   Rack P1: ['I', 'E', 'O', 'I', 'E', 'O', 'D']
+Player 0: Plays 'BO' at 5,2 Across
+   Rack P1: ['I', 'E', 'O', 'I', 'E', 'O', 'D']
+Player 0: Plays 'LEHR' at 4,9 Across
+   Rack P1: ['I', 'E', 'O', 'I', 'E', 'O', 'D']
 Player 1: EXCHANGE
 
 --- GAME OVER ---
 ======================================================================
-SCRABBLE GAME STATE - Turn 6
+SCRABBLE GAME STATE - Turn 12
 ======================================================================
 Status: GAME OVER
 
-Scores: P0=0.0  P1=74.0
+Scores: P0=19.0  P1=31.0
 Consecutive Passes: 4
 Consecutive Zero Scores: 0
 Banned Actions: 0
 
-Bag: 79 tiles remaining
-P0 Rack (7 tiles): E L O Y I K A
-P1 Rack (7 tiles): E E N O R D A
+Bag: 71 tiles remaining
+P0 Rack (7 tiles): N C J R B L N
+P1 Rack (7 tiles): I D P U Y N P
 
 Board:
    A B C D E F G H I J K L M N O
@@ -44,9 +83,9 @@ Board:
  2 . . . . . . . . . . . . . . . 
  3 . . . . . . . . . . . . . . . 
  4 . . . . . . . . . . . . . . . 
- 5 . . . . . . . . . . . . . . . 
- 6 . . . . . . . . . . . . . . . 
- 7 . D O N N I S H . . . . . . . 
+ 5 . . . . . . . . . E F . . . . 
+ 6 A N O N . . . E C H E . . . . 
+ 7 . . . E T U I S . . . . . . . 
  8 . . . . . . . . . . . . . . . 
  9 . . . . . . . . . . . . . . . 
 10 . . . . . . . . . . . . . . . 
@@ -55,23 +94,23 @@ Board:
 13 . . . . . . . . . . . . . . . 
 14 . . . . . . . . . . . . . . . 
 
-Move Log Summary (12 entries)
+Move Log Summary (35 entries)
 ============================================================
-Turn 2, P0: FAILED - Action 158
+Turn 8, P0: SUCCESS - Action 450
+Turn 9, P1: FAILED - Action 90
   Reason: Validation Failed
-Turn 2, P0: FAILED - Action 212
+Turn 9, P1: FAILED - Action 198
   Reason: Validation Failed
-Turn 2, P0: FAILED - Action 254
+Turn 9, P1: FAILED - Action 122
   Reason: Validation Failed
-Turn 2, P0: SUCCESS - Action 450
-Turn 3, P1: FAILED - Action 218
+Turn 9, P1: SUCCESS - Action 450
+Turn 10, P0: FAILED - Action 180
   Reason: Validation Failed
-Turn 3, P1: FAILED - Action 190
+Turn 10, P0: FAILED - Action 154
   Reason: Validation Failed
-Turn 3, P1: FAILED - Action 252
+Turn 10, P0: FAILED - Action 138
   Reason: Validation Failed
-Turn 3, P1: SUCCESS - Action 450
-Turn 4, P0: SUCCESS - Action 451
-Turn 5, P1: SUCCESS - Action 451
+Turn 10, P0: SUCCESS - Action 450
+Turn 11, P1: SUCCESS - Action 451
 ======================================================================
-Final Score: [0.0, 74.0]
+Final Score: [19.0, 31.0]

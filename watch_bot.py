@@ -71,7 +71,7 @@ def play_match():
         path="./data/scrabble_az_checkpoints"
     )
     
-    model.load_checkpoint("./data/scrabble_az_checkpoints/checkpoint-60")
+    model.load_checkpoint("./data/scrabble_az_checkpoints/checkpoint-400")
     
     from open_spiel.python.algorithms.alpha_zero import evaluator as az_evaluator
     az_eval = az_evaluator.AlphaZeroEvaluator(game, model)
