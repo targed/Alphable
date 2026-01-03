@@ -1,0 +1,136 @@
+Loading game...
+Loading dictionary from resources/NWL2023.txt...
+Dictionary loaded.
+Loading neural network from checkpoint-100...
+
+--- STARTING MATCH ---
+Player 0: Plays 'AXITES' at 7,6 Across
+   Rack P1: ['O', 'E', 'A', 'E', 'V', 'Y', 'G']
+Player 1: Plays 'AIYEE' at 6,8 Across
+   Rack P0: ['I', 'T', 'O', 'G', 'R', 'S', 'U']
+Player 1: Plays 'VOYAGE' at 8,9 Across
+   Rack P0: ['I', 'T', 'O', 'G', 'R', 'S', 'U']
+Player 1: Plays 'AGES' at 4,11 Across
+   Rack P0: ['I', 'T', 'O', 'G', 'R', 'S', 'U']
+Player 0: Plays 'OUTSIT' at 2,9 Across
+   Rack P1: ['O', 'E', 'A', 'E', 'V', 'Y', 'G']
+Player 0: Plays 'ROTIS' at 8,4 Across
+   Rack P1: ['O', 'E', 'A', 'E', 'V', 'Y', 'G']
+Player 1: Plays 'YOGEE' at 3,10 Across
+   Rack P0: ['G', 'U', 'O', 'T', 'Y', 'W', 'R']
+Player 1: Plays 'SAVOY' at 8,8 Across
+   Rack P0: ['G', 'U', 'O', 'T', 'Y', 'W', 'R']
+Player 1: Plays 'VOYAGER' at 2,4 Across
+   Rack P0: ['G', 'U', 'O', 'T', 'Y', 'W', 'R']
+Player 0: Plays 'TESTY' at 7,9 Across
+   Rack P1: ['O', 'E', 'A', 'E', 'V', 'Y', 'G']
+Player 0: Plays 'TROUTY' at 8,6 Across
+   Rack P1: ['O', 'E', 'A', 'E', 'V', 'Y', 'G']
+Player 0: Plays 'GROUTY' at 9,4 Across
+   Rack P1: ['O', 'E', 'A', 'E', 'V', 'Y', 'G']
+Player 1: Plays 'AVISO' at 5,8 Across
+   Rack P0: ['G', 'U', 'O', 'T', 'Y', 'W', 'R']
+Player 1: Plays 'EASE' at 5,11 Across
+   Rack P0: ['G', 'U', 'O', 'T', 'Y', 'W', 'R']
+Player 1: Plays 'GEE' at 9,3 Across
+   Rack P0: ['G', 'U', 'O', 'T', 'Y', 'W', 'R']
+Player 0: Plays 'GROT' at 10,1 Across
+   Rack P1: ['O', 'A', 'V', 'Y', 'J', 'A', 'M']
+Player 1: Plays 'JAVA' at 11,4 Across
+   Rack P0: ['U', 'Y', 'W', 'I', 'O', 'L', 'V']
+Player 1: Plays 'AM' at 6,5 Across
+   Rack P0: ['U', 'Y', 'W', 'I', 'O', 'L', 'V']
+Player 0: Plays 'ULVA' at 3,5 Across
+   Rack P1: ['O', 'V', 'Y', 'J', 'A', 'D', 'H']
+Player 0: Plays 'ROILY' at 10,2 Across
+   Rack P1: ['O', 'V', 'Y', 'J', 'A', 'D', 'H']
+Player 0: Plays 'OILY' at 11,2 Across
+   Rack P1: ['O', 'V', 'Y', 'J', 'A', 'D', 'H']
+Player 1: Plays 'ETA' at 9,4 Across
+   Rack P0: ['U', 'Y', 'W', 'I', 'O', 'L', 'V']
+Player 1: Plays 'AHA' at 4,5 Across
+   Rack P0: ['U', 'Y', 'W', 'I', 'O', 'L', 'V']
+Player 1: Plays 'AVISO' at 5,8 Across
+   Rack P0: ['U', 'Y', 'W', 'I', 'O', 'L', 'V']
+Player 0: Plays 'LOUIS' at 4,8 Across
+   Rack P1: ['O', 'V', 'Y', 'J', 'A', 'D', 'H']
+Player 0: Plays 'OILY' at 11,1 Across
+   Rack P1: ['O', 'V', 'Y', 'J', 'A', 'D', 'H']
+Player 0: Plays 'OILY' at 6,11 Across
+   Rack P1: ['O', 'V', 'Y', 'J', 'A', 'D', 'H']
+Player 1: Plays 'AHOY' at 11,1 Across
+   Rack P0: ['U', 'W', 'V', 'A', 'O', 'C', 'T']
+Player 1: Plays 'AHOY' at 11,3 Across
+   Rack P0: ['U', 'W', 'V', 'A', 'O', 'C', 'T']
+Player 1: Plays 'ODEA' at 5,10 Across
+   Rack P0: ['U', 'W', 'V', 'A', 'O', 'C', 'T']
+Player 0: Plays 'GAVOT' at 10,1 Across
+   Rack P1: ['O', 'V', 'Y', 'J', 'A', 'D', 'H']
+Player 0: Plays 'SCOUT' at 8,8 Across
+   Rack P1: ['O', 'V', 'Y', 'J', 'A', 'D', 'H']
+Player 0: Plays 'AUTO' at 11,2 Across
+   Rack P1: ['O', 'V', 'Y', 'J', 'A', 'D', 'H']
+Player 1: Plays 'DOAT' at 4,9 Across
+   Rack P0: ['U', 'W', 'V', 'A', 'O', 'C', 'T']
+Player 1: Plays 'ODAH' at 10,3 Across
+   Rack P0: ['U', 'W', 'V', 'A', 'O', 'C', 'T']
+Player 1: Plays 'ADOS' at 4,11 Across
+   Rack P0: ['U', 'W', 'V', 'A', 'O', 'C', 'T']
+Player 0: Plays 'OUTA' at 10,3 Across
+   Rack P1: ['O', 'V', 'Y', 'J', 'A', 'D', 'H']
+Player 0: EXCHANGE
+
+--- GAME OVER ---
+======================================================================
+SCRABBLE GAME STATE - Turn 15
+======================================================================
+Status: GAME OVER
+
+Scores: P0=74.0  P1=22.0
+Consecutive Passes: 4
+Consecutive Zero Scores: 0
+Banned Actions: 0
+
+Bag: 62 tiles remaining
+P0 Rack (7 tiles): N ? Q I O O L
+P1 Rack (7 tiles): O V Y J A D H
+
+Board:
+   A B C D E F G H I J K L M N O
+ 0 . . . . . . . . . . . . . . . 
+ 1 . . . . . . . . . . . . . . . 
+ 2 . . . . . . . . . . . . . . . 
+ 3 . . . . . . . . . . . . . . . 
+ 4 . . . . . . . . . . . . . . . 
+ 5 . . . . . . . . . . . . . . . 
+ 6 . . . . . A M . . . . O I L Y 
+ 7 . . . . . . A X I T E S . . . 
+ 8 . . . . R O T I S . . . . . . 
+ 9 . . . G E E . . . . . . . . . 
+10 . G R O T . . . . . . . . . . 
+11 . . . . . . . . . . . . . . . 
+12 . . . . . . . . . . . . . . . 
+13 . . . . . . . . . . . . . . . 
+14 . . . . . . . . . . . . . . . 
+
+Move Log Summary (46 entries)
+============================================================
+Turn 12, P0: FAILED - Action 302
+  Reason: Validation Failed
+Turn 12, P0: FAILED - Action 256
+  Reason: Validation Failed
+Turn 12, P0: FAILED - Action 334
+  Reason: Validation Failed
+Turn 12, P0: SUCCESS - Action 450
+Turn 13, P1: FAILED - Action 138
+  Reason: Validation Failed
+Turn 13, P1: FAILED - Action 306
+  Reason: Validation Failed
+Turn 13, P1: FAILED - Action 142
+  Reason: Validation Failed
+Turn 13, P1: SUCCESS - Action 450
+Turn 14, P0: FAILED - Action 306
+  Reason: Validation Failed
+Turn 14, P0: SUCCESS - Action 451
+======================================================================
+Final Score: [74.0, 22.0]

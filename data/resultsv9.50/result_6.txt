@@ -1,0 +1,116 @@
+Loading game...
+Loading dictionary from resources/NWL2023.txt...
+Dictionary loaded.
+Loading neural network from checkpoint-100...
+
+--- STARTING MATCH ---
+Player 0: Plays 'ERNES' at 3,7 Across
+   Rack P1: ['N', 'A', 'O', 'A', 'A', 'P', 'Q']
+Player 0: EXCHANGE
+Player 1: Plays 'ANOA' at 7,4 Across
+   Rack P0: ['Z', 'C', 'F', 'S', 'T', 'O', 'B']
+Player 0: EXCHANGE
+Player 1: Plays 'PELAU' at 6,1 Across
+   Rack P0: ['J', 'T', 'Z', 'V', 'X', 'I', 'E']
+Player 0: EXCHANGE
+Player 1: Plays 'TO' at 5,0 Across
+   Rack P0: ['J', 'R', 'X', 'V', 'I', 'E', 'E']
+Player 0: EXCHANGE
+Player 1: Plays 'MEEK' at 4,1 Across
+   Rack P0: ['S', 'O', 'T', 'B', 'R', 'R', 'E']
+Player 0: Plays 'BORES' at 8,0 Across
+   Rack P1: ['Q', 'I', 'V', 'D', 'T', 'E', 'I']
+Player 1: EXCHANGE
+Player 0: EXCHANGE
+Player 1: Plays 'ERNS' at 8,6 Across
+   Rack P0: ['H', 'A', 'O', 'Y', 'V', 'I', 'J']
+Player 0: Plays 'OHIA' at 3,4 Across
+   Rack P1: ['Z', 'P', 'R', 'I', 'V', 'T', 'W']
+Player 1: Plays 'TWIRP' at 5,5 Across
+   Rack P0: ['Y', 'V', 'J', 'E', 'B', 'I', 'D']
+Player 0: EXCHANGE
+Player 1: EXCHANGE
+Player 0: Plays 'STOUT' at 2,6 Across
+   Rack P1: ['L', 'N', 'D', 'E', 'R', 'I', 'I']
+Player 1: Plays 'TORE' at 5,0 Across
+   Rack P0: ['J', 'V', 'H', 'U', 'T', 'A', 'S']
+Player 0: Plays 'UTAS' at 7,9 Across
+   Rack P1: ['L', 'N', 'D', 'I', 'I', 'A', 'C']
+Player 1: Plays 'LINAC' at 6,9 Across
+   Rack P0: ['J', 'V', 'H', 'W', 'Y', 'E', 'E']
+Player 0: Plays 'EW' at 2,3 Across
+   Rack P1: ['D', 'I', 'G', 'A', 'C', 'F', 'T']
+Player 1: Plays 'DEW' at 2,2 Across
+   Rack P0: ['J', 'V', 'H', 'Y', 'E', 'I', 'X']
+Player 0: Plays 'HEY' at 1,1 Across
+   Rack P1: ['I', 'G', 'A', 'C', 'F', 'T', 'Q']
+Player 1: Plays 'CAF' at 0,0 Across
+   Rack P0: ['J', 'V', 'I', 'X', 'I', 'M', 'I']
+Player 0: Plays 'MIX' at 1,9 Across
+   Rack P1: ['I', 'G', 'T', 'Q', 'O', 'L', 'V']
+Player 1: Plays 'LOTI' at 0,10 Across
+   Rack P0: ['J', 'V', 'I', 'I', 'N', 'E', 'R']
+Player 0: Plays 'CAFE' at 0,0 Across
+   Rack P1: ['G', 'Q', 'V', 'D', 'R', 'I', 'D']
+Player 1: EXCHANGE
+Player 0: Plays 'LINACS' at 6,9 Across
+   Rack P1: ['?', 'U', 'A', 'I', 'D', 'Q', 'L']
+Player 1: Plays 'MIXED' at 1,9 Across
+   Rack P0: ['J', 'V', 'I', 'I', 'N', 'R', 'O']
+Player 0: EXCHANGE
+Player 1: Plays 'URIAL' at 3,10 Across
+   Rack P0: ['N', 'E', 'B', 'V', 'Y', 'D', 'Z']
+Player 0: Plays 'DE' at 4,12 Across
+   Rack P1: ['Q', 'G', 'O', 'R', 'N', 'J', 'G']
+Player 1: EXCHANGE
+Player 0: EXCHANGE
+Player 1: EXCHANGE
+Player 0: EXCHANGE
+
+--- GAME OVER ---
+======================================================================
+SCRABBLE GAME STATE - Turn 37
+======================================================================
+Status: GAME OVER
+
+Scores: P0=140.0  P1=234.0
+Consecutive Passes: 4
+Consecutive Zero Scores: 0
+Banned Actions: 0
+
+Bag: 10 tiles remaining
+P0 Rack (7 tiles): G I N R V D V
+P1 Rack (7 tiles): G I Z A E O I
+
+Board:
+   A B C D E F G H I J K L M N O
+ 0 C A F E . . . . . . L O T I . 
+ 1 . H E Y . . . . . M I X E D . 
+ 2 . . D E W . S T O U T . . . . 
+ 3 . . . . O H I A . . U R I A L 
+ 4 . M E E K . . . . . . . D E . 
+ 5 T O R E . T W I R P . . . . . 
+ 6 . P E L A U . . . L I N A C S 
+ 7 . . . . A N O A . U T A S . . 
+ 8 B O R E S . E R N S . . . . . 
+ 9 . . . . . . . . . . . . . . . 
+10 . . . . . . . . . . . . . . . 
+11 . . . . . . . . . . . . . . . 
+12 . . . . . . . . . . . . . . . 
+13 . . . . . . . . . . . . . . . 
+14 . . . . . . . . . . . . . . . 
+
+Move Log Summary (38 entries)
+============================================================
+Turn 27, P1: SUCCESS - Action 451
+Turn 28, P0: SUCCESS - Action 198
+Turn 29, P1: SUCCESS - Action 48
+Turn 30, P0: SUCCESS - Action 451
+Turn 31, P1: SUCCESS - Action 110
+Turn 32, P0: SUCCESS - Action 144
+Turn 33, P1: SUCCESS - Action 451
+Turn 34, P0: SUCCESS - Action 451
+Turn 35, P1: SUCCESS - Action 451
+Turn 36, P0: SUCCESS - Action 451
+======================================================================
+Final Score: [140.0, 234.0]

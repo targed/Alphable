@@ -1,0 +1,72 @@
+Loading game...
+Loading dictionary from resources/NWL2023.txt...
+Dictionary loaded.
+Loading neural network from checkpoint-100...
+
+--- STARTING MATCH ---
+Player 0: Plays 'HANGUP' at 3,7 Across
+   Rack P1: ['L', 'I', 'I', 'O', 'O', 'T', 'E']
+Player 0: Plays 'HANGUP' at 6,7 Across
+   Rack P1: ['L', 'I', 'I', 'O', 'O', 'T', 'E']
+Player 0: Plays 'HANGUP' at 4,7 Across
+   Rack P1: ['L', 'I', 'I', 'O', 'O', 'T', 'E']
+Player 1: Plays 'IOLITE' at 7,3 Across
+   Rack P0: ['G', 'P', 'A', 'H', 'E', 'U', 'N']
+Player 0: Plays 'GAEN' at 8,0 Across
+   Rack P1: ['O', 'T', 'W', 'T', 'A', 'S', 'V']
+Player 1: Plays 'AVOWS' at 6,0 Across
+   Rack P0: ['P', 'H', 'U', 'T', 'M', 'N', 'L']
+Player 0: EXCHANGE
+Player 1: EXCHANGE
+Player 0: EXCHANGE
+Player 1: EXCHANGE
+
+--- GAME OVER ---
+======================================================================
+SCRABBLE GAME STATE - Turn 8
+======================================================================
+Status: GAME OVER
+
+Scores: P0=8.0  P1=34.0
+Consecutive Passes: 4
+Consecutive Zero Scores: 0
+Banned Actions: 0
+
+Bag: 71 tiles remaining
+P0 Rack (7 tiles): S E I N D Z N
+P1 Rack (7 tiles): L H G E U E T
+
+Board:
+   A B C D E F G H I J K L M N O
+ 0 . . . . . . . . . . . . . . . 
+ 1 . . . . . . . . . . . . . . . 
+ 2 . . . . . . . . . . . . . . . 
+ 3 . . . . . . . . . . . . . . . 
+ 4 . . . . . . . . . . . . . . . 
+ 5 . . . . . . . . . . . . . . . 
+ 6 A V O W S . . . . . . . . . . 
+ 7 . . . I O L I T E . . . . . . 
+ 8 G A E N . . . . . . . . . . . 
+ 9 . . . . . . . . . . . . . . . 
+10 . . . . . . . . . . . . . . . 
+11 . . . . . . . . . . . . . . . 
+12 . . . . . . . . . . . . . . . 
+13 . . . . . . . . . . . . . . . 
+14 . . . . . . . . . . . . . . . 
+
+Move Log Summary (11 entries)
+============================================================
+Turn 0, P0: FAILED - Action 194
+  Reason: Validation Failed
+Turn 0, P0: FAILED - Action 134
+  Reason: Validation Failed
+Turn 0, P0: SUCCESS - Action 450
+Turn 1, P1: SUCCESS - Action 216
+Turn 2, P0: SUCCESS - Action 240
+Turn 3, P1: SUCCESS - Action 180
+Turn 4, P0: SUCCESS - Action 451
+Turn 5, P1: SUCCESS - Action 451
+Turn 6, P0: SUCCESS - Action 451
+Turn 7, P1: SUCCESS - Action 451
+======================================================================
+Final Score: [8.0, 34.0]

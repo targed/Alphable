@@ -1,0 +1,126 @@
+Loading game...
+Loading dictionary from resources/NWL2023.txt...
+Dictionary loaded.
+Loading neural network from checkpoint-100...
+
+--- STARTING MATCH ---
+Player 0: Plays 'GLISSE' at 3,7 Across
+   Rack P1: ['O', 'T', 'E', 'O', 'E', 'W', 'Q']
+Player 0: Plays 'GLISSE' at 4,7 Across
+   Rack P1: ['O', 'T', 'E', 'O', 'E', 'W', 'Q']
+Player 0: Plays 'GLISSE' at 5,7 Across
+   Rack P1: ['O', 'T', 'E', 'O', 'E', 'W', 'Q']
+Player 1: Plays 'TWEE' at 4,7 Across
+   Rack P0: ['I', 'L', 'S', 'P', 'S', 'E', 'G']
+Player 1: EXCHANGE
+Player 0: Plays 'GLISSE' at 2,7 Across
+   Rack P1: ['I', 'H', 'Q', 'D', 'G', 'E', 'E']
+Player 0: Plays 'GLISSE' at 5,7 Across
+   Rack P1: ['I', 'H', 'Q', 'D', 'G', 'E', 'E']
+Player 0: Plays 'GLISSE' at 7,6 Across
+   Rack P1: ['I', 'H', 'Q', 'D', 'G', 'E', 'E']
+Player 1: Plays 'GELID' at 5,7 Across
+   Rack P0: ['P', 'C', 'B', 'Z', 'U', 'E', 'I']
+Player 1: Plays 'EDGES' at 3,9 Across
+   Rack P0: ['P', 'C', 'B', 'Z', 'U', 'E', 'I']
+Player 1: Plays 'DEES' at 4,10 Across
+   Rack P0: ['P', 'C', 'B', 'Z', 'U', 'E', 'I']
+Player 0: Plays 'BIZ' at 7,12 Across
+   Rack P1: ['I', 'H', 'Q', 'D', 'G', 'E', 'E']
+Player 0: Plays 'BICES' at 3,9 Across
+   Rack P1: ['I', 'H', 'Q', 'D', 'G', 'E', 'E']
+Player 0: Plays 'BICEP' at 8,10 Across
+   Rack P1: ['I', 'H', 'Q', 'D', 'G', 'E', 'E']
+Player 1: Plays 'HEDGE' at 8,8 Across
+   Rack P0: ['P', 'C', 'B', 'Z', 'U', 'E', 'I']
+Player 1: Plays 'EGGED' at 6,6 Across
+   Rack P0: ['P', 'C', 'B', 'Z', 'U', 'E', 'I']
+Player 1: Plays 'HEDGE' at 8,7 Across
+   Rack P0: ['P', 'C', 'B', 'Z', 'U', 'E', 'I']
+Player 0: Plays 'BICEP' at 8,6 Across
+   Rack P1: ['I', 'H', 'Q', 'D', 'G', 'E', 'E']
+Player 0: Plays 'GIBE' at 7,6 Across
+   Rack P1: ['I', 'H', 'Q', 'D', 'G', 'E', 'E']
+Player 0: Plays 'BI' at 8,5 Across
+   Rack P1: ['I', 'H', 'Q', 'D', 'G', 'E', 'E']
+Player 1: Plays 'HEDGES' at 2,9 Across
+   Rack P0: ['P', 'C', 'Z', 'U', 'E', 'U', 'A']
+Player 1: Plays 'BEEDI' at 8,5 Across
+   Rack P0: ['P', 'C', 'Z', 'U', 'E', 'U', 'A']
+Player 1: Plays 'GEED' at 9,3 Across
+   Rack P0: ['P', 'C', 'Z', 'U', 'E', 'U', 'A']
+Player 0: Plays 'PEA' at 8,1 Across
+   Rack P1: ['I', 'H', 'Q', 'W', 'J', 'M', 'D']
+Player 1: Plays 'DIE' at 6,2 Across
+   Rack P0: ['C', 'Z', 'U', 'U', 'O', 'I', 'E']
+Player 1: Plays 'DE' at 7,2 Across
+   Rack P0: ['C', 'Z', 'U', 'U', 'O', 'I', 'E']
+Player 1: Plays 'HIED' at 5,11 Across
+   Rack P0: ['C', 'Z', 'U', 'U', 'O', 'I', 'E']
+Player 0: Plays 'COZIE' at 10,4 Across
+   Rack P1: ['I', 'H', 'Q', 'W', 'J', 'M', 'D']
+Player 0: Plays 'COSIE' at 5,9 Across
+   Rack P1: ['I', 'H', 'Q', 'W', 'J', 'M', 'D']
+Player 0: Plays 'OE' at 9,2 Across
+   Rack P1: ['I', 'H', 'Q', 'W', 'J', 'M', 'D']
+Player 1: Plays 'WHID' at 9,7 Across
+   Rack P0: ['C', 'Z', 'U', 'U', 'O', 'I', 'E']
+Player 1: Plays 'EDH' at 9,4 Across
+   Rack P0: ['C', 'Z', 'U', 'U', 'O', 'I', 'E']
+Player 1: Plays 'EDH' at 7,11 Across
+   Rack P0: ['C', 'Z', 'U', 'U', 'O', 'I', 'E']
+Player 0: EXCHANGE
+
+--- GAME OVER ---
+======================================================================
+SCRABBLE GAME STATE - Turn 13
+======================================================================
+Status: GAME OVER
+
+Scores: P0=33.0  P1=17.0
+Consecutive Passes: 4
+Consecutive Zero Scores: 0
+Banned Actions: 0
+
+Bag: 71 tiles remaining
+P0 Rack (7 tiles): A E A O U T I
+P1 Rack (7 tiles): I H Q W J M D
+
+Board:
+   A B C D E F G H I J K L M N O
+ 0 . . . . . . . . . . . . . . . 
+ 1 . . . . . . . . . . . . . . . 
+ 2 . . . . . . . . . . . . . . . 
+ 3 . . . . . . . . . . . . . . . 
+ 4 . . . . . . . . . . . . . . . 
+ 5 . . . . . . . . . . . . . . . 
+ 6 . . . . . . . . . . . . . . . 
+ 7 . . . . . . G L I S S E . . . 
+ 8 . P E A . B I . . . . . . . . 
+ 9 . . . G E E D . . . . . . . . 
+10 . . . . . . . . . . . . . . . 
+11 . . . . . . . . . . . . . . . 
+12 . . . . . . . . . . . . . . . 
+13 . . . . . . . . . . . . . . . 
+14 . . . . . . . . . . . . . . . 
+
+Move Log Summary (41 entries)
+============================================================
+Turn 9, P1: SUCCESS - Action 450
+Turn 10, P0: FAILED - Action 308
+  Reason: Validation Failed
+Turn 10, P0: FAILED - Action 168
+  Reason: Validation Failed
+Turn 10, P0: FAILED - Action 274
+  Reason: Validation Failed
+Turn 10, P0: SUCCESS - Action 450
+Turn 11, P1: FAILED - Action 284
+  Reason: Validation Failed
+Turn 11, P1: FAILED - Action 278
+  Reason: Validation Failed
+Turn 11, P1: FAILED - Action 232
+  Reason: Validation Failed
+Turn 11, P1: SUCCESS - Action 450
+Turn 12, P0: SUCCESS - Action 451
+======================================================================
+Final Score: [33.0, 17.0]

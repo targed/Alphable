@@ -1,0 +1,73 @@
+Loading game...
+Loading dictionary from resources/NWL2023.txt...
+Dictionary loaded.
+Loading neural network from checkpoint-100...
+
+--- STARTING MATCH ---
+Player 0: Plays 'GILDER' at 6,7 Across
+   Rack P1: ['N', 'E', 'W', 'A', 'I', 'O', 'O']
+Player 0: Plays 'GILDER' at 4,7 Across
+   Rack P1: ['N', 'E', 'W', 'A', 'I', 'O', 'O']
+Player 0: Plays 'GILDER' at 3,7 Across
+   Rack P1: ['N', 'E', 'W', 'A', 'I', 'O', 'O']
+Player 1: Plays 'AEON' at 7,5 Across
+   Rack P0: ['I', 'R', 'L', 'G', 'E', 'D', 'T']
+Player 0: EXCHANGE
+Player 1: Plays 'WARD' at 6,4 Across
+   Rack P0: ['A', 'E', 'U', 'S', 'E', 'Y', 'J']
+Player 0: Plays 'AEONS' at 7,5 Across
+   Rack P1: ['I', 'O', 'M', 'N', 'O', 'A', 'K']
+Player 1: Plays 'AMINO' at 5,0 Across
+   Rack P0: ['A', 'E', 'U', 'E', 'Y', 'J', 'O']
+Player 0: EXCHANGE
+Player 1: EXCHANGE
+Player 0: EXCHANGE
+Player 1: EXCHANGE
+
+--- GAME OVER ---
+======================================================================
+SCRABBLE GAME STATE - Turn 10
+======================================================================
+Status: GAME OVER
+
+Scores: P0=5.0  P1=42.0
+Consecutive Passes: 4
+Consecutive Zero Scores: 0
+Banned Actions: 0
+
+Bag: 72 tiles remaining
+P0 Rack (7 tiles): A J G S L O D
+P1 Rack (7 tiles): X O O A A R C
+
+Board:
+   A B C D E F G H I J K L M N O
+ 0 . . . . . . . . . . . . . . . 
+ 1 . . . . . . . . . . . . . . . 
+ 2 . . . . . . . . . . . . . . . 
+ 3 . . . . . . . . . . . . . . . 
+ 4 . . . . . . . . . . . . . . . 
+ 5 A M I N O . . . . . . . . . . 
+ 6 . . . . W A R D . . . . . . . 
+ 7 . . . . . A E O N S . . . . . 
+ 8 . . . . . . . . . . . . . . . 
+ 9 . . . . . . . . . . . . . . . 
+10 . . . . . . . . . . . . . . . 
+11 . . . . . . . . . . . . . . . 
+12 . . . . . . . . . . . . . . . 
+13 . . . . . . . . . . . . . . . 
+14 . . . . . . . . . . . . . . . 
+
+Move Log Summary (13 entries)
+============================================================
+Turn 0, P0: SUCCESS - Action 450
+Turn 1, P1: SUCCESS - Action 220
+Turn 2, P0: SUCCESS - Action 451
+Turn 3, P1: SUCCESS - Action 188
+Turn 4, P0: SUCCESS - Action 220
+Turn 5, P1: SUCCESS - Action 150
+Turn 6, P0: SUCCESS - Action 451
+Turn 7, P1: SUCCESS - Action 451
+Turn 8, P0: SUCCESS - Action 451
+Turn 9, P1: SUCCESS - Action 451
+======================================================================
+Final Score: [5.0, 42.0]

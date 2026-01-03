@@ -1,0 +1,126 @@
+Loading game...
+Loading dictionary from resources/NWL2023.txt...
+Dictionary loaded.
+Loading neural network from checkpoint-100...
+
+--- STARTING MATCH ---
+Player 0: Plays 'BONING' at 7,5 Across
+   Rack P1: ['Y', 'E', 'O', 'U', 'T', 'R', 'C']
+Player 1: Plays 'CONURE' at 5,9 Across
+   Rack P0: ['M', 'R', 'E', 'P', 'Q', 'S', 'A']
+Player 1: Plays 'TRICE' at 5,8 Across
+   Rack P0: ['M', 'R', 'E', 'P', 'Q', 'S', 'A']
+Player 1: Plays 'EROTIC' at 3,8 Across
+   Rack P0: ['M', 'R', 'E', 'P', 'Q', 'S', 'A']
+Player 0: Plays 'RAPES' at 6,4 Across
+   Rack P1: ['Y', 'E', 'O', 'U', 'T', 'R', 'C']
+Player 1: Plays 'TABOUR' at 5,5 Across
+   Rack P0: ['M', 'Q', 'A', '?', 'O', 'I', 'R']
+Player 1: Plays 'UPO' at 5,6 Across
+   Rack P0: ['M', 'Q', 'A', '?', 'O', 'I', 'R']
+Player 1: Plays 'TORSI' at 3,8 Across
+   Rack P0: ['M', 'Q', 'A', '?', 'O', 'I', 'R']
+Player 0: Plays 'RAIMENT' at 2,7 Across
+   Rack P1: ['Y', 'E', 'O', 'U', 'T', 'R', 'C']
+Player 0: Plays 'MAID' at 8,4 Across
+   Rack P1: ['Y', 'E', 'O', 'U', 'T', 'R', 'C']
+Player 1: EXCHANGE
+Player 0: Plays 'TREND' at 4,7 Across
+   Rack P1: ['E', 'S', 'U', 'S', 'U', 'S', 'D']
+Player 0: Plays 'AORTA' at 9,0 Across
+   Rack P1: ['E', 'S', 'U', 'S', 'U', 'S', 'D']
+Player 1: Plays 'SUSED' at 2,3 Across
+   Rack P0: ['Q', 'O', 'E', 'V', 'W', 'J', 'I']
+Player 1: Plays 'SUDSES' at 9,6 Across
+   Rack P0: ['Q', 'O', 'E', 'V', 'W', 'J', 'I']
+Player 1: Plays 'DRAPES' at 6,3 Across
+   Rack P0: ['Q', 'O', 'E', 'V', 'W', 'J', 'I']
+Player 0: Plays 'SI' at 6,8 Across
+   Rack P1: ['E', 'S', 'U', 'S', 'U', 'S', 'E']
+Player 0: Plays 'JIAO' at 7,0 Across
+   Rack P1: ['E', 'S', 'U', 'S', 'U', 'S', 'E']
+Player 0: Plays 'JEDI' at 4,3 Across
+   Rack P1: ['E', 'S', 'U', 'S', 'U', 'S', 'E']
+Player 1: Plays 'URUSES' at 8,2 Across
+   Rack P0: ['Q', 'O', 'E', 'V', 'W', 'J', 'I']
+Player 1: Plays 'ESSE' at 5,0 Across
+   Rack P0: ['Q', 'O', 'E', 'V', 'W', 'J', 'I']
+Player 0: Plays 'JIVES' at 1,1 Across
+   Rack P1: ['U', 'U', 'S', 'C', 'A', 'I', 'K']
+Player 0: Plays 'WOO' at 7,1 Across
+   Rack P1: ['U', 'U', 'S', 'C', 'A', 'I', 'K']
+Player 0: Plays 'JIVED' at 2,3 Across
+   Rack P1: ['U', 'U', 'S', 'C', 'A', 'I', 'K']
+Player 1: Plays 'BASIC' at 7,5 Across
+   Rack P0: ['Q', 'O', 'E', 'V', 'W', 'J', 'I']
+Player 1: Plays 'ASCI' at 9,6 Across
+   Rack P0: ['Q', 'O', 'E', 'V', 'W', 'J', 'I']
+Player 1: Plays 'ICKS' at 8,6 Across
+   Rack P0: ['Q', 'O', 'E', 'V', 'W', 'J', 'I']
+Player 0: Plays 'JIVED' at 2,3 Across
+   Rack P1: ['U', 'U', 'S', 'C', 'A', 'I', 'K']
+Player 0: Plays 'EEW' at 4,0 Across
+   Rack P1: ['U', 'U', 'S', 'C', 'A', 'I', 'K']
+Player 0: Plays 'JIAO' at 7,0 Across
+   Rack P1: ['U', 'U', 'S', 'C', 'A', 'I', 'K']
+Player 1: Plays 'POIS' at 6,6 Across
+   Rack P0: ['Q', 'O', 'E', 'V', 'W', 'J', 'I']
+Player 1: Plays 'CASKED' at 1,3 Across
+   Rack P0: ['Q', 'O', 'E', 'V', 'W', 'J', 'I']
+Player 1: Plays 'ASCUS' at 1,2 Across
+   Rack P0: ['Q', 'O', 'E', 'V', 'W', 'J', 'I']
+
+--- GAME OVER ---
+======================================================================
+SCRABBLE GAME STATE - Turn 14
+======================================================================
+Status: GAME OVER
+
+Scores: P0=74.0  P1=18.0
+Consecutive Passes: 4
+Consecutive Zero Scores: 0
+Banned Actions: 0
+
+Bag: 61 tiles remaining
+P0 Rack (7 tiles): Q O E V W J I
+P1 Rack (7 tiles): U U S C A I K
+
+Board:
+   A B C D E F G H I J K L M N O
+ 0 . . . . . . . . . . . . . . . 
+ 1 . . . . . . . . . . . . . . . 
+ 2 . . . . . . . . . . . . . . . 
+ 3 . . . . . . . . . . . . . . . 
+ 4 . . . . . . . . . . . . . . . 
+ 5 E S S E . . . . . . . . . . . 
+ 6 . . . D R A P E S . . . . . . 
+ 7 . . . . . B O N I N G . . . . 
+ 8 . . . . M A I D . . . . . . . 
+ 9 A O R T A . . . . . . . . . . 
+10 . . . . . . . . . . . . . . . 
+11 . . . . . . . . . . . . . . . 
+12 . . . . . . . . . . . . . . . 
+13 . . . . . . . . . . . . . . . 
+14 . . . . . . . . . . . . . . . 
+
+Move Log Summary (40 entries)
+============================================================
+Turn 11, P1: FAILED - Action 252
+  Reason: Validation Failed
+Turn 11, P1: SUCCESS - Action 450
+Turn 12, P0: FAILED - Action 66
+  Reason: Validation Failed
+Turn 12, P0: FAILED - Action 120
+  Reason: Validation Failed
+Turn 12, P0: FAILED - Action 210
+  Reason: Validation Failed
+Turn 12, P0: SUCCESS - Action 450
+Turn 13, P1: FAILED - Action 192
+  Reason: Validation Failed
+Turn 13, P1: FAILED - Action 36
+  Reason: Validation Failed
+Turn 13, P1: FAILED - Action 34
+  Reason: Validation Failed
+Turn 13, P1: SUCCESS - Action 450
+======================================================================
+Final Score: [74.0, 18.0]

@@ -1,0 +1,102 @@
+Loading game...
+Loading dictionary from resources/NWL2023.txt...
+Dictionary loaded.
+Loading neural network from checkpoint-100...
+
+--- STARTING MATCH ---
+Player 0: Plays 'APEAK' at 4,7 Across
+   Rack P1: ['R', 'A', '?', 'E', 'S', 'E', 'J']
+Player 0: Plays 'APEAK' at 7,6 Across
+   Rack P1: ['R', 'A', '?', 'E', 'S', 'E', 'J']
+Player 1: Plays 'AMEERS' at 8,4 Across
+   Rack P0: ['N', 'D', 'N', 'A', 'O', 'Y', 'Z']
+Player 0: Plays 'DANK' at 4,10 Across
+   Rack P1: ['J', 'E', 'M', 'X', 'U', 'T', 'I']
+Player 0: Plays 'DONA' at 9,2 Across
+   Rack P1: ['J', 'E', 'M', 'X', 'U', 'T', 'I']
+Player 1: Plays 'ME' at 8,1 Across
+   Rack P0: ['N', 'Y', 'Z', 'W', 'N', 'R', 'L']
+Player 0: Plays 'ANY' at 8,4 Across
+   Rack P1: ['J', 'X', 'U', 'T', 'I', 'T', 'G']
+Player 0: Plays 'WRYER' at 4,8 Across
+   Rack P1: ['J', 'X', 'U', 'T', 'I', 'T', 'G']
+Player 0: Plays 'WYNN' at 6,3 Across
+   Rack P1: ['J', 'X', 'U', 'T', 'I', 'T', 'G']
+Player 1: Plays 'SUIT' at 8,9 Across
+   Rack P0: ['Z', 'R', 'L', 'A', 'O', 'R', 'H']
+Player 1: Plays 'EDIT' at 8,2 Across
+   Rack P0: ['Z', 'R', 'L', 'A', 'O', 'R', 'H']
+Player 1: Plays 'GUM' at 6,1 Across
+   Rack P0: ['Z', 'R', 'L', 'A', 'O', 'R', 'H']
+Player 0: Plays 'KOHL' at 7,10 Across
+   Rack P1: ['J', 'X', 'U', 'T', 'I', 'T', 'G']
+Player 0: Plays 'AH' at 10,1 Across
+   Rack P1: ['J', 'X', 'U', 'T', 'I', 'T', 'G']
+Player 1: Plays 'ERG' at 7,8 Across
+   Rack P0: ['Z', 'R', 'L', 'O', 'R', 'O', 'C']
+Player 1: Plays 'UM' at 7,1 Across
+   Rack P0: ['Z', 'R', 'L', 'O', 'R', 'O', 'C']
+Player 1: Plays 'GUTTER' at 3,8 Across
+   Rack P0: ['Z', 'R', 'L', 'O', 'R', 'O', 'C']
+Player 0: EXCHANGE
+Player 1: Plays 'PETIT' at 7,7 Across
+   Rack P0: ['C', 'C', 'B', 'N', 'R', 'E', 'E']
+Player 1: Plays 'KIT' at 7,10 Across
+   Rack P0: ['C', 'C', 'B', 'N', 'R', 'E', 'E']
+Player 1: Plays 'TIGER' at 4,8 Across
+   Rack P0: ['C', 'C', 'B', 'N', 'R', 'E', 'E']
+Player 0: EXCHANGE
+
+--- GAME OVER ---
+======================================================================
+SCRABBLE GAME STATE - Turn 11
+======================================================================
+Status: GAME OVER
+
+Scores: P0=61.0  P1=28.0
+Consecutive Passes: 4
+Consecutive Zero Scores: 0
+Banned Actions: 0
+
+Bag: 63 tiles remaining
+P0 Rack (7 tiles): I U R I I H V
+P1 Rack (7 tiles): J X U T I T G
+
+Board:
+   A B C D E F G H I J K L M N O
+ 0 . . . . . . . . . . . . . . . 
+ 1 . . . . . . . . . . . . . . . 
+ 2 . . . . . . . . . . . . . . . 
+ 3 . . . . . . . . . . . . . . . 
+ 4 . . . . . . . . . . . . . . . 
+ 5 . . . . . . . . . . . . . . . 
+ 6 . . . W Y N N . . . . . . . . 
+ 7 . . . . . . A P E A K . . . . 
+ 8 . M E . A M E E R S . . . . . 
+ 9 . . D O N A . . . . . . . . . 
+10 . A H . . . . . . . . . . . . 
+11 . . . . . . . . . . . . . . . 
+12 . . . . . . . . . . . . . . . 
+13 . . . . . . . . . . . . . . . 
+14 . . . . . . . . . . . . . . . 
+
+Move Log Summary (25 entries)
+============================================================
+Turn 7, P1: FAILED - Action 226
+  Reason: Validation Failed
+Turn 7, P1: FAILED - Action 212
+  Reason: Validation Failed
+Turn 7, P1: FAILED - Action 106
+  Reason: Validation Failed
+Turn 7, P1: SUCCESS - Action 450
+Turn 8, P0: SUCCESS - Action 451
+Turn 9, P1: FAILED - Action 224
+  Reason: Validation Failed
+Turn 9, P1: FAILED - Action 230
+  Reason: Validation Failed
+Turn 9, P1: FAILED - Action 136
+  Reason: Validation Failed
+Turn 9, P1: SUCCESS - Action 450
+Turn 10, P0: SUCCESS - Action 451
+======================================================================
+Final Score: [61.0, 28.0]

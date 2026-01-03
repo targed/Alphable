@@ -1,14 +1,28 @@
 import os
-# FORCE TensorFlow to use the legacy Keras 2 interface
+import sys
+
+# --- CRITICAL GPU CONFIGURATION ---
+# 1. Force Legacy Keras (Required for OpenSpiel compatibility)
 os.environ["TF_USE_LEGACY_KERAS"] = "1"
 
-import sys
+# 2. Handle GPU Memory Growth via Environment Variable
+# This tells TensorFlow: "Don't grab all VRAM." 
+# We set this HERE so it applies to all forked processes automatically
+# without needing to run risky Python code in the parent process.
+os.environ["TF_FORCE_GPU_ALLOW_GROWTH"] = "true"
+
+# 3. Suppress Info Logs
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
+
 import pyspiel
 from open_spiel.python.algorithms.alpha_zero import alpha_zero
 from open_spiel.python.utils import spawn
-
-# Import your game module so it is registered
 import scrabble 
+
+import tensorflow as tf
+
+# Note: GPU settings removed since we're forcing CPU usage to avoid
+# CUDA multiprocessing initialization errors with spawn
 
 def main(unused_argv):
     # Load game to verify registration
@@ -18,12 +32,12 @@ def main(unused_argv):
     config = alpha_zero.Config(
         game="scrabble",
         path="data/scrabble_az_checkpoints",
-        learning_rate=0.01,
+        learning_rate=0.001,
         weight_decay=1e-4,
-        train_batch_size=16, # Was 64
-        replay_buffer_size=64, # Was 200
+        train_batch_size=64, # Was 64
+        replay_buffer_size=10000, # Was 200
         replay_buffer_reuse=4, # Was 3
-        max_steps=1000,
+        max_steps=10000,
         checkpoint_freq=10,
         
         # MCTS Config
@@ -32,8 +46,8 @@ def main(unused_argv):
         
         # Network Config
         nn_model="resnet",
-        nn_width=64,
-        nn_depth=2,
+        nn_width=128,
+        nn_depth=6,
         observation_shape=[35, 15, 15],
         output_size=452,
         

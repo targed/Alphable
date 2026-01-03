@@ -1,0 +1,84 @@
+Loading game...
+Loading dictionary from resources/NWL2023.txt...
+Dictionary loaded.
+Loading neural network from checkpoint-100...
+
+--- STARTING MATCH ---
+Player 0: Plays 'ODDITY' at 5,7 Across
+   Rack P1: ['Z', 'O', 'A', 'E', 'E', 'N', 'O']
+Player 0: Plays 'ODDITY' at 6,7 Across
+   Rack P1: ['Z', 'O', 'A', 'E', 'E', 'N', 'O']
+Player 0: Plays 'ODDITY' at 3,7 Across
+   Rack P1: ['Z', 'O', 'A', 'E', 'E', 'N', 'O']
+Player 1: Plays 'OZONE' at 7,3 Across
+   Rack P0: ['V', 'O', 'D', 'D', 'I', 'Y', 'T']
+Player 0: EXCHANGE
+Player 1: Plays 'EARL' at 6,0 Across
+   Rack P0: ['J', 'A', 'E', 'O', 'V', 'B', 'F']
+Player 0: EXCHANGE
+Player 1: Plays 'CONGA' at 8,0 Across
+   Rack P0: ['P', 'O', 'N', 'N', 'D', 'R', 'A']
+Player 0: Plays 'NONPAR' at 8,7 Across
+   Rack P1: ['A', 'G', 'S', 'D', 'A', 'T', 'E']
+Player 1: Plays 'ASEA' at 5,2 Across
+   Rack P0: ['D', 'R', 'S', 'O', 'U', 'H', 'A']
+Player 0: Plays 'OZONES' at 7,3 Across
+   Rack P1: ['G', 'D', 'T', 'A', 'A', 'I', 'T']
+Player 1: Plays 'AG' at 4,1 Across
+   Rack P0: ['D', 'R', 'O', 'U', 'H', 'A', 'H']
+Player 0: Plays 'DAG' at 4,0 Across
+   Rack P1: ['D', 'T', 'A', 'I', 'T', 'F', 'N']
+Player 1: Plays 'DIF' at 6,5 Across
+   Rack P0: ['R', 'O', 'U', 'H', 'A', 'H', 'I']
+Player 0: EXCHANGE
+Player 1: EXCHANGE
+Player 0: EXCHANGE
+Player 1: EXCHANGE
+
+--- GAME OVER ---
+======================================================================
+SCRABBLE GAME STATE - Turn 16
+======================================================================
+Status: GAME OVER
+
+Scores: P0=34.0  P1=101.0
+Consecutive Passes: 4
+Consecutive Zero Scores: 0
+Banned Actions: 0
+
+Bag: 55 tiles remaining
+P0 Rack (7 tiles): E O W Y M B N
+P1 Rack (7 tiles): O H I V W I U
+
+Board:
+   A B C D E F G H I J K L M N O
+ 0 . . . . . . . . . . . . . . . 
+ 1 . . . . . . . . . . . . . . . 
+ 2 . . . . . . . . . . . . . . . 
+ 3 . . . . . . . . . . . . . . . 
+ 4 D A G . . . . . . . . . . . . 
+ 5 . . A S E A . . . . . . . . . 
+ 6 E A R L . D I F . . . . . . . 
+ 7 . . . O Z O N E S . . . . . . 
+ 8 C O N G A . . N O N P A R . . 
+ 9 . . . . . . . . . . . . . . . 
+10 . . . . . . . . . . . . . . . 
+11 . . . . . . . . . . . . . . . 
+12 . . . . . . . . . . . . . . . 
+13 . . . . . . . . . . . . . . . 
+14 . . . . . . . . . . . . . . . 
+
+Move Log Summary (19 entries)
+============================================================
+Turn 6, P0: SUCCESS - Action 254
+Turn 7, P1: SUCCESS - Action 154
+Turn 8, P0: SUCCESS - Action 216
+Turn 9, P1: SUCCESS - Action 122
+Turn 10, P0: SUCCESS - Action 120
+Turn 11, P1: SUCCESS - Action 190
+Turn 12, P0: SUCCESS - Action 451
+Turn 13, P1: SUCCESS - Action 451
+Turn 14, P0: SUCCESS - Action 451
+Turn 15, P1: SUCCESS - Action 451
+======================================================================
+Final Score: [34.0, 101.0]

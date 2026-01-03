@@ -1,0 +1,144 @@
+Loading game...
+Loading dictionary from resources/NWL2023.txt...
+Dictionary loaded.
+Loading neural network from checkpoint-100...
+
+--- STARTING MATCH ---
+Player 0: EXCHANGE
+Player 1: EXCHANGE
+Player 0: Plays 'RITARD' at 7,4 Across
+   Rack P1: ['T', 'N', 'I', 'P', 'E', 'C', 'D']
+Player 1: Plays 'PECTIN' at 4,6 Across
+   Rack P0: ['G', 'O', 'A', 'Q', 'T', 'T', 'K']
+Player 1: Plays 'CIDER' at 3,4 Across
+   Rack P0: ['G', 'O', 'A', 'Q', 'T', 'T', 'K']
+Player 1: Plays 'CITIED' at 6,5 Across
+   Rack P0: ['G', 'O', 'A', 'Q', 'T', 'T', 'K']
+Player 0: Plays 'GAD' at 5,9 Across
+   Rack P1: ['T', 'N', 'I', 'P', 'E', 'C', 'D']
+Player 0: Plays 'GOTTA' at 8,5 Across
+   Rack P1: ['T', 'N', 'I', 'P', 'E', 'C', 'D']
+Player 0: Plays 'GOTTA' at 5,6 Across
+   Rack P1: ['T', 'N', 'I', 'P', 'E', 'C', 'D']
+Player 1: Plays 'PITTED' at 5,6 Across
+   Rack P0: ['G', 'O', 'A', 'Q', 'T', 'T', 'K']
+Player 1: Plays 'DEPICT' at 8,8 Across
+   Rack P0: ['G', 'O', 'A', 'Q', 'T', 'T', 'K']
+Player 1: Plays 'DIET' at 6,2 Across
+   Rack P0: ['G', 'O', 'A', 'Q', 'T', 'T', 'K']
+Player 0: Plays 'TERGA' at 5,4 Across
+   Rack P1: ['N', 'P', 'C', 'I', 'I', 'U', 'Y']
+Player 0: Plays 'KATA' at 6,7 Across
+   Rack P1: ['N', 'P', 'C', 'I', 'I', 'U', 'Y']
+Player 0: Plays 'GOTTA' at 8,9 Across
+   Rack P1: ['N', 'P', 'C', 'I', 'I', 'U', 'Y']
+Player 1: Plays 'ACINI' at 7,7 Across
+   Rack P0: ['G', 'O', 'A', 'Q', 'T', 'T', 'K']
+Player 1: Plays 'PINCER' at 2,4 Across
+   Rack P0: ['G', 'O', 'A', 'Q', 'T', 'T', 'K']
+Player 1: Plays 'ID' at 5,2 Across
+   Rack P0: ['G', 'O', 'A', 'Q', 'T', 'T', 'K']
+Player 0: Plays 'KATA' at 6,7 Across
+   Rack P1: ['N', 'P', 'C', 'I', 'I', 'U', 'Y']
+Player 0: Plays 'AGA' at 7,7 Across
+   Rack P1: ['N', 'P', 'C', 'I', 'I', 'U', 'Y']
+Player 0: Plays 'AI' at 5,3 Across
+   Rack P1: ['N', 'P', 'C', 'I', 'I', 'U', 'Y']
+Player 1: Plays 'DUCI' at 7,9 Across
+   Rack P0: ['G', 'O', 'A', 'Q', 'T', 'T', 'K']
+Player 1: Plays 'UNCAP' at 4,7 Across
+   Rack P0: ['G', 'O', 'A', 'Q', 'T', 'T', 'K']
+Player 1: Plays 'UNI' at 5,0 Across
+   Rack P0: ['G', 'O', 'A', 'Q', 'T', 'T', 'K']
+Player 0: Plays 'UNIT' at 5,0 Across
+   Rack P1: ['P', 'C', 'I', 'Y', 'Y', 'N', 'I']
+Player 1: Plays 'DIN' at 7,9 Across
+   Rack P0: ['G', 'O', 'A', 'Q', 'T', 'K', 'E']
+Player 1: Plays 'YER' at 5,4 Across
+   Rack P0: ['G', 'O', 'A', 'Q', 'T', 'K', 'E']
+Player 1: Plays 'RICIN' at 7,8 Across
+   Rack P0: ['G', 'O', 'A', 'Q', 'T', 'K', 'E']
+Player 0: Plays 'DOTAGE' at 7,9 Across
+   Rack P1: ['P', 'C', 'I', 'Y', 'Y', 'N', 'I']
+Player 0: Plays 'GOAT' at 8,2 Across
+   Rack P1: ['P', 'C', 'I', 'Y', 'Y', 'N', 'I']
+Player 1: Plays 'INTI' at 3,3 Across
+   Rack P0: ['Q', 'K', 'E', 'I', 'E', 'O', 'I']
+Player 1: Plays 'PANIC' at 6,7 Across
+   Rack P0: ['Q', 'K', 'E', 'I', 'E', 'O', 'I']
+Player 1: Plays 'PYIN' at 2,1 Across
+   Rack P0: ['Q', 'K', 'E', 'I', 'E', 'O', 'I']
+Player 0: Plays 'EN' at 4,1 Across
+   Rack P1: ['P', 'C', 'I', 'Y', 'Y', 'N', 'I']
+Player 0: Plays 'EEK' at 8,8 Across
+   Rack P1: ['P', 'C', 'I', 'Y', 'Y', 'N', 'I']
+Player 1: Plays 'INTI' at 3,3 Across
+   Rack P0: ['Q', 'I', 'O', 'I', 'U', 'G', 'O']
+Player 1: Plays 'PYIN' at 2,1 Across
+   Rack P0: ['Q', 'I', 'O', 'I', 'U', 'G', 'O']
+Player 1: Plays 'REPIN' at 7,8 Across
+   Rack P0: ['Q', 'I', 'O', 'I', 'U', 'G', 'O']
+Player 0: EXCHANGE
+Player 1: Plays 'PINY' at 8,7 Across
+   Rack P0: ['O', 'N', '?', 'O', 'G', 'O', 'N']
+Player 1: Plays 'TYIYN' at 7,6 Across
+   Rack P0: ['O', 'N', '?', 'O', 'G', 'O', 'N']
+Player 1: Plays 'EPIC' at 8,9 Across
+   Rack P0: ['O', 'N', '?', 'O', 'G', 'O', 'N']
+Player 0: Plays 'REGION' at 7,8 Across
+   Rack P1: ['P', 'C', 'I', 'Y', 'Y', 'N', 'I']
+Player 0: EXCHANGE
+
+--- GAME OVER ---
+======================================================================
+SCRABBLE GAME STATE - Turn 19
+======================================================================
+Status: GAME OVER
+
+Scores: P0=46.0  P1=19.0
+Consecutive Passes: 4
+Consecutive Zero Scores: 0
+Banned Actions: 0
+
+Bag: 65 tiles remaining
+P0 Rack (7 tiles): E H A P L J ?
+P1 Rack (7 tiles): P C I Y Y N I
+
+Board:
+   A B C D E F G H I J K L M N O
+ 0 . . . . . . . . . . . . . . . 
+ 1 . . . . . . . . . . . . . . . 
+ 2 . . . . . . . . . . . . . . . 
+ 3 . . . . . . . . . . . . . . . 
+ 4 . . . . . . . . . . . . . . . 
+ 5 U N I T . . . . . . . . . . . 
+ 6 . . D I E T . . . . . . . . . 
+ 7 . . . . R I T A R D . . . . . 
+ 8 . . G O A T . . E E K . . . . 
+ 9 . . . . . . . . . . . . . . . 
+10 . . . . . . . . . . . . . . . 
+11 . . . . . . . . . . . . . . . 
+12 . . . . . . . . . . . . . . . 
+13 . . . . . . . . . . . . . . . 
+14 . . . . . . . . . . . . . . . 
+
+Move Log Summary (53 entries)
+============================================================
+Turn 15, P1: FAILED - Action 62
+  Reason: Validation Failed
+Turn 15, P1: FAILED - Action 226
+  Reason: Validation Failed
+Turn 15, P1: SUCCESS - Action 450
+Turn 16, P0: SUCCESS - Action 451
+Turn 17, P1: FAILED - Action 254
+  Reason: Validation Failed
+Turn 17, P1: FAILED - Action 222
+  Reason: Validation Failed
+Turn 17, P1: FAILED - Action 258
+  Reason: Validation Failed
+Turn 17, P1: SUCCESS - Action 450
+Turn 18, P0: FAILED - Action 226
+  Reason: Validation Failed
+Turn 18, P0: SUCCESS - Action 451
+======================================================================
+Final Score: [46.0, 19.0]

@@ -903,14 +903,32 @@ class ScrabbleState(pyspiel.State):
                     if t=='W' and v==2: planes[29][r][c] = 1.0
                     if t=='W' and v==3: planes[30][r][c] = 1.0
 
-        # 31: Anchors
-        # (Re-calculate anchors quickly)
+        # 31: Frontier (Any square that touches an empty square is a candidate start)
+        # This fixes the bias against intersecting words that start on existing tiles.
         for r in range(15):
             for c in range(15):
+                # Check 4 neighbors
+                has_empty_neighbor = False
+                has_filled_neighbor = False
+                
+                for nr, nc in [(r+1, c), (r-1, c), (r, c+1), (r, c-1)]:
+                    if 0 <= nr < 15 and 0 <= nc < 15:
+                        if self.board[nr][nc] == '.':
+                            has_empty_neighbor = True
+                        else:
+                            has_filled_neighbor = True
+                
+                # Logic:
+                # 1. If square is Empty, it needs a Filled neighbor to be an anchor.
+                # 2. If square is Filled, it needs an Empty neighbor to expand into.
                 if self.board[r][c] == '.':
-                    if (r>0 and self.board[r-1][c]!='.') or (r<14 and self.board[r+1][c]!='.') or \
-                       (c>0 and self.board[r][c-1]!='.') or (c<14 and self.board[r][c+1]!='.'):
+                    if has_filled_neighbor:
                         planes[31][r][c] = 1.0
+                else:
+                    if has_empty_neighbor:
+                        planes[31][r][c] = 1.0
+                        
+        # Center is always a start if board is empty
         if self.board[7][7] == '.': planes[31][7][7] = 1.0
 
         # 32: Bag Percentage (Constant Plane)
