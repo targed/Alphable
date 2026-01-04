@@ -1,0 +1,114 @@
+Loading game...
+Loading dictionary from resources/NWL2023.txt...
+Dictionary loaded.
+Loading neural network from checkpoint-100...
+
+--- STARTING MATCH ---
+Player 0: Plays 'BORTS' at 5,7 Down
+   Rack P1: ['?', 'O', 'G', 'I', 'E', 'N', 'X']
+Player 1: Plays 'GOONIER' at 6,6 Across
+   Rack P0: ['Y', 'N', 'Z', 'O', 'E', 'R', 'I']
+Player 0: Plays 'NOSIER' at 9,5 Across
+   Rack P1: ['X', 'O', 'W', 'O', 'O', 'A', 'M']
+Player 1: Plays 'MOXA' at 8,2 Across
+   Rack P0: ['Y', 'Z', 'R', 'G', 'U', 'R', 'V']
+Player 0: Plays 'GORY' at 7,3 Down
+   Rack P1: ['W', 'O', 'O', 'P', 'T', 'D', 'S']
+Player 1: Plays 'DORPS' at 4,12 Down
+   Rack P0: ['Z', 'U', 'R', 'V', '?', 'E', 'G']
+Player 0: Plays 'GERUND' at 2,9 Down
+   Rack P1: ['W', 'O', 'T', 'U', 'E', 'N', 'A']
+Player 1: Plays 'WAGE' at 4,6 Down
+   Rack P0: ['Z', 'V', 'A', 'A', 'A', 'I', 'H']
+Player 0: Plays 'ADZ' at 4,11 Across
+   Rack P1: ['O', 'T', 'U', 'N', 'U', 'E', 'Y']
+Player 1: Plays 'YEZ' at 2,13 Down
+   Rack P0: ['V', 'A', 'A', 'I', 'H', 'T', 'I']
+Player 0: Plays 'GATER' at 7,3 Across
+   Rack P1: ['O', 'T', 'U', 'N', 'U', 'S', 'E']
+Player 1: Plays 'STAB' at 5,4 Across
+   Rack P0: ['V', 'A', 'I', 'H', 'I', 'R', 'S']
+Player 0: Plays 'VIRGAS' at 2,6 Across
+   Rack P1: ['O', 'U', 'N', 'U', 'E', 'L', 'I']
+Player 1: Plays 'LENO' at 3,14 Down
+   Rack P0: ['H', 'I', 'P', 'J', 'H', 'D', 'N']
+Player 0: Plays 'DIN' at 1,7 Down
+   Rack P1: ['U', 'U', 'I', 'E', 'D', 'T', 'D']
+Player 1: Plays 'DUTIES' at 0,4 Down
+   Rack P0: ['H', 'I', 'P', 'J', 'H', 'M', 'C']
+Player 0: Plays 'OHMIC' at 9,6 Down
+   Rack P1: ['U', 'D', 'N', 'T', 'W', 'B', 'L']
+Player 1: Plays 'UNBID' at 3,1 Across
+   Rack P0: ['P', 'J', 'H', 'I', 'A', 'F', 'E']
+Player 0: Plays 'FAH' at 1,10 Across
+   Rack P1: ['T', 'W', 'L', 'R', 'E', 'F', 'L']
+Player 1: Plays 'EF' at 11,7 Down
+   Rack P0: ['P', 'J', 'I', 'E', 'E', 'U', 'O']
+Player 0: Plays 'OSE' at 8,11 Across
+   Rack P1: ['T', 'W', 'L', 'R', 'L', 'C', 'A']
+Player 1: Plays 'CUR' at 1,3 Across
+   Rack P0: ['P', 'J', 'I', 'E', 'U', 'A', 'O']
+Player 0: Plays 'EMEU' at 11,5 Across
+   Rack P1: ['T', 'W', 'L', 'L', 'A', 'E', 'A']
+Player 1: Plays 'ALEC' at 13,3 Across
+   Rack P0: ['P', 'J', 'I', 'A', 'O', 'N', 'I']
+Player 0: Plays 'RAPINI' at 9,10 Down
+   Rack P1: ['T', 'W', 'L', 'A', 'V', 'I', 'E']
+Player 1: Plays 'AIL' at 4,2 Down
+   Rack P0: ['J', 'O', 'T', 'K', 'I', 'L', 'Q']
+Player 0: Plays 'JINK' at 13,8 Across
+   Rack P1: ['T', 'W', 'V', 'E']
+Player 1: Plays 'ET' at 6,1 Down
+   Rack P0: ['O', 'T', 'L', 'Q']
+Player 0: Plays 'TEL' at 6,0 Across
+   Rack P1: ['W', 'V']
+Player 1: Plays 'VAW' at 12,3 Down
+   Rack P0: ['O', 'L', 'Q']
+
+--- GAME OVER ---
+======================================================================
+SCRABBLE GAME STATE - Turn 30
+======================================================================
+Status: GAME OVER
+
+Scores: P0=157.0  P1=190.0
+Consecutive Passes: 0
+Consecutive Zero Scores: 0
+Banned Actions: 0
+
+Bag: 0 tiles remaining
+P0 Rack (3 tiles): O L Q
+P1 Rack (0 tiles): empty
+
+Board:
+   A B C D E F G H I J K L M N O
+ 0 . . . . D . . . . . . . . . . 
+ 1 . . . C U R . D . . F A H . . 
+ 2 . . . . T . V I R G A S . Y . 
+ 3 . U N B I D . N . E . . . E L 
+ 4 . . A . E . W . . R . A D Z E 
+ 5 . . I . S T A B . U . . O . N 
+ 6 T E L . . . G O O N I E R . O 
+ 7 . T . G A T E R . D . . P . . 
+ 8 . . M O X A . T . . . O S E . 
+ 9 . . . R . N O S I E R . . . . 
+10 . . . Y . . H . . . A . . . . 
+11 . . . . . E M E U . P . . . . 
+12 . . . V . . I F . . I . . . . 
+13 . . . A L E C . J I N K . . . 
+14 . . . W . . . . . . I . . . . 
+
+Move Log Summary (30 entries)
+============================================================
+Turn 20, P0: SUCCESS - Action 262
+Turn 21, P1: SUCCESS - Action 36
+Turn 22, P0: SUCCESS - Action 340
+Turn 23, P1: SUCCESS - Action 396
+Turn 24, P0: SUCCESS - Action 291
+Turn 25, P1: SUCCESS - Action 125
+Turn 26, P0: SUCCESS - Action 406
+Turn 27, P1: SUCCESS - Action 183
+Turn 28, P0: SUCCESS - Action 180
+Turn 29, P1: SUCCESS - Action 367
+======================================================================
+Final Score: [157.0, 190.0]

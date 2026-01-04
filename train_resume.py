@@ -3,6 +3,11 @@ import sys
 # 1. FORCE TensorFlow to use legacy Keras
 os.environ["TF_USE_LEGACY_KERAS"] = "1"
 
+os.environ["TF_FORCE_GPU_ALLOW_GROWTH"] = "true"
+
+# 3. Suppress Info Logs
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
+
 import pyspiel
 from open_spiel.python.algorithms.alpha_zero import alpha_zero
 from open_spiel.python.algorithms.alpha_zero import model as model_lib
@@ -19,7 +24,7 @@ def _resuming_build_model(*args, **kwargs):
     
     # 2. Force load the checkpoint
     # UPDATE THIS NUMBER to your latest checkpoint (e.g., 80)
-    CHECKPOINT_STEP = 100
+    CHECKPOINT_STEP = 20
     
     # Construct path (handles Colab vs Local)
     # If you are on Colab, ensure this path matches where you saved it!
@@ -46,36 +51,36 @@ def main(unused_argv):
     # Configuration
     config = alpha_zero.Config(
         game="scrabble",
-        # Ensure this matches your folder
-        path="data/scrabble_az_checkpoints", 
-        # path="/content/drive/My Drive/Alphable_Checkpoints", # Use this if on Colab!
-        
-        learning_rate=0.01,
+        path="data/scrabble_az_checkpoints",
+        learning_rate=0.001,
         weight_decay=1e-4,
-        train_batch_size=16,
-        replay_buffer_size=64,
-        replay_buffer_reuse=4,
-        
-        # WE WANT 1000 MORE STEPS
-        max_steps=1000, 
-        
+        train_batch_size=64, # Was 64
+        replay_buffer_size=10000, # Was 200
+        replay_buffer_reuse=4, # Was 3
+        max_steps=10000,
         checkpoint_freq=10,
-        actors=2,
-        evaluators=1,
-        evaluation_window=50,
-        eval_levels=1,
-        uct_c=2,
-        max_simulations=10,
-        policy_alpha=1.0,
-        policy_epsilon=0.25,
-        temperature=1.0,
-        temperature_drop=10,
         
+        # MCTS Config
+        uct_c=2,
+        max_simulations=10, # Was 50
+        
+        # Network Config
         nn_model="resnet",
-        nn_width=64,
-        nn_depth=2,
+        nn_width=64, # Was 128
+        nn_depth=3, # Was 6
         observation_shape=[35, 15, 15],
         output_size=452,
+        
+        # --- MISSING PARAMETERS ADDED BELOW ---
+        actors=8,               # Number of parallel processes playing games
+        evaluators=1,           # Number of parallel processes evaluating strength
+        evaluation_window=50,   # Sliding window size for evaluation stats
+        eval_levels=1,          # MCTS simulations for the reference opponent (Training vs Simple MCTS)
+        policy_alpha=1.0,       # Noise parameter (1.0 is standard for many moves)
+        policy_epsilon=0.25,    # Exploration noise fraction
+        temperature=1.0,        # Initial softmax temperature
+        temperature_drop=10,    # Step number to drop temperature to 0 (deterministic)
+        
         quiet=False
     )
     

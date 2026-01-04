@@ -1,0 +1,114 @@
+Loading game...
+Loading dictionary from resources/NWL2023.txt...
+Dictionary loaded.
+Loading neural network from checkpoint-100...
+
+--- STARTING MATCH ---
+Player 0: Plays 'DOLORS' at 3,7 Down
+   Rack P1: ['M', 'E', 'N', 'S', 'I', 'A', 'R']
+Player 1: Plays 'MORAINES' at 6,6 Across
+   Rack P0: ['R', 'W', 'H', 'L', 'B', '?', 'D']
+Player 0: Plays 'WHIRLED' at 4,10 Down
+   Rack P1: ['E', 'I', 'A', 'I', 'T', 'V', 'O']
+Player 1: Plays 'VIOLA' at 5,4 Across
+   Rack P0: ['B', 'R', 'G', 'C', 'T', 'A', 'E']
+Player 0: Plays 'ARB' at 7,6 Across
+   Rack P1: ['E', 'I', 'T', 'A', 'D', 'U', 'G']
+Player 1: Plays 'VAGUE' at 5,4 Down
+   Rack P0: ['R', 'G', 'C', 'T', 'E', 'E', 'Y']
+Player 0: Plays 'DECRY' at 10,10 Across
+   Rack P1: ['I', 'T', 'D', 'B', 'E', 'O', 'R']
+Player 1: Plays 'BIO' at 2,9 Down
+   Rack P0: ['G', 'T', 'E', 'W', 'I', 'E', 'O']
+Player 0: Plays 'RETIE' at 7,10 Across
+   Rack P1: ['T', 'D', 'E', 'R', 'R', 'C', 'U']
+Player 1: Plays 'CURRED' at 10,1 Across
+   Rack P0: ['G', 'W', 'O', 'P', '?', 'T', 'I']
+Player 0: Plays 'BIGOTS' at 2,9 Across
+   Rack P1: ['T', 'Z', 'E', 'F', 'N', 'L', 'P']
+Player 1: Plays 'TEL' at 2,13 Down
+   Rack P0: ['W', 'P', 'Y', 'U', 'H', 'I', 'U']
+Player 0: Plays 'HEP' at 9,5 Down
+   Rack P1: ['T', 'Z', 'F', 'N', 'P', 'F', 'J']
+Player 1: Plays 'PST' at 1,14 Down
+   Rack P0: ['W', 'Y', 'U', 'I', 'U', 'N', 'A']
+Player 0: Plays 'ANI' at 1,6 Down
+   Rack P1: ['Z', 'F', 'N', 'F', 'J', 'A', 'N']
+Player 1: Plays 'ETA' at 6,12 Down
+   Rack P0: ['W', 'Y', 'U', 'U', 'A', 'K', 'A']
+Player 0: Plays 'WAUK' at 0,5 Down
+   Rack P1: ['Z', 'F', 'N', 'F', 'J', 'N', 'L']
+Player 1: Plays 'IN' at 7,13 Down
+   Rack P0: ['Y', 'U', 'A', 'M', 'S', 'O', 'A']
+Player 0: Plays 'SMOG' at 7,1 Across
+   Rack P1: ['Z', 'F', 'F', 'J', 'N', 'L', 'T']
+Player 1: Plays 'FUTZ' at 9,2 Down
+   Rack P0: ['Y', 'U', 'A', 'A', 'X', 'I', 'I']
+Player 0: Plays 'ZAX' at 12,2 Across
+   Rack P1: ['F', 'J', 'N', 'L', 'I', 'T', 'E']
+Player 1: Plays 'EL' at 0,7 Down
+   Rack P0: ['Y', 'U', 'A', 'I', 'I', 'N', 'O']
+Player 0: Plays 'AGIN' at 1,11 Down
+   Rack P1: ['F', 'J', 'N', 'I', 'T', 'S', 'E']
+Player 1: Plays 'FITNESS' at 2,1 Down
+   Rack P0: ['Y', 'U', 'I', 'O', 'E', 'G', 'Q']
+Player 0: Plays 'ETUI' at 4,0 Across
+   Rack P1: ['J', 'D', 'E', 'N', 'T', 'O', 'E']
+Player 1: Plays 'END' at 11,6 Across
+   Rack P0: ['Y', 'O', 'G', 'Q', 'V']
+Player 0: Plays 'YO' at 6,3 Down
+   Rack P1: ['J', 'T', 'O', 'E']
+Player 1: Plays 'DEET' at 10,6 Down
+   Rack P0: ['O', 'G', 'Q', 'V']
+Player 0: Plays 'EGO' at 10,11 Down
+   Rack P1: ['J', 'O']
+Player 1: Plays 'JO' at 12,10 Down
+   Rack P0: ['Q', 'V']
+
+--- GAME OVER ---
+======================================================================
+SCRABBLE GAME STATE - Turn 30
+======================================================================
+Status: GAME OVER
+
+Scores: P0=246.0  P1=246.0
+Consecutive Passes: 0
+Consecutive Zero Scores: 0
+Banned Actions: 0
+
+Bag: 0 tiles remaining
+P0 Rack (2 tiles): Q V
+P1 Rack (0 tiles): empty
+
+Board:
+   A B C D E F G H I J K L M N O
+ 0 . . . . . W . E . . . . . . . 
+ 1 . . . . . A A L . . . A . . P 
+ 2 . F . . . U N . . B I G O T S 
+ 3 . I . . . K I D . I . I . E T 
+ 4 E T U I . . . O . O W N . L . 
+ 5 . N . . V I O L A . H . . . . 
+ 6 . E . Y A . M O R A I N E S . 
+ 7 . S M O G . A R B . R E T I E 
+ 8 . S . . U . . S . . L . A N . 
+ 9 . . F . E H . . . . E . . . . 
+10 . C U R R E D . . . D E C R Y 
+11 . . T . . P E N D . . G . . . 
+12 . . Z A X . E . . . J O . . . 
+13 . . . . . . T . . . O . . . . 
+14 . . . . . . . . . . . . . . . 
+
+Move Log Summary (30 entries)
+============================================================
+Turn 20, P0: SUCCESS - Action 364
+Turn 21, P1: SUCCESS - Action 15
+Turn 22, P0: SUCCESS - Action 53
+Turn 23, P1: SUCCESS - Action 63
+Turn 24, P0: SUCCESS - Action 120
+Turn 25, P1: SUCCESS - Action 342
+Turn 26, P0: SUCCESS - Action 187
+Turn 27, P1: SUCCESS - Action 313
+Turn 28, P0: SUCCESS - Action 323
+Turn 29, P1: SUCCESS - Action 381
+======================================================================
+Final Score: [246.0, 246.0]

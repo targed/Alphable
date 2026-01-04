@@ -46,13 +46,13 @@ def main(unused_argv):
         
         # Network Config
         nn_model="resnet",
-        nn_width=128,
-        nn_depth=6,
+        nn_width=64, # Was 128
+        nn_depth=3, # Was 6
         observation_shape=[35, 15, 15],
         output_size=452,
         
         # --- MISSING PARAMETERS ADDED BELOW ---
-        actors=2,               # Number of parallel processes playing games
+        actors=6,               # Number of parallel processes playing games
         evaluators=1,           # Number of parallel processes evaluating strength
         evaluation_window=50,   # Sliding window size for evaluation stats
         eval_levels=1,          # MCTS simulations for the reference opponent (Training vs Simple MCTS)

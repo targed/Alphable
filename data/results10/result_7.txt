@@ -1,0 +1,126 @@
+Loading game...
+Loading dictionary from resources/NWL2023.txt...
+Dictionary loaded.
+Loading neural network from checkpoint-100...
+
+--- STARTING MATCH ---
+Player 0: Plays 'AIRLINE' at 2,7 Down
+   Rack P1: ['P', 'K', 'L', 'B', 'I', 'R', 'A']
+Player 1: Plays 'ALIBI' at 6,3 Across
+   Rack P0: ['E', 'I', 'O', 'Y', 'I', 'I', 'S']
+Player 0: Plays 'SEI' at 8,8 Down
+   Rack P1: ['P', 'K', 'R', 'W', 'O', 'I', 'E']
+Player 1: Plays 'REIKI' at 10,4 Across
+   Rack P0: ['O', 'Y', 'I', 'I', 'E', 'V', 'F']
+Player 0: Plays 'FEY' at 0,6 Down
+   Rack P1: ['P', 'W', 'O', 'A', 'C', 'A', 'M']
+Player 1: Plays 'LAMA' at 5,7 Across
+   Rack P0: ['O', 'I', 'I', 'V', 'E', 'A', 'R']
+Player 0: Plays 'RAYA' at 2,4 Across
+   Rack P1: ['P', 'W', 'O', 'C', 'R', 'E', 'G']
+Player 1: Plays 'ESCROW' at 8,7 Across
+   Rack P0: ['O', 'I', 'I', 'V', 'E', 'D', 'H']
+Player 0: Plays 'OWED' at 7,12 Down
+   Rack P1: ['P', 'E', 'G', 'V', 'B', 'T', 'M']
+Player 1: Plays 'MEG' at 6,9 Across
+   Rack P0: ['I', 'I', 'V', 'H', 'O', 'E', 'U']
+Player 0: Plays 'HIVE' at 9,1 Across
+   Rack P1: ['P', 'V', 'B', 'T', 'D', 'N', 'I']
+Player 1: Plays 'BAIT' at 1,5 Down
+   Rack P0: ['I', 'O', 'U', 'F', 'T', 'R', 'D']
+Player 0: Plays 'DETOUR' at 9,5 Down
+   Rack P1: ['P', 'V', 'D', 'N', 'N', 'O', 'C']
+Player 1: Plays 'KNOP' at 10,7 Down
+   Rack P0: ['I', 'F', 'A', 'U', 'E', 'E', 'A']
+Player 0: Plays 'AA' at 5,10 Across
+   Rack P1: ['V', 'D', 'N', 'C', 'T', 'Q', 'P']
+Player 0: Plays 'AFIRE' at 14,2 Across
+   Rack P1: ['V', 'D', 'N', 'C', 'T', 'Q', 'P']
+Player 1: Plays 'PER' at 8,4 Down
+   Rack P0: ['U', 'E', 'A', 'T', 'A', 'G', 'N']
+Player 0: Plays 'ARGENT' at 7,10 Down
+   Rack P1: ['V', 'D', 'N', 'C', 'T', 'Q', 'E']
+Player 0: Plays 'AG' at 11,4 Down
+   Rack P1: ['V', 'D', 'N', 'C', 'T', 'Q', 'E']
+Player 0: Plays 'ENUF' at 11,3 Down
+   Rack P1: ['V', 'D', 'N', 'C', 'T', 'Q', 'E']
+Player 1: Plays 'IDENT' at 3,7 Across
+   Rack P0: ['A', 'T', 'A', 'G', '?', 'I', 'X']
+Player 0: Plays 'APERS' at 7,4 Down
+   Rack P1: ['V', 'C', 'Q', 'J', 'R', 'T', 'G']
+Player 0: Plays 'ALBA' at 4,6 Down
+   Rack P1: ['V', 'C', 'Q', 'J', 'R', 'T', 'G']
+Player 1: Plays 'CAR' at 5,3 Down
+   Rack P0: ['T', 'G', 'I', 'X', 'S', 'A', 'A']
+Player 0: Plays 'OXO' at 12,5 Across
+   Rack P1: ['V', 'Q', 'J', 'T', 'G', 'O', 'L']
+Player 1: Plays 'WOT' at 8,12 Across
+   Rack P0: ['T', 'G', 'I', 'S', 'A', 'A', 'E']
+Player 1: Plays 'TOLT' at 3,11 Across
+   Rack P0: ['T', 'G', 'I', 'S', 'A', 'A', 'E']
+Player 1: Plays 'FLOG' at 0,6 Across
+   Rack P0: ['T', 'G', 'I', 'S', 'A', 'A', 'E']
+Player 0: Plays 'GEISHA' at 5,1 Down
+   Rack P1: ['V', 'Q', 'J', 'T', 'D', 'O', 'U']
+Player 1: Plays 'JUDO' at 10,10 Across
+   Rack P0: ['T', 'A', 'S', 'N', 'T', 'Z', 'Y']
+Player 0: Plays 'ANTSY' at 0,12 Down
+   Rack P1: ['V', 'Q', 'T', 'D', 'S', 'L', 'W']
+Player 1: Plays 'DALS' at 0,11 Across
+   Rack P0: ['T', 'Z', 'E', 'O', 'N', 'O', 'H']
+Player 0: Plays 'SNOOZE' at 0,14 Down
+   Rack P1: ['V', 'Q', 'T', 'W', 'U']
+Player 1: Plays 'TUN' at 12,1 Across
+   Rack P0: ['T', 'H']
+Player 0: Plays 'HAT' at 10,0 Across
+   Rack P1: ['V', 'Q', 'W']
+
+--- GAME OVER ---
+======================================================================
+SCRABBLE GAME STATE - Turn 29
+======================================================================
+Status: GAME OVER
+
+Scores: P0=291.0  P1=176.0
+Consecutive Passes: 0
+Consecutive Zero Scores: 0
+Banned Actions: 0
+
+Bag: 0 tiles remaining
+P0 Rack (0 tiles): empty
+P1 Rack (3 tiles): V Q W
+
+Board:
+   A B C D E F G H I J K L M N O
+ 0 . . . . . . F L O G . D A L S 
+ 1 . . . . . B E . . . . . N . N 
+ 2 . . . . R A Y A . . . . T . O 
+ 3 . . . . . I . I D E N T S . O 
+ 4 . . . . . T A R . . . . Y . Z 
+ 5 . G . C . . L L A M A . . . E 
+ 6 . E . A L I B I . M E G . . . 
+ 7 . I . R . . A N . . . . O . . 
+ 8 . S . . P . . E S C R O W . . 
+ 9 . H I V E D . . E . . . E . . 
+10 H A T . R E I K I . J U D O . 
+11 . . . E . T . N . . . . . . . 
+12 . T U N . O X O . . . . . . . 
+13 . . . U . U . P . . . . . . . 
+14 . . A F I R E . . . . . . . . 
+
+Move Log Summary (35 entries)
+============================================================
+Turn 21, P1: FAILED - Action 264
+  Reason: Validation Failed
+Turn 21, P1: FAILED - Action 112
+  Reason: Validation Failed
+Turn 21, P1: SUCCESS - Action 12
+Turn 22, P0: SUCCESS - Action 153
+Turn 23, P1: SUCCESS - Action 320
+Turn 24, P0: SUCCESS - Action 25
+Turn 25, P1: SUCCESS - Action 22
+Turn 26, P0: SUCCESS - Action 29
+Turn 27, P1: SUCCESS - Action 362
+Turn 28, P0: SUCCESS - Action 300
+======================================================================
+Final Score: [291.0, 176.0]
