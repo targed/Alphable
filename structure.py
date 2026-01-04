@@ -68,8 +68,18 @@ class MoveGenerator:
         for i in range(start_idx, len(moves)):
             m = moves[i]
             m['row'], m['col'] = m['col'], m['row']
+            m['dir'] = 'Down'  # Fix direction label
 
-        return moves
+        # Remove duplicates (some moves can be generated via multiple GADDAG paths)
+        seen = set()
+        unique_moves = []
+        for m in moves:
+            sig = (m['row'], m['col'], m['dir'], m['word'])
+            if sig not in seen:
+                seen.add(sig)
+                unique_moves.append(m)
+        
+        return unique_moves
 
     def _compute_cross_checks(self, board, cross_checks):
         rows = 15
@@ -123,9 +133,11 @@ class MoveGenerator:
                 if board[r][c] != '.':
                     has_tile = True
                     continue
+                # Adjacent to existing tile (for overlapping/extending words)
                 if (r>0 and board[r-1][c]!='.') or (r<14 and board[r+1][c]!='.') or \
                    (c>0 and board[r][c-1]!='.') or (c<14 and board[r][c+1]!='.'):
                     anchors.append((r,c))
+                    
         if not has_tile:
             return [(7,7)] 
         return anchors

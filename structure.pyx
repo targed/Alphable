@@ -123,9 +123,18 @@ class MoveGenerator:
                 if board[r][c] != '.':
                     has_tile = True
                     continue
+                # Original: adjacent to existing tile (for overlapping/extending words)
                 if (r>0 and board[r-1][c]!='.') or (r<14 and board[r+1][c]!='.') or \
                    (c>0 and board[r][c-1]!='.') or (c<14 and board[r][c+1]!='.'):
                     anchors.append((r,c))
+                    continue
+                
+                # NEW: Also anchor if there's a tile ANYWHERE in this column
+                # This allows moves that go THROUGH existing tiles
+                has_tile_in_column = any(board[rr][c] != '.' for rr in range(15))
+                if has_tile_in_column:
+                    anchors.append((r,c))
+                    
         if not has_tile:
             return [(7,7)] 
         return anchors

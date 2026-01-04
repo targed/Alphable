@@ -1,0 +1,106 @@
+Loading game...
+Loading dictionary from resources/NWL2023.txt...
+Dictionary loaded.
+Loading neural network from checkpoint-100...
+
+--- STARTING MATCH ---
+Player 0: Plays 'MAHOES' at 2,7 Down
+   Rack P1: ['B', 'E', 'R', 'P', 'E', 'N', 'N']
+Player 1: Plays 'ERNE' at 7,6 Down
+   Rack P0: ['U', 'P', 'X', 'I', 'N', 'L', '?']
+Player 0: Plays 'ALEXIN' at 10,4 Across
+   Rack P1: ['B', 'P', 'N', 'Q', 'O', 'J', 'H']
+Player 1: Plays 'OPAH' at 3,5 Across
+   Rack P0: ['U', 'P', 'T', 'A', 'G', 'O', 'A']
+Player 0: Plays 'ATAP' at 8,4 Down
+   Rack P1: ['B', 'N', 'Q', 'J', 'T', 'E', 'A']
+Player 1: Plays 'TAJINE' at 7,8 Down
+   Rack P0: ['U', 'G', 'O', 'A', 'S', 'D', 'I']
+Player 0: Plays 'DOSAI' at 5,3 Down
+   Rack P1: ['B', 'Q', 'R', 'I', 'T', 'N', 'D']
+Player 1: Plays 'ROBIN' at 5,6 Across
+   Rack P0: ['U', 'G', 'R', 'T', 'O', 'T', 'N']
+Player 0: Plays 'LONG' at 10,5 Down
+   Rack P1: ['Q', 'T', 'D', 'L', 'E', 'E', 'A']
+Player 1: Plays 'ELATED' at 1,2 Down
+   Rack P0: ['U', 'R', 'T', 'T', 'O', 'E', 'C']
+Player 0: Plays 'ERGOT' at 13,3 Across
+   Rack P1: ['Q', 'E', 'L', 'U', 'F', 'I', 'Y']
+Player 1: Plays 'MULEY' at 2,7 Across
+   Rack P0: ['U', 'T', 'C', '?', 'S', 'S', 'K']
+Player 0: Plays 'CESTUSES' at 7,5 Across
+   Rack P1: ['Q', 'F', 'I', 'U', 'R', 'V', 'A']
+Player 1: Plays 'FERIA' at 6,11 Down
+   Rack P0: ['T', 'K', 'R', 'I', 'W', 'I', 'G']
+Player 0: Plays 'GRIOT' at 0,5 Down
+   Rack P1: ['Q', 'U', 'V', 'A', 'N', 'E', 'I']
+Player 1: Plays 'QUIN' at 12,0 Across
+   Rack P0: ['K', 'W', 'I', 'D', 'L', 'Z', 'I']
+Player 0: Plays 'IDOL' at 6,1 Across
+   Rack P1: ['V', 'A', 'E', 'V', 'O', 'Y', 'I']
+Player 1: Plays 'VOGIE' at 0,3 Across
+   Rack P0: ['K', 'W', 'D', 'Z', 'I', 'U', 'O']
+Player 0: Plays 'WIKI' at 5,1 Down
+   Rack P1: ['A', 'V', 'Y', 'F', 'W', 'D', 'O']
+Player 1: Plays 'UDON' at 7,9 Down
+   Rack P0: ['D', 'Z', 'U', 'O', 'E', 'M', 'E']
+Player 0: Plays 'MEOUED' at 4,9 Across
+   Rack P1: ['A', 'V', 'Y', 'F', 'W', 'B', 'A']
+Player 1: Plays 'FAVA' at 14,6 Across
+   Rack P0: ['Z', 'E', 'C', 'T', 'A', 'G', 'R']
+Player 0: Plays 'CERE' at 3,13 Down
+   Rack P1: ['Y', 'W', 'B']
+Player 1: Plays 'BY' at 13,9 Across
+   Rack P0: ['Z', 'T', 'A', 'G']
+Player 0: Plays 'TAG' at 6,14 Down
+   Rack P1: ['W']
+Player 1: Plays 'WE' at 1,1 Across
+   Rack P0: ['Z']
+
+--- GAME OVER ---
+======================================================================
+SCRABBLE GAME STATE - Turn 26
+======================================================================
+Status: GAME OVER
+
+Scores: P0=172.0  P1=251.0
+Consecutive Passes: 0
+Consecutive Zero Scores: 0
+Banned Actions: 0
+
+Bag: 0 tiles remaining
+P0 Rack (1 tiles): Z
+P1 Rack (0 tiles): empty
+
+Board:
+   A B C D E F G H I J K L M N O
+ 0 . . . V O G I E . . . . . . . 
+ 1 . W E . . R . . . . . . . . . 
+ 2 . . L . . I . M U L E Y . . . 
+ 3 . . A . . O P A H . . . . C . 
+ 4 . . T . . T . H . M E O U E D 
+ 5 . W E D . . R O B I N . . R . 
+ 6 . I D O L . . E . . . F . E T 
+ 7 . K . S . C E S T U S E S . A 
+ 8 . I . A A . R . A D . R . . G 
+ 9 . . . I T . N . J O . I . . . 
+10 . . . . A L E X I N . A . . . 
+11 . . . . P O . . N . . . . . . 
+12 Q U I N . N . . E . . . . . . 
+13 . . . E R G O T . B Y . . . . 
+14 . . . . . . F A V A . . . . . 
+
+Move Log Summary (26 entries)
+============================================================
+Turn 16, P0: SUCCESS - Action 182
+Turn 17, P1: SUCCESS - Action 6
+Turn 18, P0: SUCCESS - Action 153
+Turn 19, P1: SUCCESS - Action 229
+Turn 20, P0: SUCCESS - Action 138
+Turn 21, P1: SUCCESS - Action 432
+Turn 22, P0: SUCCESS - Action 117
+Turn 23, P1: SUCCESS - Action 408
+Turn 24, P0: SUCCESS - Action 209
+Turn 25, P1: SUCCESS - Action 32
+======================================================================
+Final Score: [172.0, 251.0]

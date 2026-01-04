@@ -1,0 +1,149 @@
+Loading game...
+Loading dictionary from resources/NWL2023.txt...
+Dictionary loaded.
+Loading neural network from checkpoint-100...
+
+--- STARTING MATCH ---
+Player 0: Plays 'FETTLE' at 4,7 Down
+   Rack P1: ['I', 'O', 'K', 'S', 'P', 'U', 'N']
+Player 1: Plays 'TUPIKS' at 7,7 Across
+   Rack P0: ['J', 'I', 'A', '?', 'N', 'H', 'T']
+Player 0: Plays 'HATPINS' at 4,9 Down
+   Rack P1: ['O', 'N', 'E', 'T', 'E', 'N', 'O']
+Player 1: Plays 'TENNE' at 9,3 Across
+   Rack P0: ['J', 'A', 'S', 'O', 'I', 'B', 'R']
+Player 0: Plays 'BOAR' at 2,8 Down
+   Rack P1: ['O', 'E', 'O', 'R', 'R', 'D', 'V']
+Player 1: Plays 'DRONER' at 6,5 Down
+   Rack P0: ['J', 'S', 'I', 'O', 'E', 'H', 'G']
+Player 0: Plays 'HOSE' at 10,2 Across
+   Rack P1: ['O', 'V', 'A', 'O', 'M', 'L', 'E']
+Player 1: Plays 'ATOM' at 8,3 Down
+   Rack P0: ['J', 'I', 'E', 'G', 'V', 'Y', 'A']
+Player 0: Plays 'GABY' at 2,6 Across
+   Rack P1: ['O', 'V', 'O', 'L', 'E', 'A', 'D']
+Player 1: Plays 'LOOFAH' at 4,4 Across
+   Rack P0: ['J', 'I', 'E', 'V', 'D', 'I', 'E']
+Player 0: Plays 'IVIED' at 10,8 Down
+   Rack P1: ['V', 'E', 'A', 'D', 'X', 'M', 'C']
+Player 1: Plays 'EXAM' at 11,6 Down
+   Rack P0: ['J', 'E', 'D', 'A', 'N', 'L', '?']
+Player 0: Plays 'ADDEND' at 6,0 Across
+   Rack P1: ['V', 'D', 'C', 'E', 'O', 'A', 'G']
+Player 1: Plays 'CADGE' at 3,0 Across
+   Rack P0: ['J', 'L', 'E', 'Q', 'E', 'E', 'A']
+Player 0: Plays 'ILEA' at 12,8 Across
+   Rack P1: ['V', 'O', 'Z', 'U', 'R', 'F', 'W']
+Player 1: Plays 'OUR' at 11,2 Down
+   Rack P0: ['J', 'Q', 'E', 'E', 'R', 'I', 'T']
+Player 0: Plays 'IRATE' at 13,4 Across
+   Rack P1: ['V', 'Z', 'F', 'W', 'O', 'I', 'O']
+Player 1: Plays 'FIZ' at 13,10 Across
+   Rack P0: ['J', 'Q', 'E', 'E', 'I', 'P', 'G']
+Player 0: Plays 'GIE' at 12,4 Down
+   Rack P1: ['V', 'W', 'O', 'O', 'N', 'N', 'I']
+Player 1: Plays 'ION' at 8,11 Across
+   Rack P0: ['J', 'Q', 'E', 'I', 'P', 'T', 'B']
+Player 0: Plays 'BAIT' at 5,0 Down
+   Rack P1: ['V', 'W', 'O', 'N', 'U', 'U', 'E']
+Player 1: Plays 'ENG' at 0,6 Down
+   Rack P0: ['J', 'Q', 'E', 'P', 'R', 'S', 'W']
+Player 0: Plays 'SPEWER' at 0,2 Across
+   Rack P1: ['V', 'W', 'O', 'U', 'U', 'S', 'Y']
+Player 1: Plays 'FETTLES' at 4,7 Down
+   Rack P0: ['J', 'Q', 'A', 'C', 'I', 'L']
+Player 0: Plays 'ALSO' at 5,12 Down
+   Rack P1: ['V', 'W', 'O', 'U', 'U', 'Y']
+Player 1: Plays 'UDO' at 5,2 Down
+   Rack P0: ['J', 'Q', 'C', 'I']
+Player 0: Plays 'QI' at 4,13 Down
+   Rack P1: ['V', 'W', 'U', 'Y']
+Player 1: Plays 'AW' at 3,1 Down
+   Rack P0: ['J', 'C']
+Player 0: Plays 'RAJ' at 5,8 Across
+   Rack P1: ['V', 'U', 'Y']
+Player 0: Plays 'JO' at 3,6 Down
+   Rack P1: ['V', 'U', 'Y']
+Player 0: Plays 'SOC' at 7,12 Down
+   Rack P1: ['V', 'U', 'Y']
+Player 1: Plays 'VAW' at 2,1 Down
+   Rack P0: ['J', 'C']
+Player 0: Plays 'CHOSE' at 10,1 Across
+   Rack P1: ['U', 'Y']
+Player 1: Plays 'UT' at 6,6 Across
+   Rack P0: ['J']
+Player 1: Plays 'GEY' at 3,3 Across
+   Rack P0: ['J']
+Player 1: Plays 'LUN' at 4,4 Down
+   Rack P0: ['J']
+Player 0: Plays 'JO' at 3,6 Down
+   Rack P1: ['U', 'Y']
+Player 0: Plays 'RAJ' at 5,8 Across
+   Rack P1: ['U', 'Y']
+Player 0: PASS
+Player 1: Plays 'YO' at 8,4 Across
+   Rack P0: ['J']
+Player 1: Plays 'SOU' at 7,12 Down
+   Rack P0: ['J']
+Player 1: Plays 'GEY' at 3,3 Across
+   Rack P0: ['J']
+Player 0: Plays 'JO' at 3,6 Down
+   Rack P1: ['U', 'Y']
+Player 0: Plays 'RAJ' at 5,8 Across
+   Rack P1: ['U', 'Y']
+Player 0: PASS
+
+--- GAME OVER ---
+======================================================================
+SCRABBLE GAME STATE - Turn 35
+======================================================================
+Status: GAME OVER
+Reason: Four consecutive passes
+
+Scores: P0=213.0  P1=195.0
+Consecutive Passes: 4
+Consecutive Zero Scores: 0
+Banned Actions: 0
+
+Bag: 0 tiles remaining
+P0 Rack (1 tiles): J
+P1 Rack (2 tiles): U Y
+
+Board:
+   A B C D E F G H I J K L M N O
+ 0 . . S P E W E R . . . . . . . 
+ 1 . . . . . . N . . . . . . . . 
+ 2 . V . . . . G A B Y . . . . . 
+ 3 C A D G E . . . O . . . . . . 
+ 4 . W . . L O O F A H . . . Q . 
+ 5 B . U . . . . E R A . . A I . 
+ 6 A D D E N D . T . T . . L . . 
+ 7 I . O . . R . T U P I K S . . 
+ 8 T . . A . O . L . I . I O N . 
+ 9 . . . T E N N E . N . . . . . 
+10 . C H O S E . S I S . . . . . 
+11 . . O M . R E . V . . . . . . 
+12 . . U . G . X . I L E A . . . 
+13 . . R . I R A T E . F I Z . . 
+14 . . . . E . M . D . . . . . . 
+
+Move Log Summary (49 entries)
+============================================================
+Turn 32, P0: FAILED - Action 166
+  Reason: Validation Failed
+Turn 32, P0: SUCCESS - Action 450
+Turn 33, P1: FAILED - Action 248
+  Reason: Validation Failed
+Turn 33, P1: FAILED - Action 235
+  Reason: Validation Failed
+Turn 33, P1: FAILED - Action 96
+  Reason: Validation Failed
+Turn 33, P1: SUCCESS - Action 450
+Turn 34, P0: FAILED - Action 103
+  Reason: Validation Failed
+Turn 34, P0: FAILED - Action 166
+  Reason: Validation Failed
+Turn 34, P0: SUCCESS - Action 450
+Turn 34: GAME_TERMINATED - Four consecutive passes
+======================================================================
+Final Score: [213.0, 195.0]

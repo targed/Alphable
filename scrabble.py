@@ -865,21 +865,29 @@ class ScrabbleState(pyspiel.State):
     def returns(self):
         # Apply end-game adjustments if game is over
         if self._game_over:
-            # EARLY TERMINATION PENALTY: Apply BEFORE final score adjustments
-            # If more than half the tiles remain in the bag, both players lose points
-            # This discourages exchange-heavy strategies that lead to stalemate
+            # Apply penalties/bonuses first
             if len(self.bag) > 50:
-                self.scores[0] -= 20.0
-                self.scores[1] -= 20.0
-                self.scores[0] = max(0.0, self.scores[0])
-                self.scores[1] = max(0.0, self.scores[1])
+                self.scores[0] = max(0.0, self.scores[0] - 20.0)
+                self.scores[1] = max(0.0, self.scores[1] - 20.0)
             
-            # Then apply standard end-game tile adjustments
             self.adjust_final_scores()
+            
+            # --- CRITICAL FIX: NORMALIZE TO [-1, 1] ---
+            # AlphaZero expects Win/Loss/Draw signals, not raw points.
+            # If we return raw points (e.g. 300), MCTS exploration breaks.
+            
+            s0 = self.scores[0]
+            s1 = self.scores[1]
+            
+            if s0 > s1:
+                return [1.0, -1.0]  # P0 Wins
+            elif s1 > s0:
+                return [-1.0, 1.0]  # P1 Wins
+            else:
+                return [0.0, 0.0]   # Draw
         
-        # Return actual scores
-        return list(self.scores)
-
+        # If game is not over, returns are 0
+        return [0.0, 0.0]
     def information_state_tensor(self, player):
         planes = np.zeros((35, 15, 15), dtype=np.float32)
         
