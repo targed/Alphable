@@ -24,7 +24,7 @@ def _resuming_build_model(*args, **kwargs):
     
     # 2. Force load the checkpoint
     # UPDATE THIS NUMBER to your latest checkpoint (e.g., 80)
-    CHECKPOINT_STEP = 20
+    CHECKPOINT_STEP = 530
     
     # Construct path (handles Colab vs Local)
     # If you are on Colab, ensure this path matches where you saved it!
@@ -52,17 +52,17 @@ def main(unused_argv):
     config = alpha_zero.Config(
         game="scrabble",
         path="data/scrabble_az_checkpoints",
-        learning_rate=0.001,
+        learning_rate=0.0001,
         weight_decay=1e-4,
         train_batch_size=64, # Was 64
         replay_buffer_size=10000, # Was 200
-        replay_buffer_reuse=4, # Was 3
+        replay_buffer_reuse=8, # Was 3
         max_steps=10000,
         checkpoint_freq=10,
         
         # MCTS Config
         uct_c=2,
-        max_simulations=10, # Was 50
+        max_simulations=50, # Was 50
         
         # Network Config
         nn_model="resnet",
@@ -76,7 +76,7 @@ def main(unused_argv):
         evaluators=1,           # Number of parallel processes evaluating strength
         evaluation_window=50,   # Sliding window size for evaluation stats
         eval_levels=1,          # MCTS simulations for the reference opponent (Training vs Simple MCTS)
-        policy_alpha=1.0,       # Noise parameter (1.0 is standard for many moves)
+        policy_alpha=0.5,       # Noise parameter (1.0 is standard for many moves)
         policy_epsilon=0.25,    # Exploration noise fraction
         temperature=1.0,        # Initial softmax temperature
         temperature_drop=10,    # Step number to drop temperature to 0 (deterministic)

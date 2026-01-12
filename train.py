@@ -36,13 +36,13 @@ def main(unused_argv):
         weight_decay=1e-4,
         train_batch_size=64, # Was 64
         replay_buffer_size=10000, # Was 200
-        replay_buffer_reuse=4, # Was 3
+        replay_buffer_reuse=8, # Was 3
         max_steps=10000,
         checkpoint_freq=10,
         
         # MCTS Config
         uct_c=2,
-        max_simulations=10, # Was 50
+        max_simulations=50, # Was 50
         
         # Network Config
         nn_model="resnet",
@@ -52,11 +52,11 @@ def main(unused_argv):
         output_size=452,
         
         # --- MISSING PARAMETERS ADDED BELOW ---
-        actors=6,               # Number of parallel processes playing games
+        actors=8,               # Number of parallel processes playing games
         evaluators=1,           # Number of parallel processes evaluating strength
         evaluation_window=50,   # Sliding window size for evaluation stats
         eval_levels=1,          # MCTS simulations for the reference opponent (Training vs Simple MCTS)
-        policy_alpha=1.0,       # Noise parameter (1.0 is standard for many moves)
+        policy_alpha=0.5,       # Noise parameter (1.0 is standard for many moves)
         policy_epsilon=0.25,    # Exploration noise fraction
         temperature=1.0,        # Initial softmax temperature
         temperature_drop=10,    # Step number to drop temperature to 0 (deterministic)
