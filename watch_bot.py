@@ -6,7 +6,8 @@ import pyspiel
 import numpy as np
 from open_spiel.python.algorithms.alpha_zero import alpha_zero
 from open_spiel.python.algorithms import mcts
-import scrabble 
+import scrabble
+from game_logger import GameLogger 
 
 # 2. Configuration 
 CONFIG = alpha_zero.Config(
@@ -56,6 +57,15 @@ def play_match():
     print("Loading game...")
     game = pyspiel.load_game("scrabble")
     
+    # Create output directory
+    import os
+    from datetime import datetime
+    output_dir = "./data/results"
+    os.makedirs(output_dir, exist_ok=True)
+    
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    json_file = f"{output_dir}/self_play_{timestamp}.json"
+    
     print("Loading neural network from checkpoint-100...")
     from open_spiel.python.algorithms.alpha_zero import model as model_lib
     
@@ -83,21 +93,87 @@ def play_match():
         max_simulations=50, 
         evaluator=az_eval
     )
+    
+    # Initialize game logger
+    game_logger = GameLogger("AlphaZero", "AlphaZero")
+    game_logger.set_metadata(
+        checkpoint=50,
+        match_type="Self-Play",
+        simulations=50
+    )
 
     state = game.new_initial_state()
     print("\n--- STARTING MATCH ---")
     
     prev_board_str = str(state) # Snapshot board
+    turn_index = 0
     
     while not state.is_terminal():
         player_id = state.current_player()
+        
+        # Capture state before move
+        rack_before = state.racks[player_id].copy() if hasattr(state, 'racks') else []
+        tiles_in_bag = len(state.bag) if hasattr(state, 'bag') else 0
         
         try:
             action = bot.step(state)
             action_desc = get_action_string(state, action)
             
+            # Parse action details
+            action_type = "PASS"
+            word = None
+            position = None
+            direction = None
+            
+            if action == 450:
+                action_type = "PASS"
+            elif action == 451:
+                action_type = "EXCHANGE"
+            else:
+                action_type = "PLAY"
+                try:
+                    state._legal_actions(state.current_player())
+                    if hasattr(state, "_current_move_map") and action in state._current_move_map:
+                        move = state._current_move_map[action]
+                        word = move['word']
+                        position = (move['row'], move['col'])
+                        direction = move['dir']
+                except:
+                    pass
+            
+            # Get score before applying
+            score_before = state.scores[player_id] if hasattr(state, 'scores') else 0
+            
             # Apply
             state.apply_action(action)
+            
+            # Get score after applying
+            score_after = state.scores[player_id] if hasattr(state, 'scores') else 0
+            score_delta = score_after - score_before
+            
+            # Capture state after move
+            rack_after = state.racks[player_id].copy() if hasattr(state, 'racks') else []
+            board_state = str(state)
+            consecutive_passes = state.consecutive_passes if hasattr(state, 'consecutive_passes') else 0
+            
+            # Log to JSON
+            game_logger.log_move(
+                turn_index=turn_index,
+                player=player_id,
+                action_type=action_type,
+                action_id=action,
+                word=word,
+                position=position,
+                direction=direction,
+                score=score_delta,
+                rack_before=rack_before,
+                rack_after=rack_after,
+                board_state=board_state,
+                tiles_in_bag=tiles_in_bag,
+                consecutive_passes=consecutive_passes
+            )
+            
+            turn_index += 1
             
             # Check if it was a real move or a failure-pass
             new_board_str = str(state)
@@ -123,6 +199,19 @@ def play_match():
     print("\n--- GAME OVER ---")
     print(state)
     print(f"Final Score: {state.scores}")
+    
+    # Finalize and save JSON log
+    game_logger.set_final_score([state.scores[0], state.scores[1]])
+    game_logger.save_json(json_file)
+    
+    # Print statistics
+    stats = game_logger.get_statistics()
+    print(f"\nGame Statistics:")
+    for p_id in [0, 1]:
+        print(f"  Player {p_id}:")
+        print(f"    Bingos: {stats['player_stats'][p_id]['bingos']}")
+        print(f"    Average Score/Move: {stats['player_stats'][p_id]['average_score_per_move']}")
+        print(f"    Highest Scoring Move: {stats['player_stats'][p_id]['highest_scoring_move']}")
 
 if __name__ == "__main__":
     play_match()

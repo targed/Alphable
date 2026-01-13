@@ -53,7 +53,7 @@ def main(unused_argv):
         game="scrabble",
         path="data/scrabble_az_checkpoints",
         learning_rate=0.0001,
-        weight_decay=1e-4,
+        weight_decay=1e-5,
         train_batch_size=64, # Was 64
         replay_buffer_size=10000, # Was 200
         replay_buffer_reuse=8, # Was 3
@@ -61,8 +61,8 @@ def main(unused_argv):
         checkpoint_freq=10,
         
         # MCTS Config
-        uct_c=2,
-        max_simulations=50, # Was 50
+        uct_c=3,
+        max_simulations=200, # Was 50
         
         # Network Config
         nn_model="resnet",

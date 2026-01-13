@@ -1,0 +1,124 @@
+.game-list {
+  background: white;
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+.game-list h2 {
+  margin-bottom: 2rem;
+  color: #667eea;
+}
+
+.game-category {
+  margin-bottom: 3rem;
+}
+
+.game-category h3 {
+  color: #764ba2;
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.games-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.game-card {
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  border-radius: 12px;
+  padding: 1.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.game-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.game-card-header {
+  margin-bottom: 1rem;
+}
+
+.game-timestamp {
+  font-size: 0.85rem;
+  color: #666;
+  font-family: monospace;
+}
+
+.game-card-players {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 1.5rem 0;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 8px;
+}
+
+.player {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+}
+
+.player-name {
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+
+.player-score {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #667eea;
+}
+
+.vs {
+  font-weight: bold;
+  color: #999;
+  padding: 0 1rem;
+}
+
+.game-card-meta {
+  display: flex;
+  gap: 1rem;
+  font-size: 0.9rem;
+  color: #666;
+  margin-top: 1rem;
+}
+
+.no-games {
+  background: white;
+  border-radius: 12px;
+  padding: 4rem 2rem;
+  text-align: center;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+.no-games h2 {
+  color: #667eea;
+  margin-bottom: 1rem;
+}
+
+.no-games p {
+  margin-bottom: 1.5rem;
+  color: #666;
+}
+
+.no-games pre {
+  background: #f5f7fa;
+  padding: 1rem;
+  border-radius: 6px;
+  margin: 0.5rem auto;
+  max-width: 400px;
+  font-family: monospace;
+  text-align: left;
+}

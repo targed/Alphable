@@ -1,0 +1,183 @@
+======================================================================
+AlphaZero (Checkpoint 1080) vs Greedy Bot
+======================================================================
+Game 4/5
+Player 0: Greedy
+Player 1: AlphaZero
+Timestamp: 20260113_010913
+======================================================================
+
+--- STARTING MATCH ---
+
+Player 0: Plays 'AMIE' at 4,7 Down
+   Rack P1: ['A', 'N', 'I', 'Y', 'O', '?', 'O']
+Player 1: Plays 'ONIONY' at 0,8 Down
+   Rack P0: ['O', 'E', 'Q', 'A', 'D', 'O', 'E']
+Player 0: Plays 'QADI' at 6,4 Across
+   Rack P1: ['A', 'I', 'G', 'E', 'W', 'J', 'S']
+Player 1: Plays 'AG' at 1,7 Down
+   Rack P0: ['O', 'E', 'O', 'E', 'U', 'V', 'G']
+Player 0: Plays 'VOGUE' at 1,9 Across
+   Rack P1: ['I', 'E', 'W', 'J', 'S', 'T', 'T']
+Player 0: Plays 'GEE' at 2,9 Down
+   Rack P1: ['I', 'E', 'W', 'J', 'S', 'T', 'T']
+Player 1: Plays 'ES' at 3,6 Down
+   Rack P0: ['O', 'O', 'U', 'V', 'N', 'I', 'B']
+Player 0: Plays 'BOVINE' at 3,1 Across
+   Rack P1: ['I', 'W', 'J', 'T', 'T', 'O', 'U']
+Player 1: Plays 'QUOIT' at 6,4 Down
+   Rack P0: ['O', 'U', 'R', 'P', 'R', 'L', 'N']
+Player 0: Plays 'LOUP' at 8,3 Down
+   Rack P1: ['W', 'J', 'T', 'D', 'G', 'Z', 'H']
+Player 1: Plays 'LOTH' at 8,3 Across
+   Rack P0: ['R', 'R', 'N', 'C', 'L', 'C', 'S']
+Player 0: Plays 'CLOTHS' at 8,2 Across
+   Rack P1: ['W', 'J', 'D', 'G', 'Z', 'I', 'E']
+Player 1: Plays 'DA' at 5,5 Down
+   Rack P0: ['R', 'R', 'N', 'L', 'C', 'W', 'O']
+Player 0: Plays 'CORN' at 10,2 Down
+   Rack P1: ['W', 'J', 'G', 'Z', 'I', 'E', 'E']
+Player 1: Plays 'EEW' at 10,5 Down
+   Rack P0: ['R', 'L', 'W', 'U', 'T', 'M', 'O']
+Player 0: Plays 'MOULT' at 14,0 Across
+   Rack P1: ['J', 'G', 'Z', 'I', 'O', 'E', 'P']
+Player 1: Plays 'PIEZO' at 0,4 Across
+   Rack P0: ['R', 'W', 'L', 'K', 'V', 'X', 'E']
+Player 0: Plays 'TWERK' at 14,4 Across
+   Rack P1: ['J', 'G', 'O', 'R', 'S', 'N', 'A']
+Player 0: Plays 'KEX' at 4,0 Across
+   Rack P1: ['J', 'G', 'O', 'R', 'S', 'N', 'A']
+Player 1: Plays 'SANER' at 4,6 Across
+   Rack P0: ['R', 'W', 'L', 'V', 'D', 'D', 'B']
+Player 0: Plays 'BOX' at 2,2 Down
+   Rack P1: ['J', 'G', 'O', 'S', 'N', 'A', 'R']
+Player 1: Plays 'ARM' at 12,0 Down
+   Rack P0: ['R', 'W', 'L', 'V', 'D', 'D', 'A']
+Player 0: Plays 'DRAWL' at 5,0 Down
+   Rack P1: ['J', 'G', 'O', 'S', 'N', 'F', 'I']
+Player 0: Plays 'WAE' at 7,5 Across
+   Rack P1: ['J', 'G', 'O', 'S', 'N', 'F', 'I']
+Player 0: Plays 'HARD' at 8,6 Down
+   Rack P1: ['J', 'G', 'O', 'S', 'N', 'F', 'I']
+Player 1: Plays 'EF' at 0,6 Down
+   Rack P0: ['W', 'L', 'V', 'D', 'A', 'T', 'Y']
+Player 0: Plays 'YA' at 5,2 Across
+   Rack P1: ['J', 'G', 'O', 'S', 'N', 'I', 'E']
+Player 1: Plays 'MOULTING' at 14,0 Across
+   Rack P0: ['W', 'L', 'V', 'D', 'T', '?', 'E']
+Player 0: Plays 'TWELVE' at 0,9 Across
+   Rack P1: ['J', 'O', 'S', 'E', 'T', 'I', 'N']
+Player 0: Plays 'WYLED' at 12,5 Across
+   Rack P1: ['J', 'O', 'S', 'E', 'T', 'I', 'N']
+Player 1: Plays 'OE' at 2,4 Across
+   Rack P0: ['W', 'V', 'T', 'A', 'H', 'F', 'I']
+Player 0: Plays 'FAH' at 9,1 Down
+   Rack P1: ['J', 'S', 'T', 'I', 'N', 'L', 'I']
+Player 1: Plays 'NILS' at 11,8 Across
+   Rack P0: ['W', 'V', 'T', 'I', 'T', 'A', 'A']
+Player 0: Plays 'WHOP' at 11,0 Across
+   Rack P1: ['J', 'T', 'I', 'R', 'E', 'U', 'N']
+Player 1: Plays 'USER' at 10,11 Down
+   Rack P0: ['V', 'T', 'I', 'T', 'A', 'A', 'E']
+Player 0: Plays 'TAV' at 10,7 Across
+   Rack P1: ['J', 'T', 'I', 'N', 'R', 'S']
+Player 0: Plays 'XI' at 4,2 Across
+   Rack P1: ['J', 'T', 'I', 'N', 'R', 'S']
+Player 0: Plays 'VAU' at 10,9 Across
+   Rack P1: ['J', 'T', 'I', 'N', 'R', 'S']
+Player 1: Plays 'SI' at 8,7 Down
+   Rack P0: ['T', 'I', 'T', 'A', 'E']
+Player 1: Plays 'NERTS' at 4,8 Across
+   Rack P0: ['T', 'I', 'T', 'A', 'E']
+Player 1: Plays 'USERS' at 10,11 Down
+   Rack P0: ['T', 'I', 'T', 'A', 'E']
+Player 0: Plays 'ATE' at 13,7 Across
+   Rack P1: ['J', 'T', 'I', 'N', 'R']
+Player 1: Plays 'GIRN' at 2,9 Across
+   Rack P0: ['I', 'T']
+Player 1: Plays 'AHI' at 10,1 Down
+   Rack P0: ['I', 'T']
+Player 1: Plays 'JIN' at 13,12 Across
+   Rack P0: ['I', 'T']
+Player 0: Plays 'XI' at 4,2 Across
+   Rack P1: ['J', 'T', 'I', 'N', 'R']
+Player 0: Plays 'AHI' at 10,1 Down
+   Rack P1: ['J', 'T', 'I', 'N', 'R']
+Player 0: Plays 'HI' at 11,1 Down
+   Rack P1: ['J', 'T', 'I', 'N', 'R']
+Player 1: Plays 'JIN' at 5,0 Down
+   Rack P0: ['I', 'T']
+Player 1: Plays 'JIN' at 8,8 Across
+   Rack P0: ['I', 'T']
+Player 1: Plays 'TERRIT' at 13,8 Across
+   Rack P0: ['I', 'T']
+Player 0: Plays 'XI' at 4,2 Across
+   Rack P1: ['J', 'T', 'I', 'N', 'R']
+Player 0: Plays 'AHI' at 10,1 Down
+   Rack P1: ['J', 'T', 'I', 'N', 'R']
+Player 0: Plays 'HI' at 11,1 Down
+   Rack P1: ['J', 'T', 'I', 'N', 'R']
+
+--- GAME OVER ---
+
+======================================================================
+SCRABBLE GAME STATE - Turn 37
+======================================================================
+Status: GAME OVER
+
+Scores: P0=285.0  P1=154.0
+Consecutive Passes: 4
+Consecutive Zero Scores: 0
+Banned Actions: 0
+
+Bag: 0 tiles remaining
+P0 Rack (2 tiles): I T
+P1 Rack (5 tiles): J T I N R
+
+Board:
+   A B C D E F G H I J K L M N O
+ 0 . . . . P I E Z O . . . . . . 
+ 1 . . . . . . F A N . . . . . . 
+ 2 . . B . O E . G I G . . . . . 
+ 3 . B O V I N E . O E . . . . . 
+ 4 K E X . . . S A N E R . . . . 
+ 5 . . Y A . D . M Y . . . . . . 
+ 6 . . . . Q A D I . . . . . . . 
+ 7 . . . . U . . E . . . . . . . 
+ 8 . . C L O T H S . . . . . . . 
+ 9 . F . O I . A . . . . . . . . 
+10 . A C U T E R . . V A U . . . 
+11 W H O P . E D . N I L S . . . 
+12 A . R . . W Y L E D . E . . . 
+13 R . N . . . . A T E . R . . . 
+14 M O U L T I N G . . . S . . . 
+
+Move Log Summary (58 entries)
+============================================================
+Turn 34, P0: FAILED - Action 333
+  Reason: Validation Failed
+Turn 34, P0: SUCCESS - Action 450
+Turn 35, P1: FAILED - Action 151
+  Reason: Validation Failed
+Turn 35, P1: FAILED - Action 256
+  Reason: Validation Failed
+Turn 35, P1: FAILED - Action 406
+  Reason: Validation Failed
+Turn 35, P1: SUCCESS - Action 450
+Turn 36, P0: FAILED - Action 124
+  Reason: Validation Failed
+Turn 36, P0: FAILED - Action 303
+  Reason: Validation Failed
+Turn 36, P0: FAILED - Action 333
+  Reason: Validation Failed
+Turn 36, P0: SUCCESS - Action 450
+======================================================================
+
+======================================================================
+FINAL RESULTS
+======================================================================
+Total Moves: 54
+AlphaZero Score: 154
+Greedy Bot Score: 285
+Winner: Greedy Bot (by 131 points)
+======================================================================

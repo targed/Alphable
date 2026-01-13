@@ -1,0 +1,155 @@
+======================================================================
+AlphaZero (Checkpoint 1080) vs Greedy Bot
+======================================================================
+Game 5/5
+Player 0: AlphaZero
+Player 1: Greedy
+Timestamp: 20260113_010913
+======================================================================
+
+--- STARTING MATCH ---
+
+Player 0: Plays 'RANTS' at 4,7 Down
+   Rack P1: ['V', 'N', 'C', 'O', 'A', 'I', '?']
+Player 1: Plays 'AVIONIC' at 7,8 Across
+   Rack P0: ['R', 'V', 'E', '?', 'R', 'E', 'A']
+Player 1: Plays 'CAVICORN' at 4,1 Across
+   Rack P0: ['R', 'V', 'E', '?', 'R', 'E', 'A']
+Player 0: Plays 'ERASERS' at 8,4 Across
+   Rack P1: ['N', 'D', 'U', 'I', 'T', 'I', 'N']
+Player 1: Plays 'NITID' at 7,0 Across
+   Rack P0: ['V', 'C', 'I', 'I', 'G', 'T', 'Y']
+Player 0: Plays 'CITY' at 9,1 Across
+   Rack P1: ['U', 'N', 'U', 'D', 'I', 'A', 'R']
+Player 1: Plays 'CAIRD' at 9,1 Down
+   Rack P0: ['V', 'I', 'G', 'S', 'O', 'F', 'K']
+Player 0: Plays 'FRIGS' at 7,9 Down
+   Rack P1: ['U', 'N', 'U', 'D', 'I', 'A', 'T']
+Player 1: Plays 'TAIN' at 11,0 Down
+   Rack P0: ['V', 'O', 'K', 'A', 'O', 'Y', 'I']
+Player 0: Plays 'OAKY' at 11,8 Down
+   Rack P1: ['U', 'U', 'D', 'L', 'G', 'O', 'H']
+Player 1: Plays 'DOUGH' at 13,9 Across
+   Rack P0: ['V', 'O', 'I', 'L', 'J', 'E', 'O']
+Player 1: Plays 'SOUGH' at 8,7 Down
+   Rack P0: ['V', 'O', 'I', 'L', 'J', 'E', 'O']
+Player 1: Plays 'UGH' at 10,7 Down
+   Rack P0: ['V', 'O', 'I', 'L', 'J', 'E', 'O']
+Player 0: Plays 'OVOLI' at 0,4 Down
+   Rack P1: ['U', 'D', 'L', 'O', 'B', 'R', 'T']
+Player 1: Plays 'BRULOT' at 0,0 Across
+   Rack P0: ['I', 'J', 'E', 'L', 'T', 'A', 'P']
+Player 0: Plays 'ALTERANTS' at 0,7 Down
+   Rack P1: ['D', 'O', 'X', 'H', 'N', 'E', 'A']
+Player 1: Plays 'HOAXED' at 1,8 Across
+   Rack P0: ['I', 'J', 'P', 'E', 'U', 'E', 'E']
+Player 1: Plays 'HAE' at 12,9 Down
+   Rack P0: ['I', 'J', 'P', 'E', 'U', 'E', 'E']
+Player 1: Plays 'AXE' at 6,0 Across
+   Rack P0: ['I', 'J', 'P', 'E', 'U', 'E', 'E']
+Player 0: Plays 'EAU' at 5,6 Across
+   Rack P1: ['D', 'O', 'H', 'N', 'U', 'P', 'Z']
+Player 1: Plays 'DOH' at 9,10 Down
+   Rack P0: ['I', 'J', 'P', 'E', 'E', 'E', 'Q']
+Player 1: Plays 'NUDZH' at 4,8 Across
+   Rack P0: ['I', 'J', 'P', 'E', 'E', 'E', 'Q']
+Player 1: Plays 'OH' at 10,10 Down
+   Rack P0: ['I', 'J', 'P', 'E', 'E', 'E', 'Q']
+Player 0: Plays 'ARIE' at 12,0 Across
+   Rack P1: ['D', 'N', 'U', 'P', 'Z', 'S', 'W']
+Player 1: Plays 'SPUD' at 12,10 Across
+   Rack P0: ['J', 'P', 'E', 'E', 'Q', 'M', 'E']
+Player 0: Plays 'EPEE' at 10,3 Down
+   Rack P1: ['N', 'Z', 'W', 'L', 'O', 'I', 'R']
+Player 1: Plays 'ZINC' at 1,1 Down
+   Rack P0: ['J', 'Q', 'M', 'E', 'W', 'G', 'O']
+Player 1: Plays 'GONZO' at 10,9 Across
+   Rack P0: ['J', 'Q', 'M', 'E', 'W', 'G', 'O']
+Player 0: Plays 'MEOW' at 2,2 Across
+   Rack P1: ['W', 'L', 'I', 'R', 'F', 'M', 'E']
+Player 1: Plays 'FILM' at 10,4 Down
+   Rack P0: ['J', 'Q', 'G', 'O', 'N', 'D', 'B']
+Player 1: Plays 'ELF' at 11,4 Down
+   Rack P0: ['J', 'Q', 'G', 'O', 'N', 'D', 'B']
+Player 0: Plays 'OD' at 10,5 Down
+   Rack P1: ['W', 'I', 'R', 'M', 'E', 'S', 'A']
+Player 1: Plays 'SEMIRAW' at 0,8 Across
+   Rack P0: ['J', 'Q', 'G', 'N', 'B', 'O', 'E']
+Player 1: Plays 'SEMIRAW' at 1,8 Across
+   Rack P0: ['J', 'Q', 'G', 'N', 'B', 'O', 'E']
+Player 1: Plays 'SEMIRAW' at 2,8 Across
+   Rack P0: ['J', 'Q', 'G', 'N', 'B', 'O', 'E']
+Player 0: Plays 'ANE' at 10,1 Across
+   Rack P1: ['W', 'I', 'R', 'M', 'E', 'S', 'A']
+Player 1: Plays 'SEMIRAW' at 0,8 Across
+   Rack P0: ['J', 'Q', 'G', 'B', 'O', 'E']
+Player 1: Plays 'SEMIRAW' at 1,8 Across
+   Rack P0: ['J', 'Q', 'G', 'B', 'O', 'E']
+Player 1: Plays 'SEMIRAW' at 2,8 Across
+   Rack P0: ['J', 'Q', 'G', 'B', 'O', 'E']
+Player 0: Plays 'ES' at 7,10 Down
+   Rack P1: ['W', 'I', 'R', 'M', 'E', 'S', 'A']
+Player 1: Plays 'SEMIRAW' at 1,11 Down
+   Rack P0: ['J', 'Q', 'G', 'B', 'O']
+
+--- GAME OVER ---
+
+======================================================================
+SCRABBLE GAME STATE - Turn 28
+======================================================================
+Status: GAME OVER
+
+Scores: P0=95.0  P1=299.0
+Consecutive Passes: 0
+Consecutive Zero Scores: 0
+Banned Actions: 0
+
+Bag: 0 tiles remaining
+P0 Rack (5 tiles): J Q G B O
+P1 Rack (0 tiles): empty
+
+Board:
+   A B C D E F G H I J K L M N O
+ 0 B R U L O T . A . . . . . . . 
+ 1 . . . . V . . L . . . S . . . 
+ 2 . . M E O W . T . . . E . . . 
+ 3 . . . . L . . E . . . M . . . 
+ 4 . C A V I C O R N . . I . . . 
+ 5 . . . . . . E A U . . R . . . 
+ 6 A X E . . . . N . . . A . . . 
+ 7 N I T I D . . T . F E W . . . 
+ 8 . . . . E R A S E R S . . . . 
+ 9 . C I T Y . . . . I . . . . . 
+10 . A N E . O . U . G O N Z O . 
+11 T I . P E D . G O S H . . . . 
+12 A R I E L . . H A . S P U D . 
+13 I D . E F . . . K . . . . . . 
+14 N . . . . . . . Y . . . . . . 
+
+Move Log Summary (43 entries)
+============================================================
+Turn 23, P1: FAILED - Action 46
+  Reason: Validation Failed
+Turn 23, P1: FAILED - Action 76
+  Reason: Validation Failed
+Turn 23, P1: SUCCESS - Action 450
+Turn 24, P0: SUCCESS - Action 302
+Turn 25, P1: FAILED - Action 16
+  Reason: Validation Failed
+Turn 25, P1: FAILED - Action 46
+  Reason: Validation Failed
+Turn 25, P1: FAILED - Action 76
+  Reason: Validation Failed
+Turn 25, P1: SUCCESS - Action 450
+Turn 26, P0: SUCCESS - Action 231
+Turn 27, P1: SUCCESS - Action 53
+======================================================================
+
+======================================================================
+FINAL RESULTS
+======================================================================
+Total Moves: 41
+AlphaZero Score: 95
+Greedy Bot Score: 299
+Winner: Greedy Bot (by 204 points)
+======================================================================
