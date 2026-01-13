@@ -1,0 +1,174 @@
+======================================================================
+Alphable (Checkpoint 1080) vs Greedy Bot
+======================================================================
+Game 5/5
+Player 0: Alphable
+Player 1: Greedy
+Timestamp: 20260113_130013
+======================================================================
+
+--- STARTING MATCH ---
+
+Player 0: Plays 'GOLDER' at 2,7 Down
+   Rack P1: ['R', 'N', 'Y', 'I', 'R', 'A', 'R']
+Player 1: Plays 'GRAINY' at 2,7 Across
+   Rack P0: ['M', 'S', 'A', 'U', 'T', 'T', 'J']
+Player 0: Plays 'ADJUST' at 5,6 Across
+   Rack P1: ['R', 'R', 'G', 'E', 'X', 'D', 'I']
+Player 1: Plays 'ADJUSTED' at 5,6 Across
+   Rack P0: ['M', 'T', 'O', 'U', 'I', 'F', 'T']
+Player 0: Plays 'OSTIUM' at 4,10 Down
+   Rack P1: ['R', 'R', 'G', 'X', 'I', 'N', 'Y']
+Player 1: Plays 'NIXY' at 8,11 Down
+   Rack P0: ['F', 'T', 'A', 'P', 'D', 'I', 'R']
+Player 0: Plays 'PANDIT' at 0,11 Down
+   Rack P1: ['R', 'R', 'G', 'O', 'Q', 'H', 'B']
+Player 1: Plays 'PROB' at 0,11 Across
+   Rack P0: ['F', 'T', 'R', 'A', 'A', 'U', 'A']
+Player 0: Plays 'TURFY' at 11,7 Across
+   Rack P1: ['R', 'G', 'Q', 'H', 'E', 'E', 'I']
+Player 1: Plays 'EITHER' at 9,7 Down
+   Rack P0: ['A', 'A', 'A', 'L', 'E', 'N', 'U']
+Player 0: Plays 'ALANE' at 9,3 Across
+   Rack P1: ['G', 'Q', 'I', 'L', 'E', 'O', 'K']
+Player 1: Plays 'YOKEL' at 2,12 Down
+   Rack P0: ['A', 'E', 'U', 'I', 'E', 'T', 'W']
+Player 0: Plays 'RE' at 7,7 Across
+   Rack P1: ['G', 'Q', 'I', 'E', 'C', '?', 'O']
+Player 1: Plays 'CHIGOE' at 13,8 Across
+   Rack P0: ['A', 'U', 'I', 'E', 'T', 'W', 'L']
+Player 1: Plays 'CONGEE' at 6,3 Across
+   Rack P0: ['A', 'U', 'I', 'E', 'T', 'W', 'L']
+Player 0: Plays 'MIAUL' at 9,10 Across
+   Rack P1: ['Q', 'I', 'N', 'T', 'D', 'E', 'O']
+Player 1: Plays 'LINTED' at 9,14 Down
+   Rack P0: ['I', 'E', 'T', 'W', 'E', 'Z', 'P']
+Player 0: Plays 'ET' at 1,8 Across
+   Rack P1: ['Q', 'O', 'R', 'C', 'E', 'V', 'E']
+Player 1: Plays 'EF' at 10,10 Down
+   Rack P0: ['I', 'W', 'E', 'Z', 'P', 'O', 'I']
+Player 1: Plays 'COOEE' at 3,5 Across
+   Rack P0: ['I', 'W', 'E', 'Z', 'P', 'O', 'I']
+Player 0: Plays 'OE' at 13,6 Down
+   Rack P1: ['Q', 'R', 'V', 'S', 'W', 'A', 'I']
+Player 1: Plays 'VAIRS' at 0,4 Across
+   Rack P0: ['I', 'W', 'Z', 'P', 'I', 'A', '?']
+Player 0: Plays 'AD' at 14,13 Across
+   Rack P1: ['Q', 'W', 'H', 'M', 'N', 'A', 'G']
+Player 1: Plays 'WHAM' at 8,2 Across
+   Rack P0: ['I', 'W', 'Z', 'P', 'I', '?', 'S']
+Player 0: Plays 'AW' at 7,2 Down
+   Rack P1: ['Q', 'N', 'G', 'F', 'S', 'V', 'T']
+Player 1: Plays 'STUN' at 8,8 Across
+   Rack P0: ['I', 'W', 'Z', 'P', 'I', 'S', 'O']
+Player 0: Plays 'OI' at 0,13 Down
+   Rack P1: ['Q', 'N', 'G', 'F', 'V', 'N', 'E']
+Player 1: Plays 'GEN' at 10,3 Across
+   Rack P0: ['W', 'Z', 'P', 'I', 'S', 'O', 'B']
+Player 0: Plays 'IS' at 6,13 Down
+   Rack P1: ['Q', 'F', 'V', 'N']
+Player 1: Plays 'FLINTED' at 8,14 Down
+   Rack P0: ['W', 'Z', 'P', 'O', 'B']
+Player 0: Plays 'AB' at 0,5 Down
+   Rack P1: ['Q', 'V', 'N']
+Player 1: Plays 'VALE' at 7,4 Down
+   Rack P0: ['W', 'Z', 'P', 'O']
+Player 1: Plays 'LEV' at 9,4 Down
+   Rack P0: ['W', 'Z', 'P', 'O']
+Player 1: Plays 'VOE' at 13,5 Across
+   Rack P0: ['W', 'Z', 'P', 'O']
+Player 0: Plays 'OPT' at 12,12 Across
+   Rack P1: ['Q', 'N']
+Player 1: Plays 'DON' at 3,11 Across
+   Rack P0: ['W', 'Z']
+Player 0: Plays 'EW' at 13,7 Across
+   Rack P1: ['Q']
+Player 0: Plays 'EW' at 10,4 Down
+   Rack P1: ['Q']
+Player 0: Plays 'WALE' at 7,4 Down
+   Rack P1: ['Q']
+Player 1: PASS
+Player 0: Plays 'EW' at 10,4 Down
+   Rack P1: ['Q']
+Player 0: Plays 'WALE' at 7,4 Down
+   Rack P1: ['Q']
+Player 0: Plays 'ZA' at 7,1 Across
+   Rack P1: ['Q']
+Player 1: PASS
+Player 0: Plays 'EW' at 10,4 Down
+   Rack P1: ['Q']
+Player 0: Plays 'WALE' at 7,4 Down
+   Rack P1: ['Q']
+Player 0: Plays 'EW' at 13,7 Across
+   Rack P1: ['Q']
+Player 1: PASS
+Player 0: Plays 'WALE' at 7,4 Down
+   Rack P1: ['Q']
+Player 0: Plays 'EW' at 10,4 Down
+   Rack P1: ['Q']
+Player 0: Plays 'WO' at 5,4 Down
+   Rack P1: ['Q']
+
+--- GAME OVER ---
+
+======================================================================
+SCRABBLE GAME STATE - Turn 39
+======================================================================
+Status: GAME OVER
+
+Scores: P0=139.0  P1=208.0
+Consecutive Passes: 0
+Consecutive Zero Scores: 0
+Banned Actions: 0
+
+Bag: 0 tiles remaining
+P0 Rack (0 tiles): empty
+P1 Rack (1 tiles): Q
+
+Board:
+   A B C D E F G H I J K L M N O
+ 0 . . . . V A I R S . . P R O B 
+ 1 . . . . . B . . E T . A . I . 
+ 2 . . . . . . . G R A I N Y . . 
+ 3 . . . . . C O O E E . D O N . 
+ 4 . . . . . . . L . . O I K . . 
+ 5 . . . . W . A D J U S T E D . 
+ 6 . . . C O N G E E . T . L I . 
+ 7 . Z A . . . . R E . I . . S . 
+ 8 . . W H A M . . S T U N . . F 
+ 9 . . . A L A N E . . M I A U L 
+10 . . . G E N . I . . . X . . I 
+11 . . . . . . . T U R F Y . . N 
+12 . . . . . . . H . . . . O P T 
+13 . . . . . V O E . . . . . . E 
+14 . . . . . . E R . . . . . A D 
+
+Move Log Summary (53 entries)
+============================================================
+Turn 34, P0: SUCCESS - Action 212
+Turn 35, P1: SUCCESS - Action 450
+Turn 36, P0: FAILED - Action 309
+  Reason: Validation Failed
+Turn 36, P0: FAILED - Action 219
+  Reason: Validation Failed
+Turn 36, P0: FAILED - Action 404
+  Reason: Validation Failed
+Turn 36, P0: SUCCESS - Action 450
+Turn 37, P1: SUCCESS - Action 450
+Turn 38, P0: FAILED - Action 219
+  Reason: Validation Failed
+Turn 38, P0: FAILED - Action 309
+  Reason: Validation Failed
+Turn 38, P0: SUCCESS - Action 159
+======================================================================
+
+======================================================================
+FINAL RESULTS
+======================================================================
+Total Moves: 51
+Alphable Score: 139
+Greedy Bot Score: 208
+Alphable Bingos: 0
+Greedy Bot Bingos: 1
+Winner: Greedy Bot (by 69 points)
+======================================================================

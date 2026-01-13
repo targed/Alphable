@@ -1,0 +1,152 @@
+======================================================================
+Alphable (Checkpoint 1080) vs Greedy Bot
+======================================================================
+Game 2/5
+Player 0: Greedy
+Player 1: Alphable
+Timestamp: 20260113_130013
+======================================================================
+
+--- STARTING MATCH ---
+
+Player 0: Plays 'ARGIL' at 3,7 Down
+   Rack P1: ['A', 'I', 'T', 'S', 'D', 'V', 'N']
+Player 1: Plays 'DAVITS' at 6,4 Across
+   Rack P0: ['T', 'Q', 'B', 'O', 'D', 'E', 'V']
+Player 0: Plays 'VOTED' at 5,1 Across
+   Rack P1: ['I', 'N', 'O', 'R', 'E', 'K', 'A']
+Player 1: Plays 'RANKER' at 4,7 Across
+   Rack P0: ['Q', 'B', 'E', 'O', 'I', 'T', 'O']
+Player 0: Plays 'BOOT' at 3,8 Across
+   Rack P1: ['I', 'O', 'T', 'U', 'M', 'A', 'C']
+Player 0: Plays 'TABOO' at 3,6 Across
+   Rack P1: ['I', 'O', 'T', 'U', 'M', 'A', 'C']
+Player 1: Plays 'OAT' at 5,9 Across
+   Rack P0: ['Q', 'E', 'I', 'F', 'X', 'T', 'T']
+Player 0: Plays 'TEXT' at 3,11 Across
+   Rack P1: ['I', 'U', 'M', 'C', 'F', 'R', 'C']
+Player 0: Plays 'FEDEX' at 4,4 Down
+   Rack P1: ['I', 'U', 'M', 'C', 'F', 'R', 'C']
+Player 1: Plays 'ART' at 4,8 Down
+   Rack P0: ['Q', 'I', 'T', 'T', 'D', 'N', 'E']
+Player 1: Plays 'CURR' at 1,12 Down
+   Rack P0: ['Q', 'I', 'T', 'T', 'D', 'N', 'E']
+Player 0: Plays 'NETTED' at 7,0 Across
+   Rack P1: ['I', 'M', 'F', 'C', 'A', 'W', 'E']
+Player 1: Plays 'TAWIE' at 7,3 Down
+   Rack P0: ['Q', 'I', 'L', 'E', 'I', 'E', 'G']
+Player 0: Plays 'LEG' at 8,2 Down
+   Rack P1: ['M', 'F', 'C', 'N', 'O', 'I', 'P']
+Player 0: Plays 'BALTI' at 3,8 Down
+   Rack P1: ['M', 'F', 'C', 'N', 'O', 'I', 'P']
+Player 1: Plays 'FICO' at 2,2 Down
+   Rack P0: ['Q', 'E', 'I', 'E', 'G', 'R', 'A']
+Player 0: Plays 'RAG' at 8,2 Down
+   Rack P1: ['M', 'N', 'O', 'P', 'W', 'S', 'N']
+Player 0: Plays 'DEARIE' at 7,5 Down
+   Rack P1: ['M', 'N', 'O', 'P', 'W', 'S', 'N']
+Player 0: Plays 'EAGER' at 8,5 Down
+   Rack P1: ['M', 'N', 'O', 'P', 'W', 'S', 'N']
+Player 1: Plays 'OM' at 9,2 Down
+   Rack P0: ['Q', 'E', 'I', 'E', 'G', 'R', 'A']
+Player 0: Plays 'RAGEE' at 9,1 Down
+   Rack P1: ['N', 'P', 'W', 'S', 'N', 'A', 'B']
+Player 1: Plays 'SPAWN' at 14,1 Across
+   Rack P0: ['Q', 'I', 'R', 'U', 'P', 'J', 'I']
+Player 0: Plays 'QUIP' at 0,1 Down
+   Rack P1: ['N', 'B', 'Y', 'E', 'M', 'O', 'O']
+Player 1: Plays 'MU' at 1,0 Across
+   Rack P0: ['R', 'J', 'I', 'E', 'L', 'E', 'I']
+Player 0: Plays 'DEER' at 7,5 Down
+   Rack P1: ['N', 'B', 'Y', 'E', 'O', 'O', 'H']
+Player 0: Plays 'ROM' at 8,2 Down
+   Rack P1: ['N', 'B', 'Y', 'E', 'O', 'O', 'H']
+Player 0: Plays 'EEL' at 8,5 Down
+   Rack P1: ['N', 'B', 'Y', 'E', 'O', 'O', 'H']
+Player 1: Plays 'EH' at 10,4 Down
+   Rack P0: ['R', 'J', 'I', 'E', 'L', 'E', 'I']
+Player 0: Plays 'ROM' at 8,2 Down
+   Rack P1: ['N', 'B', 'Y', 'O', 'O', 'Y', '?']
+Player 0: Plays 'DEE' at 7,5 Down
+   Rack P1: ['N', 'B', 'Y', 'O', 'O', 'Y', '?']
+Player 0: Plays 'LEER' at 13,3 Across
+   Rack P1: ['N', 'B', 'Y', 'O', 'O', 'Y', '?']
+Player 1: Plays 'SO' at 13,7 Down
+   Rack P0: ['J', 'I', 'I', 'D', 'U', 'H', 'E']
+Player 0: Plays 'EQUID' at 0,0 Across
+   Rack P1: ['N', 'B', 'Y', 'O', 'Y', 'E', 'S']
+Player 1: Plays 'SYCON' at 1,10 Across
+   Rack P0: ['J', 'I', 'H', 'N', '?', 'L', 'G']
+Player 0: Plays 'HALING' at 2,14 Down
+   Rack P1: ['B', 'Y', 'E', 'O', 'S', 'A', 'R']
+Player 0: Plays 'SHIN' at 6,10 Across
+   Rack P1: ['B', 'Y', 'E', 'O', 'S', 'A', 'R']
+Player 0: Plays 'SIG' at 0,5 Down
+   Rack P1: ['B', 'Y', 'E', 'O', 'S', 'A', 'R']
+Player 1: Plays 'ER' at 12,1 Across
+   Rack P0: ['J', 'H', 'N', 'L', 'Z', 'A', 'I']
+Player 0: Plays 'AXAL' at 8,3 Across
+   Rack P1: ['B', 'Y', 'E', 'O', 'S', 'A', 'N']
+Player 1: Plays 'SOYBEAN' at 9,5 Across
+   Rack P0: ['J', 'H', 'N', 'Z', 'I', 'U', 'I']
+
+--- GAME OVER ---
+
+======================================================================
+SCRABBLE GAME STATE - Turn 28
+======================================================================
+Status: GAME OVER
+
+Scores: P0=167.0  P1=239.0
+Consecutive Passes: 0
+Consecutive Zero Scores: 0
+Banned Actions: 0
+
+Bag: 0 tiles remaining
+P0 Rack (7 tiles): J H N Z I U I
+P1 Rack (0 tiles): empty
+
+Board:
+   A B C D E F G H I J K L M N O
+ 0 E Q U I D S . . . . . . . . . 
+ 1 M U . . . I . . . . S Y C O N 
+ 2 . I F . . G . . . . . . U . . 
+ 3 . P I . . . T A B O O . R . . 
+ 4 . . C . F . . R A N K E R . . 
+ 5 . V O T E D . G L O A T . . . 
+ 6 . . . . D A V I T S . . . . . 
+ 7 N E T T E D . L I . . . . . . 
+ 8 . . . A X A L . . . . . . . . 
+ 9 . R O W . S O Y B E A N . . . 
+10 . A M I E . . . . . . . . . . 
+11 . G . E H . . . . . . . . . . 
+12 . E R . . . . . . . . . . . . 
+13 . E . L E E R S . . . . . . . 
+14 . S P A W N . O . . . . . . . 
+
+Move Log Summary (42 entries)
+============================================================
+Turn 20, P0: SUCCESS - Action 396
+Turn 21, P1: SUCCESS - Action 405
+Turn 22, P0: SUCCESS - Action 0
+Turn 23, P1: SUCCESS - Action 50
+Turn 24, P0: FAILED - Action 89
+  Reason: Validation Failed
+Turn 24, P0: FAILED - Action 200
+  Reason: Validation Failed
+Turn 24, P0: SUCCESS - Action 11
+Turn 25, P1: SUCCESS - Action 362
+Turn 26, P0: SUCCESS - Action 246
+Turn 27, P1: SUCCESS - Action 280
+======================================================================
+
+======================================================================
+FINAL RESULTS
+======================================================================
+Total Moves: 40
+Alphable Score: 239
+Greedy Bot Score: 167
+Alphable Bingos: 1
+Greedy Bot Bingos: 0
+Winner: Alphable (by 72 points)
+======================================================================

@@ -873,7 +873,7 @@ class ScrabbleState(pyspiel.State):
             self.adjust_final_scores()
             
             # --- CRITICAL FIX: NORMALIZE TO [-1, 1] ---
-            # AlphaZero expects Win/Loss/Draw signals, not raw points.
+            # Alphable expects Win/Loss/Draw signals, not raw points.
             # If we return raw points (e.g. 300), MCTS exploration breaks.
             
             s0 = self.scores[0]
@@ -957,7 +957,7 @@ class ScrabbleState(pyspiel.State):
     
     def observation_tensor(self, player=None):
         """
-        Required by AlphaZero. 
+        Required by Alphable. 
         Maps the specific player's view (Information State) to the observation.
         """
         # If player is not specified, default to the current player

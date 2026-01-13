@@ -49,7 +49,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <h1>🎮 Alphable Replay Visualizer</h1>
+        <h1>Alphable Replay Visualizer</h1>
         <p>Watch AI Scrabble Games in Action</p>
       </header>
 

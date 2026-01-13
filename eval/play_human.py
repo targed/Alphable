@@ -9,8 +9,8 @@ import scrabble
 def play(checkpoint_num):
     game = pyspiel.load_game("scrabble")
     # Load your latest checkpoint
-    model = model_lib.Model.build_model("resnet", [35,15,15], 452, 64, 3, weight_decay=1e-4, learning_rate=0.001, path="data/scrabble_az_checkpoints")
-    checkpoint_path = f"./data/scrabble_az_checkpoints/checkpoint-{checkpoint_num}"
+    model = model_lib.Model.build_model("resnet", [35,15,15], 452, 64, 3, weight_decay=1e-4, learning_rate=0.001, path="../data/scrabble_az_checkpoints")
+    checkpoint_path = f"../data/scrabble_az_checkpoints/checkpoint-{checkpoint_num}"
     model.load_checkpoint(checkpoint_path)
     
     az_eval = az_evaluator.AlphaZeroEvaluator(game, model)
@@ -19,7 +19,7 @@ def play(checkpoint_num):
     
     state = game.new_initial_state()
     
-    print("\n--- HUMAN vs ALPHAZERO ---")
+    print("\n--- HUMAN vs Alphable ---")
     
     while not state.is_terminal():
         print(f"\n{state}")

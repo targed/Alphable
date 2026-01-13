@@ -1,0 +1,127 @@
+======================================================================
+Alphable (Checkpoint 1080) vs Greedy Bot
+======================================================================
+Game 1/5
+Player 0: Alphable
+Player 1: Greedy
+Timestamp: 20260113_130013
+======================================================================
+
+--- STARTING MATCH ---
+
+Player 0: Plays 'QUOIT' at 4,7 Down
+   Rack P1: ['N', 'I', 'A', 'U', 'I', 'I', 'V']
+Player 1: Plays 'QUAI' at 4,7 Across
+   Rack P0: ['A', 'F', 'W', 'U', 'H', 'G', 'F']
+Player 0: Plays 'AFT' at 8,5 Across
+   Rack P1: ['N', 'I', 'I', 'V', 'D', 'Y', 'G']
+Player 1: Plays 'TIDYING' at 8,7 Down
+   Rack P0: ['W', 'U', 'H', 'G', 'F', 'C', 'E']
+Player 1: Plays 'DIVING' at 8,4 Down
+   Rack P0: ['W', 'U', 'H', 'G', 'F', 'C', 'E']
+Player 0: Plays 'CHUFA' at 0,9 Down
+   Rack P1: ['Y', 'T', 'E', 'A', 'N', 'O', 'A']
+Player 1: Plays 'CATENA' at 0,9 Across
+   Rack P0: ['W', 'G', 'E', 'I', '?', 'B', 'S']
+Player 0: Plays 'BIGGIES' at 11,3 Across
+   Rack P1: ['Y', 'O', 'I', 'E', 'E', 'E', 'P']
+Player 1: Plays 'ESPY' at 11,8 Across
+   Rack P0: ['W', 'N', 'E', 'G', 'B', 'Z', 'W']
+Player 1: Plays 'YIPE' at 10,8 Across
+   Rack P0: ['W', 'N', 'E', 'G', 'B', 'Z', 'W']
+Player 0: Plays 'NEWB' at 11,11 Across
+   Rack P1: ['O', 'E', 'E', 'R', 'N', 'E', 'L']
+Player 1: Plays 'ENROBE' at 7,14 Down
+   Rack P0: ['G', 'Z', 'W', 'E', 'O', 'T', 'D']
+Player 0: Plays 'GODET' at 13,4 Across
+   Rack P1: ['E', 'L', 'T', 'R', 'N', 'X', 'A']
+Player 1: Plays 'EXTERNAL' at 0,12 Down
+   Rack P0: ['G', 'Z', 'W', 'S', 'L', 'E', 'R']
+Player 0: Plays 'REGLOWS' at 6,3 Across
+   Rack P1: ['N', 'I', 'H', 'A', 'R', 'A', 'Y']
+Player 1: Plays 'AAH' at 1,11 Down
+   Rack P0: ['Z', 'L', 'R', 'K', 'E', 'O', 'M']
+Player 1: Plays 'HIYA' at 9,3 Across
+   Rack P0: ['Z', 'L', 'R', 'K', 'E', 'O', 'M']
+Player 0: Plays 'ER' at 9,13 Across
+   Rack P1: ['N', 'I', 'R', 'A', 'E', 'A', 'T']
+Player 1: Plays 'ANTHRAX' at 1,6 Across
+   Rack P0: ['Z', 'L', 'R', 'K', 'O', 'M', 'S']
+Player 0: Plays 'ONS' at 0,7 Down
+   Rack P1: ['I', 'E', 'D', 'J', 'V', 'D', 'I']
+Player 1: Plays 'DIVIDES' at 2,1 Across
+   Rack P0: ['Z', 'L', 'R', 'K', 'M', 'O', 'L']
+Player 0: Plays 'OR' at 5,3 Down
+   Rack P1: ['J', 'O', 'U', 'P', 'I', 'M', 'O']
+Player 1: Plays 'MOPIER' at 9,9 Across
+   Rack P0: ['Z', 'L', 'R', 'K', 'M', 'L', 'R']
+Player 0: Plays 'EL' at 13,7 Down
+   Rack P1: ['J', 'U', 'O', 'O', 'A', 'C', '?']
+Player 1: Plays 'JUCOS' at 14,0 Across
+   Rack P0: ['Z', 'R', 'K', 'M', 'L', 'R', 'E']
+Player 0: Plays 'ILK' at 2,2 Down
+   Rack P1: ['O', 'A', 'T', 'S']
+Player 1: Plays 'YAS' at 9,5 Across
+   Rack P0: ['Z', 'R', 'M', 'R', 'E']
+Player 1: Plays 'OAST' at 12,9 Across
+   Rack P0: ['Z', 'R', 'M', 'R', 'E']
+
+--- GAME OVER ---
+
+======================================================================
+SCRABBLE GAME STATE - Turn 24
+======================================================================
+Status: GAME OVER
+
+Scores: P0=90.0  P1=268.0
+Consecutive Passes: 0
+Consecutive Zero Scores: 0
+Banned Actions: 0
+
+Bag: 0 tiles remaining
+P0 Rack (5 tiles): Z R M R E
+P1 Rack (0 tiles): empty
+
+Board:
+   A B C D E F G H I J K L M N O
+ 0 . . . . . . . O . C A T E N A 
+ 1 . . . . . . A N T H R A X . . 
+ 2 . D I V I D E S . U . . T . . 
+ 3 . . L . . . . . . F . . E . . 
+ 4 . . K . . . . Q U A I . R . . 
+ 5 . . . O . . . U . . . . N . . 
+ 6 . . . R E G L O W S . . A . . 
+ 7 . . . . . . . I . . . . L . E 
+ 8 . . . . D A F T . . . . . . N 
+ 9 . . . H I Y A . . M O P I E R 
+10 . . . . V . . . Y I P E . . O 
+11 . . . B I G G I E S . N E W B 
+12 . . . . N . . . . O A S T . E 
+13 . . . . G O D E T . . . . . . 
+14 J U C O S . . L . . . . . . . 
+
+Move Log Summary (28 entries)
+============================================================
+Turn 15, P1: SUCCESS - Action 42
+Turn 16, P0: SUCCESS - Action 15
+Turn 17, P1: SUCCESS - Action 62
+Turn 18, P0: SUCCESS - Action 157
+Turn 19, P1: SUCCESS - Action 288
+Turn 20, P0: SUCCESS - Action 405
+Turn 21, P1: SUCCESS - Action 420
+Turn 22, P0: SUCCESS - Action 65
+Turn 23, P1: FAILED - Action 280
+  Reason: Validation Failed
+Turn 23, P1: SUCCESS - Action 378
+======================================================================
+
+======================================================================
+FINAL RESULTS
+======================================================================
+Total Moves: 28
+Alphable Score: 90
+Greedy Bot Score: 268
+Alphable Bingos: 2
+Greedy Bot Bingos: 3
+Winner: Greedy Bot (by 178 points)
+======================================================================

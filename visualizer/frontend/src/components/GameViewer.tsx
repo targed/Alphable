@@ -4,6 +4,8 @@ import Board from './Board';
 import PlayerHUD from './PlayerHUD';
 import PlaybackControls from './PlaybackControls';
 import MoveLog from './MoveLog';
+import MoveValidity from './MoveValidity';
+import WordDefinition from './WordDefinition';
 import './GameViewer.css';
 
 interface GameViewerProps {
@@ -35,6 +37,8 @@ const GameViewer: React.FC<GameViewerProps> = ({ game, onBack }) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [playbackSpeed, setPlaybackSpeed] = useState(1);
   const [board, setBoard] = useState<BoardSquare[][]>([]);
+  const [currentWord, setCurrentWord] = useState<string | null>(null);
+  const [isMoveValid, setIsMoveValid] = useState(true);
 
   // Initialize board
   useEffect(() => {
@@ -70,19 +74,22 @@ const GameViewer: React.FC<GameViewerProps> = ({ game, onBack }) => {
     );
 
     // Parse the board state
+    // Format: " 0 . . . T I L E . . . . . . . "
     for (let i = 0; i < lines.length; i++) {
       const line = lines[i];
-      if (!line.includes('|')) continue;
-
-      const match = line.match(/^\s*(\d+)\s+\|(.*)\|/);
+      
+      // Match lines that start with a row number (0-14) followed by spaces and letters/dots
+      const match = line.match(/^\s*(\d+)\s+(.*)/);
       if (!match) continue;
 
       const rowNum = parseInt(match[1]);
+      if (rowNum < 0 || rowNum >= 15) continue;
+
       const rowData = match[2].trim().split(/\s+/);
 
       for (let col = 0; col < Math.min(15, rowData.length); col++) {
         const cell = rowData[col];
-        if (cell && cell !== '.' && rowNum >= 0 && rowNum < 15) {
+        if (cell && cell !== '.' && cell !== '') {
           newBoard[rowNum][col].letter = cell;
           newBoard[rowNum][col].premium = null;
         }
@@ -101,6 +108,20 @@ const GameViewer: React.FC<GameViewerProps> = ({ game, onBack }) => {
           newBoard[r][c].isNew = true;
         }
       }
+      
+      // Update current word for definition lookup
+      setCurrentWord(turn.word);
+      // A move with a word and score > 0 is valid
+      setIsMoveValid(turn.score > 0);
+    } else if (turn.action_type === 'PASS') {
+      setCurrentWord(null);
+      setIsMoveValid(true); // Pass is valid
+    } else if (turn.action_type === 'EXCHANGE') {
+      setCurrentWord(null);
+      setIsMoveValid(true); // Exchange is valid
+    } else {
+      setCurrentWord(null);
+      setIsMoveValid(false); // Invalid move
     }
 
     setBoard(newBoard);
@@ -159,6 +180,8 @@ const GameViewer: React.FC<GameViewerProps> = ({ game, onBack }) => {
             }
             lastScore={currentTurn?.player === 0 ? currentTurn.score : undefined}
           />
+          
+          <WordDefinition word={currentWord} />
         </div>
 
         <div className="center-panel">
@@ -205,6 +228,11 @@ const GameViewer: React.FC<GameViewerProps> = ({ game, onBack }) => {
               {currentTurn?.tiles_in_bag ?? 0} tiles
             </div>
           </div>
+          
+          <MoveValidity 
+            isValid={isMoveValid}
+            moveDescription={currentTurn?.action_type === 'PLAY' ? currentWord || undefined : currentTurn?.action_type}
+          />
         </div>
       </div>
 

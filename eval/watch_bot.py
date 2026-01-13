@@ -1,4 +1,6 @@
-import os
+import osimport sys
+# Add parent directory to path to import scrabble module
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 # 1. FORCE TensorFlow to use legacy Keras
 os.environ["TF_USE_LEGACY_KERAS"] = "1"
 
@@ -7,12 +9,13 @@ import numpy as np
 from open_spiel.python.algorithms.alpha_zero import alpha_zero
 from open_spiel.python.algorithms import mcts
 import scrabble
-from game_logger import GameLogger 
+from eval.game_logger import GameLogger 
 
-# 2. Configuration 
+# 2. Configuration
+base_path = os.path.join(os.path.dirname(__file__), "..")
 CONFIG = alpha_zero.Config(
     game="scrabble",
-    path="./data/scrabble_az_checkpoints",
+    path=os.path.join(base_path, "data", "scrabble_az_checkpoints"),
     nn_model="resnet",
     nn_width=64,
     nn_depth=2,
@@ -55,12 +58,20 @@ def get_action_string(state, action_id):
 
 def play_match():
     print("Loading game...")
-    game = pyspiel.load_game("scrabble")
+    
+    # Change to project root directory so scrabble.py can find resources/
+    project_root = os.path.join(os.path.dirname(__file__), "..")
+    original_dir = os.getcwd()
+    os.chdir(project_root)
+    
+    try:
+        game = pyspiel.load_game("scrabble")
+    finally:
+        os.chdir(original_dir)
     
     # Create output directory
-    import os
     from datetime import datetime
-    output_dir = "./data/results"
+    output_dir = os.path.join(os.path.dirname(__file__), "..", "data", "results")
     os.makedirs(output_dir, exist_ok=True)
     
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
@@ -70,6 +81,7 @@ def play_match():
     from open_spiel.python.algorithms.alpha_zero import model as model_lib
     
     # FIXED: Added weight_decay and learning_rate arguments
+    checkpoint_base = os.path.join(os.path.dirname(__file__), "..", "data", "scrabble_az_checkpoints")
     model = model_lib.Model.build_model(
         "resnet", 
         [35,15,15], 
@@ -78,10 +90,10 @@ def play_match():
         2, 
         weight_decay=1e-4,   # <--- Added
         learning_rate=0.01,  # <--- Added
-        path="./data/scrabble_az_checkpoints"
+        path=checkpoint_base
     )
     
-    model.load_checkpoint("./data/scrabble_az_checkpoints/checkpoint-50")
+    model.load_checkpoint(os.path.join(checkpoint_base, "checkpoint-50"))
     
     from open_spiel.python.algorithms.alpha_zero import evaluator as az_evaluator
     az_eval = az_evaluator.AlphaZeroEvaluator(game, model)
@@ -95,7 +107,7 @@ def play_match():
     )
     
     # Initialize game logger
-    game_logger = GameLogger("AlphaZero", "AlphaZero")
+    game_logger = GameLogger("Alphable", "Alphable")
     game_logger.set_metadata(
         checkpoint=50,
         match_type="Self-Play",

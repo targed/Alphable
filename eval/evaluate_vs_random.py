@@ -1,14 +1,17 @@
 import os
+import sys
+# Add parent directory to path to import scrabble module
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
+
 os.environ["TF_USE_LEGACY_KERAS"] = "1"
-os.environ["TF_FORCE_GPU_ALLOW_GROWTH"] = "true"
 import pyspiel
+import numpy as np
 from open_spiel.python.algorithms.alpha_zero import model as model_lib
 from open_spiel.python.algorithms.alpha_zero import evaluator as az_evaluator
 from open_spiel.python.algorithms import mcts
 import scrabble
 from datetime import datetime
-import sys
-from game_logger import GameLogger
+from eval.game_logger import GameLogger
 
 def get_action_string(state, action_id):
     """Convert action ID to readable string."""
@@ -25,90 +28,58 @@ def get_action_string(state, action_id):
         
     return f"Action {action_id}"
 
-class GreedyBot:
-    """A bot that always plays the highest scoring immediate move."""
-    def __init__(self, game):
-        self.game = game
-    
-    def step(self, state):
-        # 1. Get Legal Actions
-        legal_actions = state.legal_actions()
-        if not legal_actions: return 450 # Pass
-        if legal_actions == [450]: return 450
-        
-        # 2. Ensure the Move Map is populated
-        # We need this to look up the words and directions
-        if not hasattr(state, "_current_move_map") or not state._current_move_map:
-            state._legal_actions(state.current_player())
-            
-        best_action = legal_actions[0]
-        max_score = -1.0
-        
-        for action_id in legal_actions:
-            if action_id >= 450: continue # Skip Pass/Exchange if we have moves
-            
-            if action_id in state._current_move_map:
-                move = state._current_move_map[action_id]
-                try:
-                    # Cheat: Ask the engine to calculate score without applying move
-                    score, _ = state._score_move(
-                        move['row'], move['col'], move['word'], move['dir']
-                    )
-                    if score > max_score:
-                        max_score = score
-                        best_action = action_id
-                except:
-                    continue
-        
-        return best_action
-
 def evaluate(checkpoint_num):
-    print(f"Loading Checkpoint {checkpoint_num}...")
-    game = pyspiel.load_game("scrabble")
+    # Change to project root directory so scrabble.py can find resources/
+    project_root = os.path.join(os.path.dirname(__file__), "..")
+    original_dir = os.getcwd()
+    os.chdir(project_root)
     
-    # Create output directory
-    output_dir = "./data/vs_greedy"
+    try:
+        game = pyspiel.load_game("scrabble")
+    finally:
+        os.chdir(original_dir)
+    
+    # Create output directory (relative to project root)
+    output_dir = os.path.join(os.path.dirname(__file__), "..", "data", "vs_random")
     os.makedirs(output_dir, exist_ok=True)
     
-    # Load AZ Model
-    checkpoint_path = "./data/scrabble_az_checkpoints"
-    model = model_lib.Model.build_model(
-        "resnet", [35,15,15], 452, 64, 3,  # MUST MATCH YOUR TRAIN CONFIG (width=64, depth=3)
-        path=checkpoint_path,
-        learning_rate=0.001, weight_decay=1e-4
-    )
-    model.load_checkpoint(f"{checkpoint_path}/checkpoint-{checkpoint_num}")
-    
-    # Use higher simulations for evaluation (gives AZ time to think)
+    # Load YOUR bot
+    checkpoint_base = os.path.join(os.path.dirname(__file__), "..", "data", "scrabble_az_checkpoints")
+    model = model_lib.Model.build_model("resnet", [35,15,15], 452, 64, 2,
+                                        weight_decay=1e-4, learning_rate=0.001,
+                                        path=checkpoint_base)
+    checkpoint_path = os.path.join(checkpoint_base, f"checkpoint-{checkpoint_num}")
+    model.load_checkpoint(checkpoint_path)
     az_eval = az_evaluator.AlphaZeroEvaluator(game, model)
-    az_bot = mcts.MCTSBot(game, 2.0, 100, evaluator=az_eval) # 100 sims for evaluation
     
-    greedy_bot = GreedyBot(game)
+    # 10 simulations for speed
+    az_bot = mcts.MCTSBot(game, 2.0, 10, evaluator=az_eval)
+    
+    # Random Bot (0 simulations = pure rollouts, or just random picker)
+    # Using MCTS with low sims and Random Rollout Evaluator acts like a "Weak" bot
+    random_bot = mcts.MCTSBot(game, 2.0, 10, evaluator=mcts.RandomRolloutEvaluator())
 
     az_wins = 0
-    games_to_play = 5 # Play 5 games
+    games_to_play = 5
     
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     
-    print(f"--- AlphaZero vs Greedy Bot ---")
+    print(f"--- Evaluator: Alphable (Ckpt {checkpoint_num}) vs Random ---")
 
     for i in range(games_to_play):
         state = game.new_initial_state()
-        
-        # Alternate who goes first
-        if i % 2 == 0:
-            p0, p1 = az_bot, greedy_bot
-            p0_name, p1_name = "AlphaZero", "Greedy"
-        else:
-            p0, p1 = greedy_bot, az_bot
-            p0_name, p1_name = "Greedy", "AlphaZero"
+        # Swap who goes first
+        p0 = az_bot if i % 2 == 0 else random_bot
+        p1 = random_bot if i % 2 == 0 else az_bot
+        p0_name = "Alphable" if i % 2 == 0 else "Random"
+        p1_name = "Random" if i % 2 == 0 else "Alphable"
         
         # Initialize game logger for JSON output
         game_logger = GameLogger(p0_name, p1_name)
         game_logger.set_metadata(
             checkpoint=checkpoint_num,
-            opponent="Greedy Bot",
-            simulations=100
+            opponent="Random Bot",
+            simulations=10
         )
         
         # Open log file for this game
@@ -121,7 +92,7 @@ def evaluate(checkpoint_num):
             sys.stdout = f
             
             print("======================================================================")
-            print(f"AlphaZero (Checkpoint {checkpoint_num}) vs Greedy Bot")
+            print(f"Alphable (Checkpoint {checkpoint_num}) vs Random Bot")
             print("======================================================================")
             print(f"Game {i+1}/{games_to_play}")
             print(f"Player 0: {p0_name}")
@@ -136,14 +107,17 @@ def evaluate(checkpoint_num):
             
             while not state.is_terminal():
                 player_id = state.current_player()
-                bot = p0 if player_id == 0 else p1
                 
                 # Capture state before move
                 rack_before = state.racks[player_id].copy() if hasattr(state, 'racks') else []
                 tiles_in_bag = len(state.bag) if hasattr(state, 'bag') else 0
                 
                 try:
-                    action = bot.step(state)
+                    if player_id == 0:
+                        action = p0.step(state)
+                    else:
+                        action = p1.step(state)
+                    
                     action_desc = get_action_string(state, action)
                     
                     # Parse action details before applying
@@ -158,7 +132,6 @@ def evaluate(checkpoint_num):
                         action_type = "EXCHANGE"
                     else:
                         action_type = "PLAY"
-                        # Try to get move details from move map
                         try:
                             state._legal_actions(state.current_player())
                             if hasattr(state, "_current_move_map") and action in state._current_move_map:
@@ -221,13 +194,15 @@ def evaluate(checkpoint_num):
                     print(f"CRASH: {e}")
                     break
             
-            # Results
+            # Score
+            score = state.returns()
             raw_scores = state.scores
+            # If i%2==0, AZ is P0 (index 0). If score[0] > score[1], AZ won.
             az_idx = 0 if i % 2 == 0 else 1
-            greedy_idx = 1 - az_idx
+            rand_idx = 1 - az_idx
             
-            s_az = raw_scores[az_idx]
-            s_gr = raw_scores[greedy_idx]
+            az_score = raw_scores[az_idx]
+            rand_score = raw_scores[rand_idx]
             
             # Finalize JSON log
             game_logger.set_final_score([raw_scores[0], raw_scores[1]])
@@ -241,15 +216,15 @@ def evaluate(checkpoint_num):
             print(f"FINAL RESULTS")
             print(f"======================================================================")
             print(f"Total Moves: {move_count}")
-            print(f"AlphaZero Score: {s_az:.0f}")
-            print(f"Greedy Bot Score: {s_gr:.0f}")
-            print(f"AlphaZero Bingos: {stats['player_stats'][az_idx]['bingos']}")
-            print(f"Greedy Bot Bingos: {stats['player_stats'][greedy_idx]['bingos']}")
+            print(f"Alphable Score: {az_score:.0f}")
+            print(f"Random Bot Score: {rand_score:.0f}")
+            print(f"Alphable Bingos: {stats['player_stats'][az_idx]['bingos']}")
+            print(f"Random Bot Bingos: {stats['player_stats'][rand_idx]['bingos']}")
             
-            if s_az > s_gr:
-                print(f"Winner: AlphaZero (by {s_az - s_gr:.0f} points)")
-            elif s_gr > s_az:
-                print(f"Winner: Greedy Bot (by {s_gr - s_az:.0f} points)")
+            if az_score > rand_score:
+                print(f"Winner: Alphable (by {az_score - rand_score:.0f} points)")
+            elif rand_score > az_score:
+                print(f"Winner: Random Bot (by {rand_score - az_score:.0f} points)")
             else:
                 print("Result: TIE")
             print(f"======================================================================")
@@ -261,15 +236,15 @@ def evaluate(checkpoint_num):
         game_logger.save_json(json_file)
         
         # Print to console
-        if s_az > s_gr:
+        if az_score > rand_score:
             az_wins += 1
-            print(f"Game {i+1}: AZ Wins ({s_az:.0f} vs {s_gr:.0f}) - Saved to {log_file}")
+            print(f"Game {i+1}: AZ Wins ({az_score:.0f} vs {rand_score:.0f}) - Saved to {log_file}")
         else:
-            print(f"Game {i+1}: Greedy Wins ({s_gr:.0f} vs {s_az:.0f}) - Saved to {log_file}")
+            print(f"Game {i+1}: Random Wins ({rand_score:.0f} vs {az_score:.0f}) - Saved to {log_file}")
 
-    print(f"\nFinal Win Rate: {az_wins}/{games_to_play}")
+    print(f"\nWin Rate: {az_wins}/{games_to_play}")
     print(f"All game logs saved to {output_dir}/")
 
 if __name__ == "__main__":
-    # Update this to your latest checkpoint
+    # Change 1000 to whatever your latest checkpoint is
     evaluate(1080)

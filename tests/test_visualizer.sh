@@ -1,10 +1,10 @@
 #!/bin/bash
 
-echo "🧪 Testing Alphable Replay Visualizer Components"
+echo "Testing Alphable Replay Visualizer Components"
 echo ""
 
 # Test 1: Check if game_logger.py works
-echo "📝 Test 1: Testing game_logger.py..."
+echo "Test 1: Testing game_logger.py..."
 python3 -c "
 from game_logger import GameLogger
 import json
@@ -24,16 +24,16 @@ logger.save_json('data/results/test_game.json')
 # Verify
 with open('data/results/test_game.json', 'r') as f:
     data = json.load(f)
-    print(f'✅ Game logger works! Created game with {len(data[\"turns\"])} turn(s)')
-" && echo "" || echo "❌ Game logger test failed"
+    print(f'Game logger works! Created game with {len(data[\"turns\"])} turn(s)')
+" && echo "" || echo "Game logger test failed"
 
 # Test 2: Check if backend dependencies are available
-echo "🔧 Test 2: Checking backend dependencies..."
+echo "Test 2: Checking backend dependencies..."
 python3 -c "
 import flask
 import flask_cors
-print('✅ Flask and flask-cors are installed')
-" 2>/dev/null || echo "⚠️  Backend dependencies not installed. Run: cd visualizer/backend && pip install -r requirements.txt"
+print('Flask and flask-cors are installed')
+" 2>/dev/null || echo "Backend dependencies not installed. Run: cd visualizer/backend && pip install -r requirements.txt"
 echo ""
 
 # Test 3: Check if backend can start
@@ -43,30 +43,30 @@ python3 -c "
 import sys
 sys.path.insert(0, '.')
 from app import app
-print('✅ Backend app can be imported successfully')
-" 2>/dev/null || echo "⚠️  Backend import failed"
+print('Backend app can be imported successfully')
+" 2>/dev/null || echo "Backend import failed"
 cd ../..
 echo ""
 
 # Test 4: Check if frontend structure is valid
-echo "🎨 Test 4: Checking frontend structure..."
+echo "Test 4: Checking frontend structure..."
 if [ -f "visualizer/frontend/package.json" ] && \
    [ -f "visualizer/frontend/src/App.tsx" ] && \
    [ -f "visualizer/frontend/src/components/Board.tsx" ]; then
-    echo "✅ Frontend files are in place"
+    echo "Frontend files are in place"
 else
-    echo "❌ Some frontend files are missing"
+    echo "Some frontend files are missing"
 fi
 echo ""
 
 # Test 5: Count available JSON games
-echo "🎮 Test 5: Scanning for game files..."
+echo "Test 5: Scanning for game files..."
 GAME_COUNT=$(find data/vs_greedy data/vs_random data/results -name "*.json" 2>/dev/null | wc -l)
 echo "Found $GAME_COUNT game replay file(s)"
 if [ $GAME_COUNT -gt 0 ]; then
-    echo "✅ Game files available for viewing"
+    echo "Game files available for viewing"
 else
-    echo "⚠️  No game files found. Run evaluation scripts to generate games:"
+    echo "   No game files found. Run evaluation scripts to generate games:"
     echo "   python evaluate_vs_greedy.py"
     echo "   python evaluate_vs_random.py"
     echo "   python watch_bot.py"
@@ -75,7 +75,7 @@ echo ""
 
 # Summary
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-echo "📊 TEST SUMMARY"
+echo "   TEST SUMMARY"
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 echo ""
 echo "Ready to start visualizer?"

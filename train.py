@@ -64,7 +64,7 @@ def main(unused_argv):
         quiet=False
     )
     
-    print("Starting AlphaZero training for Scrabble...")
+    print("Starting Alphable training for Scrabble...")
     alpha_zero.alpha_zero(config)
 
 if __name__ == "__main__":
