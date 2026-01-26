@@ -1,0 +1,146 @@
+======================================================================
+Alphable (Checkpoint 1080) vs Random Bot
+======================================================================
+Game 2/5
+Player 0: Random
+Player 1: Alphable
+Timestamp: 20260122_220053
+======================================================================
+
+--- STARTING MATCH ---
+
+Player 0: Plays 'DANDIES' at 7,2 Across
+   Rack P1: ['Z', 'O', 'K', 'E', 'V', 'G', 'O']
+Player 1: Plays 'OGIVE' at 5,6 Down
+   Rack P0: ['A', 'L', 'O', 'R', 'B', 'N', 'F']
+Player 0: Plays 'ABOON' at 5,4 Across
+   Rack P1: ['Z', 'K', 'O', 'O', 'T', 'O', 'R']
+Player 1: Plays 'ZONKS' at 3,8 Down
+   Rack P0: ['L', 'R', 'F', 'T', 'A', 'C', 'U']
+Player 0: Plays 'TORULA' at 4,7 Across
+   Rack P1: ['O', 'T', 'O', 'R', 'I', 'L', 'A']
+Player 1: Plays 'NITRO' at 7,4 Down
+   Rack P0: ['F', 'C', 'M', 'S', 'B', 'T', 'R']
+Player 0: Plays 'ORBS' at 11,4 Across
+   Rack P1: ['O', 'L', 'A', 'D', 'E', 'N', 'L']
+Player 1: Plays 'ADO' at 8,0 Across
+   Rack P0: ['F', 'C', 'M', 'T', 'I', 'X', 'E']
+Player 0: Plays 'EMIC' at 3,11 Across
+   Rack P1: ['L', 'E', 'N', 'L', 'A', 'J', 'I']
+Player 1: Plays 'DENIAL' at 8,1 Down
+   Rack P0: ['F', 'T', 'X', 'E', 'F', 'D', 'I']
+Player 0: Plays 'ET' at 10,0 Down
+   Rack P1: ['L', 'J', 'O', 'O', 'A', 'H', 'E']
+Player 1: Plays 'AA' at 4,4 Down
+   Rack P0: ['F', 'X', 'F', 'D', 'I', 'P', 'Y']
+Player 0: Plays 'TIP' at 11,0 Across
+   Rack P1: ['L', 'J', 'O', 'O', 'H', 'E', 'A']
+Player 1: Plays 'LOOIE' at 0,13 Down
+   Rack P0: ['F', 'X', 'F', 'D', 'I', 'Y', 'Q']
+Player 0: Plays 'MAID' at 3,12 Down
+   Rack P1: ['J', 'H', 'A', 'U', 'E', 'L', 'M']
+Player 1: Plays 'AE' at 2,10 Across
+   Rack P0: ['F', 'X', 'F', 'Y', 'Q', '?', '?']
+Player 0: Plays 'STYED' at 9,3 Across
+   Rack P1: ['J', 'H', 'U', 'L', 'M', 'S', 'V']
+Player 1: Plays 'LUSH' at 7,10 Across
+   Rack P0: ['F', 'X', 'F', 'Q', 'E', 'R', 'T']
+Player 0: Plays 'REDO' at 5,2 Down
+   Rack P1: ['J', 'M', 'V', 'A', 'U', 'H', 'I']
+Player 1: Plays 'AA' at 7,0 Down
+   Rack P0: ['F', 'X', 'F', 'Q', 'T', 'E', 'W']
+Player 0: Plays 'LEFT' at 13,1 Across
+   Rack P1: ['J', 'M', 'V', 'U', 'H', 'I', 'N']
+Player 1: Plays 'HIM' at 12,7 Across
+   Rack P0: ['X', 'F', 'Q', 'W', 'C', 'T', 'I']
+Player 0: Plays 'FIXT' at 1,7 Across
+   Rack P1: ['J', 'V', 'U', 'N', 'I', 'R', 'W']
+Player 1: Plays 'JIN' at 2,3 Down
+   Rack P0: ['Q', 'W', 'C', 'A', 'Y', 'T', 'P']
+Player 0: Plays 'DASHY' at 9,7 Down
+   Rack P1: ['V', 'U', 'R', 'W', 'E', 'G', 'I']
+Player 1: Plays 'RE' at 6,1 Across
+   Rack P0: ['Q', 'W', 'C', 'T', 'P', 'G', 'E']
+Player 0: Plays 'EH' at 6,13 Down
+   Rack P1: ['V', 'U', 'W', 'E', 'G', 'I', 'N']
+Player 1: Plays 'NEG' at 0,6 Across
+   Rack P0: ['Q', 'W', 'C', 'T', 'P', 'G', 'O']
+Player 0: Plays 'GO' at 1,4 Down
+   Rack P1: ['V', 'U', 'W', 'I', 'E', 'U', 'S']
+Player 1: Plays 'SOU' at 1,12 Across
+   Rack P0: ['Q', 'W', 'C', 'T', 'P', 'R', 'N']
+Player 0: Plays 'JOT' at 2,3 Across
+   Rack P1: ['V', 'W', 'I', 'E', 'U']
+Player 1: Plays 'KUE' at 6,8 Across
+   Rack P0: ['Q', 'W', 'C', 'P', 'R', 'N']
+Player 0: Plays 'URN' at 7,11 Down
+   Rack P1: ['V', 'W', 'I']
+Player 1: Plays 'IN' at 9,10 Across
+   Rack P0: ['Q', 'W', 'C', 'P']
+Player 0: Plays 'CWM' at 10,9 Down
+   Rack P1: ['V', 'W']
+Player 1: Plays 'DEV' at 6,12 Across
+   Rack P0: ['Q', 'P']
+Player 0: Plays 'PI' at 3,2 Across
+   Rack P1: ['W']
+Player 1: Plays 'EW' at 13,2 Down
+   Rack P0: ['Q']
+
+--- GAME OVER ---
+
+======================================================================
+SCRABBLE GAME STATE - Turn 38
+======================================================================
+Status: GAME OVER
+
+Scores: P0=254.0  P1=226.0
+Consecutive Passes: 0
+Consecutive Zero Scores: 0
+Banned Actions: 0
+
+Bag: 0 tiles remaining
+P0 Rack (1 tiles): Q
+P1 Rack (0 tiles): empty
+
+Board:
+   A B C D E F G H I J K L M N O
+ 0 . . . . . . N E G . . . . L . 
+ 1 . . . . G . . F I X T . S O U 
+ 2 . . . J O T . . . . A E . O . 
+ 3 . . P I . . . . Z . . E M I C 
+ 4 . . . N A . . T O R U L A E . 
+ 5 . . R . A B O O N . . . I . . 
+ 6 . R E . . . G . K U E . D E V 
+ 7 A . D A N D I E S . L U S H . 
+ 8 A D O . I . V . . . . R . . . 
+ 9 . E . S T Y E D . . I N . . . 
+10 E N . . R . . A . C . . . . . 
+11 T I P . O R B S . W . . . . . 
+12 . A . . . . . H I M . . . . . 
+13 . L E F T . . Y . . . . . . . 
+14 . . W . . . . . . . . . . . . 
+
+Move Log Summary (38 entries)
+============================================================
+Turn 28, P0: SUCCESS - Action 39
+Turn 29, P1: SUCCESS - Action 54
+Turn 30, P0: SUCCESS - Action 66
+Turn 31, P1: SUCCESS - Action 196
+Turn 32, P0: SUCCESS - Action 233
+Turn 33, P1: SUCCESS - Action 290
+Turn 34, P0: SUCCESS - Action 319
+Turn 35, P1: SUCCESS - Action 204
+Turn 36, P0: SUCCESS - Action 94
+Turn 37, P1: SUCCESS - Action 395
+======================================================================
+
+======================================================================
+FINAL RESULTS
+======================================================================
+Total Moves: 38
+Alphable Score: 226
+Random Bot Score: 254
+Alphable Bingos: 0
+Random Bot Bingos: 1
+Winner: Random Bot (by 28 points)
+======================================================================

@@ -182,14 +182,22 @@ class MoveGenerator:
 
     def _go_right(self, board, row, col, rack, node, current_word, moves, cross_checks):
         if '$' in node:
-             if col > 14 or board[row][col] == '.':
-                 start_col = col - len(current_word)
-                 moves.append({
-                     'row': row, 
-                     'col': start_col, 
-                     'dir': 'Across', # Adjusted by caller
-                     'word': current_word
-                 })
+            if col > 14 or board[row][col] == '.':
+                start_col = col - len(current_word)
+                
+                # Check if there is a tile immediately to the left of the start.
+                # If so, this word merges with it, creating an invalid word 
+                # (or a word we didn't account for).
+                if start_col > 0 and board[row][start_col - 1] != '.':
+                    pass # Invalid: merges with prefix
+                else:
+                    # Valid: Record the move
+                    moves.append({
+                        'row': row, 
+                        'col': start_col, 
+                        'dir': 'Across',
+                        'word': current_word
+                    })
 
         if col <= 14:
             char_on_board = board[row][col]
