@@ -1,0 +1,62 @@
+Loading dictionary from resources/NWL2023.txt...
+Dictionary loaded.
+
+--- BRAIN SCAN (Turn 4) ---
+
+Current Board:
+======================================================================
+SCRABBLE GAME STATE - Turn 4
+======================================================================
+Status: IN PROGRESS - Player 0's turn
+
+Scores: P0=38.0  P1=23.0
+Consecutive Passes: 0
+Consecutive Zero Scores: 0
+Banned Actions: 0
+
+Bag: 72 tiles remaining
+P0 Rack (7 tiles): R O S N S L L
+P1 Rack (7 tiles): R F W N Q I U
+
+Board:
+   A B C D E F G H I J K L M N O
+ 0 . . . . . . . . . . . . . . . 
+ 1 . . . . . . . . . . . . . . . 
+ 2 . . . . . . . . . . . . . . . 
+ 3 . . . . . . . I . . . . . . . 
+ 4 . . . . . . . D O . . . . . . 
+ 5 . . . . . . . L I . . . . . . 
+ 6 . . . . . . . E . . . . . . . 
+ 7 . . E X I T E D . . . . . . . 
+ 8 . . . . . O F . . . . . . . . 
+ 9 . . . . . . . . . . . . . . . 
+10 . . . . . . . . . . . . . . . 
+11 . . . . . . . . . . . . . . . 
+12 . . . . . . . . . . . . . . . 
+13 . . . . . . . . . . . . . . . 
+14 . . . . . . . . . . . . . . . 
+
+Move Log Summary (4 entries)
+============================================================
+Turn 0, P0: SUCCESS - Action 105
+Turn 1, P1: SUCCESS - Action 137
+Turn 2, P0: SUCCESS - Action 214
+Turn 3, P1: SUCCESS - Action 250
+======================================================================
+
+Player 0 Rack: ['R', 'O', 'S', 'N', 'S', 'L', 'L']
+Scores: P0=38, P1=23
+
+Greedy Bot Choice: 'NOS' at (6,2) Across
+
+Network Top 10 Moves:
+  1. [0.6399] 'DOLORS' at (4,7) Across
+  2. [0.1081] 'ENROLLS' at (7,2) Down
+  3. [0.0574] 'OX' at (6,3) Down
+  4. [0.0333] 'IONS' at (7,4) Down
+  5. [0.0231] 'SORNS' at (2,9) Down
+  6. [0.0182] 'ROLLS' at (0,9) Down
+  7. [0.0156] 'RE' at (6,6) Across
+  8. [0.0149] 'ON' at (8,1) Across
+  9. [0.0095] 'OS' at (6,3) Across
+  10. [0.0091] 'ONS' at (3,9) Down
