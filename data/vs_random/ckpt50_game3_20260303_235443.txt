@@ -1,0 +1,148 @@
+======================================================================
+Alphable (Checkpoint 50) vs Random Bot
+======================================================================
+Game 3/5
+Player 0: Alphable
+Player 1: Random
+Timestamp: 20260303_235443
+======================================================================
+
+--- STARTING MATCH ---
+
+Player 0: Plays 'INWRAP' at 7,6 Across
+   Rack P1: ['E', 'C', 'M', 'T', 'O', 'G', 'S']
+Player 1: Plays 'COWS' at 5,8 Down
+   Rack P0: ['V', 'Y', 'H', 'T', 'T', 'B', 'F']
+Player 0: Plays 'THAT' at 5,10 Down
+   Rack P1: ['E', 'M', 'T', 'G', 'S', 'U', 'E']
+Player 1: Plays 'TEEMS' at 8,10 Across
+   Rack P0: ['V', 'Y', 'B', 'F', 'A', 'A', 'S']
+Player 0: Plays 'ABA' at 3,9 Down
+   Rack P1: ['T', 'G', 'U', 'L', 'U', 'I', 'A']
+Player 1: Plays 'GAULT' at 3,8 Across
+   Rack P0: ['V', 'Y', 'F', 'S', 'Y', 'D', 'E']
+Player 0: Plays 'SYNE' at 5,7 Down
+   Rack P1: ['U', 'I', 'A', 'D', 'A', 'O', 'M']
+Player 1: Plays 'AMADOU' at 7,13 Down
+   Rack P0: ['V', 'F', 'Y', 'D', 'V', 'L', 'N']
+Player 0: Plays 'FLU' at 12,11 Across
+   Rack P1: ['I', 'M', 'E', 'R', 'O', 'E', 'W']
+Player 1: Plays 'MORSE' at 5,14 Down
+   Rack P0: ['V', 'Y', 'D', 'V', 'N', 'E', 'O']
+Player 0: Plays 'ODYLE' at 0,11 Down
+   Rack P1: ['I', 'E', 'W', 'G', 'I', 'I', 'O']
+Player 1: EXCHANGE
+Player 0: Plays 'PEAN' at 7,11 Down
+   Rack P1: ['T', 'Q', 'L', 'X', 'T', '?', 'N']
+Player 1: Plays 'LANG' at 0,8 Down
+   Rack P0: ['V', 'V', 'E', 'P', 'D', 'E', 'E']
+Player 0: Plays 'YEP' at 2,11 Across
+   Rack P1: ['T', 'Q', 'X', 'T', 'L', 'I', 'E']
+Player 1: Plays 'LITES' at 8,4 Across
+   Rack P0: ['V', 'V', 'D', 'E', 'E', 'G', 'C']
+Player 0: Plays 'DEET' at 0,12 Down
+   Rack P1: ['Q', 'X', 'T', 'E', '?', 'D', 'I']
+Player 1: Plays 'COWSHED' at 5,8 Down
+   Rack P0: ['V', 'V', 'E', 'G', 'C', 'N', 'F']
+Player 0: Plays 'DEF' at 11,8 Across
+   Rack P1: ['Q', 'X', 'T', 'I', 'E', 'I', 'R']
+Player 1: Plays 'EXERT' at 9,9 Down
+   Rack P0: ['V', 'V', 'G', 'C', 'N', 'I', 'U']
+Player 0: Plays 'LIN' at 12,12 Down
+   Rack P1: ['Q', 'I', 'I', 'S', 'J', 'O', 'R']
+Player 1: Plays 'JOIST' at 13,5 Across
+   Rack P0: ['V', 'V', 'G', 'C', 'U', 'O', 'Z']
+Player 0: Plays 'UNCO' at 14,11 Across
+   Rack P1: ['Q', 'I', 'R', 'B', 'I', 'R', 'O']
+Player 1: Plays 'BOO' at 12,6 Down
+   Rack P0: ['V', 'V', 'G', 'Z', 'G', 'T', 'H']
+Player 0: EXCHANGE
+Player 1: Plays 'AI' at 0,9 Down
+   Rack P0: ['Z', 'A', 'I', 'K', 'G', 'I', 'W']
+Player 0: Plays 'KAYO' at 6,5 Across
+   Rack P1: ['Q', 'R', 'I', 'R', 'N', 'T', 'V']
+Player 1: Plays 'IN' at 13,7 Down
+   Rack P0: ['Z', 'I', 'G', 'I', 'W', 'E', 'O']
+Player 0: Plays 'GIEN' at 2,5 Across
+   Rack P1: ['Q', 'R', 'I', 'R', 'T', 'V', 'R']
+Player 1: Plays 'RIM' at 5,12 Across
+   Rack P0: ['Z', 'I', 'W', 'O', 'A', 'E', 'G']
+Player 0: Plays 'AGO' at 9,2 Across
+   Rack P1: ['Q', 'R', 'T', 'V', 'R', 'H', 'I']
+Player 1: Plays 'HIT' at 10,0 Across
+   Rack P0: ['Z', 'I', 'W', 'E', 'U', 'N', 'V']
+Player 0: Plays 'INK' at 4,5 Down
+   Rack P1: ['Q', 'R', 'V', 'R']
+Player 1: Plays 'LOR' at 8,4 Down
+   Rack P0: ['Z', 'W', 'E', 'U', 'V']
+Player 0: Plays 'FLUE' at 12,11 Across
+   Rack P1: ['Q', 'V', 'R']
+Player 1: Plays 'OR' at 11,13 Across
+   Rack P0: ['Z', 'W', 'U', 'V']
+Player 0: Plays 'UN' at 5,4 Across
+   Rack P1: ['Q', 'V']
+Player 1: Plays 'QI' at 4,13 Down
+   Rack P0: ['Z', 'W', 'V']
+Player 0: Plays 'WIZ' at 1,6 Down
+   Rack P1: ['V']
+Player 1: Plays 'VAT' at 8,2 Down
+   Rack P0: ['V']
+
+--- GAME OVER ---
+
+======================================================================
+SCRABBLE GAME STATE - Turn 40
+======================================================================
+Status: GAME OVER
+
+Scores: P0=207.0  P1=238.0
+Consecutive Passes: 0
+Consecutive Zero Scores: 0
+Banned Actions: 0
+
+Bag: 0 tiles remaining
+P0 Rack (1 tiles): V
+P1 Rack (0 tiles): empty
+
+Board:
+   A B C D E F G H I J K L M N O
+ 0 . . . . . . . . L A . O D . . 
+ 1 . . . . . . W . A I . D E . . 
+ 2 . . . . . G I E N . . Y E P . 
+ 3 . . . . . . Z . G A U L T . . 
+ 4 . . . . . I . . . B . E . Q . 
+ 5 . . . . U N . S C A T . R I M 
+ 6 . . . . . K A Y O . H . . . O 
+ 7 . . . . . . I N W R A P . A R 
+ 8 . . V . L I T E S . T E E M S 
+ 9 . . A G O . . . H E . A . A E 
+10 H I T . R . . . E X . N . D . 
+11 . . . . . . . . D E F . . O R 
+12 . . . . . . B . . R . F L U E 
+13 . . . . . J O I S T . . I . . 
+14 . . . . . . O N . . . U N C O 
+
+Move Log Summary (40 entries)
+============================================================
+Turn 30, P0: SUCCESS - Action 274
+Turn 31, P1: SUCCESS - Action 300
+Turn 32, P0: SUCCESS - Action 131
+Turn 33, P1: SUCCESS - Action 249
+Turn 34, P0: SUCCESS - Action 382
+Turn 35, P1: SUCCESS - Action 356
+Turn 36, P0: SUCCESS - Action 158
+Turn 37, P1: SUCCESS - Action 147
+Turn 38, P0: SUCCESS - Action 43
+Turn 39, P1: SUCCESS - Action 245
+======================================================================
+
+======================================================================
+FINAL RESULTS
+======================================================================
+Total Moves: 40
+Alphable Score: 207
+Random Bot Score: 238
+Alphable Bingos: 0
+Random Bot Bingos: 1
+Winner: Random Bot (by 31 points)
+======================================================================

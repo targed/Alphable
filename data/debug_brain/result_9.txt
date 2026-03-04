@@ -9,14 +9,14 @@ SCRABBLE GAME STATE - Turn 4
 ======================================================================
 Status: IN PROGRESS - Player 0's turn
 
-Scores: P0=31.0  P1=25.0
+Scores: P0=35.0  P1=23.0
 Consecutive Passes: 0
 Consecutive Zero Scores: 0
 Banned Actions: 0
 
 Bag: 67 tiles remaining
-P0 Rack (7 tiles): N R T I E Q Y
-P1 Rack (7 tiles): R I Z W N I I
+P0 Rack (7 tiles): Z R E S B E T
+P1 Rack (7 tiles): O Q O P T L A
 
 Board:
    A B C D E F G H I J K L M N O
@@ -25,38 +25,38 @@ Board:
  2 . . . . . . . . . . . . . . . 
  3 . . . . . . . . . . . . . . . 
  4 . . . . . . . . . . . . . . . 
- 5 . . . . . . . F . . . . . . . 
- 6 . . . . . . . A . . . . . . . 
- 7 . . . . . . . U . . . . . . . 
- 8 . . . . . . . N . . . . . . . 
- 9 . . . . . . B A D . . . . . . 
-10 . . . . . . E . I . . . . . . 
-11 . . . A L M A . C . . . . . . 
-12 . . . . . . T . E . . . . . . 
-13 . . . . . . E . R . . . . . . 
-14 . . . . . . R . . . . . . . . 
+ 5 . . . . . . . . . . . . . . . 
+ 6 . P . . . . . B . . . . . . . 
+ 7 . E . . . . . O . . . . . . . 
+ 8 . N . . . F A U V E . . . . . 
+ 9 R E T U N E . S . . . . . . . 
+10 . S . . . . . Y . . . . . . . 
+11 . . . . . . . . . . . . . . . 
+12 . . . . . . . . . . . . . . . 
+13 . . . . . . . . . . . . . . . 
+14 . . . . . . . . . . . . . . . 
 
 Move Log Summary (4 entries)
 ============================================================
-Turn 0, P0: SUCCESS - Action 165
-Turn 1, P1: SUCCESS - Action 283
-Turn 2, P0: SUCCESS - Action 287
-Turn 3, P1: SUCCESS - Action 336
+Turn 0, P0: SUCCESS - Action 195
+Turn 1, P1: SUCCESS - Action 250
+Turn 2, P0: SUCCESS - Action 270
+Turn 3, P1: SUCCESS - Action 183
 ======================================================================
 
-Player 0 Rack: ['N', 'R', 'T', 'I', 'E', 'Q', 'Y']
-Scores: P0=31, P1=25
+Player 0 Rack: ['Z', 'R', 'E', 'S', 'B', 'E', 'T']
+Scores: P0=35, P1=23
 
-Greedy Bot Choice: 'INERTLY' at (6,4) Down
+Greedy Bot Choice: 'ZESTER' at (6,10) Down
 
 Network Top 10 Moves:
-  1. [0.3948] 'REI' at (12,2) Across
-  2. [0.1314] 'ENTRY' at (14,3) Across
-  3. [0.1156] 'TERRINE' at (13,5) Across
-  4. [0.1078] 'YETI' at (12,1) Across
-  5. [0.0259] 'RAINY' at (10,3) Down
-  6. [0.0255] 'NITERY' at (14,2) Across
-  7. [0.0210] 'TRIBADE' at (9,3) Across
-  8. [0.0176] 'ERNE' at (13,3) Across
-  9. [0.0164] 'EN' at (6,8) Down
-  10. [0.0162] 'REIN' at (3,6) Down
+  1. [0.5131] 'BO' at (7,6) Across
+  2. [0.0717] 'BEEZERS' at (6,9) Down
+  3. [0.0638] 'BA' at (7,6) Down
+  4. [0.0334] 'STYE' at (10,5) Across
+  5. [0.0310] 'BE' at (5,8) Down
+  6. [0.0287] 'REBBES' at (6,4) Across
+  7. [0.0286] 'BERET' at (5,2) Down
+  8. [0.0265] 'NE' at (8,1) Across
+  9. [0.0228] 'BREEZES' at (3,9) Down
+  10. [0.0209] 'EBBETS' at (6,5) Across

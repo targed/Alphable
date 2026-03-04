@@ -24,7 +24,7 @@ def _resuming_build_model(*args, **kwargs):
     
     # 2. Force load the checkpoint
     # UPDATE THIS NUMBER to your latest checkpoint (e.g., 80)
-    CHECKPOINT_STEP = 530
+    CHECKPOINT_STEP = 3600
     
     # Construct path (handles Colab vs Local)
     # If you are on Colab, ensure this path matches where you saved it!

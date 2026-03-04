@@ -1,0 +1,1298 @@
+{
+  "game_id": "3119a7b2-c8ec-48b2-bb5b-b87bf5d72e23",
+  "timestamp": "2026-03-03T23:56:04.026222",
+  "player_names": [
+    "Alphable",
+    "Random"
+  ],
+  "final_score": [
+    207.0,
+    238.0
+  ],
+  "metadata": {
+    "checkpoint": 50,
+    "opponent": "Random Bot",
+    "simulations": 10
+  },
+  "turns": [
+    {
+      "turn_index": 0,
+      "player": 0,
+      "action_type": "PLAY",
+      "action_id": 222,
+      "score": 28.0,
+      "tiles_in_bag": 86,
+      "consecutive_passes": 0,
+      "word": "INWRAP",
+      "position": [
+        7,
+        6
+      ],
+      "direction": "Across",
+      "rack_before": [
+        "V",
+        "R",
+        "A",
+        "N",
+        "P",
+        "W",
+        "I"
+      ],
+      "rack_after": [
+        "V",
+        "Y",
+        "H",
+        "T",
+        "T",
+        "B",
+        "F"
+      ],
+      "board_state": "======================================================================\nSCRABBLE GAME STATE - Turn 1\n======================================================================\nStatus: IN PROGRESS - Player 1's turn\n\nScores: P0=28.0  P1=0.0\nConsecutive Passes: 0\nConsecutive Zero Scores: 0\nBanned Actions: 0\n\nBag: 80 tiles remaining\nP0 Rack (7 tiles): V Y H T T B F\nP1 Rack (7 tiles): E C M T O G S\n\nBoard:\n   A B C D E F G H I J K L M N O\n 0 . . . . . . . . . . . . . . . \n 1 . . . . . . . . . . . . . . . \n 2 . . . . . . . . . . . . . . . \n 3 . . . . . . . . . . . . . . . \n 4 . . . . . . . . . . . . . . . \n 5 . . . . . . . . . . . . . . . \n 6 . . . . . . . . . . . . . . . \n 7 . . . . . . I N W R A P . . . \n 8 . . . . . . . . . . . . . . . \n 9 . . . . . . . . . . . . . . . \n10 . . . . . . . . . . . . . . . \n11 . . . . . . . . . . . . . . . \n12 . . . . . . . . . . . . . . . \n13 . . . . . . . . . . . . . . . \n14 . . . . . . . . . . . . . . . \n\nMove Log Summary (1 entries)\n============================================================\nTurn 0, P0: SUCCESS - Action 222\n======================================================================"
+    },
+    {
+      "turn_index": 1,
+      "player": 1,
+      "action_type": "PLAY",
+      "action_id": 167,
+      "score": 11.0,
+      "tiles_in_bag": 80,
+      "consecutive_passes": 0,
+      "word": "COWS",
+      "position": [
+        5,
+        8
+      ],
+      "direction": "Down",
+      "rack_before": [
+        "E",
+        "C",
+        "M",
+        "T",
+        "O",
+        "G",
+        "S"
+      ],
+      "rack_after": [
+        "E",
+        "M",
+        "T",
+        "G",
+        "S",
+        "U",
+        "E"
+      ],
+      "board_state": "======================================================================\nSCRABBLE GAME STATE - Turn 2\n======================================================================\nStatus: IN PROGRESS - Player 0's turn\n\nScores: P0=28.0  P1=11.0\nConsecutive Passes: 0\nConsecutive Zero Scores: 0\nBanned Actions: 0\n\nBag: 77 tiles remaining\nP0 Rack (7 tiles): V Y H T T B F\nP1 Rack (7 tiles): E M T G S U E\n\nBoard:\n   A B C D E F G H I J K L M N O\n 0 . . . . . . . . . . . . . . . \n 1 . . . . . . . . . . . . . . . \n 2 . . . . . . . . . . . . . . . \n 3 . . . . . . . . . . . . . . . \n 4 . . . . . . . . . . . . . . . \n 5 . . . . . . . . C . . . . . . \n 6 . . . . . . . . O . . . . . . \n 7 . . . . . . I N W R A P . . . \n 8 . . . . . . . . S . . . . . . \n 9 . . . . . . . . . . . . . . . \n10 . . . . . . . . . . . . . . . \n11 . . . . . . . . . . . . . . . \n12 . . . . . . . . . . . . . . . \n13 . . . . . . . . . . . . . . . \n14 . . . . . . . . . . . . . . . \n\nMove Log Summary (2 entries)\n============================================================\nTurn 0, P0: SUCCESS - Action 222\nTurn 1, P1: SUCCESS - Action 167\n======================================================================"
+    },
+    {
+      "turn_index": 2,
+      "player": 0,
+      "action_type": "PLAY",
+      "action_id": 171,
+      "score": 7.0,
+      "tiles_in_bag": 77,
+      "consecutive_passes": 0,
+      "word": "THAT",
+      "position": [
+        5,
+        10
+      ],
+      "direction": "Down",
+      "rack_before": [
+        "V",
+        "Y",
+        "H",
+        "T",
+        "T",
+        "B",
+        "F"
+      ],
+      "rack_after": [
+        "V",
+        "Y",
+        "B",
+        "F",
+        "A",
+        "A",
+        "S"
+      ],
+      "board_state": "======================================================================\nSCRABBLE GAME STATE - Turn 3\n======================================================================\nStatus: IN PROGRESS - Player 1's turn\n\nScores: P0=35.0  P1=11.0\nConsecutive Passes: 0\nConsecutive Zero Scores: 0\nBanned Actions: 0\n\nBag: 74 tiles remaining\nP0 Rack (7 tiles): V Y B F A A S\nP1 Rack (7 tiles): E M T G S U E\n\nBoard:\n   A B C D E F G H I J K L M N O\n 0 . . . . . . . . . . . . . . . \n 1 . . . . . . . . . . . . . . . \n 2 . . . . . . . . . . . . . . . \n 3 . . . . . . . . . . . . . . . \n 4 . . . . . . . . . . . . . . . \n 5 . . . . . . . . C . T . . . . \n 6 . . . . . . . . O . H . . . . \n 7 . . . . . . I N W R A P . . . \n 8 . . . . . . . . S . T . . . . \n 9 . . . . . . . . . . . . . . . \n10 . . . . . . . . . . . . . . . \n11 . . . . . . . . . . . . . . . \n12 . . . . . . . . . . . . . . . \n13 . . . . . . . . . . . . . . . \n14 . . . . . . . . . . . . . . . \n\nMove Log Summary (3 entries)\n============================================================\nTurn 0, P0: SUCCESS - Action 222\nTurn 1, P1: SUCCESS - Action 167\nTurn 2, P0: SUCCESS - Action 171\n======================================================================"
+    },
+    {
+      "turn_index": 3,
+      "player": 1,
+      "action_type": "PLAY",
+      "action_id": 260,
+      "score": 12.0,
+      "tiles_in_bag": 74,
+      "consecutive_passes": 0,
+      "word": "TEEMS",
+      "position": [
+        8,
+        10
+      ],
+      "direction": "Across",
+      "rack_before": [
+        "E",
+        "M",
+        "T",
+        "G",
+        "S",
+        "U",
+        "E"
+      ],
+      "rack_after": [
+        "T",
+        "G",
+        "U",
+        "L",
+        "U",
+        "I",
+        "A"
+      ],
+      "board_state": "======================================================================\nSCRABBLE GAME STATE - Turn 4\n======================================================================\nStatus: IN PROGRESS - Player 0's turn\n\nScores: P0=35.0  P1=23.0\nConsecutive Passes: 0\nConsecutive Zero Scores: 0\nBanned Actions: 0\n\nBag: 70 tiles remaining\nP0 Rack (7 tiles): V Y B F A A S\nP1 Rack (7 tiles): T G U L U I A\n\nBoard:\n   A B C D E F G H I J K L M N O\n 0 . . . . . . . . . . . . . . . \n 1 . . . . . . . . . . . . . . . \n 2 . . . . . . . . . . . . . . . \n 3 . . . . . . . . . . . . . . . \n 4 . . . . . . . . . . . . . . . \n 5 . . . . . . . . C . T . . . . \n 6 . . . . . . . . O . H . . . . \n 7 . . . . . . I N W R A P . . . \n 8 . . . . . . . . S . T E E M S \n 9 . . . . . . . . . . . . . . . \n10 . . . . . . . . . . . . . . . \n11 . . . . . . . . . . . . . . . \n12 . . . . . . . . . . . . . . . \n13 . . . . . . . . . . . . . . . \n14 . . . . . . . . . . . . . . . \n\nMove Log Summary (4 entries)\n============================================================\nTurn 0, P0: SUCCESS - Action 222\nTurn 1, P1: SUCCESS - Action 167\nTurn 2, P0: SUCCESS - Action 171\nTurn 3, P1: SUCCESS - Action 260\n======================================================================"
+    },
+    {
+      "turn_index": 4,
+      "player": 0,
+      "action_type": "PLAY",
+      "action_id": 109,
+      "score": 12.0,
+      "tiles_in_bag": 70,
+      "consecutive_passes": 0,
+      "word": "ABA",
+      "position": [
+        3,
+        9
+      ],
+      "direction": "Down",
+      "rack_before": [
+        "V",
+        "Y",
+        "B",
+        "F",
+        "A",
+        "A",
+        "S"
+      ],
+      "rack_after": [
+        "V",
+        "Y",
+        "F",
+        "S",
+        "Y",
+        "D",
+        "E"
+      ],
+      "board_state": "======================================================================\nSCRABBLE GAME STATE - Turn 5\n======================================================================\nStatus: IN PROGRESS - Player 1's turn\n\nScores: P0=47.0  P1=23.0\nConsecutive Passes: 0\nConsecutive Zero Scores: 0\nBanned Actions: 0\n\nBag: 67 tiles remaining\nP0 Rack (7 tiles): V Y F S Y D E\nP1 Rack (7 tiles): T G U L U I A\n\nBoard:\n   A B C D E F G H I J K L M N O\n 0 . . . . . . . . . . . . . . . \n 1 . . . . . . . . . . . . . . . \n 2 . . . . . . . . . . . . . . . \n 3 . . . . . . . . . A . . . . . \n 4 . . . . . . . . . B . . . . . \n 5 . . . . . . . . C A T . . . . \n 6 . . . . . . . . O . H . . . . \n 7 . . . . . . I N W R A P . . . \n 8 . . . . . . . . S . T E E M S \n 9 . . . . . . . . . . . . . . . \n10 . . . . . . . . . . . . . . . \n11 . . . . . . . . . . . . . . . \n12 . . . . . . . . . . . . . . . \n13 . . . . . . . . . . . . . . . \n14 . . . . . . . . . . . . . . . \n\nMove Log Summary (5 entries)\n============================================================\nTurn 0, P0: SUCCESS - Action 222\nTurn 1, P1: SUCCESS - Action 167\nTurn 2, P0: SUCCESS - Action 171\nTurn 3, P1: SUCCESS - Action 260\nTurn 4, P0: SUCCESS - Action 109\n======================================================================"
+    },
+    {
+      "turn_index": 5,
+      "player": 1,
+      "action_type": "PLAY",
+      "action_id": 106,
+      "score": 12.0,
+      "tiles_in_bag": 67,
+      "consecutive_passes": 0,
+      "word": "GAULT",
+      "position": [
+        3,
+        8
+      ],
+      "direction": "Across",
+      "rack_before": [
+        "T",
+        "G",
+        "U",
+        "L",
+        "U",
+        "I",
+        "A"
+      ],
+      "rack_after": [
+        "U",
+        "I",
+        "A",
+        "D",
+        "A",
+        "O",
+        "M"
+      ],
+      "board_state": "======================================================================\nSCRABBLE GAME STATE - Turn 6\n======================================================================\nStatus: IN PROGRESS - Player 0's turn\n\nScores: P0=47.0  P1=35.0\nConsecutive Passes: 0\nConsecutive Zero Scores: 0\nBanned Actions: 0\n\nBag: 63 tiles remaining\nP0 Rack (7 tiles): V Y F S Y D E\nP1 Rack (7 tiles): U I A D A O M\n\nBoard:\n   A B C D E F G H I J K L M N O\n 0 . . . . . . . . . . . . . . . \n 1 . . . . . . . . . . . . . . . \n 2 . . . . . . . . . . . . . . . \n 3 . . . . . . . . G A U L T . . \n 4 . . . . . . . . . B . . . . . \n 5 . . . . . . . . C A T . . . . \n 6 . . . . . . . . O . H . . . . \n 7 . . . . . . I N W R A P . . . \n 8 . . . . . . . . S . T E E M S \n 9 . . . . . . . . . . . . . . . \n10 . . . . . . . . . . . . . . . \n11 . . . . . . . . . . . . . . . \n12 . . . . . . . . . . . . . . . \n13 . . . . . . . . . . . . . . . \n14 . . . . . . . . . . . . . . . \n\nMove Log Summary (6 entries)\n============================================================\nTurn 0, P0: SUCCESS - Action 222\nTurn 1, P1: SUCCESS - Action 167\nTurn 2, P0: SUCCESS - Action 171\nTurn 3, P1: SUCCESS - Action 260\nTurn 4, P0: SUCCESS - Action 109\nTurn 5, P1: SUCCESS - Action 106\n======================================================================"
+    },
+    {
+      "turn_index": 6,
+      "player": 0,
+      "action_type": "PLAY",
+      "action_id": 165,
+      "score": 20.0,
+      "tiles_in_bag": 63,
+      "consecutive_passes": 0,
+      "word": "SYNE",
+      "position": [
+        5,
+        7
+      ],
+      "direction": "Down",
+      "rack_before": [
+        "V",
+        "Y",
+        "F",
+        "S",
+        "Y",
+        "D",
+        "E"
+      ],
+      "rack_after": [
+        "V",
+        "F",
+        "Y",
+        "D",
+        "V",
+        "L",
+        "N"
+      ],
+      "board_state": "======================================================================\nSCRABBLE GAME STATE - Turn 7\n======================================================================\nStatus: IN PROGRESS - Player 1's turn\n\nScores: P0=67.0  P1=35.0\nConsecutive Passes: 0\nConsecutive Zero Scores: 0\nBanned Actions: 0\n\nBag: 60 tiles remaining\nP0 Rack (7 tiles): V F Y D V L N\nP1 Rack (7 tiles): U I A D A O M\n\nBoard:\n   A B C D E F G H I J K L M N O\n 0 . . . . . . . . . . . . . . . \n 1 . . . . . . . . . . . . . . . \n 2 . . . . . . . . . . . . . . . \n 3 . . . . . . . . G A U L T . . \n 4 . . . . . . . . . B . . . . . \n 5 . . . . . . . S C A T . . . . \n 6 . . . . . . . Y O . H . . . . \n 7 . . . . . . I N W R A P . . . \n 8 . . . . . . . E S . T E E M S \n 9 . . . . . . . . . . . . . . . \n10 . . . . . . . . . . . . . . . \n11 . . . . . . . . . . . . . . . \n12 . . . . . . . . . . . . . . . \n13 . . . . . . . . . . . . . . . \n14 . . . . . . . . . . . . . . . \n\nMove Log Summary (7 entries)\n============================================================\nTurn 0, P0: SUCCESS - Action 222\nTurn 1, P1: SUCCESS - Action 167\nTurn 2, P0: SUCCESS - Action 171\nTurn 3, P1: SUCCESS - Action 260\nTurn 4, P0: SUCCESS - Action 109\nTurn 5, P1: SUCCESS - Action 106\nTurn 6, P0: SUCCESS - Action 165\n======================================================================"
+    },
+    {
+      "turn_index": 7,
+      "player": 1,
+      "action_type": "PLAY",
+      "action_id": 237,
+      "score": 11.0,
+      "tiles_in_bag": 60,
+      "consecutive_passes": 0,
+      "word": "AMADOU",
+      "position": [
+        7,
+        13
+      ],
+      "direction": "Down",
+      "rack_before": [
+        "U",
+        "I",
+        "A",
+        "D",
+        "A",
+        "O",
+        "M"
+      ],
+      "rack_after": [
+        "I",
+        "M",
+        "E",
+        "R",
+        "O",
+        "E",
+        "W"
+      ],
+      "board_state": "======================================================================\nSCRABBLE GAME STATE - Turn 8\n======================================================================\nStatus: IN PROGRESS - Player 0's turn\n\nScores: P0=67.0  P1=46.0\nConsecutive Passes: 0\nConsecutive Zero Scores: 0\nBanned Actions: 0\n\nBag: 55 tiles remaining\nP0 Rack (7 tiles): V F Y D V L N\nP1 Rack (7 tiles): I M E R O E W\n\nBoard:\n   A B C D E F G H I J K L M N O\n 0 . . . . . . . . . . . . . . . \n 1 . . . . . . . . . . . . . . . \n 2 . . . . . . . . . . . . . . . \n 3 . . . . . . . . G A U L T . . \n 4 . . . . . . . . . B . . . . . \n 5 . . . . . . . S C A T . . . . \n 6 . . . . . . . Y O . H . . . . \n 7 . . . . . . I N W R A P . A . \n 8 . . . . . . . E S . T E E M S \n 9 . . . . . . . . . . . . . A . \n10 . . . . . . . . . . . . . D . \n11 . . . . . . . . . . . . . O . \n12 . . . . . . . . . . . . . U . \n13 . . . . . . . . . . . . . . . \n14 . . . . . . . . . . . . . . . \n\nMove Log Summary (8 entries)\n============================================================\nTurn 0, P0: SUCCESS - Action 222\nTurn 1, P1: SUCCESS - Action 167\nTurn 2, P0: SUCCESS - Action 171\nTurn 3, P1: SUCCESS - Action 260\nTurn 4, P0: SUCCESS - Action 109\nTurn 5, P1: SUCCESS - Action 106\nTurn 6, P0: SUCCESS - Action 165\nTurn 7, P1: SUCCESS - Action 237\n======================================================================"
+    },
+    {
+      "turn_index": 8,
+      "player": 0,
+      "action_type": "PLAY",
+      "action_id": 382,
+      "score": 12.0,
+      "tiles_in_bag": 55,
+      "consecutive_passes": 0,
+      "word": "FLU",
+      "position": [
+        12,
+        11
+      ],
+      "direction": "Across",
+      "rack_before": [
+        "V",
+        "F",
+        "Y",
+        "D",
+        "V",
+        "L",
+        "N"
+      ],
+      "rack_after": [
+        "V",
+        "Y",
+        "D",
+        "V",
+        "N",
+        "E",
+        "O"
+      ],
+      "board_state": "======================================================================\nSCRABBLE GAME STATE - Turn 9\n======================================================================\nStatus: IN PROGRESS - Player 1's turn\n\nScores: P0=79.0  P1=46.0\nConsecutive Passes: 0\nConsecutive Zero Scores: 0\nBanned Actions: 0\n\nBag: 53 tiles remaining\nP0 Rack (7 tiles): V Y D V N E O\nP1 Rack (7 tiles): I M E R O E W\n\nBoard:\n   A B C D E F G H I J K L M N O\n 0 . . . . . . . . . . . . . . . \n 1 . . . . . . . . . . . . . . . \n 2 . . . . . . . . . . . . . . . \n 3 . . . . . . . . G A U L T . . \n 4 . . . . . . . . . B . . . . . \n 5 . . . . . . . S C A T . . . . \n 6 . . . . . . . Y O . H . . . . \n 7 . . . . . . I N W R A P . A . \n 8 . . . . . . . E S . T E E M S \n 9 . . . . . . . . . . . . . A . \n10 . . . . . . . . . . . . . D . \n11 . . . . . . . . . . . . . O . \n12 . . . . . . . . . . . F L U . \n13 . . . . . . . . . . . . . . . \n14 . . . . . . . . . . . . . . . \n\nMove Log Summary (9 entries)\n============================================================\nTurn 0, P0: SUCCESS - Action 222\nTurn 1, P1: SUCCESS - Action 167\nTurn 2, P0: SUCCESS - Action 171\nTurn 3, P1: SUCCESS - Action 260\nTurn 4, P0: SUCCESS - Action 109\nTurn 5, P1: SUCCESS - Action 106\nTurn 6, P0: SUCCESS - Action 165\nTurn 7, P1: SUCCESS - Action 237\nTurn 8, P0: SUCCESS - Action 382\n======================================================================"
+    },
+    {
+      "turn_index": 9,
+      "player": 1,
+      "action_type": "PLAY",
+      "action_id": 179,
+      "score": 25.0,
+      "tiles_in_bag": 53,
+      "consecutive_passes": 0,
+      "word": "MORSE",
+      "position": [
+        5,
+        14
+      ],
+      "direction": "Down",
+      "rack_before": [
+        "I",
+        "M",
+        "E",
+        "R",
+        "O",
+        "E",
+        "W"
+      ],
+      "rack_after": [
+        "I",
+        "E",
+        "W",
+        "G",
+        "I",
+        "I",
+        "O"
+      ],
+      "board_state": "======================================================================\nSCRABBLE GAME STATE - Turn 10\n======================================================================\nStatus: IN PROGRESS - Player 0's turn\n\nScores: P0=79.0  P1=71.0\nConsecutive Passes: 0\nConsecutive Zero Scores: 0\nBanned Actions: 0\n\nBag: 49 tiles remaining\nP0 Rack (7 tiles): V Y D V N E O\nP1 Rack (7 tiles): I E W G I I O\n\nBoard:\n   A B C D E F G H I J K L M N O\n 0 . . . . . . . . . . . . . . . \n 1 . . . . . . . . . . . . . . . \n 2 . . . . . . . . . . . . . . . \n 3 . . . . . . . . G A U L T . . \n 4 . . . . . . . . . B . . . . . \n 5 . . . . . . . S C A T . . . M \n 6 . . . . . . . Y O . H . . . O \n 7 . . . . . . I N W R A P . A R \n 8 . . . . . . . E S . T E E M S \n 9 . . . . . . . . . . . . . A E \n10 . . . . . . . . . . . . . D . \n11 . . . . . . . . . . . . . O . \n12 . . . . . . . . . . . F L U . \n13 . . . . . . . . . . . . . . . \n14 . . . . . . . . . . . . . . . \n\nMove Log Summary (10 entries)\n============================================================\nTurn 0, P0: SUCCESS - Action 222\nTurn 1, P1: SUCCESS - Action 167\nTurn 2, P0: SUCCESS - Action 171\nTurn 3, P1: SUCCESS - Action 260\nTurn 4, P0: SUCCESS - Action 109\nTurn 5, P1: SUCCESS - Action 106\nTurn 6, P0: SUCCESS - Action 165\nTurn 7, P1: SUCCESS - Action 237\nTurn 8, P0: SUCCESS - Action 382\nTurn 9, P1: SUCCESS - Action 179\n======================================================================"
+    },
+    {
+      "turn_index": 10,
+      "player": 0,
+      "action_type": "PLAY",
+      "action_id": 23,
+      "score": 10.0,
+      "tiles_in_bag": 49,
+      "consecutive_passes": 0,
+      "word": "ODYLE",
+      "position": [
+        0,
+        11
+      ],
+      "direction": "Down",
+      "rack_before": [
+        "V",
+        "Y",
+        "D",
+        "V",
+        "N",
+        "E",
+        "O"
+      ],
+      "rack_after": [
+        "V",
+        "V",
+        "N",
+        "E",
+        "P",
+        "D",
+        "A"
+      ],
+      "board_state": "======================================================================\nSCRABBLE GAME STATE - Turn 11\n======================================================================\nStatus: IN PROGRESS - Player 1's turn\n\nScores: P0=89.0  P1=71.0\nConsecutive Passes: 0\nConsecutive Zero Scores: 0\nBanned Actions: 0\n\nBag: 45 tiles remaining\nP0 Rack (7 tiles): V V N E P D A\nP1 Rack (7 tiles): I E W G I I O\n\nBoard:\n   A B C D E F G H I J K L M N O\n 0 . . . . . . . . . . . O . . . \n 1 . . . . . . . . . . . D . . . \n 2 . . . . . . . . . . . Y . . . \n 3 . . . . . . . . G A U L T . . \n 4 . . . . . . . . . B . E . . . \n 5 . . . . . . . S C A T . . . M \n 6 . . . . . . . Y O . H . . . O \n 7 . . . . . . I N W R A P . A R \n 8 . . . . . . . E S . T E E M S \n 9 . . . . . . . . . . . . . A E \n10 . . . . . . . . . . . . . D . \n11 . . . . . . . . . . . . . O . \n12 . . . . . . . . . . . F L U . \n13 . . . . . . . . . . . . . . . \n14 . . . . . . . . . . . . . . . \n\nMove Log Summary (11 entries)\n============================================================\nTurn 1, P1: SUCCESS - Action 167\nTurn 2, P0: SUCCESS - Action 171\nTurn 3, P1: SUCCESS - Action 260\nTurn 4, P0: SUCCESS - Action 109\nTurn 5, P1: SUCCESS - Action 106\nTurn 6, P0: SUCCESS - Action 165\nTurn 7, P1: SUCCESS - Action 237\nTurn 8, P0: SUCCESS - Action 382\nTurn 9, P1: SUCCESS - Action 179\nTurn 10, P0: SUCCESS - Action 23\n======================================================================"
+    },
+    {
+      "turn_index": 11,
+      "player": 1,
+      "action_type": "EXCHANGE",
+      "action_id": 451,
+      "score": 0.0,
+      "tiles_in_bag": 45,
+      "consecutive_passes": 1,
+      "rack_before": [
+        "I",
+        "E",
+        "W",
+        "G",
+        "I",
+        "I",
+        "O"
+      ],
+      "rack_after": [
+        "T",
+        "Q",
+        "L",
+        "X",
+        "T",
+        "?",
+        "N"
+      ],
+      "board_state": "======================================================================\nSCRABBLE GAME STATE - Turn 12\n======================================================================\nStatus: IN PROGRESS - Player 0's turn\n\nScores: P0=89.0  P1=71.0\nConsecutive Passes: 1\nConsecutive Zero Scores: 0\nBanned Actions: 0\n\nBag: 45 tiles remaining\nP0 Rack (7 tiles): V V N E P D A\nP1 Rack (7 tiles): T Q L X T ? N\n\nBoard:\n   A B C D E F G H I J K L M N O\n 0 . . . . . . . . . . . O . . . \n 1 . . . . . . . . . . . D . . . \n 2 . . . . . . . . . . . Y . . . \n 3 . . . . . . . . G A U L T . . \n 4 . . . . . . . . . B . E . . . \n 5 . . . . . . . S C A T . . . M \n 6 . . . . . . . Y O . H . . . O \n 7 . . . . . . I N W R A P . A R \n 8 . . . . . . . E S . T E E M S \n 9 . . . . . . . . . . . . . A E \n10 . . . . . . . . . . . . . D . \n11 . . . . . . . . . . . . . O . \n12 . . . . . . . . . . . F L U . \n13 . . . . . . . . . . . . . . . \n14 . . . . . . . . . . . . . . . \n\nMove Log Summary (12 entries)\n============================================================\nTurn 2, P0: SUCCESS - Action 171\nTurn 3, P1: SUCCESS - Action 260\nTurn 4, P0: SUCCESS - Action 109\nTurn 5, P1: SUCCESS - Action 106\nTurn 6, P0: SUCCESS - Action 165\nTurn 7, P1: SUCCESS - Action 237\nTurn 8, P0: SUCCESS - Action 382\nTurn 9, P1: SUCCESS - Action 179\nTurn 10, P0: SUCCESS - Action 23\nTurn 11, P1: SUCCESS - Action 451\n======================================================================"
+    },
+    {
+      "turn_index": 12,
+      "player": 0,
+      "action_type": "PLAY",
+      "action_id": 233,
+      "score": 6.0,
+      "tiles_in_bag": 45,
+      "consecutive_passes": 0,
+      "word": "PEAN",
+      "position": [
+        7,
+        11
+      ],
+      "direction": "Down",
+      "rack_before": [
+        "V",
+        "V",
+        "N",
+        "E",
+        "P",
+        "D",
+        "A"
+      ],
+      "rack_after": [
+        "V",
+        "V",
+        "E",
+        "P",
+        "D",
+        "E",
+        "E"
+      ],
+      "board_state": "======================================================================\nSCRABBLE GAME STATE - Turn 13\n======================================================================\nStatus: IN PROGRESS - Player 1's turn\n\nScores: P0=95.0  P1=71.0\nConsecutive Passes: 0\nConsecutive Zero Scores: 0\nBanned Actions: 0\n\nBag: 43 tiles remaining\nP0 Rack (7 tiles): V V E P D E E\nP1 Rack (7 tiles): T Q L X T ? N\n\nBoard:\n   A B C D E F G H I J K L M N O\n 0 . . . . . . . . . . . O . . . \n 1 . . . . . . . . . . . D . . . \n 2 . . . . . . . . . . . Y . . . \n 3 . . . . . . . . G A U L T . . \n 4 . . . . . . . . . B . E . . . \n 5 . . . . . . . S C A T . . . M \n 6 . . . . . . . Y O . H . . . O \n 7 . . . . . . I N W R A P . A R \n 8 . . . . . . . E S . T E E M S \n 9 . . . . . . . . . . . A . A E \n10 . . . . . . . . . . . N . D . \n11 . . . . . . . . . . . . . O . \n12 . . . . . . . . . . . F L U . \n13 . . . . . . . . . . . . . . . \n14 . . . . . . . . . . . . . . . \n\nMove Log Summary (13 entries)\n============================================================\nTurn 3, P1: SUCCESS - Action 260\nTurn 4, P0: SUCCESS - Action 109\nTurn 5, P1: SUCCESS - Action 106\nTurn 6, P0: SUCCESS - Action 165\nTurn 7, P1: SUCCESS - Action 237\nTurn 8, P0: SUCCESS - Action 382\nTurn 9, P1: SUCCESS - Action 179\nTurn 10, P0: SUCCESS - Action 23\nTurn 11, P1: SUCCESS - Action 451\nTurn 12, P0: SUCCESS - Action 233\n======================================================================"
+    },
+    {
+      "turn_index": 13,
+      "player": 1,
+      "action_type": "PLAY",
+      "action_id": 17,
+      "score": 6.0,
+      "tiles_in_bag": 43,
+      "consecutive_passes": 0,
+      "word": "LANG",
+      "position": [
+        0,
+        8
+      ],
+      "direction": "Down",
+      "rack_before": [
+        "T",
+        "Q",
+        "L",
+        "X",
+        "T",
+        "?",
+        "N"
+      ],
+      "rack_after": [
+        "T",
+        "Q",
+        "X",
+        "T",
+        "L",
+        "I",
+        "E"
+      ],
+      "board_state": "======================================================================\nSCRABBLE GAME STATE - Turn 14\n======================================================================\nStatus: IN PROGRESS - Player 0's turn\n\nScores: P0=95.0  P1=77.0\nConsecutive Passes: 0\nConsecutive Zero Scores: 0\nBanned Actions: 0\n\nBag: 40 tiles remaining\nP0 Rack (7 tiles): V V E P D E E\nP1 Rack (7 tiles): T Q X T L I E\n\nBoard:\n   A B C D E F G H I J K L M N O\n 0 . . . . . . . . L . . O . . . \n 1 . . . . . . . . A . . D . . . \n 2 . . . . . . . . N . . Y . . . \n 3 . . . . . . . . G A U L T . . \n 4 . . . . . . . . . B . E . . . \n 5 . . . . . . . S C A T . . . M \n 6 . . . . . . . Y O . H . . . O \n 7 . . . . . . I N W R A P . A R \n 8 . . . . . . . E S . T E E M S \n 9 . . . . . . . . . . . A . A E \n10 . . . . . . . . . . . N . D . \n11 . . . . . . . . . . . . . O . \n12 . . . . . . . . . . . F L U . \n13 . . . . . . . . . . . . . . . \n14 . . . . . . . . . . . . . . . \n\nMove Log Summary (14 entries)\n============================================================\nTurn 4, P0: SUCCESS - Action 109\nTurn 5, P1: SUCCESS - Action 106\nTurn 6, P0: SUCCESS - Action 165\nTurn 7, P1: SUCCESS - Action 237\nTurn 8, P0: SUCCESS - Action 382\nTurn 9, P1: SUCCESS - Action 179\nTurn 10, P0: SUCCESS - Action 23\nTurn 11, P1: SUCCESS - Action 451\nTurn 12, P0: SUCCESS - Action 233\nTurn 13, P1: SUCCESS - Action 17\n======================================================================"
+    },
+    {
+      "turn_index": 14,
+      "player": 0,
+      "action_type": "PLAY",
+      "action_id": 82,
+      "score": 18.0,
+      "tiles_in_bag": 40,
+      "consecutive_passes": 0,
+      "word": "YEP",
+      "position": [
+        2,
+        11
+      ],
+      "direction": "Across",
+      "rack_before": [
+        "V",
+        "V",
+        "E",
+        "P",
+        "D",
+        "E",
+        "E"
+      ],
+      "rack_after": [
+        "V",
+        "V",
+        "D",
+        "E",
+        "E",
+        "G",
+        "C"
+      ],
+      "board_state": "======================================================================\nSCRABBLE GAME STATE - Turn 15\n======================================================================\nStatus: IN PROGRESS - Player 1's turn\n\nScores: P0=113.0  P1=77.0\nConsecutive Passes: 0\nConsecutive Zero Scores: 0\nBanned Actions: 0\n\nBag: 38 tiles remaining\nP0 Rack (7 tiles): V V D E E G C\nP1 Rack (7 tiles): T Q X T L I E\n\nBoard:\n   A B C D E F G H I J K L M N O\n 0 . . . . . . . . L . . O . . . \n 1 . . . . . . . . A . . D . . . \n 2 . . . . . . . . N . . Y E P . \n 3 . . . . . . . . G A U L T . . \n 4 . . . . . . . . . B . E . . . \n 5 . . . . . . . S C A T . . . M \n 6 . . . . . . . Y O . H . . . O \n 7 . . . . . . I N W R A P . A R \n 8 . . . . . . . E S . T E E M S \n 9 . . . . . . . . . . . A . A E \n10 . . . . . . . . . . . N . D . \n11 . . . . . . . . . . . . . O . \n12 . . . . . . . . . . . F L U . \n13 . . . . . . . . . . . . . . . \n14 . . . . . . . . . . . . . . . \n\nMove Log Summary (15 entries)\n============================================================\nTurn 5, P1: SUCCESS - Action 106\nTurn 6, P0: SUCCESS - Action 165\nTurn 7, P1: SUCCESS - Action 237\nTurn 8, P0: SUCCESS - Action 382\nTurn 9, P1: SUCCESS - Action 179\nTurn 10, P0: SUCCESS - Action 23\nTurn 11, P1: SUCCESS - Action 451\nTurn 12, P0: SUCCESS - Action 233\nTurn 13, P1: SUCCESS - Action 17\nTurn 14, P0: SUCCESS - Action 82\n======================================================================"
+    },
+    {
+      "turn_index": 15,
+      "player": 1,
+      "action_type": "PLAY",
+      "action_id": 248,
+      "score": 8.0,
+      "tiles_in_bag": 38,
+      "consecutive_passes": 0,
+      "word": "LITES",
+      "position": [
+        8,
+        4
+      ],
+      "direction": "Across",
+      "rack_before": [
+        "T",
+        "Q",
+        "X",
+        "T",
+        "L",
+        "I",
+        "E"
+      ],
+      "rack_after": [
+        "Q",
+        "X",
+        "T",
+        "E",
+        "?",
+        "D",
+        "I"
+      ],
+      "board_state": "======================================================================\nSCRABBLE GAME STATE - Turn 16\n======================================================================\nStatus: IN PROGRESS - Player 0's turn\n\nScores: P0=113.0  P1=85.0\nConsecutive Passes: 0\nConsecutive Zero Scores: 0\nBanned Actions: 0\n\nBag: 35 tiles remaining\nP0 Rack (7 tiles): V V D E E G C\nP1 Rack (7 tiles): Q X T E ? D I\n\nBoard:\n   A B C D E F G H I J K L M N O\n 0 . . . . . . . . L . . O . . . \n 1 . . . . . . . . A . . D . . . \n 2 . . . . . . . . N . . Y E P . \n 3 . . . . . . . . G A U L T . . \n 4 . . . . . . . . . B . E . . . \n 5 . . . . . . . S C A T . . . M \n 6 . . . . . . . Y O . H . . . O \n 7 . . . . . . I N W R A P . A R \n 8 . . . . L I T E S . T E E M S \n 9 . . . . . . . . . . . A . A E \n10 . . . . . . . . . . . N . D . \n11 . . . . . . . . . . . . . O . \n12 . . . . . . . . . . . F L U . \n13 . . . . . . . . . . . . . . . \n14 . . . . . . . . . . . . . . . \n\nMove Log Summary (16 entries)\n============================================================\nTurn 6, P0: SUCCESS - Action 165\nTurn 7, P1: SUCCESS - Action 237\nTurn 8, P0: SUCCESS - Action 382\nTurn 9, P1: SUCCESS - Action 179\nTurn 10, P0: SUCCESS - Action 23\nTurn 11, P1: SUCCESS - Action 451\nTurn 12, P0: SUCCESS - Action 233\nTurn 13, P1: SUCCESS - Action 17\nTurn 14, P0: SUCCESS - Action 82\nTurn 15, P1: SUCCESS - Action 248\n======================================================================"
+    },
+    {
+      "turn_index": 16,
+      "player": 0,
+      "action_type": "PLAY",
+      "action_id": 25,
+      "score": 11.0,
+      "tiles_in_bag": 35,
+      "consecutive_passes": 0,
+      "word": "DEET",
+      "position": [
+        0,
+        12
+      ],
+      "direction": "Down",
+      "rack_before": [
+        "V",
+        "V",
+        "D",
+        "E",
+        "E",
+        "G",
+        "C"
+      ],
+      "rack_after": [
+        "V",
+        "V",
+        "E",
+        "G",
+        "C",
+        "N",
+        "F"
+      ],
+      "board_state": "======================================================================\nSCRABBLE GAME STATE - Turn 17\n======================================================================\nStatus: IN PROGRESS - Player 1's turn\n\nScores: P0=124.0  P1=85.0\nConsecutive Passes: 0\nConsecutive Zero Scores: 0\nBanned Actions: 0\n\nBag: 33 tiles remaining\nP0 Rack (7 tiles): V V E G C N F\nP1 Rack (7 tiles): Q X T E ? D I\n\nBoard:\n   A B C D E F G H I J K L M N O\n 0 . . . . . . . . L . . O D . . \n 1 . . . . . . . . A . . D E . . \n 2 . . . . . . . . N . . Y E P . \n 3 . . . . . . . . G A U L T . . \n 4 . . . . . . . . . B . E . . . \n 5 . . . . . . . S C A T . . . M \n 6 . . . . . . . Y O . H . . . O \n 7 . . . . . . I N W R A P . A R \n 8 . . . . L I T E S . T E E M S \n 9 . . . . . . . . . . . A . A E \n10 . . . . . . . . . . . N . D . \n11 . . . . . . . . . . . . . O . \n12 . . . . . . . . . . . F L U . \n13 . . . . . . . . . . . . . . . \n14 . . . . . . . . . . . . . . . \n\nMove Log Summary (17 entries)\n============================================================\nTurn 7, P1: SUCCESS - Action 237\nTurn 8, P0: SUCCESS - Action 382\nTurn 9, P1: SUCCESS - Action 179\nTurn 10, P0: SUCCESS - Action 23\nTurn 11, P1: SUCCESS - Action 451\nTurn 12, P0: SUCCESS - Action 233\nTurn 13, P1: SUCCESS - Action 17\nTurn 14, P0: SUCCESS - Action 82\nTurn 15, P1: SUCCESS - Action 248\nTurn 16, P0: SUCCESS - Action 25\n======================================================================"
+    },
+    {
+      "turn_index": 17,
+      "player": 1,
+      "action_type": "PLAY",
+      "action_id": 167,
+      "score": 16.0,
+      "tiles_in_bag": 33,
+      "consecutive_passes": 0,
+      "word": "COWSHED",
+      "position": [
+        5,
+        8
+      ],
+      "direction": "Down",
+      "rack_before": [
+        "Q",
+        "X",
+        "T",
+        "E",
+        "?",
+        "D",
+        "I"
+      ],
+      "rack_after": [
+        "Q",
+        "X",
+        "T",
+        "I",
+        "E",
+        "I",
+        "R"
+      ],
+      "board_state": "======================================================================\nSCRABBLE GAME STATE - Turn 18\n======================================================================\nStatus: IN PROGRESS - Player 0's turn\n\nScores: P0=124.0  P1=101.0\nConsecutive Passes: 0\nConsecutive Zero Scores: 0\nBanned Actions: 0\n\nBag: 30 tiles remaining\nP0 Rack (7 tiles): V V E G C N F\nP1 Rack (7 tiles): Q X T I E I R\n\nBoard:\n   A B C D E F G H I J K L M N O\n 0 . . . . . . . . L . . O D . . \n 1 . . . . . . . . A . . D E . . \n 2 . . . . . . . . N . . Y E P . \n 3 . . . . . . . . G A U L T . . \n 4 . . . . . . . . . B . E . . . \n 5 . . . . . . . S C A T . . . M \n 6 . . . . . . . Y O . H . . . O \n 7 . . . . . . I N W R A P . A R \n 8 . . . . L I T E S . T E E M S \n 9 . . . . . . . . H . . A . A E \n10 . . . . . . . . E . . N . D . \n11 . . . . . . . . D . . . . O . \n12 . . . . . . . . . . . F L U . \n13 . . . . . . . . . . . . . . . \n14 . . . . . . . . . . . . . . . \n\nMove Log Summary (18 entries)\n============================================================\nTurn 8, P0: SUCCESS - Action 382\nTurn 9, P1: SUCCESS - Action 179\nTurn 10, P0: SUCCESS - Action 23\nTurn 11, P1: SUCCESS - Action 451\nTurn 12, P0: SUCCESS - Action 233\nTurn 13, P1: SUCCESS - Action 17\nTurn 14, P0: SUCCESS - Action 82\nTurn 15, P1: SUCCESS - Action 248\nTurn 16, P0: SUCCESS - Action 25\nTurn 17, P1: SUCCESS - Action 167\n======================================================================"
+    },
+    {
+      "turn_index": 18,
+      "player": 0,
+      "action_type": "PLAY",
+      "action_id": 346,
+      "score": 7.0,
+      "tiles_in_bag": 30,
+      "consecutive_passes": 0,
+      "word": "DEF",
+      "position": [
+        11,
+        8
+      ],
+      "direction": "Across",
+      "rack_before": [
+        "V",
+        "V",
+        "E",
+        "G",
+        "C",
+        "N",
+        "F"
+      ],
+      "rack_after": [
+        "V",
+        "V",
+        "G",
+        "C",
+        "N",
+        "I",
+        "U"
+      ],
+      "board_state": "======================================================================\nSCRABBLE GAME STATE - Turn 19\n======================================================================\nStatus: IN PROGRESS - Player 1's turn\n\nScores: P0=131.0  P1=101.0\nConsecutive Passes: 0\nConsecutive Zero Scores: 0\nBanned Actions: 0\n\nBag: 28 tiles remaining\nP0 Rack (7 tiles): V V G C N I U\nP1 Rack (7 tiles): Q X T I E I R\n\nBoard:\n   A B C D E F G H I J K L M N O\n 0 . . . . . . . . L . . O D . . \n 1 . . . . . . . . A . . D E . . \n 2 . . . . . . . . N . . Y E P . \n 3 . . . . . . . . G A U L T . . \n 4 . . . . . . . . . B . E . . . \n 5 . . . . . . . S C A T . . . M \n 6 . . . . . . . Y O . H . . . O \n 7 . . . . . . I N W R A P . A R \n 8 . . . . L I T E S . T E E M S \n 9 . . . . . . . . H . . A . A E \n10 . . . . . . . . E . . N . D . \n11 . . . . . . . . D E F . . O . \n12 . . . . . . . . . . . F L U . \n13 . . . . . . . . . . . . . . . \n14 . . . . . . . . . . . . . . . \n\nMove Log Summary (19 entries)\n============================================================\nTurn 9, P1: SUCCESS - Action 179\nTurn 10, P0: SUCCESS - Action 23\nTurn 11, P1: SUCCESS - Action 451\nTurn 12, P0: SUCCESS - Action 233\nTurn 13, P1: SUCCESS - Action 17\nTurn 14, P0: SUCCESS - Action 82\nTurn 15, P1: SUCCESS - Action 248\nTurn 16, P0: SUCCESS - Action 25\nTurn 17, P1: SUCCESS - Action 167\nTurn 18, P0: SUCCESS - Action 346\n======================================================================"
+    },
+    {
+      "turn_index": 19,
+      "player": 1,
+      "action_type": "PLAY",
+      "action_id": 289,
+      "score": 30.0,
+      "tiles_in_bag": 28,
+      "consecutive_passes": 0,
+      "word": "EXERT",
+      "position": [
+        9,
+        9
+      ],
+      "direction": "Down",
+      "rack_before": [
+        "Q",
+        "X",
+        "T",
+        "I",
+        "E",
+        "I",
+        "R"
+      ],
+      "rack_after": [
+        "Q",
+        "I",
+        "I",
+        "S",
+        "J",
+        "O",
+        "R"
+      ],
+      "board_state": "======================================================================\nSCRABBLE GAME STATE - Turn 20\n======================================================================\nStatus: IN PROGRESS - Player 0's turn\n\nScores: P0=131.0  P1=131.0\nConsecutive Passes: 0\nConsecutive Zero Scores: 0\nBanned Actions: 0\n\nBag: 24 tiles remaining\nP0 Rack (7 tiles): V V G C N I U\nP1 Rack (7 tiles): Q I I S J O R\n\nBoard:\n   A B C D E F G H I J K L M N O\n 0 . . . . . . . . L . . O D . . \n 1 . . . . . . . . A . . D E . . \n 2 . . . . . . . . N . . Y E P . \n 3 . . . . . . . . G A U L T . . \n 4 . . . . . . . . . B . E . . . \n 5 . . . . . . . S C A T . . . M \n 6 . . . . . . . Y O . H . . . O \n 7 . . . . . . I N W R A P . A R \n 8 . . . . L I T E S . T E E M S \n 9 . . . . . . . . H E . A . A E \n10 . . . . . . . . E X . N . D . \n11 . . . . . . . . D E F . . O . \n12 . . . . . . . . . R . F L U . \n13 . . . . . . . . . T . . . . . \n14 . . . . . . . . . . . . . . . \n\nMove Log Summary (20 entries)\n============================================================\nTurn 10, P0: SUCCESS - Action 23\nTurn 11, P1: SUCCESS - Action 451\nTurn 12, P0: SUCCESS - Action 233\nTurn 13, P1: SUCCESS - Action 17\nTurn 14, P0: SUCCESS - Action 82\nTurn 15, P1: SUCCESS - Action 248\nTurn 16, P0: SUCCESS - Action 25\nTurn 17, P1: SUCCESS - Action 167\nTurn 18, P0: SUCCESS - Action 346\nTurn 19, P1: SUCCESS - Action 289\n======================================================================"
+    },
+    {
+      "turn_index": 20,
+      "player": 0,
+      "action_type": "PLAY",
+      "action_id": 385,
+      "score": 3.0,
+      "tiles_in_bag": 24,
+      "consecutive_passes": 0,
+      "word": "LIN",
+      "position": [
+        12,
+        12
+      ],
+      "direction": "Down",
+      "rack_before": [
+        "V",
+        "V",
+        "G",
+        "C",
+        "N",
+        "I",
+        "U"
+      ],
+      "rack_after": [
+        "V",
+        "V",
+        "G",
+        "C",
+        "U",
+        "O",
+        "Z"
+      ],
+      "board_state": "======================================================================\nSCRABBLE GAME STATE - Turn 21\n======================================================================\nStatus: IN PROGRESS - Player 1's turn\n\nScores: P0=134.0  P1=131.0\nConsecutive Passes: 0\nConsecutive Zero Scores: 0\nBanned Actions: 0\n\nBag: 22 tiles remaining\nP0 Rack (7 tiles): V V G C U O Z\nP1 Rack (7 tiles): Q I I S J O R\n\nBoard:\n   A B C D E F G H I J K L M N O\n 0 . . . . . . . . L . . O D . . \n 1 . . . . . . . . A . . D E . . \n 2 . . . . . . . . N . . Y E P . \n 3 . . . . . . . . G A U L T . . \n 4 . . . . . . . . . B . E . . . \n 5 . . . . . . . S C A T . . . M \n 6 . . . . . . . Y O . H . . . O \n 7 . . . . . . I N W R A P . A R \n 8 . . . . L I T E S . T E E M S \n 9 . . . . . . . . H E . A . A E \n10 . . . . . . . . E X . N . D . \n11 . . . . . . . . D E F . . O . \n12 . . . . . . . . . R . F L U . \n13 . . . . . . . . . T . . I . . \n14 . . . . . . . . . . . . N . . \n\nMove Log Summary (21 entries)\n============================================================\nTurn 11, P1: SUCCESS - Action 451\nTurn 12, P0: SUCCESS - Action 233\nTurn 13, P1: SUCCESS - Action 17\nTurn 14, P0: SUCCESS - Action 82\nTurn 15, P1: SUCCESS - Action 248\nTurn 16, P0: SUCCESS - Action 25\nTurn 17, P1: SUCCESS - Action 167\nTurn 18, P0: SUCCESS - Action 346\nTurn 19, P1: SUCCESS - Action 289\nTurn 20, P0: SUCCESS - Action 385\n======================================================================"
+    },
+    {
+      "turn_index": 21,
+      "player": 1,
+      "action_type": "PLAY",
+      "action_id": 400,
+      "score": 28.0,
+      "tiles_in_bag": 22,
+      "consecutive_passes": 0,
+      "word": "JOIST",
+      "position": [
+        13,
+        5
+      ],
+      "direction": "Across",
+      "rack_before": [
+        "Q",
+        "I",
+        "I",
+        "S",
+        "J",
+        "O",
+        "R"
+      ],
+      "rack_after": [
+        "Q",
+        "I",
+        "R",
+        "B",
+        "I",
+        "R",
+        "O"
+      ],
+      "board_state": "======================================================================\nSCRABBLE GAME STATE - Turn 22\n======================================================================\nStatus: IN PROGRESS - Player 0's turn\n\nScores: P0=134.0  P1=159.0\nConsecutive Passes: 0\nConsecutive Zero Scores: 0\nBanned Actions: 0\n\nBag: 18 tiles remaining\nP0 Rack (7 tiles): V V G C U O Z\nP1 Rack (7 tiles): Q I R B I R O\n\nBoard:\n   A B C D E F G H I J K L M N O\n 0 . . . . . . . . L . . O D . . \n 1 . . . . . . . . A . . D E . . \n 2 . . . . . . . . N . . Y E P . \n 3 . . . . . . . . G A U L T . . \n 4 . . . . . . . . . B . E . . . \n 5 . . . . . . . S C A T . . . M \n 6 . . . . . . . Y O . H . . . O \n 7 . . . . . . I N W R A P . A R \n 8 . . . . L I T E S . T E E M S \n 9 . . . . . . . . H E . A . A E \n10 . . . . . . . . E X . N . D . \n11 . . . . . . . . D E F . . O . \n12 . . . . . . . . . R . F L U . \n13 . . . . . J O I S T . . I . . \n14 . . . . . . . . . . . . N . . \n\nMove Log Summary (22 entries)\n============================================================\nTurn 12, P0: SUCCESS - Action 233\nTurn 13, P1: SUCCESS - Action 17\nTurn 14, P0: SUCCESS - Action 82\nTurn 15, P1: SUCCESS - Action 248\nTurn 16, P0: SUCCESS - Action 25\nTurn 17, P1: SUCCESS - Action 167\nTurn 18, P0: SUCCESS - Action 346\nTurn 19, P1: SUCCESS - Action 289\nTurn 20, P0: SUCCESS - Action 385\nTurn 21, P1: SUCCESS - Action 400\n======================================================================"
+    },
+    {
+      "turn_index": 22,
+      "player": 0,
+      "action_type": "PLAY",
+      "action_id": 442,
+      "score": 21.0,
+      "tiles_in_bag": 18,
+      "consecutive_passes": 0,
+      "word": "UNCO",
+      "position": [
+        14,
+        11
+      ],
+      "direction": "Across",
+      "rack_before": [
+        "V",
+        "V",
+        "G",
+        "C",
+        "U",
+        "O",
+        "Z"
+      ],
+      "rack_after": [
+        "V",
+        "V",
+        "G",
+        "Z",
+        "G",
+        "T",
+        "H"
+      ],
+      "board_state": "======================================================================\nSCRABBLE GAME STATE - Turn 23\n======================================================================\nStatus: IN PROGRESS - Player 1's turn\n\nScores: P0=155.0  P1=159.0\nConsecutive Passes: 0\nConsecutive Zero Scores: 0\nBanned Actions: 0\n\nBag: 15 tiles remaining\nP0 Rack (7 tiles): V V G Z G T H\nP1 Rack (7 tiles): Q I R B I R O\n\nBoard:\n   A B C D E F G H I J K L M N O\n 0 . . . . . . . . L . . O D . . \n 1 . . . . . . . . A . . D E . . \n 2 . . . . . . . . N . . Y E P . \n 3 . . . . . . . . G A U L T . . \n 4 . . . . . . . . . B . E . . . \n 5 . . . . . . . S C A T . . . M \n 6 . . . . . . . Y O . H . . . O \n 7 . . . . . . I N W R A P . A R \n 8 . . . . L I T E S . T E E M S \n 9 . . . . . . . . H E . A . A E \n10 . . . . . . . . E X . N . D . \n11 . . . . . . . . D E F . . O . \n12 . . . . . . . . . R . F L U . \n13 . . . . . J O I S T . . I . . \n14 . . . . . . . . . . . U N C O \n\nMove Log Summary (23 entries)\n============================================================\nTurn 13, P1: SUCCESS - Action 17\nTurn 14, P0: SUCCESS - Action 82\nTurn 15, P1: SUCCESS - Action 248\nTurn 16, P0: SUCCESS - Action 25\nTurn 17, P1: SUCCESS - Action 167\nTurn 18, P0: SUCCESS - Action 346\nTurn 19, P1: SUCCESS - Action 289\nTurn 20, P0: SUCCESS - Action 385\nTurn 21, P1: SUCCESS - Action 400\nTurn 22, P0: SUCCESS - Action 442\n======================================================================"
+    },
+    {
+      "turn_index": 23,
+      "player": 1,
+      "action_type": "PLAY",
+      "action_id": 373,
+      "score": 8.0,
+      "tiles_in_bag": 15,
+      "consecutive_passes": 0,
+      "word": "BOO",
+      "position": [
+        12,
+        6
+      ],
+      "direction": "Down",
+      "rack_before": [
+        "Q",
+        "I",
+        "R",
+        "B",
+        "I",
+        "R",
+        "O"
+      ],
+      "rack_after": [
+        "Q",
+        "I",
+        "R",
+        "I",
+        "R",
+        "A",
+        "N"
+      ],
+      "board_state": "======================================================================\nSCRABBLE GAME STATE - Turn 24\n======================================================================\nStatus: IN PROGRESS - Player 0's turn\n\nScores: P0=155.0  P1=167.0\nConsecutive Passes: 0\nConsecutive Zero Scores: 0\nBanned Actions: 0\n\nBag: 13 tiles remaining\nP0 Rack (7 tiles): V V G Z G T H\nP1 Rack (7 tiles): Q I R I R A N\n\nBoard:\n   A B C D E F G H I J K L M N O\n 0 . . . . . . . . L . . O D . . \n 1 . . . . . . . . A . . D E . . \n 2 . . . . . . . . N . . Y E P . \n 3 . . . . . . . . G A U L T . . \n 4 . . . . . . . . . B . E . . . \n 5 . . . . . . . S C A T . . . M \n 6 . . . . . . . Y O . H . . . O \n 7 . . . . . . I N W R A P . A R \n 8 . . . . L I T E S . T E E M S \n 9 . . . . . . . . H E . A . A E \n10 . . . . . . . . E X . N . D . \n11 . . . . . . . . D E F . . O . \n12 . . . . . . B . . R . F L U . \n13 . . . . . J O I S T . . I . . \n14 . . . . . . O . . . . U N C O \n\nMove Log Summary (24 entries)\n============================================================\nTurn 14, P0: SUCCESS - Action 82\nTurn 15, P1: SUCCESS - Action 248\nTurn 16, P0: SUCCESS - Action 25\nTurn 17, P1: SUCCESS - Action 167\nTurn 18, P0: SUCCESS - Action 346\nTurn 19, P1: SUCCESS - Action 289\nTurn 20, P0: SUCCESS - Action 385\nTurn 21, P1: SUCCESS - Action 400\nTurn 22, P0: SUCCESS - Action 442\nTurn 23, P1: SUCCESS - Action 373\n======================================================================"
+    },
+    {
+      "turn_index": 24,
+      "player": 0,
+      "action_type": "EXCHANGE",
+      "action_id": 451,
+      "score": 0.0,
+      "tiles_in_bag": 13,
+      "consecutive_passes": 1,
+      "rack_before": [
+        "V",
+        "V",
+        "G",
+        "Z",
+        "G",
+        "T",
+        "H"
+      ],
+      "rack_after": [
+        "Z",
+        "A",
+        "I",
+        "K",
+        "G",
+        "I",
+        "W"
+      ],
+      "board_state": "======================================================================\nSCRABBLE GAME STATE - Turn 25\n======================================================================\nStatus: IN PROGRESS - Player 1's turn\n\nScores: P0=155.0  P1=167.0\nConsecutive Passes: 1\nConsecutive Zero Scores: 0\nBanned Actions: 0\n\nBag: 13 tiles remaining\nP0 Rack (7 tiles): Z A I K G I W\nP1 Rack (7 tiles): Q I R I R A N\n\nBoard:\n   A B C D E F G H I J K L M N O\n 0 . . . . . . . . L . . O D . . \n 1 . . . . . . . . A . . D E . . \n 2 . . . . . . . . N . . Y E P . \n 3 . . . . . . . . G A U L T . . \n 4 . . . . . . . . . B . E . . . \n 5 . . . . . . . S C A T . . . M \n 6 . . . . . . . Y O . H . . . O \n 7 . . . . . . I N W R A P . A R \n 8 . . . . L I T E S . T E E M S \n 9 . . . . . . . . H E . A . A E \n10 . . . . . . . . E X . N . D . \n11 . . . . . . . . D E F . . O . \n12 . . . . . . B . . R . F L U . \n13 . . . . . J O I S T . . I . . \n14 . . . . . . O . . . . U N C O \n\nMove Log Summary (25 entries)\n============================================================\nTurn 15, P1: SUCCESS - Action 248\nTurn 16, P0: SUCCESS - Action 25\nTurn 17, P1: SUCCESS - Action 167\nTurn 18, P0: SUCCESS - Action 346\nTurn 19, P1: SUCCESS - Action 289\nTurn 20, P0: SUCCESS - Action 385\nTurn 21, P1: SUCCESS - Action 400\nTurn 22, P0: SUCCESS - Action 442\nTurn 23, P1: SUCCESS - Action 373\nTurn 24, P0: SUCCESS - Action 451\n======================================================================"
+    },
+    {
+      "turn_index": 25,
+      "player": 1,
+      "action_type": "PLAY",
+      "action_id": 19,
+      "score": 8.0,
+      "tiles_in_bag": 13,
+      "consecutive_passes": 0,
+      "word": "AI",
+      "position": [
+        0,
+        9
+      ],
+      "direction": "Down",
+      "rack_before": [
+        "Q",
+        "I",
+        "R",
+        "I",
+        "R",
+        "A",
+        "N"
+      ],
+      "rack_after": [
+        "Q",
+        "R",
+        "I",
+        "R",
+        "N",
+        "T",
+        "V"
+      ],
+      "board_state": "======================================================================\nSCRABBLE GAME STATE - Turn 26\n======================================================================\nStatus: IN PROGRESS - Player 0's turn\n\nScores: P0=155.0  P1=175.0\nConsecutive Passes: 0\nConsecutive Zero Scores: 0\nBanned Actions: 0\n\nBag: 11 tiles remaining\nP0 Rack (7 tiles): Z A I K G I W\nP1 Rack (7 tiles): Q R I R N T V\n\nBoard:\n   A B C D E F G H I J K L M N O\n 0 . . . . . . . . L A . O D . . \n 1 . . . . . . . . A I . D E . . \n 2 . . . . . . . . N . . Y E P . \n 3 . . . . . . . . G A U L T . . \n 4 . . . . . . . . . B . E . . . \n 5 . . . . . . . S C A T . . . M \n 6 . . . . . . . Y O . H . . . O \n 7 . . . . . . I N W R A P . A R \n 8 . . . . L I T E S . T E E M S \n 9 . . . . . . . . H E . A . A E \n10 . . . . . . . . E X . N . D . \n11 . . . . . . . . D E F . . O . \n12 . . . . . . B . . R . F L U . \n13 . . . . . J O I S T . . I . . \n14 . . . . . . O . . . . U N C O \n\nMove Log Summary (26 entries)\n============================================================\nTurn 16, P0: SUCCESS - Action 25\nTurn 17, P1: SUCCESS - Action 167\nTurn 18, P0: SUCCESS - Action 346\nTurn 19, P1: SUCCESS - Action 289\nTurn 20, P0: SUCCESS - Action 385\nTurn 21, P1: SUCCESS - Action 400\nTurn 22, P0: SUCCESS - Action 442\nTurn 23, P1: SUCCESS - Action 373\nTurn 24, P0: SUCCESS - Action 451\nTurn 25, P1: SUCCESS - Action 19\n======================================================================"
+    },
+    {
+      "turn_index": 26,
+      "player": 0,
+      "action_type": "PLAY",
+      "action_id": 190,
+      "score": 15.0,
+      "tiles_in_bag": 11,
+      "consecutive_passes": 0,
+      "word": "KAYO",
+      "position": [
+        6,
+        5
+      ],
+      "direction": "Across",
+      "rack_before": [
+        "Z",
+        "A",
+        "I",
+        "K",
+        "G",
+        "I",
+        "W"
+      ],
+      "rack_after": [
+        "Z",
+        "I",
+        "G",
+        "I",
+        "W",
+        "E",
+        "O"
+      ],
+      "board_state": "======================================================================\nSCRABBLE GAME STATE - Turn 27\n======================================================================\nStatus: IN PROGRESS - Player 1's turn\n\nScores: P0=170.0  P1=175.0\nConsecutive Passes: 0\nConsecutive Zero Scores: 0\nBanned Actions: 0\n\nBag: 9 tiles remaining\nP0 Rack (7 tiles): Z I G I W E O\nP1 Rack (7 tiles): Q R I R N T V\n\nBoard:\n   A B C D E F G H I J K L M N O\n 0 . . . . . . . . L A . O D . . \n 1 . . . . . . . . A I . D E . . \n 2 . . . . . . . . N . . Y E P . \n 3 . . . . . . . . G A U L T . . \n 4 . . . . . . . . . B . E . . . \n 5 . . . . . . . S C A T . . . M \n 6 . . . . . K A Y O . H . . . O \n 7 . . . . . . I N W R A P . A R \n 8 . . . . L I T E S . T E E M S \n 9 . . . . . . . . H E . A . A E \n10 . . . . . . . . E X . N . D . \n11 . . . . . . . . D E F . . O . \n12 . . . . . . B . . R . F L U . \n13 . . . . . J O I S T . . I . . \n14 . . . . . . O . . . . U N C O \n\nMove Log Summary (27 entries)\n============================================================\nTurn 17, P1: SUCCESS - Action 167\nTurn 18, P0: SUCCESS - Action 346\nTurn 19, P1: SUCCESS - Action 289\nTurn 20, P0: SUCCESS - Action 385\nTurn 21, P1: SUCCESS - Action 400\nTurn 22, P0: SUCCESS - Action 442\nTurn 23, P1: SUCCESS - Action 373\nTurn 24, P0: SUCCESS - Action 451\nTurn 25, P1: SUCCESS - Action 19\nTurn 26, P0: SUCCESS - Action 190\n======================================================================"
+    },
+    {
+      "turn_index": 27,
+      "player": 1,
+      "action_type": "PLAY",
+      "action_id": 405,
+      "score": 8.0,
+      "tiles_in_bag": 9,
+      "consecutive_passes": 0,
+      "word": "IN",
+      "position": [
+        13,
+        7
+      ],
+      "direction": "Down",
+      "rack_before": [
+        "Q",
+        "R",
+        "I",
+        "R",
+        "N",
+        "T",
+        "V"
+      ],
+      "rack_after": [
+        "Q",
+        "R",
+        "I",
+        "R",
+        "T",
+        "V",
+        "R"
+      ],
+      "board_state": "======================================================================\nSCRABBLE GAME STATE - Turn 28\n======================================================================\nStatus: IN PROGRESS - Player 0's turn\n\nScores: P0=170.0  P1=183.0\nConsecutive Passes: 0\nConsecutive Zero Scores: 0\nBanned Actions: 0\n\nBag: 8 tiles remaining\nP0 Rack (7 tiles): Z I G I W E O\nP1 Rack (7 tiles): Q R I R T V R\n\nBoard:\n   A B C D E F G H I J K L M N O\n 0 . . . . . . . . L A . O D . . \n 1 . . . . . . . . A I . D E . . \n 2 . . . . . . . . N . . Y E P . \n 3 . . . . . . . . G A U L T . . \n 4 . . . . . . . . . B . E . . . \n 5 . . . . . . . S C A T . . . M \n 6 . . . . . K A Y O . H . . . O \n 7 . . . . . . I N W R A P . A R \n 8 . . . . L I T E S . T E E M S \n 9 . . . . . . . . H E . A . A E \n10 . . . . . . . . E X . N . D . \n11 . . . . . . . . D E F . . O . \n12 . . . . . . B . . R . F L U . \n13 . . . . . J O I S T . . I . . \n14 . . . . . . O N . . . U N C O \n\nMove Log Summary (28 entries)\n============================================================\nTurn 18, P0: SUCCESS - Action 346\nTurn 19, P1: SUCCESS - Action 289\nTurn 20, P0: SUCCESS - Action 385\nTurn 21, P1: SUCCESS - Action 400\nTurn 22, P0: SUCCESS - Action 442\nTurn 23, P1: SUCCESS - Action 373\nTurn 24, P0: SUCCESS - Action 451\nTurn 25, P1: SUCCESS - Action 19\nTurn 26, P0: SUCCESS - Action 190\nTurn 27, P1: SUCCESS - Action 405\n======================================================================"
+    },
+    {
+      "turn_index": 28,
+      "player": 0,
+      "action_type": "PLAY",
+      "action_id": 70,
+      "score": 6.0,
+      "tiles_in_bag": 8,
+      "consecutive_passes": 0,
+      "word": "GIEN",
+      "position": [
+        2,
+        5
+      ],
+      "direction": "Across",
+      "rack_before": [
+        "Z",
+        "I",
+        "G",
+        "I",
+        "W",
+        "E",
+        "O"
+      ],
+      "rack_after": [
+        "Z",
+        "I",
+        "W",
+        "O",
+        "A",
+        "E",
+        "G"
+      ],
+      "board_state": "======================================================================\nSCRABBLE GAME STATE - Turn 29\n======================================================================\nStatus: IN PROGRESS - Player 1's turn\n\nScores: P0=176.0  P1=183.0\nConsecutive Passes: 0\nConsecutive Zero Scores: 0\nBanned Actions: 0\n\nBag: 5 tiles remaining\nP0 Rack (7 tiles): Z I W O A E G\nP1 Rack (7 tiles): Q R I R T V R\n\nBoard:\n   A B C D E F G H I J K L M N O\n 0 . . . . . . . . L A . O D . . \n 1 . . . . . . . . A I . D E . . \n 2 . . . . . G I E N . . Y E P . \n 3 . . . . . . . . G A U L T . . \n 4 . . . . . . . . . B . E . . . \n 5 . . . . . . . S C A T . . . M \n 6 . . . . . K A Y O . H . . . O \n 7 . . . . . . I N W R A P . A R \n 8 . . . . L I T E S . T E E M S \n 9 . . . . . . . . H E . A . A E \n10 . . . . . . . . E X . N . D . \n11 . . . . . . . . D E F . . O . \n12 . . . . . . B . . R . F L U . \n13 . . . . . J O I S T . . I . . \n14 . . . . . . O N . . . U N C O \n\nMove Log Summary (29 entries)\n============================================================\nTurn 19, P1: SUCCESS - Action 289\nTurn 20, P0: SUCCESS - Action 385\nTurn 21, P1: SUCCESS - Action 400\nTurn 22, P0: SUCCESS - Action 442\nTurn 23, P1: SUCCESS - Action 373\nTurn 24, P0: SUCCESS - Action 451\nTurn 25, P1: SUCCESS - Action 19\nTurn 26, P0: SUCCESS - Action 190\nTurn 27, P1: SUCCESS - Action 405\nTurn 28, P0: SUCCESS - Action 70\n======================================================================"
+    },
+    {
+      "turn_index": 29,
+      "player": 1,
+      "action_type": "PLAY",
+      "action_id": 174,
+      "score": 7.0,
+      "tiles_in_bag": 5,
+      "consecutive_passes": 0,
+      "word": "RIM",
+      "position": [
+        5,
+        12
+      ],
+      "direction": "Across",
+      "rack_before": [
+        "Q",
+        "R",
+        "I",
+        "R",
+        "T",
+        "V",
+        "R"
+      ],
+      "rack_after": [
+        "Q",
+        "R",
+        "T",
+        "V",
+        "R",
+        "H",
+        "I"
+      ],
+      "board_state": "======================================================================\nSCRABBLE GAME STATE - Turn 30\n======================================================================\nStatus: IN PROGRESS - Player 0's turn\n\nScores: P0=176.0  P1=190.0\nConsecutive Passes: 0\nConsecutive Zero Scores: 0\nBanned Actions: 0\n\nBag: 3 tiles remaining\nP0 Rack (7 tiles): Z I W O A E G\nP1 Rack (7 tiles): Q R T V R H I\n\nBoard:\n   A B C D E F G H I J K L M N O\n 0 . . . . . . . . L A . O D . . \n 1 . . . . . . . . A I . D E . . \n 2 . . . . . G I E N . . Y E P . \n 3 . . . . . . . . G A U L T . . \n 4 . . . . . . . . . B . E . . . \n 5 . . . . . . . S C A T . R I M \n 6 . . . . . K A Y O . H . . . O \n 7 . . . . . . I N W R A P . A R \n 8 . . . . L I T E S . T E E M S \n 9 . . . . . . . . H E . A . A E \n10 . . . . . . . . E X . N . D . \n11 . . . . . . . . D E F . . O . \n12 . . . . . . B . . R . F L U . \n13 . . . . . J O I S T . . I . . \n14 . . . . . . O N . . . U N C O \n\nMove Log Summary (30 entries)\n============================================================\nTurn 20, P0: SUCCESS - Action 385\nTurn 21, P1: SUCCESS - Action 400\nTurn 22, P0: SUCCESS - Action 442\nTurn 23, P1: SUCCESS - Action 373\nTurn 24, P0: SUCCESS - Action 451\nTurn 25, P1: SUCCESS - Action 19\nTurn 26, P0: SUCCESS - Action 190\nTurn 27, P1: SUCCESS - Action 405\nTurn 28, P0: SUCCESS - Action 70\nTurn 29, P1: SUCCESS - Action 174\n======================================================================"
+    },
+    {
+      "turn_index": 30,
+      "player": 0,
+      "action_type": "PLAY",
+      "action_id": 274,
+      "score": 6.0,
+      "tiles_in_bag": 3,
+      "consecutive_passes": 0,
+      "word": "AGO",
+      "position": [
+        9,
+        2
+      ],
+      "direction": "Across",
+      "rack_before": [
+        "Z",
+        "I",
+        "W",
+        "O",
+        "A",
+        "E",
+        "G"
+      ],
+      "rack_after": [
+        "Z",
+        "I",
+        "W",
+        "E",
+        "U",
+        "N",
+        "V"
+      ],
+      "board_state": "======================================================================\nSCRABBLE GAME STATE - Turn 31\n======================================================================\nStatus: IN PROGRESS - Player 1's turn\n\nScores: P0=182.0  P1=190.0\nConsecutive Passes: 0\nConsecutive Zero Scores: 0\nBanned Actions: 0\n\nBag: 0 tiles remaining\nP0 Rack (7 tiles): Z I W E U N V\nP1 Rack (7 tiles): Q R T V R H I\n\nBoard:\n   A B C D E F G H I J K L M N O\n 0 . . . . . . . . L A . O D . . \n 1 . . . . . . . . A I . D E . . \n 2 . . . . . G I E N . . Y E P . \n 3 . . . . . . . . G A U L T . . \n 4 . . . . . . . . . B . E . . . \n 5 . . . . . . . S C A T . R I M \n 6 . . . . . K A Y O . H . . . O \n 7 . . . . . . I N W R A P . A R \n 8 . . . . L I T E S . T E E M S \n 9 . . A G O . . . H E . A . A E \n10 . . . . . . . . E X . N . D . \n11 . . . . . . . . D E F . . O . \n12 . . . . . . B . . R . F L U . \n13 . . . . . J O I S T . . I . . \n14 . . . . . . O N . . . U N C O \n\nMove Log Summary (31 entries)\n============================================================\nTurn 21, P1: SUCCESS - Action 400\nTurn 22, P0: SUCCESS - Action 442\nTurn 23, P1: SUCCESS - Action 373\nTurn 24, P0: SUCCESS - Action 451\nTurn 25, P1: SUCCESS - Action 19\nTurn 26, P0: SUCCESS - Action 190\nTurn 27, P1: SUCCESS - Action 405\nTurn 28, P0: SUCCESS - Action 70\nTurn 29, P1: SUCCESS - Action 174\nTurn 30, P0: SUCCESS - Action 274\n======================================================================"
+    },
+    {
+      "turn_index": 31,
+      "player": 1,
+      "action_type": "PLAY",
+      "action_id": 300,
+      "score": 8.0,
+      "tiles_in_bag": 0,
+      "consecutive_passes": 0,
+      "word": "HIT",
+      "position": [
+        10,
+        0
+      ],
+      "direction": "Across",
+      "rack_before": [
+        "Q",
+        "R",
+        "T",
+        "V",
+        "R",
+        "H",
+        "I"
+      ],
+      "rack_after": [
+        "Q",
+        "R",
+        "V",
+        "R"
+      ],
+      "board_state": "======================================================================\nSCRABBLE GAME STATE - Turn 32\n======================================================================\nStatus: IN PROGRESS - Player 0's turn\n\nScores: P0=182.0  P1=198.0\nConsecutive Passes: 0\nConsecutive Zero Scores: 0\nBanned Actions: 0\n\nBag: 0 tiles remaining\nP0 Rack (7 tiles): Z I W E U N V\nP1 Rack (4 tiles): Q R V R\n\nBoard:\n   A B C D E F G H I J K L M N O\n 0 . . . . . . . . L A . O D . . \n 1 . . . . . . . . A I . D E . . \n 2 . . . . . G I E N . . Y E P . \n 3 . . . . . . . . G A U L T . . \n 4 . . . . . . . . . B . E . . . \n 5 . . . . . . . S C A T . R I M \n 6 . . . . . K A Y O . H . . . O \n 7 . . . . . . I N W R A P . A R \n 8 . . . . L I T E S . T E E M S \n 9 . . A G O . . . H E . A . A E \n10 H I T . . . . . E X . N . D . \n11 . . . . . . . . D E F . . O . \n12 . . . . . . B . . R . F L U . \n13 . . . . . J O I S T . . I . . \n14 . . . . . . O N . . . U N C O \n\nMove Log Summary (32 entries)\n============================================================\nTurn 22, P0: SUCCESS - Action 442\nTurn 23, P1: SUCCESS - Action 373\nTurn 24, P0: SUCCESS - Action 451\nTurn 25, P1: SUCCESS - Action 19\nTurn 26, P0: SUCCESS - Action 190\nTurn 27, P1: SUCCESS - Action 405\nTurn 28, P0: SUCCESS - Action 70\nTurn 29, P1: SUCCESS - Action 174\nTurn 30, P0: SUCCESS - Action 274\nTurn 31, P1: SUCCESS - Action 300\n======================================================================"
+    },
+    {
+      "turn_index": 32,
+      "player": 0,
+      "action_type": "PLAY",
+      "action_id": 131,
+      "score": 9.0,
+      "tiles_in_bag": 0,
+      "consecutive_passes": 0,
+      "word": "INK",
+      "position": [
+        4,
+        5
+      ],
+      "direction": "Down",
+      "rack_before": [
+        "Z",
+        "I",
+        "W",
+        "E",
+        "U",
+        "N",
+        "V"
+      ],
+      "rack_after": [
+        "Z",
+        "W",
+        "E",
+        "U",
+        "V"
+      ],
+      "board_state": "======================================================================\nSCRABBLE GAME STATE - Turn 33\n======================================================================\nStatus: IN PROGRESS - Player 1's turn\n\nScores: P0=191.0  P1=198.0\nConsecutive Passes: 0\nConsecutive Zero Scores: 0\nBanned Actions: 0\n\nBag: 0 tiles remaining\nP0 Rack (5 tiles): Z W E U V\nP1 Rack (4 tiles): Q R V R\n\nBoard:\n   A B C D E F G H I J K L M N O\n 0 . . . . . . . . L A . O D . . \n 1 . . . . . . . . A I . D E . . \n 2 . . . . . G I E N . . Y E P . \n 3 . . . . . . . . G A U L T . . \n 4 . . . . . I . . . B . E . . . \n 5 . . . . . N . S C A T . R I M \n 6 . . . . . K A Y O . H . . . O \n 7 . . . . . . I N W R A P . A R \n 8 . . . . L I T E S . T E E M S \n 9 . . A G O . . . H E . A . A E \n10 H I T . . . . . E X . N . D . \n11 . . . . . . . . D E F . . O . \n12 . . . . . . B . . R . F L U . \n13 . . . . . J O I S T . . I . . \n14 . . . . . . O N . . . U N C O \n\nMove Log Summary (33 entries)\n============================================================\nTurn 23, P1: SUCCESS - Action 373\nTurn 24, P0: SUCCESS - Action 451\nTurn 25, P1: SUCCESS - Action 19\nTurn 26, P0: SUCCESS - Action 190\nTurn 27, P1: SUCCESS - Action 405\nTurn 28, P0: SUCCESS - Action 70\nTurn 29, P1: SUCCESS - Action 174\nTurn 30, P0: SUCCESS - Action 274\nTurn 31, P1: SUCCESS - Action 300\nTurn 32, P0: SUCCESS - Action 131\n======================================================================"
+    },
+    {
+      "turn_index": 33,
+      "player": 1,
+      "action_type": "PLAY",
+      "action_id": 249,
+      "score": 6.0,
+      "tiles_in_bag": 0,
+      "consecutive_passes": 0,
+      "word": "LOR",
+      "position": [
+        8,
+        4
+      ],
+      "direction": "Down",
+      "rack_before": [
+        "Q",
+        "R",
+        "V",
+        "R"
+      ],
+      "rack_after": [
+        "Q",
+        "V",
+        "R"
+      ],
+      "board_state": "======================================================================\nSCRABBLE GAME STATE - Turn 34\n======================================================================\nStatus: IN PROGRESS - Player 0's turn\n\nScores: P0=191.0  P1=204.0\nConsecutive Passes: 0\nConsecutive Zero Scores: 0\nBanned Actions: 0\n\nBag: 0 tiles remaining\nP0 Rack (5 tiles): Z W E U V\nP1 Rack (3 tiles): Q V R\n\nBoard:\n   A B C D E F G H I J K L M N O\n 0 . . . . . . . . L A . O D . . \n 1 . . . . . . . . A I . D E . . \n 2 . . . . . G I E N . . Y E P . \n 3 . . . . . . . . G A U L T . . \n 4 . . . . . I . . . B . E . . . \n 5 . . . . . N . S C A T . R I M \n 6 . . . . . K A Y O . H . . . O \n 7 . . . . . . I N W R A P . A R \n 8 . . . . L I T E S . T E E M S \n 9 . . A G O . . . H E . A . A E \n10 H I T . R . . . E X . N . D . \n11 . . . . . . . . D E F . . O . \n12 . . . . . . B . . R . F L U . \n13 . . . . . J O I S T . . I . . \n14 . . . . . . O N . . . U N C O \n\nMove Log Summary (34 entries)\n============================================================\nTurn 24, P0: SUCCESS - Action 451\nTurn 25, P1: SUCCESS - Action 19\nTurn 26, P0: SUCCESS - Action 190\nTurn 27, P1: SUCCESS - Action 405\nTurn 28, P0: SUCCESS - Action 70\nTurn 29, P1: SUCCESS - Action 174\nTurn 30, P0: SUCCESS - Action 274\nTurn 31, P1: SUCCESS - Action 300\nTurn 32, P0: SUCCESS - Action 131\nTurn 33, P1: SUCCESS - Action 249\n======================================================================"
+    },
+    {
+      "turn_index": 34,
+      "player": 0,
+      "action_type": "PLAY",
+      "action_id": 382,
+      "score": 7.0,
+      "tiles_in_bag": 0,
+      "consecutive_passes": 0,
+      "word": "FLUE",
+      "position": [
+        12,
+        11
+      ],
+      "direction": "Across",
+      "rack_before": [
+        "Z",
+        "W",
+        "E",
+        "U",
+        "V"
+      ],
+      "rack_after": [
+        "Z",
+        "W",
+        "U",
+        "V"
+      ],
+      "board_state": "======================================================================\nSCRABBLE GAME STATE - Turn 35\n======================================================================\nStatus: IN PROGRESS - Player 1's turn\n\nScores: P0=198.0  P1=204.0\nConsecutive Passes: 0\nConsecutive Zero Scores: 0\nBanned Actions: 0\n\nBag: 0 tiles remaining\nP0 Rack (4 tiles): Z W U V\nP1 Rack (3 tiles): Q V R\n\nBoard:\n   A B C D E F G H I J K L M N O\n 0 . . . . . . . . L A . O D . . \n 1 . . . . . . . . A I . D E . . \n 2 . . . . . G I E N . . Y E P . \n 3 . . . . . . . . G A U L T . . \n 4 . . . . . I . . . B . E . . . \n 5 . . . . . N . S C A T . R I M \n 6 . . . . . K A Y O . H . . . O \n 7 . . . . . . I N W R A P . A R \n 8 . . . . L I T E S . T E E M S \n 9 . . A G O . . . H E . A . A E \n10 H I T . R . . . E X . N . D . \n11 . . . . . . . . D E F . . O . \n12 . . . . . . B . . R . F L U E \n13 . . . . . J O I S T . . I . . \n14 . . . . . . O N . . . U N C O \n\nMove Log Summary (35 entries)\n============================================================\nTurn 25, P1: SUCCESS - Action 19\nTurn 26, P0: SUCCESS - Action 190\nTurn 27, P1: SUCCESS - Action 405\nTurn 28, P0: SUCCESS - Action 70\nTurn 29, P1: SUCCESS - Action 174\nTurn 30, P0: SUCCESS - Action 274\nTurn 31, P1: SUCCESS - Action 300\nTurn 32, P0: SUCCESS - Action 131\nTurn 33, P1: SUCCESS - Action 249\nTurn 34, P0: SUCCESS - Action 382\n======================================================================"
+    },
+    {
+      "turn_index": 35,
+      "player": 1,
+      "action_type": "PLAY",
+      "action_id": 356,
+      "score": 5.0,
+      "tiles_in_bag": 0,
+      "consecutive_passes": 0,
+      "word": "OR",
+      "position": [
+        11,
+        13
+      ],
+      "direction": "Across",
+      "rack_before": [
+        "Q",
+        "V",
+        "R"
+      ],
+      "rack_after": [
+        "Q",
+        "V"
+      ],
+      "board_state": "======================================================================\nSCRABBLE GAME STATE - Turn 36\n======================================================================\nStatus: IN PROGRESS - Player 0's turn\n\nScores: P0=198.0  P1=209.0\nConsecutive Passes: 0\nConsecutive Zero Scores: 0\nBanned Actions: 0\n\nBag: 0 tiles remaining\nP0 Rack (4 tiles): Z W U V\nP1 Rack (2 tiles): Q V\n\nBoard:\n   A B C D E F G H I J K L M N O\n 0 . . . . . . . . L A . O D . . \n 1 . . . . . . . . A I . D E . . \n 2 . . . . . G I E N . . Y E P . \n 3 . . . . . . . . G A U L T . . \n 4 . . . . . I . . . B . E . . . \n 5 . . . . . N . S C A T . R I M \n 6 . . . . . K A Y O . H . . . O \n 7 . . . . . . I N W R A P . A R \n 8 . . . . L I T E S . T E E M S \n 9 . . A G O . . . H E . A . A E \n10 H I T . R . . . E X . N . D . \n11 . . . . . . . . D E F . . O R \n12 . . . . . . B . . R . F L U E \n13 . . . . . J O I S T . . I . . \n14 . . . . . . O N . . . U N C O \n\nMove Log Summary (36 entries)\n============================================================\nTurn 26, P0: SUCCESS - Action 190\nTurn 27, P1: SUCCESS - Action 405\nTurn 28, P0: SUCCESS - Action 70\nTurn 29, P1: SUCCESS - Action 174\nTurn 30, P0: SUCCESS - Action 274\nTurn 31, P1: SUCCESS - Action 300\nTurn 32, P0: SUCCESS - Action 131\nTurn 33, P1: SUCCESS - Action 249\nTurn 34, P0: SUCCESS - Action 382\nTurn 35, P1: SUCCESS - Action 356\n======================================================================"
+    },
+    {
+      "turn_index": 36,
+      "player": 0,
+      "action_type": "PLAY",
+      "action_id": 158,
+      "score": 2.0,
+      "tiles_in_bag": 0,
+      "consecutive_passes": 0,
+      "word": "UN",
+      "position": [
+        5,
+        4
+      ],
+      "direction": "Across",
+      "rack_before": [
+        "Z",
+        "W",
+        "U",
+        "V"
+      ],
+      "rack_after": [
+        "Z",
+        "W",
+        "V"
+      ],
+      "board_state": "======================================================================\nSCRABBLE GAME STATE - Turn 37\n======================================================================\nStatus: IN PROGRESS - Player 1's turn\n\nScores: P0=200.0  P1=209.0\nConsecutive Passes: 0\nConsecutive Zero Scores: 0\nBanned Actions: 0\n\nBag: 0 tiles remaining\nP0 Rack (3 tiles): Z W V\nP1 Rack (2 tiles): Q V\n\nBoard:\n   A B C D E F G H I J K L M N O\n 0 . . . . . . . . L A . O D . . \n 1 . . . . . . . . A I . D E . . \n 2 . . . . . G I E N . . Y E P . \n 3 . . . . . . . . G A U L T . . \n 4 . . . . . I . . . B . E . . . \n 5 . . . . U N . S C A T . R I M \n 6 . . . . . K A Y O . H . . . O \n 7 . . . . . . I N W R A P . A R \n 8 . . . . L I T E S . T E E M S \n 9 . . A G O . . . H E . A . A E \n10 H I T . R . . . E X . N . D . \n11 . . . . . . . . D E F . . O R \n12 . . . . . . B . . R . F L U E \n13 . . . . . J O I S T . . I . . \n14 . . . . . . O N . . . U N C O \n\nMove Log Summary (37 entries)\n============================================================\nTurn 27, P1: SUCCESS - Action 405\nTurn 28, P0: SUCCESS - Action 70\nTurn 29, P1: SUCCESS - Action 174\nTurn 30, P0: SUCCESS - Action 274\nTurn 31, P1: SUCCESS - Action 300\nTurn 32, P0: SUCCESS - Action 131\nTurn 33, P1: SUCCESS - Action 249\nTurn 34, P0: SUCCESS - Action 382\nTurn 35, P1: SUCCESS - Action 356\nTurn 36, P0: SUCCESS - Action 158\n======================================================================"
+    },
+    {
+      "turn_index": 37,
+      "player": 1,
+      "action_type": "PLAY",
+      "action_id": 147,
+      "score": 11.0,
+      "tiles_in_bag": 0,
+      "consecutive_passes": 0,
+      "word": "QI",
+      "position": [
+        4,
+        13
+      ],
+      "direction": "Down",
+      "rack_before": [
+        "Q",
+        "V"
+      ],
+      "rack_after": [
+        "V"
+      ],
+      "board_state": "======================================================================\nSCRABBLE GAME STATE - Turn 38\n======================================================================\nStatus: IN PROGRESS - Player 0's turn\n\nScores: P0=200.0  P1=220.0\nConsecutive Passes: 0\nConsecutive Zero Scores: 0\nBanned Actions: 0\n\nBag: 0 tiles remaining\nP0 Rack (3 tiles): Z W V\nP1 Rack (1 tiles): V\n\nBoard:\n   A B C D E F G H I J K L M N O\n 0 . . . . . . . . L A . O D . . \n 1 . . . . . . . . A I . D E . . \n 2 . . . . . G I E N . . Y E P . \n 3 . . . . . . . . G A U L T . . \n 4 . . . . . I . . . B . E . Q . \n 5 . . . . U N . S C A T . R I M \n 6 . . . . . K A Y O . H . . . O \n 7 . . . . . . I N W R A P . A R \n 8 . . . . L I T E S . T E E M S \n 9 . . A G O . . . H E . A . A E \n10 H I T . R . . . E X . N . D . \n11 . . . . . . . . D E F . . O R \n12 . . . . . . B . . R . F L U E \n13 . . . . . J O I S T . . I . . \n14 . . . . . . O N . . . U N C O \n\nMove Log Summary (38 entries)\n============================================================\nTurn 28, P0: SUCCESS - Action 70\nTurn 29, P1: SUCCESS - Action 174\nTurn 30, P0: SUCCESS - Action 274\nTurn 31, P1: SUCCESS - Action 300\nTurn 32, P0: SUCCESS - Action 131\nTurn 33, P1: SUCCESS - Action 249\nTurn 34, P0: SUCCESS - Action 382\nTurn 35, P1: SUCCESS - Action 356\nTurn 36, P0: SUCCESS - Action 158\nTurn 37, P1: SUCCESS - Action 147\n======================================================================"
+    },
+    {
+      "turn_index": 38,
+      "player": 0,
+      "action_type": "PLAY",
+      "action_id": 43,
+      "score": 15.0,
+      "tiles_in_bag": 0,
+      "consecutive_passes": 0,
+      "word": "WIZ",
+      "position": [
+        1,
+        6
+      ],
+      "direction": "Down",
+      "rack_before": [
+        "Z",
+        "W",
+        "V"
+      ],
+      "rack_after": [
+        "V"
+      ],
+      "board_state": "======================================================================\nSCRABBLE GAME STATE - Turn 39\n======================================================================\nStatus: IN PROGRESS - Player 1's turn\n\nScores: P0=215.0  P1=220.0\nConsecutive Passes: 0\nConsecutive Zero Scores: 0\nBanned Actions: 0\n\nBag: 0 tiles remaining\nP0 Rack (1 tiles): V\nP1 Rack (1 tiles): V\n\nBoard:\n   A B C D E F G H I J K L M N O\n 0 . . . . . . . . L A . O D . . \n 1 . . . . . . W . A I . D E . . \n 2 . . . . . G I E N . . Y E P . \n 3 . . . . . . Z . G A U L T . . \n 4 . . . . . I . . . B . E . Q . \n 5 . . . . U N . S C A T . R I M \n 6 . . . . . K A Y O . H . . . O \n 7 . . . . . . I N W R A P . A R \n 8 . . . . L I T E S . T E E M S \n 9 . . A G O . . . H E . A . A E \n10 H I T . R . . . E X . N . D . \n11 . . . . . . . . D E F . . O R \n12 . . . . . . B . . R . F L U E \n13 . . . . . J O I S T . . I . . \n14 . . . . . . O N . . . U N C O \n\nMove Log Summary (39 entries)\n============================================================\nTurn 29, P1: SUCCESS - Action 174\nTurn 30, P0: SUCCESS - Action 274\nTurn 31, P1: SUCCESS - Action 300\nTurn 32, P0: SUCCESS - Action 131\nTurn 33, P1: SUCCESS - Action 249\nTurn 34, P0: SUCCESS - Action 382\nTurn 35, P1: SUCCESS - Action 356\nTurn 36, P0: SUCCESS - Action 158\nTurn 37, P1: SUCCESS - Action 147\nTurn 38, P0: SUCCESS - Action 43\n======================================================================"
+    },
+    {
+      "turn_index": 39,
+      "player": 1,
+      "action_type": "PLAY",
+      "action_id": 245,
+      "score": 14.0,
+      "tiles_in_bag": 0,
+      "consecutive_passes": 0,
+      "word": "VAT",
+      "position": [
+        8,
+        2
+      ],
+      "direction": "Down",
+      "rack_before": [
+        "V"
+      ],
+      "board_state": "======================================================================\nSCRABBLE GAME STATE - Turn 40\n======================================================================\nStatus: GAME OVER\n\nScores: P0=211.0  P1=234.0\nConsecutive Passes: 0\nConsecutive Zero Scores: 0\nBanned Actions: 0\n\nBag: 0 tiles remaining\nP0 Rack (1 tiles): V\nP1 Rack (0 tiles): empty\n\nBoard:\n   A B C D E F G H I J K L M N O\n 0 . . . . . . . . L A . O D . . \n 1 . . . . . . W . A I . D E . . \n 2 . . . . . G I E N . . Y E P . \n 3 . . . . . . Z . G A U L T . . \n 4 . . . . . I . . . B . E . Q . \n 5 . . . . U N . S C A T . R I M \n 6 . . . . . K A Y O . H . . . O \n 7 . . . . . . I N W R A P . A R \n 8 . . V . L I T E S . T E E M S \n 9 . . A G O . . . H E . A . A E \n10 H I T . R . . . E X . N . D . \n11 . . . . . . . . D E F . . O R \n12 . . . . . . B . . R . F L U E \n13 . . . . . J O I S T . . I . . \n14 . . . . . . O N . . . U N C O \n\nMove Log Summary (40 entries)\n============================================================\nTurn 30, P0: SUCCESS - Action 274\nTurn 31, P1: SUCCESS - Action 300\nTurn 32, P0: SUCCESS - Action 131\nTurn 33, P1: SUCCESS - Action 249\nTurn 34, P0: SUCCESS - Action 382\nTurn 35, P1: SUCCESS - Action 356\nTurn 36, P0: SUCCESS - Action 158\nTurn 37, P1: SUCCESS - Action 147\nTurn 38, P0: SUCCESS - Action 43\nTurn 39, P1: SUCCESS - Action 245\n======================================================================"
+    }
+  ]
+}
