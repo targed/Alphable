@@ -9,54 +9,54 @@ SCRABBLE GAME STATE - Turn 4
 ======================================================================
 Status: IN PROGRESS - Player 0's turn
 
-Scores: P0=96.0  P1=32.0
+Scores: P0=83.0  P1=40.0
 Consecutive Passes: 0
 Consecutive Zero Scores: 0
 Banned Actions: 0
 
-Bag: 66 tiles remaining
-P0 Rack (7 tiles): V V L O M A S
-P1 Rack (7 tiles): Y H N F H U E
+Bag: 64 tiles remaining
+P0 Rack (7 tiles): R I N E I V A
+P1 Rack (7 tiles): X U G M L C I
 
 Board:
    A B C D E F G H I J K L M N O
  0 . . . . . . . . . . . . . . . 
  1 . . . . . . . . . . . . . . . 
  2 . . . . . . . . . . . . . . . 
- 3 . . . . . . . . G . . . . . . 
- 4 . . . . . . I . Y . . . . . . 
- 5 . . . . . . S I N . . . . . . 
- 6 . . . . . . M O I . . . . . . 
- 7 . . . . . . . N E . . . . . . 
- 8 . . . . . . . I . . . . . . . 
- 9 . . . . . . . Z . . . . . . . 
-10 . . . . . . . E E L I E R . . 
-11 . . . . . . . R . . . . . . . 
-12 . . . . . . . . . . . . . . . 
+ 3 . . . . . . . . . . . A . . . 
+ 4 . . . . . . . . . . . R . . . 
+ 5 . . . . . . . . . . . S . . . 
+ 6 . . . . . . . L . . . E . . . 
+ 7 . . . . B L O O P E R S . . . 
+ 8 . . . . . . . A . . . . . . . 
+ 9 . . . . . . . T . . . . . . . 
+10 . . . . . . . H E I R S . . . 
+11 . . . . . . . E . . . . . . . 
+12 . . . . . . . R . . . . . . . 
 13 . . . . . . . . . . . . . . . 
 14 . . . . . . . . . . . . . . . 
 
 Move Log Summary (4 entries)
 ============================================================
-Turn 0, P0: SUCCESS - Action 165
-Turn 1, P1: SUCCESS - Action 107
-Turn 2, P0: SUCCESS - Action 314
-Turn 3, P1: SUCCESS - Action 133
+Turn 0, P0: SUCCESS - Action 218
+Turn 1, P1: SUCCESS - Action 113
+Turn 2, P0: SUCCESS - Action 195
+Turn 3, P1: SUCCESS - Action 314
 ======================================================================
 
-Player 0 Rack: ['V', 'V', 'L', 'O', 'M', 'A', 'S']
-Scores: P0=96, P1=32
+Player 0 Rack: ['R', 'I', 'N', 'E', 'I', 'V', 'A']
+Scores: P0=83, P1=40
 
-Greedy Bot Choice: 'SAVVILY' at (4,2) Across
+Greedy Bot Choice: 'VEINIER' at (11,2) Across
 
 Network Top 10 Moves:
-  1. [0.8634] 'AZO' at (9,6) Across
-  2. [0.1003] 'ARM' at (11,6) Across
-  3. [0.0128] 'ALSO' at (0,9) Down
-  4. [0.0117] 'AVISO' at (8,10) Down
-  5. [0.0023] 'SALVOR' at (11,2) Across
-  6. [0.0015] 'MOILS' at (6,6) Across
-  7. [0.0014] 'ALMS' at (12,4) Across
-  8. [0.0013] 'GLOAMS' at (3,8) Across
-  9. [0.0010] 'LOAMS' at (10,9) Down
-  10. [0.0009] 'LOAMS' at (9,10) Across
+  1. [0.5059] 'VEINIER' at (2,9) Down
+  2. [0.1495] 'VERB' at (4,4) Down
+  3. [0.0854] 'ENVIER' at (7,9) Down
+  4. [0.0830] 'AVERT' at (9,3) Across
+  5. [0.0519] 'AVER' at (12,4) Across
+  6. [0.0251] 'EARN' at (6,11) Across
+  7. [0.0240] 'ABRI' at (6,4) Down
+  8. [0.0125] 'AIRN' at (0,10) Down
+  9. [0.0089] 'INIA' at (8,2) Across
+  10. [0.0071] 'ETNA' at (9,6) Across

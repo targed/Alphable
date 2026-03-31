@@ -9,14 +9,14 @@ SCRABBLE GAME STATE - Turn 4
 ======================================================================
 Status: IN PROGRESS - Player 0's turn
 
-Scores: P0=29.0  P1=79.0
+Scores: P0=40.0  P1=18.0
 Consecutive Passes: 0
 Consecutive Zero Scores: 0
 Banned Actions: 0
 
-Bag: 67 tiles remaining
-P0 Rack (7 tiles): G I R L U O T
-P1 Rack (7 tiles): N U I O O E T
+Bag: 69 tiles remaining
+P0 Rack (7 tiles): H Y I E E C I
+P1 Rack (7 tiles): O D K C D R W
 
 Board:
    A B C D E F G H I J K L M N O
@@ -25,38 +25,38 @@ Board:
  2 . . . . . . . . . . . . . . . 
  3 . . . . . . . . . . . . . . . 
  4 . . . . . . . . . . . . . . . 
- 5 . . . . . . . . . O . . . . . 
- 6 . . . . . . . . . S . . . . . 
- 7 . . . . B R E V E T . . . . . 
- 8 . . . K A E S . . I . . . . . 
- 9 . . . I . . . . . O . . . . . 
-10 . . . R . . . . . L . . . . . 
-11 . . . . . . . . . A . . . . . 
-12 . . . . . . . . . R . . . . . 
+ 5 . . . . . . . . . . N . . . . 
+ 6 . . . . . . . . . . U . . . . 
+ 7 . . . . . . . J . . T . . . . 
+ 8 . . . . . . . U N . A . . . . 
+ 9 . . . . . . . R A G T O P . . 
+10 . . . . . . . E . . E . . . . 
+11 . . . . . . . L . . . . . . . 
+12 . . . . . . . S . . . . . . . 
 13 . . . . . . . . . . . . . . . 
 14 . . . . . . . . . . . . . . . 
 
 Move Log Summary (4 entries)
 ============================================================
-Turn 0, P0: SUCCESS - Action 218
-Turn 1, P1: SUCCESS - Action 246
-Turn 2, P0: SUCCESS - Action 247
-Turn 3, P1: SUCCESS - Action 169
+Turn 0, P0: SUCCESS - Action 225
+Turn 1, P1: SUCCESS - Action 284
+Turn 2, P0: SUCCESS - Action 171
+Turn 3, P1: SUCCESS - Action 257
 ======================================================================
 
-Player 0 Rack: ['G', 'I', 'R', 'L', 'U', 'O', 'T']
-Scores: P0=29, P1=79
+Player 0 Rack: ['H', 'Y', 'I', 'E', 'E', 'C', 'I']
+Scores: P0=40, P1=18
 
-Greedy Bot Choice: 'TRIG' at (8,10) Down
+Greedy Bot Choice: 'TECHY' at (7,10) Across
 
 Network Top 10 Moves:
-  1. [0.5041] 'GRIOT' at (12,8) Across
-  2. [0.1149] 'LIRI' at (9,0) Across
-  3. [0.1107] 'LURER' at (5,5) Down
-  4. [0.0665] 'OUTRIG' at (9,9) Across
-  5. [0.0538] 'TURGOR' at (10,1) Across
-  6. [0.0179] 'GITES' at (4,6) Down
-  7. [0.0142] 'TURGOR' at (12,7) Across
-  8. [0.0133] 'GLUE' at (4,8) Down
-  9. [0.0095] 'OUTLIE' at (2,8) Down
-  10. [0.0089] 'GUITAR' at (11,5) Across
+  1. [0.8602] 'TECHY' at (7,10) Across ⭐ GREEDY CHOICE
+  2. [0.0635] 'PIECE' at (9,12) Down
+  3. [0.0530] 'ECHE' at (10,4) Across
+  4. [0.0062] 'HO' at (8,11) Down
+  5. [0.0034] 'CEE' at (10,5) Across
+  6. [0.0026] 'ECHE' at (2,9) Down
+  7. [0.0019] 'CHIEL' at (11,3) Across
+  8. [0.0016] 'CEE' at (3,9) Down
+  9. [0.0014] 'CHEESY' at (12,3) Across
+  10. [0.0010] 'EYE' at (10,10) Across

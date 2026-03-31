@@ -1,0 +1,11 @@
+#character-encoding UTF-8
+#description Created with Macondo
+#id io.woogles dBRca2g7vs
+#lexicon FRA24
+#game-type classic
+#tile-distribution french
+#player1 BestBot BestBot
+#player2 Nodworth Yanis D
+>BestBot: GLLNOST -GLL +0 0
+>Nodworth: AHIILNP 8G HIP +16 16
+>BestBot: BDENOST H4 BOND.TES +64 64

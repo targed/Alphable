@@ -1,0 +1,38 @@
+#character-encoding UTF-8
+#description Created with Macondo
+#id io.woogles WMuzci6jVZ
+#lexicon RD29
+#game-type classic
+#tile-distribution german
+#player1 BestBot BestBot
+#player2 AlexDings Alexander Dings
+>BestBot: BEHLNRR 8G BRR +10 10
+>AlexDings: DELMNNR -DLMNR +0 0
+>BestBot: EEFHLNU I5 FUH. +10 20
+>AlexDings: AEEGNSU 5F AUS.EGEN +74 74
+>BestBot: ÄEEGLNQ H1 GENÄ. +51 71
+>AlexDings: CEEINÖZ 1F ZÖ. +13 87
+>BestBot: EEHLQRU L1 QUER. +48 119
+>AlexDings: CEEIINV F4 N.VI +21 108
+>BestBot: ADEHLLN E7 HALLEND +73 192
+>AlexDings: CEEIOSÜ 13C SÜ.E +18 126
+>BestBot: AFIKRTU 1L .UAK +48 240
+>AlexDings: CEIINOO G10 ICON +20 146
+>BestBot: FIPRRTT 3J FR.TT +16 256
+>AlexDings: ?EEIMOU N1 .U.O +10 156
+>BestBot: EEINNPR O4 NEPERN +34 290
+>AlexDings: ?EEIMMY 14E EY +73 229
+>BestBot: BEIKMUW 7K MIKW. +16 306
+>AlexDings: ?EHIMMS 15A HEIMS +45 274
+>BestBot: BCEJOTU A12 JOC. +20 326
+>AlexDings: ?EEELMS K7 .EMELErS +74 348
+>BestBot: ABDERTU 2E BUD. +23 349
+>AlexDings: AHINSTT 6H T.T +21 369
+>BestBot: ?AEMRTX 8K .X +34 383
+>AlexDings: ADHINSS 12C AH. +26 395
+>BestBot: ?AEMRST M7 .ERAToMS +86 469
+>AlexDings: DGINSST 8A SIGN. +21 416
+>BestBot: DEIN 1F ...E +14 483
+>AlexDings: DST 1F ....T +15 431
+>BestBot: DIN N10 NID +12 495
+>BestBot: (DS) +4 499

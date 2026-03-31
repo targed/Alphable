@@ -9,54 +9,54 @@ SCRABBLE GAME STATE - Turn 4
 ======================================================================
 Status: IN PROGRESS - Player 0's turn
 
-Scores: P0=21.0  P1=21.0
+Scores: P0=77.0  P1=28.0
 Consecutive Passes: 0
 Consecutive Zero Scores: 0
 Banned Actions: 0
 
-Bag: 67 tiles remaining
-P0 Rack (7 tiles): J Q L A A D Z
-P1 Rack (7 tiles): C I P O S T A
+Bag: 69 tiles remaining
+P0 Rack (7 tiles): A A O I E S R
+P1 Rack (7 tiles): I I R H ? T D
 
 Board:
    A B C D E F G H I J K L M N O
  0 . . . . . . . . . . . . . . . 
  1 . . . . . . . . . . . . . . . 
  2 . . . . . . . . . . . . . . . 
- 3 . . . . . . . . . . . . . . . 
- 4 . . . . . . . . . . . . . . . 
- 5 . . . . . . . . . . . . . . . 
- 6 . . . A L A N I N E . . . . . 
- 7 . . . . . . . O . . . . . . . 
- 8 . . . . . L O N E R . . . . . 
- 9 . . . . . . . I D E A . . . . 
-10 . . . . . . . S . . . . . . . 
-11 . . . . . . . E . . . . . . . 
+ 3 . . . . . . . E . . . . . . . 
+ 4 . . . . . . . L . . . . . . . 
+ 5 . . . . . . . E . . . . . . . 
+ 6 . . . . . R I V A G E . . . . 
+ 7 . . . . . . . A . . M . . . . 
+ 8 . . . . . . . T . . E . . . . 
+ 9 . . . . . . . E . . . . . . . 
+10 . . . . . . U D O . . . . . . 
+11 . . . . . . . . . . . . . . . 
 12 . . . . . . . . . . . . . . . 
 13 . . . . . . . . . . . . . . . 
 14 . . . . . . . . . . . . . . . 
 
 Move Log Summary (4 entries)
 ============================================================
-Turn 0, P0: SUCCESS - Action 195
-Turn 1, P1: SUCCESS - Action 186
-Turn 2, P0: SUCCESS - Action 250
-Turn 3, P1: SUCCESS - Action 284
+Turn 0, P0: SUCCESS - Action 105
+Turn 1, P1: SUCCESS - Action 190
+Turn 2, P0: SUCCESS - Action 201
+Turn 3, P1: SUCCESS - Action 312
 ======================================================================
 
-Player 0 Rack: ['J', 'Q', 'L', 'A', 'A', 'D', 'Z']
-Scores: P0=21, P1=21
+Player 0 Rack: ['A', 'A', 'O', 'I', 'E', 'S', 'R']
+Scores: P0=77, P1=28
 
-Greedy Bot Choice: 'ADZE' at (3,9) Down
+Greedy Bot Choice: 'ARIOSE' at (2,11) Down
 
 Network Top 10 Moves:
-  1. [0.2850] 'AAL' at (4,4) Down
-  2. [0.1559] 'ALAN' at (3,6) Down
-  3. [0.0989] 'READ' at (8,9) Down
-  4. [0.0864] 'AA' at (9,4) Across
-  5. [0.0700] 'AAL' at (9,10) Down
-  6. [0.0671] 'AA' at (5,5) Down
-  7. [0.0564] 'LAD' at (12,5) Across
-  8. [0.0390] 'AS' at (10,6) Across
-  9. [0.0334] 'DEAL' at (11,6) Across
-  10. [0.0181] 'LAD' at (9,11) Down
+  1. [0.9122] 'SERAI' at (11,7) Across
+  2. [0.0664] 'MAARS' at (7,10) Across
+  3. [0.0065] 'RAIAS' at (11,8) Across
+  4. [0.0047] 'AE' at (7,4) Across
+  5. [0.0031] 'AIREST' at (8,2) Across
+  6. [0.0008] 'AIRS' at (11,3) Across
+  7. [0.0006] 'AS' at (11,5) Across
+  8. [0.0005] 'OMASA' at (7,9) Across
+  9. [0.0004] 'AREAE' at (3,5) Across
+  10. [0.0003] 'AIRS' at (0,8) Down

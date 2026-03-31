@@ -1,0 +1,33 @@
+#character-encoding UTF-8
+#description Created with Macondo
+#id io.woogles QU847m4CQs
+#lexicon CSW24
+#game-type classic
+#player1 budak budak
+#player2 BestBot BestBot
+>budak: AEEILLT -EILL +0 0
+>BestBot: ?ADHJOW 8D HODJA +40 40
+>budak: AEHITTU D8 .AITH +22 22
+>BestBot: ?CINORW F5 COR.WaIN +65 105
+>budak: ELLNNTU 7H TUNNEL +10 32
+>BestBot: ?ABIMMO K4 MAI.BoOM +102 207
+>budak: ABDIIKL C8 KADI +39 71
+>BestBot: EOPQRTW J10 WEPT +34 241
+>budak: ABGILOX L1 BOLIX +51 122
+>BestBot: EINOOQR M3 ORE +25 266
+>budak: AAEGRUZ 1H ZARE.A +51 173
+>BestBot: FGGINOQ L10 FOG +28 294
+>budak: AEEGTUU 6H UG +9 182
+>BestBot: EGIILNQ 2D INGLE +21 315
+>budak: AEERTUV 1A VERTU +32 214
+>BestBot: AIILNQS 3B QINS +32 347
+>budak: AEEEOOV G8 .EE +18 232
+>BestBot: AFILRSS 4A RIFS +40 387
+>budak: AEIOOPV N2 POI +19 251
+>BestBot: ALNRSTT 8K .LATT +29 416
+>budak: AACEEOV E12 AVE +12 263
+>BestBot: DENRSUY O1 YERDS +51 467
+>budak: ACDEEOS 15A ECODS +37 300
+>budak: ACDEEOS -- -37 263
+>BestBot: NUY N8 .UNY +9 476
+>BestBot: (ACDEEOS) +20 496

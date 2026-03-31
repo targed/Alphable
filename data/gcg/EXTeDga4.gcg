@@ -1,0 +1,38 @@
+#character-encoding UTF-8
+#description Created with Macondo
+#id io.woogles EXTeDga4
+#lexicon RD29
+#game-type classic
+#tile-distribution german
+#player1 beatrice Beate de Nijs
+#player2 BestBot BestBot
+>beatrice: ABEEFIÖ 8G BEI +10 10
+>BestBot: ?ACGMUU -CGUU +0 0
+>beatrice: AEEFNÖU J6 FÖNE +28 38
+>BestBot: ?AÄHMWZ H5 ZÄH.M +15 15
+>beatrice: AAEPUUY K4 PYA +35 73
+>BestBot: ?ANORSW L3 WO +22 37
+>beatrice: AEGNUUV 10J NU +21 94
+>BestBot: ?ANRSUX L6 SAX +24 61
+>beatrice: AEEGSUV 11F VAGES +27 121
+>BestBot: ?ENNRRU L10 NUR +9 70
+>beatrice: BEJLTTU G10 J. +7 128
+>BestBot: ?EEHNRU 5B vERHUN.E +70 140
+>beatrice: BELSTTU C3 BL.UTEST +76 204
+>BestBot: ?ELMRST E3 LE.RaMTS +61 201
+>beatrice: CMMQSUÜ -CMQÜ +0 204
+>BestBot: AEGHIRT M7 HI +19 220
+>beatrice: DEMNSSU N6 UMS +23 227
+>BestBot: AEEGKRT G10 ..GE +11 231
+>beatrice: DEEIINS 13B EINSI.DE +68 295
+>BestBot: AEIKRTT 14I TAKTIER +76 307
+>beatrice: AEFHIQR M13 Q. +22 317
+>BestBot: DDLMOOÜ M2 DOLM +34 341
+>beatrice: AEFHIRS N12 FI.R +18 335
+>BestBot: CDGNNOÜ N1 GON +22 363
+>beatrice: ADEEHRS 4K ...E +15 350
+>BestBot: CCDNTUÜ D11 DÜ.NT +22 385
+>beatrice: ADEHKRS 15F DEKAS +29 379
+>BestBot: CCEENNU B10 ECC. +16 401
+>beatrice: HR I3 RH. +5 384
+>beatrice: (ENNU) +8 392

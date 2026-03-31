@@ -1,0 +1,30 @@
+#character-encoding UTF-8
+#description Created with Macondo
+#id io.woogles Y8AbfWszMB
+#lexicon CSW24
+#game-type classic
+#player1 porch_microwave porch_microwave
+#player2 BestBot BestBot
+>porch_microwave: ?ADDNOP 8G POND +14 14
+>BestBot: AAELNRY 9G ANY +27 27
+>porch_microwave: ?ADEEIU 7H DAE +19 33
+>BestBot: AEELORU 10B AUREOLE +71 98
+>porch_microwave: ?ACEIOU D8 CU.IAE +22 55
+>BestBot: CHMORRU 6J MOUCH +38 136
+>porch_microwave: ?EIOTWZ 5K ZO +46 101
+>BestBot: BDEGQRR 11C G.RDER +38 174
+>porch_microwave: ?EIKOTW 8A TWI.E +30 131
+>BestBot: BEEILMQ 4L LIMB +28 202
+>porch_microwave: ?DKLORT 13B DR.K +18 149
+>BestBot: EEGJNNQ -EGJNQ +0 202
+>porch_microwave: ?ILOOTX 14E OXO +32 181
+>BestBot: AEEHLNT 13G LETHEAN +77 279
+>porch_microwave: ?AILRTW 15G WALTIeR +83 264
+>BestBot: AEEGIOQ 15D QI +28 307
+>porch_microwave: AEFINSV 12L FIVE +34 298
+>BestBot: AAEEGOT O7 GOATE. +21 328
+>porch_microwave: ABINSUV N2 VU. +16 314
+>BestBot: AEENTTY J4 TA... +20 348
+>porch_microwave: ABINOSS 1L BIOS +36 350
+>BestBot: EENNSTY M3 Y.N.E +45 393
+>porch_microwave: AIJNRSS M11 J.. +10 360

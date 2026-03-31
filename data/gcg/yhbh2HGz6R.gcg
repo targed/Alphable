@@ -1,0 +1,38 @@
+#character-encoding UTF-8
+#description Created with Macondo
+#id io.woogles yhbh2HGz6R
+#lexicon NWL23
+#game-type classic
+#player1 BestBot BestBot
+#player2 egoblin ingle reptile
+>BestBot: AEIOOOV -AIOOOV +0 0
+>egoblin: AEIIMNS -I +0 0
+>BestBot: EEINRTU 8F UTERINE +66 66
+>egoblin: AEFIMNS 9D FAMINES +78 78
+>BestBot: DDGIOOR 8A DODO +27 93
+>egoblin: ?ARSSXZ 7H ZAX +46 124
+>BestBot: GIIOPRV L4 VOGI. +18 111
+>egoblin: ?ARSSTU A8 .USTRAgS +77 201
+>BestBot: EIIILPR D6 PR..ILE +24 135
+>egoblin: BCHORSY 13C BROCH +45 246
+>BestBot: ADEFIIY H12 DEFY +52 187
+>egoblin: DJNQRSY 5K J.Y +26 272
+>BestBot: AAEHIIO G12 O.IA +20 207
+>egoblin: DENQRSW N1 WRENS +30 302
+>BestBot: AEEEHIU B10 HIE +31 238
+>egoblin: DGLPQTV 3M D.V +14 316
+>BestBot: AEEINNU O2 E.E +12 250
+>egoblin: GLPQTTW -GLPQTW +0 316
+>BestBot: AEINNUU 1M A.N +39 289
+>egoblin: ACEKLOT 6I TA +21 337
+>BestBot: AEINOUU -INOUU +0 289
+>egoblin: BCEKLOQ E2 BLOKE +26 363
+>BestBot: AEEGIOT C3 TOGAE. +26 315
+>egoblin: ACILOQU B1 QUA +26 389
+>BestBot: ?AEINNU 11D .UN +6 321
+>egoblin: CGIILOT 2E .IGOT +10 399
+>BestBot: ?AEINPR 1G APER +35 356
+>egoblin: CILLMTW A3 WIL +13 412
+>egoblin: CILLMTW -- -13 399
+>BestBot: ?IN F4 NIx +15 371
+>BestBot: (CILLMTW) +28 399

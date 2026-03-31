@@ -1,0 +1,159 @@
+======================================================================
+Alphable (Checkpoint 3600) vs Random Bot
+======================================================================
+Game 3/5
+Player 0: Alphable
+Player 1: Random
+Timestamp: 20260304_033341
+======================================================================
+
+--- STARTING MATCH ---
+
+Player 0: Plays 'AURA' at 4,7 Down
+   Rack P1: ['T', 'U', 'T', 'I', 'O', 'E', 'O']
+Player 1: Plays 'TATE' at 7,6 Across
+   Rack P0: ['Y', 'A', 'V', 'U', 'L', 'A', 'A']
+Player 0: Plays 'TALA' at 7,6 Down
+   Rack P1: ['U', 'I', 'O', 'O', 'E', 'E', 'P']
+Player 1: Plays 'EPEE' at 7,9 Down
+   Rack P0: ['Y', 'V', 'U', 'A', 'I', 'C', 'T']
+Player 0: Plays 'TIVY' at 10,8 Down
+   Rack P1: ['U', 'I', 'O', 'O', 'F', 'L', 'T']
+Player 1: EXCHANGE
+Player 0: Plays 'VACUA' at 12,8 Across
+   Rack P1: ['S', 'E', 'U', '?', 'U', 'N', 'R']
+Player 1: Plays 'SENRYU' at 5,2 Across
+   Rack P0: ['D', 'E', 'M', 'G', 'N', 'G', 'E']
+Player 0: Plays 'DUNE' at 11,11 Down
+   Rack P1: ['U', 'U', 'D', 'R', 'I', 'O', 'A']
+Player 1: Plays 'DOURA' at 8,2 Across
+   Rack P0: ['M', 'G', 'G', 'E', 'L', 'I', 'O']
+Player 0: Plays 'GLIOMA' at 10,1 Across
+   Rack P1: ['U', 'I', 'A', 'T', 'T', 'I', 'M']
+Player 1: Plays 'MO' at 7,3 Down
+   Rack P0: ['G', 'E', '?', 'I', 'R', 'O', 'N']
+Player 0: Plays 'AERIE' at 14,10 Across
+   Rack P1: ['U', 'I', 'A', 'T', 'T', 'I', 'O']
+Player 1: Plays 'AI' at 13,13 Down
+   Rack P0: ['G', 'O', 'N', 'O', 'A', 'O', 'E']
+Player 0: Plays 'AE' at 9,1 Across
+   Rack P1: ['U', 'I', 'T', 'T', 'I', 'O', 'E']
+Player 1: Plays 'TOIT' at 6,0 Down
+   Rack P0: ['G', 'O', 'N', 'O', 'O', 'G', 'I']
+Player 0: Plays 'GIN' at 4,1 Across
+   Rack P1: ['U', 'I', 'E', 'I', 'Q', 'T', 'E']
+Player 1: Plays 'ET' at 6,8 Down
+   Rack P0: ['O', 'O', 'O', 'G', 'J', 'O', 'L']
+Player 0: Plays 'OY' at 13,7 Across
+   Rack P1: ['U', 'I', 'I', 'Q', 'T', 'E', 'S']
+Player 1: Plays 'RETIES' at 6,7 Across
+   Rack P0: ['O', 'O', 'G', 'J', 'O', 'L', 'X']
+Player 0: Plays 'GOOS' at 3,12 Down
+   Rack P1: ['U', 'I', 'Q', 'Y', 'H', 'I', 'E']
+Player 1: Plays 'OE' at 4,12 Across
+   Rack P0: ['J', 'O', 'L', 'X', 'Z', 'N', 'R']
+Player 0: Plays 'DELL' at 8,2 Down
+   Rack P1: ['U', 'I', 'Q', 'Y', 'H', 'I', 'A']
+Player 1: Plays 'AL' at 11,1 Across
+   Rack P0: ['J', 'O', 'X', 'Z', 'N', 'R', 'V']
+Player 0: EXCHANGE
+Player 1: Plays 'OF' at 7,0 Across
+   Rack P0: ['L', 'O', 'D', 'H', 'P', 'R', 'F']
+Player 0: Plays 'ORLOP' at 10,4 Down
+   Rack P1: ['U', 'I', 'Q', 'Y', 'H', 'I', 'S']
+Player 1: Plays 'DOURAS' at 8,2 Across
+   Rack P0: ['D', 'H', 'F', 'K', 'C', 'S', 'R']
+Player 0: Plays 'TEC' at 10,8 Across
+   Rack P1: ['U', 'I', 'Q', 'Y', 'H', 'I', 'O']
+Player 1: Plays 'HI' at 13,5 Down
+   Rack P0: ['D', 'H', 'F', 'K', 'S', 'R', 'E']
+Player 0: Plays 'PIED' at 14,4 Across
+   Rack P1: ['U', 'Q', 'Y', 'I', 'O', 'I', 'N']
+Player 1: Plays 'ONE' at 12,14 Down
+   Rack P0: ['H', 'F', 'K', 'S', 'R', 'X', 'J']
+Player 0: Plays 'SET' at 5,8 Down
+   Rack P1: ['U', 'Q', 'Y', 'I', 'I', 'W', 'D']
+Player 1: Plays 'GOOSY' at 3,12 Down
+   Rack P0: ['H', 'F', 'K', 'R', 'X', 'J', 'Z']
+Player 0: Plays 'FORK' at 5,11 Across
+   Rack P1: ['U', 'Q', 'I', 'I', 'W', 'D', 'B']
+Player 1: Plays 'URB' at 4,5 Down
+   Rack P0: ['H', 'X', 'J', 'Z', 'B', 'N', 'W']
+Player 0: Plays 'BURB' at 3,5 Down
+   Rack P1: ['Q', 'I', 'I', 'W', 'D', 'V', 'N']
+Player 1: Plays 'VIER' at 2,13 Down
+   Rack P0: ['H', 'X', 'J', 'Z', 'N', 'W', 'E']
+Player 0: Plays 'NEWISH' at 1,2 Down
+   Rack P1: ['Q', 'I', 'W', 'D', 'N']
+Player 1: Plays 'DIE' at 2,0 Across
+   Rack P0: ['X', 'J', 'Z']
+Player 0: Plays 'XI' at 11,7 Across
+   Rack P1: ['Q', 'W', 'N']
+Player 1: Plays 'PWN' at 8,9 Across
+   Rack P0: ['J', 'Z']
+Player 0: Plays 'ZONE' at 11,14 Down
+   Rack P1: ['Q']
+Player 1: PASS
+Player 0: PASS
+Player 1: PASS
+Player 0: PASS
+
+--- GAME OVER ---
+
+======================================================================
+SCRABBLE GAME STATE - Turn 47
+======================================================================
+Status: GAME OVER
+Reason: Four consecutive passes
+
+Scores: P0=274.0  P1=154.0
+Consecutive Passes: 4
+Consecutive Zero Scores: 0
+Banned Actions: 0
+
+Bag: 0 tiles remaining
+P0 Rack (1 tiles): J
+P1 Rack (1 tiles): Q
+
+Board:
+   A B C D E F G H I J K L M N O
+ 0 . . . . . . . . . . . . . . . 
+ 1 . . N . . . . . . . . . . . . 
+ 2 D I E . . . . . . . . . . V . 
+ 3 . . W . . B . . . . . . G I . 
+ 4 . G I N . U . A . . . . O E . 
+ 5 . . S E N R Y U S . . F O R K 
+ 6 T . H . . B . R E T I E S . . 
+ 7 O F . M . . T A T E . . Y . . 
+ 8 I . D O U R A S . P W N . . . 
+ 9 T A E . . . L . . E . . . . . 
+10 . G L I O M A . T E C . . . . 
+11 . A L . R . . X I . . D . . Z 
+12 . . . . L . . . V A C U A . O 
+13 . . . . O H . O Y . . N . A N 
+14 . . . . P I E D . . A E R I E 
+
+Move Log Summary (48 entries)
+============================================================
+Turn 38, P0: SUCCESS - Action 35
+Turn 39, P1: SUCCESS - Action 60
+Turn 40, P0: SUCCESS - Action 344
+Turn 41, P1: SUCCESS - Action 258
+Turn 42, P0: SUCCESS - Action 359
+Turn 43, P1: SUCCESS - Action 450
+Turn 44, P0: SUCCESS - Action 450
+Turn 45, P1: SUCCESS - Action 450
+Turn 46, P0: SUCCESS - Action 450
+Turn 46: GAME_TERMINATED - Four consecutive passes
+======================================================================
+
+======================================================================
+FINAL RESULTS
+======================================================================
+Total Moves: 47
+Alphable Score: 274
+Random Bot Score: 154
+Alphable Bingos: 0
+Random Bot Bingos: 0
+Winner: Alphable (by 120 points)
+======================================================================

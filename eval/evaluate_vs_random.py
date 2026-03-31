@@ -247,4 +247,4 @@ def evaluate(checkpoint_num):
 
 if __name__ == "__main__":
     # Change 1000 to whatever your latest checkpoint is
-    evaluate(1080)
+    evaluate(3600)

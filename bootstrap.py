@@ -15,7 +15,7 @@ from collections import deque
 # --- CONFIGURATION ---
 BATCH_SIZE = 256
 BUFFER_SIZE = 10000
-TRAIN_STEPS = 2000  # How many updates to perform
+TRAIN_STEPS = 20000  # How many updates to perform
 GAMES_PER_STEP = 10 # How many games to play before training
 UPDATES_PER_STEP = 50     # CRITICAL: Train 50 times on the data before moving on
 CHECKPOINT_DIR = "data/scrabble_az_checkpoints"
@@ -65,7 +65,7 @@ def main():
         [35,15,15], 
         452, 
         64, 3, 
-        learning_rate=0.001, 
+        learning_rate=0.0001, 
         weight_decay=1e-4,
         path=CHECKPOINT_DIR
     )

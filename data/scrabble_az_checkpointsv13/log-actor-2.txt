@@ -1,0 +1,408 @@
+[2026-03-03 23:24:42.445] actor-2 started
+[2026-03-03 23:24:42.445] Initializing model
+[2026-03-03 23:24:44.422] Initializing bots
+[2026-03-03 23:24:44.423] --------------------- Starting game 0 ----------------------
+[2026-03-03 23:24:44.423] Initial state:
+======================================================================
+SCRABBLE GAME STATE - Turn 0
+======================================================================
+Status: IN PROGRESS - Player 0's turn
+
+Scores: P0=0.0  P1=0.0
+Consecutive Passes: 0
+Consecutive Zero Scores: 0
+Banned Actions: 0
+
+Bag: 86 tiles remaining
+P0 Rack (7 tiles): E Y R A R G S
+P1 Rack (7 tiles): ? I G V I E A
+
+Board:
+   A B C D E F G H I J K L M N O
+ 0 . . . . . . . . . . . . . . . 
+ 1 . . . . . . . . . . . . . . . 
+ 2 . . . . . . . . . . . . . . . 
+ 3 . . . . . . . . . . . . . . . 
+ 4 . . . . . . . . . . . . . . . 
+ 5 . . . . . . . . . . . . . . . 
+ 6 . . . . . . . . . . . . . . . 
+ 7 . . . . . . . . . . . . . . . 
+ 8 . . . . . . . . . . . . . . . 
+ 9 . . . . . . . . . . . . . . . 
+10 . . . . . . . . . . . . . . . 
+11 . . . . . . . . . . . . . . . 
+12 . . . . . . . . . . . . . . . 
+13 . . . . . . . . . . . . . . . 
+14 . . . . . . . . . . . . . . . 
+======================================================================
+[2026-03-03 23:25:06.898] Player 0 sampled action: Move 195
+[2026-03-03 23:25:34.210] Player 1 sampled action: Move 133
+[2026-03-03 23:25:52.528] Player 0 sampled action: Move 130
+[2026-03-03 23:26:30.381] Player 1 sampled action: Move 280
+[2026-03-03 23:26:58.557] Player 0 sampled action: Move 110
+[2026-03-03 23:27:05.249] Player 1 sampled action: Move 257
+[2026-03-03 23:27:11.561] Player 0 sampled action: Move 104
+[2026-03-03 23:27:18.854] Player 1 sampled action: Move 89
+[2026-03-03 23:27:27.206] Player 0 sampled action: Move 15
+[2026-03-03 23:27:39.131] Player 1 sampled action: Move 55
+[2026-03-03 23:27:51.825] Player 0 sampled action: Move 52
+[2026-03-03 23:28:01.091] Player 1 sampled action: Move 107
+[2026-03-03 23:28:07.438] Player 0 sampled action: Move 318
+[2026-03-03 23:28:19.537] Player 1 sampled action: Move 111
+[2026-03-03 23:28:30.194] Player 0 sampled action: Move 289
+[2026-03-03 23:28:42.607] Player 1 sampled action: Move 334
+[2026-03-03 23:28:50.238] Player 0 sampled action: Move 217
+[2026-03-03 23:28:58.034] Player 1 sampled action: Move 68
+[2026-03-03 23:29:06.394] Player 0 sampled action: Move 14
+[2026-03-03 23:29:13.704] Player 1 sampled action: Move 306
+[2026-03-03 23:29:18.388] Player 0 sampled action: Move 26
+[2026-03-03 23:29:23.831] Player 1 sampled action: Move 19
+[2026-03-03 23:29:29.153] Player 0 sampled action: Move 251
+[2026-03-03 23:29:34.531] Player 1 sampled action: Move 210
+[2026-03-03 23:29:38.077] Player 0 sampled action: Move 343
+[2026-03-03 23:29:41.923] Player 1 sampled action: Move 228
+[2026-03-03 23:29:45.827] Player 0 sampled action: Move 274
+[2026-03-03 23:29:49.597] Player 1 sampled action: Move 362
+[2026-03-03 23:29:53.669] Player 0 sampled action: Move 96
+[2026-03-03 23:29:57.912] Player 1 sampled action: Move 183
+[2026-03-03 23:30:02.290] Player 0 sampled action: Move 123
+[2026-03-03 23:30:07.719] Player 1 sampled action: Move 120
+[2026-03-03 23:30:13.961] Player 0 sampled action: Move 182
+[2026-03-03 23:30:20.461] Player 1 sampled action: Move 377
+[2026-03-03 23:30:24.318] Player 0 sampled action: Move 356
+[2026-03-03 23:30:26.980] Player 1 sampled action: Move 368
+[2026-03-03 23:30:28.988] Player 0 sampled action: Move 321
+[2026-03-03 23:30:30.655] Player 1 sampled action: Move 23
+[2026-03-03 23:30:32.216] Player 0 sampled action: Move 404
+[2026-03-03 23:30:33.227] Player 1 sampled action: Move 450
+[2026-03-03 23:30:34.286] Player 0 sampled action: Move 117
+[2026-03-03 23:30:34.782] Player 1 sampled action: Move 450
+[2026-03-03 23:30:35.549] Player 0 sampled action: Move 341
+[2026-03-03 23:30:35.931] Player 1 sampled action: Move 450
+[2026-03-03 23:30:36.192] Player 0 sampled action: Move 359
+[2026-03-03 23:30:36.192] Next state:
+======================================================================
+SCRABBLE GAME STATE - Turn 45
+======================================================================
+Status: GAME OVER
+
+Scores: P0=270.0  P1=196.0
+Consecutive Passes: 0
+Consecutive Zero Scores: 0
+Banned Actions: 0
+
+Bag: 0 tiles remaining
+P0 Rack (0 tiles): empty
+P1 Rack (1 tiles): Q
+
+Board:
+   A B C D E F G H I J K L M N O
+ 0 . . . . . . . N I M . R . T O 
+ 1 . . . . . . . E . E . A D O . 
+ 2 . . . . B L I N . D . T I . I 
+ 3 . . . F E . . E F . B E G E T 
+ 4 O U R . . C A S A V A S . W . 
+ 5 . N . . . . G . N . L . . . . 
+ 6 . I T . . . A G O . T . . . . 
+ 7 V O I C E . . R . H I . . . . 
+ 8 . N . L . U . A A . . . . . . 
+ 9 . . P O . S N Y E S . . . . . 
+10 . . . Z A . . E . H U R R Y . 
+11 . . B E A D E R . I T . . A M 
+12 . J O . L E D . O P . . . . U 
+13 . . . . . W . X I . . . . . . 
+14 . . . . . . . . K . . . . . . 
+
+Move Log Summary (45 entries)
+============================================================
+Turn 35, P1: SUCCESS - Action 368
+Turn 36, P0: SUCCESS - Action 321
+Turn 37, P1: SUCCESS - Action 23
+Turn 38, P0: SUCCESS - Action 404
+Turn 39, P1: SUCCESS - Action 450
+Turn 40, P0: SUCCESS - Action 117
+Turn 41, P1: SUCCESS - Action 450
+Turn 42, P0: SUCCESS - Action 341
+Turn 43, P1: SUCCESS - Action 450
+Turn 44, P0: SUCCESS - Action 359
+======================================================================
+[2026-03-03 23:30:36.192] Game 0: Returns: 1.0 -1.0; Actions: Move 195 Move 133 Move 130 Move 280 Move 110 Move 257 Move 104 Move 89 Move 15 Move 55 Move 52 Move 107 Move 318 Move 111 Move 289 Move 334 Move 217 Move 68 Move 14 Move 306 Move 26 Move 19 Move 251 Move 210 Move 343 Move 228 Move 274 Move 362 Move 96 Move 183 Move 123 Move 120 Move 182 Move 377 Move 356 Move 368 Move 321 Move 23 Move 404 Move 450 Move 117 Move 450 Move 341 Move 450 Move 359
+[2026-03-03 23:30:36.194] Inference cache: CacheInfo(hits=3129, misses=7019, size=7019, max_size=65536)
+[2026-03-03 23:30:36.194] Loading checkpoint data/scrabble_az_checkpoints/checkpoint-0
+[2026-03-03 23:30:36.290] --------------------- Starting game 1 ----------------------
+[2026-03-03 23:30:36.290] Initial state:
+======================================================================
+SCRABBLE GAME STATE - Turn 0
+======================================================================
+Status: IN PROGRESS - Player 0's turn
+
+Scores: P0=0.0  P1=0.0
+Consecutive Passes: 0
+Consecutive Zero Scores: 0
+Banned Actions: 0
+
+Bag: 86 tiles remaining
+P0 Rack (7 tiles): H D O S H A G
+P1 Rack (7 tiles): R L E R V L Q
+
+Board:
+   A B C D E F G H I J K L M N O
+ 0 . . . . . . . . . . . . . . . 
+ 1 . . . . . . . . . . . . . . . 
+ 2 . . . . . . . . . . . . . . . 
+ 3 . . . . . . . . . . . . . . . 
+ 4 . . . . . . . . . . . . . . . 
+ 5 . . . . . . . . . . . . . . . 
+ 6 . . . . . . . . . . . . . . . 
+ 7 . . . . . . . . . . . . . . . 
+ 8 . . . . . . . . . . . . . . . 
+ 9 . . . . . . . . . . . . . . . 
+10 . . . . . . . . . . . . . . . 
+11 . . . . . . . . . . . . . . . 
+12 . . . . . . . . . . . . . . . 
+13 . . . . . . . . . . . . . . . 
+14 . . . . . . . . . . . . . . . 
+======================================================================
+[2026-03-03 23:30:43.594] Player 0 sampled action: Move 135
+[2026-03-03 23:30:54.120] Player 1 sampled action: Move 224
+[2026-03-03 23:31:03.836] Player 0 sampled action: Move 154
+[2026-03-03 23:31:11.450] Player 1 sampled action: Move 159
+[2026-03-03 23:31:19.635] Player 0 sampled action: Move 231
+[2026-03-03 23:31:31.217] Player 1 sampled action: Move 101
+[2026-03-03 23:31:40.953] Player 0 sampled action: Move 155
+[2026-03-03 23:31:50.194] Player 1 sampled action: Move 252
+[2026-03-03 23:31:58.244] Player 0 sampled action: Move 318
+[2026-03-03 23:32:20.564] Player 1 sampled action: Move 107
+[2026-03-03 23:32:46.139] Player 0 sampled action: Move 69
+[2026-03-03 23:33:09.653] Player 1 sampled action: Move 127
+[2026-03-03 23:33:26.808] Player 0 sampled action: Move 106
+[2026-03-03 23:33:58.769] Player 1 sampled action: Move 64
+[2026-03-03 23:34:24.450] Player 0 sampled action: Move 253
+[2026-03-03 23:34:32.392] Player 1 sampled action: Move 378
+[2026-03-03 23:34:38.899] Player 0 sampled action: Move 398
+[2026-03-03 23:34:45.265] Player 1 sampled action: Move 300
+[2026-03-03 23:34:51.369] Player 0 sampled action: Move 192
+[2026-03-03 23:34:58.797] Player 1 sampled action: Move 19
+[2026-03-03 23:35:05.062] Player 0 sampled action: Move 379
+[2026-03-03 23:35:11.691] Player 1 sampled action: Move 240
+[2026-03-03 23:35:18.280] Player 0 sampled action: Move 134
+[2026-03-03 23:35:26.686] Player 1 sampled action: Move 265
+[2026-03-03 23:35:35.532] Player 0 sampled action: Move 14
+[2026-03-03 23:35:44.481] Player 1 sampled action: Move 342
+[2026-03-03 23:35:50.690] Player 0 sampled action: Move 315
+[2026-03-03 23:35:58.124] Player 1 sampled action: Move 420
+[2026-03-03 23:36:06.231] Player 0 sampled action: Move 121
+[2026-03-03 23:36:13.567] Player 1 sampled action: Move 434
+[2026-03-03 23:36:16.102] Player 0 sampled action: Move 277
+[2026-03-03 23:36:17.537] Player 1 sampled action: Move 383
+[2026-03-03 23:36:18.469] Player 0 sampled action: Move 48
+[2026-03-03 23:36:18.833] Player 1 sampled action: Move 280
+[2026-03-03 23:36:18.833] Next state:
+======================================================================
+SCRABBLE GAME STATE - Turn 34
+======================================================================
+Status: GAME OVER
+
+Scores: P0=222.0  P1=215.0
+Consecutive Passes: 0
+Consecutive Zero Scores: 0
+Banned Actions: 0
+
+Bag: 0 tiles remaining
+P0 Rack (1 tiles): U
+P1 Rack (0 tiles): empty
+
+Board:
+   A B C D E F G H I J K L M N O
+ 0 . . . . . . . N A V . . . . . 
+ 1 . . . . . . . . . I V Y . . . 
+ 2 . . I K A T . . . X . . . . . 
+ 3 . . . . N A . . B E E R . . . 
+ 4 T . . C . R . D E N T . . . . 
+ 5 A . G A S O H O L . . . . . . 
+ 6 B . O W E . I S . . . . . . . 
+ 7 U . R . R . . H E L L . . . . 
+ 8 N A G . F . D A L . E . Q . . 
+ 9 . . E F . W O . . . G . U . . 
+10 P I S O . . O R . C A P I Z . 
+11 . . . O . . B A E . C . T . . 
+12 . . . T . . I N . D Y E . . . 
+13 . . . . J E E . . I . R . . . 
+14 M I M E O . . N U D I S T . . 
+
+Move Log Summary (34 entries)
+============================================================
+Turn 24, P0: SUCCESS - Action 14
+Turn 25, P1: SUCCESS - Action 342
+Turn 26, P0: SUCCESS - Action 315
+Turn 27, P1: SUCCESS - Action 420
+Turn 28, P0: SUCCESS - Action 121
+Turn 29, P1: SUCCESS - Action 434
+Turn 30, P0: SUCCESS - Action 277
+Turn 31, P1: SUCCESS - Action 383
+Turn 32, P0: SUCCESS - Action 48
+Turn 33, P1: SUCCESS - Action 280
+======================================================================
+[2026-03-03 23:36:18.833] Game 1: Returns: 1.0 -1.0; Actions: Move 135 Move 224 Move 154 Move 159 Move 231 Move 101 Move 155 Move 252 Move 318 Move 107 Move 69 Move 127 Move 106 Move 64 Move 253 Move 378 Move 398 Move 300 Move 192 Move 19 Move 379 Move 240 Move 134 Move 265 Move 14 Move 342 Move 315 Move 420 Move 121 Move 434 Move 277 Move 383 Move 48 Move 280
+[2026-03-03 23:36:18.833] --------------------- Starting game 2 ----------------------
+[2026-03-03 23:36:18.835] Initial state:
+======================================================================
+SCRABBLE GAME STATE - Turn 0
+======================================================================
+Status: IN PROGRESS - Player 0's turn
+
+Scores: P0=0.0  P1=0.0
+Consecutive Passes: 0
+Consecutive Zero Scores: 0
+Banned Actions: 0
+
+Bag: 86 tiles remaining
+P0 Rack (7 tiles): O E I Q E N R
+P1 Rack (7 tiles): T I A O R D W
+
+Board:
+   A B C D E F G H I J K L M N O
+ 0 . . . . . . . . . . . . . . . 
+ 1 . . . . . . . . . . . . . . . 
+ 2 . . . . . . . . . . . . . . . 
+ 3 . . . . . . . . . . . . . . . 
+ 4 . . . . . . . . . . . . . . . 
+ 5 . . . . . . . . . . . . . . . 
+ 6 . . . . . . . . . . . . . . . 
+ 7 . . . . . . . . . . . . . . . 
+ 8 . . . . . . . . . . . . . . . 
+ 9 . . . . . . . . . . . . . . . 
+10 . . . . . . . . . . . . . . . 
+11 . . . . . . . . . . . . . . . 
+12 . . . . . . . . . . . . . . . 
+13 . . . . . . . . . . . . . . . 
+14 . . . . . . . . . . . . . . . 
+======================================================================
+[2026-03-03 23:36:27.549] Player 0 sampled action: Move 105
+[2026-03-03 23:36:38.884] Player 1 sampled action: Move 214
+[2026-03-03 23:36:49.128] Player 0 sampled action: Move 193
+[2026-03-03 23:37:00.349] Player 1 sampled action: Move 77
+[2026-03-03 23:37:08.476] Player 0 sampled action: Move 42
+[2026-03-03 23:37:15.898] Player 1 sampled action: Move 134
+[2026-03-03 23:37:23.227] Player 0 sampled action: Move 451
+[2026-03-03 23:37:30.708] Player 1 sampled action: Move 164
+[2026-03-03 23:37:37.352] Player 0 sampled action: Move 114
+[2026-03-03 23:37:47.114] Player 1 sampled action: Move 8
+[2026-03-03 23:37:55.111] Player 0 sampled action: Move 18
+[2026-03-03 23:38:05.046] Player 1 sampled action: Move 285
+[2026-03-03 23:38:14.563] Player 0 sampled action: Move 83
+[2026-03-03 23:38:22.376] Player 1 sampled action: Move 101
+[2026-03-03 23:38:27.997] Player 0 sampled action: Move 374
+[2026-03-03 23:38:36.423] Player 1 sampled action: Move 261
+[2026-03-03 23:38:44.459] Player 0 sampled action: Move 258
+[2026-03-03 23:38:53.251] Player 1 sampled action: Move 59
+[2026-03-03 23:39:00.043] Player 0 sampled action: Move 126
+[2026-03-03 23:39:13.395] Player 1 sampled action: Move 219
+[2026-03-03 23:39:37.978] Player 0 sampled action: Move 187
+[2026-03-03 23:40:14.504] Player 1 sampled action: Move 318
+[2026-03-03 23:40:35.456] Player 0 sampled action: Move 35
+[2026-03-03 23:40:41.305] Player 1 sampled action: Move 330
+[2026-03-03 23:40:46.961] Player 0 sampled action: Move 214
+[2026-03-03 23:40:51.994] Player 1 sampled action: Move 232
+[2026-03-03 23:40:54.998] Player 0 sampled action: Move 319
+[2026-03-03 23:40:57.817] Player 1 sampled action: Move 406
+[2026-03-03 23:40:59.937] Player 0 sampled action: Move 64
+[2026-03-03 23:41:01.893] Player 1 sampled action: Move 337
+[2026-03-03 23:41:03.657] Player 0 sampled action: Move 90
+[2026-03-03 23:41:04.647] Player 1 sampled action: Move 301
+[2026-03-03 23:41:05.268] Player 0 sampled action: Move 450
+[2026-03-03 23:41:05.881] Player 1 sampled action: Move 152
+[2026-03-03 23:41:06.163] Player 0 sampled action: Move 450
+[2026-03-03 23:41:06.440] Player 1 sampled action: Move 305
+[2026-03-03 23:41:06.476] Player 0 sampled action: Move 450
+[2026-03-03 23:41:06.516] Player 1 sampled action: Move 450
+[2026-03-03 23:41:06.556] Player 0 sampled action: Move 450
+[2026-03-03 23:41:06.591] Player 1 sampled action: Move 450
+[2026-03-03 23:41:06.591] Next state:
+======================================================================
+SCRABBLE GAME STATE - Turn 40
+======================================================================
+Status: GAME OVER
+Reason: Four consecutive passes
+
+Scores: P0=168.0  P1=238.0
+Consecutive Passes: 4
+Consecutive Zero Scores: 0
+Banned Actions: 0
+
+Bag: 0 tiles remaining
+P0 Rack (1 tiles): J
+P1 Rack (1 tiles): Z
+
+Board:
+   A B C D E F G H I J K L M N O
+ 0 . . . . G N U . . A K E E . . 
+ 1 . . E . . . M E T E . . . . D 
+ 2 . . N U N . . . O . . S . . O 
+ 3 L U V . . S . I N . . T A P E 
+ 4 . . O B I T . R E B R E D . R 
+ 5 . G I . . A . O D . . T . . . 
+ 6 . . . C . R A N . . . . . . . 
+ 7 . . D A W T I E S . . F A R L 
+ 8 . . . P O . O . . U V E A . . 
+ 9 . . . E L . L I . . O . . . . 
+10 G . Q . F . I T . T W I N . . 
+11 O X I M S . . C . H E . . . . 
+12 . . . Y . . . H A I R Y . . . 
+13 . . . . . . . . A N . . . . . 
+14 . . . . . . . . . . . . . . . 
+
+Move Log Summary (41 entries)
+============================================================
+Turn 31, P1: SUCCESS - Action 301
+Turn 32, P0: SUCCESS - Action 450
+Turn 33, P1: SUCCESS - Action 152
+Turn 34, P0: SUCCESS - Action 450
+Turn 35, P1: SUCCESS - Action 305
+Turn 36, P0: SUCCESS - Action 450
+Turn 37, P1: SUCCESS - Action 450
+Turn 38, P0: SUCCESS - Action 450
+Turn 39, P1: SUCCESS - Action 450
+Turn 39: GAME_TERMINATED - Four consecutive passes
+======================================================================
+[2026-03-03 23:41:06.591] Game 2: Returns: -1.0 1.0; Actions: Move 105 Move 214 Move 193 Move 77 Move 42 Move 134 Move 451 Move 164 Move 114 Move 8 Move 18 Move 285 Move 83 Move 101 Move 374 Move 261 Move 258 Move 59 Move 126 Move 219 Move 187 Move 318 Move 35 Move 330 Move 214 Move 232 Move 319 Move 406 Move 64 Move 337 Move 90 Move 301 Move 450 Move 152 Move 450 Move 305 Move 450 Move 450 Move 450 Move 450
+[2026-03-03 23:41:06.591] --------------------- Starting game 3 ----------------------
+[2026-03-03 23:41:06.593] Initial state:
+======================================================================
+SCRABBLE GAME STATE - Turn 0
+======================================================================
+Status: IN PROGRESS - Player 0's turn
+
+Scores: P0=0.0  P1=0.0
+Consecutive Passes: 0
+Consecutive Zero Scores: 0
+Banned Actions: 0
+
+Bag: 86 tiles remaining
+P0 Rack (7 tiles): O U O L J O E
+P1 Rack (7 tiles): N P A I E C F
+
+Board:
+   A B C D E F G H I J K L M N O
+ 0 . . . . . . . . . . . . . . . 
+ 1 . . . . . . . . . . . . . . . 
+ 2 . . . . . . . . . . . . . . . 
+ 3 . . . . . . . . . . . . . . . 
+ 4 . . . . . . . . . . . . . . . 
+ 5 . . . . . . . . . . . . . . . 
+ 6 . . . . . . . . . . . . . . . 
+ 7 . . . . . . . . . . . . . . . 
+ 8 . . . . . . . . . . . . . . . 
+ 9 . . . . . . . . . . . . . . . 
+10 . . . . . . . . . . . . . . . 
+11 . . . . . . . . . . . . . . . 
+12 . . . . . . . . . . . . . . . 
+13 . . . . . . . . . . . . . . . 
+14 . . . . . . . . . . . . . . . 
+======================================================================
+[2026-03-03 23:41:12.720] Player 0 sampled action: Move 220
+[2026-03-03 23:41:22.168] Player 1 sampled action: Move 139
+[2026-03-03 23:41:31.962] Player 0 sampled action: Move 166
+[2026-03-03 23:41:43.182] Player 1 sampled action: Move 81
+[2026-03-03 23:41:53.039] Player 0 sampled action: Move 321
+[2026-03-03 23:41:53.420] actor-2 exiting
