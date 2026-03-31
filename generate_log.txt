@@ -1,0 +1,5 @@
+Loading GADDAG Dictionary...
+Loading dictionary from resources/CSW24.txt...
+Dictionary loaded.
+Processing games from data/training_dataset.jsonl...
+  0%|          | 0/500 [00:00<?, ?it/s]  0%|          | 1/500 [00:06<50:10,  6.03s/it]  0%|          | 2/500 [00:11<48:34,  5.85s/it]  1%|          | 3/500 [00:12<30:16,  3.66s/it]
