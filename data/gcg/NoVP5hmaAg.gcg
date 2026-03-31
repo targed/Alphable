@@ -1,0 +1,35 @@
+#character-encoding UTF-8
+#description Created with Macondo
+#id io.woogles NoVP5hmaAg
+#lexicon NWL23
+#game-type classic
+#player1 ccm ccm
+#player2 BestBot BestBot
+>ccm: EILLSTU -LU +0 0
+>BestBot: CDFISTW 8F SWIFT +22 22
+>ccm: AAEILST 7G ALA +19 19
+>ccm: AAEILST -- -19 0
+>BestBot: CDLNPPR G7 P.N +12 34
+>ccm: AAEILST H4 AALI. +10 10
+>BestBot: CDLOPRV 5E VOC.L +20 54
+>ccm: ABENRST K2 BANTERS +80 90
+>BestBot: DEKPRSV 3J V.PER +20 74
+>ccm: ?EEJTUU 6J J.U +26 116
+>BestBot: BCDHIKS O1 DISK +53 127
+>ccm: ?AEERTU 10E AUsTERE +68 184
+>BestBot: BCHNOOO N2 B.OOCH +52 179
+>ccm: AAEGLMR O7 MAG +25 209
+>BestBot: AGHILNO 11D OH +20 199
+>ccm: AAELRRU 12B AURA +18 227
+>BestBot: AGILNOX H10 .AXING +66 265
+>ccm: EEILQRT G13 QI +44 271
+>BestBot: ?FLOOOT M7 OuTFOOL +81 346
+>ccm: AEEILRT A9 ATELIER +80 351
+>BestBot: DDEEIRZ 14F Z.. +32 378
+>ccm: EGIIMUY 15A .IMY +13 364
+>BestBot: DDEEIRT L12 DEED +24 402
+>ccm: EEGINUW L1 WI.E +34 398
+>BestBot: DEEIRTY B8 TYE +17 419
+>ccm: EGNNNOU 15J UN.ONE +21 419
+>BestBot: DEIRS C6 DRIES +20 439
+>BestBot: (GN) +6 445

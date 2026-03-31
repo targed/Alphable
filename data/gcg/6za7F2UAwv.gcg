@@ -1,0 +1,48 @@
+#character-encoding UTF-8
+#description Created with Macondo
+#id io.woogles 6za7F2UAwv
+#lexicon RD29
+#game-type classic
+#tile-distribution german
+#player1 BestBot BestBot
+#player2 GandK GandK
+>BestBot: BCDNRSU 8F DUCS +14 14
+>GandK: AAEEFMS F6 FA.EM +24 24
+>BestBot: BHMMNNR 9E M.M +17 31
+>GandK: AELPQSU 7D QU. +12 36
+>BestBot: BEHNNNR -BHNN +0 31
+>GandK: AEKLPRS I6 KA.PERLS +71 107
+>BestBot: AENRSST 14I TRASSEN +84 115
+>GandK: AGINNSX O12 GA.S +21 128
+>BestBot: CMNOÖRZ L10 ZORN. +16 131
+>GandK: DHINNOX J9 IX +55 183
+>BestBot: ?CIMÖRS 6I .ÖM +31 162
+>GandK: DHILNNO 5J NID +23 206
+>BestBot: ?CHIRSY 8B CHI +20 182
+>GandK: BEHLNNO 13C HOBELN. +28 234
+>BestBot: ?NRSTTY D12 T.RY +48 230
+>GandK: ?DEEJNO K11 JE +32 266
+>BestBot: ?EHKNST A8 SKyTHEN +110 340
+>GandK: ?DEENOT L4 O. +6 272
+>BestBot: EINRTUU 3K UI +6 346
+>GandK: ?DEENTV 2E DEVoTEN +67 339
+>BestBot: EGLNRTU 1K GUTEN +25 371
+>GandK: EEGNSUU E2 .U +2 341
+>BestBot: BEEELNR 4D ERLEBE +27 398
+>GandK: EEGNSUW 10L .UG +10 351
+>BestBot: AÄDHNRT N7 DAR. +5 403
+>GandK: EEFNSÜW 8M F.N +18 369
+>BestBot: ÄEHIINT C8 .Ä +14 417
+>GandK: EESÜW 6I ...S +21 390
+>BestBot: EHIINT 12A .I +3 420
+>GandK: EEÜW 11G WE. +5 395
+>BestBot: EHINT 15C N. +11 431
+>GandK: EÜ 10L ...E +7 402
+>BestBot: EHIT 10E I. +8 439
+>GandK: Ü - +0 402
+>BestBot: EHT E9 ..T +10 449
+>GandK: Ü - +0 402
+>BestBot: EH 10H H.. +14 463
+>GandK: Ü - +0 402
+>BestBot: E 13L .E +8 471
+>BestBot: (Ü) +12 483

@@ -1,0 +1,27 @@
+#character-encoding UTF-8
+#description Created with Macondo
+#id io.woogles D8RgeZLBFv
+#lexicon RD29
+#game-type classic
+#tile-distribution german
+#player1 beatrice Beate de Nijs
+#player2 BestBot BestBot
+>beatrice: ABEHIJP 8F JAB +20 20
+>BestBot: DEILNRS H8 .ILDNERS +86 86
+>beatrice: ÄEEHIPS 12C SPÄHE. +30 50
+>BestBot: AEEKLMT 14B TELEMA.K +90 176
+>beatrice: AEEEITU 10H .AUE +7 57
+>BestBot: ?EEOSTX K10 .XE +20 196
+>beatrice: CEEILTU 13K TIC +23 80
+>BestBot: ?EOORST L4 fOOTERS +74 270
+>beatrice: EEGLQUÜ E10 QU.L. +40 120
+>BestBot: CDEOSUV N11 DUCS +24 294
+>beatrice: EEEGNÖÜ 9L .ÜGE +16 136
+>BestBot: AEINOTV O5 NOVA. +33 327
+>beatrice: EEIINÖR 15A NÖR +41 177
+>BestBot: EINRSTZ I2 RITZENS +72 399
+>beatrice: EEIINNY 5F NEN.E +7 184
+>BestBot: ?FGGMNU 3F UMF.NG +15 414
+>beatrice: EFIINSY 6I .Y +62 246
+>BestBot: ?AEGRTU C6 GEkRAU.T.. +74 488
+>beatrice: EFHIINS (time) -10 236

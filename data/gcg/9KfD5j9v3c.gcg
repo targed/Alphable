@@ -1,0 +1,37 @@
+#character-encoding UTF-8
+#description Created with Macondo
+#id io.woogles 9KfD5j9v3c
+#lexicon NWL23
+#game-type classic
+#player1 ccm ccm
+#player2 BestBot BestBot
+>ccm: AABIOOX -AABIO +0 0
+>BestBot: EEEIILZ 8G ZEE +24 24
+>ccm: AOOORTX 9G AX +31 31
+>BestBot: EEGIIIL -EGIII +0 24
+>ccm: ILOOORT 7H LOO +17 48
+>BestBot: EEELMMO 6J MELEE +25 49
+>ccm: GIOPRRT K2 GRIP. +16 64
+>BestBot: ABEIMOW 7L OW +20 69
+>ccm: FFIORTU N6 .TUI +10 74
+>BestBot: ABDEIMU 3I BA.IUM +26 95
+>ccm: EFFORVW M9 OFFER +27 101
+>BestBot: DEEEINO L10 EIDE +28 123
+>ccm: AEGJTVW 13I JAG.. +21 122
+>BestBot: DEEINOY K11 DO.EY +38 161
+>ccm: ELRTTVW 15G WETL. +33 155
+>BestBot: CEINNSU 4F UNCIN. +17 178
+>ccm: DKRSTVY O8 SKY +43 198
+>BestBot: AAEOSSV O1 VASA +35 213
+>ccm: ADNORTV 14F VAR +21 219
+>BestBot: DEHINOS 10A HOIDENS +77 290
+>ccm: DINOQTT 9C QI +45 264
+>BestBot: ?AACHLN D6 kNA..LACH +80 370
+>ccm: DNOPTTT A8 NT. +18 282
+>BestBot: AEINRRU 6D .ARRI +17 387
+>ccm: ?BDOPTT 12J B...D +13 295
+>BestBot: EINRSTU 13A TRU.E +14 401
+>ccm: ?GOOPTT 15A POTs +29 324
+>ccm: ?GOOPTT -- -29 295
+>BestBot: INS E9 S.IN. +28 429
+>BestBot: (?GOOPTT) +18 447

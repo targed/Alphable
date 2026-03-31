@@ -1,0 +1,40 @@
+#character-encoding UTF-8
+#description Created with Macondo
+#id io.woogles f2BNNodAsE
+#lexicon NWL23
+#game-type classic
+#player1 ccm ccm
+#player2 BestBot BestBot
+>ccm: ?ABDOOS 8G BOD +12 12
+>BestBot: AGKLNOZ 7F KALONG +24 24
+>ccm: ?AINOSS K5 SI.NOrAS +82 94
+>BestBot: EEGLLMZ J9 MEZE +37 61
+>ccm: ADEHIOV L3 VOID +21 115
+>BestBot: GGLLPSV -GGLLV +0 61
+>ccm: ACEEHIO 3G ACHIE.E +40 155
+>BestBot: DEINPST 12D SPENDI..T +106 167
+>ccm: ?AEEIOT 11D IOTA +22 177
+>BestBot: AAFGLMS 2I AGMA +36 203
+>ccm: ?EEORRT N3 REwROTE +74 251
+>BestBot: FHILNOS O1 FISH +68 271
+>ccm: CFOQRTT O7 FORT +34 285
+>BestBot: ALNOWXY 1E LAWNY +42 313
+>ccm: BCPQTTW 2N P. +26 311
+>ccm: BCPQTTW -- -26 285
+>BestBot: AGNOUUX 2E OX +52 365
+>ccm: BCPQTTW -BCPQTW +0 285
+>BestBot: AGILNUU D2 LUNGI +22 387
+>ccm: EERTUVY H12 .UTY +24 309
+>BestBot: ABIJLQU 14F JU. +26 413
+>ccm: CEEEPRV 10A PERV +17 326
+>BestBot: ABILNQW A8 WA. +24 437
+>ccm: ACEERTU 13C CAT +22 348
+>BestBot: BDIILNQ B9 D.NI +8 445
+>ccm: EEEERRU 5B UR.ER +12 360
+>BestBot: BILQ A12 QI +42 487
+>ccm: EEE 14F ...E +11 371
+>BestBot: BL I6 B.. +6 493
+>ccm: EE 9I E.. +14 385
+>BestBot: L G6 L.. +5 498
+>BestBot: (E) +2 500
+>ccm: E (time) -10 375

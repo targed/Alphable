@@ -1,0 +1,40 @@
+#character-encoding UTF-8
+#description Created with Macondo
+#id io.woogles twi9paZd
+#lexicon NWL23
+#game-type classic
+#player1 ccm ccm
+#player2 BestBot BestBot
+>ccm: AACLNOT 8C OCTANAL +74 74
+>ccm: AACLNOT -- -74 0
+>BestBot: AILNOTX 8H OX +18 18
+>ccm: AACLNOT 7G CLAN +22 22
+>BestBot: AHILNRT 6I LINT +20 38
+>ccm: AIIOTTU 5J TUI +15 37
+>BestBot: ADHNPRT 4K PHT +33 71
+>ccm: AAIOTWY 3L WAY +32 69
+>BestBot: ADEEINR L3 ....E +11 82
+>ccm: ?AFIOTZ M7 FIZ +38 107
+>BestBot: ADEINPR 8K PR.ED +40 122
+>ccm: ?ANOOST N7 T.ASpOON +85 192
+>BestBot: AABEEIN 2M BAE +25 147
+>ccm: DEGKLOR 12L GR.K +28 220
+>BestBot: AEEINRT O12 .IER +28 175
+>ccm: ADEELOR 1N DO +22 242
+>BestBot: ADEGNRT 9B DRAGNET +64 239
+>ccm: AEELMNR 8A REAM +39 281
+>BestBot: ?ADEEEU 7C EAU +13 252
+>ccm: EEELNUU K8 .ULE +12 293
+>BestBot: ?ACDEEO A1 COlEADE. +83 335
+>ccm: EENNSSU E9 .UN +8 301
+>BestBot: BHIMQTV B2 HIM +31 366
+>ccm: EEFNOSS C1 FON +22 323
+>BestBot: BIQTVVY -BIQTVV +0 366
+>ccm: EEGOSSW 12B WOES +19 342
+>BestBot: AIIJOSY C11 J.Y +26 392
+>ccm: BEGILQS 13K QI +14 356
+>BestBot: AIIOSVV G2 OVISA. +15 407
+>ccm: BEGILST 14J BIG +28 384
+>BestBot: IRV 11H RIV. +7 414
+>BestBot: (ELST) +8 422
+>ccm: ELST (time) -30 354

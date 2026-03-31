@@ -1,0 +1,37 @@
+#character-encoding UTF-8
+#description Created with Macondo
+#id io.woogles hDYQ2kzo
+#lexicon NWL23
+#game-type classic
+#player1 ccm ccm
+#player2 BestBot BestBot
+>ccm: AENORTX -ANO +0 0
+>BestBot: CEEMPRT 8G PEC +14 14
+>ccm: EEEORTX G6 EX.ORT +24 24
+>BestBot: ABEMMRT H11 AMBER +38 52
+>ccm: EEIKOST I8 .OKE +14 38
+>BestBot: LMOPSTT F6 MOST +41 93
+>ccm: ?EINSTV 15H .EINVeST +92 130
+>BestBot: ELNNPTV E5 LEV +30 123
+>ccm: ?AOQSUY N10 QUOtA. +68 198
+>BestBot: ABNNOPT 14G N.AP +24 147
+>ccm: DILNSWY O9 WINY +36 234
+>BestBot: BDDNORT 8L BORT +60 207
+>ccm: DGIILSU L8 .UILD +16 250
+>BestBot: ADDEJLN D2 JADED +37 244
+>ccm: EEFGISU H1 FUGEES +41 291
+>ccm: EEFGISU -- -41 250
+>BestBot: AALNTUW J8 TWA +30 274
+>ccm: EEFGISU C3 FIG +31 281
+>BestBot: ACHLNRU 4B H.. +7 281
+>ccm: EEIIISU -EIIU +0 281
+>BestBot: ACELNRU A2 NUCLEAR +99 380
+>ccm: AAEEIOS 2D .IAO +13 294
+>BestBot: ADEGINO 1G GANOID +33 413
+>ccm: AEEHLNS B6 HAE +31 325
+>BestBot: EIIRTYZ L1 .ITZY +36 449
+>ccm: EFLNRSU 5I FUR. +20 345
+>BestBot: EEGIIOR 10B GORIE. +22 471
+>ccm: ELNSS H1 .SS +15 360
+>BestBot: EI D10 .EI +6 477
+>BestBot: (ELN) +6 483

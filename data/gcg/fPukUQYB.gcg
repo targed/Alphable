@@ -1,0 +1,35 @@
+#character-encoding UTF-8
+#description Created with Macondo
+#id io.woogles fPukUQYB
+#lexicon RD29
+#game-type classic
+#tile-distribution german
+#player1 beatrice Beate de Nijs
+#player2 BestBot BestBot
+>beatrice: GGKRRST -GGKRRST +0 0
+>BestBot: HIRRSXZ -HRXZ +0 0
+>beatrice: AACEFSY H4 CAFES +30 30
+>BestBot: ÄEINRSS 6E EIN.RÄSS +80 80
+>beatrice: AEESUYZ M6 EY +38 68
+>BestBot: BEJKLOU 4C JULBO.KE +96 176
+>beatrice: ADESUWZ K2 WAS +29 97
+>BestBot: CEINPÜV -CPÜV +0 176
+>beatrice: DEEMMUZ 2K .UMM +20 117
+>BestBot: EEGINTX E6 .XEGETIN +82 258
+>beatrice: DEEGHRZ 8A HERZ. +33 150
+>BestBot: ?EHIRRT A8 .ERRIcHT +80 338
+>beatrice: DEEGQRT 12D Q. +22 172
+>BestBot: ?BEHINT 13D I.NEHaBT +72 410
+>beatrice: DEEGMRT N4 MET +27 199
+>BestBot: AFLNNOU H10 AUF.OL +48 458
+>beatrice: DEGNRTU 10D G.TR.UEND +64 263
+>BestBot: ENNNSUU M9 NEUN +16 474
+>beatrice: DEEGHNÖ B6 ÖD. +26 289
+>BestBot: INNOSSU N12 UNIS +10 484
+>beatrice: AEEGHNR O8 HAGEREN +88 377
+>BestBot: ILNOPST A1 SLIPON +54 538
+>beatrice: ACDDKMS 2A .ACKS +24 401
+>BestBot: ETÜV G1 VET. +11 549
+>beatrice: DDM L1 M.D +10 411
+>BestBot: Ü 14A .Ü +16 565
+>BestBot: (D) +2 567

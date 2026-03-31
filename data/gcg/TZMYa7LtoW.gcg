@@ -1,0 +1,44 @@
+#character-encoding UTF-8
+#description Created with Macondo
+#id io.woogles TZMYa7LtoW
+#lexicon RD29
+#game-type classic
+#tile-distribution german
+#player1 BestBot BestBot
+#player2 beatrice Beate de Nijs
+>BestBot: BEEGLNP -P +0 0
+>beatrice: CEFMNSU 8G CES +12 12
+>BestBot: BEEGLLN H7 B.L +6 6
+>beatrice: DFHKMNU -DFHKMNU +0 12
+>BestBot: EEEGLNT 10F TELEGEN +73 79
+>beatrice: AAEFHJT K9 J.T +16 28
+>BestBot: BEGGMOR M6 GROBEM +26 105
+>beatrice: AAEEFHU 8L H.FE +33 61
+>BestBot: EEGINÖU N8 .ÖN +39 144
+>beatrice: AAÄDEKU 6K AU.E +7 68
+>BestBot: EEGIOSU 12H GEUSE +25 169
+>beatrice: AÄDDKNZ 7H .AD +9 77
+>BestBot: EIMNOVW 5I VON +22 191
+>beatrice: ?ÄDEKNZ O1 KÄuZEN +60 137
+>BestBot: EHHHIMW 11D WEIH +19 210
+>beatrice: ?ACDFRS H12 .RAF +24 161
+>BestBot: AHHMNNÜ 14E ANN.HM +17 227
+>beatrice: ?CDISUY 2N S. +14 175
+>BestBot: DHIPUUÜ 15D UHU +10 237
+>beatrice: ?CDEIUY J3 DU. +4 179
+>BestBot: DINPSTÜ 13C DIP +19 256
+>beatrice: ?CEEIQY 12B QI +13 192
+>BestBot: DNNSTTÜ 4L NÜT. +22 278
+>beatrice: ?CEESTY J14 .Y +13 205
+>BestBot: DNRRSTT -DRRST +0 278
+>beatrice: ?CEESTX 13L TEX +22 227
+>BestBot: AKMNRST K2 MAN..S +29 307
+>beatrice: ?CEEIMS 14M SIC +32 259
+>BestBot: EKRRTTU N12 E..T +11 318
+>beatrice: ?DEEIMS 5G Da... +10 269
+>BestBot: KRRRSTU G5 .U +2 320
+>beatrice: EEIIMRS 6E EM. +11 280
+>BestBot: KORRRST E3 OSK.R +18 338
+>beatrice: EIILNRS 4A REIS. +12 292
+>BestBot: RRT C4 .RRT +5 343
+>BestBot: (ILN) +8 351

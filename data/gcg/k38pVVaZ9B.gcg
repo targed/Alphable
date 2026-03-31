@@ -1,0 +1,37 @@
+#character-encoding UTF-8
+#description Created with Macondo
+#id io.woogles k38pVVaZ9B
+#lexicon NWL23
+#game-type classic
+#player1 ccm ccm
+#player2 BestBot BestBot
+>ccm: ACPQRST 8F CARP +16 16
+>BestBot: AAEEOPW 9G WEE +27 27
+>ccm: BGMQRST -MQR +0 16
+>BestBot: AANNOPX 10H PAX +38 65
+>ccm: BFGILST 11I LIFT +29 45
+>BestBot: AADNNOS F8 .ANON +16 81
+>ccm: ABGNOSU 12C NOU. +8 53
+>BestBot: ADDIIIS 12J SAID +29 110
+>ccm: ABBGSTT E11 B.T +18 71
+>BestBot: DEEIILO 14B EIDE +16 126
+>ccm: ABEGRST 8F ....ETBAGS +60 131
+>BestBot: ?IILOTU C5 dILUTIO. +59 185
+>ccm: DFOORSU 15A OF +20 151
+>BestBot: AIKNNOT 15E OINK +31 216
+>ccm: ADORSUY D4 YOD +18 169
+>BestBot: AELNOTT E3 LOT +15 231
+>ccm: ADEQRSU 2E SQUARED +93 262
+>BestBot: AEHNNTV H1 H.VEN +36 267
+>ccm: EIJRSVW M7 V.W +17 279
+>BestBot: ACINTUZ 13L ZA +40 307
+>ccm: EEIIJRS 3E .I +13 292
+>BestBot: CIMNTUY 14M YUM +23 330
+>ccm: EEGIJRS O12 GE.S +27 319
+>BestBot: CGHIMNT 4H .TCHING +26 356
+>ccm: EEIJRRR G7 J.. +21 340
+>BestBot: ?AEELMR 1J REMAtE +35 391
+>ccm: AEEIRRR B6 RE +12 352
+>BestBot: LO G4 LO +18 409
+>BestBot: (AEIRR) +10 419
+>ccm: AEIRR (time) -10 342

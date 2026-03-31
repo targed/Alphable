@@ -1,0 +1,44 @@
+#character-encoding UTF-8
+#description Created with Macondo
+#id io.woogles 4CAFjbboyU
+#lexicon RD29
+#game-type classic
+#tile-distribution german
+#player1 beatrice Beate de Nijs
+#player2 BestBot BestBot
+>beatrice: ?DEENUY 8G EY +22 22
+>BestBot: ABDEGMT 7H MAGD +21 21
+>beatrice: ?ÄDEINU K5 NI. +6 28
+>BestBot: ?BENRST 9E BoRSTEN +77 98
+>beatrice: ?ÄDEOUÜ -OÜ +0 28
+>BestBot: BEEMOUU F7 OB.E +22 120
+>beatrice: ?ÄDEJNU 7E J. +8 36
+>BestBot: CEMQSUU I5 QU.S. +29 149
+>beatrice: ?ÄDENNU 11C zÄUNEND +79 115
+>BestBot: CEHMPSU 11C .......EM +30 179
+>beatrice: AFGIRST D10 G.RST +22 137
+>BestBot: CEHPSUZ 14B ZU.SCH +40 219
+>beatrice: AFILNTU 15G INFUL +30 167
+>BestBot: EHKNPRS L12 KERN +27 246
+>beatrice: ADEIRTU 15A DUR +15 182
+>BestBot: HIPSTTW 13H SWIP.T +28 274
+>beatrice: ACEEIRT L2 EIRE +10 192
+>BestBot: EEHHRTU M1 UH +6 280
+>beatrice: ACGNTTÜ M5 TÜT +12 204
+>BestBot: EEEHIRT 8L HETE +30 310
+>beatrice: ACGLMNX 1M .LM +18 222
+>BestBot: AEIRSSV O4 AVIS.S +12 322
+>beatrice: AACEGNX N8 .AXE +29 251
+>BestBot: AEMNOOR 12N NA +15 337
+>beatrice: ACEEGNN O12 .NNA +12 263
+>BestBot: DEFMOOR 3I FRE. +11 348
+>beatrice: CEEEGHI J1 GE. +6 269
+>BestBot: DKLMOOÖ 4N L. +3 351
+>beatrice: CEEHI - +0 269
+>BestBot: DKMOOÖ 1G KOO. +30 381
+>beatrice: CEEHI - +0 269
+>BestBot: DMÖ H1 .D +3 384
+>beatrice: CEEHI O1 .I +4 273
+>BestBot: MÖ G1 .ÖM +27 411
+>BestBot: (CEEH) +16 427
+>beatrice: CEEH (time) -10 263

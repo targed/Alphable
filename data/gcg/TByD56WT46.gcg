@@ -1,0 +1,35 @@
+#character-encoding UTF-8
+#description Created with Macondo
+#id io.woogles TByD56WT46
+#lexicon RD29
+#game-type classic
+#tile-distribution german
+#player1 BestBot BestBot
+#player2 Johannes Johannes Naumann
+>BestBot: GÖPQRRS -GÖPQR +0 0
+>Johannes: EKRSSTU -K +0 0
+>BestBot: ENNNRSU 8G NUN +6 6
+>Johannes: ENRSSTU 9H RUSSTEN +64 64
+>BestBot: EEHNRRS M3 ERSEHN.R +72 78
+>Johannes: ?CEIIUW 7J WIC. +10 74
+>BestBot: BJOÖRVZ 5J JOB. +24 102
+>Johannes: ?ÄEIMOU J9 .ÄUE +21 95
+>BestBot: KLOÖRVZ 12I V.RÖL +36 138
+>Johannes: ?DEHIMO 3F HOMErID. +64 159
+>BestBot: AEKNOYZ 10M .YE +63 201
+>Johannes: ?EKLNPÜ 10B KNÜpPLE +87 246
+>BestBot: AEKNOTZ C3 ANKOTZE. +82 283
+>Johannes: DEFLNTU 8A FU.LE +39 285
+>BestBot: AAIRRSS H1 SI.AS +24 307
+>Johannes: DDEGINT O10 .DDING +24 309
+>BestBot: ACDMRRT 6B C.RD +16 323
+>Johannes: EGHHNST L11 H.GT +13 322
+>BestBot: ABMMRTX -BMMX +0 323
+>Johannes: EEHINSU 14E EISENHU. +65 387
+>BestBot: AEMQRST F13 Q. +11 334
+>Johannes: BEGIMMT D1 MIME +30 417
+>BestBot: AEFMRST 15H SAM +28 362
+>Johannes: ABEGNTX 15A BANGT +32 449
+>BestBot: EEFRTTU F3 .UFE +21 383
+>Johannes: AEX 1H .AXE +11 460
+>Johannes: (ERTT) +8 468
