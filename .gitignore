@@ -208,3 +208,7 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+
+Alphable\Alphable_V2\data\gcg
+/Alphable_V2/data/gcg
+/Alphable_V1/data

@@ -1,6 +1,0 @@
-[2026-03-03 23:24:42.521] learner started
-[2026-03-03 23:24:42.521] Initializing model
-[2026-03-03 23:24:44.436] Model type: resnet(64, 3)
-[2026-03-03 23:24:44.437] Model size: 740150 variables
-[2026-03-03 23:24:44.574] Initial checkpoint: data/scrabble_az_checkpoints/checkpoint-0
-[2026-03-03 23:41:53.420] learner exiting
