@@ -33,7 +33,6 @@ def train():
 
     # Setup Model, Loss, Optimizer
     model = AlphableValueNet().to(device)
-    criterion = nn.MSELoss()
     optimizer = optim.AdamW(model.parameters(), lr=1e-3, weight_decay=1e-4)
     scheduler = ReduceLROnPlateau(optimizer, mode='min', factor=0.1, patience=3)
 
@@ -49,6 +48,11 @@ def train():
         model.train()
         train_loss = 0.0
 
+        # Diagnostics
+        total_train_targets = 0.0
+        total_train_preds = 0.0
+        train_items = 0
+
         # tqdm for progress bar
         train_loop = tqdm(train_loader, leave=False, desc=f"Epoch {epoch+1}/{num_epochs} [Train]")
         for batch_boards, batch_states, batch_targets in train_loop:
@@ -61,7 +65,12 @@ def train():
 
             # Forward pass
             outputs = model(batch_boards, batch_states)
-            loss = criterion(outputs, batch_targets)
+
+            # Weighted MSE Loss
+            # Target is 1.0 (positive) or -1.0 (negative)
+            weights = torch.where(batch_targets > 0, torch.tensor(10.0, device=device), torch.tensor(1.0, device=device))
+            # Normalize by mean weight
+            loss = (((outputs - batch_targets)**2) * weights).mean() / weights.mean()
 
             # Backward pass & optimize
             loss.backward()
@@ -70,7 +79,14 @@ def train():
             train_loss += loss.item()
             train_loop.set_postfix(loss=loss.item())
 
+            # Update diagnostics
+            total_train_targets += batch_targets.sum().item()
+            total_train_preds += outputs.sum().item()
+            train_items += batch_targets.numel()
+
         avg_train_loss = train_loss / len(train_loader)
+        mean_train_target = total_train_targets / train_items
+        mean_train_pred = total_train_preds / train_items
 
         # --- VALIDATION PHASE ---
         model.eval()
@@ -84,7 +100,10 @@ def train():
                 batch_targets = batch_targets.to(device)
 
                 outputs = model(batch_boards, batch_states)
-                loss = criterion(outputs, batch_targets)
+
+                # Weighted MSE Loss for validation as well to be consistent
+                weights = torch.where(batch_targets > 0, torch.tensor(10.0, device=device), torch.tensor(1.0, device=device))
+                loss = (((outputs - batch_targets)**2) * weights).mean() / weights.mean()
 
                 val_loss += loss.item()
 
@@ -94,6 +113,7 @@ def train():
         epoch_time = time.time() - start_time
         print(f"Epoch {epoch+1:02d}/{num_epochs} | Time: {epoch_time:.2f}s | "
               f"Train Loss: {avg_train_loss:.4f} | Val Loss: {avg_val_loss:.4f}")
+        print(f"   -> Mean Target: {mean_train_target:.4f} | Mean Pred: {mean_train_pred:.4f}")
 
         # LR Scheduler Step
         scheduler.step(avg_val_loss)

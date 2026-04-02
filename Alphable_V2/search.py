@@ -201,9 +201,18 @@ class AlphableSearch:
         return best_candidate, best_expected_value
 
 if __name__ == "__main__":
+    import os
     # Test script for Phase 3
     print("Testing Phase 3 MCTS Search...")
-    eng = inference.AlphableInference(model_path=None) # Uses untrained random weights for testing
+
+    best_model_path = 'models/alphable_best_val_model.pth'
+    if os.path.exists(best_model_path):
+        print(f"Loading trained model from {best_model_path}...")
+        eng = inference.AlphableInference(model_path=best_model_path)
+    else:
+        print(f"Warning: Trained model not found at {best_model_path}.")
+        print("Falling back to untrained random weights for testing.")
+        eng = inference.AlphableInference(model_path=None)
 
     # Create dummy board and rack
     test_board = simulator.create_empty_board()
