@@ -3,6 +3,11 @@ set -e
 
 echo "Starting post-create setup..."
 
+cd /workspaces/Alphable/Alphable_V2
+
+# activate the virtual environment
+source ./venv/bin/activate
+
 # Update pip
 pip install --upgrade pip
 

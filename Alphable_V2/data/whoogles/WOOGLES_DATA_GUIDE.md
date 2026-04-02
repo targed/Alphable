@@ -13,7 +13,7 @@ Get basic information about games (no moves):
 python fetch_more_games.py BestBot
 
 # Fetch all available games
-python fetch_more_games.py BasicBot -n 10000
+python fetch_more_games.py BestBot -n 10000
 
 # Specify output file
 python fetch_more_games.py BasicBot -o my_games.json
