@@ -123,9 +123,9 @@ def process_game(game_line, move_gen):
                             (neg_score, neg_board, neg_rack))
 
                 # 4. Hard Negative Mining
-                # Sort by score descending and take the top N (e.g. 10)
+                # Sort by score descending and take the top N (currently 4)
                 scored_negatives.sort(key=lambda x: x[0], reverse=True)
-                hard_negatives = scored_negatives[:10]
+                hard_negatives = scored_negatives[:4]
 
                 for neg_score, neg_board, neg_rack in hard_negatives:
                     neg_board_compact = "".join(

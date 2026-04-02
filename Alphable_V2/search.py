@@ -5,6 +5,7 @@ import torch
 import inference
 import simulator
 
+
 def get_unseen_distribution(board, my_rack):
     """
     Calculates the distribution of unseen tiles in the game.
@@ -43,6 +44,7 @@ def get_unseen_distribution(board, my_rack):
 
     return unseen_tiles
 
+
 def sample_opponent_rack(unseen_tiles, sample_size=7):
     """
     Randomly draws a rack of `sample_size` tiles from the unseen distribution.
@@ -51,6 +53,7 @@ def sample_opponent_rack(unseen_tiles, sample_size=7):
     if len(unseen_tiles) <= sample_size:
         return copy.deepcopy(unseen_tiles)
     return random.sample(unseen_tiles, sample_size)
+
 
 class AlphableSearch:
     def __init__(self, inference_engine, num_simulations=10, top_k_candidates=5):
@@ -85,7 +88,7 @@ class AlphableSearch:
         my_moves = self.engine.move_gen.generate(board, rack)
 
         if not my_moves:
-            return None, 0.0 # Pass or Exchange
+            return None, 0.0  # Pass or Exchange
 
         print(f"Generated {len(my_moves)} legal moves.")
 
@@ -98,11 +101,13 @@ class AlphableSearch:
         batch_moves = []
 
         for move in my_moves:
-            new_board, points, new_rack = simulator.simulate_move(board, move, rack)
+            new_board, points, new_rack = simulator.simulate_move(
+                board, move, rack)
             new_score_diff = score_diff + points
 
             b_tensor = inference.board_to_tensor(new_board)
-            s_tensor = inference.state_to_tensor(new_rack, new_score_diff, bag_remaining)
+            s_tensor = inference.state_to_tensor(
+                new_rack, new_score_diff, bag_remaining)
 
             batch_boards.append(b_tensor)
             batch_states.append(s_tensor)
@@ -128,7 +133,8 @@ class AlphableSearch:
         candidate_evals.sort(key=lambda x: x['value'], reverse=True)
         top_candidates = candidate_evals[:self.top_k_candidates]
 
-        print(f"Selected Top {len(top_candidates)} Candidates for Deep Simulation.")
+        print(
+            f"Selected Top {len(top_candidates)} Candidates for Deep Simulation.")
 
         # Determine unseen tiles
         unseen_tiles = get_unseen_distribution(board, rack)
@@ -164,23 +170,28 @@ class AlphableSearch:
                 opp_batch_states = []
 
                 for opp_move in opp_moves:
-                    opp_new_board, opp_points, opp_new_rack = simulator.simulate_move(cand_board, opp_move, opp_rack)
+                    opp_new_board, opp_points, opp_new_rack = simulator.simulate_move(
+                        cand_board, opp_move, opp_rack)
 
                     # Opponent's perspective: Score diff is inverted.
                     opp_score_diff = -(cand_score_diff - opp_points)
 
                     b_tensor = inference.board_to_tensor(opp_new_board)
-                    s_tensor = inference.state_to_tensor(opp_new_rack, opp_score_diff, bag_remaining)
+                    s_tensor = inference.state_to_tensor(
+                        opp_new_rack, opp_score_diff, bag_remaining)
 
                     opp_batch_boards.append(b_tensor)
                     opp_batch_states.append(s_tensor)
 
-                opp_b_tensors = torch.stack(opp_batch_boards).to(self.engine.device)
-                opp_s_tensors = torch.stack(opp_batch_states).to(self.engine.device)
+                opp_b_tensors = torch.stack(
+                    opp_batch_boards).to(self.engine.device)
+                opp_s_tensors = torch.stack(
+                    opp_batch_states).to(self.engine.device)
 
                 with torch.no_grad():
                     # Evaluate from Opponent's perspective. Higher is better for them.
-                    opp_win_probs = self.engine.model(opp_b_tensors, opp_s_tensors)
+                    opp_win_probs = self.engine.model(
+                        opp_b_tensors, opp_s_tensors)
 
                 best_opp_val = torch.max(opp_win_probs).item()
 
@@ -200,8 +211,30 @@ class AlphableSearch:
 
         return best_candidate, best_expected_value
 
+
 if __name__ == "__main__":
     import os
+
+    def run_case(searcher, board, rack, score_diff, bag_remaining, label):
+        print(f"\n--- {label} ---")
+        print(
+            f"Rack: {''.join(rack)} | Score Diff: {score_diff} | Bag: {bag_remaining}")
+        best_move, best_val = searcher.find_best_move(
+            board,
+            rack,
+            score_diff=score_diff,
+            bag_remaining=bag_remaining,
+        )
+        if best_move:
+            print("Search Complete.")
+            print(
+                f"Chosen Move: {best_move['word']} at "
+                f"({best_move['row']}, {best_move['col']}, {best_move['dir']})"
+            )
+            print(f"Expected Win Probability: {best_val:.3f}")
+        else:
+            print("No legal move found (pass/exchange state).")
+
     # Test script for Phase 3
     print("Testing Phase 3 MCTS Search...")
 
@@ -214,14 +247,45 @@ if __name__ == "__main__":
         print("Falling back to untrained random weights for testing.")
         eng = inference.AlphableInference(model_path=None)
 
-    # Create dummy board and rack
-    test_board = simulator.create_empty_board()
-    test_rack = ['A', 'B', 'C', 'D', 'E', 'F', 'G']
-
     searcher = AlphableSearch(eng, num_simulations=3, top_k_candidates=2)
-    best_move, best_val = searcher.find_best_move(test_board, test_rack, score_diff=0, bag_remaining=100)
 
-    if best_move:
-        print(f"\nPhase 3 Search Complete.")
-        print(f"Chosen Move: {best_move['word']} at ({best_move['row']}, {best_move['col']}, {best_move['dir']})")
-        print(f"Expected Win Probability: {best_val:.3f}")
+    # Case 1: Smoke test from empty board
+    smoke_board = simulator.create_empty_board()
+    smoke_rack = ['A', 'B', 'C', 'D', 'E', 'F', 'G']
+    run_case(
+        searcher,
+        smoke_board,
+        smoke_rack,
+        score_diff=0,
+        bag_remaining=100,
+        label="Case 1: Empty Board Smoke Test",
+    )
+
+    # Case 2: Midgame-like board with intersecting words and open lanes
+    mid_board = simulator.create_empty_board()
+
+    # HELLO across at row 7, col 4
+    for i, ch in enumerate("HELLO"):
+        mid_board[7][4 + i] = ch
+
+    # WORLD down at row 4, col 8 (intersects HELLO at L)
+    for i, ch in enumerate("WORLD"):
+        mid_board[4 + i][8] = ch
+
+    # TIN across at row 10, col 5
+    for i, ch in enumerate("TIN"):
+        mid_board[10][5 + i] = ch
+
+    # BE across at row 6, col 10
+    for i, ch in enumerate("BE"):
+        mid_board[6][10 + i] = ch
+
+    mid_rack = ['A', 'R', 'S', 'T', 'E', 'N', '?']
+    run_case(
+        searcher,
+        mid_board,
+        mid_rack,
+        score_diff=-18,
+        bag_remaining=46,
+        label="Case 2: Midgame Scenario",
+    )
