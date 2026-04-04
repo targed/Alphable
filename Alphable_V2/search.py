@@ -57,7 +57,14 @@ def sample_opponent_rack(unseen_tiles, sample_size=7):
 
 
 class AlphableSearch:
-    def __init__(self, inference_engine, num_simulations=10, top_k_candidates=5, opp_reply_top_k=3):
+    def __init__(
+        self,
+        inference_engine,
+        num_simulations=10,
+        top_k_candidates=5,
+        opp_reply_top_k=3,
+        mode='bc_0ply',
+    ):
         """
         Initializes the Monte Carlo Rack Sampling search engine.
 
@@ -67,11 +74,14 @@ class AlphableSearch:
             top_k_candidates (int): Number of our own top moves to simulate deeply.
             opp_reply_top_k (int): Number of strongest opponent replies to average
                 instead of taking a single worst-case max.
+            mode (str): 'bc_0ply' for behavior-cloning argmax play, 'lookahead'
+                for 1-ply opponent simulation (intended for RL value nets).
         """
         self.engine = inference_engine
         self.num_simulations = num_simulations
         self.top_k_candidates = top_k_candidates
         self.opp_reply_top_k = opp_reply_top_k
+        self.mode = mode
 
     def find_best_move(self, board, rack, score_diff, bag_remaining):
         """
@@ -136,6 +146,19 @@ class AlphableSearch:
         # Step 3: Pick Top-K Candidates
         candidate_evals.sort(key=lambda x: x['value'], reverse=True)
         top_candidates = candidate_evals[:self.top_k_candidates]
+
+        if self.mode == 'bc_0ply':
+            top_to_print = min(3, len(top_candidates))
+            for i in range(top_to_print):
+                c = top_candidates[i]
+                m = c['move']
+                print(
+                    f"0-Ply Candidate {i+1}: {m['word']} at {m['row']},{m['col']} | "
+                    f"Val: {c['value']:.3f}"
+                )
+
+            best = top_candidates[0]
+            return best['move'], best['value']
 
         print(
             f"Selected Top {len(top_candidates)} Candidates for Deep Simulation.")
@@ -309,9 +332,19 @@ if __name__ == "__main__":
     random.seed(42)
 
     smoke_searcher = AlphableSearch(
-        eng, num_simulations=3, top_k_candidates=2, opp_reply_top_k=2)
+        eng,
+        num_simulations=3,
+        top_k_candidates=3,
+        opp_reply_top_k=2,
+        mode='bc_0ply',
+    )
     eval_searcher = AlphableSearch(
-        eng, num_simulations=16, top_k_candidates=3, opp_reply_top_k=3)
+        eng,
+        num_simulations=16,
+        top_k_candidates=3,
+        opp_reply_top_k=3,
+        mode='bc_0ply',
+    )
 
     # Case 1: Smoke test from empty board
     smoke_board = simulator.create_empty_board()
@@ -333,7 +366,7 @@ if __name__ == "__main__":
     else:
         print(
             f"\nRunning {len(real_cases)} real-position evaluation case(s) "
-            "with num_simulations=16, top_k_candidates=3, opp_reply_top_k=3..."
+            "in BC 0-ply mode (top_k_candidates=3)..."
         )
         eval_vals = []
         for case in real_cases:
