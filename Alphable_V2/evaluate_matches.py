@@ -8,13 +8,11 @@ import torch
 from self_play import apply_endgame_adjustments, build_bag, draw_tiles
 
 
-def evaluate_moves(engine, board, rack, score_diff, bag_remaining):
+def evaluate_moves(engine, board, rack, score_diff, bag_remaining, infer_batch_size=256):
     moves = engine.move_gen.generate(board, rack)
     if not moves:
         return []
 
-    batch_boards = []
-    batch_states = []
     move_states = []
 
     for move in moves:
@@ -22,22 +20,27 @@ def evaluate_moves(engine, board, rack, score_diff, bag_remaining):
             board, move, rack)
         new_score_diff = score_diff + points
 
-        batch_boards.append(inference.board_to_tensor(new_board))
-        batch_states.append(inference.state_to_tensor(
-            new_rack, new_score_diff, bag_remaining))
-        move_states.append((move, new_board, points, new_rack))
+        move_states.append((move, new_board, points, new_rack, new_score_diff))
 
-    b_tensors = torch.stack(batch_boards).to(engine.device)
-    s_tensors = torch.stack(batch_states).to(engine.device)
-
+    vals = []
     with torch.no_grad():
-        vals = engine.model(b_tensors, s_tensors).view(-1)
+        for i in range(0, len(move_states), infer_batch_size):
+            chunk = move_states[i:i + infer_batch_size]
+            b_tensors = torch.stack([
+                inference.board_to_tensor(ms[1]) for ms in chunk
+            ]).to(engine.device)
+            s_tensors = torch.stack([
+                inference.state_to_tensor(ms[3], ms[4], bag_remaining) for ms in chunk
+            ]).to(engine.device)
+
+            chunk_vals = engine.model(b_tensors, s_tensors).view(-1)
+            vals.extend(chunk_vals.detach().cpu().tolist())
 
     evals = []
-    for i, (move, new_board, points, new_rack) in enumerate(move_states):
+    for i, (move, new_board, points, new_rack, _) in enumerate(move_states):
         evals.append({
             'move': move,
-            'value': vals[i].item(),
+            'value': vals[i],
             'new_board': new_board,
             'points': points,
             'new_rack': new_rack,
@@ -61,7 +64,7 @@ def choose_move(evals, temperature=0.0, top_k=3):
     return top[idx]
 
 
-def play_match(engine_a, engine_b, temperature=0.0, top_k=3, max_turns=200):
+def play_match(engine_a, engine_b, temperature=0.0, top_k=3, max_turns=200, infer_batch_size=256):
     board = simulator.create_empty_board()
     bag = build_bag()
     racks = [draw_tiles(bag, 7), draw_tiles(bag, 7)]
@@ -77,7 +80,13 @@ def play_match(engine_a, engine_b, temperature=0.0, top_k=3, max_turns=200):
         bag_remaining = len(bag)
 
         evals = evaluate_moves(
-            engine, board, racks[p], score_diff, bag_remaining)
+            engine,
+            board,
+            racks[p],
+            score_diff,
+            bag_remaining,
+            infer_batch_size=infer_batch_size,
+        )
         chosen = choose_move(evals, temperature=temperature, top_k=top_k)
 
         if chosen is None:
@@ -115,6 +124,8 @@ def main():
     parser.add_argument(
         '--dict', type=str, default='resources/NWL2023.txt', help='Dictionary path.')
     parser.add_argument('--seed', type=int, default=42, help='Random seed.')
+    parser.add_argument('--infer-batch-size', type=int, default=256,
+                        help='Inference batch size for move scoring to control GPU memory usage.')
     args = parser.parse_args()
 
     random.seed(args.seed)
@@ -137,11 +148,13 @@ def main():
         # Alternate first player to reduce first-move bias.
         if g % 2 == 0:
             s0, s1 = play_match(engine_a, engine_b,
-                                temperature=args.temperature, top_k=args.top_k)
+                                temperature=args.temperature, top_k=args.top_k,
+                                infer_batch_size=args.infer_batch_size)
             diff_a = s0 - s1
         else:
             s0, s1 = play_match(engine_b, engine_a,
-                                temperature=args.temperature, top_k=args.top_k)
+                                temperature=args.temperature, top_k=args.top_k,
+                                infer_batch_size=args.infer_batch_size)
             diff_a = s1 - s0
 
         total_diff += diff_a

@@ -38,13 +38,11 @@ def compact_board(board):
     return ''.join(''.join(row) for row in board)
 
 
-def evaluate_moves(engine, board, rack, score_diff, bag_remaining):
+def evaluate_moves(engine, board, rack, score_diff, bag_remaining, infer_batch_size=256):
     moves = engine.move_gen.generate(board, rack)
     if not moves:
         return []
 
-    batch_boards = []
-    batch_states = []
     move_states = []
 
     for move in moves:
@@ -52,22 +50,27 @@ def evaluate_moves(engine, board, rack, score_diff, bag_remaining):
             board, move, rack)
         new_score_diff = score_diff + points
 
-        batch_boards.append(inference.board_to_tensor(new_board))
-        batch_states.append(inference.state_to_tensor(
-            new_rack, new_score_diff, bag_remaining))
-        move_states.append((move, new_board, points, new_rack))
+        move_states.append((move, new_board, points, new_rack, new_score_diff))
 
-    b_tensors = torch.stack(batch_boards).to(engine.device)
-    s_tensors = torch.stack(batch_states).to(engine.device)
-
+    vals = []
     with torch.no_grad():
-        vals = engine.model(b_tensors, s_tensors).view(-1)
+        for i in range(0, len(move_states), infer_batch_size):
+            chunk = move_states[i:i + infer_batch_size]
+            b_tensors = torch.stack([
+                inference.board_to_tensor(ms[1]) for ms in chunk
+            ]).to(engine.device)
+            s_tensors = torch.stack([
+                inference.state_to_tensor(ms[3], ms[4], bag_remaining) for ms in chunk
+            ]).to(engine.device)
+
+            chunk_vals = engine.model(b_tensors, s_tensors).view(-1)
+            vals.extend(chunk_vals.detach().cpu().tolist())
 
     evals = []
-    for i, (move, new_board, points, new_rack) in enumerate(move_states):
+    for i, (move, new_board, points, new_rack, _) in enumerate(move_states):
         evals.append({
             'move': move,
-            'value': vals[i].item(),
+            'value': vals[i],
             'new_board': new_board,
             'points': points,
             'new_rack': new_rack,
@@ -114,7 +117,7 @@ def apply_endgame_adjustments(scores, racks):
         return
 
 
-def play_one_game(engine, temperature=0.15, top_k=5, max_turns=200):
+def play_one_game(engine, temperature=0.15, top_k=5, max_turns=200, infer_batch_size=256):
     board = simulator.create_empty_board()
     bag = build_bag()
 
@@ -141,7 +144,13 @@ def play_one_game(engine, temperature=0.15, top_k=5, max_turns=200):
         })
 
         move_evals = evaluate_moves(
-            engine, board, racks[p], score_diff, bag_remaining)
+            engine,
+            board,
+            racks[p],
+            score_diff,
+            bag_remaining,
+            infer_batch_size=infer_batch_size,
+        )
         selected = choose_move_with_temperature(
             move_evals, temperature=temperature, top_k=top_k)
 
@@ -204,6 +213,8 @@ def main():
                         help='Random seed for reproducibility.')
     parser.add_argument('--append', action='store_true',
                         help='Append to output instead of overwriting.')
+    parser.add_argument('--infer-batch-size', type=int, default=256,
+                        help='Inference batch size for move scoring to control GPU memory usage.')
     args = parser.parse_args()
 
     random.seed(args.seed)
@@ -238,6 +249,7 @@ def main():
                 temperature=args.temperature,
                 top_k=args.top_k,
                 max_turns=args.max_turns,
+                infer_batch_size=args.infer_batch_size,
             )
 
             for s in samples:

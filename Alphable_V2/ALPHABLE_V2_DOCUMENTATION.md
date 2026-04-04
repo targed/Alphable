@@ -159,6 +159,12 @@ python search.py
 python self_play.py --games 1000 --output data/rl/rl_samples.jsonl --top-k 5 --temperature 0.15
 ```
 
+If you hit GPU memory limits on positions with many legal moves:
+
+```bash
+python self_play.py --games 1000 --output data/rl/rl_samples.jsonl --top-k 5 --temperature 0.15 --infer-batch-size 128
+```
+
 Useful options:
 
 ```bash
@@ -176,6 +182,12 @@ python train_rl.py --data data/rl/rl_samples.jsonl --init-model models/alphable_
 
 ```bash
 python evaluate_matches.py --model-a models/alphable_best_val_model.pth --model-b models/alphable_rl_best_val_model.pth --games 50
+```
+
+For lower-memory evaluation:
+
+```bash
+python evaluate_matches.py --model-a models/alphable_best_val_model.pth --model-b models/alphable_rl_best_val_model.pth --games 50 --infer-batch-size 128
 ```
 
 ---

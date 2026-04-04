@@ -1,4 +1,5 @@
 import json
+import argparse
 import random
 import copy
 from collections import Counter
@@ -64,6 +65,7 @@ class AlphableSearch:
         top_k_candidates=5,
         opp_reply_top_k=3,
         mode='bc_0ply',
+        infer_batch_size=256,
     ):
         """
         Initializes the Monte Carlo Rack Sampling search engine.
@@ -76,12 +78,28 @@ class AlphableSearch:
                 instead of taking a single worst-case max.
             mode (str): 'bc_0ply' for behavior-cloning argmax play, 'lookahead'
                 for 1-ply opponent simulation (intended for RL value nets).
+            infer_batch_size (int): Inference batch size to control GPU memory
+                for positions with many legal moves.
         """
         self.engine = inference_engine
         self.num_simulations = num_simulations
         self.top_k_candidates = top_k_candidates
         self.opp_reply_top_k = opp_reply_top_k
         self.mode = mode
+        self.infer_batch_size = infer_batch_size
+
+    def _batched_forward_values(self, board_state_pairs):
+        values = []
+        with torch.no_grad():
+            for i in range(0, len(board_state_pairs), self.infer_batch_size):
+                chunk = board_state_pairs[i:i + self.infer_batch_size]
+                b_tensors = torch.stack(
+                    [p[0] for p in chunk]).to(self.engine.device)
+                s_tensors = torch.stack(
+                    [p[1] for p in chunk]).to(self.engine.device)
+                chunk_vals = self.engine.model(b_tensors, s_tensors).view(-1)
+                values.extend(chunk_vals.detach().cpu().tolist())
+        return values
 
     def find_best_move(self, board, rack, score_diff, bag_remaining):
         """
@@ -127,12 +145,8 @@ class AlphableSearch:
             batch_states.append(s_tensor)
             batch_moves.append((move, new_board, new_score_diff, new_rack))
 
-        # Run inference
-        b_tensors = torch.stack(batch_boards).to(self.engine.device)
-        s_tensors = torch.stack(batch_states).to(self.engine.device)
-
-        with torch.no_grad():
-            win_probs = self.engine.model(b_tensors, s_tensors)
+        win_probs = self._batched_forward_values(
+            list(zip(batch_boards, batch_states)))
 
         for i in range(len(my_moves)):
             candidate_evals.append({
@@ -140,7 +154,7 @@ class AlphableSearch:
                 'board': batch_moves[i][1],
                 'score_diff': batch_moves[i][2],
                 'rack': batch_moves[i][3],
-                'value': win_probs[i].item()
+                'value': win_probs[i]
             })
 
         # Step 3: Pick Top-K Candidates
@@ -210,19 +224,14 @@ class AlphableSearch:
                     opp_batch_boards.append(b_tensor)
                     opp_batch_states.append(s_tensor)
 
-                opp_b_tensors = torch.stack(
-                    opp_batch_boards).to(self.engine.device)
-                opp_s_tensors = torch.stack(
-                    opp_batch_states).to(self.engine.device)
+                # Evaluate from opponent's perspective. Higher is better for them.
+                opp_vals = self._batched_forward_values(
+                    list(zip(opp_batch_boards, opp_batch_states))
+                )
 
-                with torch.no_grad():
-                    # Evaluate from Opponent's perspective. Higher is better for them.
-                    opp_win_probs = self.engine.model(
-                        opp_b_tensors, opp_s_tensors)
-
-                k = min(self.opp_reply_top_k, opp_win_probs.shape[0])
-                topk_vals, _ = torch.topk(opp_win_probs.view(-1), k=k)
-                opp_agg_val = torch.mean(topk_vals).item()
+                k = min(self.opp_reply_top_k, len(opp_vals))
+                topk_vals = sorted(opp_vals, reverse=True)[:k]
+                opp_agg_val = sum(topk_vals) / k
 
                 # 4e. Estimate our value as the inverse of opponent aggregated reply value.
                 our_true_val = -opp_agg_val
@@ -317,33 +326,65 @@ if __name__ == "__main__":
             print("No legal move found (pass/exchange state).")
         return best_val
 
-    # Test script for Phase 3
+    default_device = 'cuda' if torch.cuda.is_available() else 'cpu'
+
+    parser = argparse.ArgumentParser(
+        description='Run Alphable search diagnostics and evaluation.')
+    parser.add_argument('--model', type=str, default='models/alphable_rl_best_val_model.pth',
+                        help='Checkpoint path to load for search evaluation.')
+    parser.add_argument('--mode', choices=['bc_0ply', 'lookahead'], default='lookahead',
+                        help='Search mode: bc_0ply for BC argmax, lookahead for 1-ply simulation.')
+    parser.add_argument('--dict', type=str, default='resources/NWL2023.txt',
+                        help='Dictionary path for move generation.')
+    parser.add_argument('--device', type=str, default=default_device,
+                        help='Torch device for inference, e.g. cpu or cuda.')
+    parser.add_argument('--seed', type=int, default=42,
+                        help='Random seed used for reproducible rack sampling.')
+    parser.add_argument('--infer-batch-size', type=int, default=128,
+                        help='Inference batch size for candidate scoring.')
+    parser.add_argument('--smoke-sims', type=int, default=8,
+                        help='Number of opponent rack simulations for smoke case (lookahead mode).')
+    parser.add_argument('--eval-sims', type=int, default=32,
+                        help='Number of opponent rack simulations for real eval cases (lookahead mode).')
+    parser.add_argument('--top-k', type=int, default=3,
+                        help='Top candidate moves kept before deep simulation or display.')
+    parser.add_argument('--opp-reply-top-k', type=int, default=5,
+                        help='Number of strongest opponent replies to average in lookahead mode.')
+    parser.add_argument('--samples-path', type=str, default='data/supervised/samples.jsonl',
+                        help='Source JSONL for real-board evaluation cases.')
+    parser.add_argument('--num-real-cases', type=int, default=5,
+                        help='Number of real-position evaluation cases. Use 0 to skip.')
+    args = parser.parse_args()
+
     print("Testing Phase 3 MCTS Search...")
 
-    best_model_path = 'models/alphable_best_val_model.pth'
-    if os.path.exists(best_model_path):
-        print(f"Loading trained model from {best_model_path}...")
-        eng = inference.AlphableInference(model_path=best_model_path)
+    model_path = args.model if os.path.exists(args.model) else None
+    if model_path:
+        print(f"Loading trained model from {model_path}...")
     else:
-        print(f"Warning: Trained model not found at {best_model_path}.")
-        print("Falling back to untrained random weights for testing.")
-        eng = inference.AlphableInference(model_path=None)
+        print(
+            f"Warning: Model not found at {args.model}. Falling back to untrained random weights.")
 
-    random.seed(42)
+    eng = inference.AlphableInference(
+        model_path=model_path, device=args.device, dict_path=args.dict)
+
+    random.seed(args.seed)
 
     smoke_searcher = AlphableSearch(
         eng,
-        num_simulations=3,
-        top_k_candidates=3,
-        opp_reply_top_k=2,
-        mode='bc_0ply',
+        num_simulations=args.smoke_sims,
+        top_k_candidates=args.top_k,
+        opp_reply_top_k=max(1, min(args.opp_reply_top_k, 2)),
+        mode=args.mode,
+        infer_batch_size=args.infer_batch_size,
     )
     eval_searcher = AlphableSearch(
         eng,
-        num_simulations=16,
-        top_k_candidates=3,
-        opp_reply_top_k=3,
-        mode='bc_0ply',
+        num_simulations=args.eval_sims,
+        top_k_candidates=args.top_k,
+        opp_reply_top_k=args.opp_reply_top_k,
+        mode=args.mode,
+        infer_batch_size=args.infer_batch_size,
     )
 
     # Case 1: Smoke test from empty board
@@ -358,15 +399,20 @@ if __name__ == "__main__":
         label="Case 1: Empty Board Smoke Test",
     )
 
-    samples_path = 'data/supervised/samples.jsonl'
-    real_cases = load_real_eval_cases(samples_path, num_cases=5)
+    real_cases = []
+    if args.num_real_cases > 0:
+        real_cases = load_real_eval_cases(
+            args.samples_path, num_cases=args.num_real_cases)
     if not real_cases:
-        print(
-            f"\nNo real evaluation cases could be loaded from {samples_path}.")
+        if args.num_real_cases > 0:
+            print(
+                f"\nNo real evaluation cases could be loaded from {args.samples_path}.")
+        else:
+            print("\nSkipping real-position evaluation (--num-real-cases=0).")
     else:
         print(
             f"\nRunning {len(real_cases)} real-position evaluation case(s) "
-            "in BC 0-ply mode (top_k_candidates=3)..."
+            f"in mode={args.mode} (top_k_candidates={args.top_k})..."
         )
         eval_vals = []
         for case in real_cases:
