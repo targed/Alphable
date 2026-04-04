@@ -41,11 +41,14 @@ def train():
     optimizer = optim.AdamW(model.parameters(), lr=1e-3, weight_decay=1e-4)
     scheduler = ReduceLROnPlateau(
         optimizer, mode='min', factor=0.1, patience=3)
-    positive_weight = 7.0
+    positive_weight = 5.0
     negative_weight = 1.0
+    target_scale = 0.8
+    early_stopping_patience = 4
 
     num_epochs = 20
     best_val_loss = float('inf')
+    epochs_without_improvement = 0
 
     print("Starting Supervised Training...")
 
@@ -75,12 +78,15 @@ def train():
             # Forward pass
             outputs = model(batch_boards, batch_states)
 
+            # Label smoothing for value targets to reduce extreme saturation.
+            smoothed_targets = batch_targets * target_scale
+
             # Weighted MSE Loss
             # Target is 1.0 (positive) or -1.0 (negative)
             weights = torch.where(
                 batch_targets > 0, positive_weight, negative_weight)
             # Normalize by mean weight
-            loss = (((outputs - batch_targets)**2) *
+            loss = (((outputs - smoothed_targets)**2) *
                     weights).mean() / weights.mean()
 
             # Backward pass & optimize
@@ -113,10 +119,12 @@ def train():
 
                 outputs = model(batch_boards, batch_states)
 
+                smoothed_targets = batch_targets * target_scale
+
                 # Weighted MSE Loss for validation as well to be consistent
                 weights = torch.where(
                     batch_targets > 0, positive_weight, negative_weight)
-                loss = (((outputs - batch_targets)**2) *
+                loss = (((outputs - smoothed_targets)**2) *
                         weights).mean() / weights.mean()
 
                 val_loss += loss.item()
@@ -136,9 +144,19 @@ def train():
         # Checkpointing
         if avg_val_loss < best_val_loss:
             best_val_loss = avg_val_loss
+            epochs_without_improvement = 0
             torch.save(model.state_dict(), best_model_path)
             print(
                 f"   -> Best model saved to {best_model_path} (Val Loss: {best_val_loss:.4f})")
+        else:
+            epochs_without_improvement += 1
+            print(
+                f"   -> No val improvement for {epochs_without_improvement}/{early_stopping_patience} epoch(s)")
+
+        if epochs_without_improvement >= early_stopping_patience:
+            print(
+                f"Early stopping triggered at epoch {epoch+1}. Best Val Loss: {best_val_loss:.4f}")
+            break
 
 
 if __name__ == "__main__":

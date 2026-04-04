@@ -1,3 +1,4 @@
+import json
 import random
 import copy
 from collections import Counter
@@ -56,7 +57,7 @@ def sample_opponent_rack(unseen_tiles, sample_size=7):
 
 
 class AlphableSearch:
-    def __init__(self, inference_engine, num_simulations=10, top_k_candidates=5):
+    def __init__(self, inference_engine, num_simulations=10, top_k_candidates=5, opp_reply_top_k=3):
         """
         Initializes the Monte Carlo Rack Sampling search engine.
 
@@ -64,10 +65,13 @@ class AlphableSearch:
             inference_engine (AlphableInference): The Phase 1/2 NN and GADDAG wrapper.
             num_simulations (int): Number of opponent racks to sample per candidate move.
             top_k_candidates (int): Number of our own top moves to simulate deeply.
+            opp_reply_top_k (int): Number of strongest opponent replies to average
+                instead of taking a single worst-case max.
         """
         self.engine = inference_engine
         self.num_simulations = num_simulations
         self.top_k_candidates = top_k_candidates
+        self.opp_reply_top_k = opp_reply_top_k
 
     def find_best_move(self, board, rack, score_diff, bag_remaining):
         """
@@ -193,11 +197,12 @@ class AlphableSearch:
                     opp_win_probs = self.engine.model(
                         opp_b_tensors, opp_s_tensors)
 
-                best_opp_val = torch.max(opp_win_probs).item()
+                k = min(self.opp_reply_top_k, opp_win_probs.shape[0])
+                topk_vals, _ = torch.topk(opp_win_probs.view(-1), k=k)
+                opp_agg_val = torch.mean(topk_vals).item()
 
-                # 4e. The true value for US is the inverse of the Opponent's best value.
-                # Since the network outputs [-1, 1], an opponent win prob of 0.8 means our win prob is -0.8.
-                our_true_val = -best_opp_val
+                # 4e. Estimate our value as the inverse of opponent aggregated reply value.
+                our_true_val = -opp_agg_val
                 total_simulation_value += our_true_val
 
             # Average the simulated values across all N random racks
@@ -214,6 +219,59 @@ class AlphableSearch:
 
 if __name__ == "__main__":
     import os
+
+    def board_from_compact(compact_board):
+        board = []
+        for r in range(15):
+            start = r * 15
+            board.append(list(compact_board[start:start + 15]))
+        return board
+
+    def load_real_eval_cases(samples_path, num_cases=5):
+        if not os.path.exists(samples_path):
+            return []
+
+        with open(samples_path, 'r') as f:
+            all_samples = [json.loads(line) for line in f if line.strip()]
+
+        if not all_samples:
+            return []
+
+        candidates = []
+        for s in all_samples:
+            board = s.get('board', '')
+            rack = s.get('rack', '')
+            bag = int(s.get('bag', 0))
+            if len(board) != 225:
+                continue
+            if '.' * 225 == board:
+                continue
+            if len(rack) == 0:
+                continue
+            # Prefer broadly midgame-like states.
+            if 15 <= bag <= 70:
+                candidates.append(s)
+
+        if not candidates:
+            candidates = all_samples
+
+        step = max(1, len(candidates) // num_cases)
+        picked = []
+        for idx in range(0, len(candidates), step):
+            picked.append(candidates[idx])
+            if len(picked) >= num_cases:
+                break
+
+        cases = []
+        for i, sample in enumerate(picked, start=1):
+            cases.append({
+                'label': f"Case {i + 1}: Real Sample Eval",
+                'board': board_from_compact(sample['board']),
+                'rack': list(sample['rack']),
+                'score_diff': int(sample.get('score_diff', 0)),
+                'bag_remaining': int(sample.get('bag', 0)),
+            })
+        return cases
 
     def run_case(searcher, board, rack, score_diff, bag_remaining, label):
         print(f"\n--- {label} ---")
@@ -234,6 +292,7 @@ if __name__ == "__main__":
             print(f"Expected Win Probability: {best_val:.3f}")
         else:
             print("No legal move found (pass/exchange state).")
+        return best_val
 
     # Test script for Phase 3
     print("Testing Phase 3 MCTS Search...")
@@ -247,13 +306,18 @@ if __name__ == "__main__":
         print("Falling back to untrained random weights for testing.")
         eng = inference.AlphableInference(model_path=None)
 
-    searcher = AlphableSearch(eng, num_simulations=3, top_k_candidates=2)
+    random.seed(42)
+
+    smoke_searcher = AlphableSearch(
+        eng, num_simulations=3, top_k_candidates=2, opp_reply_top_k=2)
+    eval_searcher = AlphableSearch(
+        eng, num_simulations=16, top_k_candidates=3, opp_reply_top_k=3)
 
     # Case 1: Smoke test from empty board
     smoke_board = simulator.create_empty_board()
     smoke_rack = ['A', 'B', 'C', 'D', 'E', 'F', 'G']
-    run_case(
-        searcher,
+    smoke_val = run_case(
+        smoke_searcher,
         smoke_board,
         smoke_rack,
         score_diff=0,
@@ -261,31 +325,35 @@ if __name__ == "__main__":
         label="Case 1: Empty Board Smoke Test",
     )
 
-    # Case 2: Midgame-like board with intersecting words and open lanes
-    mid_board = simulator.create_empty_board()
+    samples_path = 'data/supervised/samples.jsonl'
+    real_cases = load_real_eval_cases(samples_path, num_cases=5)
+    if not real_cases:
+        print(
+            f"\nNo real evaluation cases could be loaded from {samples_path}.")
+    else:
+        print(
+            f"\nRunning {len(real_cases)} real-position evaluation case(s) "
+            "with num_simulations=16, top_k_candidates=3, opp_reply_top_k=3..."
+        )
+        eval_vals = []
+        for case in real_cases:
+            best_val = run_case(
+                eval_searcher,
+                case['board'],
+                case['rack'],
+                score_diff=case['score_diff'],
+                bag_remaining=case['bag_remaining'],
+                label=case['label'],
+            )
+            eval_vals.append(best_val)
 
-    # HELLO across at row 7, col 4
-    for i, ch in enumerate("HELLO"):
-        mid_board[7][4 + i] = ch
-
-    # WORLD down at row 4, col 8 (intersects HELLO at L)
-    for i, ch in enumerate("WORLD"):
-        mid_board[4 + i][8] = ch
-
-    # TIN across at row 10, col 5
-    for i, ch in enumerate("TIN"):
-        mid_board[10][5 + i] = ch
-
-    # BE across at row 6, col 10
-    for i, ch in enumerate("BE"):
-        mid_board[6][10 + i] = ch
-
-    mid_rack = ['A', 'R', 'S', 'T', 'E', 'N', '?']
-    run_case(
-        searcher,
-        mid_board,
-        mid_rack,
-        score_diff=-18,
-        bag_remaining=46,
-        label="Case 2: Midgame Scenario",
-    )
+        if eval_vals:
+            avg_val = sum(eval_vals) / len(eval_vals)
+            min_val = min(eval_vals)
+            max_val = max(eval_vals)
+            print("\nEvaluation Summary:")
+            print(f"Smoke best value: {smoke_val:.3f}")
+            print(
+                f"Real cases best value mean/min/max: "
+                f"{avg_val:.3f} / {min_val:.3f} / {max_val:.3f}"
+            )
