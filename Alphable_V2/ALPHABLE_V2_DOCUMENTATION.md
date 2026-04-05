@@ -266,12 +266,18 @@ Outputs are written to:
 
 - `data/vs_random/*.json` and `data/vs_random/*.txt`
 - `data/vs_greedy/*.json` and `data/vs_greedy/*.txt`
+- `data/vs_random/summaries/*.json` and `data/vs_greedy/summaries/*.json`
 
 Replay JSON is visualizer-compatible and includes:
 
 - per-turn `rack_before`, `rack_after`, `board_state`, and score delta
 - action metadata (`PLAY`/`PASS`, word/position/direction)
 - Alphable diagnostics (`alphable_value`, `top_candidates`)
+
+Summary JSON files include:
+
+- per-game summary: winner, margin, bingos, average score/move, replay paths
+- per-run summary: wins/losses/ties, win rate, average margin, all game summary file paths
 
 Launch the visualizer backend and inspect games:
 

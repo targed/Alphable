@@ -1,4 +1,5 @@
 import argparse
+import json
 import os
 import random
 from datetime import datetime
@@ -242,12 +243,46 @@ def run_game(
             alphable_won = False
 
     logger.save_json(json_path)
+    summary = {
+        'game_index': game_idx + 1,
+        'game_id': logger.game_id,
+        'timestamp': logger.timestamp,
+        'players': logger.player_names,
+        'opponent': opponent,
+        'mode': searcher.mode,
+        'winner': 'alphable' if az_score > opp_score else (
+            opponent if opp_score > az_score else 'tie'
+        ),
+        'alphable_won': alphable_won,
+        'tie': az_score == opp_score,
+        'alphable_score': az_score,
+        'opponent_score': opp_score,
+        'score_margin': az_score - opp_score,
+        'total_played_moves': move_count,
+        'alphable_bingos': stats['player_stats'][az_idx]['bingos'],
+        'opponent_bingos': stats['player_stats'][opp_idx]['bingos'],
+        'alphable_avg_score_per_move': stats['player_stats'][az_idx]['average_score_per_move'],
+        'opponent_avg_score_per_move': stats['player_stats'][opp_idx]['average_score_per_move'],
+        'replay_json': os.path.abspath(json_path),
+        'replay_txt': os.path.abspath(txt_path),
+    }
+
+    summaries_dir = os.path.join(output_dir, 'summaries')
+    os.makedirs(summaries_dir, exist_ok=True)
+    summary_path = os.path.join(
+        summaries_dir,
+        f"game{game_idx+1}_{timestamp}_summary.json",
+    )
+    with open(summary_path, 'w', encoding='utf-8') as f:
+        json.dump(summary, f, indent=2)
+
     return {
         'alphable_won': alphable_won,
         'az_score': az_score,
         'opp_score': opp_score,
         'txt_path': txt_path,
         'json_path': json_path,
+        'summary_path': summary_path,
     }
 
 
@@ -287,6 +322,7 @@ def evaluate(args):
 
     wins = 0
     ties = 0
+    game_results = []
     for i in range(args.games):
         result = run_game(
             game_idx=i,
@@ -298,6 +334,7 @@ def evaluate(args):
             max_turns=args.max_turns,
             infer_batch_size=args.infer_batch_size,
         )
+        game_results.append(result)
 
         if result['az_score'] == result['opp_score']:
             ties += 1
@@ -311,10 +348,41 @@ def evaluate(args):
             print(
                 f"Game {i+1}: {args.opponent.capitalize()} wins ({result['opp_score']} vs {result['az_score']}) -> {result['json_path']}")
 
+    losses = args.games - wins - ties
+    run_summary = {
+        'timestamp': timestamp,
+        'opponent': args.opponent,
+        'model': os.path.abspath(args.model),
+        'mode': args.mode,
+        'games': args.games,
+        'wins': wins,
+        'losses': losses,
+        'ties': ties,
+        'win_rate': (wins / args.games) if args.games > 0 else 0.0,
+        'avg_margin': (
+            sum(r['az_score'] - r['opp_score']
+                for r in game_results) / len(game_results)
+            if game_results else 0.0
+        ),
+        'output_dir': os.path.abspath(args.output_dir),
+        'game_summaries': [r['summary_path'] for r in game_results],
+    }
+
+    summaries_dir = os.path.join(args.output_dir, 'summaries')
+    os.makedirs(summaries_dir, exist_ok=True)
+    run_summary_path = os.path.join(
+        summaries_dir,
+        f"run_{timestamp}_summary.json",
+    )
+    with open(run_summary_path, 'w', encoding='utf-8') as f:
+        json.dump(run_summary, f, indent=2)
+
     print("\n=== Summary ===")
     print(f"Win Rate: {wins}/{args.games}")
+    print(f"Losses: {losses}")
     print(f"Ties: {ties}")
     print(f"Logs directory: {args.output_dir}")
+    print(f"Run summary: {run_summary_path}")
 
 
 def main():

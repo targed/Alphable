@@ -1,13 +1,16 @@
 #!/bin/bash
+set -e
+
+ROOT_DIR="$(cd "$(dirname "$0")" && pwd)"
+cd "$ROOT_DIR"
 
 echo "Starting Alphable Replay Visualizer..."
 echo ""
 
-# Check if backend dependencies are installed
-if [ ! -d "visualizer/backend/venv" ]; then
-    echo "Setting up Python virtual environment..."
-    source venv/bin/activate
-    pip install -r requirements.txt
+if [ ! -x "venv/bin/python" ]; then
+    echo "Error: project Python environment not found at venv/bin/python"
+    echo "Create it first, then install requirements."
+    exit 1
 fi
 
 # Check if frontend dependencies are installed
@@ -18,23 +21,26 @@ if [ ! -d "visualizer/frontend/node_modules" ]; then
     cd ../..
 fi
 
-# Start backend in background
-echo "🔧 Starting Flask backend..."
+BACKEND_PID=""
+
+cleanup() {
+    if [ -n "$BACKEND_PID" ] && kill -0 "$BACKEND_PID" 2>/dev/null; then
+        echo ""
+        echo "Shutting down backend (pid=$BACKEND_PID)..."
+        kill "$BACKEND_PID" 2>/dev/null || true
+    fi
+}
+
+trap cleanup EXIT INT TERM
+
+echo "Starting Flask backend on http://localhost:5000 ..."
 cd visualizer/backend
-# source venv/bin/activate
-python app.py &
+"$ROOT_DIR/venv/bin/python" app.py &
 BACKEND_PID=$!
 cd ../..
 
-# Wait for backend to start
-sleep 3
+sleep 2
 
-# Start frontend
 echo "Starting React frontend..."
 cd visualizer/frontend
 npm start
-
-# Cleanup on exit
-trap "echo ''; echo 'Shutting down...'; kill $BACKEND_PID; exit" INT TERM
-
-wait
