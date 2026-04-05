@@ -253,6 +253,35 @@ python run_calibration_cycle.py --games 1 --overwrite --rl-data data/rl/rl_cycle
 
 If a step fails, the script stops and records the exit code in `summary.json`.
 
+### 6.7 Behavior auditing with replay logs (Phase 1 + 2)
+
+Generate V2-native replay logs against random and greedy baselines:
+
+```bash
+python evaluate_vs_random.py --games 10 --model models/alphable_rl_best_val_model.pth --mode lookahead --infer-batch-size 128
+python evaluate_vs_greedy.py --games 10 --model models/alphable_rl_best_val_model.pth --mode lookahead --infer-batch-size 128
+```
+
+Outputs are written to:
+
+- `data/vs_random/*.json` and `data/vs_random/*.txt`
+- `data/vs_greedy/*.json` and `data/vs_greedy/*.txt`
+
+Replay JSON is visualizer-compatible and includes:
+
+- per-turn `rack_before`, `rack_after`, `board_state`, and score delta
+- action metadata (`PLAY`/`PASS`, word/position/direction)
+- Alphable diagnostics (`alphable_value`, `top_candidates`)
+
+Launch the visualizer backend and inspect games:
+
+```bash
+cd visualizer/backend
+python app.py
+```
+
+Then open `http://localhost:5000` and load games from `vs_random` / `vs_greedy`.
+
 ---
 
 ## 7. Operational Guidance
@@ -283,3 +312,7 @@ Practical stopping condition for a phase:
 - `self_play.py`: Self-play RL sample generation.
 - `train_rl.py`: Outcome-based RL fine-tuning.
 - `evaluate_matches.py`: Checkpoint-vs-checkpoint match evaluator.
+- `game_logger.py`: V2 replay logger (visualizer-compatible JSON schema).
+- `evaluate_vs_baseline.py`: Shared V2 evaluator for random/greedy baselines.
+- `evaluate_vs_random.py`: Wrapper for V2 random-baseline evaluation.
+- `evaluate_vs_greedy.py`: Wrapper for V2 greedy-baseline evaluation.
