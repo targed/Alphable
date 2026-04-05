@@ -200,10 +200,10 @@ def main():
     parser.add_argument(
         '--output', type=str, default='data/rl/rl_samples.jsonl', help='Output jsonl path.')
     parser.add_argument(
-        '--model', type=str, default='models/alphable_best_val_model.pth', help='Starting model checkpoint.')
+        '--model', type=str, default='models/alphable_rl_best_val_model.pth', help='Starting model checkpoint.')
     parser.add_argument(
         '--dict', type=str, default='resources/NWL2023.txt', help='Dictionary path.')
-    parser.add_argument('--temperature', type=float, default=0.15,
+    parser.add_argument('--temperature', type=float, default=0.20,
                         help='Sampling temperature for move selection.')
     parser.add_argument('--top-k', type=int, default=5,
                         help='Sample from top-k moves each turn.')
@@ -226,15 +226,23 @@ def main():
     print(f'Using device: {device}')
     print(f'Loading model from: {args.model}')
 
+    model_path = args.model
+    if not os.path.exists(model_path):
+        fallback_model = 'models/alphable_best_val_model.pth'
+        if os.path.exists(fallback_model):
+            print(
+                f'Warning: model file not found at {model_path}. Falling back to {fallback_model}.')
+            model_path = fallback_model
+        else:
+            print(
+                f'Warning: model file not found at {model_path}. Using random weights.')
+            model_path = None
+
     engine = inference.AlphableInference(
-        model_path=args.model if os.path.exists(args.model) else None,
+        model_path=model_path,
         device=device,
         dict_path=args.dict,
     )
-
-    if not os.path.exists(args.model):
-        print(
-            f'Warning: model file not found at {args.model}. Using random weights.')
 
     mode = 'a' if args.append else 'w'
     total_samples = 0

@@ -153,16 +153,22 @@ python train_supervised.py
 python search.py
 ```
 
+Note: `search.py` now defaults to the RL checkpoint in lookahead mode. To explicitly inspect BC behavior:
+
+```bash
+python search.py --model models/alphable_best_val_model.pth --mode bc_0ply
+```
+
 ### 6.2 RL data generation
 
 ```bash
-python self_play.py --games 1000 --output data/rl/rl_samples.jsonl --top-k 5 --temperature 0.15
+python self_play.py --games 1000 --output data/rl/rl_samples.jsonl --top-k 5 --temperature 0.20 --infer-batch-size 128
 ```
 
 If you hit GPU memory limits on positions with many legal moves:
 
 ```bash
-python self_play.py --games 1000 --output data/rl/rl_samples.jsonl --top-k 5 --temperature 0.15 --infer-batch-size 128
+python self_play.py --games 1000 --output data/rl/rl_samples.jsonl --top-k 5 --temperature 0.20 --infer-batch-size 128
 ```
 
 Useful options:
@@ -175,7 +181,25 @@ python self_play.py --games 100 --max-turns 250 --seed 123
 ### 6.3 RL training
 
 ```bash
-python train_rl.py --data data/rl/rl_samples.jsonl --init-model models/alphable_best_val_model.pth --save-model models/alphable_rl_best_val_model.pth
+python train_rl.py --data data/rl/rl_samples.jsonl --init-model models/alphable_rl_best_val_model.pth --save-model models/alphable_rl_best_val_model.pth
+```
+
+If the RL checkpoint does not exist yet, `train_rl.py` automatically falls back to `models/alphable_best_val_model.pth`.
+
+### 6.3.1 RL search defaults (stability tuned)
+
+Default `search.py` behavior is now:
+
+- checkpoint: `models/alphable_rl_best_val_model.pth`
+- mode: `lookahead`
+- eval simulations: `32`
+- opponent reply aggregation: top `5`
+- inference batch size: `128`
+
+Example explicit run:
+
+```bash
+python search.py --model models/alphable_rl_best_val_model.pth --mode lookahead --eval-sims 32 --opp-reply-top-k 5 --infer-batch-size 128
 ```
 
 ### 6.4 Compare checkpoints
@@ -189,6 +213,45 @@ For lower-memory evaluation:
 ```bash
 python evaluate_matches.py --model-a models/alphable_best_val_model.pth --model-b models/alphable_rl_best_val_model.pth --games 50 --infer-batch-size 128
 ```
+
+### 6.5 Calibration iteration (recommended)
+
+Run one full RL calibration cycle:
+
+```bash
+python self_play.py --games 1000 --append --output data/rl/rl_samples.jsonl --top-k 5 --temperature 0.20 --infer-batch-size 128
+python train_rl.py --data data/rl/rl_samples.jsonl --init-model models/alphable_rl_best_val_model.pth --save-model models/alphable_rl_best_val_model.pth
+python evaluate_matches.py --model-a models/alphable_best_val_model.pth --model-b models/alphable_rl_best_val_model.pth --games 200 --infer-batch-size 128
+```
+
+### 6.6 One-command calibration cycle with logs
+
+Use the orchestrator script to run self-play, RL training, and match evaluation in one command with live output and saved log files.
+
+```bash
+python run_calibration_cycle.py
+```
+
+What it writes:
+
+- `logs/calibration_runs/<timestamp>/self_play.log`
+- `logs/calibration_runs/<timestamp>/train_rl.log`
+- `logs/calibration_runs/<timestamp>/evaluate.log`
+- `logs/calibration_runs/<timestamp>/summary.json`
+
+Example custom run:
+
+```bash
+python run_calibration_cycle.py --games 500 --eval-games 100 --infer-batch-size 128
+```
+
+Fast smoke run (new dataset file, 1 epoch, tiny eval):
+
+```bash
+python run_calibration_cycle.py --games 1 --overwrite --rl-data data/rl/rl_cycle_smoke.jsonl --epochs 1 --batch-size 16 --eval-games 2
+```
+
+If a step fails, the script stops and records the exit code in `summary.json`.
 
 ---
 

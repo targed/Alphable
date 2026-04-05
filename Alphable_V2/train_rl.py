@@ -43,8 +43,16 @@ def train_rl(
         print(f"Warm-starting from {init_model_path}")
         model.load_state_dict(torch.load(init_model_path, map_location=device))
     else:
-        print(
-            "Warning: init model not found. Training RL model from random initialization.")
+        fallback_model = 'models/alphable_best_val_model.pth'
+        if os.path.exists(fallback_model):
+            print(
+                f"Warning: init model not found. Falling back to {fallback_model}"
+            )
+            model.load_state_dict(torch.load(
+                fallback_model, map_location=device))
+        else:
+            print(
+                "Warning: init model not found. Training RL model from random initialization.")
 
     criterion = nn.MSELoss()
     optimizer = optim.AdamW(model.parameters(), lr=lr,
@@ -129,7 +137,7 @@ if __name__ == '__main__':
     parser.add_argument(
         '--data', type=str, default='data/rl/rl_samples.jsonl', help='Path to RL samples jsonl.')
     parser.add_argument('--init-model', type=str,
-                        default='models/alphable_best_val_model.pth', help='Warm-start checkpoint path.')
+                        default='models/alphable_rl_best_val_model.pth', help='Warm-start checkpoint path.')
     parser.add_argument('--save-model', type=str,
                         default='models/alphable_rl_best_val_model.pth', help='Output RL checkpoint path.')
     parser.add_argument('--batch-size', type=int, default=128)

@@ -1,0 +1,73 @@
+{
+  "timestamp": "20260404_222134",
+  "workspace": "/workspaces/Alphable/Alphable_V2",
+  "steps": [
+    {
+      "step": "self_play",
+      "command": [
+        "/workspaces/Alphable/Alphable_V2/venv/bin/python",
+        "self_play.py",
+        "--games",
+        "1",
+        "--output",
+        "data/rl/rl_cycle_smoke.jsonl",
+        "--top-k",
+        "5",
+        "--temperature",
+        "0.2",
+        "--infer-batch-size",
+        "128"
+      ],
+      "return_code": 0,
+      "seconds": 56.72,
+      "log": "logs/calibration_runs/20260404_222134/self_play.log"
+    },
+    {
+      "step": "train_rl",
+      "command": [
+        "/workspaces/Alphable/Alphable_V2/venv/bin/python",
+        "train_rl.py",
+        "--data",
+        "data/rl/rl_cycle_smoke.jsonl",
+        "--init-model",
+        "models/alphable_rl_best_val_model.pth",
+        "--save-model",
+        "models/alphable_rl_best_val_model.pth",
+        "--batch-size",
+        "16",
+        "--lr",
+        "0.0005",
+        "--weight-decay",
+        "0.0001",
+        "--epochs",
+        "1",
+        "--train-split",
+        "0.9",
+        "--early-stop",
+        "4"
+      ],
+      "return_code": 0,
+      "seconds": 80.25,
+      "log": "logs/calibration_runs/20260404_222134/train_rl.log"
+    },
+    {
+      "step": "evaluate",
+      "command": [
+        "/workspaces/Alphable/Alphable_V2/venv/bin/python",
+        "evaluate_matches.py",
+        "--model-a",
+        "models/alphable_best_val_model.pth",
+        "--model-b",
+        "models/alphable_rl_best_val_model.pth",
+        "--games",
+        "2",
+        "--infer-batch-size",
+        "128"
+      ],
+      "return_code": 0,
+      "seconds": 81.29,
+      "log": "logs/calibration_runs/20260404_222134/evaluate.log"
+    }
+  ],
+  "success": true
+}
