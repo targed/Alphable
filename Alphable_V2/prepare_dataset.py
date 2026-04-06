@@ -1,11 +1,31 @@
+import argparse
+import heapq
 import json
 import os
-import random
-from collections import Counter
+from multiprocessing import Pool, cpu_count
+
 from tqdm import tqdm
 
-import structure
 import simulator
+import structure
+
+
+DEFAULT_DICT_CANDIDATES = [
+    'resources/CSW24.txt',
+    'resources/NWL2023.txt',
+    'resources/CSW21.txt',
+    'resources/NWL23.txt',
+]
+
+DEFAULT_INPUT_CANDIDATES = [
+    'data/whoogles/training_HastyBot100k_CSW24.jsonl',
+    'data/training_dataset.jsonl',
+    'data/whoogles/data/training_dataset.jsonl',
+    'data/woogles/data/training_dataset.jsonl',
+]
+
+
+_WORKER_MOVE_GEN = None
 
 
 def parse_position(pos):
@@ -46,9 +66,20 @@ def is_same_move(m1, m2):
         m1['word'].upper() == m2['word'].upper()
 
 
-def process_game(game_line, move_gen):
+def resolve_first_existing(path_candidates):
+    return next((p for p in path_candidates if os.path.exists(p)), None)
+
+
+def count_lines(file_path):
+    with open(file_path, 'r', encoding='utf-8') as f:
+        return sum(1 for _ in f)
+
+
+def process_game(game_line, move_gen, negatives_top_k=4):
     game = json.loads(game_line)
-    moves = game['moves']
+    moves = game.get('moves')
+    if not isinstance(moves, list):
+        return []
 
     board = simulator.create_empty_board()
     samples = []
@@ -56,12 +87,26 @@ def process_game(game_line, move_gen):
     player_scores = {0: 0, 1: 0}  # 0 for first player, 1 for second
     bag_size = 100
 
+    simulate_move = simulator.simulate_move
+
     for i, move_data in enumerate(moves):
         player_idx = i % 2
-        rack = list(move_data['rack'])
+        rack_raw = move_data.get('rack', [])
+        if isinstance(rack_raw, str):
+            rack = list(rack_raw)
+        elif isinstance(rack_raw, list):
+            rack = rack_raw
+        else:
+            rack = []
+
         pos = move_data.get('position', '')
-        word = move_data.get('word', '')
+        word = str(move_data.get('word', '') or '')
         score = move_data.get('score', 0)
+        if not isinstance(score, (int, float)):
+            try:
+                score = int(score)
+            except (TypeError, ValueError):
+                score = 0
 
         # Keep track of bag size
         bag_size -= len(rack)  # Very rough approximation for now.
@@ -87,20 +132,19 @@ def process_game(game_line, move_gen):
             legal_moves = move_gen.generate(board, rack)
 
             # Sometimes the played word is missing from GADDAG (e.g. different dictionary).
-            # We skip turns where the human move isn't considered "legal" by our engine
+            # We skip turns where the human move isn't considered "legal" by our engine.
             played_move_generated = None
             for lm in legal_moves:
-                # We need to match coordinates and the word
                 if is_same_move(lm, played_move):
                     played_move_generated = lm
                     break
 
             if played_move_generated:
-                # 2. Simulate Positive Sample (The human move)
-                pos_board, pos_score, pos_rack = simulator.simulate_move(
+                # 2. Simulate Positive Sample (the human move).
+                pos_board, pos_score, pos_rack = simulate_move(
                     board, played_move_generated, rack)
 
-                # Format board state to compact string (15 rows of 15 chars)
+                # Format board state to compact string (15 rows of 15 chars).
                 pos_board_compact = "".join(["".join(r) for r in pos_board])
 
                 samples.append({
@@ -111,23 +155,27 @@ def process_game(game_line, move_gen):
                     'target': 1.0  # Positive
                 })
 
-                # 3. Simulate and score all OTHER legal moves
-                scored_negatives = []
+                # 3/4. Simulate and keep only top-K hard negatives by score.
+                # This preserves data quality while reducing memory and sort overhead.
+                hard_heap = []
+                heap_counter = 0
                 for lm in legal_moves:
-                    if not is_same_move(lm, played_move_generated):
-                        # Calculate the score. We do NOT need the full board or rack array for the sorting step
-                        # to speed things up, but `simulate_move` returns them all anyway.
-                        neg_board, neg_score, neg_rack = simulator.simulate_move(
-                            board, lm, rack)
-                        scored_negatives.append(
-                            (neg_score, neg_board, neg_rack))
+                    if is_same_move(lm, played_move_generated):
+                        continue
 
-                # 4. Hard Negative Mining
-                # Sort by score descending and take the top N (currently 4)
-                scored_negatives.sort(key=lambda x: x[0], reverse=True)
-                hard_negatives = scored_negatives[:4]
+                    neg_board, neg_score, neg_rack = simulate_move(
+                        board, lm, rack)
+                    item = (neg_score, heap_counter, neg_board, neg_rack)
+                    heap_counter += 1
 
-                for neg_score, neg_board, neg_rack in hard_negatives:
+                    if len(hard_heap) < negatives_top_k:
+                        heapq.heappush(hard_heap, item)
+                    elif neg_score > hard_heap[0][0]:
+                        heapq.heapreplace(hard_heap, item)
+
+                hard_negatives = sorted(
+                    hard_heap, key=lambda x: x[0], reverse=True)
+                for neg_score, _, neg_board, neg_rack in hard_negatives:
                     neg_board_compact = "".join(
                         ["".join(r) for r in neg_board])
                     samples.append({
@@ -138,10 +186,8 @@ def process_game(game_line, move_gen):
                         'target': -1.0  # Negative
                     })
 
-                # Finally, apply the actual human move to the board to progress the game state
-                # Note: We use our simulate_move to ensure the board state updates correctly
-                board, _, _ = simulator.simulate_move(
-                    board, played_move_generated, rack)
+                # Finally, apply the actual human move to progress board state.
+                board, _, _ = simulate_move(board, played_move_generated, rack)
             else:
                 # Fallback: manually place the word (ignoring blanks for now if not found in dict)
                 for idx, char in enumerate(played_move['word']):
@@ -158,51 +204,168 @@ def process_game(game_line, move_gen):
     return samples
 
 
+def init_worker(dict_path):
+    global _WORKER_MOVE_GEN
+    gaddag = structure.Gaddag.load(dict_path)
+    _WORKER_MOVE_GEN = structure.MoveGenerator(gaddag)
+
+
+def process_game_line_worker(payload):
+    game_line, negatives_top_k = payload
+    try:
+        return process_game(game_line, _WORKER_MOVE_GEN, negatives_top_k)
+    except Exception:
+        return []
+
+
+def parse_args():
+    parser = argparse.ArgumentParser(
+        description='Generate supervised board/rack value samples from human game logs.'
+    )
+    parser.add_argument(
+        '--dict',
+        dest='dict_path',
+        default=None,
+        help='Explicit dictionary path. If omitted, first existing from --dict-candidates is used.',
+    )
+    parser.add_argument(
+        '--dict-candidates',
+        nargs='*',
+        default=DEFAULT_DICT_CANDIDATES,
+        help='Dictionary fallback paths in priority order.',
+    )
+    parser.add_argument(
+        '--input',
+        dest='input_file',
+        default=None,
+        help='Explicit input JSONL path. If omitted, first existing from --input-candidates is used.',
+    )
+    parser.add_argument(
+        '--input-candidates',
+        nargs='*',
+        default=DEFAULT_INPUT_CANDIDATES,
+        help='Input JSONL fallback paths in priority order.',
+    )
+    parser.add_argument(
+        '--output',
+        dest='out_file',
+        default='data/supervised/samples.jsonl',
+        help='Output JSONL path for generated samples.',
+    )
+    parser.add_argument(
+        '--negatives',
+        type=int,
+        default=4,
+        help='Number of hard negatives to keep per positive sample.',
+    )
+    parser.add_argument(
+        '--workers',
+        type=int,
+        default=max(1, cpu_count() - 1),
+        help='Number of worker processes. Use 1 to disable multiprocessing.',
+    )
+    parser.add_argument(
+        '--chunksize',
+        type=int,
+        default=32,
+        help='Multiprocessing chunksize (larger can improve throughput).',
+    )
+    parser.add_argument(
+        '--max-games',
+        type=int,
+        default=None,
+        help='Optional cap on number of games to process (for smoke tests).',
+    )
+    return parser.parse_args()
+
+
 def main():
-    print("Loading GADDAG Dictionary...")
-    # Prefer NWL2023 (WORD + definition format), then fallback.
-    dict_candidates = [
-        'resources/NWL2023.txt',
-        'resources/CSW24.txt',
-        'resources/CSW21.txt',
-        'resources/NWL23.txt',
-    ]
-    dict_path = next((p for p in dict_candidates if os.path.exists(p)), None)
+    args = parse_args()
+
+    if args.negatives < 1:
+        raise ValueError('--negatives must be >= 1')
+    if args.workers < 1:
+        raise ValueError('--workers must be >= 1')
+    if args.chunksize < 1:
+        raise ValueError('--chunksize must be >= 1')
+
+    dict_path = args.dict_path or resolve_first_existing(args.dict_candidates)
     if dict_path is None:
         raise FileNotFoundError(
-            "No dictionary file found. Checked: " + ", ".join(dict_candidates)
+            'No dictionary file found. Checked: ' +
+            ', '.join(args.dict_candidates)
         )
 
-    gaddag = structure.Gaddag.load(dict_path)
-    move_gen = structure.MoveGenerator(gaddag)
-
-    input_candidates = [
-        'data/training_dataset.jsonl',
-        'data/whoogles/data/training_dataset.jsonl',
-        'data/woogles/data/training_dataset.jsonl',
-    ]
-    input_file = next((p for p in input_candidates if os.path.exists(p)), None)
+    input_file = args.input_file or resolve_first_existing(
+        args.input_candidates)
     if input_file is None:
         raise FileNotFoundError(
-            "No training dataset found. Checked: " +
-            ", ".join(input_candidates)
+            'No training dataset found. Checked: ' +
+            ', '.join(args.input_candidates)
         )
-    output_dir = 'data/supervised'
-    os.makedirs(output_dir, exist_ok=True)
 
-    out_file = os.path.join(output_dir, 'samples.jsonl')
+    out_dir = os.path.dirname(args.out_file) or '.'
+    os.makedirs(out_dir, exist_ok=True)
 
-    print(f"Processing games from {input_file}...")
+    total_games = count_lines(input_file)
+    if args.max_games is not None:
+        total_games = min(total_games, args.max_games)
 
-    total_games = sum(1 for _ in open(input_file))
+    print('Using dictionary:', dict_path)
+    print('Input file:', input_file)
+    print('Output file:', args.out_file)
+    print('Hard negatives per position:', args.negatives)
+    print('Workers:', args.workers)
+    print('Total games to process:', total_games)
 
-    with open(input_file, 'r') as f_in, open(out_file, 'w') as f_out:
-        for line in tqdm(f_in, total=total_games):
-            samples = process_game(line, move_gen)
-            for sample in samples:
-                f_out.write(json.dumps(sample) + "\n")
+    processed_games = 0
+    emitted_samples = 0
 
-    print(f"Data generation complete. Saved to {out_file}")
+    with open(input_file, 'r', encoding='utf-8') as f_in, open(args.out_file, 'w', encoding='utf-8') as f_out:
+        if args.workers == 1:
+            print('Loading GADDAG dictionary (single-process mode)...')
+            gaddag = structure.Gaddag.load(dict_path)
+            move_gen = structure.MoveGenerator(gaddag)
+
+            for line in tqdm(f_in, total=total_games, desc='Preparing samples'):
+                if args.max_games is not None and processed_games >= args.max_games:
+                    break
+                samples = process_game(
+                    line, move_gen, negatives_top_k=args.negatives)
+                for sample in samples:
+                    f_out.write(json.dumps(sample) + '\n')
+                emitted_samples += len(samples)
+                processed_games += 1
+        else:
+            print('Loading GADDAG dictionary per worker (multi-process mode)...')
+
+            def payload_iter():
+                count = 0
+                for line in f_in:
+                    if args.max_games is not None and count >= args.max_games:
+                        break
+                    yield (line, args.negatives)
+                    count += 1
+
+            with Pool(
+                processes=args.workers,
+                initializer=init_worker,
+                initargs=(dict_path,),
+            ) as pool:
+                results_iter = pool.imap(
+                    process_game_line_worker,
+                    payload_iter(),
+                    chunksize=args.chunksize,
+                )
+                for samples in tqdm(results_iter, total=total_games, desc='Preparing samples'):
+                    for sample in samples:
+                        f_out.write(json.dumps(sample) + '\n')
+                    emitted_samples += len(samples)
+                    processed_games += 1
+
+    print(f'Processed games: {processed_games}')
+    print(f'Emitted samples: {emitted_samples}')
+    print(f'Data generation complete. Saved to {args.out_file}')
 
 
 if __name__ == "__main__":
