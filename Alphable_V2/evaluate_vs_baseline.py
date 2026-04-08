@@ -399,7 +399,7 @@ def main():
     parser.add_argument('--top-k', type=int, default=3)
     parser.add_argument('--opp-reply-top-k', type=int, default=5)
     parser.add_argument('--infer-batch-size', type=int, default=128)
-    parser.add_argument('--dict', default='resources/NWL2023.txt')
+    parser.add_argument('--dict', default='resources/CSW24.txt')
     parser.add_argument('--device', default='auto', help='auto|cpu|cuda')
     parser.add_argument('--max-turns', type=int, default=200)
     parser.add_argument('--seed', type=int, default=42)

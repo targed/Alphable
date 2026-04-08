@@ -46,7 +46,10 @@ Network output:
 Interpretation by phase:
 
 - Supervised phase output behaves like expert-preference value.
-- RL phase output is trained toward game outcome value.
+- RL phase output is trained with configurable targets:
+  - outcome-only (`-1/0/1`),
+  - normalized point margin,
+  - or a blended outcome+margin target (recommended).
 
 ---
 
@@ -67,6 +70,38 @@ Current design notes:
 
 - Hard negatives are top-4 per positive in the current tuning setup.
 - Dictionary parsing supports NWL line format (`WORD definition...`).
+- CLI supports explicit dictionary/input/output paths plus fallback candidate lists.
+- Safe multiprocessing is supported via `--workers` for faster processing on commodity CPUs.
+
+Key CLI options:
+
+- `--dict <path>`: Explicit dictionary path.
+- `--dict-candidates <p1> <p2> ...`: Fallback dictionary search order.
+- `--input <path>`: Explicit input JSONL path.
+- `--input-candidates <p1> <p2> ...`: Fallback input search order.
+- `--output <path>`: Output samples JSONL path.
+- `--negatives <N>`: Hard negatives per positive sample (default: `4`).
+- `--workers <N>`: Worker processes (default: `cpu_count()-1`).
+- `--chunksize <N>`: Worker chunksize (default: `32`).
+- `--max-games <N>`: Limit games for smoke tests.
+
+Recommended runs:
+
+```bash
+# Full run (fast, stable default)
+python prepare_dataset.py --workers 8 --chunksize 64
+
+# Explicit paths and dictionary
+python prepare_dataset.py \
+   --dict resources/CSW24.txt \
+   --input data/whoogles/training_HastyBot100k_CSW24.jsonl \
+   --output data/supervised/samples.jsonl \
+   --negatives 4 \
+   --workers 8 --chunksize 64
+
+# Quick smoke test
+python prepare_dataset.py --max-games 200 --workers 1 --output data/supervised/samples_smoke.jsonl
+```
 
 ### 3.2 Supervised training
 
@@ -78,6 +113,38 @@ What it does:
 2. Expands tensors on-the-fly in dataloading.
 3. Trains with weighted MSE, target smoothing, LR scheduler, and early stopping.
 4. Saves best checkpoint to `models/alphable_best_val_model.pth`.
+
+Key CLI options:
+
+- `--data <path>`: Supervised samples JSONL path.
+- `--save-model <path>`: Full checkpoint output path.
+- `--save-dir <path>`: Output directory when `--save-model` is omitted.
+- `--resume-model <path>`: Warm-start checkpoint.
+- `--batch-size <N>`: Batch size (auto if omitted).
+- `--train-split <float>`: Train split ratio (default `0.9`).
+- `--epochs <N>`: Number of epochs.
+- `--lr <float>` / `--weight-decay <float>`: Optimizer settings.
+- `--positive-weight <float>` / `--negative-weight <float>`: Class weights.
+- `--target-scale <float>`: Label smoothing scale.
+- `--early-stop-patience <N>`: Early stopping patience.
+- `--device auto|cpu|cuda`: Explicit device selection.
+
+Recommended runs:
+
+```bash
+# Default training run
+python train_supervised.py
+
+# Explicit data and output path
+python train_supervised.py \
+   --data data/supervised/samples.jsonl \
+   --save-model models/alphable_best_val_model.pth
+
+# Resume training with tuned settings
+python train_supervised.py \
+   --resume-model models/alphable_best_val_model.pth \
+   --epochs 30 --batch-size 128 --lr 0.001 --early-stop-patience 6
+```
 
 Current training features:
 
@@ -107,11 +174,19 @@ What it does:
 1. Loads the current checkpoint.
 2. Plays model-vs-model games with top-k temperature sampling.
 3. Saves every turn state.
-4. Assigns terminal outcome target to each stored state:
-   - Winner states `target=1.0`.
-   - Loser states `target=-1.0`.
-   - Draw states `target=0.0`.
+4. Assigns terminal targets to each stored state using `--reward-mode`:
+   - `outcome`: winner `1.0`, loser `-1.0`, draw `0.0`.
+   - `margin`: `tanh((my_final - opp_final) / margin_scale)`.
+   - `blend` (recommended):
+     `target = (1 - margin_mix) * outcome + margin_mix * margin_norm`.
 5. Writes RL samples to `data/rl/rl_samples.jsonl`.
+
+Self-play quality controls:
+
+- Temperature schedule:
+  - `--temperature-start` and `--temperature-end` linearly anneal exploration through the game.
+- Opponent diversity:
+  - `--opponent-models` samples from a checkpoint pool for stronger and less self-referential training.
 
 ### 4.2 RL fine-tuning
 
@@ -153,6 +228,18 @@ python train_supervised.py
 python search.py
 ```
 
+With explicit supervised training paths:
+
+```bash
+python train_supervised.py --data data/supervised/samples.jsonl --save-model models/alphable_best_val_model.pth
+```
+
+For a faster dataset build on multi-core CPU:
+
+```bash
+python prepare_dataset.py --workers 8 --chunksize 64
+```
+
 Note: `search.py` now defaults to the RL checkpoint in lookahead mode. To explicitly inspect BC behavior:
 
 ```bash
@@ -162,13 +249,51 @@ python search.py --model models/alphable_best_val_model.pth --mode bc_0ply
 ### 6.2 RL data generation
 
 ```bash
-python self_play.py --games 1000 --output data/rl/rl_samples.jsonl --top-k 5 --temperature 0.20 --infer-batch-size 128
+python self_play.py \
+   --games 1000 \
+   --output data/rl/rl_samples.jsonl \
+   --top-k 5 \
+   --temperature-start 0.20 \
+   --temperature-end 0.10 \
+   --reward-mode blend \
+   --margin-scale 150 \
+   --margin-mix 0.35 \
+   --infer-batch-size 128
+```
+
+For faster CPU generation, run games in parallel workers:
+
+```bash
+python self_play.py --games 1000 --workers 8 --chunksize 8 --device cpu
+```
+
+For faster single-GPU generation, use interleaved games (single process, larger batched inference):
+
+```bash
+python self_play.py --games 1000 --device cuda --workers 1 --concurrent-games 16 --infer-batch-size 256
+```
+
+Notes:
+
+- On CUDA, self-play now forces `--workers 1` to avoid GPU contention/OOM from multiple model processes.
+- Use `--device auto` (default), `--device cpu`, or `--device cuda`.
+- `--concurrent-games > 1` enables interleaved single-process play, which is usually the fastest single-GPU mode.
+- Tune `--concurrent-games` and `--infer-batch-size` together to maximize throughput without OOM.
+- `--flush-every-games N` forces periodic output flushes so long runs visibly write progress to disk.
+
+Optional opponent-pool self-play:
+
+```bash
+python self_play.py \
+   --games 1000 \
+   --opponent-models models/alphable_best_val_model.pth models/alphable_rl_best_val_model.pth \
+   --reward-mode blend --margin-scale 150 --margin-mix 0.35
 ```
 
 If you hit GPU memory limits on positions with many legal moves:
 
 ```bash
-python self_play.py --games 1000 --output data/rl/rl_samples.jsonl --top-k 5 --temperature 0.20 --infer-batch-size 128
+python self_play.py --games 1000 --output data/rl/rl_samples.jsonl --top-k 5 --temperature-start 0.20 --temperature-end 0.10 --reward-mode blend --margin-scale 150 --margin-mix 0.35 --infer-batch-size 128
 ```
 
 Useful options:
@@ -176,7 +301,18 @@ Useful options:
 ```bash
 python self_play.py --games 200 --append
 python self_play.py --games 100 --max-turns 250 --seed 123
+python self_play.py --games 300 --reward-mode outcome
+python self_play.py --games 300 --reward-mode margin --margin-scale 150
+python self_play.py --games 500 --workers 8 --chunksize 8 --device cpu
+python self_play.py --games 1000 --device cuda --workers 1 --concurrent-games 16 --infer-batch-size 256
 ```
+
+Quick throughput tuning recipe (single GPU):
+
+1. Start with `--concurrent-games 8 --infer-batch-size 128`.
+2. Increase to `--concurrent-games 16` and then `24` while keeping `--workers 1`.
+3. If stable, raise `--infer-batch-size` to `256`.
+4. If you hit OOM, lower `--infer-batch-size` first, then lower `--concurrent-games`.
 
 ### 6.3 RL training
 
@@ -219,7 +355,7 @@ python evaluate_matches.py --model-a models/alphable_best_val_model.pth --model-
 Run one full RL calibration cycle:
 
 ```bash
-python self_play.py --games 1000 --append --output data/rl/rl_samples.jsonl --top-k 5 --temperature 0.20 --infer-batch-size 128
+python self_play.py --games 1000 --append --output data/rl/rl_samples.jsonl --top-k 5 --temperature-start 0.20 --temperature-end 0.10 --reward-mode blend --margin-scale 150 --margin-mix 0.35 --infer-batch-size 128
 python train_rl.py --data data/rl/rl_samples.jsonl --init-model models/alphable_rl_best_val_model.pth --save-model models/alphable_rl_best_val_model.pth
 python evaluate_matches.py --model-a models/alphable_best_val_model.pth --model-b models/alphable_rl_best_val_model.pth --games 200 --infer-batch-size 128
 ```

@@ -122,7 +122,7 @@ def main():
     parser.add_argument('--top-k', type=int, default=3,
                         help='Sampling pool size.')
     parser.add_argument(
-        '--dict', type=str, default='resources/NWL2023.txt', help='Dictionary path.')
+        '--dict', type=str, default='resources/CSW24.txt', help='Dictionary path.')
     parser.add_argument('--seed', type=int, default=42, help='Random seed.')
     parser.add_argument('--infer-batch-size', type=int, default=256,
                         help='Inference batch size for move scoring to control GPU memory usage.')
