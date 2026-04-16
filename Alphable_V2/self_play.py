@@ -4,6 +4,7 @@ import os
 import random
 from multiprocessing import Pool
 from collections import defaultdict
+import torch.multiprocessing as mp
 
 import torch
 from tqdm import tqdm
@@ -99,6 +100,29 @@ def choose_move_with_temperature(move_evals, temperature=0.15, top_k=5):
     probs = torch.softmax(logits / temperature, dim=0)
     idx = torch.multinomial(probs, num_samples=1).item()
     return top[idx]
+
+
+def choose_greedy_move(board, rack, move_gen):
+    moves = move_gen.generate(board, rack)
+    if not moves:
+        return None
+
+    best = None
+    best_points = -1
+    for move in moves:
+        _, points, _ = simulator.simulate_move(board, move, rack)
+        if points > best_points:
+            best_points = points
+            best = move
+
+    new_board, points, new_rack = simulator.simulate_move(board, best, rack)
+    return {
+        'move': best,
+        'value': None,
+        'new_board': new_board,
+        'points': points,
+        'new_rack': new_rack,
+    }
 
 
 def evaluate_moves_grouped(eval_jobs, infer_batch_size=256):
@@ -261,6 +285,8 @@ def play_one_game(
     reward_mode='blend',
     margin_scale=150.0,
     margin_mix=0.35,
+    p1_is_greedy=False,
+    keep_p0_only=False,
 ):
     board = simulator.create_empty_board()
     bag = build_bag()
@@ -294,16 +320,19 @@ def play_one_game(
             'player': p,
         })
 
-        move_evals = evaluate_moves(
-            engine,
-            board,
-            racks[p],
-            score_diff,
-            bag_remaining,
-            infer_batch_size=infer_batch_size,
-        )
-        selected = choose_move_with_temperature(
-            move_evals, temperature=temperature, top_k=top_k)
+        if p1_is_greedy and p == 1:
+            selected = choose_greedy_move(board, racks[p], engine.move_gen)
+        else:
+            move_evals = evaluate_moves(
+                engine,
+                board,
+                racks[p],
+                score_diff,
+                bag_remaining,
+                infer_batch_size=infer_batch_size,
+            )
+            selected = choose_move_with_temperature(
+                move_evals, temperature=temperature, top_k=top_k)
 
         if selected is None:
             consecutive_passes += 1
@@ -340,7 +369,8 @@ def play_one_game(
     }
 
     samples = []
-    for p in (0, 1):
+    players = (0,) if keep_p0_only else (0, 1)
+    for p in players:
         for s in player_states[p]:
             samples.append({
                 'board': s['board'],
@@ -399,6 +429,8 @@ def run_one_game_worker(game_idx):
         reward_mode=_WORKER_CFG['reward_mode'],
         margin_scale=_WORKER_CFG['margin_scale'],
         margin_mix=_WORKER_CFG['margin_mix'],
+        p1_is_greedy=_WORKER_CFG['p1_is_greedy'],
+        keep_p0_only=_WORKER_CFG['keep_p0_only'],
     )
 
 
@@ -422,7 +454,13 @@ def init_single_game_state(game_id):
     }
 
 
-def finalize_game_state(state, reward_mode, margin_scale, margin_mix):
+def finalize_game_state(
+    state,
+    reward_mode,
+    margin_scale,
+    margin_mix,
+    keep_p0_only=False,
+):
     apply_endgame_adjustments(state['scores'], state['racks'])
     scores = state['scores']
 
@@ -443,8 +481,9 @@ def finalize_game_state(state, reward_mode, margin_scale, margin_mix):
         ),
     }
 
+    players = (0,) if keep_p0_only else (0, 1)
     samples = []
-    for p in (0, 1):
+    for p in players:
         for s in state['player_states'][p]:
             samples.append({
                 'board': s['board'],
@@ -472,6 +511,8 @@ def run_interleaved_games(
     margin_scale,
     margin_mix,
     flush_every_games,
+    p1_is_greedy,
+    keep_p0_only,
 ):
     total_samples = 0
     p0_wins = 0
@@ -518,36 +559,57 @@ def run_interleaved_games(
                 'player': p,
             })
 
-            moves = engine.move_gen.generate(st['board'], st['racks'][p])
-            move_states = []
-            for move in moves:
-                new_board, points, new_rack = simulator.simulate_move(
-                    st['board'], move, st['racks'][p])
-                new_score_diff = score_diff + points
-                move_states.append(
-                    (move, new_board, points, new_rack, new_score_diff))
+            if p1_is_greedy and p == 1:
+                eval_jobs.append({
+                    'selected': choose_greedy_move(
+                        st['board'], st['racks'][p], engine.move_gen),
+                    'is_greedy': True,
+                })
+            else:
+                moves = engine.move_gen.generate(st['board'], st['racks'][p])
+                move_states = []
+                for move in moves:
+                    new_board, points, new_rack = simulator.simulate_move(
+                        st['board'], move, st['racks'][p])
+                    new_score_diff = score_diff + points
+                    move_states.append(
+                        (move, new_board, points, new_rack, new_score_diff))
 
-            eval_jobs.append({
-                'engine': engine,
-                'move_states': move_states,
-                'bag_remaining': bag_remaining,
-            })
+                eval_jobs.append({
+                    'engine': engine,
+                    'move_states': move_states,
+                    'bag_remaining': bag_remaining,
+                    'is_greedy': False,
+                })
 
-        all_evals = evaluate_moves_grouped(
-            eval_jobs, infer_batch_size=infer_batch_size)
+        nn_jobs = []
+        nn_map = []
+        for idx, job in enumerate(eval_jobs):
+            if not job.get('is_greedy', False):
+                nn_jobs.append(job)
+                nn_map.append(idx)
 
-        done_indices = []
-        for idx, st in enumerate(active):
-            p = st['turn'] % 2
+        nn_evals = evaluate_moves_grouped(
+            nn_jobs, infer_batch_size=infer_batch_size)
+        all_selected = [None] * len(eval_jobs)
+        for idx, job in enumerate(eval_jobs):
+            if job.get('is_greedy', False):
+                all_selected[idx] = job['selected']
+        for j, idx in enumerate(nn_map):
+            p = active[idx]['turn'] % 2
             temperature = compute_turn_temperature(
-                st['turn'],
+                active[idx]['turn'],
                 max_turns=max_turns,
                 temp_start=temp_start,
                 temp_end=temp_end,
             )
+            all_selected[idx] = choose_move_with_temperature(
+                nn_evals[j], temperature=temperature, top_k=top_k)
 
-            selected = choose_move_with_temperature(
-                all_evals[idx], temperature=temperature, top_k=top_k)
+        done_indices = []
+        for idx, st in enumerate(active):
+            p = st['turn'] % 2
+            selected = all_selected[idx]
 
             if selected is None:
                 st['consecutive_passes'] += 1
@@ -575,6 +637,7 @@ def run_interleaved_games(
                     reward_mode=reward_mode,
                     margin_scale=margin_scale,
                     margin_mix=margin_mix,
+                    keep_p0_only=keep_p0_only,
                 )
                 for s in samples:
                     out.write(json.dumps(s) + '\n')
@@ -606,6 +669,9 @@ def run_interleaved_games(
 
 
 def main():
+
+    # mp.set_start_method('spawn', force=True)
+
     parser = argparse.ArgumentParser(
         description='Generate RL training samples via self-play.')
     parser.add_argument('--games', type=int, default=1000,
@@ -651,6 +717,16 @@ def main():
                         help='Blend mix for reward-mode=blend: target=(1-mix)*outcome + mix*margin_norm.')
     parser.add_argument('--flush-every-games', type=int, default=1,
                         help='Flush output file every N completed games (0 disables periodic flush).')
+    parser.add_argument('--vs-greedy', action='store_true',
+                        help='Play P1 as greedy instead of model/self-play to build anti-greedy curriculum data.')
+    parser.add_argument('--keep-p0-only', action='store_true',
+                        help='Keep only P0 training states in output (recommended with --vs-greedy).')
+    parser.add_argument('--top-k-vs-greedy', type=int, default=None,
+                        help='Override top-k used on Alphable turns in --vs-greedy mode.')
+    parser.add_argument('--temperature-start-vs-greedy', type=float, default=None,
+                        help='Override temperature-start for --vs-greedy mode.')
+    parser.add_argument('--temperature-end-vs-greedy', type=float, default=None,
+                        help='Override temperature-end for --vs-greedy mode.')
     args = parser.parse_args()
 
     random.seed(args.seed)
@@ -673,6 +749,10 @@ def main():
         raise ValueError('--concurrent-games must be >= 1')
     if args.flush_every_games < 0:
         raise ValueError('--flush-every-games must be >= 0')
+    if args.top_k < 1:
+        raise ValueError('--top-k must be >= 1')
+    if args.top_k_vs_greedy is not None and args.top_k_vs_greedy < 1:
+        raise ValueError('--top-k-vs-greedy must be >= 1')
 
     use_interleaved = (device == 'cuda' and args.concurrent_games > 1)
 
@@ -693,6 +773,20 @@ def main():
     if args.temperature_start is None:
         args.temperature_start = args.temperature
 
+    if args.vs_greedy:
+        if args.temperature_start_vs_greedy is not None:
+            args.temperature_start = args.temperature_start_vs_greedy
+        if args.temperature_end_vs_greedy is not None:
+            args.temperature_end = args.temperature_end_vs_greedy
+        if args.top_k_vs_greedy is not None:
+            args.top_k = args.top_k_vs_greedy
+
+    if args.vs_greedy and not args.keep_p0_only:
+        print('Warning: --vs-greedy without --keep-p0-only will also train on greedy-player states.')
+
+    if args.vs_greedy and args.opponent_models:
+        print('Warning: --opponent-models is ignored when --vs-greedy is enabled.')
+
     if args.margin_scale <= 0:
         raise ValueError('--margin-scale must be > 0')
 
@@ -712,7 +806,7 @@ def main():
             model_path = None
 
     opponent_paths = []
-    if args.opponent_models:
+    if args.opponent_models and not args.vs_greedy:
         for p in args.opponent_models:
             if os.path.exists(p):
                 opponent_paths.append(p)
@@ -743,6 +837,8 @@ def main():
         'reward_mode': args.reward_mode,
         'margin_scale': args.margin_scale,
         'margin_mix': args.margin_mix,
+        'p1_is_greedy': args.vs_greedy,
+        'keep_p0_only': args.keep_p0_only,
     }
 
     def load_engine(checkpoint_path):
@@ -780,6 +876,8 @@ def main():
                 margin_scale=args.margin_scale,
                 margin_mix=args.margin_mix,
                 flush_every_games=args.flush_every_games,
+                p1_is_greedy=args.vs_greedy,
+                keep_p0_only=args.keep_p0_only,
             )
         elif args.workers == 1:
             init_worker(worker_cfg)

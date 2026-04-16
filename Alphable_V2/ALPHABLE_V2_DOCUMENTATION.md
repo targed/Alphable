@@ -290,6 +290,27 @@ python self_play.py \
    --reward-mode blend --margin-scale 150 --margin-mix 0.35
 ```
 
+Greedy-curriculum self-play (P1 forced greedy, keep only Alphable/P0 samples):
+
+```bash
+python self_play.py \
+   --games 2000 \
+   --output data/rl/rl_vs_greedy.jsonl \
+   --model models/alphable_best_val_model.pth \
+   --vs-greedy --keep-p0-only \
+   --top-k-vs-greedy 20 \
+   --temperature-start-vs-greedy 0.50 \
+   --temperature-end-vs-greedy 0.10 \
+   --reward-mode blend --margin-scale 150 --margin-mix 0.35 \
+   --device cuda --workers 1 --concurrent-games 16 --infer-batch-size 128
+```
+
+Notes for greedy curriculum:
+
+- `--vs-greedy` makes player 1 a deterministic greedy bot.
+- `--keep-p0-only` avoids training on greedy-player states.
+- `--top-k-vs-greedy` and `--temperature-*-vs-greedy` widen exploration only for this mode.
+
 If you hit GPU memory limits on positions with many legal moves:
 
 ```bash
@@ -313,6 +334,19 @@ Quick throughput tuning recipe (single GPU):
 2. Increase to `--concurrent-games 16` and then `24` while keeping `--workers 1`.
 3. If stable, raise `--infer-batch-size` to `256`.
 4. If you hit OOM, lower `--infer-batch-size` first, then lower `--concurrent-games`.
+
+Recommended mixed-curriculum data blend (to avoid overfitting to one opponent style):
+
+```bash
+# 40% mirror/pool self-play
+python self_play.py --games 1000 --output data/rl/rl_mix_selfplay.jsonl --opponent-models models/alphable_best_val_model.pth models/alphable_rl_best_val_model.pth --reward-mode blend --margin-scale 150 --margin-mix 0.35 --device cuda --workers 1 --concurrent-games 16 --infer-batch-size 128
+
+# 40% vs greedy curriculum
+python self_play.py --games 1000 --output data/rl/rl_mix_vs_greedy.jsonl --model models/alphable_best_val_model.pth --vs-greedy --keep-p0-only --top-k-vs-greedy 20 --temperature-start-vs-greedy 0.50 --temperature-end-vs-greedy 0.10 --reward-mode blend --margin-scale 150 --margin-mix 0.35 --device cuda --workers 1 --concurrent-games 16 --infer-batch-size 128
+
+# 20% stronger checkpoint pool
+python self_play.py --games 500 --output data/rl/rl_mix_strong_pool.jsonl --opponent-models models/alphable_rl_best_val_model.pth models/alphable_rl_best_val_model_HastyBot_CSW100K.pth --reward-mode blend --margin-scale 150 --margin-mix 0.35 --device cuda --workers 1 --concurrent-games 16 --infer-batch-size 128
+```
 
 ### 6.3 RL training
 
