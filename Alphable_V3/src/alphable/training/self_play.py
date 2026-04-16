@@ -9,8 +9,8 @@ import torch.multiprocessing as mp
 import torch
 from tqdm import tqdm
 
-import inference
-import simulator
+from alphable.core import inference
+from alphable.core import simulator
 
 
 STANDARD_TILE_COUNTS = {

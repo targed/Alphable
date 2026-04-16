@@ -1,7 +1,7 @@
 import torch
 import torch.nn as nn
 import torch.optim as optim
-from alphable_net import AlphableValueNet
+from alphable.core.alphable_net import AlphableValueNet
 
 def test_training_loop():
     print("Initializing Alphable Dummy Training...")

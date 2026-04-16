@@ -1,11 +1,11 @@
 import argparse
 import random
 
-import inference
-import simulator
+from alphable.core import inference
+from alphable.core import simulator
 import torch
 
-from self_play import apply_endgame_adjustments, build_bag, draw_tiles
+from alphable.training.self_play import apply_endgame_adjustments, build_bag, draw_tiles
 
 
 def evaluate_moves(engine, board, rack, score_diff, bag_remaining, infer_batch_size=256):

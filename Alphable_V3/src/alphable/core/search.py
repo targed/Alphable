@@ -4,8 +4,8 @@ import random
 import copy
 from collections import Counter
 import torch
-import inference
-import simulator
+from alphable.core import inference
+from alphable.core import simulator
 
 
 def get_unseen_distribution(board, my_rack):
