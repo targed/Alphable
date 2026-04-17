@@ -6,8 +6,8 @@ from multiprocessing import Pool, cpu_count
 
 from tqdm import tqdm
 
-import simulator
-import structure
+from alphable.core import simulator
+from alphable.core import structure
 
 
 DEFAULT_DICT_CANDIDATES = [

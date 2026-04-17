@@ -1,9 +1,9 @@
 import torch
 import numpy as np
-import structure
-import simulator
+from alphable.core import structure
+from alphable.core import simulator
 from collections import Counter
-from alphable_net import AlphableValueNet
+from alphable.core.alphable_net import AlphableValueNet
 
 def board_to_tensor(board):
     """

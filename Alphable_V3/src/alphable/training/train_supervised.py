@@ -7,8 +7,8 @@ import torch.optim as optim
 from torch.optim.lr_scheduler import ReduceLROnPlateau
 from tqdm import tqdm
 
-from alphable_net import AlphableValueNet
-from dataset import get_dataloaders
+from alphable.core.alphable_net import AlphableValueNet
+from alphable.data.dataset import get_dataloaders
 
 
 def parse_args():

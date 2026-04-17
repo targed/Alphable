@@ -1,7 +1,7 @@
 import json
 import torch
 from torch.utils.data import Dataset, DataLoader
-import inference
+from alphable.core import inference
 
 class AlphableDataset(Dataset):
     def __init__(self, jsonl_file):

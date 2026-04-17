@@ -1,12 +1,12 @@
-# Alphable V2: Architecture, Training, and Usage
+# Alphable V3: Architecture, Training, and Usage
 
-This document explains how Alphable V2 works end-to-end, what each script does, and how to run the full pipeline from supervised learning to reinforcement learning.
+This document explains how Alphable V3 works end-to-end, what each command does, and how to run the full pipeline from supervised learning to reinforcement learning.
 
 ---
 
 ## 1. High-Level Architecture
 
-Alphable V2 is an after-state value system for Scrabble.
+Alphable V3 is an after-state value system for Scrabble.
 
 1. Generate legal moves with GADDAG.
 2. Simulate each move into an after-state board.
@@ -89,10 +89,10 @@ Recommended runs:
 
 ```bash
 # Full run (fast, stable default)
-python prepare_dataset.py --workers 8 --chunksize 64
+alphable data prepare --workers 8 --chunksize 64
 
 # Explicit paths and dictionary
-python prepare_dataset.py \
+alphable data prepare \
    --dict resources/CSW24.txt \
    --input data/whoogles/training_HastyBot100k_CSW24.jsonl \
    --output data/supervised/samples.jsonl \
@@ -100,7 +100,7 @@ python prepare_dataset.py \
    --workers 8 --chunksize 64
 
 # Quick smoke test
-python prepare_dataset.py --max-games 200 --workers 1 --output data/supervised/samples_smoke.jsonl
+alphable data prepare --max-games 200 --workers 1 --output data/supervised/samples_smoke.jsonl
 ```
 
 ### 3.2 Supervised training
@@ -133,15 +133,15 @@ Recommended runs:
 
 ```bash
 # Default training run
-python train_supervised.py
+alphable train supervised
 
 # Explicit data and output path
-python train_supervised.py \
+alphable train supervised \
    --data data/supervised/samples.jsonl \
    --save-model models/alphable_best_val_model.pth
 
 # Resume training with tuned settings
-python train_supervised.py \
+alphable train supervised \
    --resume-model models/alphable_best_val_model.pth \
    --epochs 30 --batch-size 128 --lr 0.001 --early-stop-patience 6
 ```
@@ -223,21 +223,21 @@ Use this to compare:
 ### 6.1 Supervised pipeline
 
 ```bash
-python prepare_dataset.py
-python train_supervised.py
+alphable data prepare
+alphable train supervised
 python search.py
 ```
 
 With explicit supervised training paths:
 
 ```bash
-python train_supervised.py --data data/supervised/samples.jsonl --save-model models/alphable_best_val_model.pth
+alphable train supervised --data data/supervised/samples.jsonl --save-model models/alphable_best_val_model.pth
 ```
 
 For a faster dataset build on multi-core CPU:
 
 ```bash
-python prepare_dataset.py --workers 8 --chunksize 64
+alphable data prepare --workers 8 --chunksize 64
 ```
 
 Note: `search.py` now defaults to the RL checkpoint in lookahead mode. To explicitly inspect BC behavior:
@@ -249,7 +249,7 @@ python search.py --model models/alphable_best_val_model.pth --mode bc_0ply
 ### 6.2 RL data generation
 
 ```bash
-python self_play.py \
+alphable selfplay generate \
    --games 1000 \
    --output data/rl/rl_samples.jsonl \
    --top-k 5 \
@@ -264,13 +264,13 @@ python self_play.py \
 For faster CPU generation, run games in parallel workers:
 
 ```bash
-python self_play.py --games 1000 --workers 8 --chunksize 8 --device cpu
+alphable selfplay generate --games 1000 --workers 8 --chunksize 8 --device cpu
 ```
 
 For faster single-GPU generation, use interleaved games (single process, larger batched inference):
 
 ```bash
-python self_play.py --games 1000 --device cuda --workers 1 --concurrent-games 16 --infer-batch-size 256
+alphable selfplay generate --games 1000 --device cuda --workers 1 --concurrent-games 16 --infer-batch-size 256
 ```
 
 Notes:
@@ -284,7 +284,7 @@ Notes:
 Optional opponent-pool self-play:
 
 ```bash
-python self_play.py \
+alphable selfplay generate \
    --games 1000 \
    --opponent-models models/alphable_best_val_model.pth models/alphable_rl_best_val_model.pth \
    --reward-mode blend --margin-scale 150 --margin-mix 0.35
@@ -293,7 +293,7 @@ python self_play.py \
 Greedy-curriculum self-play (P1 forced greedy, keep only Alphable/P0 samples):
 
 ```bash
-python self_play.py \
+alphable selfplay generate \
    --games 2000 \
    --output data/rl/rl_vs_greedy.jsonl \
    --model models/alphable_best_val_model.pth \
@@ -314,18 +314,18 @@ Notes for greedy curriculum:
 If you hit GPU memory limits on positions with many legal moves:
 
 ```bash
-python self_play.py --games 1000 --output data/rl/rl_samples.jsonl --top-k 5 --temperature-start 0.20 --temperature-end 0.10 --reward-mode blend --margin-scale 150 --margin-mix 0.35 --infer-batch-size 128
+alphable selfplay generate --games 1000 --output data/rl/rl_samples.jsonl --top-k 5 --temperature-start 0.20 --temperature-end 0.10 --reward-mode blend --margin-scale 150 --margin-mix 0.35 --infer-batch-size 128
 ```
 
 Useful options:
 
 ```bash
-python self_play.py --games 200 --append
-python self_play.py --games 100 --max-turns 250 --seed 123
-python self_play.py --games 300 --reward-mode outcome
-python self_play.py --games 300 --reward-mode margin --margin-scale 150
-python self_play.py --games 500 --workers 8 --chunksize 8 --device cpu
-python self_play.py --games 1000 --device cuda --workers 1 --concurrent-games 16 --infer-batch-size 256
+alphable selfplay generate --games 200 --append
+alphable selfplay generate --games 100 --max-turns 250 --seed 123
+alphable selfplay generate --games 300 --reward-mode outcome
+alphable selfplay generate --games 300 --reward-mode margin --margin-scale 150
+alphable selfplay generate --games 500 --workers 8 --chunksize 8 --device cpu
+alphable selfplay generate --games 1000 --device cuda --workers 1 --concurrent-games 16 --infer-batch-size 256
 ```
 
 Quick throughput tuning recipe (single GPU):
@@ -339,19 +339,19 @@ Recommended mixed-curriculum data blend (to avoid overfitting to one opponent st
 
 ```bash
 # 40% mirror/pool self-play
-python self_play.py --games 1000 --output data/rl/rl_mix_selfplay.jsonl --opponent-models models/alphable_best_val_model.pth models/alphable_rl_best_val_model.pth --reward-mode blend --margin-scale 150 --margin-mix 0.35 --device cuda --workers 1 --concurrent-games 16 --infer-batch-size 128
+alphable selfplay generate --games 1000 --output data/rl/rl_mix_selfplay.jsonl --opponent-models models/alphable_best_val_model.pth models/alphable_rl_best_val_model.pth --reward-mode blend --margin-scale 150 --margin-mix 0.35 --device cuda --workers 1 --concurrent-games 16 --infer-batch-size 128
 
 # 40% vs greedy curriculum
-python self_play.py --games 1000 --output data/rl/rl_mix_vs_greedy.jsonl --model models/alphable_best_val_model.pth --vs-greedy --keep-p0-only --top-k-vs-greedy 20 --temperature-start-vs-greedy 0.50 --temperature-end-vs-greedy 0.10 --reward-mode blend --margin-scale 150 --margin-mix 0.35 --device cuda --workers 1 --concurrent-games 16 --infer-batch-size 128
+alphable selfplay generate --games 1000 --output data/rl/rl_mix_vs_greedy.jsonl --model models/alphable_best_val_model.pth --vs-greedy --keep-p0-only --top-k-vs-greedy 20 --temperature-start-vs-greedy 0.50 --temperature-end-vs-greedy 0.10 --reward-mode blend --margin-scale 150 --margin-mix 0.35 --device cuda --workers 1 --concurrent-games 16 --infer-batch-size 128
 
 # 20% stronger checkpoint pool
-python self_play.py --games 500 --output data/rl/rl_mix_strong_pool.jsonl --opponent-models models/alphable_rl_best_val_model.pth models/alphable_rl_best_val_model_HastyBot_CSW100K.pth --reward-mode blend --margin-scale 150 --margin-mix 0.35 --device cuda --workers 1 --concurrent-games 16 --infer-batch-size 128
+alphable selfplay generate --games 500 --output data/rl/rl_mix_strong_pool.jsonl --opponent-models models/alphable_rl_best_val_model.pth models/alphable_rl_best_val_model_HastyBot_CSW100K.pth --reward-mode blend --margin-scale 150 --margin-mix 0.35 --device cuda --workers 1 --concurrent-games 16 --infer-batch-size 128
 ```
 
 ### 6.3 RL training
 
 ```bash
-python train_rl.py --data data/rl/rl_samples.jsonl --init-model models/alphable_rl_best_val_model.pth --save-model models/alphable_rl_best_val_model.pth
+alphable train rl --data data/rl/rl_samples.jsonl --init-model models/alphable_rl_best_val_model.pth --save-model models/alphable_rl_best_val_model.pth
 ```
 
 If the RL checkpoint does not exist yet, `train_rl.py` automatically falls back to `models/alphable_best_val_model.pth`.
@@ -375,13 +375,13 @@ python search.py --model models/alphable_rl_best_val_model.pth --mode lookahead 
 ### 6.4 Compare checkpoints
 
 ```bash
-python evaluate_matches.py --model-a models/alphable_best_val_model.pth --model-b models/alphable_rl_best_val_model.pth --games 50
+alphable eval matches --model-a models/alphable_best_val_model.pth --model-b models/alphable_rl_best_val_model.pth --games 50
 ```
 
 For lower-memory evaluation:
 
 ```bash
-python evaluate_matches.py --model-a models/alphable_best_val_model.pth --model-b models/alphable_rl_best_val_model.pth --games 50 --infer-batch-size 128
+alphable eval matches --model-a models/alphable_best_val_model.pth --model-b models/alphable_rl_best_val_model.pth --games 50 --infer-batch-size 128
 ```
 
 ### 6.5 Calibration iteration (recommended)
@@ -389,9 +389,9 @@ python evaluate_matches.py --model-a models/alphable_best_val_model.pth --model-
 Run one full RL calibration cycle:
 
 ```bash
-python self_play.py --games 1000 --append --output data/rl/rl_samples.jsonl --top-k 5 --temperature-start 0.20 --temperature-end 0.10 --reward-mode blend --margin-scale 150 --margin-mix 0.35 --infer-batch-size 128
-python train_rl.py --data data/rl/rl_samples.jsonl --init-model models/alphable_rl_best_val_model.pth --save-model models/alphable_rl_best_val_model.pth
-python evaluate_matches.py --model-a models/alphable_best_val_model.pth --model-b models/alphable_rl_best_val_model.pth --games 200 --infer-batch-size 128
+alphable selfplay generate --games 1000 --append --output data/rl/rl_samples.jsonl --top-k 5 --temperature-start 0.20 --temperature-end 0.10 --reward-mode blend --margin-scale 150 --margin-mix 0.35 --infer-batch-size 128
+alphable train rl --data data/rl/rl_samples.jsonl --init-model models/alphable_rl_best_val_model.pth --save-model models/alphable_rl_best_val_model.pth
+alphable eval matches --model-a models/alphable_best_val_model.pth --model-b models/alphable_rl_best_val_model.pth --games 200 --infer-batch-size 128
 ```
 
 ### 6.6 One-command calibration cycle with logs
@@ -399,7 +399,7 @@ python evaluate_matches.py --model-a models/alphable_best_val_model.pth --model-
 Use the orchestrator script to run self-play, RL training, and match evaluation in one command with live output and saved log files.
 
 ```bash
-python run_calibration_cycle.py
+alphable pipeline calibrate
 ```
 
 What it writes:
@@ -412,13 +412,13 @@ What it writes:
 Example custom run:
 
 ```bash
-python run_calibration_cycle.py --games 500 --eval-games 100 --infer-batch-size 128
+alphable pipeline calibrate --games 500 --eval-games 100 --infer-batch-size 128
 ```
 
 Fast smoke run (new dataset file, 1 epoch, tiny eval):
 
 ```bash
-python run_calibration_cycle.py --games 1 --overwrite --rl-data data/rl/rl_cycle_smoke.jsonl --epochs 1 --batch-size 16 --eval-games 2
+alphable pipeline calibrate --games 1 --overwrite --rl-data data/rl/rl_cycle_smoke.jsonl --epochs 1 --batch-size 16 --eval-games 2
 ```
 
 If a step fails, the script stops and records the exit code in `summary.json`.
@@ -428,8 +428,8 @@ If a step fails, the script stops and records the exit code in `summary.json`.
 Generate V2-native replay logs against random and greedy baselines:
 
 ```bash
-python evaluate_vs_random.py --games 10 --model models/alphable_rl_best_val_model.pth --mode lookahead --infer-batch-size 128
-python evaluate_vs_greedy.py --games 10 --model models/alphable_rl_best_val_model.pth --mode lookahead --infer-batch-size 128
+alphable eval baseline --opponent random --games 10 --model models/alphable_rl_best_val_model.pth --mode lookahead --infer-batch-size 128
+alphable eval baseline --opponent greedy --games 10 --model models/alphable_rl_best_val_model.pth --mode lookahead --infer-batch-size 128
 ```
 
 Outputs are written to:

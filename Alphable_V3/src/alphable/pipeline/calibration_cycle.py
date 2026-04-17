@@ -39,7 +39,7 @@ def build_commands(args):
 
     self_play_cmd = [
         args.python,
-        'self_play.py',
+        '-m', 'alphable.cli.main', 'selfplay', 'generate',
         '--games', str(args.games),
         '--output', args.rl_data,
         '--top-k', str(args.selfplay_top_k),
@@ -52,7 +52,7 @@ def build_commands(args):
 
     train_cmd = [
         args.python,
-        'train_rl.py',
+        '-m', 'alphable.cli.main', 'train', 'rl',
         '--data', args.rl_data,
         '--init-model', args.init_model,
         '--save-model', args.rl_model,
@@ -67,7 +67,7 @@ def build_commands(args):
 
     eval_cmd = [
         args.python,
-        'evaluate_matches.py',
+        '-m', 'alphable.cli.main', 'eval', 'matches',
         '--model-a', args.bc_model,
         '--model-b', args.rl_model,
         '--games', str(args.eval_games),

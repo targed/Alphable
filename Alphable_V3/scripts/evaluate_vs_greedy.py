@@ -6,9 +6,10 @@ import sys
 
 
 def main():
+    print("WARNING: This script is deprecated. Please use 'alphable eval baseline --opponent greedy' instead.")
     cmd = [
         sys.executable,
-        os.path.join(os.path.dirname(__file__), 'evaluate_vs_baseline.py'),
+        '-m', 'alphable.cli.main', 'eval', 'baseline',
         '--opponent', 'greedy',
     ]
     cmd.extend(sys.argv[1:])

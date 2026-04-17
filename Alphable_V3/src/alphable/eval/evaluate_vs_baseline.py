@@ -6,11 +6,11 @@ from datetime import datetime
 
 import torch
 
-import inference
-import simulator
-from game_logger import GameLogger
-from search import AlphableSearch
-from self_play import apply_endgame_adjustments, build_bag, draw_tiles, evaluate_moves
+from alphable.core import inference
+from alphable.core import simulator
+from alphable.logging.game_logger import GameLogger
+from alphable.core.search import AlphableSearch
+from alphable.training.self_play import apply_endgame_adjustments, build_bag, draw_tiles, evaluate_moves
 
 
 def board_to_visualizer_string(board):
