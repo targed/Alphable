@@ -131,7 +131,7 @@ def train_rl(
             break
 
 
-if __name__ == '__main__':
+def main():
     parser = argparse.ArgumentParser(
         description='Train RL value network from self-play outcomes.')
     parser.add_argument(
@@ -159,3 +159,7 @@ if __name__ == '__main__':
         train_split=args.train_split,
         early_stopping_patience=args.early_stop,
     )
+
+
+if __name__ == '__main__':
+    main()

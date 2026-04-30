@@ -77,7 +77,14 @@ def count_lines(file_path):
 
 def process_game(game_line, move_gen, negatives_top_k=4):
     game = json.loads(game_line)
+
+    # If the line represents a pre-compiled sample rather than a game replay, just return it
+    if 'board' in game and 'target' in game:
+        return [game]
+
     moves = game.get('moves')
+    if moves is None:
+        moves = game.get('turns')
     if not isinstance(moves, list):
         return []
 
@@ -90,8 +97,12 @@ def process_game(game_line, move_gen, negatives_top_k=4):
     simulate_move = simulator.simulate_move
 
     for i, move_data in enumerate(moves):
-        player_idx = i % 2
-        rack_raw = move_data.get('rack', [])
+        player_idx = move_data.get('player', i % 2)
+
+        rack_raw = move_data.get('rack')
+        if rack_raw is None:
+            rack_raw = move_data.get('rack_before', [])
+
         if isinstance(rack_raw, str):
             rack = list(rack_raw)
         elif isinstance(rack_raw, list):
@@ -99,7 +110,7 @@ def process_game(game_line, move_gen, negatives_top_k=4):
         else:
             rack = []
 
-        pos = move_data.get('position', '')
+        pos_raw = move_data.get('position', '')
         word = str(move_data.get('word', '') or '')
         score = move_data.get('score', 0)
         if not isinstance(score, (int, float)):
@@ -113,7 +124,13 @@ def process_game(game_line, move_gen, negatives_top_k=4):
         if bag_size < 0:
             bag_size = 0
 
-        row, col, direction = parse_position(pos)
+        if isinstance(pos_raw, list) and len(pos_raw) == 2:
+            row, col = pos_raw
+            direction = move_data.get('direction', '')
+            if direction:
+                direction = direction.capitalize()
+        else:
+            row, col, direction = parse_position(pos_raw)
 
         # If it's not a pass/exchange
         if row is not None and col is not None and len(word) > 0:
@@ -214,7 +231,8 @@ def process_game_line_worker(payload):
     game_line, negatives_top_k = payload
     try:
         return process_game(game_line, _WORKER_MOVE_GEN, negatives_top_k)
-    except Exception:
+    except Exception as e:
+        print(f"Error: {e}")
         return []
 
 

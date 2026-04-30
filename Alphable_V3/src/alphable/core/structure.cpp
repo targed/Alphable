@@ -4,7 +4,7 @@
 {
     "distutils": {
         "include_dirs": [
-            "/tmp/pip-build-env-dphegooh/overlay/lib/python3.12/site-packages/numpy/_core/include"
+            "/tmp/pip-build-env-pderfh67/overlay/lib/python3.11/site-packages/numpy/_core/include"
         ],
         "language": "c++",
         "name": "alphable.core.structure",
@@ -2798,15 +2798,15 @@ return 0;
 /* #### Code section: module_code ### */
 
 /* "alphable/core/structure.pyx":8
- *
+ * 
  * class Gaddag:
  *     def __init__(self):             # <<<<<<<<<<<<<<
  *         self.root = {}
- *
+ * 
 */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_8alphable_4core_9structure_6Gaddag_1__init__(PyObject *__pyx_self,
+static PyObject *__pyx_pw_8alphable_4core_9structure_6Gaddag_1__init__(PyObject *__pyx_self, 
 #if CYTHON_METH_FASTCALL
 PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 #else
@@ -2814,7 +2814,7 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
 #endif
 ); /*proto*/
 static PyMethodDef __pyx_mdef_8alphable_4core_9structure_6Gaddag_1__init__ = {"__init__", (PyCFunction)(void(*)(void))(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_8alphable_4core_9structure_6Gaddag_1__init__, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0};
-static PyObject *__pyx_pw_8alphable_4core_9structure_6Gaddag_1__init__(PyObject *__pyx_self,
+static PyObject *__pyx_pw_8alphable_4core_9structure_6Gaddag_1__init__(PyObject *__pyx_self, 
 #if CYTHON_METH_FASTCALL
 PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 #else
@@ -2903,7 +2903,7 @@ static PyObject *__pyx_pf_8alphable_4core_9structure_6Gaddag___init__(CYTHON_UNU
  * class Gaddag:
  *     def __init__(self):
  *         self.root = {}             # <<<<<<<<<<<<<<
- *
+ * 
  *     def add_word(self, word):
 */
   __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 9, __pyx_L1_error)
@@ -2912,11 +2912,11 @@ static PyObject *__pyx_pf_8alphable_4core_9structure_6Gaddag___init__(CYTHON_UNU
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "alphable/core/structure.pyx":8
- *
+ * 
  * class Gaddag:
  *     def __init__(self):             # <<<<<<<<<<<<<<
  *         self.root = {}
- *
+ * 
 */
 
   /* function exit code */
@@ -2934,14 +2934,14 @@ static PyObject *__pyx_pf_8alphable_4core_9structure_6Gaddag___init__(CYTHON_UNU
 
 /* "alphable/core/structure.pyx":11
  *         self.root = {}
- *
+ * 
  *     def add_word(self, word):             # <<<<<<<<<<<<<<
  *         for i in range(1, len(word) + 1):
  *             prefix = word[:i]
 */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_8alphable_4core_9structure_6Gaddag_3add_word(PyObject *__pyx_self,
+static PyObject *__pyx_pw_8alphable_4core_9structure_6Gaddag_3add_word(PyObject *__pyx_self, 
 #if CYTHON_METH_FASTCALL
 PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 #else
@@ -2949,7 +2949,7 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
 #endif
 ); /*proto*/
 static PyMethodDef __pyx_mdef_8alphable_4core_9structure_6Gaddag_3add_word = {"add_word", (PyCFunction)(void(*)(void))(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_8alphable_4core_9structure_6Gaddag_3add_word, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0};
-static PyObject *__pyx_pw_8alphable_4core_9structure_6Gaddag_3add_word(PyObject *__pyx_self,
+static PyObject *__pyx_pw_8alphable_4core_9structure_6Gaddag_3add_word(PyObject *__pyx_self, 
 #if CYTHON_METH_FASTCALL
 PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 #else
@@ -3057,7 +3057,7 @@ static PyObject *__pyx_pf_8alphable_4core_9structure_6Gaddag_2add_word(CYTHON_UN
   __Pyx_RefNannySetupContext("add_word", 0);
 
   /* "alphable/core/structure.pyx":12
- *
+ * 
  *     def add_word(self, word):
  *         for i in range(1, len(word) + 1):             # <<<<<<<<<<<<<<
  *             prefix = word[:i]
@@ -3221,7 +3221,7 @@ static PyObject *__pyx_pf_8alphable_4core_9structure_6Gaddag_2add_word(CYTHON_UN
  *                     current[char] = {}
  *                 current = current[char]             # <<<<<<<<<<<<<<
  *             current['$'] = True
- *
+ * 
 */
       __pyx_t_6 = __Pyx_PyObject_GetItem(__pyx_v_current, __pyx_v_char); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 20, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
@@ -3242,7 +3242,7 @@ static PyObject *__pyx_pf_8alphable_4core_9structure_6Gaddag_2add_word(CYTHON_UN
  *                     current[char] = {}
  *                 current = current[char]
  *             current['$'] = True             # <<<<<<<<<<<<<<
- *
+ * 
  *     @staticmethod
 */
     if (unlikely((PyObject_SetItem(__pyx_v_current, __pyx_mstate_global->__pyx_kp_u_, Py_True) < 0))) __PYX_ERR(0, 21, __pyx_L1_error)
@@ -3250,7 +3250,7 @@ static PyObject *__pyx_pf_8alphable_4core_9structure_6Gaddag_2add_word(CYTHON_UN
 
   /* "alphable/core/structure.pyx":11
  *         self.root = {}
- *
+ * 
  *     def add_word(self, word):             # <<<<<<<<<<<<<<
  *         for i in range(1, len(word) + 1):
  *             prefix = word[:i]
@@ -3278,14 +3278,14 @@ static PyObject *__pyx_pf_8alphable_4core_9structure_6Gaddag_2add_word(CYTHON_UN
 
 /* "alphable/core/structure.pyx":23
  *             current['$'] = True
- *
+ * 
  *     @staticmethod             # <<<<<<<<<<<<<<
  *     def load(filepath):
  *         g = Gaddag()
 */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_8alphable_4core_9structure_6Gaddag_5load(PyObject *__pyx_self,
+static PyObject *__pyx_pw_8alphable_4core_9structure_6Gaddag_5load(PyObject *__pyx_self, 
 #if CYTHON_METH_FASTCALL
 PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 #else
@@ -3293,7 +3293,7 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
 #endif
 ); /*proto*/
 static PyMethodDef __pyx_mdef_8alphable_4core_9structure_6Gaddag_5load = {"load", (PyCFunction)(void(*)(void))(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_8alphable_4core_9structure_6Gaddag_5load, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0};
-static PyObject *__pyx_pw_8alphable_4core_9structure_6Gaddag_5load(PyObject *__pyx_self,
+static PyObject *__pyx_pw_8alphable_4core_9structure_6Gaddag_5load(PyObject *__pyx_self, 
 #if CYTHON_METH_FASTCALL
 PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 #else
@@ -3759,7 +3759,7 @@ static PyObject *__pyx_pf_8alphable_4core_9structure_6Gaddag_4load(CYTHON_UNUSED
                 __Pyx_GIVEREF(__pyx_t_3);
                 __Pyx_XGIVEREF(__pyx_t_1);
                 __Pyx_ErrRestoreWithState(__pyx_t_2, __pyx_t_3, __pyx_t_1);
-                __pyx_t_2 = 0;  __pyx_t_3 = 0;  __pyx_t_1 = 0;
+                __pyx_t_2 = 0;  __pyx_t_3 = 0;  __pyx_t_1 = 0; 
                 __PYX_ERR(0, 28, __pyx_L15_except_error)
               }
               __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -3870,7 +3870,7 @@ static PyObject *__pyx_pf_8alphable_4core_9structure_6Gaddag_4load(CYTHON_UNUSED
       __Pyx_GIVEREF(__pyx_t_3);
       __Pyx_XGIVEREF(__pyx_t_2);
       __Pyx_ErrRestoreWithState(__pyx_t_1, __pyx_t_3, __pyx_t_2);
-      __pyx_t_1 = 0;  __pyx_t_3 = 0;  __pyx_t_2 = 0;
+      __pyx_t_1 = 0;  __pyx_t_3 = 0;  __pyx_t_2 = 0; 
       __PYX_ERR(0, 36, __pyx_L5_except_error)
     }
     goto __pyx_L5_except_error;
@@ -3896,7 +3896,7 @@ static PyObject *__pyx_pf_8alphable_4core_9structure_6Gaddag_4load(CYTHON_UNUSED
  *             raise
  *         print("Dictionary loaded.")             # <<<<<<<<<<<<<<
  *         return g
- *
+ * 
 */
   __pyx_t_3 = NULL;
   __pyx_t_4 = 1;
@@ -3913,7 +3913,7 @@ static PyObject *__pyx_pf_8alphable_4core_9structure_6Gaddag_4load(CYTHON_UNUSED
  *             raise
  *         print("Dictionary loaded.")
  *         return g             # <<<<<<<<<<<<<<
- *
+ * 
  * class MoveGenerator:
 */
   __Pyx_XDECREF(__pyx_r);
@@ -3923,7 +3923,7 @@ static PyObject *__pyx_pf_8alphable_4core_9structure_6Gaddag_4load(CYTHON_UNUSED
 
   /* "alphable/core/structure.pyx":23
  *             current['$'] = True
- *
+ * 
  *     @staticmethod             # <<<<<<<<<<<<<<
  *     def load(filepath):
  *         g = Gaddag()
@@ -3951,7 +3951,7 @@ static PyObject *__pyx_pf_8alphable_4core_9structure_6Gaddag_4load(CYTHON_UNUSED
 }
 
 /* "alphable/core/structure.pyx":41
- *
+ * 
  * class MoveGenerator:
  *     def __init__(self, gaddag):             # <<<<<<<<<<<<<<
  *         self.gaddag = gaddag
@@ -3959,7 +3959,7 @@ static PyObject *__pyx_pf_8alphable_4core_9structure_6Gaddag_4load(CYTHON_UNUSED
 */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_8alphable_4core_9structure_13MoveGenerator_1__init__(PyObject *__pyx_self,
+static PyObject *__pyx_pw_8alphable_4core_9structure_13MoveGenerator_1__init__(PyObject *__pyx_self, 
 #if CYTHON_METH_FASTCALL
 PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 #else
@@ -3967,7 +3967,7 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
 #endif
 ); /*proto*/
 static PyMethodDef __pyx_mdef_8alphable_4core_9structure_13MoveGenerator_1__init__ = {"__init__", (PyCFunction)(void(*)(void))(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_8alphable_4core_9structure_13MoveGenerator_1__init__, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0};
-static PyObject *__pyx_pw_8alphable_4core_9structure_13MoveGenerator_1__init__(PyObject *__pyx_self,
+static PyObject *__pyx_pw_8alphable_4core_9structure_13MoveGenerator_1__init__(PyObject *__pyx_self, 
 #if CYTHON_METH_FASTCALL
 PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 #else
@@ -4064,12 +4064,12 @@ static PyObject *__pyx_pf_8alphable_4core_9structure_13MoveGenerator___init__(CY
  *     def __init__(self, gaddag):
  *         self.gaddag = gaddag             # <<<<<<<<<<<<<<
  *         # Stateless: No self.moves here
- *
+ * 
 */
   if (__Pyx_PyObject_SetAttrStr(__pyx_v_self, __pyx_mstate_global->__pyx_n_u_gaddag, __pyx_v_gaddag) < (0)) __PYX_ERR(0, 42, __pyx_L1_error)
 
   /* "alphable/core/structure.pyx":41
- *
+ * 
  * class MoveGenerator:
  *     def __init__(self, gaddag):             # <<<<<<<<<<<<<<
  *         self.gaddag = gaddag
@@ -4090,14 +4090,14 @@ static PyObject *__pyx_pf_8alphable_4core_9structure_13MoveGenerator___init__(CY
 
 /* "alphable/core/structure.pyx":45
  *         # Stateless: No self.moves here
- *
+ * 
  *     def generate(self, board, rack_list):             # <<<<<<<<<<<<<<
  *         # Local storage for this generation run
  *         moves = []
 */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_8alphable_4core_9structure_13MoveGenerator_3generate(PyObject *__pyx_self,
+static PyObject *__pyx_pw_8alphable_4core_9structure_13MoveGenerator_3generate(PyObject *__pyx_self, 
 #if CYTHON_METH_FASTCALL
 PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 #else
@@ -4105,7 +4105,7 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
 #endif
 ); /*proto*/
 static PyMethodDef __pyx_mdef_8alphable_4core_9structure_13MoveGenerator_3generate = {"generate", (PyCFunction)(void(*)(void))(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_8alphable_4core_9structure_13MoveGenerator_3generate, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0};
-static PyObject *__pyx_pw_8alphable_4core_9structure_13MoveGenerator_3generate(PyObject *__pyx_self,
+static PyObject *__pyx_pw_8alphable_4core_9structure_13MoveGenerator_3generate(PyObject *__pyx_self, 
 #if CYTHON_METH_FASTCALL
 PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 #else
@@ -4236,7 +4236,7 @@ static PyObject *__pyx_pf_8alphable_4core_9structure_13MoveGenerator_2generate(C
  *         # Local storage for this generation run
  *         moves = []             # <<<<<<<<<<<<<<
  *         cross_checks = {}
- *
+ * 
 */
   __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 47, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
@@ -4247,7 +4247,7 @@ static PyObject *__pyx_pf_8alphable_4core_9structure_13MoveGenerator_2generate(C
  *         # Local storage for this generation run
  *         moves = []
  *         cross_checks = {}             # <<<<<<<<<<<<<<
- *
+ * 
  *         rack = collections.Counter(rack_list)
 */
   __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 48, __pyx_L1_error)
@@ -4257,7 +4257,7 @@ static PyObject *__pyx_pf_8alphable_4core_9structure_13MoveGenerator_2generate(C
 
   /* "alphable/core/structure.pyx":50
  *         cross_checks = {}
- *
+ * 
  *         rack = collections.Counter(rack_list)             # <<<<<<<<<<<<<<
  *         if ' ' in rack:
  *             rack['.'] += rack[' ']
@@ -4292,7 +4292,7 @@ static PyObject *__pyx_pf_8alphable_4core_9structure_13MoveGenerator_2generate(C
   __pyx_t_1 = 0;
 
   /* "alphable/core/structure.pyx":51
- *
+ * 
  *         rack = collections.Counter(rack_list)
  *         if ' ' in rack:             # <<<<<<<<<<<<<<
  *             rack['.'] += rack[' ']
@@ -4306,7 +4306,7 @@ static PyObject *__pyx_pf_8alphable_4core_9structure_13MoveGenerator_2generate(C
  *         if ' ' in rack:
  *             rack['.'] += rack[' ']             # <<<<<<<<<<<<<<
  *             del rack[' ']
- *
+ * 
 */
     __Pyx_INCREF(__pyx_mstate_global->__pyx_kp_u__4);
     __pyx_t_7 = __pyx_mstate_global->__pyx_kp_u__4;
@@ -4326,13 +4326,13 @@ static PyObject *__pyx_pf_8alphable_4core_9structure_13MoveGenerator_2generate(C
  *         if ' ' in rack:
  *             rack['.'] += rack[' ']
  *             del rack[' ']             # <<<<<<<<<<<<<<
- *
+ * 
  *         # 1. Generate ACROSS
 */
     if (unlikely((PyObject_DelItem(__pyx_v_rack, __pyx_mstate_global->__pyx_kp_u__3) < 0))) __PYX_ERR(0, 53, __pyx_L1_error)
 
     /* "alphable/core/structure.pyx":51
- *
+ * 
  *         rack = collections.Counter(rack_list)
  *         if ' ' in rack:             # <<<<<<<<<<<<<<
  *             rack['.'] += rack[' ']
@@ -4341,11 +4341,11 @@ static PyObject *__pyx_pf_8alphable_4core_9structure_13MoveGenerator_2generate(C
   }
 
   /* "alphable/core/structure.pyx":56
- *
+ * 
  *         # 1. Generate ACROSS
  *         self._compute_cross_checks(board, cross_checks)             # <<<<<<<<<<<<<<
  *         self._find_moves(board, rack, 'Across', moves, cross_checks)
- *
+ * 
 */
   __pyx_t_4 = __pyx_v_self;
   __Pyx_INCREF(__pyx_t_4);
@@ -4363,7 +4363,7 @@ static PyObject *__pyx_pf_8alphable_4core_9structure_13MoveGenerator_2generate(C
  *         # 1. Generate ACROSS
  *         self._compute_cross_checks(board, cross_checks)
  *         self._find_moves(board, rack, 'Across', moves, cross_checks)             # <<<<<<<<<<<<<<
- *
+ * 
  *         # 2. Generate DOWN
 */
   __pyx_t_4 = __pyx_v_self;
@@ -4379,7 +4379,7 @@ static PyObject *__pyx_pf_8alphable_4core_9structure_13MoveGenerator_2generate(C
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "alphable/core/structure.pyx":60
- *
+ * 
  *         # 2. Generate DOWN
  *         board_T = [list(x) for x in zip(*board)]             # <<<<<<<<<<<<<<
  *         cross_checks_T = {}
@@ -4466,7 +4466,7 @@ static PyObject *__pyx_pf_8alphable_4core_9structure_13MoveGenerator_2generate(C
  *         board_T = [list(x) for x in zip(*board)]
  *         cross_checks_T = {}             # <<<<<<<<<<<<<<
  *         self._compute_cross_checks(board_T, cross_checks_T)
- *
+ * 
 */
   __pyx_t_2 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 61, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
@@ -4477,7 +4477,7 @@ static PyObject *__pyx_pf_8alphable_4core_9structure_13MoveGenerator_2generate(C
  *         board_T = [list(x) for x in zip(*board)]
  *         cross_checks_T = {}
  *         self._compute_cross_checks(board_T, cross_checks_T)             # <<<<<<<<<<<<<<
- *
+ * 
  *         start_idx = len(moves)
 */
   __pyx_t_4 = __pyx_v_self;
@@ -4494,19 +4494,19 @@ static PyObject *__pyx_pf_8alphable_4core_9structure_13MoveGenerator_2generate(C
 
   /* "alphable/core/structure.pyx":64
  *         self._compute_cross_checks(board_T, cross_checks_T)
- *
+ * 
  *         start_idx = len(moves)             # <<<<<<<<<<<<<<
  *         self._find_moves(board_T, rack, 'Down', moves, cross_checks_T)
- *
+ * 
 */
   __pyx_t_8 = __Pyx_PyList_GET_SIZE(__pyx_v_moves); if (unlikely(__pyx_t_8 == ((Py_ssize_t)-1))) __PYX_ERR(0, 64, __pyx_L1_error)
   __pyx_v_start_idx = __pyx_t_8;
 
   /* "alphable/core/structure.pyx":65
- *
+ * 
  *         start_idx = len(moves)
  *         self._find_moves(board_T, rack, 'Down', moves, cross_checks_T)             # <<<<<<<<<<<<<<
- *
+ * 
  *         # Fix coordinates for Down moves
 */
   __pyx_t_4 = __pyx_v_self;
@@ -4522,7 +4522,7 @@ static PyObject *__pyx_pf_8alphable_4core_9structure_13MoveGenerator_2generate(C
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "alphable/core/structure.pyx":68
- *
+ * 
  *         # Fix coordinates for Down moves
  *         for i in range(start_idx, len(moves)):             # <<<<<<<<<<<<<<
  *             m = moves[i]
@@ -4550,7 +4550,7 @@ static PyObject *__pyx_pf_8alphable_4core_9structure_13MoveGenerator_2generate(C
  *             m = moves[i]
  *             m['row'], m['col'] = m['col'], m['row']             # <<<<<<<<<<<<<<
  *             m['dir'] = 'Down'  # Fix direction label
- *
+ * 
 */
     __pyx_t_2 = __Pyx_PyObject_Dict_GetItem(__pyx_v_m, __pyx_mstate_global->__pyx_n_u_col); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 70, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
@@ -4565,14 +4565,14 @@ static PyObject *__pyx_pf_8alphable_4core_9structure_13MoveGenerator_2generate(C
  *             m = moves[i]
  *             m['row'], m['col'] = m['col'], m['row']
  *             m['dir'] = 'Down'  # Fix direction label             # <<<<<<<<<<<<<<
- *
+ * 
  *         # Remove duplicates (some moves can be generated via multiple GADDAG paths)
 */
     if (unlikely((PyObject_SetItem(__pyx_v_m, __pyx_mstate_global->__pyx_n_u_dir, __pyx_mstate_global->__pyx_n_u_Down) < 0))) __PYX_ERR(0, 71, __pyx_L1_error)
   }
 
   /* "alphable/core/structure.pyx":74
- *
+ * 
  *         # Remove duplicates (some moves can be generated via multiple GADDAG paths)
  *         seen = set()             # <<<<<<<<<<<<<<
  *         unique_moves = []
@@ -4666,7 +4666,7 @@ static PyObject *__pyx_pf_8alphable_4core_9structure_13MoveGenerator_2generate(C
  *             if sig not in seen:
  *                 seen.add(sig)             # <<<<<<<<<<<<<<
  *                 unique_moves.append(m)
- *
+ * 
 */
       __pyx_t_14 = PySet_Add(__pyx_v_seen, __pyx_v_sig); if (unlikely(__pyx_t_14 == ((int)-1))) __PYX_ERR(0, 79, __pyx_L1_error)
 
@@ -4674,7 +4674,7 @@ static PyObject *__pyx_pf_8alphable_4core_9structure_13MoveGenerator_2generate(C
  *             if sig not in seen:
  *                 seen.add(sig)
  *                 unique_moves.append(m)             # <<<<<<<<<<<<<<
- *
+ * 
  *         return unique_moves
 */
       __pyx_t_14 = __Pyx_PyList_Append(__pyx_v_unique_moves, __pyx_v_m); if (unlikely(__pyx_t_14 == ((int)-1))) __PYX_ERR(0, 80, __pyx_L1_error)
@@ -4700,9 +4700,9 @@ static PyObject *__pyx_pf_8alphable_4core_9structure_13MoveGenerator_2generate(C
 
   /* "alphable/core/structure.pyx":82
  *                 unique_moves.append(m)
- *
+ * 
  *         return unique_moves             # <<<<<<<<<<<<<<
- *
+ * 
  *     def _compute_cross_checks(self, board, cross_checks):
 */
   __Pyx_XDECREF(__pyx_r);
@@ -4712,7 +4712,7 @@ static PyObject *__pyx_pf_8alphable_4core_9structure_13MoveGenerator_2generate(C
 
   /* "alphable/core/structure.pyx":45
  *         # Stateless: No self.moves here
- *
+ * 
  *     def generate(self, board, rack_list):             # <<<<<<<<<<<<<<
  *         # Local storage for this generation run
  *         moves = []
@@ -4747,14 +4747,14 @@ static PyObject *__pyx_pf_8alphable_4core_9structure_13MoveGenerator_2generate(C
 
 /* "alphable/core/structure.pyx":84
  *         return unique_moves
- *
+ * 
  *     def _compute_cross_checks(self, board, cross_checks):             # <<<<<<<<<<<<<<
  *         rows = 15
  *         cols = 15
 */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_8alphable_4core_9structure_13MoveGenerator_5_compute_cross_checks(PyObject *__pyx_self,
+static PyObject *__pyx_pw_8alphable_4core_9structure_13MoveGenerator_5_compute_cross_checks(PyObject *__pyx_self, 
 #if CYTHON_METH_FASTCALL
 PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 #else
@@ -4762,7 +4762,7 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
 #endif
 ); /*proto*/
 static PyMethodDef __pyx_mdef_8alphable_4core_9structure_13MoveGenerator_5_compute_cross_checks = {"_compute_cross_checks", (PyCFunction)(void(*)(void))(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_8alphable_4core_9structure_13MoveGenerator_5_compute_cross_checks, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0};
-static PyObject *__pyx_pw_8alphable_4core_9structure_13MoveGenerator_5_compute_cross_checks(PyObject *__pyx_self,
+static PyObject *__pyx_pw_8alphable_4core_9structure_13MoveGenerator_5_compute_cross_checks(PyObject *__pyx_self, 
 #if CYTHON_METH_FASTCALL
 PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 #else
@@ -4888,7 +4888,7 @@ static PyObject *__pyx_pf_8alphable_4core_9structure_13MoveGenerator_4_compute_c
   __Pyx_RefNannySetupContext("_compute_cross_checks", 0);
 
   /* "alphable/core/structure.pyx":85
- *
+ * 
  *     def _compute_cross_checks(self, board, cross_checks):
  *         rows = 15             # <<<<<<<<<<<<<<
  *         cols = 15
@@ -4961,7 +4961,7 @@ static PyObject *__pyx_pf_8alphable_4core_9structure_13MoveGenerator_4_compute_c
  *             for c in range(cols):
  *                 if board[r][c] != '.':             # <<<<<<<<<<<<<<
  *                     continue
- *
+ * 
 */
       __pyx_t_1 = __Pyx_PyObject_GetItem(__pyx_v_board, __pyx_v_r); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 89, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
@@ -4976,7 +4976,7 @@ static PyObject *__pyx_pf_8alphable_4core_9structure_13MoveGenerator_4_compute_c
  *             for c in range(cols):
  *                 if board[r][c] != '.':
  *                     continue             # <<<<<<<<<<<<<<
- *
+ * 
  *                 if (r > 0 and board[r-1][c] != '.') or (r < 14 and board[r+1][c] != '.'):
 */
         goto __pyx_L5_continue;
@@ -4986,13 +4986,13 @@ static PyObject *__pyx_pf_8alphable_4core_9structure_13MoveGenerator_4_compute_c
  *             for c in range(cols):
  *                 if board[r][c] != '.':             # <<<<<<<<<<<<<<
  *                     continue
- *
+ * 
 */
       }
 
       /* "alphable/core/structure.pyx":92
  *                     continue
- *
+ * 
  *                 if (r > 0 and board[r-1][c] != '.') or (r < 14 and board[r+1][c] != '.'):             # <<<<<<<<<<<<<<
  *                     valid_chars = set()
  *                     up_part = ""
@@ -5043,7 +5043,7 @@ static PyObject *__pyx_pf_8alphable_4core_9structure_13MoveGenerator_4_compute_c
       if (__pyx_t_9) {
 
         /* "alphable/core/structure.pyx":93
- *
+ * 
  *                 if (r > 0 and board[r-1][c] != '.') or (r < 14 and board[r+1][c] != '.'):
  *                     valid_chars = set()             # <<<<<<<<<<<<<<
  *                     up_part = ""
@@ -5108,7 +5108,7 @@ static PyObject *__pyx_pf_8alphable_4core_9structure_13MoveGenerator_4_compute_c
  *                     while curr >= 0 and board[curr][c] != '.':
  *                         up_part = board[curr][c] + up_part             # <<<<<<<<<<<<<<
  *                         curr -= 1
- *
+ * 
 */
           __pyx_t_1 = __Pyx_PyObject_GetItem(__pyx_v_board, __pyx_v_curr); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 97, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_1);
@@ -5125,7 +5125,7 @@ static PyObject *__pyx_pf_8alphable_4core_9structure_13MoveGenerator_4_compute_c
  *                     while curr >= 0 and board[curr][c] != '.':
  *                         up_part = board[curr][c] + up_part
  *                         curr -= 1             # <<<<<<<<<<<<<<
- *
+ * 
  *                     down_part = ""
 */
           __pyx_t_1 = __Pyx_PyLong_SubtractObjC(__pyx_v_curr, __pyx_mstate_global->__pyx_int_1, 1, 1, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 98, __pyx_L1_error)
@@ -5136,7 +5136,7 @@ static PyObject *__pyx_pf_8alphable_4core_9structure_13MoveGenerator_4_compute_c
 
         /* "alphable/core/structure.pyx":100
  *                         curr -= 1
- *
+ * 
  *                     down_part = ""             # <<<<<<<<<<<<<<
  *                     curr = r + 1
  *                     while curr < 15 and board[curr][c] != '.':
@@ -5145,7 +5145,7 @@ static PyObject *__pyx_pf_8alphable_4core_9structure_13MoveGenerator_4_compute_c
         __Pyx_XDECREF_SET(__pyx_v_down_part, __pyx_mstate_global->__pyx_kp_u__5);
 
         /* "alphable/core/structure.pyx":101
- *
+ * 
  *                     down_part = ""
  *                     curr = r + 1             # <<<<<<<<<<<<<<
  *                     while curr < 15 and board[curr][c] != '.':
@@ -5188,7 +5188,7 @@ static PyObject *__pyx_pf_8alphable_4core_9structure_13MoveGenerator_4_compute_c
  *                     while curr < 15 and board[curr][c] != '.':
  *                         down_part += board[curr][c]             # <<<<<<<<<<<<<<
  *                         curr += 1
- *
+ * 
 */
           __pyx_t_2 = __Pyx_PyObject_GetItem(__pyx_v_board, __pyx_v_curr); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 103, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_2);
@@ -5205,7 +5205,7 @@ static PyObject *__pyx_pf_8alphable_4core_9structure_13MoveGenerator_4_compute_c
  *                     while curr < 15 and board[curr][c] != '.':
  *                         down_part += board[curr][c]
  *                         curr += 1             # <<<<<<<<<<<<<<
- *
+ * 
  *                     for char_code in range(ord('A'), ord('Z')+1):
 */
           __pyx_t_2 = __Pyx_PyLong_AddObjC(__pyx_v_curr, __pyx_mstate_global->__pyx_int_1, 1, 1, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 104, __pyx_L1_error)
@@ -5216,7 +5216,7 @@ static PyObject *__pyx_pf_8alphable_4core_9structure_13MoveGenerator_4_compute_c
 
         /* "alphable/core/structure.pyx":106
  *                         curr += 1
- *
+ * 
  *                     for char_code in range(ord('A'), ord('Z')+1):             # <<<<<<<<<<<<<<
  *                         char = chr(char_code)
  *                         candidate = up_part + char + down_part
@@ -5227,7 +5227,7 @@ static PyObject *__pyx_pf_8alphable_4core_9structure_13MoveGenerator_4_compute_c
           __pyx_v_char_code = __pyx_t_13;
 
           /* "alphable/core/structure.pyx":107
- *
+ * 
  *                     for char_code in range(ord('A'), ord('Z')+1):
  *                         char = chr(char_code)             # <<<<<<<<<<<<<<
  *                         candidate = up_part + char + down_part
@@ -5258,7 +5258,7 @@ static PyObject *__pyx_pf_8alphable_4core_9structure_13MoveGenerator_4_compute_c
  *                         candidate = up_part + char + down_part
  *                         if self._fast_word_check(candidate):             # <<<<<<<<<<<<<<
  *                              valid_chars.add(char)
- *
+ * 
 */
           __pyx_t_2 = __pyx_v_self;
           __Pyx_INCREF(__pyx_t_2);
@@ -5278,7 +5278,7 @@ static PyObject *__pyx_pf_8alphable_4core_9structure_13MoveGenerator_4_compute_c
  *                         candidate = up_part + char + down_part
  *                         if self._fast_word_check(candidate):
  *                              valid_chars.add(char)             # <<<<<<<<<<<<<<
- *
+ * 
  *                     cross_checks[(r,c)] = valid_chars
 */
             __pyx_t_14 = PySet_Add(__pyx_v_valid_chars, __pyx_v_char); if (unlikely(__pyx_t_14 == ((int)-1))) __PYX_ERR(0, 110, __pyx_L1_error)
@@ -5288,16 +5288,16 @@ static PyObject *__pyx_pf_8alphable_4core_9structure_13MoveGenerator_4_compute_c
  *                         candidate = up_part + char + down_part
  *                         if self._fast_word_check(candidate):             # <<<<<<<<<<<<<<
  *                              valid_chars.add(char)
- *
+ * 
 */
           }
         }
 
         /* "alphable/core/structure.pyx":112
  *                              valid_chars.add(char)
- *
+ * 
  *                     cross_checks[(r,c)] = valid_chars             # <<<<<<<<<<<<<<
- *
+ * 
  *     def _fast_word_check(self, word):
 */
         __pyx_t_1 = __Pyx_PyLong_From_long(__pyx_v_c); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 112, __pyx_L1_error)
@@ -5315,7 +5315,7 @@ static PyObject *__pyx_pf_8alphable_4core_9structure_13MoveGenerator_4_compute_c
 
         /* "alphable/core/structure.pyx":92
  *                     continue
- *
+ * 
  *                 if (r > 0 and board[r-1][c] != '.') or (r < 14 and board[r+1][c] != '.'):             # <<<<<<<<<<<<<<
  *                     valid_chars = set()
  *                     up_part = ""
@@ -5336,7 +5336,7 @@ static PyObject *__pyx_pf_8alphable_4core_9structure_13MoveGenerator_4_compute_c
 
   /* "alphable/core/structure.pyx":84
  *         return unique_moves
- *
+ * 
  *     def _compute_cross_checks(self, board, cross_checks):             # <<<<<<<<<<<<<<
  *         rows = 15
  *         cols = 15
@@ -5366,14 +5366,14 @@ static PyObject *__pyx_pf_8alphable_4core_9structure_13MoveGenerator_4_compute_c
 
 /* "alphable/core/structure.pyx":114
  *                     cross_checks[(r,c)] = valid_chars
- *
+ * 
  *     def _fast_word_check(self, word):             # <<<<<<<<<<<<<<
  *         path = word[::-1] + BREAK
  *         curr = self.gaddag.root
 */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_8alphable_4core_9structure_13MoveGenerator_7_fast_word_check(PyObject *__pyx_self,
+static PyObject *__pyx_pw_8alphable_4core_9structure_13MoveGenerator_7_fast_word_check(PyObject *__pyx_self, 
 #if CYTHON_METH_FASTCALL
 PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 #else
@@ -5381,7 +5381,7 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
 #endif
 ); /*proto*/
 static PyMethodDef __pyx_mdef_8alphable_4core_9structure_13MoveGenerator_7_fast_word_check = {"_fast_word_check", (PyCFunction)(void(*)(void))(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_8alphable_4core_9structure_13MoveGenerator_7_fast_word_check, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0};
-static PyObject *__pyx_pw_8alphable_4core_9structure_13MoveGenerator_7_fast_word_check(PyObject *__pyx_self,
+static PyObject *__pyx_pw_8alphable_4core_9structure_13MoveGenerator_7_fast_word_check(PyObject *__pyx_self, 
 #if CYTHON_METH_FASTCALL
 PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 #else
@@ -5483,7 +5483,7 @@ static PyObject *__pyx_pf_8alphable_4core_9structure_13MoveGenerator_6_fast_word
   __Pyx_RefNannySetupContext("_fast_word_check", 0);
 
   /* "alphable/core/structure.pyx":115
- *
+ * 
  *     def _fast_word_check(self, word):
  *         path = word[::-1] + BREAK             # <<<<<<<<<<<<<<
  *         curr = self.gaddag.root
@@ -5611,7 +5611,7 @@ static PyObject *__pyx_pf_8alphable_4core_9structure_13MoveGenerator_6_fast_word
  *                 return False
  *             curr = curr[char]             # <<<<<<<<<<<<<<
  *         return '$' in curr
- *
+ * 
 */
     __pyx_t_3 = __Pyx_PyObject_GetItem(__pyx_v_curr, __pyx_v_char); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 120, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
@@ -5632,7 +5632,7 @@ static PyObject *__pyx_pf_8alphable_4core_9structure_13MoveGenerator_6_fast_word
  *                 return False
  *             curr = curr[char]
  *         return '$' in curr             # <<<<<<<<<<<<<<
- *
+ * 
  *     def _find_moves(self, board, rack, direction, moves, cross_checks):
 */
   __Pyx_XDECREF(__pyx_r);
@@ -5645,7 +5645,7 @@ static PyObject *__pyx_pf_8alphable_4core_9structure_13MoveGenerator_6_fast_word
 
   /* "alphable/core/structure.pyx":114
  *                     cross_checks[(r,c)] = valid_chars
- *
+ * 
  *     def _fast_word_check(self, word):             # <<<<<<<<<<<<<<
  *         path = word[::-1] + BREAK
  *         curr = self.gaddag.root
@@ -5669,14 +5669,14 @@ static PyObject *__pyx_pf_8alphable_4core_9structure_13MoveGenerator_6_fast_word
 
 /* "alphable/core/structure.pyx":123
  *         return '$' in curr
- *
+ * 
  *     def _find_moves(self, board, rack, direction, moves, cross_checks):             # <<<<<<<<<<<<<<
  *         anchors = self._find_anchors(board)
  *         for r, c in anchors:
 */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_8alphable_4core_9structure_13MoveGenerator_9_find_moves(PyObject *__pyx_self,
+static PyObject *__pyx_pw_8alphable_4core_9structure_13MoveGenerator_9_find_moves(PyObject *__pyx_self, 
 #if CYTHON_METH_FASTCALL
 PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 #else
@@ -5684,7 +5684,7 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
 #endif
 ); /*proto*/
 static PyMethodDef __pyx_mdef_8alphable_4core_9structure_13MoveGenerator_9_find_moves = {"_find_moves", (PyCFunction)(void(*)(void))(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_8alphable_4core_9structure_13MoveGenerator_9_find_moves, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0};
-static PyObject *__pyx_pw_8alphable_4core_9structure_13MoveGenerator_9_find_moves(PyObject *__pyx_self,
+static PyObject *__pyx_pw_8alphable_4core_9structure_13MoveGenerator_9_find_moves(PyObject *__pyx_self, 
 #if CYTHON_METH_FASTCALL
 PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 #else
@@ -5821,7 +5821,7 @@ static PyObject *__pyx_pf_8alphable_4core_9structure_13MoveGenerator_8_find_move
   __Pyx_RefNannySetupContext("_find_moves", 0);
 
   /* "alphable/core/structure.pyx":124
- *
+ * 
  *     def _find_moves(self, board, rack, direction, moves, cross_checks):
  *         anchors = self._find_anchors(board)             # <<<<<<<<<<<<<<
  *         for r, c in anchors:
@@ -5845,7 +5845,7 @@ static PyObject *__pyx_pf_8alphable_4core_9structure_13MoveGenerator_8_find_move
  *         anchors = self._find_anchors(board)
  *         for r, c in anchors:             # <<<<<<<<<<<<<<
  *             self._gen_row_moves(board, r, c, rack, self.gaddag.root, moves, cross_checks)
- *
+ * 
 */
   if (likely(PyList_CheckExact(__pyx_v_anchors)) || PyTuple_CheckExact(__pyx_v_anchors)) {
     __pyx_t_1 = __pyx_v_anchors; __Pyx_INCREF(__pyx_t_1);
@@ -5955,7 +5955,7 @@ static PyObject *__pyx_pf_8alphable_4core_9structure_13MoveGenerator_8_find_move
  *         anchors = self._find_anchors(board)
  *         for r, c in anchors:
  *             self._gen_row_moves(board, r, c, rack, self.gaddag.root, moves, cross_checks)             # <<<<<<<<<<<<<<
- *
+ * 
  *     def _find_anchors(self, board):
 */
     __pyx_t_7 = __pyx_v_self;
@@ -5981,14 +5981,14 @@ static PyObject *__pyx_pf_8alphable_4core_9structure_13MoveGenerator_8_find_move
  *         anchors = self._find_anchors(board)
  *         for r, c in anchors:             # <<<<<<<<<<<<<<
  *             self._gen_row_moves(board, r, c, rack, self.gaddag.root, moves, cross_checks)
- *
+ * 
 */
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
   /* "alphable/core/structure.pyx":123
  *         return '$' in curr
- *
+ * 
  *     def _find_moves(self, board, rack, direction, moves, cross_checks):             # <<<<<<<<<<<<<<
  *         anchors = self._find_anchors(board)
  *         for r, c in anchors:
@@ -6016,14 +6016,14 @@ static PyObject *__pyx_pf_8alphable_4core_9structure_13MoveGenerator_8_find_move
 
 /* "alphable/core/structure.pyx":128
  *             self._gen_row_moves(board, r, c, rack, self.gaddag.root, moves, cross_checks)
- *
+ * 
  *     def _find_anchors(self, board):             # <<<<<<<<<<<<<<
  *         anchors = []
  *         has_tile = False
 */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_8alphable_4core_9structure_13MoveGenerator_11_find_anchors(PyObject *__pyx_self,
+static PyObject *__pyx_pw_8alphable_4core_9structure_13MoveGenerator_11_find_anchors(PyObject *__pyx_self, 
 #if CYTHON_METH_FASTCALL
 PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 #else
@@ -6031,7 +6031,7 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
 #endif
 ); /*proto*/
 static PyMethodDef __pyx_mdef_8alphable_4core_9structure_13MoveGenerator_11_find_anchors = {"_find_anchors", (PyCFunction)(void(*)(void))(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_8alphable_4core_9structure_13MoveGenerator_11_find_anchors, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0};
-static PyObject *__pyx_pw_8alphable_4core_9structure_13MoveGenerator_11_find_anchors(PyObject *__pyx_self,
+static PyObject *__pyx_pw_8alphable_4core_9structure_13MoveGenerator_11_find_anchors(PyObject *__pyx_self, 
 #if CYTHON_METH_FASTCALL
 PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 #else
@@ -6136,7 +6136,7 @@ static PyObject *__pyx_pf_8alphable_4core_9structure_13MoveGenerator_10_find_anc
   __Pyx_RefNannySetupContext("_find_anchors", 0);
 
   /* "alphable/core/structure.pyx":129
- *
+ * 
  *     def _find_anchors(self, board):
  *         anchors = []             # <<<<<<<<<<<<<<
  *         has_tile = False
@@ -6284,7 +6284,7 @@ static PyObject *__pyx_pf_8alphable_4core_9structure_13MoveGenerator_10_find_anc
  *                 if (r>0 and board[r-1][c]!='.') or (r<14 and board[r+1][c]!='.') or \
  *                    (c>0 and board[r][c-1]!='.') or (c<14 and board[r][c+1]!='.'):             # <<<<<<<<<<<<<<
  *                     anchors.append((r,c))
- *
+ * 
 */
       __pyx_t_4 = PyObject_RichCompare(__pyx_v_c, __pyx_mstate_global->__pyx_int_0, Py_GT); __Pyx_XGOTREF(__pyx_t_4); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 138, __pyx_L1_error)
       __pyx_t_6 = __Pyx_PyObject_IsTrue(__pyx_t_4); if (unlikely((__pyx_t_6 < 0))) __PYX_ERR(0, 138, __pyx_L1_error)
@@ -6343,7 +6343,7 @@ static PyObject *__pyx_pf_8alphable_4core_9structure_13MoveGenerator_10_find_anc
  *                 if (r>0 and board[r-1][c]!='.') or (r<14 and board[r+1][c]!='.') or \
  *                    (c>0 and board[r][c-1]!='.') or (c<14 and board[r][c+1]!='.'):
  *                     anchors.append((r,c))             # <<<<<<<<<<<<<<
- *
+ * 
  *         if not has_tile:
 */
         __pyx_t_4 = PyTuple_New(2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 139, __pyx_L1_error)
@@ -6371,7 +6371,7 @@ static PyObject *__pyx_pf_8alphable_4core_9structure_13MoveGenerator_10_find_anc
 
   /* "alphable/core/structure.pyx":141
  *                     anchors.append((r,c))
- *
+ * 
  *         if not has_tile:             # <<<<<<<<<<<<<<
  *             return [(7,7)]
  *         return anchors
@@ -6380,11 +6380,11 @@ static PyObject *__pyx_pf_8alphable_4core_9structure_13MoveGenerator_10_find_anc
   if (__pyx_t_5) {
 
     /* "alphable/core/structure.pyx":142
- *
+ * 
  *         if not has_tile:
  *             return [(7,7)]             # <<<<<<<<<<<<<<
  *         return anchors
- *
+ * 
 */
     __Pyx_XDECREF(__pyx_r);
     __pyx_t_4 = PyList_New(1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 142, __pyx_L1_error)
@@ -6398,7 +6398,7 @@ static PyObject *__pyx_pf_8alphable_4core_9structure_13MoveGenerator_10_find_anc
 
     /* "alphable/core/structure.pyx":141
  *                     anchors.append((r,c))
- *
+ * 
  *         if not has_tile:             # <<<<<<<<<<<<<<
  *             return [(7,7)]
  *         return anchors
@@ -6409,7 +6409,7 @@ static PyObject *__pyx_pf_8alphable_4core_9structure_13MoveGenerator_10_find_anc
  *         if not has_tile:
  *             return [(7,7)]
  *         return anchors             # <<<<<<<<<<<<<<
- *
+ * 
  *     def _gen_row_moves(self, board, row, col, rack, node, moves, cross_checks):
 */
   __Pyx_XDECREF(__pyx_r);
@@ -6419,7 +6419,7 @@ static PyObject *__pyx_pf_8alphable_4core_9structure_13MoveGenerator_10_find_anc
 
   /* "alphable/core/structure.pyx":128
  *             self._gen_row_moves(board, r, c, rack, self.gaddag.root, moves, cross_checks)
- *
+ * 
  *     def _find_anchors(self, board):             # <<<<<<<<<<<<<<
  *         anchors = []
  *         has_tile = False
@@ -6443,14 +6443,14 @@ static PyObject *__pyx_pf_8alphable_4core_9structure_13MoveGenerator_10_find_anc
 
 /* "alphable/core/structure.pyx":145
  *         return anchors
- *
+ * 
  *     def _gen_row_moves(self, board, row, col, rack, node, moves, cross_checks):             # <<<<<<<<<<<<<<
  *         self._go_left(board, row, col, rack, node, col, "", moves, cross_checks)
- *
+ * 
 */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_8alphable_4core_9structure_13MoveGenerator_13_gen_row_moves(PyObject *__pyx_self,
+static PyObject *__pyx_pw_8alphable_4core_9structure_13MoveGenerator_13_gen_row_moves(PyObject *__pyx_self, 
 #if CYTHON_METH_FASTCALL
 PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 #else
@@ -6458,7 +6458,7 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
 #endif
 ); /*proto*/
 static PyMethodDef __pyx_mdef_8alphable_4core_9structure_13MoveGenerator_13_gen_row_moves = {"_gen_row_moves", (PyCFunction)(void(*)(void))(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_8alphable_4core_9structure_13MoveGenerator_13_gen_row_moves, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0};
-static PyObject *__pyx_pw_8alphable_4core_9structure_13MoveGenerator_13_gen_row_moves(PyObject *__pyx_self,
+static PyObject *__pyx_pw_8alphable_4core_9structure_13MoveGenerator_13_gen_row_moves(PyObject *__pyx_self, 
 #if CYTHON_METH_FASTCALL
 PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 #else
@@ -6602,10 +6602,10 @@ static PyObject *__pyx_pf_8alphable_4core_9structure_13MoveGenerator_12_gen_row_
   __Pyx_RefNannySetupContext("_gen_row_moves", 0);
 
   /* "alphable/core/structure.pyx":146
- *
+ * 
  *     def _gen_row_moves(self, board, row, col, rack, node, moves, cross_checks):
  *         self._go_left(board, row, col, rack, node, col, "", moves, cross_checks)             # <<<<<<<<<<<<<<
- *
+ * 
  *     def _go_left(self, board, row, col, rack, node, anchor_col, word_part, moves, cross_checks):
 */
   __pyx_t_2 = __pyx_v_self;
@@ -6622,10 +6622,10 @@ static PyObject *__pyx_pf_8alphable_4core_9structure_13MoveGenerator_12_gen_row_
 
   /* "alphable/core/structure.pyx":145
  *         return anchors
- *
+ * 
  *     def _gen_row_moves(self, board, row, col, rack, node, moves, cross_checks):             # <<<<<<<<<<<<<<
  *         self._go_left(board, row, col, rack, node, col, "", moves, cross_checks)
- *
+ * 
 */
 
   /* function exit code */
@@ -6644,14 +6644,14 @@ static PyObject *__pyx_pf_8alphable_4core_9structure_13MoveGenerator_12_gen_row_
 
 /* "alphable/core/structure.pyx":148
  *         self._go_left(board, row, col, rack, node, col, "", moves, cross_checks)
- *
+ * 
  *     def _go_left(self, board, row, col, rack, node, anchor_col, word_part, moves, cross_checks):             # <<<<<<<<<<<<<<
  *         if '>' in node:
  *             prefix = word_part[::-1]
 */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_8alphable_4core_9structure_13MoveGenerator_15_go_left(PyObject *__pyx_self,
+static PyObject *__pyx_pw_8alphable_4core_9structure_13MoveGenerator_15_go_left(PyObject *__pyx_self, 
 #if CYTHON_METH_FASTCALL
 PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 #else
@@ -6659,7 +6659,7 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
 #endif
 ); /*proto*/
 static PyMethodDef __pyx_mdef_8alphable_4core_9structure_13MoveGenerator_15_go_left = {"_go_left", (PyCFunction)(void(*)(void))(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_8alphable_4core_9structure_13MoveGenerator_15_go_left, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0};
-static PyObject *__pyx_pw_8alphable_4core_9structure_13MoveGenerator_15_go_left(PyObject *__pyx_self,
+static PyObject *__pyx_pw_8alphable_4core_9structure_13MoveGenerator_15_go_left(PyObject *__pyx_self, 
 #if CYTHON_METH_FASTCALL
 PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 #else
@@ -6833,7 +6833,7 @@ static PyObject *__pyx_pf_8alphable_4core_9structure_13MoveGenerator_14_go_left(
   __Pyx_RefNannySetupContext("_go_left", 0);
 
   /* "alphable/core/structure.pyx":149
- *
+ * 
  *     def _go_left(self, board, row, col, rack, node, anchor_col, word_part, moves, cross_checks):
  *         if '>' in node:             # <<<<<<<<<<<<<<
  *             prefix = word_part[::-1]
@@ -6847,7 +6847,7 @@ static PyObject *__pyx_pf_8alphable_4core_9structure_13MoveGenerator_14_go_left(
  *         if '>' in node:
  *             prefix = word_part[::-1]             # <<<<<<<<<<<<<<
  *             self._go_right(board, row, anchor_col + 1, rack, node['>'], prefix, moves, cross_checks)
- *
+ * 
 */
     __pyx_t_2 = __Pyx_PyObject_GetItem(__pyx_v_word_part, __pyx_mstate_global->__pyx_slice[0]); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 150, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
@@ -6858,7 +6858,7 @@ static PyObject *__pyx_pf_8alphable_4core_9structure_13MoveGenerator_14_go_left(
  *         if '>' in node:
  *             prefix = word_part[::-1]
  *             self._go_right(board, row, anchor_col + 1, rack, node['>'], prefix, moves, cross_checks)             # <<<<<<<<<<<<<<
- *
+ * 
  *         if col >= 0:
 */
     __pyx_t_3 = __pyx_v_self;
@@ -6880,7 +6880,7 @@ static PyObject *__pyx_pf_8alphable_4core_9structure_13MoveGenerator_14_go_left(
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
     /* "alphable/core/structure.pyx":149
- *
+ * 
  *     def _go_left(self, board, row, col, rack, node, anchor_col, word_part, moves, cross_checks):
  *         if '>' in node:             # <<<<<<<<<<<<<<
  *             prefix = word_part[::-1]
@@ -6890,7 +6890,7 @@ static PyObject *__pyx_pf_8alphable_4core_9structure_13MoveGenerator_14_go_left(
 
   /* "alphable/core/structure.pyx":153
  *             self._go_right(board, row, anchor_col + 1, rack, node['>'], prefix, moves, cross_checks)
- *
+ * 
  *         if col >= 0:             # <<<<<<<<<<<<<<
  *             char_on_board = board[row][col]
  *             candidates = set()
@@ -6901,11 +6901,11 @@ static PyObject *__pyx_pf_8alphable_4core_9structure_13MoveGenerator_14_go_left(
   if (__pyx_t_1) {
 
     /* "alphable/core/structure.pyx":154
- *
+ * 
  *         if col >= 0:
  *             char_on_board = board[row][col]             # <<<<<<<<<<<<<<
  *             candidates = set()
- *
+ * 
 */
     __pyx_t_2 = __Pyx_PyObject_GetItem(__pyx_v_board, __pyx_v_row); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 154, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
@@ -6919,7 +6919,7 @@ static PyObject *__pyx_pf_8alphable_4core_9structure_13MoveGenerator_14_go_left(
  *         if col >= 0:
  *             char_on_board = board[row][col]
  *             candidates = set()             # <<<<<<<<<<<<<<
- *
+ * 
  *             if char_on_board != '.':
 */
     __pyx_t_5 = PySet_New(0); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 155, __pyx_L1_error)
@@ -6929,7 +6929,7 @@ static PyObject *__pyx_pf_8alphable_4core_9structure_13MoveGenerator_14_go_left(
 
     /* "alphable/core/structure.pyx":157
  *             candidates = set()
- *
+ * 
  *             if char_on_board != '.':             # <<<<<<<<<<<<<<
  *                 candidates.add(char_on_board)
  *             else:
@@ -6938,7 +6938,7 @@ static PyObject *__pyx_pf_8alphable_4core_9structure_13MoveGenerator_14_go_left(
     if (__pyx_t_1) {
 
       /* "alphable/core/structure.pyx":158
- *
+ * 
  *             if char_on_board != '.':
  *                 candidates.add(char_on_board)             # <<<<<<<<<<<<<<
  *             else:
@@ -6958,7 +6958,7 @@ static PyObject *__pyx_pf_8alphable_4core_9structure_13MoveGenerator_14_go_left(
 
       /* "alphable/core/structure.pyx":157
  *             candidates = set()
- *
+ * 
  *             if char_on_board != '.':             # <<<<<<<<<<<<<<
  *                 candidates.add(char_on_board)
  *             else:
@@ -7084,7 +7084,7 @@ static PyObject *__pyx_pf_8alphable_4core_9structure_13MoveGenerator_14_go_left(
  *                             candidates.update("ABCDEFGHIJKLMNOPQRSTUVWXYZ")
  *                         else:
  *                             candidates.add(tile)             # <<<<<<<<<<<<<<
- *
+ * 
  *                 if (row, col) in cross_checks:
 */
           /*else*/ {
@@ -7123,10 +7123,10 @@ static PyObject *__pyx_pf_8alphable_4core_9structure_13MoveGenerator_14_go_left(
 
       /* "alphable/core/structure.pyx":167
  *                             candidates.add(tile)
- *
+ * 
  *                 if (row, col) in cross_checks:             # <<<<<<<<<<<<<<
  *                     candidates &= cross_checks[(row, col)]
- *
+ * 
 */
       __pyx_t_5 = PyTuple_New(2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 167, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
@@ -7141,10 +7141,10 @@ static PyObject *__pyx_pf_8alphable_4core_9structure_13MoveGenerator_14_go_left(
       if (__pyx_t_1) {
 
         /* "alphable/core/structure.pyx":168
- *
+ * 
  *                 if (row, col) in cross_checks:
  *                     candidates &= cross_checks[(row, col)]             # <<<<<<<<<<<<<<
- *
+ * 
  *             # CRITICAL FIX: Sort candidates to ensure deterministic recursion order
 */
         __pyx_t_5 = PyTuple_New(2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 168, __pyx_L1_error)
@@ -7166,17 +7166,17 @@ static PyObject *__pyx_pf_8alphable_4core_9structure_13MoveGenerator_14_go_left(
 
         /* "alphable/core/structure.pyx":167
  *                             candidates.add(tile)
- *
+ * 
  *                 if (row, col) in cross_checks:             # <<<<<<<<<<<<<<
  *                     candidates &= cross_checks[(row, col)]
- *
+ * 
 */
       }
     }
     __pyx_L5:;
 
     /* "alphable/core/structure.pyx":171
- *
+ * 
  *             # CRITICAL FIX: Sort candidates to ensure deterministic recursion order
  *             for char in sorted(candidates):             # <<<<<<<<<<<<<<
  *                 if char in node:
@@ -7298,7 +7298,7 @@ static PyObject *__pyx_pf_8alphable_4core_9structure_13MoveGenerator_14_go_left(
  *                             new_rack[char] -= 1
  *                         else:
  *                             new_rack['?'] -= 1             # <<<<<<<<<<<<<<
- *
+ * 
  *                     self._go_left(board, row, col - 1, new_rack, node[char], anchor_col,
 */
           /*else*/ {
@@ -7326,10 +7326,10 @@ static PyObject *__pyx_pf_8alphable_4core_9structure_13MoveGenerator_14_go_left(
 
         /* "alphable/core/structure.pyx":180
  *                             new_rack['?'] -= 1
- *
+ * 
  *                     self._go_left(board, row, col - 1, new_rack, node[char], anchor_col,             # <<<<<<<<<<<<<<
  *                                   word_part + char, moves, cross_checks)
- *
+ * 
 */
         __pyx_t_2 = __pyx_v_self;
         __Pyx_INCREF(__pyx_t_2);
@@ -7339,10 +7339,10 @@ static PyObject *__pyx_pf_8alphable_4core_9structure_13MoveGenerator_14_go_left(
         __Pyx_GOTREF(__pyx_t_10);
 
         /* "alphable/core/structure.pyx":181
- *
+ * 
  *                     self._go_left(board, row, col - 1, new_rack, node[char], anchor_col,
  *                                   word_part + char, moves, cross_checks)             # <<<<<<<<<<<<<<
- *
+ * 
  *     def _go_right(self, board, row, col, rack, node, current_word, moves, cross_checks):
 */
         __pyx_t_11 = PyNumber_Add(__pyx_v_word_part, __pyx_v_char); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 181, __pyx_L1_error)
@@ -7370,7 +7370,7 @@ static PyObject *__pyx_pf_8alphable_4core_9structure_13MoveGenerator_14_go_left(
       }
 
       /* "alphable/core/structure.pyx":171
- *
+ * 
  *             # CRITICAL FIX: Sort candidates to ensure deterministic recursion order
  *             for char in sorted(candidates):             # <<<<<<<<<<<<<<
  *                 if char in node:
@@ -7381,7 +7381,7 @@ static PyObject *__pyx_pf_8alphable_4core_9structure_13MoveGenerator_14_go_left(
 
     /* "alphable/core/structure.pyx":153
  *             self._go_right(board, row, anchor_col + 1, rack, node['>'], prefix, moves, cross_checks)
- *
+ * 
  *         if col >= 0:             # <<<<<<<<<<<<<<
  *             char_on_board = board[row][col]
  *             candidates = set()
@@ -7390,7 +7390,7 @@ static PyObject *__pyx_pf_8alphable_4core_9structure_13MoveGenerator_14_go_left(
 
   /* "alphable/core/structure.pyx":148
  *         self._go_left(board, row, col, rack, node, col, "", moves, cross_checks)
- *
+ * 
  *     def _go_left(self, board, row, col, rack, node, anchor_col, word_part, moves, cross_checks):             # <<<<<<<<<<<<<<
  *         if '>' in node:
  *             prefix = word_part[::-1]
@@ -7423,14 +7423,14 @@ static PyObject *__pyx_pf_8alphable_4core_9structure_13MoveGenerator_14_go_left(
 
 /* "alphable/core/structure.pyx":183
  *                                   word_part + char, moves, cross_checks)
- *
+ * 
  *     def _go_right(self, board, row, col, rack, node, current_word, moves, cross_checks):             # <<<<<<<<<<<<<<
  *         if '$' in node:
  *             if col > 14 or board[row][col] == '.':
 */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_8alphable_4core_9structure_13MoveGenerator_17_go_right(PyObject *__pyx_self,
+static PyObject *__pyx_pw_8alphable_4core_9structure_13MoveGenerator_17_go_right(PyObject *__pyx_self, 
 #if CYTHON_METH_FASTCALL
 PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 #else
@@ -7438,7 +7438,7 @@ PyObject *__pyx_args, PyObject *__pyx_kwds
 #endif
 ); /*proto*/
 static PyMethodDef __pyx_mdef_8alphable_4core_9structure_13MoveGenerator_17_go_right = {"_go_right", (PyCFunction)(void(*)(void))(__Pyx_PyCFunction_FastCallWithKeywords)__pyx_pw_8alphable_4core_9structure_13MoveGenerator_17_go_right, __Pyx_METH_FASTCALL|METH_KEYWORDS, 0};
-static PyObject *__pyx_pw_8alphable_4core_9structure_13MoveGenerator_17_go_right(PyObject *__pyx_self,
+static PyObject *__pyx_pw_8alphable_4core_9structure_13MoveGenerator_17_go_right(PyObject *__pyx_self, 
 #if CYTHON_METH_FASTCALL
 PyObject *const *__pyx_args, Py_ssize_t __pyx_nargs, PyObject *__pyx_kwds
 #else
@@ -7606,7 +7606,7 @@ static PyObject *__pyx_pf_8alphable_4core_9structure_13MoveGenerator_16_go_right
   __Pyx_RefNannySetupContext("_go_right", 0);
 
   /* "alphable/core/structure.pyx":184
- *
+ * 
  *     def _go_right(self, board, row, col, rack, node, current_word, moves, cross_checks):
  *         if '$' in node:             # <<<<<<<<<<<<<<
  *             if col > 14 or board[row][col] == '.':
@@ -7620,7 +7620,7 @@ static PyObject *__pyx_pf_8alphable_4core_9structure_13MoveGenerator_16_go_right
  *         if '$' in node:
  *             if col > 14 or board[row][col] == '.':             # <<<<<<<<<<<<<<
  *                 start_col = col - len(current_word)
- *
+ * 
 */
     __pyx_t_2 = PyObject_RichCompare(__pyx_v_col, __pyx_mstate_global->__pyx_int_14, Py_GT); __Pyx_XGOTREF(__pyx_t_2); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 185, __pyx_L1_error)
     __pyx_t_3 = __Pyx_PyObject_IsTrue(__pyx_t_2); if (unlikely((__pyx_t_3 < 0))) __PYX_ERR(0, 185, __pyx_L1_error)
@@ -7645,7 +7645,7 @@ static PyObject *__pyx_pf_8alphable_4core_9structure_13MoveGenerator_16_go_right
  *         if '$' in node:
  *             if col > 14 or board[row][col] == '.':
  *                 start_col = col - len(current_word)             # <<<<<<<<<<<<<<
- *
+ * 
  *                 # Check if there is a tile immediately to the left of the start.
 */
       __pyx_t_5 = PyObject_Length(__pyx_v_current_word); if (unlikely(__pyx_t_5 == ((Py_ssize_t)-1))) __PYX_ERR(0, 186, __pyx_L1_error)
@@ -7723,7 +7723,7 @@ static PyObject *__pyx_pf_8alphable_4core_9structure_13MoveGenerator_16_go_right
  *                         'dir': 'Across',
  *                         'word': current_word             # <<<<<<<<<<<<<<
  *                     })
- *
+ * 
 */
         if (PyDict_SetItem(__pyx_t_6, __pyx_mstate_global->__pyx_n_u_word, __pyx_v_current_word) < (0)) __PYX_ERR(0, 196, __pyx_L1_error)
 
@@ -7744,12 +7744,12 @@ static PyObject *__pyx_pf_8alphable_4core_9structure_13MoveGenerator_16_go_right
  *         if '$' in node:
  *             if col > 14 or board[row][col] == '.':             # <<<<<<<<<<<<<<
  *                 start_col = col - len(current_word)
- *
+ * 
 */
     }
 
     /* "alphable/core/structure.pyx":184
- *
+ * 
  *     def _go_right(self, board, row, col, rack, node, current_word, moves, cross_checks):
  *         if '$' in node:             # <<<<<<<<<<<<<<
  *             if col > 14 or board[row][col] == '.':
@@ -7759,7 +7759,7 @@ static PyObject *__pyx_pf_8alphable_4core_9structure_13MoveGenerator_16_go_right
 
   /* "alphable/core/structure.pyx":202
  *                     })
- *
+ * 
  *         if col <= 14:             # <<<<<<<<<<<<<<
  *             char_on_board = board[row][col]
  *             candidates = set()
@@ -7770,7 +7770,7 @@ static PyObject *__pyx_pf_8alphable_4core_9structure_13MoveGenerator_16_go_right
   if (__pyx_t_1) {
 
     /* "alphable/core/structure.pyx":203
- *
+ * 
  *         if col <= 14:
  *             char_on_board = board[row][col]             # <<<<<<<<<<<<<<
  *             candidates = set()
@@ -7953,7 +7953,7 @@ static PyObject *__pyx_pf_8alphable_4core_9structure_13MoveGenerator_16_go_right
  *                             candidates.update("ABCDEFGHIJKLMNOPQRSTUVWXYZ")
  *                         else:
  *                             candidates.add(tile)             # <<<<<<<<<<<<<<
- *
+ * 
  *                 if (row, col) in cross_checks:
 */
           /*else*/ {
@@ -7992,10 +7992,10 @@ static PyObject *__pyx_pf_8alphable_4core_9structure_13MoveGenerator_16_go_right
 
       /* "alphable/core/structure.pyx":215
  *                             candidates.add(tile)
- *
+ * 
  *                 if (row, col) in cross_checks:             # <<<<<<<<<<<<<<
  *                     candidates &= cross_checks[(row, col)]
- *
+ * 
 */
       __pyx_t_4 = PyTuple_New(2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 215, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_4);
@@ -8010,10 +8010,10 @@ static PyObject *__pyx_pf_8alphable_4core_9structure_13MoveGenerator_16_go_right
       if (__pyx_t_1) {
 
         /* "alphable/core/structure.pyx":216
- *
+ * 
  *                 if (row, col) in cross_checks:
  *                     candidates &= cross_checks[(row, col)]             # <<<<<<<<<<<<<<
- *
+ * 
  *             # CRITICAL FIX: Sort candidates
 */
         __pyx_t_4 = PyTuple_New(2); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 216, __pyx_L1_error)
@@ -8035,17 +8035,17 @@ static PyObject *__pyx_pf_8alphable_4core_9structure_13MoveGenerator_16_go_right
 
         /* "alphable/core/structure.pyx":215
  *                             candidates.add(tile)
- *
+ * 
  *                 if (row, col) in cross_checks:             # <<<<<<<<<<<<<<
  *                     candidates &= cross_checks[(row, col)]
- *
+ * 
 */
       }
     }
     __pyx_L11:;
 
     /* "alphable/core/structure.pyx":219
- *
+ * 
  *             # CRITICAL FIX: Sort candidates
  *             for char in sorted(candidates):             # <<<<<<<<<<<<<<
  *                 if char in node:
@@ -8167,7 +8167,7 @@ static PyObject *__pyx_pf_8alphable_4core_9structure_13MoveGenerator_16_go_right
  *                             new_rack[char] -= 1
  *                         else:
  *                             new_rack['?'] -= 1             # <<<<<<<<<<<<<<
- *
+ * 
  *                     self._go_right(board, row, col + 1, new_rack, node[char],
 */
           /*else*/ {
@@ -8195,7 +8195,7 @@ static PyObject *__pyx_pf_8alphable_4core_9structure_13MoveGenerator_16_go_right
 
         /* "alphable/core/structure.pyx":228
  *                             new_rack['?'] -= 1
- *
+ * 
  *                     self._go_right(board, row, col + 1, new_rack, node[char],             # <<<<<<<<<<<<<<
  *                                    current_word + char, moves, cross_checks)
 */
@@ -8207,7 +8207,7 @@ static PyObject *__pyx_pf_8alphable_4core_9structure_13MoveGenerator_16_go_right
         __Pyx_GOTREF(__pyx_t_12);
 
         /* "alphable/core/structure.pyx":229
- *
+ * 
  *                     self._go_right(board, row, col + 1, new_rack, node[char],
  *                                    current_word + char, moves, cross_checks)             # <<<<<<<<<<<<<<
 */
@@ -8236,7 +8236,7 @@ static PyObject *__pyx_pf_8alphable_4core_9structure_13MoveGenerator_16_go_right
       }
 
       /* "alphable/core/structure.pyx":219
- *
+ * 
  *             # CRITICAL FIX: Sort candidates
  *             for char in sorted(candidates):             # <<<<<<<<<<<<<<
  *                 if char in node:
@@ -8247,7 +8247,7 @@ static PyObject *__pyx_pf_8alphable_4core_9structure_13MoveGenerator_16_go_right
 
     /* "alphable/core/structure.pyx":202
  *                     })
- *
+ * 
  *         if col <= 14:             # <<<<<<<<<<<<<<
  *             char_on_board = board[row][col]
  *             candidates = set()
@@ -8256,7 +8256,7 @@ static PyObject *__pyx_pf_8alphable_4core_9structure_13MoveGenerator_16_go_right
 
   /* "alphable/core/structure.pyx":183
  *                                   word_part + char, moves, cross_checks)
- *
+ * 
  *     def _go_right(self, board, row, col, rack, node, current_word, moves, cross_checks):             # <<<<<<<<<<<<<<
  *         if '$' in node:
  *             if col > 14 or board[row][col] == '.':
@@ -8603,7 +8603,7 @@ static CYTHON_SMALL_CODE int __pyx_pymod_exec_structure(PyObject *__pyx_pyinit_m
         Py_FatalError("failed to import 'refnanny' module");
   }
   #endif
-
+  
 __Pyx_RefNannySetupContext("PyInit_structure", 0);
   __Pyx_init_runtime_version();
   if (__Pyx_check_binary_version(__PYX_LIMITED_VERSION_HEX, __Pyx_get_runtime_version(), CYTHON_COMPILING_IN_LIMITED_API) < (0)) __PYX_ERR(0, 1, __pyx_L1_error)
@@ -8642,7 +8642,7 @@ __Pyx_RefNannySetupContext("PyInit_structure", 0);
   /* "alphable/core/structure.pyx":1
  * import collections             # <<<<<<<<<<<<<<
  * import copy
- *
+ * 
 */
   __pyx_t_1 = __Pyx_Import(__pyx_mstate_global->__pyx_n_u_collections, 0, 0, NULL, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1, __pyx_L1_error)
   __pyx_t_2 = __pyx_t_1;
@@ -8653,7 +8653,7 @@ __Pyx_RefNannySetupContext("PyInit_structure", 0);
   /* "alphable/core/structure.pyx":2
  * import collections
  * import copy             # <<<<<<<<<<<<<<
- *
+ * 
  * # The GADDAG Delimiter
 */
   __pyx_t_1 = __Pyx_Import(__pyx_mstate_global->__pyx_n_u_copy, 0, 0, NULL, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 2, __pyx_L1_error)
@@ -8663,17 +8663,17 @@ __Pyx_RefNannySetupContext("PyInit_structure", 0);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
   /* "alphable/core/structure.pyx":5
- *
+ * 
  * # The GADDAG Delimiter
  * BREAK = '>'             # <<<<<<<<<<<<<<
- *
+ * 
  * class Gaddag:
 */
   if (PyDict_SetItem(__pyx_mstate_global->__pyx_d, __pyx_mstate_global->__pyx_n_u_BREAK, __pyx_mstate_global->__pyx_kp_u__6) < (0)) __PYX_ERR(0, 5, __pyx_L1_error)
 
   /* "alphable/core/structure.pyx":7
  * BREAK = '>'
- *
+ * 
  * class Gaddag:             # <<<<<<<<<<<<<<
  *     def __init__(self):
  *         self.root = {}
@@ -8682,11 +8682,11 @@ __Pyx_RefNannySetupContext("PyInit_structure", 0);
   __Pyx_GOTREF(__pyx_t_2);
 
   /* "alphable/core/structure.pyx":8
- *
+ * 
  * class Gaddag:
  *     def __init__(self):             # <<<<<<<<<<<<<<
  *         self.root = {}
- *
+ * 
 */
   __pyx_t_3 = __Pyx_CyFunction_New(&__pyx_mdef_8alphable_4core_9structure_6Gaddag_1__init__, 0, __pyx_mstate_global->__pyx_n_u_Gaddag___init, NULL, __pyx_mstate_global->__pyx_n_u_alphable_core_structure, __pyx_mstate_global->__pyx_d, ((PyObject *)__pyx_mstate_global->__pyx_codeobj_tab[0])); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 8, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
@@ -8698,7 +8698,7 @@ __Pyx_RefNannySetupContext("PyInit_structure", 0);
 
   /* "alphable/core/structure.pyx":11
  *         self.root = {}
- *
+ * 
  *     def add_word(self, word):             # <<<<<<<<<<<<<<
  *         for i in range(1, len(word) + 1):
  *             prefix = word[:i]
@@ -8713,7 +8713,7 @@ __Pyx_RefNannySetupContext("PyInit_structure", 0);
 
   /* "alphable/core/structure.pyx":23
  *             current['$'] = True
- *
+ * 
  *     @staticmethod             # <<<<<<<<<<<<<<
  *     def load(filepath):
  *         g = Gaddag()
@@ -8738,7 +8738,7 @@ __Pyx_RefNannySetupContext("PyInit_structure", 0);
 
   /* "alphable/core/structure.pyx":7
  * BREAK = '>'
- *
+ * 
  * class Gaddag:             # <<<<<<<<<<<<<<
  *     def __init__(self):
  *         self.root = {}
@@ -8754,7 +8754,7 @@ __Pyx_RefNannySetupContext("PyInit_structure", 0);
 
   /* "alphable/core/structure.pyx":40
  *         return g
- *
+ * 
  * class MoveGenerator:             # <<<<<<<<<<<<<<
  *     def __init__(self, gaddag):
  *         self.gaddag = gaddag
@@ -8763,7 +8763,7 @@ __Pyx_RefNannySetupContext("PyInit_structure", 0);
   __Pyx_GOTREF(__pyx_t_2);
 
   /* "alphable/core/structure.pyx":41
- *
+ * 
  * class MoveGenerator:
  *     def __init__(self, gaddag):             # <<<<<<<<<<<<<<
  *         self.gaddag = gaddag
@@ -8779,7 +8779,7 @@ __Pyx_RefNannySetupContext("PyInit_structure", 0);
 
   /* "alphable/core/structure.pyx":45
  *         # Stateless: No self.moves here
- *
+ * 
  *     def generate(self, board, rack_list):             # <<<<<<<<<<<<<<
  *         # Local storage for this generation run
  *         moves = []
@@ -8794,7 +8794,7 @@ __Pyx_RefNannySetupContext("PyInit_structure", 0);
 
   /* "alphable/core/structure.pyx":84
  *         return unique_moves
- *
+ * 
  *     def _compute_cross_checks(self, board, cross_checks):             # <<<<<<<<<<<<<<
  *         rows = 15
  *         cols = 15
@@ -8809,7 +8809,7 @@ __Pyx_RefNannySetupContext("PyInit_structure", 0);
 
   /* "alphable/core/structure.pyx":114
  *                     cross_checks[(r,c)] = valid_chars
- *
+ * 
  *     def _fast_word_check(self, word):             # <<<<<<<<<<<<<<
  *         path = word[::-1] + BREAK
  *         curr = self.gaddag.root
@@ -8824,7 +8824,7 @@ __Pyx_RefNannySetupContext("PyInit_structure", 0);
 
   /* "alphable/core/structure.pyx":123
  *         return '$' in curr
- *
+ * 
  *     def _find_moves(self, board, rack, direction, moves, cross_checks):             # <<<<<<<<<<<<<<
  *         anchors = self._find_anchors(board)
  *         for r, c in anchors:
@@ -8839,7 +8839,7 @@ __Pyx_RefNannySetupContext("PyInit_structure", 0);
 
   /* "alphable/core/structure.pyx":128
  *             self._gen_row_moves(board, r, c, rack, self.gaddag.root, moves, cross_checks)
- *
+ * 
  *     def _find_anchors(self, board):             # <<<<<<<<<<<<<<
  *         anchors = []
  *         has_tile = False
@@ -8854,10 +8854,10 @@ __Pyx_RefNannySetupContext("PyInit_structure", 0);
 
   /* "alphable/core/structure.pyx":145
  *         return anchors
- *
+ * 
  *     def _gen_row_moves(self, board, row, col, rack, node, moves, cross_checks):             # <<<<<<<<<<<<<<
  *         self._go_left(board, row, col, rack, node, col, "", moves, cross_checks)
- *
+ * 
 */
   __pyx_t_3 = __Pyx_CyFunction_New(&__pyx_mdef_8alphable_4core_9structure_13MoveGenerator_13_gen_row_moves, 0, __pyx_mstate_global->__pyx_n_u_MoveGenerator__gen_row_moves, NULL, __pyx_mstate_global->__pyx_n_u_alphable_core_structure, __pyx_mstate_global->__pyx_d, ((PyObject *)__pyx_mstate_global->__pyx_codeobj_tab[9])); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 145, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
@@ -8869,7 +8869,7 @@ __Pyx_RefNannySetupContext("PyInit_structure", 0);
 
   /* "alphable/core/structure.pyx":148
  *         self._go_left(board, row, col, rack, node, col, "", moves, cross_checks)
- *
+ * 
  *     def _go_left(self, board, row, col, rack, node, anchor_col, word_part, moves, cross_checks):             # <<<<<<<<<<<<<<
  *         if '>' in node:
  *             prefix = word_part[::-1]
@@ -8884,7 +8884,7 @@ __Pyx_RefNannySetupContext("PyInit_structure", 0);
 
   /* "alphable/core/structure.pyx":183
  *                                   word_part + char, moves, cross_checks)
- *
+ * 
  *     def _go_right(self, board, row, col, rack, node, current_word, moves, cross_checks):             # <<<<<<<<<<<<<<
  *         if '$' in node:
  *             if col > 14 or board[row][col] == '.':
@@ -8899,7 +8899,7 @@ __Pyx_RefNannySetupContext("PyInit_structure", 0);
 
   /* "alphable/core/structure.pyx":40
  *         return g
- *
+ * 
  * class MoveGenerator:             # <<<<<<<<<<<<<<
  *     def __init__(self, gaddag):
  *         self.gaddag = gaddag
@@ -8916,7 +8916,7 @@ __Pyx_RefNannySetupContext("PyInit_structure", 0);
   /* "alphable/core/structure.pyx":1
  * import collections             # <<<<<<<<<<<<<<
  * import copy
- *
+ * 
 */
   __pyx_t_2 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
@@ -9008,11 +9008,11 @@ static int __Pyx_InitCachedConstants(__pyx_mstatetype *__pyx_mstate) {
   __Pyx_GIVEREF(__pyx_mstate_global->__pyx_tuple[0]);
 
   /* "alphable/core/structure.pyx":142
- *
+ * 
  *         if not has_tile:
  *             return [(7,7)]             # <<<<<<<<<<<<<<
  *         return anchors
- *
+ * 
 */
   __pyx_mstate_global->__pyx_tuple[1] = PyTuple_Pack(2, __pyx_mstate_global->__pyx_int_7, __pyx_mstate_global->__pyx_int_7); if (unlikely(!__pyx_mstate_global->__pyx_tuple[1])) __PYX_ERR(0, 142, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_mstate_global->__pyx_tuple[1]);
@@ -9262,12 +9262,12 @@ static int __Pyx_CreateCodeObjects(__pyx_mstatetype *__pyx_mstate) {
 static int __Pyx_InitGlobals(void) {
   /* PythonCompatibility.init */
   if (likely(__Pyx_init_co_variables() == 0)); else
-
+  
   if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 1, __pyx_L1_error)
 
   /* CommonTypesMetaclass.init */
   if (likely(__pyx_CommonTypesMetaclass_init(__pyx_m) == 0)); else
-
+  
   if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 1, __pyx_L1_error)
 
   /* CachedMethodType.init */
@@ -9281,12 +9281,12 @@ static int __Pyx_InitGlobals(void) {
       }
   } // error handling follows
   #endif
-
+  
   if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 1, __pyx_L1_error)
 
   /* CythonFunctionShared.init */
   if (likely(__pyx_CyFunction_init(__pyx_m) == 0)); else
-
+  
   if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 1, __pyx_L1_error)
 
   return 0;
@@ -11251,7 +11251,7 @@ static PyObject* __Pyx_Unpacked___Pyx_PyLong_SubtractObjC(PyObject *op1, PyObjec
             llx = lla - llb;
             return PyLong_FromLongLong(llx);
         }
-
+    
 }
 #endif
 static PyObject* __Pyx_Float___Pyx_PyLong_SubtractObjC(PyObject *float_val, long intval, int zerodivision_check) {
@@ -11259,7 +11259,7 @@ static PyObject* __Pyx_Float___Pyx_PyLong_SubtractObjC(PyObject *float_val, long
     const long b = intval;
     double a = __Pyx_PyFloat_AS_DOUBLE(float_val);
         double result;
-
+        
         result = ((double)a) - (double)b;
         return PyFloat_FromDouble(result);
 }
@@ -11350,7 +11350,7 @@ static PyObject* __Pyx_Unpacked___Pyx_PyLong_AddObjC(PyObject *op1, PyObject *op
             llx = lla + llb;
             return PyLong_FromLongLong(llx);
         }
-
+    
 }
 #endif
 static PyObject* __Pyx_Float___Pyx_PyLong_AddObjC(PyObject *float_val, long intval, int zerodivision_check) {
@@ -11358,7 +11358,7 @@ static PyObject* __Pyx_Float___Pyx_PyLong_AddObjC(PyObject *float_val, long intv
     const long b = intval;
     double a = __Pyx_PyFloat_AS_DOUBLE(float_val);
         double result;
-
+        
         result = ((double)a) + (double)b;
         return PyFloat_FromDouble(result);
 }

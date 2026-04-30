@@ -285,6 +285,7 @@ def play_one_game(
     reward_mode='blend',
     margin_scale=150.0,
     margin_mix=0.35,
+    p0_is_greedy=False,
     p1_is_greedy=False,
     keep_p0_only=False,
 ):
@@ -320,7 +321,9 @@ def play_one_game(
             'player': p,
         })
 
-        if p1_is_greedy and p == 1:
+        if p0_is_greedy and p == 0:
+            selected = choose_greedy_move(board, racks[p], engine.move_gen)
+        elif p1_is_greedy and p == 1:
             selected = choose_greedy_move(board, racks[p], engine.move_gen)
         else:
             move_evals = evaluate_moves(
@@ -429,6 +432,7 @@ def run_one_game_worker(game_idx):
         reward_mode=_WORKER_CFG['reward_mode'],
         margin_scale=_WORKER_CFG['margin_scale'],
         margin_mix=_WORKER_CFG['margin_mix'],
+        p0_is_greedy=_WORKER_CFG['p0_is_greedy'],
         p1_is_greedy=_WORKER_CFG['p1_is_greedy'],
         keep_p0_only=_WORKER_CFG['keep_p0_only'],
     )
@@ -511,6 +515,7 @@ def run_interleaved_games(
     margin_scale,
     margin_mix,
     flush_every_games,
+    p0_is_greedy,
     p1_is_greedy,
     keep_p0_only,
 ):
@@ -559,7 +564,13 @@ def run_interleaved_games(
                 'player': p,
             })
 
-            if p1_is_greedy and p == 1:
+            if p0_is_greedy and p == 0:
+                eval_jobs.append({
+                    'selected': choose_greedy_move(
+                        st['board'], st['racks'][p], engine.move_gen),
+                    'is_greedy': True,
+                })
+            elif p1_is_greedy and p == 1:
                 eval_jobs.append({
                     'selected': choose_greedy_move(
                         st['board'], st['racks'][p], engine.move_gen),
@@ -719,6 +730,8 @@ def main():
                         help='Flush output file every N completed games (0 disables periodic flush).')
     parser.add_argument('--vs-greedy', action='store_true',
                         help='Play P1 as greedy instead of model/self-play to build anti-greedy curriculum data.')
+    parser.add_argument('--greedy-vs-greedy', action='store_true',
+                        help='Play both P0 and P1 as greedy (good for generating synthetic rapid-growth baseline data).')
     parser.add_argument('--keep-p0-only', action='store_true',
                         help='Keep only P0 training states in output (recommended with --vs-greedy).')
     parser.add_argument('--top-k-vs-greedy', type=int, default=None,
@@ -773,7 +786,7 @@ def main():
     if args.temperature_start is None:
         args.temperature_start = args.temperature
 
-    if args.vs_greedy:
+    if args.vs_greedy or args.greedy_vs_greedy:
         if args.temperature_start_vs_greedy is not None:
             args.temperature_start = args.temperature_start_vs_greedy
         if args.temperature_end_vs_greedy is not None:
@@ -784,8 +797,8 @@ def main():
     if args.vs_greedy and not args.keep_p0_only:
         print('Warning: --vs-greedy without --keep-p0-only will also train on greedy-player states.')
 
-    if args.vs_greedy and args.opponent_models:
-        print('Warning: --opponent-models is ignored when --vs-greedy is enabled.')
+    if (args.vs_greedy or args.greedy_vs_greedy) and args.opponent_models:
+        print('Warning: --opponent-models is ignored when greedy play is enabled.')
 
     if args.margin_scale <= 0:
         raise ValueError('--margin-scale must be > 0')
@@ -806,7 +819,7 @@ def main():
             model_path = None
 
     opponent_paths = []
-    if args.opponent_models and not args.vs_greedy:
+    if args.opponent_models and not (args.vs_greedy or args.greedy_vs_greedy):
         for p in args.opponent_models:
             if os.path.exists(p):
                 opponent_paths.append(p)
@@ -837,7 +850,8 @@ def main():
         'reward_mode': args.reward_mode,
         'margin_scale': args.margin_scale,
         'margin_mix': args.margin_mix,
-        'p1_is_greedy': args.vs_greedy,
+        'p0_is_greedy': args.greedy_vs_greedy,
+        'p1_is_greedy': args.vs_greedy or args.greedy_vs_greedy,
         'keep_p0_only': args.keep_p0_only,
     }
 
@@ -876,7 +890,8 @@ def main():
                 margin_scale=args.margin_scale,
                 margin_mix=args.margin_mix,
                 flush_every_games=args.flush_every_games,
-                p1_is_greedy=args.vs_greedy,
+                p0_is_greedy=args.greedy_vs_greedy,
+                p1_is_greedy=args.vs_greedy or args.greedy_vs_greedy,
                 keep_p0_only=args.keep_p0_only,
             )
         elif args.workers == 1:

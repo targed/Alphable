@@ -311,6 +311,21 @@ Notes for greedy curriculum:
 - `--keep-p0-only` avoids training on greedy-player states.
 - `--top-k-vs-greedy` and `--temperature-*-vs-greedy` widen exploration only for this mode.
 
+Synthetic Data Generation (Greedy vs Greedy):
+To generate strong bootstrap/synthetic data where both sides play high-scoring baseline moves, use `--greedy-vs-greedy`:
+
+```bash
+alphable selfplay generate \
+   --games 2000 \
+   --output data/rl/rl_greedy_vs_greedy.jsonl \
+   --model models/alphable_best_val_model.pth \
+   --greedy-vs-greedy \
+   --reward-mode blend --margin-scale 150 --margin-mix 0.35 \
+   --device cuda --workers 1 --concurrent-games 16 --infer-batch-size 128
+```
+
+_(This is purely synthetic simulation, making it a fast way to gather very high-scoring play trajectories.)_
+
 If you hit GPU memory limits on positions with many legal moves:
 
 ```bash

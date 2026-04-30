@@ -280,5 +280,9 @@ def train(args):
             break
 
 
-if __name__ == '__main__':
+def main():
     train(parse_args())
+
+
+if __name__ == '__main__':
+    main()
