@@ -4,7 +4,6 @@ Fetch GCG (game move data) for games from Woogles.io API.
 """
 import requests
 import json
-import os
 import time
 from pathlib import Path
 
