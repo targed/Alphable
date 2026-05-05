@@ -24,36 +24,58 @@ CORS(app)  # Enable CORS for React frontend
 
 # Base directory for game data
 BASE_DIR = Path(__file__).parent.parent.parent
-DICT_PATH = BASE_DIR / "resources" / "CSW24.txt"
+DEFAULT_DICT_PATH = BASE_DIR / "resources" / "CSW24.txt"
+RESOURCES_DIR = BASE_DIR / "resources"
 MODEL_PATH = BASE_DIR / "models" / "alphable_best_val_model.pth"
 
-# Lazy load AI models
-engine = None
+# Lazy load AI models per dictionary
+engines = {}
 
-def get_engine():
-    global engine
-    if engine is None:
+def get_engine(dictionary_name=None):
+    global engines
+
+    if not dictionary_name:
+        dictionary_name = "CSW24.txt"
+
+    dict_path = RESOURCES_DIR / dictionary_name
+    if not dict_path.exists():
+        dict_path = DEFAULT_DICT_PATH
+        dictionary_name = "CSW24.txt"
+
+    if dictionary_name not in engines:
         device = 'cuda' if torch.cuda.is_available() else 'cpu'
-        print(f"Loading Alphable engine on {device}...")
+        print(f"Loading Alphable engine on {device} with dictionary {dictionary_name}...")
         try:
             # We only load if model path exists
             m_path = str(MODEL_PATH) if MODEL_PATH.exists() else None
-            engine = inference.AlphableInference(
+            engines[dictionary_name] = inference.AlphableInference(
                 model_path=m_path,
                 device=device,
-                dict_path=str(DICT_PATH)
+                dict_path=str(dict_path)
             )
-            print("Alphable engine loaded.")
+            print(f"Alphable engine loaded for {dictionary_name}.")
         except Exception as e:
-            print(f"Failed to load engine: {e}")
+            print(f"Failed to load engine for {dictionary_name}: {e}")
             raise
-    return engine
+    return engines[dictionary_name]
 DATA_DIRS = {
     "results": BASE_DIR / "data" / "results",
     "vs_greedy": BASE_DIR / "data" / "vs_greedy",
     "vs_random": BASE_DIR / "data" / "vs_random"
 }
 
+
+@app.route('/api/dictionaries')
+def list_dictionaries():
+    """Return a list of available dictionary files."""
+    try:
+        dicts = []
+        if RESOURCES_DIR.exists():
+            for f in RESOURCES_DIR.glob("*.txt"):
+                dicts.append(f.name)
+        return jsonify({"dictionaries": sorted(dicts)})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 @app.route('/api/games', methods=['GET'])
 def list_games():
@@ -179,11 +201,12 @@ def interactive_ai_move():
         ai_type = data.get('ai_type', 'alphable') # 'alphable', 'random', 'greedy'
         temperature = float(data.get('temperature', 0.0))
         top_k = int(data.get('top_k', 3))
+        dictionary_name = data.get('dictionary', 'CSW24.txt')
 
         if not board or not rack:
             return jsonify({"error": "Board and rack are required"}), 400
 
-        eng = get_engine()
+        eng = get_engine(dictionary_name)
 
         # 1. Evaluate all moves using the engine
         evals = get_move_evals(eng, board, rack, score_diff, bag_remaining)
@@ -263,11 +286,12 @@ def validate_user_move():
         board = data.get('board')
         rack = data.get('rack')
         move_data = data.get('move')
+        dictionary_name = data.get('dictionary', 'CSW24.txt')
 
         if not board or not rack or not move_data:
             return jsonify({"error": "Board, rack, and move are required"}), 400
 
-        eng = get_engine()
+        eng = get_engine(dictionary_name)
 
         # Convert move_data to engine move format
         move = {

@@ -194,7 +194,8 @@ const InteractiveGame: React.FC<Props> = ({ config, onBack }) => {
           bag_remaining: gameState.bagRemaining,
           ai_type: aiTypeToUse,
           temperature,
-          top_k: topK
+          top_k: topK,
+          dictionary: config.dictionary
         })
       });
 
@@ -276,7 +277,8 @@ const InteractiveGame: React.FC<Props> = ({ config, onBack }) => {
         body: JSON.stringify({
           board: gameState.board,
           rack: currentRack,
-          move
+          move,
+          dictionary: config.dictionary
         })
       });
 
