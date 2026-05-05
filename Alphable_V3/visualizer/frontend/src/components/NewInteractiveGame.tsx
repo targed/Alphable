@@ -6,18 +6,22 @@ interface Props {
   onCancel: () => void;
 }
 
+export type PlayerType = 'human' | 'alphable' | 'random' | 'greedy';
+
 export interface InteractiveGameConfig {
-  aiType: 'alphable' | 'random' | 'greedy';
-  playerGoesFirst: boolean;
+  p1Type: PlayerType;
+  p2Type: PlayerType;
+  autoPlayAI: boolean;
 }
 
 const NewInteractiveGame: React.FC<Props> = ({ onStart, onCancel }) => {
-  const [aiType, setAiType] = useState<'alphable' | 'random' | 'greedy'>('alphable');
-  const [playerGoesFirst, setPlayerGoesFirst] = useState(true);
+  const [p1Type, setP1Type] = useState<PlayerType>('human');
+  const [p2Type, setP2Type] = useState<PlayerType>('alphable');
+  const [autoPlayAI, setAutoPlayAI] = useState(true);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onStart({ aiType, playerGoesFirst });
+    onStart({ p1Type, p2Type, autoPlayAI });
   };
 
   return (
@@ -25,19 +29,33 @@ const NewInteractiveGame: React.FC<Props> = ({ onStart, onCancel }) => {
       <h2>Start Interactive Game</h2>
       <form onSubmit={handleSubmit}>
         <div className="form-group">
-          <label>Opponent Type:</label>
-          <select value={aiType} onChange={(e) => setAiType(e.target.value as any)}>
+          <label>Player 1 (Goes First):</label>
+          <select value={p1Type} onChange={(e) => setP1Type(e.target.value as PlayerType)}>
+            <option value="human">Human</option>
             <option value="alphable">Alphable (AI)</option>
-            <option value="greedy">Greedy (Max Points)</option>
-            <option value="random">Random</option>
+            <option value="greedy">Greedy Bot</option>
+            <option value="random">Random Bot</option>
           </select>
         </div>
         <div className="form-group">
-          <label>Who goes first?</label>
-          <select value={playerGoesFirst ? 'true' : 'false'} onChange={(e) => setPlayerGoesFirst(e.target.value === 'true')}>
-            <option value="true">You</option>
-            <option value="false">Opponent</option>
+          <label>Player 2:</label>
+          <select value={p2Type} onChange={(e) => setP2Type(e.target.value as PlayerType)}>
+            <option value="human">Human</option>
+            <option value="alphable">Alphable (AI)</option>
+            <option value="greedy">Greedy Bot</option>
+            <option value="random">Random Bot</option>
           </select>
+        </div>
+        <div className="form-group" style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+          <input
+            type="checkbox"
+            id="autoplay"
+            checked={autoPlayAI}
+            onChange={(e) => setAutoPlayAI(e.target.checked)}
+          />
+          <label htmlFor="autoplay" style={{ margin: 0, fontWeight: 'normal' }}>
+            Auto-play AI turns (Uncheck to intercept and change racks before AI plays)
+          </label>
         </div>
         <div className="form-actions">
           <button type="button" onClick={onCancel} className="btn-cancel">Cancel</button>

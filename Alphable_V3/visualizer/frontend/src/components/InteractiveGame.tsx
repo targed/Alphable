@@ -3,7 +3,7 @@ import './InteractiveGame.css';
 import Board from './Board';
 import PlayerHUD from './PlayerHUD';
 import { BoardSquare, PremiumSquareType } from '../types';
-import { InteractiveGameConfig } from './NewInteractiveGame';
+import { InteractiveGameConfig, PlayerType } from './NewInteractiveGame';
 
 const API_URL = 'http://localhost:5000/api';
 
@@ -27,12 +27,12 @@ interface EvaluatedMove extends Move {
 
 interface GameState {
   board: string[][];
-  playerRack: string[];
-  aiRack: string[];
-  playerScore: number;
-  aiScore: number;
+  p1Rack: string[];
+  p2Rack: string[];
+  p1Score: number;
+  p2Score: number;
   bagRemaining: number;
-  isPlayerTurn: boolean;
+  isP1Turn: boolean;
   history: GameState[]; // Stores previous states for undo
   redoHistory: GameState[]; // Stores next states for redo
   bagHistory: string[][]; // Stores previous bags
@@ -82,8 +82,10 @@ const InteractiveGame: React.FC<Props> = ({ config, onBack }) => {
   const [topK, setTopK] = useState(3);
   const [showDevPanel, setShowDevPanel] = useState(false);
   const [evaluatedMoves, setEvaluatedMoves] = useState<EvaluatedMove[]>([]);
-  const [customPlayerRack, setCustomPlayerRack] = useState('');
-  const [customAiRack, setCustomAiRack] = useState('');
+  const [customP1Rack, setCustomP1Rack] = useState('');
+  const [customP2Rack, setCustomP2Rack] = useState('');
+  const [autoPlayAI, setAutoPlayAI] = useState(config.autoPlayAI);
+  const [forceAiType, setForceAiType] = useState<PlayerType>('alphable');
 
   // Internal full bag
   const bagRef = useRef<string[]>([]);
@@ -122,17 +124,17 @@ const InteractiveGame: React.FC<Props> = ({ config, onBack }) => {
     bagRef.current = newBag;
 
     const initialBoard = Array(15).fill(null).map(() => Array(15).fill('.'));
-    const playerRack = drawTiles(bagRef.current, 7);
-    const aiRack = drawTiles(bagRef.current, 7);
+    const p1Rack = drawTiles(bagRef.current, 7);
+    const p2Rack = drawTiles(bagRef.current, 7);
 
     setGameState({
       board: initialBoard,
-      playerRack,
-      aiRack,
-      playerScore: 0,
-      aiScore: 0,
+      p1Rack,
+      p2Rack,
+      p1Score: 0,
+      p2Score: 0,
       bagRemaining: bagRef.current.length,
-      isPlayerTurn: config.playerGoesFirst,
+      isP1Turn: true,
       history: [],
       redoHistory: [],
       bagHistory: [],
@@ -141,18 +143,22 @@ const InteractiveGame: React.FC<Props> = ({ config, onBack }) => {
     setLoading(false);
   };
 
+  const getCurrentPlayerType = () => {
+    return gameState?.isP1Turn ? config.p1Type : config.p2Type;
+  };
+
+  const isHumanTurn = () => {
+    return getCurrentPlayerType() === 'human';
+  };
+
   // Trigger AI move if it's AI's turn
   useEffect(() => {
-    if (gameState && !gameState.isPlayerTurn && !loading) {
-      // makeAIMove();
-      // NOTE: We don't automatically make the move here because it breaks the undo/redo flow
-      // It should either be a button or we should just disable automatic moves when dev tools are open.
-      // But we will make it automatic if history is not being played back.
+    if (gameState && !isHumanTurn() && !loading && autoPlayAI) {
       if (gameState.redoHistory.length === 0) {
-        makeAIMove();
+        makeAIMove(getCurrentPlayerType());
       }
     }
-  }, [gameState?.isPlayerTurn, loading]);
+  }, [gameState?.isP1Turn, loading, autoPlayAI]);
 
   const applyMoveToBoard = (board: string[][], move: Move) => {
     const newBoard = board.map(row => [...row]);
@@ -167,11 +173,15 @@ const InteractiveGame: React.FC<Props> = ({ config, onBack }) => {
     return newBoard;
   };
 
-  const makeAIMove = async () => {
+  const makeAIMove = async (aiTypeToUse: PlayerType) => {
     if (!gameState) return;
     setLoading(true);
     setError(null);
     setEvaluatedMoves([]);
+
+    const currentRack = gameState.isP1Turn ? gameState.p1Rack : gameState.p2Rack;
+    const currentScore = gameState.isP1Turn ? gameState.p1Score : gameState.p2Score;
+    const oppScore = gameState.isP1Turn ? gameState.p2Score : gameState.p1Score;
 
     try {
       const response = await fetch(`${API_URL}/interactive/ai_move`, {
@@ -179,10 +189,10 @@ const InteractiveGame: React.FC<Props> = ({ config, onBack }) => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           board: gameState.board,
-          rack: gameState.aiRack,
-          score_diff: gameState.aiScore - gameState.playerScore,
+          rack: currentRack,
+          score_diff: currentScore - oppScore,
           bag_remaining: gameState.bagRemaining,
-          ai_type: config.aiType,
+          ai_type: aiTypeToUse,
           temperature,
           top_k: topK
         })
@@ -206,13 +216,16 @@ const InteractiveGame: React.FC<Props> = ({ config, onBack }) => {
 
         setGameState(prev => {
           if (!prev) return prev;
+          const isP1 = prev.isP1Turn;
           return {
             ...prev,
             board: newBoard,
-            aiRack: finalRack,
-            aiScore: prev.aiScore + data.points,
+            p1Rack: isP1 ? finalRack : prev.p1Rack,
+            p2Rack: !isP1 ? finalRack : prev.p2Rack,
+            p1Score: isP1 ? prev.p1Score + data.points : prev.p1Score,
+            p2Score: !isP1 ? prev.p2Score + data.points : prev.p2Score,
             bagRemaining: bagRef.current.length,
-            isPlayerTurn: true,
+            isP1Turn: !prev.isP1Turn,
             history: [...prev.history, JSON.parse(JSON.stringify(prev))],
             redoHistory: [],
             bagHistory: [...prev.bagHistory, [...bagRef.current]],
@@ -225,7 +238,7 @@ const InteractiveGame: React.FC<Props> = ({ config, onBack }) => {
           if (!prev) return prev;
           return {
             ...prev,
-            isPlayerTurn: true,
+            isP1Turn: !prev.isP1Turn,
             history: [...prev.history, JSON.parse(JSON.stringify(prev))],
             redoHistory: [],
             bagHistory: [...prev.bagHistory, [...bagRef.current]],
@@ -255,12 +268,14 @@ const InteractiveGame: React.FC<Props> = ({ config, onBack }) => {
     };
 
     try {
+      const currentRack = gameState.isP1Turn ? gameState.p1Rack : gameState.p2Rack;
+
       const response = await fetch(`${API_URL}/interactive/validate_user_move`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           board: gameState.board,
-          rack: gameState.playerRack,
+          rack: currentRack,
           move
         })
       });
@@ -278,13 +293,16 @@ const InteractiveGame: React.FC<Props> = ({ config, onBack }) => {
 
         setGameState(prev => {
           if (!prev) return prev;
+          const isP1 = prev.isP1Turn;
           return {
             ...prev,
             board: newBoard,
-            playerRack: finalRack,
-            playerScore: prev.playerScore + data.points,
+            p1Rack: isP1 ? finalRack : prev.p1Rack,
+            p2Rack: !isP1 ? finalRack : prev.p2Rack,
+            p1Score: isP1 ? prev.p1Score + data.points : prev.p1Score,
+            p2Score: !isP1 ? prev.p2Score + data.points : prev.p2Score,
             bagRemaining: bagRef.current.length,
-            isPlayerTurn: false,
+            isP1Turn: !prev.isP1Turn,
             history: [...prev.history, JSON.parse(JSON.stringify(prev))],
             redoHistory: [],
             bagHistory: [...prev.bagHistory, [...bagRef.current]],
@@ -308,7 +326,7 @@ const InteractiveGame: React.FC<Props> = ({ config, onBack }) => {
           if (!prev) return prev;
           return {
             ...prev,
-            isPlayerTurn: false,
+            isP1Turn: !prev.isP1Turn,
             history: [...prev.history, JSON.parse(JSON.stringify(prev))],
             redoHistory: [],
             bagHistory: [...prev.bagHistory, [...bagRef.current]],
@@ -370,9 +388,9 @@ const InteractiveGame: React.FC<Props> = ({ config, onBack }) => {
     });
   };
 
-  const handleForcePlayerRack = () => {
-      if (!gameState || !customPlayerRack) return;
-      const tiles = customPlayerRack.toUpperCase().split('');
+  const handleForceP1Rack = () => {
+      if (!gameState || !customP1Rack) return;
+      const tiles = customP1Rack.toUpperCase().split('');
       if (tiles.length > 7) {
           setError("Rack can have at most 7 tiles");
           return;
@@ -381,15 +399,15 @@ const InteractiveGame: React.FC<Props> = ({ config, onBack }) => {
           if (!prev) return prev;
           return {
             ...prev,
-            playerRack: tiles,
+            p1Rack: tiles,
           };
       });
-      setCustomPlayerRack('');
+      setCustomP1Rack('');
   };
 
-  const handleForceAiRack = () => {
-      if (!gameState || !customAiRack) return;
-      const tiles = customAiRack.toUpperCase().split('');
+  const handleForceP2Rack = () => {
+      if (!gameState || !customP2Rack) return;
+      const tiles = customP2Rack.toUpperCase().split('');
       if (tiles.length > 7) {
           setError("Rack can have at most 7 tiles");
           return;
@@ -398,10 +416,10 @@ const InteractiveGame: React.FC<Props> = ({ config, onBack }) => {
           if (!prev) return prev;
           return {
             ...prev,
-            aiRack: tiles,
+            p2Rack: tiles,
           };
       });
-      setCustomAiRack('');
+      setCustomP2Rack('');
   };
 
   const applyEvaluatedMove = (moveEval: EvaluatedMove) => {
@@ -413,13 +431,16 @@ const InteractiveGame: React.FC<Props> = ({ config, onBack }) => {
 
     setGameState(prev => {
       if (!prev) return prev;
+      const isP1 = prev.isP1Turn;
       return {
         ...prev,
         board: newBoard,
-        aiRack: finalRack,
-        aiScore: prev.aiScore + moveEval.points,
+        p1Rack: isP1 ? finalRack : prev.p1Rack,
+        p2Rack: !isP1 ? finalRack : prev.p2Rack,
+        p1Score: isP1 ? prev.p1Score + moveEval.points : prev.p1Score,
+        p2Score: !isP1 ? prev.p2Score + moveEval.points : prev.p2Score,
         bagRemaining: bagRef.current.length,
-        isPlayerTurn: true,
+        isP1Turn: !prev.isP1Turn,
         history: [...prev.history, JSON.parse(JSON.stringify(prev))],
         redoHistory: [],
         bagHistory: [...prev.bagHistory, [...bagRef.current]],
@@ -429,10 +450,10 @@ const InteractiveGame: React.FC<Props> = ({ config, onBack }) => {
     setEvaluatedMoves([]);
   };
 
-  const handleExchangePlayerTiles = () => {
+  const handleExchangeP1Tiles = () => {
       if (!gameState) return;
-      const numTiles = gameState.playerRack.length;
-      const currentRack = [...gameState.playerRack];
+      const numTiles = gameState.p1Rack.length;
+      const currentRack = [...gameState.p1Rack];
 
       // Put rack back into bag
       bagRef.current.push(...currentRack);
@@ -449,9 +470,9 @@ const InteractiveGame: React.FC<Props> = ({ config, onBack }) => {
           if (!prev) return prev;
           return {
               ...prev,
-              playerRack: newRack,
+              p1Rack: newRack,
               bagRemaining: bagRef.current.length,
-              isPlayerTurn: false,
+              isP1Turn: false, // passes turn
               history: [...prev.history, JSON.parse(JSON.stringify(prev))],
               redoHistory: [],
               bagHistory: [...prev.bagHistory, [...bagRef.current]],
@@ -460,10 +481,10 @@ const InteractiveGame: React.FC<Props> = ({ config, onBack }) => {
       });
   };
 
-  const handleExchangeAITiles = () => {
+  const handleExchangeP2Tiles = () => {
       if (!gameState) return;
-      const numTiles = gameState.aiRack.length;
-      const currentRack = [...gameState.aiRack];
+      const numTiles = gameState.p2Rack.length;
+      const currentRack = [...gameState.p2Rack];
 
       bagRef.current.push(...currentRack);
       for (let i = bagRef.current.length - 1; i > 0; i--) {
@@ -477,9 +498,9 @@ const InteractiveGame: React.FC<Props> = ({ config, onBack }) => {
           if (!prev) return prev;
           return {
               ...prev,
-              aiRack: newRack,
+              p2Rack: newRack,
               bagRemaining: bagRef.current.length,
-              isPlayerTurn: true,
+              isP1Turn: true, // passes turn
               history: [...prev.history, JSON.parse(JSON.stringify(prev))],
               redoHistory: [],
               bagHistory: [...prev.bagHistory, [...bagRef.current]],
@@ -520,22 +541,23 @@ const InteractiveGame: React.FC<Props> = ({ config, onBack }) => {
         <div className="main-play-area">
           <div className="huds-container">
             <PlayerHUD
-              playerName="You"
-              playerId={0}
-              currentPlayer={gameState.isPlayerTurn ? 0 : 1}
-              score={gameState.playerScore}
-              rack={gameState.playerRack}
+              playerName={`Player 1 (${config.p1Type})`}
+              playerId={1}
+              currentPlayer={gameState.isP1Turn ? 1 : 2}
+              score={gameState.p1Score}
+              rack={gameState.p1Rack}
             />
             <div className="turn-indicator">
-              <h3>{gameState.isPlayerTurn ? 'Your Turn' : 'AI Thinking...'}</h3>
+              <h3>{gameState.isP1Turn ? "Player 1's Turn" : "Player 2's Turn"}</h3>
+              {(!isHumanTurn() && autoPlayAI && !loading) && <p>Thinking...</p>}
               <p>Bag: {gameState.bagRemaining} tiles</p>
             </div>
             <PlayerHUD
-              playerName={`AI (${config.aiType})`}
-              playerId={1}
-              currentPlayer={gameState.isPlayerTurn ? 0 : 1}
-              score={gameState.aiScore}
-              rack={gameState.aiRack}
+              playerName={`Player 2 (${config.p2Type})`}
+              playerId={2}
+              currentPlayer={gameState.isP1Turn ? 1 : 2}
+              score={gameState.p2Score}
+              rack={gameState.p2Rack}
             />
           </div>
 
@@ -543,7 +565,7 @@ const InteractiveGame: React.FC<Props> = ({ config, onBack }) => {
             <Board board={renderBoard} />
           </div>
 
-          {gameState.isPlayerTurn && (
+          {isHumanTurn() && (
             <div className="player-controls">
               <h3>Play a Move</h3>
               <form onSubmit={handlePlayerSubmit} className="move-form">
@@ -585,13 +607,27 @@ const InteractiveGame: React.FC<Props> = ({ config, onBack }) => {
                 <button onClick={handleRedo} disabled={gameState.redoHistory.length === 0}>Redo</button>
               </div>
               <div style={{display: 'flex', gap: '5px', marginTop: '10px'}}>
-                <button onClick={handleExchangePlayerTiles} disabled={bagRef.current.length === 0}>Exchange Player</button>
-                <button onClick={handleExchangeAITiles} disabled={bagRef.current.length === 0}>Exchange AI</button>
+                <button onClick={handleExchangeP1Tiles} disabled={bagRef.current.length === 0}>Exchange P1</button>
+                <button onClick={handleExchangeP2Tiles} disabled={bagRef.current.length === 0}>Exchange P2</button>
               </div>
             </div>
 
             <div className="dev-section">
-              <h4>AI Settings</h4>
+              <h4>AI Settings & Overrides</h4>
+              <label style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+                <input type="checkbox" checked={autoPlayAI} onChange={e => setAutoPlayAI(e.target.checked)} />
+                Auto-play AI turns
+              </label>
+
+              <div style={{ marginTop: '10px', display: 'flex', gap: '5px', alignItems: 'center' }}>
+                <select value={forceAiType} onChange={(e) => setForceAiType(e.target.value as PlayerType)}>
+                  <option value="alphable">Alphable</option>
+                  <option value="greedy">Greedy</option>
+                  <option value="random">Random</option>
+                </select>
+                <button onClick={() => makeAIMove(forceAiType)}>Force Evaluate</button>
+              </div>
+              <hr style={{ margin: '10px 0', border: 'none', borderTop: '1px solid #ddd' }} />
               <label>
                 Temperature: {temperature}
                 <input
@@ -620,22 +656,22 @@ const InteractiveGame: React.FC<Props> = ({ config, onBack }) => {
                 <div style={{display: 'flex', gap: '5px', marginBottom: '10px'}}>
                     <input
                         type="text"
-                        placeholder="Player Rack (e.g. ABCDEFG)"
-                        value={customPlayerRack}
-                        onChange={(e) => setCustomPlayerRack(e.target.value)}
+                        placeholder="P1 Rack (e.g. ABCDEFG)"
+                        value={customP1Rack}
+                        onChange={(e) => setCustomP1Rack(e.target.value)}
                         maxLength={7}
                     />
-                    <button onClick={handleForcePlayerRack}>Set</button>
+                    <button onClick={handleForceP1Rack}>Set</button>
                 </div>
                 <div style={{display: 'flex', gap: '5px'}}>
                     <input
                         type="text"
-                        placeholder="AI Rack (e.g. ABCDEFG)"
-                        value={customAiRack}
-                        onChange={(e) => setCustomAiRack(e.target.value)}
+                        placeholder="P2 Rack (e.g. ABCDEFG)"
+                        value={customP2Rack}
+                        onChange={(e) => setCustomP2Rack(e.target.value)}
                         maxLength={7}
                     />
-                    <button onClick={handleForceAiRack}>Set</button>
+                    <button onClick={handleForceP2Rack}>Set</button>
                 </div>
             </div>
 
