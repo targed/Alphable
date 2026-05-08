@@ -20,7 +20,7 @@ from alphable.core import inference, simulator, structure
 from alphable.eval.evaluate_matches import choose_move, evaluate_moves as get_move_evals
 
 app = Flask(__name__)
-CORS(app)  # Enable CORS for React frontend
+CORS(app, origins=["http://localhost:3000"])  # Enable CORS for React frontend
 
 # Base directory for game data
 BASE_DIR = Path(__file__).parent.parent.parent
