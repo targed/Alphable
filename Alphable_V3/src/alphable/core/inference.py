@@ -15,18 +15,18 @@ def board_to_tensor(board):
       29: Double Word (DW)
       30: Triple Word (TW)
     """
-    tensor = torch.zeros((31, 15, 15), dtype=torch.float32)
+    arr = np.zeros((31, 15, 15), dtype=np.float32)
 
     # Static Premium Squares Channels
     for (r, c), prem in simulator.PREMIUM_SQUARES.items():
         if prem == 'DL':
-            tensor[27, r, c] = 1.0
+            arr[27, r, c] = 1.0
         elif prem == 'TL':
-            tensor[28, r, c] = 1.0
+            arr[28, r, c] = 1.0
         elif prem == 'DW':
-            tensor[29, r, c] = 1.0
+            arr[29, r, c] = 1.0
         elif prem == 'TW':
-            tensor[30, r, c] = 1.0
+            arr[30, r, c] = 1.0
 
     for r in range(15):
         for c in range(15):
@@ -34,15 +34,15 @@ def board_to_tensor(board):
             if char != '.':
                 if char.islower():
                     # It's a blank tile representing a letter
-                    tensor[26, r, c] = 1.0
-                    idx = ord(char.upper()) - ord('A')
-                    tensor[idx, r, c] = 1.0
+                    arr[26, r, c] = 1.0
+                    idx = ord(char.upper()) - 65
+                    arr[idx, r, c] = 1.0
                 else:
                     # Regular letter tile
-                    idx = ord(char) - ord('A')
-                    tensor[idx, r, c] = 1.0
+                    idx = ord(char) - 65
+                    arr[idx, r, c] = 1.0
 
-    return tensor
+    return torch.from_numpy(arr)
 
 def state_to_tensor(rack, score_diff, bag_remaining):
     """
@@ -53,23 +53,23 @@ def state_to_tensor(rack, score_diff, bag_remaining):
       27: Score differential (normalized somewhat)
       28: Bag remaining (normalized)
     """
-    tensor = torch.zeros(29, dtype=torch.float32)
+    arr = np.zeros(29, dtype=np.float32)
 
     # Rack counts
     for char in rack:
         if char == '?':
-            tensor[26] += 1.0
+            arr[26] += 1.0
         else:
-            idx = ord(char) - ord('A')
-            tensor[idx] += 1.0
+            idx = ord(char) - 65
+            arr[idx] += 1.0
 
     # Normalize score diff (e.g. max diff roughly 500, scale to roughly [-1, 1])
-    tensor[27] = score_diff / 500.0
+    arr[27] = score_diff / 500.0
 
     # Normalize bag remaining (total tiles = 100)
-    tensor[28] = bag_remaining / 100.0
+    arr[28] = bag_remaining / 100.0
 
-    return tensor
+    return torch.from_numpy(arr)
 
 class AlphableInference:
     def __init__(self, model_path=None, device='cpu', dict_path='resources/NWL2023.txt'):
