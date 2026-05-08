@@ -67,7 +67,9 @@ def get_game(category, filename):
     if category not in DATA_DIRS:
         return jsonify({"error": "Invalid category"}), 404
     
-    json_file = DATA_DIRS[category] / filename
+    # Sanitize filename to prevent path traversal
+    safe_filename = Path(filename).name
+    json_file = DATA_DIRS[category] / safe_filename
     
     if not json_file.exists():
         return jsonify({"error": "Game not found"}), 404
@@ -86,7 +88,9 @@ def get_game_stats(category, filename):
     if category not in DATA_DIRS:
         return jsonify({"error": "Invalid category"}), 404
     
-    json_file = DATA_DIRS[category] / filename
+    # Sanitize filename to prevent path traversal
+    safe_filename = Path(filename).name
+    json_file = DATA_DIRS[category] / safe_filename
     
     if not json_file.exists():
         return jsonify({"error": "Game not found"}), 404
