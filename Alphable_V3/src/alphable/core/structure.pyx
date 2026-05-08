@@ -28,7 +28,7 @@ class Gaddag:
             with open(filepath, 'r') as f:
                 for line in f:
                     word = line.strip().upper()
-                    word = word.split(' ')[0] 
+                    word = word.split(' ')[0].lstrip('\ufeff')
                     if len(word) > 1 and word.isalpha():
                         g.add_word(word)
         except FileNotFoundError:
