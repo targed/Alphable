@@ -37,15 +37,19 @@ def parse_position(pos):
         return None, None, None
 
     pos = pos.upper()
+    import re
     if pos[0].isalpha():
         # Down (e.g. F6)
-        col = ord(pos[0]) - ord('A')
-        row = int(pos[1:]) - 1
-        direction = 'Down'
+        match = re.match(r"^([A-Z])(\d+)$", pos)
+        if match:
+            col = ord(match.group(1)) - ord('A')
+            row = int(match.group(2)) - 1
+            direction = 'Down'
+        else:
+            return None, None, None
     else:
         # Across (e.g. 8E)
-        import re
-        match = re.match(r"(\d+)([A-Z])", pos)
+        match = re.match(r"^(\d+)([A-Z])$", pos)
         if match:
             row = int(match.group(1)) - 1
             col = ord(match.group(2)) - ord('A')
