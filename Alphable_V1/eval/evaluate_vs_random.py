@@ -11,7 +11,7 @@ from open_spiel.python.algorithms.alpha_zero import evaluator as az_evaluator
 from open_spiel.python.algorithms import mcts
 import scrabble
 from datetime import datetime
-from eval.game_logger import GameLogger
+from eval.game_logger import GameLogger, MoveEntry
 
 def get_action_string(state, action_id):
     """Convert action ID to readable string."""
@@ -158,7 +158,7 @@ def evaluate(checkpoint_num):
                     consecutive_passes = state.consecutive_passes if hasattr(state, 'consecutive_passes') else 0
                     
                     # Log to JSON
-                    game_logger.log_move(
+                    game_logger.log_move(MoveEntry(
                         turn_index=turn_index,
                         player=player_id,
                         action_type=action_type,
@@ -172,7 +172,7 @@ def evaluate(checkpoint_num):
                         board_state=board_state,
                         tiles_in_bag=tiles_in_bag,
                         consecutive_passes=consecutive_passes
-                    )
+                    ))
                     
                     turn_index += 1
                     

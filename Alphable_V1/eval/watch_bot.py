@@ -1,4 +1,5 @@
-import osimport sys
+import os
+import sys
 # Add parent directory to path to import scrabble module
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
 # 1. FORCE TensorFlow to use legacy Keras
@@ -9,7 +10,7 @@ import numpy as np
 from open_spiel.python.algorithms.alpha_zero import alpha_zero
 from open_spiel.python.algorithms import mcts
 import scrabble
-from eval.game_logger import GameLogger 
+from eval.game_logger import GameLogger, MoveEntry
 
 # 2. Configuration
 base_path = os.path.join(os.path.dirname(__file__), "..")
@@ -169,7 +170,7 @@ def play_match():
             consecutive_passes = state.consecutive_passes if hasattr(state, 'consecutive_passes') else 0
             
             # Log to JSON
-            game_logger.log_move(
+            game_logger.log_move(MoveEntry(
                 turn_index=turn_index,
                 player=player_id,
                 action_type=action_type,
@@ -183,7 +184,7 @@ def play_match():
                 board_state=board_state,
                 tiles_in_bag=tiles_in_bag,
                 consecutive_passes=consecutive_passes
-            )
+            ))
             
             turn_index += 1
             
