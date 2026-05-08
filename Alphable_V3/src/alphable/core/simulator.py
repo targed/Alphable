@@ -1,6 +1,4 @@
 import copy
-from collections import Counter
-
 # Standard Scrabble letter values
 LETTER_VALUES = {
     'A': 1, 'B': 3, 'C': 3, 'D': 2, 'E': 1, 'F': 4, 'G': 2, 'H': 4,
@@ -52,7 +50,9 @@ def simulate_move(board, move, rack):
         new_rack (list of str): The remaining rack after tiles are played.
     """
     new_board = [row[:] for row in board]
-    rack_counts = Counter(rack)
+    rack_counts = {}
+    for tile in rack:
+        rack_counts[tile] = rack_counts.get(tile, 0) + 1
 
     r, c = move['row'], move['col']
     word = move['word']
@@ -78,9 +78,9 @@ def simulate_move(board, move, rack):
 
             # Determine if we use a normal letter or a blank
             is_blank = False
-            if rack_counts[char] > 0:
+            if rack_counts.get(char, 0) > 0:
                 rack_counts[char] -= 1
-            elif rack_counts['?'] > 0:
+            elif rack_counts.get('?', 0) > 0:
                 rack_counts['?'] -= 1
                 is_blank = True
             else:
@@ -121,7 +121,8 @@ def simulate_move(board, move, rack):
     # Reconstruct the new rack
     new_rack = []
     for tile, count in rack_counts.items():
-        new_rack.extend([tile] * count)
+        if count > 0:
+            new_rack.extend([tile] * count)
 
     # Note: A real Scrabble simulator would also calculate points for cross-words
     # created by the newly placed tiles. For the After-State Value network,

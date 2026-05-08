@@ -2,7 +2,6 @@ import torch
 import numpy as np
 from alphable.core import structure
 from alphable.core import simulator
-from collections import Counter
 from alphable.core.alphable_net import AlphableValueNet
 
 def board_to_tensor(board):
@@ -57,13 +56,12 @@ def state_to_tensor(rack, score_diff, bag_remaining):
     tensor = torch.zeros(29, dtype=torch.float32)
 
     # Rack counts
-    rack_counts = Counter(rack)
-    for char, count in rack_counts.items():
+    for char in rack:
         if char == '?':
-            tensor[26] = count
+            tensor[26] += 1.0
         else:
             idx = ord(char) - ord('A')
-            tensor[idx] = count
+            tensor[idx] += 1.0
 
     # Normalize score diff (e.g. max diff roughly 500, scale to roughly [-1, 1])
     tensor[27] = score_diff / 500.0
