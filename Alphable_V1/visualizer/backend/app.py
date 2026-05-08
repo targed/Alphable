@@ -11,7 +11,7 @@ from pathlib import Path
 from datetime import datetime
 
 app = Flask(__name__)
-CORS(app)  # Enable CORS for React frontend
+CORS(app, origins=["http://localhost:3000"])  # Enable CORS for React frontend
 
 # Base directory for game data
 BASE_DIR = Path(__file__).parent.parent.parent
