@@ -8,7 +8,7 @@ import torch
 
 import inference
 import simulator
-from game_logger import GameLogger
+from game_logger import GameLogger, MoveEntry
 from search import AlphableSearch
 from self_play import apply_endgame_adjustments, build_bag, draw_tiles, evaluate_moves
 
@@ -169,7 +169,7 @@ def run_game(
             board_state = board_to_visualizer_string(board)
             rack_after = racks[player].copy()
 
-            logger.log_move(
+            logger.log_move(MoveEntry(
                 turn_index=turn_index,
                 player=player,
                 action_type=action_type,
@@ -188,7 +188,7 @@ def run_game(
                     'alphable_value': round(chosen_value, 4) if chosen_value is not None else None,
                     'top_candidates': top_candidates,
                 },
-            )
+            ))
 
             if chosen_move is None:
                 logtxt.write(f"Turn {turn_index+1} P{player}: PASS\n")

@@ -7,6 +7,26 @@ import json
 import uuid
 from datetime import datetime
 from typing import Dict, List, Any, Optional
+from dataclasses import dataclass
+
+
+@dataclass
+class MoveEntry:
+    """Represents a single move/turn in the game."""
+    turn_index: int
+    player: int
+    action_type: str
+    action_id: int
+    word: Optional[str] = None
+    position: Optional[tuple] = None
+    direction: Optional[str] = None
+    score: float = 0.0
+    rack_before: Optional[List[str]] = None
+    rack_after: Optional[List[str]] = None
+    board_state: Optional[str] = None
+    tiles_in_bag: int = 0
+    consecutive_passes: int = 0
+    additional_info: Optional[Dict[str, Any]] = None
 
 
 class GameLogger:
@@ -26,63 +46,36 @@ class GameLogger:
         self.final_score: Optional[List[float]] = None
         self.game_metadata: Dict[str, Any] = {}
         
-    def log_move(self, 
-                 turn_index: int,
-                 player: int,
-                 action_type: str,
-                 action_id: int,
-                 word: Optional[str] = None,
-                 position: Optional[tuple] = None,
-                 direction: Optional[str] = None,
-                 score: float = 0.0,
-                 rack_before: Optional[List[str]] = None,
-                 rack_after: Optional[List[str]] = None,
-                 board_state: Optional[str] = None,
-                 tiles_in_bag: int = 0,
-                 consecutive_passes: int = 0,
-                 additional_info: Optional[Dict[str, Any]] = None):
+    def log_move(self, move: MoveEntry):
         """Log a single move/turn.
         
         Args:
-            turn_index: Sequential turn number (0-indexed)
-            player: Player ID (0 or 1)
-            action_type: One of "PLAY", "PASS", "EXCHANGE"
-            action_id: The numeric action ID from the engine
-            word: The word played (if action_type == "PLAY")
-            position: (row, col) where word starts (if PLAY)
-            direction: "Across" or "Down" (if PLAY)
-            score: Points scored this turn
-            rack_before: Tiles in hand before the move
-            rack_after: Tiles in hand after the move
-            board_state: String representation of board (15x15 grid)
-            tiles_in_bag: Number of tiles remaining in the bag
-            consecutive_passes: Running count of consecutive passes
-            additional_info: Any extra metadata (e.g., AI evaluation)
+            move: MoveEntry object containing all move details
         """
         move_data = {
-            "turn_index": turn_index,
-            "player": player,
-            "action_type": action_type,
-            "action_id": action_id,
-            "score": score,
-            "tiles_in_bag": tiles_in_bag,
-            "consecutive_passes": consecutive_passes
+            "turn_index": move.turn_index,
+            "player": move.player,
+            "action_type": move.action_type,
+            "action_id": move.action_id,
+            "score": move.score,
+            "tiles_in_bag": move.tiles_in_bag,
+            "consecutive_passes": move.consecutive_passes
         }
         
-        if word:
-            move_data["word"] = word
-        if position:
-            move_data["position"] = list(position)  # [row, col]
-        if direction:
-            move_data["direction"] = direction
-        if rack_before:
-            move_data["rack_before"] = rack_before
-        if rack_after:
-            move_data["rack_after"] = rack_after
-        if board_state:
-            move_data["board_state"] = board_state
-        if additional_info:
-            move_data.update(additional_info)
+        if move.word:
+            move_data["word"] = move.word
+        if move.position:
+            move_data["position"] = list(move.position)  # [row, col]
+        if move.direction:
+            move_data["direction"] = move.direction
+        if move.rack_before:
+            move_data["rack_before"] = move.rack_before
+        if move.rack_after:
+            move_data["rack_after"] = move.rack_after
+        if move.board_state:
+            move_data["board_state"] = move.board_state
+        if move.additional_info:
+            move_data.update(move.additional_info)
             
         self.turns.append(move_data)
     

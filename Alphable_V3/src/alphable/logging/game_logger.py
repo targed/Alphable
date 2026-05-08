@@ -7,6 +7,26 @@ import json
 import uuid
 from datetime import datetime
 from typing import Any, Dict, List, Optional
+from dataclasses import dataclass
+
+
+@dataclass
+class MoveEntry:
+    """Represents a single move/turn in the game."""
+    turn_index: int
+    player: int
+    action_type: str
+    action_id: int
+    word: Optional[str] = None
+    position: Optional[tuple] = None
+    direction: Optional[str] = None
+    score: float = 0.0
+    rack_before: Optional[List[str]] = None
+    rack_after: Optional[List[str]] = None
+    board_state: Optional[str] = None
+    tiles_in_bag: int = 0
+    consecutive_passes: int = 0
+    additional_info: Optional[Dict[str, Any]] = None
 
 
 class GameLogger:
@@ -18,47 +38,31 @@ class GameLogger:
         self.final_score: Optional[List[float]] = None
         self.game_metadata: Dict[str, Any] = {}
 
-    def log_move(
-        self,
-        turn_index: int,
-        player: int,
-        action_type: str,
-        action_id: int,
-        word: Optional[str] = None,
-        position: Optional[tuple] = None,
-        direction: Optional[str] = None,
-        score: float = 0.0,
-        rack_before: Optional[List[str]] = None,
-        rack_after: Optional[List[str]] = None,
-        board_state: Optional[str] = None,
-        tiles_in_bag: int = 0,
-        consecutive_passes: int = 0,
-        additional_info: Optional[Dict[str, Any]] = None,
-    ):
+    def log_move(self, move: MoveEntry):
         move_data = {
-            "turn_index": turn_index,
-            "player": player,
-            "action_type": action_type,
-            "action_id": action_id,
-            "score": score,
-            "tiles_in_bag": tiles_in_bag,
-            "consecutive_passes": consecutive_passes,
+            "turn_index": move.turn_index,
+            "player": move.player,
+            "action_type": move.action_type,
+            "action_id": move.action_id,
+            "score": move.score,
+            "tiles_in_bag": move.tiles_in_bag,
+            "consecutive_passes": move.consecutive_passes,
         }
 
-        if word:
-            move_data["word"] = word
-        if position:
-            move_data["position"] = list(position)
-        if direction:
-            move_data["direction"] = direction
-        if rack_before is not None:
-            move_data["rack_before"] = rack_before
-        if rack_after is not None:
-            move_data["rack_after"] = rack_after
-        if board_state:
-            move_data["board_state"] = board_state
-        if additional_info:
-            move_data.update(additional_info)
+        if move.word:
+            move_data["word"] = move.word
+        if move.position:
+            move_data["position"] = list(move.position)
+        if move.direction:
+            move_data["direction"] = move.direction
+        if move.rack_before is not None:
+            move_data["rack_before"] = move.rack_before
+        if move.rack_after is not None:
+            move_data["rack_after"] = move.rack_after
+        if move.board_state:
+            move_data["board_state"] = move.board_state
+        if move.additional_info:
+            move_data.update(move.additional_info)
 
         self.turns.append(move_data)
 
