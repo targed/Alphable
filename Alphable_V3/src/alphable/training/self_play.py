@@ -2,9 +2,9 @@ import argparse
 import json
 import os
 import random
+import math
 from multiprocessing import Pool
 from collections import defaultdict
-import torch.multiprocessing as mp
 
 import torch
 from tqdm import tqdm
@@ -218,7 +218,7 @@ def compute_turn_temperature(turn_idx, max_turns, temp_start, temp_end):
 
 def normalize_margin(margin, margin_scale):
     # Keep margin-derived targets in [-1, 1] to match tanh output range.
-    return float(torch.tanh(torch.tensor(margin / margin_scale)).item())
+    return math.tanh(margin / margin_scale)
 
 
 def compute_player_target(
