@@ -2,12 +2,13 @@
 """
 Enhanced game metadata fetching with pagination support.
 """
+import os
 import requests
 import json
 import time
 from typing import List, Dict
 
-API_KEY = "drXbCNvPVQTN5gfetRK6hW3zxLmDGbh8XRhcJkvdmWHT"
+API_KEY = os.environ.get("WOOGLES_API_KEY", "YOUR_API_KEY_HERE")
 
 
 def fetch_games_batch(username: str, num_games: int = 500, offset: int = 0) -> tuple:

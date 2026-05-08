@@ -1,8 +1,9 @@
+import os
 import requests
 import json
 
-# IMPORTANT: Replace this with your actual key from Woogles settings
-API_KEY = "drXbCNvPVQTN5gfetRK6hW3zxLmDGbh8XRhcJkvdmWHT"
+# IMPORTANT: Replace this with your actual key from Woogles settings or set WOOGLES_API_KEY environment variable
+API_KEY = os.environ.get("WOOGLES_API_KEY", "YOUR_API_KEY_HERE")
 
 if API_KEY == "YOUR_API_KEY_HERE":
     print("WARNING: You are using the placeholder API_KEY. Please replace it with your real key.")
