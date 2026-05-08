@@ -6,7 +6,6 @@ A unified CLI for fetching, filtering, and processing game data from Woogles.io
 import argparse
 import json
 import sys
-from pathlib import Path
 
 # Import our modules
 import fetch_more_games
@@ -169,7 +168,7 @@ def cmd_full_pipeline(args):
     )
 
     # Step 4: Process data
-    print(f"\n[4/4] Processing GCG data...")
+    print("\n[4/4] Processing GCG data...")
     processed = process_games.process_gcg_directory(
         gcg_dir=args.gcg_dir,
         output_csv=args.csv or 'data/games_processed.csv',
