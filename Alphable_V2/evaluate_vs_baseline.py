@@ -33,14 +33,7 @@ def choose_baseline_move(opponent, legal_moves, board, rack):
         return random.choice(legal_moves)
 
     if opponent == 'greedy':
-        best = None
-        best_points = -1
-        for move in legal_moves:
-            _, points, _ = simulator.simulate_move(board, move, rack)
-            if points > best_points:
-                best_points = points
-                best = move
-        return best
+        return simulator.find_best_greedy_move(board, legal_moves, rack)
 
     raise ValueError(f"Unknown opponent type: {opponent}")
 
