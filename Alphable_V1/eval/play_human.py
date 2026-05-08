@@ -42,25 +42,24 @@ def play(checkpoint_num):
                 else:
                     try:
                         parts = inp.split()
-                        r, c, w, d = int(parts[0]), int(parts[1]), parts[2], parts[3]
-                        # We need to find the action ID for this move.
-                        # This is tricky because IDs are generated internally.
-                        # HACK: We iterate legal actions to find the match.
-                        legal = state.legal_actions()
+                        r, c, w, d_str = int(parts[0]), int(parts[1]), parts[2], parts[3]
                         
+                        # Direct Action ID calculation
+                        d = 0 if d_str.capitalize() == 'Across' else 1
+                        aid = (r * 15 + c) * 2 + d
+
                         # Ensure map is populated
                         if not hasattr(state, "_current_move_map") or not state._current_move_map:
-                            state._legal_actions(0)
+                            state.legal_actions() # This populates _current_move_map
                             
                         found = False
-                        for aid in legal:
-                            if aid >= 450: continue
+                        if aid in state._current_move_map:
                             m = state._current_move_map[aid]
-                            if m['row'] == r and m['col'] == c and m['word'] == w:
+                            if m['word'] == w:
                                 action = aid
                                 found = True
                                 valid = True
-                                break
+
                         if not found: print("Invalid move (not found in generator)")
                     except:
                         print("Format error. Use: Row Col Word Direction")
