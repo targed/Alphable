@@ -104,25 +104,7 @@ def choose_move_with_temperature(move_evals, temperature=0.15, top_k=5):
 
 def choose_greedy_move(board, rack, move_gen):
     moves = move_gen.generate(board, rack)
-    if not moves:
-        return None
-
-    best = None
-    best_points = -1
-    for move in moves:
-        _, points, _ = simulator.simulate_move(board, move, rack)
-        if points > best_points:
-            best_points = points
-            best = move
-
-    new_board, points, new_rack = simulator.simulate_move(board, best, rack)
-    return {
-        'move': best,
-        'value': None,
-        'new_board': new_board,
-        'points': points,
-        'new_rack': new_rack,
-    }
+    return simulator.find_best_greedy_move(board, moves, rack, return_simulation=True)
 
 
 def evaluate_moves_grouped(eval_jobs, infer_batch_size=256):

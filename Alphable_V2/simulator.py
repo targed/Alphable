@@ -30,6 +30,99 @@ PREMIUM_SQUARES = {
     (12, 6): 'DL', (12, 8): 'DL', (14, 3): 'DL', (14, 11): 'DL'
 }
 
+def _calculate_move_points(board, move, rack_counts):
+    """
+    Internal fast path to calculate points for a move without copying the board.
+    Takes rack_counts as a dictionary to avoid re-creation.
+    """
+    r, c = move['row'], move['col']
+    word = move['word']
+    direction = move['dir']
+
+    points = 0
+    word_multiplier = 1
+    tiles_played = 0
+
+    # Temporary copy of rack_counts for this move
+    counts = rack_counts.copy()
+
+    for i, char in enumerate(word):
+        curr_r = r + (i if direction == 'Down' else 0)
+        curr_c = c + (i if direction == 'Across' else 0)
+
+        # Check if the square is empty
+        if board[curr_r][curr_c] == '.':
+            tiles_played += 1
+
+            # Determine if we use a normal letter or a blank
+            is_blank = False
+            if counts.get(char, 0) > 0:
+                counts[char] -= 1
+            elif counts.get('?', 0) > 0:
+                counts['?'] -= 1
+                is_blank = True
+
+            letter_val = 0 if is_blank else LETTER_VALUES.get(char, 0)
+
+            # Premium squares only apply to newly placed tiles
+            prem = PREMIUM_SQUARES.get((curr_r, curr_c), None)
+            letter_multiplier = 1
+            if prem == 'DL':
+                letter_multiplier = 2
+            elif prem == 'TL':
+                letter_multiplier = 3
+            elif prem == 'DW':
+                word_multiplier *= 2
+            elif prem == 'TW':
+                word_multiplier *= 3
+
+            points += letter_val * letter_multiplier
+        else:
+            # Tile is already on the board
+            existing_char = board[curr_r][curr_c]
+            is_blank = existing_char.islower()
+            letter_val = 0 if is_blank else LETTER_VALUES.get(existing_char.upper(), 0)
+            points += letter_val
+
+    points *= word_multiplier
+    if tiles_played == 7:
+        points += 50
+    return points
+
+
+def find_best_greedy_move(board, moves, rack, return_simulation=False):
+    """
+    Finds the highest-scoring move from a list of legal moves.
+    Optionally returns the full simulation of that move.
+    """
+    if not moves:
+        return None
+
+    rack_counts = {}
+    for char in rack:
+        rack_counts[char] = rack_counts.get(char, 0) + 1
+
+    best_move = None
+    max_points = -1
+
+    for move in moves:
+        points = _calculate_move_points(board, move, rack_counts)
+        if points > max_points:
+            max_points = points
+            best_move = move
+
+    if return_simulation:
+        new_board, points, new_rack = simulate_move(board, best_move, rack)
+        return {
+            'move': best_move,
+            'value': None,
+            'new_board': new_board,
+            'points': points,
+            'new_rack': new_rack,
+        }
+    return best_move
+
+
 def simulate_move(board, move, rack):
     """
     Applies a move to the board and calculates the new board state,
@@ -52,7 +145,9 @@ def simulate_move(board, move, rack):
         new_rack (list of str): The remaining rack after tiles are played.
     """
     new_board = [row[:] for row in board]
-    rack_counts = Counter(rack)
+    rack_counts = {}
+    for char in rack:
+        rack_counts[char] = rack_counts.get(char, 0) + 1
 
     r, c = move['row'], move['col']
     word = move['word']
@@ -78,9 +173,9 @@ def simulate_move(board, move, rack):
 
             # Determine if we use a normal letter or a blank
             is_blank = False
-            if rack_counts[char] > 0:
+            if rack_counts.get(char, 0) > 0:
                 rack_counts[char] -= 1
-            elif rack_counts['?'] > 0:
+            elif rack_counts.get('?', 0) > 0:
                 rack_counts['?'] -= 1
                 is_blank = True
             else:
@@ -121,7 +216,8 @@ def simulate_move(board, move, rack):
     # Reconstruct the new rack
     new_rack = []
     for tile, count in rack_counts.items():
-        new_rack.extend([tile] * count)
+        if count > 0:
+            new_rack.extend([tile] * count)
 
     # Note: A real Scrabble simulator would also calculate points for cross-words
     # created by the newly placed tiles. For the After-State Value network,
