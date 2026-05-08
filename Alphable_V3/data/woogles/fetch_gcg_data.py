@@ -2,12 +2,13 @@
 """
 Fetch GCG (game move data) for games from Woogles.io API.
 """
+import os
 import requests
 import json
 import time
 from pathlib import Path
 
-API_KEY = "drXbCNvPVQTN5gfetRK6hW3zxLmDGbh8XRhcJkvdmWHT"
+API_KEY = os.environ.get("WOOGLES_API_KEY", "YOUR_API_KEY_HERE")
 GCG_DIR = "data/gcg_CSW24"
 
 
