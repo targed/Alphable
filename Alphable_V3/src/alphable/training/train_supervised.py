@@ -158,7 +158,7 @@ def train(args):
     model = AlphableValueNet().to(device)
     if args.resume_model:
         model.load_state_dict(torch.load(
-            args.resume_model, map_location=device))
+            args.resume_model, map_location=device, weights_only=True))
         print(f'Resumed model from {args.resume_model}')
 
     optimizer = optim.AdamW(

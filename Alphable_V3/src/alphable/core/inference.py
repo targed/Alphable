@@ -76,7 +76,7 @@ class AlphableInference:
         self.device = torch.device(device)
         self.model = AlphableValueNet().to(self.device)
         if model_path:
-            self.model.load_state_dict(torch.load(model_path, map_location=self.device))
+            self.model.load_state_dict(torch.load(model_path, map_location=self.device, weights_only=True))
         self.model.eval()
 
         # Load GADDAG (using NWL2023 or CSW24 which exist in the directory)

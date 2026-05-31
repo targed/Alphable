@@ -41,7 +41,7 @@ def train_rl(
     model = AlphableValueNet().to(device)
     if init_model_path and os.path.exists(init_model_path):
         print(f"Warm-starting from {init_model_path}")
-        model.load_state_dict(torch.load(init_model_path, map_location=device))
+        model.load_state_dict(torch.load(init_model_path, map_location=device, weights_only=True))
     else:
         fallback_model = 'models/alphable_best_val_model.pth'
         if os.path.exists(fallback_model):
@@ -49,7 +49,7 @@ def train_rl(
                 f"Warning: init model not found. Falling back to {fallback_model}"
             )
             model.load_state_dict(torch.load(
-                fallback_model, map_location=device))
+                fallback_model, map_location=device, weights_only=True))
         else:
             print(
                 "Warning: init model not found. Training RL model from random initialization.")
