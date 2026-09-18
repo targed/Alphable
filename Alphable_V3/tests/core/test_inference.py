@@ -9,7 +9,7 @@ def test_state_to_tensor_happy_path():
 
     tensor = state_to_tensor(rack, score_diff, bag_remaining)
 
-    assert tensor.shape == (29,)
+    assert tensor.shape == (36,)
     assert tensor.dtype == torch.float32
 
     # Check letter counts

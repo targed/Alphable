@@ -150,17 +150,21 @@ class AlphableSearch:
             list(zip(batch_boards, batch_states)))
 
         for i in range(len(my_moves)):
+            pts = batch_moves[i][4]
+            val = win_probs[i]
+            equity = float(pts) + 25.0 * val
             candidate_evals.append({
                 'move': batch_moves[i][0],
                 'board': batch_moves[i][1],
                 'score_diff': batch_moves[i][2],
                 'rack': batch_moves[i][3],
-                'points': batch_moves[i][4],
-                'value': win_probs[i]
+                'points': pts,
+                'value': val,
+                'equity': equity,
             })
 
-        # Step 3: Pick Top-K Candidates (combining neural value with normalized points)
-        candidate_evals.sort(key=lambda x: x['value'] + (x['points'] / 50.0), reverse=True)
+        # Step 3: Pick Top-K Candidates (ranked by total equity = points + 25.0 * value)
+        candidate_evals.sort(key=lambda x: x['equity'], reverse=True)
         top_candidates = candidate_evals[:self.top_k_candidates]
 
         if self.mode == 'bc_0ply':
@@ -170,7 +174,7 @@ class AlphableSearch:
                 m = c['move']
                 print(
                     f"0-Ply Candidate {i+1}: {m['word']} at {m['row']},{m['col']} | "
-                    f"Val: {c['value']:.3f}"
+                    f"Points: {c['points']} | Val: {c['value']:.3f} | Equity: {c['equity']:.1f}"
                 )
 
             best = top_candidates[0]

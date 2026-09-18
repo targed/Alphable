@@ -8,7 +8,7 @@ import torch.optim as optim
 from torch.optim.lr_scheduler import ReduceLROnPlateau
 from tqdm import tqdm
 
-from alphable.core.alphable_net import AlphableValueNet
+from alphable.core.alphable_net import AlphableValueNet, load_checkpoint_compatible
 from alphable.data.dataset import get_dataloaders
 
 
@@ -41,15 +41,16 @@ def train_rl(
     model = AlphableValueNet().to(device)
     if init_model_path and os.path.exists(init_model_path):
         print(f"Warm-starting from {init_model_path}")
-        model.load_state_dict(torch.load(init_model_path, map_location=device))
+        loaded, total = load_checkpoint_compatible(model, init_model_path, device)
+        print(f"Loaded {loaded}/{total} tensors from {init_model_path}")
     else:
         fallback_model = 'models/alphable_best_val_model.pth'
         if os.path.exists(fallback_model):
             print(
                 f"Warning: init model not found. Falling back to {fallback_model}"
             )
-            model.load_state_dict(torch.load(
-                fallback_model, map_location=device))
+            loaded, total = load_checkpoint_compatible(model, fallback_model, device)
+            print(f"Loaded {loaded}/{total} tensors from {fallback_model}")
         else:
             print(
                 "Warning: init model not found. Training RL model from random initialization.")

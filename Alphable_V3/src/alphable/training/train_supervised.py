@@ -7,7 +7,7 @@ import torch.optim as optim
 from torch.optim.lr_scheduler import ReduceLROnPlateau
 from tqdm import tqdm
 
-from alphable.core.alphable_net import AlphableValueNet
+from alphable.core.alphable_net import AlphableValueNet, load_checkpoint_compatible
 from alphable.data.dataset import get_dataloaders
 
 
@@ -157,9 +157,8 @@ def train(args):
 
     model = AlphableValueNet().to(device)
     if args.resume_model:
-        model.load_state_dict(torch.load(
-            args.resume_model, map_location=device))
-        print(f'Resumed model from {args.resume_model}')
+        loaded, total = load_checkpoint_compatible(model, args.resume_model, device)
+        print(f'Resumed model from {args.resume_model} ({loaded}/{total} tensors loaded)')
 
     optimizer = optim.AdamW(
         model.parameters(),

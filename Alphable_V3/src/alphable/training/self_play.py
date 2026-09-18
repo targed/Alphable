@@ -76,15 +76,18 @@ def evaluate_moves(engine, board, rack, score_diff, bag_remaining, infer_batch_s
 
     evals = []
     for i, (move, new_board, points, new_rack, _) in enumerate(move_states):
+        val = vals[i]
+        equity = float(points) + 25.0 * val
         evals.append({
             'move': move,
-            'value': vals[i],
+            'value': val,
+            'equity': equity,
             'new_board': new_board,
             'points': points,
             'new_rack': new_rack,
         })
 
-    evals.sort(key=lambda x: x['value'], reverse=True)
+    evals.sort(key=lambda x: x['equity'], reverse=True)
     return evals
 
 
@@ -96,7 +99,10 @@ def choose_move_with_temperature(move_evals, temperature=0.15, top_k=5):
     if temperature <= 1e-6:
         return top[0]
 
-    logits = torch.tensor([m['value'] for m in top], dtype=torch.float32)
+    scores = [m.get('equity', m.get('value', 0.0)) for m in top]
+    has_equity = 'equity' in top[0]
+    scale = 10.0 if has_equity else 1.0
+    logits = torch.tensor([s / scale for s in scores], dtype=torch.float32)
     probs = torch.softmax(logits / temperature, dim=0)
     idx = torch.multinomial(probs, num_samples=1).item()
     return top[idx]
@@ -118,7 +124,8 @@ def choose_greedy_move(board, rack, move_gen):
     new_board, points, new_rack = simulator.simulate_move(board, best, rack)
     return {
         'move': best,
-        'value': None,
+        'value': 0.0,
+        'equity': float(points),
         'new_board': new_board,
         'points': points,
         'new_rack': new_rack,
@@ -193,14 +200,17 @@ def evaluate_moves_grouped(eval_jobs, infer_batch_size=256):
 
             evals = []
             for i, (move, new_board, points, new_rack, _) in enumerate(move_states):
+                val = job_vals[i]
+                equity = float(points) + 25.0 * val
                 evals.append({
                     'move': move,
-                    'value': job_vals[i],
+                    'value': val,
+                    'equity': equity,
                     'new_board': new_board,
                     'points': points,
                     'new_rack': new_rack,
                 })
-            evals.sort(key=lambda x: x['value'], reverse=True)
+            evals.sort(key=lambda x: x['equity'], reverse=True)
             results[idx] = evals
 
     return results

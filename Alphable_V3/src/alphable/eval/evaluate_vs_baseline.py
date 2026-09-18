@@ -118,6 +118,7 @@ def run_game(
                         'col': m['move']['col'],
                         'dir': m['move']['dir'],
                         'value': round(m['value'], 4),
+                        'equity': round(m.get('equity', m['points'] + 25.0 * m['value']), 2),
                         'points': m['points'],
                     }
                     for m in move_evals[:3]

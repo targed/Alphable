@@ -2,7 +2,9 @@ import torch
 import numpy as np
 from alphable.core import structure
 from alphable.core import simulator
-from alphable.core.alphable_net import AlphableValueNet
+from alphable.core.alphable_net import AlphableValueNet, load_checkpoint_compatible
+
+VOWELS = set('AEIOU')
 
 def board_to_tensor(board):
     """
@@ -10,23 +12,12 @@ def board_to_tensor(board):
     Channels:
       0-25: A-Z letters (one-hot)
       26: Blanks
-      27: Double Letter (DL)
-      28: Triple Letter (TL)
-      29: Double Word (DW)
-      30: Triple Word (TW)
+      27: Open Double Letter (DL)
+      28: Open Triple Letter (TL)
+      29: Open Double Word (DW)
+      30: Open Triple Word (TW)
     """
     arr = np.zeros((31, 15, 15), dtype=np.float32)
-
-    # Static Premium Squares Channels
-    for (r, c), prem in simulator.PREMIUM_SQUARES.items():
-        if prem == 'DL':
-            arr[27, r, c] = 1.0
-        elif prem == 'TL':
-            arr[28, r, c] = 1.0
-        elif prem == 'DW':
-            arr[29, r, c] = 1.0
-        elif prem == 'TW':
-            arr[30, r, c] = 1.0
 
     for r in range(15):
         for c in range(15):
@@ -41,33 +32,77 @@ def board_to_tensor(board):
                     # Regular letter tile
                     idx = ord(char) - 65
                     arr[idx, r, c] = 1.0
+            else:
+                # Premium squares only active when square is open/empty
+                prem = simulator.PREMIUM_SQUARES.get((r, c), None)
+                if prem == 'DL':
+                    arr[27, r, c] = 1.0
+                elif prem == 'TL':
+                    arr[28, r, c] = 1.0
+                elif prem == 'DW':
+                    arr[29, r, c] = 1.0
+                elif prem == 'TW':
+                    arr[30, r, c] = 1.0
 
     return torch.from_numpy(arr)
 
 def state_to_tensor(rack, score_diff, bag_remaining):
     """
-    Converts the game state into a [29] tensor.
+    Converts the game state into an enriched [36] tensor.
     Elements:
       0-25: Counts of A-Z tiles in rack
       26: Count of blank tiles in rack
-      27: Score differential (normalized somewhat)
-      28: Bag remaining (normalized)
+      27: Score differential (normalized to roughly [-1, 1])
+      28: Bag remaining (normalized to [0, 1])
+      29: Leave size / 7.0
+      30: Vowel count / 7.0
+      31: Consonant count / 7.0
+      32: Has blank (1.0 or 0.0)
+      33: Has S (1.0 or 0.0)
+      34: Duplicate letter penalty / 7.0
+      35: Empty leave flag (1.0 if bingo/out else 0.0)
     """
-    arr = np.zeros(29, dtype=np.float32)
+    arr = np.zeros(36, dtype=np.float32)
 
-    # Rack counts
+    vowel_count = 0
+    consonant_count = 0
+    has_blank = 0.0
+    has_s = 0.0
+    counts = {}
+
     for char in rack:
-        if char == '?':
+        upper = char.upper()
+        if upper == '?':
             arr[26] += 1.0
+            has_blank = 1.0
         else:
-            idx = ord(char) - 65
-            arr[idx] += 1.0
+            idx = ord(upper) - 65
+            if 0 <= idx < 26:
+                arr[idx] += 1.0
+                counts[upper] = counts.get(upper, 0) + 1
+                if upper in VOWELS:
+                    vowel_count += 1
+                else:
+                    consonant_count += 1
+                if upper == 'S':
+                    has_s = 1.0
 
-    # Normalize score diff (e.g. max diff roughly 500, scale to roughly [-1, 1])
+    # Basic state normalization
     arr[27] = score_diff / 500.0
-
-    # Normalize bag remaining (total tiles = 100)
     arr[28] = bag_remaining / 100.0
+
+    # Strategic leave metrics
+    leave_len = len(rack)
+    arr[29] = leave_len / 7.0
+    arr[30] = vowel_count / 7.0
+    arr[31] = consonant_count / 7.0
+    arr[32] = has_blank
+    arr[33] = has_s
+
+    # Duplicate letter penalty (e.g. holding multiple I's or U's or V's)
+    dup_penalty = sum(max(0, count - 1) for count in counts.values())
+    arr[34] = dup_penalty / 7.0
+    arr[35] = 1.0 if leave_len == 0 else 0.0
 
     return torch.from_numpy(arr)
 
@@ -76,7 +111,7 @@ class AlphableInference:
         self.device = torch.device(device)
         self.model = AlphableValueNet().to(self.device)
         if model_path:
-            self.model.load_state_dict(torch.load(model_path, map_location=self.device))
+            load_checkpoint_compatible(self.model, model_path, self.device)
         self.model.eval()
 
         # Load GADDAG (using NWL2023 or CSW24 which exist in the directory)
@@ -85,7 +120,7 @@ class AlphableInference:
 
     def find_best_move(self, current_board, rack, current_score_diff, bag_remaining):
         """
-        Generates legal moves, simulates after-states, and selects the one with the highest win probability.
+        Generates legal moves, simulates after-states, and selects the move with highest equity.
 
         Args:
             current_board: 15x15 list of lists
@@ -95,7 +130,7 @@ class AlphableInference:
 
         Returns:
             best_move: Dict representing the best move
-            best_value: Float (Predicted Win Probability)
+            best_value: Float (Predicted Win Probability / Value)
         """
         # 1. Generate Legal Moves
         moves = self.move_gen.generate(current_board, rack)
@@ -106,6 +141,7 @@ class AlphableInference:
         # 2. Simulate After-States
         batch_boards = []
         batch_states = []
+        move_points = []
 
         for move in moves:
             new_board, points, new_rack = simulator.simulate_move(current_board, move, rack)
@@ -118,18 +154,20 @@ class AlphableInference:
 
             batch_boards.append(board_tensor)
             batch_states.append(state_tensor)
+            move_points.append(points)
 
-        # Stack into batches: [B, 31, 15, 15] and [B, 29]
+        # Stack into batches: [B, 31, 15, 15] and [B, 36]
         batch_boards_tensor = torch.stack(batch_boards).to(self.device)
         batch_states_tensor = torch.stack(batch_states).to(self.device)
 
         # 3. Neural Network Forward Pass
         with torch.no_grad():
-            # Output is [B, 1]
-            win_probs = self.model(batch_boards_tensor, batch_states_tensor)
+            # Output is [B]
+            win_probs = self.model(batch_boards_tensor, batch_states_tensor).view(-1)
 
-        # 4. Find max value
-        best_idx = torch.argmax(win_probs).item()
+        # 4. Rank by Equity = Points + 25.0 * Value
+        equities = torch.tensor(move_points, dtype=torch.float32, device=self.device) + 25.0 * win_probs
+        best_idx = torch.argmax(equities).item()
         best_move = moves[best_idx]
         best_value = win_probs[best_idx].item()
 
