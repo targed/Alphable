@@ -62,9 +62,8 @@ def simulate_move(board, move, rack):
     word_multiplier = 1
     tiles_played = 0
 
-    # We will track which characters were played from the rack to update it
-    # We will try to play the actual letter first, then fall back to '?' (blank)
-    placed_positions = []
+    # Track placed tiles for cross-word calculation: (row, col, char, is_blank)
+    placed_tiles = []
 
     for i, char in enumerate(word):
         curr_r = r + (i if direction == 'Down' else 0)
@@ -74,7 +73,6 @@ def simulate_move(board, move, rack):
         if new_board[curr_r][curr_c] == '.':
             # We are placing a tile here
             tiles_played += 1
-            placed_positions.append((curr_r, curr_c))
 
             # Determine if we use a normal letter or a blank
             is_blank = False
@@ -86,6 +84,8 @@ def simulate_move(board, move, rack):
             else:
                 # Fallback if the move is somehow invalid given the rack (shouldn't happen with correct generator)
                 pass
+
+            placed_tiles.append((curr_r, curr_c, char, is_blank))
 
             letter_val = 0 if is_blank else LETTER_VALUES.get(char, 0)
 
@@ -112,7 +112,84 @@ def simulate_move(board, move, rack):
             letter_val = 0 if is_blank else LETTER_VALUES.get(existing_char.upper(), 0)
             points += letter_val
 
+    # Multiply primary word points by primary word multiplier
     points *= word_multiplier
+
+    # Calculate cross-word points for each newly placed tile
+    cross_points_total = 0
+    for curr_r, curr_c, char, is_blank in placed_tiles:
+        if direction == 'Across':
+            # Cross-word is vertical (inspect up and down)
+            has_adj = (curr_r > 0 and board[curr_r - 1][curr_c] != '.') or \
+                      (curr_r < 14 and board[curr_r + 1][curr_c] != '.')
+            if has_adj:
+                start_r = curr_r
+                while start_r > 0 and board[start_r - 1][curr_c] != '.':
+                    start_r -= 1
+                end_r = curr_r
+                while end_r < 14 and board[end_r + 1][curr_c] != '.':
+                    end_r += 1
+
+                cross_word_multiplier = 1
+                prem = PREMIUM_SQUARES.get((curr_r, curr_c), None)
+                if prem == 'DW':
+                    cross_word_multiplier = 2
+                elif prem == 'TW':
+                    cross_word_multiplier = 3
+
+                cw_score = 0
+                for r_idx in range(start_r, end_r + 1):
+                    if r_idx == curr_r:
+                        let_val = 0 if is_blank else LETTER_VALUES.get(char.upper(), 0)
+                        let_mult = 1
+                        if prem == 'DL':
+                            let_mult = 2
+                        elif prem == 'TL':
+                            let_mult = 3
+                        cw_score += let_val * let_mult
+                    else:
+                        existing_char = board[r_idx][curr_c]
+                        let_val = 0 if existing_char.islower() else LETTER_VALUES.get(existing_char.upper(), 0)
+                        cw_score += let_val
+
+                cross_points_total += cw_score * cross_word_multiplier
+        else:
+            # Cross-word is horizontal (inspect left and right)
+            has_adj = (curr_c > 0 and board[curr_r][curr_c - 1] != '.') or \
+                      (curr_c < 14 and board[curr_r][curr_c + 1] != '.')
+            if has_adj:
+                start_c = curr_c
+                while start_c > 0 and board[curr_r][start_c - 1] != '.':
+                    start_c -= 1
+                end_c = curr_c
+                while end_c < 14 and board[curr_r][end_c + 1] != '.':
+                    end_c += 1
+
+                cross_word_multiplier = 1
+                prem = PREMIUM_SQUARES.get((curr_r, curr_c), None)
+                if prem == 'DW':
+                    cross_word_multiplier = 2
+                elif prem == 'TW':
+                    cross_word_multiplier = 3
+
+                cw_score = 0
+                for c_idx in range(start_c, end_c + 1):
+                    if c_idx == curr_c:
+                        let_val = 0 if is_blank else LETTER_VALUES.get(char.upper(), 0)
+                        let_mult = 1
+                        if prem == 'DL':
+                            let_mult = 2
+                        elif prem == 'TL':
+                            let_mult = 3
+                        cw_score += let_val * let_mult
+                    else:
+                        existing_char = board[curr_r][c_idx]
+                        let_val = 0 if existing_char.islower() else LETTER_VALUES.get(existing_char.upper(), 0)
+                        cw_score += let_val
+
+                cross_points_total += cw_score * cross_word_multiplier
+
+    points += cross_points_total
 
     # Bingo bonus
     if tiles_played == 7:
@@ -123,11 +200,6 @@ def simulate_move(board, move, rack):
     for tile, count in rack_counts.items():
         if count > 0:
             new_rack.extend([tile] * count)
-
-    # Note: A real Scrabble simulator would also calculate points for cross-words
-    # created by the newly placed tiles. For the After-State Value network,
-    # exact scoring is helpful but the board state itself is the most important output.
-    # To keep this fast for Phase 1, we calculate the primary word score.
 
     return new_board, points, new_rack
 

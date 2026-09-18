@@ -2,6 +2,7 @@ import json
 import argparse
 import random
 import copy
+import math
 from collections import Counter
 import torch
 from alphable.core import inference
@@ -143,7 +144,7 @@ class AlphableSearch:
 
             batch_boards.append(b_tensor)
             batch_states.append(s_tensor)
-            batch_moves.append((move, new_board, new_score_diff, new_rack))
+            batch_moves.append((move, new_board, new_score_diff, new_rack, points))
 
         win_probs = self._batched_forward_values(
             list(zip(batch_boards, batch_states)))
@@ -154,11 +155,12 @@ class AlphableSearch:
                 'board': batch_moves[i][1],
                 'score_diff': batch_moves[i][2],
                 'rack': batch_moves[i][3],
+                'points': batch_moves[i][4],
                 'value': win_probs[i]
             })
 
-        # Step 3: Pick Top-K Candidates
-        candidate_evals.sort(key=lambda x: x['value'], reverse=True)
+        # Step 3: Pick Top-K Candidates (combining neural value with normalized points)
+        candidate_evals.sort(key=lambda x: x['value'] + (x['points'] / 50.0), reverse=True)
         top_candidates = candidate_evals[:self.top_k_candidates]
 
         if self.mode == 'bc_0ply':
@@ -229,9 +231,11 @@ class AlphableSearch:
                     list(zip(opp_batch_boards, opp_batch_states))
                 )
 
-                k = min(self.opp_reply_top_k, len(opp_vals))
+                k = min(max(3, self.opp_reply_top_k), len(opp_vals))
                 topk_vals = sorted(opp_vals, reverse=True)[:k]
-                opp_agg_val = sum(topk_vals) / k
+                # Softmax temperature over top replies to avoid extreme single-outlier noise
+                exp_weights = [math.exp((v - topk_vals[0]) / 0.25) for v in topk_vals]
+                opp_agg_val = sum(w * v for w, v in zip(exp_weights, topk_vals)) / sum(exp_weights)
 
                 # 4e. Estimate our value as the inverse of opponent aggregated reply value.
                 our_true_val = -opp_agg_val

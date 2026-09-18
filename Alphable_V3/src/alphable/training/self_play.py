@@ -270,8 +270,10 @@ def apply_endgame_adjustments(scores, racks):
         bonus = rack_penalty(racks[0])
         scores[1] += bonus
         scores[0] -= bonus
-    elif p0_empty and p1_empty:
-        return
+    elif not p0_empty and not p1_empty:
+        # Both players subtract the value of their remaining unplayed tiles
+        scores[0] -= rack_penalty(racks[0])
+        scores[1] -= rack_penalty(racks[1])
 
 
 def play_one_game(
@@ -311,16 +313,6 @@ def play_one_game(
             temp_start=temp_start,
             temp_end=temp_end,
         )
-
-        # Save pre-move state from the current player's perspective.
-        player_states[p].append({
-            'board': compact_board(board),
-            'rack': ''.join(racks[p]),
-            'score_diff': score_diff,
-            'bag': bag_remaining,
-            'player': p,
-        })
-
         if p0_is_greedy and p == 0:
             selected = choose_greedy_move(board, racks[p], engine.move_gen)
         elif p1_is_greedy and p == 1:
@@ -339,12 +331,27 @@ def play_one_game(
 
         if selected is None:
             consecutive_passes += 1
+            post_board = compact_board(board)
+            post_rack = ''.join(racks[p])
+            post_score_diff = scores[p] - scores[o]
         else:
             board = selected['new_board']
             scores[p] += selected['points']
             racks[p] = selected['new_rack']
+            post_board = compact_board(board)
+            post_rack = ''.join(racks[p])
+            post_score_diff = scores[p] - scores[o]
             racks[p].extend(draw_tiles(bag, 7 - len(racks[p])))
             consecutive_passes = 0
+
+        # Save after-state from the current player's perspective.
+        player_states[p].append({
+            'board': post_board,
+            'rack': post_rack,
+            'score_diff': post_score_diff,
+            'bag': bag_remaining,
+            'player': p,
+        })
 
         if consecutive_passes >= 2:
             break
@@ -556,14 +563,6 @@ def run_interleaved_games(
             score_diff = st['scores'][p] - st['scores'][o]
             bag_remaining = len(st['bag'])
 
-            st['player_states'][p].append({
-                'board': compact_board(st['board']),
-                'rack': ''.join(st['racks'][p]),
-                'score_diff': score_diff,
-                'bag': bag_remaining,
-                'player': p,
-            })
-
             if p0_is_greedy and p == 0:
                 eval_jobs.append({
                     'selected': choose_greedy_move(
@@ -622,15 +621,33 @@ def run_interleaved_games(
             p = st['turn'] % 2
             selected = all_selected[idx]
 
+            o = 1 - p
+            bag_remaining = len(st['bag'])
+
             if selected is None:
                 st['consecutive_passes'] += 1
+                post_board = compact_board(st['board'])
+                post_rack = ''.join(st['racks'][p])
+                post_score_diff = st['scores'][p] - st['scores'][o]
             else:
                 st['board'] = selected['new_board']
                 st['scores'][p] += selected['points']
                 st['racks'][p] = selected['new_rack']
+                post_board = compact_board(st['board'])
+                post_rack = ''.join(st['racks'][p])
+                post_score_diff = st['scores'][p] - st['scores'][o]
                 st['racks'][p].extend(draw_tiles(
                     st['bag'], 7 - len(st['racks'][p])))
                 st['consecutive_passes'] = 0
+
+            # Save after-state from the current player's perspective.
+            st['player_states'][p].append({
+                'board': post_board,
+                'rack': post_rack,
+                'score_diff': post_score_diff,
+                'bag': bag_remaining,
+                'player': p,
+            })
 
             st['turn'] += 1
 

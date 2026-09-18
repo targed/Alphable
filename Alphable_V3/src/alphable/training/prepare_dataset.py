@@ -197,6 +197,14 @@ def process_game(game_line, move_gen, negatives_top_k=4):
                 hard_negatives = sorted(
                     hard_heap, key=lambda x: x[0], reverse=True)
                 for neg_score, _, neg_board, neg_rack in hard_negatives:
+                    # If the alternative move scored as well as or better than the human move,
+                    # do not poison the dataset by labeling it as a negative sample.
+                    if neg_score >= pos_score:
+                        continue
+
+                    deficit_ratio = min(1.0, (pos_score - neg_score) / max(10, pos_score))
+                    neg_target = max(-1.0, 1.0 - 2.0 * deficit_ratio)
+
                     neg_board_compact = "".join(
                         ["".join(r) for r in neg_board])
                     samples.append({
@@ -204,7 +212,7 @@ def process_game(game_line, move_gen, negatives_top_k=4):
                         'rack': "".join(neg_rack),
                         'score_diff': score_diff + neg_score,
                         'bag': bag_size,
-                        'target': -1.0  # Negative
+                        'target': neg_target,
                     })
 
                 # Finally, apply the actual human move to progress board state.

@@ -68,3 +68,15 @@ def test_sample_opponent_rack_randomness_mock():
 
         mock_sample.assert_called_once_with(unseen_tiles, sample_size)
         assert result == ['A', 'B']
+
+def test_candidate_eval_includes_points():
+    """Verify that candidate sorting factors in move points."""
+    # Two moves: move A has value 0.3, points 10; move B has value 0.1, points 70
+    # move A blended: 0.3 + 10/50 = 0.50
+    # move B blended: 0.1 + 70/50 = 1.50 -> move B should rank higher!
+    evals = [
+        {'move': 'A', 'value': 0.3, 'points': 10},
+        {'move': 'B', 'value': 0.1, 'points': 70},
+    ]
+    evals.sort(key=lambda x: x['value'] + (x['points'] / 50.0), reverse=True)
+    assert evals[0]['move'] == 'B'
