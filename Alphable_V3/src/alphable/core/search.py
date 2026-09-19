@@ -216,6 +216,7 @@ class AlphableSearch:
                 # 4d. Find Opponent's Best Reply
                 opp_batch_boards = []
                 opp_batch_states = []
+                opp_move_points = []
 
                 for opp_move in opp_moves:
                     opp_new_board, opp_points, opp_new_rack = simulator.simulate_move(
@@ -230,21 +231,26 @@ class AlphableSearch:
 
                     opp_batch_boards.append(b_tensor)
                     opp_batch_states.append(s_tensor)
+                    opp_move_points.append(opp_points)
 
-                # Evaluate from opponent's perspective. Higher is better for them.
+                # Evaluate from opponent's perspective. Higher equity is better for them.
                 opp_vals = self._batched_forward_values(
                     list(zip(opp_batch_boards, opp_batch_states))
                 )
 
-                k = min(max(3, self.opp_reply_top_k), len(opp_vals))
-                topk_vals = sorted(opp_vals, reverse=True)[:k]
-                # Softmax temperature over top replies to avoid extreme single-outlier noise
-                exp_weights = [math.exp((v - topk_vals[0]) / 0.25) for v in topk_vals]
-                opp_agg_val = sum(w * v for w, v in zip(exp_weights, topk_vals)) / sum(exp_weights)
+                # Opponent total move equity: immediate points + 25.0 * after-state value
+                opp_equities = [float(p) + 25.0 * v for p, v in zip(opp_move_points, opp_vals)]
 
-                # 4e. Estimate our value as the inverse of opponent aggregated reply value.
-                our_true_val = -opp_agg_val
-                total_simulation_value += our_true_val
+                k = min(max(3, self.opp_reply_top_k), len(opp_equities))
+                topk_equities = sorted(opp_equities, reverse=True)[:k]
+                # Softmax temperature over top replies to avoid extreme single-outlier noise
+                exp_weights = [math.exp((eq - topk_equities[0]) / 5.0) for eq in topk_equities]
+                expected_opp_equity = sum(w * eq for w, eq in zip(exp_weights, topk_equities)) / sum(exp_weights)
+
+                # 4e. Net simulation value from our perspective:
+                # continuation value reflects the negative of opponent's expected equity
+                sim_value = -expected_opp_equity / 25.0
+                total_simulation_value += sim_value
 
             # Average the simulated values across all N random racks
             avg_expected_value = total_simulation_value / self.num_simulations

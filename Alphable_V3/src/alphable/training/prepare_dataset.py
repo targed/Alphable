@@ -96,12 +96,40 @@ def process_game(game_line, move_gen, negatives_top_k=4):
     samples = []
 
     player_scores = {0: 0, 1: 0}  # 0 for first player, 1 for second
-    bag_size = 100
+    bag_size = 86  # Standard 100 tiles minus two 7-tile starting racks
+
+    # Map player names or IDs to 0 and 1
+    player_map = {}
+    players_meta = game.get('players') or []
+    if isinstance(players_meta, list) and len(players_meta) >= 2:
+        for p_idx, p_name in enumerate(players_meta[:2]):
+            if isinstance(p_name, str) and p_name.strip():
+                player_map[p_name] = p_idx
+                token = p_name.split()[0]
+                player_map[token] = p_idx
 
     simulate_move = simulator.simulate_move
 
     for i, move_data in enumerate(moves):
-        player_idx = move_data.get('player', i % 2)
+        p_raw = move_data.get('player')
+        if p_raw in (0, 1):
+            player_idx = p_raw
+        elif p_raw in ('0', '1'):
+            player_idx = int(p_raw)
+        elif p_raw in player_map:
+            player_idx = player_map[p_raw]
+        else:
+            if p_raw is not None:
+                if 0 not in player_map.values():
+                    player_map[p_raw] = 0
+                    player_idx = 0
+                elif 1 not in player_map.values():
+                    player_map[p_raw] = 1
+                    player_idx = 1
+                else:
+                    player_idx = 0
+            else:
+                player_idx = i % 2
 
         rack_raw = move_data.get('rack')
         if rack_raw is None:
@@ -122,11 +150,6 @@ def process_game(game_line, move_gen, negatives_top_k=4):
                 score = int(score)
             except (TypeError, ValueError):
                 score = 0
-
-        # Keep track of bag size
-        bag_size -= len(rack)  # Very rough approximation for now.
-        if bag_size < 0:
-            bag_size = 0
 
         if isinstance(pos_raw, list) and len(pos_raw) == 2:
             row, col = pos_raw
@@ -215,17 +238,23 @@ def process_game(game_line, move_gen, negatives_top_k=4):
                         'target': neg_target,
                     })
 
-                # Finally, apply the actual human move to progress board state.
-                board, _, _ = simulate_move(board, played_move_generated, rack)
+                # Finally, apply the positive move to board and decrement bag
+                board = pos_board
+                tiles_used = max(0, len(rack) - len(pos_rack))
+                bag_size = max(0, bag_size - tiles_used)
             else:
                 # Fallback: manually place the word (ignoring blanks for now if not found in dict)
+                tiles_placed = 0
                 for idx, char in enumerate(played_move['word']):
                     if char == '.':
                         continue
                     r = row + (idx if direction == 'Down' else 0)
                     c = col + (idx if direction == 'Across' else 0)
                     if 0 <= r < 15 and 0 <= c < 15:
+                        if board[r][c] == ' ':
+                            tiles_placed += 1
                         board[r][c] = char
+                bag_size = max(0, bag_size - tiles_placed)
 
         # Update scores
         player_scores[player_idx] += score
