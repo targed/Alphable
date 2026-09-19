@@ -266,7 +266,7 @@ class AlphableSearch:
         return best_candidate, best_expected_value
 
 
-if __name__ == "__main__":
+def main():
     import os
 
     def board_from_compact(compact_board):
@@ -453,3 +453,7 @@ if __name__ == "__main__":
                 f"Real cases best value mean/min/max: "
                 f"{avg_val:.3f} / {min_val:.3f} / {max_val:.3f}"
             )
+
+
+if __name__ == "__main__":
+    main()

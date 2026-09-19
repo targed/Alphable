@@ -248,3 +248,118 @@ def test_rack_penalty_mixed_case_and_symbols():
     """Test a mix of uppercase, lowercase, blanks, and symbols."""
     # Z=10, q=10, ?=0, *=0, x=8 => 28
     assert rack_penalty(['Z', 'q', '?', '*', 'x']) == 28
+
+
+def test_apply_endgame_adjustments():
+    from alphable.training.self_play import apply_endgame_adjustments
+
+    # Case 1: P0 emptied rack, P1 has 'Z' (penalty 10)
+    scores = [100, 100]
+    racks = [[], ['Z']]
+    apply_endgame_adjustments(scores, racks)
+    assert scores == [110, 90]
+
+    # Case 2: P1 emptied rack, P0 has 'Q' (penalty 10)
+    scores = [100, 100]
+    racks = [['Q'], []]
+    apply_endgame_adjustments(scores, racks)
+    assert scores == [90, 110]
+
+    # Case 3: Both have unplayed tiles (game ended on passes)
+    scores = [100, 100]
+    racks = [['A'], ['B']] # A=1, B=3
+    apply_endgame_adjustments(scores, racks)
+    assert scores == [99, 97]
+
+
+def test_compute_player_target():
+    from alphable.training.self_play import compute_player_target
+
+    # Outcome mode
+    assert compute_player_target(0, [100, 50], reward_mode='outcome') == 1.0
+    assert compute_player_target(0, [50, 100], reward_mode='outcome') == -1.0
+    assert compute_player_target(0, [100, 100], reward_mode='outcome') == 0.0
+
+    # Margin mode
+    m_target = compute_player_target(0, [100, 50], reward_mode='margin', margin_scale=100.0)
+    assert 0.0 < m_target < 1.0
+
+    # Blend mode
+    b_target = compute_player_target(0, [100, 50], reward_mode='blend', margin_scale=100.0, margin_mix=0.5)
+    assert 0.0 < b_target <= 1.0
+
+
+def test_compute_turn_temperature():
+    from alphable.training.self_play import compute_turn_temperature
+    assert compute_turn_temperature(0, 10, 0.5, None) == 0.5
+    assert compute_turn_temperature(0, 1, 0.5, 0.1) == 0.1
+    assert compute_turn_temperature(0, 10, 0.5, 0.1) == 0.5
+    assert compute_turn_temperature(9, 10, 0.5, 0.1) == pytest.approx(0.1)
+
+
+def test_choose_greedy_move():
+    from unittest.mock import MagicMock
+    from alphable.training.self_play import choose_greedy_move
+    from alphable.core import simulator
+
+    board = simulator.create_empty_board()
+    rack = ['C', 'A', 'T']
+    mock_gen = MagicMock()
+    # No moves
+    mock_gen.generate.return_value = []
+    assert choose_greedy_move(board, rack, mock_gen) is None
+
+    # With moves
+    mock_gen.generate.return_value = [
+        {'word': 'AT', 'row': 7, 'col': 7, 'dir': 'across'},
+        {'word': 'CAT', 'row': 7, 'col': 7, 'dir': 'across'},
+    ]
+    move = choose_greedy_move(board, rack, mock_gen)
+    assert move is not None
+    assert move['move']['word'] == 'CAT'
+
+
+def test_play_one_game_mock():
+    from unittest.mock import MagicMock
+    from alphable.training.self_play import play_one_game
+    mock_engine = MagicMock()
+    mock_engine.device = 'cpu'
+    # Return empty moves so it ends quickly via consecutive passes
+    mock_engine.move_gen.generate.return_value = []
+
+    samples, scores = play_one_game(
+        mock_engine,
+        mock_engine,
+        max_turns=4,
+    )
+    assert isinstance(samples, list)
+    assert len(scores) == 2
+    assert isinstance(scores[0], (int, float))
+    assert isinstance(scores[1], (int, float))
+
+
+def test_self_play_main_single_worker(tmp_path):
+    from alphable.training import self_play
+    from unittest.mock import patch, MagicMock
+
+    out_file = tmp_path / "selfplay.jsonl"
+    dict_file = tmp_path / "dict.txt"
+    dict_file.write_text("HELLO\n")
+
+    mock_engine = MagicMock()
+    mock_engine.device = "cpu"
+    mock_engine.move_gen.generate.return_value = []
+
+    with patch("alphable.core.inference.AlphableInference", return_value=mock_engine), \
+         patch("sys.argv", [
+             "self_play.py",
+             "--output", str(out_file),
+             "--games", "1",
+             "--workers", "1",
+             "--dict", str(dict_file),
+             "--device", "cpu",
+             "--max-turns", "2",
+         ]):
+        self_play.main()
+
+    assert out_file.exists()

@@ -1,6 +1,7 @@
+import os
 import torch
 import pytest
-from alphable.core.alphable_net import AlphableValueNet
+from alphable.core.alphable_net import AlphableValueNet, load_checkpoint_compatible
 
 def test_net_forward_and_no_dropout():
     net = AlphableValueNet(board_channels=31, state_vector_size=36)
@@ -25,3 +26,25 @@ def test_net_gradient_flow():
     assert s.grad is not None
     assert not torch.isnan(b.grad).any()
     assert not torch.isnan(s.grad).any()
+
+def test_load_checkpoint_compatible_exact(tmp_path):
+    net1 = AlphableValueNet(board_channels=31, state_vector_size=36, num_res_blocks=1, num_filters=16)
+    ckpt_path = str(tmp_path / "exact_model.pth")
+    torch.save(net1.state_dict(), ckpt_path)
+
+    net2 = AlphableValueNet(board_channels=31, state_vector_size=36, num_res_blocks=1, num_filters=16)
+    loaded, total = load_checkpoint_compatible(net2, ckpt_path)
+    assert loaded == total
+
+def test_load_checkpoint_compatible_mismatch(tmp_path):
+    # Model with different state vector size
+    net_old = AlphableValueNet(board_channels=31, state_vector_size=28, num_res_blocks=1, num_filters=16)
+    ckpt_path = str(tmp_path / "wrapped_model.pth")
+    # Save with dict wrapper
+    torch.save({"model_state_dict": net_old.state_dict()}, ckpt_path)
+
+    net_new = AlphableValueNet(board_channels=31, state_vector_size=36, num_res_blocks=1, num_filters=16)
+    loaded, total = load_checkpoint_compatible(net_new, ckpt_path)
+    # Some layers (conv trunk) match, but state_fc / fc_final won't match
+    assert loaded > 0
+    assert loaded < total

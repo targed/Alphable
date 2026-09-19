@@ -162,3 +162,71 @@ def test_search_penalizes_moves_conceding_high_opponent_equity():
 
     # Safe move should be chosen because it doesn't concede a 50-point play!
     assert best_move['word'] == 'SAFE'
+
+
+def test_search_bc_0ply_mode():
+    from unittest.mock import MagicMock
+    import torch
+    from alphable.core.search import AlphableSearch
+
+    mock_engine = MagicMock()
+    mock_engine.device = 'cpu'
+    mock_engine.model.return_value = torch.zeros((5, 1))
+
+    cand = {'row': 7, 'col': 7, 'dir': 'Across', 'word': 'TEST'}
+    mock_engine.move_gen.generate.return_value = [cand]
+
+    searcher = AlphableSearch(
+        inference_engine=mock_engine,
+        mode='bc_0ply',
+        top_k_candidates=1,
+    )
+    board = create_empty_board()
+    best_move, best_val = searcher.find_best_move(board, ['T', 'E', 'S', 'T'], score_diff=0, bag_remaining=86)
+    assert best_move['word'] == 'TEST'
+
+
+def test_search_no_legal_moves():
+    from unittest.mock import MagicMock
+    from alphable.core.search import AlphableSearch
+
+    mock_engine = MagicMock()
+    mock_engine.device = 'cpu'
+    mock_engine.move_gen.generate.return_value = []
+
+    searcher = AlphableSearch(inference_engine=mock_engine, mode='lookahead')
+    board = create_empty_board()
+    best_move, best_val = searcher.find_best_move(board, ['A', 'B'], score_diff=0, bag_remaining=50)
+    assert best_move is None
+    assert best_val == 0.0
+
+
+def test_search_opponent_has_no_moves_passes():
+    from unittest.mock import MagicMock
+    import torch
+    from alphable.core.search import AlphableSearch
+
+    mock_engine = MagicMock()
+    mock_engine.device = 'cpu'
+    mock_engine.model.return_value = torch.ones((5, 1)) * 0.5
+
+    cand = {'row': 7, 'col': 7, 'dir': 'Across', 'word': 'TEST'}
+
+    def mock_generate(board, rack):
+        if board[7][7] == '.':
+            return [cand]
+        return [] # Opponent has no replies and passes
+
+    mock_engine.move_gen.generate.side_effect = mock_generate
+
+    searcher = AlphableSearch(
+        inference_engine=mock_engine,
+        num_simulations=1,
+        top_k_candidates=1,
+        opp_reply_top_k=1,
+        mode='lookahead',
+    )
+    board = create_empty_board()
+    best_move, best_val = searcher.find_best_move(board, ['T', 'E', 'S', 'T'], score_diff=0, bag_remaining=86)
+    assert best_move['word'] == 'TEST'
+    assert best_val == pytest.approx(0.5)

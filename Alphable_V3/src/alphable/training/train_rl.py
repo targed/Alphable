@@ -66,7 +66,8 @@ def train_rl(
     epochs_without_improvement = 0
     history = []
 
-    os.makedirs(os.path.dirname(save_path), exist_ok=True)
+    save_dir = os.path.dirname(save_path) or '.'
+    os.makedirs(save_dir, exist_ok=True)
 
     print("Starting RL Training...")
     for epoch in range(num_epochs):

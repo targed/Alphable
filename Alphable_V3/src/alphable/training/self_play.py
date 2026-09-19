@@ -921,46 +921,48 @@ def main():
                 p1_is_greedy=args.vs_greedy or args.greedy_vs_greedy,
                 keep_p0_only=args.keep_p0_only,
             )
-        elif args.workers == 1:
-            init_worker(worker_cfg)
-            iterator = (run_one_game_worker(i) for i in range(args.games))
-            pbar = tqdm(iterator, total=args.games, desc='Self-play games')
         else:
-            print(
-                f'Running parallel self-play with {args.workers} workers (chunksize={args.chunksize})')
-            pool = Pool(
-                processes=args.workers,
-                initializer=init_worker,
-                initargs=(worker_cfg,),
-            )
-            pbar = tqdm(
-                pool.imap_unordered(run_one_game_worker, range(
-                    args.games), chunksize=args.chunksize),
-                total=args.games,
-                desc='Self-play games',
-            )
+            pool = None
+            if args.workers == 1:
+                init_worker(worker_cfg)
+                iterator = (run_one_game_worker(i) for i in range(args.games))
+                pbar = tqdm(iterator, total=args.games, desc='Self-play games')
+            else:
+                print(
+                    f'Running parallel self-play with {args.workers} workers (chunksize={args.chunksize})')
+                pool = Pool(
+                    processes=args.workers,
+                    initializer=init_worker,
+                    initargs=(worker_cfg,),
+                )
+                pbar = tqdm(
+                    pool.imap_unordered(run_one_game_worker, range(
+                        args.games), chunksize=args.chunksize),
+                    total=args.games,
+                    desc='Self-play games',
+                )
 
-        try:
-            for samples, scores in pbar:
-                for s in samples:
-                    out.write(json.dumps(s) + '\n')
+            try:
+                for samples, scores in pbar:
+                    for s in samples:
+                        out.write(json.dumps(s) + '\n')
 
-                total_samples += len(samples)
-                if scores[0] > scores[1]:
-                    p0_wins += 1
-                elif scores[1] > scores[0]:
-                    p1_wins += 1
-                else:
-                    draws += 1
+                    total_samples += len(samples)
+                    if scores[0] > scores[1]:
+                        p0_wins += 1
+                    elif scores[1] > scores[0]:
+                        p1_wins += 1
+                    else:
+                        draws += 1
 
-                total_margin += (scores[0] - scores[1])
-                completed_games = p0_wins + p1_wins + draws
-                if args.flush_every_games > 0 and (completed_games % args.flush_every_games == 0):
-                    out.flush()
-        finally:
-            if args.workers > 1:
-                pool.close()
-                pool.join()
+                    total_margin += (scores[0] - scores[1])
+                    completed_games = p0_wins + p1_wins + draws
+                    if args.flush_every_games > 0 and (completed_games % args.flush_every_games == 0):
+                        out.flush()
+            finally:
+                if pool is not None:
+                    pool.close()
+                    pool.join()
 
     print('Self-play generation complete.')
     print(f'Games: {args.games}')

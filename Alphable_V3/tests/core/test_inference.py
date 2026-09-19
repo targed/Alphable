@@ -98,3 +98,56 @@ def test_state_to_tensor_repeated_letters():
 
     assert tensor[0] == 7.0
     assert torch.all(tensor[1:27] == 0.0)
+
+
+def test_board_to_tensor_letters_and_premiums():
+    from alphable.core.inference import board_to_tensor
+    from alphable.core import simulator
+
+    board = simulator.create_empty_board()
+    # (0, 0) is TW
+    # (7, 7) is star/center (DW)
+    board[7][7] = 'C' # regular tile
+    board[7][8] = 'a' # blank tile representing 'A'
+
+    t = board_to_tensor(board)
+    assert t.shape == (31, 15, 15)
+
+    # Check 'C' at (7, 7)
+    c_idx = ord('C') - 65
+    assert t[c_idx, 7, 7] == 1.0
+    assert t[26, 7, 7] == 0.0 # not blank
+
+    # Check blank 'a' at (7, 8)
+    a_idx = ord('A') - 65
+    assert t[a_idx, 7, 8] == 1.0
+    assert t[26, 7, 8] == 1.0 # blank indicator
+
+    # Open TW at (0, 0)
+    assert t[30, 0, 0] == 1.0
+
+
+def test_alphable_inference_find_best_move(monkeypatch):
+    from unittest.mock import MagicMock
+    from alphable.core.inference import AlphableInference
+    from alphable.core import simulator
+
+    # Mock GADDAG load to be instantaneous
+    monkeypatch.setattr("alphable.core.structure.Gaddag.load", lambda path: MagicMock())
+
+    engine = AlphableInference(model_path=None, device="cpu", dict_path="dummy.txt")
+    board = simulator.create_empty_board()
+    rack = ["A", "B", "C"]
+
+    # Test 1: No moves generated -> returns None, 0.0
+    engine.move_gen.generate = MagicMock(return_value=[])
+    best_move, best_val = engine.find_best_move(board, rack, 0, 50)
+    assert best_move is None
+    assert best_val == 0.0
+
+    # Test 2: Legal moves generated -> returns top equity move
+    mock_move = {"word": "AB", "row": 7, "col": 7, "dir": "across"}
+    engine.move_gen.generate = MagicMock(return_value=[mock_move])
+    best_move, best_val = engine.find_best_move(board, rack, 0, 50)
+    assert best_move == mock_move
+    assert isinstance(best_val, float)

@@ -98,7 +98,7 @@ class GameLogger:
             passes = [t for t in player_moves if t["action_type"] == "PASS"]
             exchanges = [
                 t for t in player_moves if t["action_type"] == "EXCHANGE"]
-            bingos = [t for t in plays if len(t.get("word", "")) == 7]
+            bingos = [t for t in plays if len(t.get("word", "")) >= 7]
 
             total_score = sum(t["score"] for t in player_moves)
             avg_score = total_score / len(player_moves) if player_moves else 0
