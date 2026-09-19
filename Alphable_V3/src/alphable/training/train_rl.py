@@ -1,4 +1,5 @@
 import argparse
+import json
 import os
 import time
 
@@ -63,6 +64,7 @@ def train_rl(
 
     best_val_loss = float('inf')
     epochs_without_improvement = 0
+    history = []
 
     os.makedirs(os.path.dirname(save_path), exist_ok=True)
 
@@ -111,6 +113,16 @@ def train_rl(
             f"Epoch {epoch+1:02d}/{num_epochs} | Time: {epoch_time:.2f}s | "
             f"Train Loss: {avg_train:.4f} | Val Loss: {avg_val:.4f}"
         )
+
+        history.append({
+            'epoch': epoch + 1,
+            'train_loss': avg_train,
+            'val_loss': avg_val,
+            'time': epoch_time,
+        })
+        history_path = save_path.replace('.pth', '_history.json')
+        with open(history_path, 'w', encoding='utf-8') as f:
+            json.dump(history, f, indent=2)
 
         scheduler.step(avg_val)
 

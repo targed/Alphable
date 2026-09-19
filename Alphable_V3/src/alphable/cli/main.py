@@ -26,6 +26,7 @@ def main():
     eval_subparsers = eval_parser.add_subparsers(dest='subcommand')
     eval_subparsers.add_parser('matches', help='Evaluate matches')
     eval_subparsers.add_parser('baseline', help='Evaluate baseline')
+    eval_subparsers.add_parser('plot', help='Plot training progress')
 
     # Pipeline
     pipeline_parser = subparsers.add_parser('pipeline', help='Pipeline utilities')
@@ -64,6 +65,10 @@ def main():
         from alphable.eval.evaluate_vs_baseline import main as evaluate_vs_baseline_main
         sys.argv = [sys.argv[0]] + unknown
         evaluate_vs_baseline_main()
+    elif args.command == 'eval' and args.subcommand == 'plot':
+        from alphable.eval.analyze import main as analyze_main
+        sys.argv = [sys.argv[0]] + unknown
+        analyze_main()
     elif args.command == 'pipeline' and args.subcommand == 'calibrate':
         from alphable.pipeline.calibration_cycle import main as calibration_cycle_main
         sys.argv = [sys.argv[0]] + unknown

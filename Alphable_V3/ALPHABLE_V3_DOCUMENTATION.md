@@ -32,12 +32,19 @@ Input tensors:
 1. Board tensor `[31, 15, 15]`:
    - 26 letter channels A-Z.
    - 1 blank channel.
-   - 4 premium-square channels (DL, TL, DW, TW).
-2. State vector `[29]`:
-   - 26 rack counts.
+   - 4 open premium-square channels (DL, TL, DW, TW, cleared once occupied).
+2. State vector `[36]`:
+   - 26 rack counts (A-Z).
    - 1 blank count.
-   - Score differential.
-   - Bag remaining.
+   - Score differential (normalized by 500.0).
+   - Bag remaining (normalized by 100.0).
+   - Leave rack length / 7.0.
+   - Vowel count / 7.0.
+   - Consonant count / 7.0.
+   - Has blank flag (1.0 or 0.0).
+   - Has 'S' flag (1.0 or 0.0).
+   - Duplicate letter penalty / 7.0.
+   - Empty leave flag (1.0 if bingo/out, else 0.0).
 
 Network output:
 

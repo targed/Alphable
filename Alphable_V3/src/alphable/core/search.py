@@ -187,6 +187,7 @@ class AlphableSearch:
         unseen_tiles = get_unseen_distribution(board, rack)
 
         best_candidate = None
+        best_expected_equity = -float('inf')
         best_expected_value = -float('inf')
 
         # Step 4: Deep Simulation (1-Ply Lookahead with Sampling)
@@ -247,10 +248,12 @@ class AlphableSearch:
 
             # Average the simulated values across all N random racks
             avg_expected_value = total_simulation_value / self.num_simulations
+            cand_total_equity = float(cand['points']) + 25.0 * avg_expected_value
             print(f"Candidate {cand_idx+1}: {cand_move['word']} at {cand_move['row']},{cand_move['col']} | "
-                  f"0-Ply Val: {cand['value']:.3f} | 1-Ply Sim Val: {avg_expected_value:.3f}")
+                  f"Points: {cand['points']} | 0-Ply Val: {cand['value']:.3f} | 1-Ply Sim Val: {avg_expected_value:.3f} | Total Equity: {cand_total_equity:.1f}")
 
-            if avg_expected_value > best_expected_value:
+            if cand_total_equity > best_expected_equity:
+                best_expected_equity = cand_total_equity
                 best_expected_value = avg_expected_value
                 best_candidate = cand_move
 

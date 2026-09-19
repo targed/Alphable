@@ -1,4 +1,5 @@
 import argparse
+import json
 import os
 import time
 
@@ -174,6 +175,7 @@ def train(args):
 
     best_val_loss = float('inf')
     epochs_without_improvement = 0
+    history = []
 
     print('Starting Supervised Training...')
 
@@ -255,6 +257,16 @@ def train(args):
         )
         print(
             f'   -> Mean Target: {mean_train_target:.4f} | Mean Pred: {mean_train_pred:.4f}')
+
+        history.append({
+            'epoch': epoch + 1,
+            'train_loss': avg_train_loss,
+            'val_loss': avg_val_loss,
+            'time': epoch_time,
+        })
+        history_path = save_path.replace('.pth', '_history.json')
+        with open(history_path, 'w', encoding='utf-8') as f:
+            json.dump(history, f, indent=2)
 
         scheduler.step(avg_val_loss)
 

@@ -5,63 +5,13 @@ from alphable.core import inference
 from alphable.core import simulator
 import torch
 
-from alphable.training.self_play import apply_endgame_adjustments, build_bag, draw_tiles
-
-
-def evaluate_moves(engine, board, rack, score_diff, bag_remaining, infer_batch_size=256):
-    moves = engine.move_gen.generate(board, rack)
-    if not moves:
-        return []
-
-    move_states = []
-
-    for move in moves:
-        new_board, points, new_rack = simulator.simulate_move(
-            board, move, rack)
-        new_score_diff = score_diff + points
-
-        move_states.append((move, new_board, points, new_rack, new_score_diff))
-
-    vals = []
-    with torch.no_grad():
-        for i in range(0, len(move_states), infer_batch_size):
-            chunk = move_states[i:i + infer_batch_size]
-            b_tensors = torch.stack([
-                inference.board_to_tensor(ms[1]) for ms in chunk
-            ]).to(engine.device)
-            s_tensors = torch.stack([
-                inference.state_to_tensor(ms[3], ms[4], bag_remaining) for ms in chunk
-            ]).to(engine.device)
-
-            chunk_vals = engine.model(b_tensors, s_tensors).view(-1)
-            vals.extend(chunk_vals.detach().cpu().tolist())
-
-    evals = []
-    for i, (move, new_board, points, new_rack, _) in enumerate(move_states):
-        evals.append({
-            'move': move,
-            'value': vals[i],
-            'new_board': new_board,
-            'points': points,
-            'new_rack': new_rack,
-        })
-
-    evals.sort(key=lambda x: x['value'], reverse=True)
-    return evals
-
-
-def choose_move(evals, temperature=0.0, top_k=3):
-    if not evals:
-        return None
-
-    top = evals[:max(1, min(top_k, len(evals)))]
-    if temperature <= 1e-6:
-        return top[0]
-
-    logits = torch.tensor([e['value'] for e in top], dtype=torch.float32)
-    probs = torch.softmax(logits / temperature, dim=0)
-    idx = torch.multinomial(probs, 1).item()
-    return top[idx]
+from alphable.training.self_play import (
+    apply_endgame_adjustments,
+    build_bag,
+    draw_tiles,
+    evaluate_moves,
+    choose_move_with_temperature,
+)
 
 
 def play_match(engine_a, engine_b, temperature=0.0, top_k=3, max_turns=200, infer_batch_size=256):
@@ -87,7 +37,7 @@ def play_match(engine_a, engine_b, temperature=0.0, top_k=3, max_turns=200, infe
             bag_remaining,
             infer_batch_size=infer_batch_size,
         )
-        chosen = choose_move(evals, temperature=temperature, top_k=top_k)
+        chosen = choose_move_with_temperature(evals, temperature=temperature, top_k=top_k)
 
         if chosen is None:
             consecutive_passes += 1
