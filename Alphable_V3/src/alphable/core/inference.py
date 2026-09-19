@@ -6,6 +6,18 @@ from alphable.core.alphable_net import AlphableValueNet, load_checkpoint_compati
 
 VOWELS = set('AEIOU')
 
+STATIC_PREMIUM_MASK = np.zeros((4, 15, 15), dtype=np.float32)
+for (r, c), prem in simulator.PREMIUM_SQUARES.items():
+    if prem == 'DL':
+        STATIC_PREMIUM_MASK[0, r, c] = 1.0
+    elif prem == 'TL':
+        STATIC_PREMIUM_MASK[1, r, c] = 1.0
+    elif prem == 'DW':
+        STATIC_PREMIUM_MASK[2, r, c] = 1.0
+    elif prem == 'TW':
+        STATIC_PREMIUM_MASK[3, r, c] = 1.0
+
+
 def board_to_tensor(board):
     """
     Converts a 15x15 board state into a [31, 15, 15] tensor.
@@ -18,11 +30,16 @@ def board_to_tensor(board):
       30: Open Triple Word (TW)
     """
     arr = np.zeros((31, 15, 15), dtype=np.float32)
+    # Bulk initialize open premium squares
+    arr[27:31] = STATIC_PREMIUM_MASK
 
     for r in range(15):
+        row = board[r]
         for c in range(15):
-            char = board[r][c]
+            char = row[c]
             if char != '.':
+                # Premium is covered / deactivated once occupied
+                arr[27:31, r, c] = 0.0
                 if char.islower():
                     # It's a blank tile representing a letter
                     arr[26, r, c] = 1.0
@@ -32,17 +49,6 @@ def board_to_tensor(board):
                     # Regular letter tile
                     idx = ord(char) - 65
                     arr[idx, r, c] = 1.0
-            else:
-                # Premium squares only active when square is open/empty
-                prem = simulator.PREMIUM_SQUARES.get((r, c), None)
-                if prem == 'DL':
-                    arr[27, r, c] = 1.0
-                elif prem == 'TL':
-                    arr[28, r, c] = 1.0
-                elif prem == 'DW':
-                    arr[29, r, c] = 1.0
-                elif prem == 'TW':
-                    arr[30, r, c] = 1.0
 
     return torch.from_numpy(arr)
 

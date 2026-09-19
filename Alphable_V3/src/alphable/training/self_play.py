@@ -72,22 +72,27 @@ def evaluate_moves(engine, board, rack, score_diff, bag_remaining, infer_batch_s
             ]).to(engine.device)
 
             chunk_vals = engine.model(b_tensors, s_tensors).view(-1)
-            vals.extend(chunk_vals.detach().cpu().tolist())
+            vals.append(chunk_vals)
 
-    evals = []
-    for i, (move, new_board, points, new_rack, _) in enumerate(move_states):
-        val = vals[i]
-        equity = float(points) + 25.0 * val
-        evals.append({
-            'move': move,
-            'value': val,
-            'equity': equity,
-            'new_board': new_board,
-            'points': points,
-            'new_rack': new_rack,
-        })
+    all_vals = torch.cat(vals) if vals else torch.empty(0, device=engine.device)
+    points_tensor = torch.tensor([ms[2] for ms in move_states], dtype=torch.float32, device=engine.device)
+    equities = points_tensor + 25.0 * all_vals
 
-    evals.sort(key=lambda x: x['equity'], reverse=True)
+    sorted_indices = torch.argsort(equities, descending=True).cpu().tolist()
+    vals_cpu = all_vals.cpu().tolist()
+    equities_cpu = equities.cpu().tolist()
+
+    evals = [
+        {
+            'move': move_states[idx][0],
+            'value': vals_cpu[idx],
+            'equity': equities_cpu[idx],
+            'new_board': move_states[idx][1],
+            'points': move_states[idx][2],
+            'new_rack': move_states[idx][3],
+        }
+        for idx in sorted_indices
+    ]
     return evals
 
 

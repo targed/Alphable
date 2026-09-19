@@ -179,24 +179,33 @@ class MoveGenerator:
             # Sort candidates to ensure deterministic recursion order
             for char in sorted(candidates):
                 if char in node:
-                    new_rack = rack.copy()
                     if char_on_board == '.':
-                        if rack.get(char, 0) > 0:
-                            new_rack[char] -= 1
-                        else:
-                            new_rack['?'] -= 1
-
-                    self._go_left(
-                        board,
-                        row,
-                        col - 1,
-                        new_rack,
-                        node[char],
-                        anchor_col,
-                        word_part + char,
-                        moves,
-                        cross_checks,
-                    )
+                        used = char if rack.get(char, 0) > 0 else '?'
+                        rack[used] -= 1
+                        self._go_left(
+                            board,
+                            row,
+                            col - 1,
+                            rack,
+                            node[char],
+                            anchor_col,
+                            word_part + char,
+                            moves,
+                            cross_checks,
+                        )
+                        rack[used] += 1
+                    else:
+                        self._go_left(
+                            board,
+                            row,
+                            col - 1,
+                            rack,
+                            node[char],
+                            anchor_col,
+                            word_part + char,
+                            moves,
+                            cross_checks,
+                        )
 
     def _go_right(self, board, row, col, rack, node, current_word, moves, cross_checks):
         if '$' in node:
@@ -234,20 +243,28 @@ class MoveGenerator:
 
             for char in sorted(candidates):
                 if char in node:
-                    new_rack = rack.copy()
                     if char_on_board == '.':
-                        if rack.get(char, 0) > 0:
-                            new_rack[char] -= 1
-                        else:
-                            new_rack['?'] -= 1
-
-                    self._go_right(
-                        board,
-                        row,
-                        col + 1,
-                        new_rack,
-                        node[char],
-                        current_word + char,
-                        moves,
-                        cross_checks,
-                    )
+                        used = char if rack.get(char, 0) > 0 else '?'
+                        rack[used] -= 1
+                        self._go_right(
+                            board,
+                            row,
+                            col + 1,
+                            rack,
+                            node[char],
+                            current_word + char,
+                            moves,
+                            cross_checks,
+                        )
+                        rack[used] += 1
+                    else:
+                        self._go_right(
+                            board,
+                            row,
+                            col + 1,
+                            rack,
+                            node[char],
+                            current_word + char,
+                            moves,
+                            cross_checks,
+                        )
