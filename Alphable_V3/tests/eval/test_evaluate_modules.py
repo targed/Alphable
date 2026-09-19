@@ -62,7 +62,7 @@ def test_play_match_mock():
     # We can mock evaluate_moves so it plays 1 move then passes
     turn_counter = {"count": 0}
 
-    def mock_eval(engine, board, rack, score_diff, bag_remaining, infer_batch_size=256):
+    def mock_eval(engine, board, rack, score_diff, bag_remaining, infer_batch_size=256, **kwargs):
         turn_counter["count"] += 1
         if turn_counter["count"] <= 2:
             new_board = [row.copy() for row in board]
@@ -99,7 +99,7 @@ def test_run_game_mock(tmp_path):
         {"word": "HI", "row": 7, "col": 7, "dir": "across"}
     ]
 
-    def mock_eval(engine, board, rack, score_diff, bag_remaining, infer_batch_size=256):
+    def mock_eval(engine, board, rack, score_diff, bag_remaining, infer_batch_size=256, **kwargs):
         return [{
             "move": {"word": "HI", "row": 7, "col": 7, "dir": "across"},
             "points": 8,

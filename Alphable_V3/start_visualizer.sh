@@ -7,8 +7,13 @@ cd "$ROOT_DIR"
 echo "Starting Alphable Replay Visualizer..."
 echo ""
 
-if [ ! -x "venv/bin/python" ]; then
-    echo "Error: project Python environment not found at venv/bin/python"
+PYTHON_BIN=""
+if [ -x "$ROOT_DIR/../venv/bin/python" ]; then
+    PYTHON_BIN="$ROOT_DIR/../venv/bin/python"
+elif [ -x "$ROOT_DIR/venv/bin/python" ]; then
+    PYTHON_BIN="$ROOT_DIR/venv/bin/python"
+else
+    echo "Error: project Python environment not found at ../venv/bin/python or ./venv/bin/python"
     echo "Create it first, then install requirements."
     exit 1
 fi
@@ -35,7 +40,7 @@ trap cleanup EXIT INT TERM
 
 echo "Starting Flask backend on http://localhost:5000 ..."
 cd visualizer/backend
-"$ROOT_DIR/venv/bin/python" app.py &
+"$PYTHON_BIN" app.py &
 BACKEND_PID=$!
 cd ../..
 

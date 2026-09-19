@@ -113,8 +113,9 @@ def state_to_tensor(rack, score_diff, bag_remaining):
     return torch.from_numpy(arr)
 
 class AlphableInference:
-    def __init__(self, model_path=None, device='cpu', dict_path='resources/NWL2023.txt'):
+    def __init__(self, model_path=None, device='cpu', dict_path='resources/NWL2023.txt', value_weight=60.0):
         self.device = torch.device(device)
+        self.value_weight = float(value_weight)
         self.model = AlphableValueNet().to(self.device)
         if model_path:
             load_checkpoint_compatible(self.model, model_path, self.device)
@@ -171,8 +172,8 @@ class AlphableInference:
             # Output is [B]
             win_probs = self.model(batch_boards_tensor, batch_states_tensor).view(-1)
 
-        # 4. Rank by Equity = Points + 25.0 * Value
-        equities = torch.tensor(move_points, dtype=torch.float32, device=self.device) + 25.0 * win_probs
+        # 4. Rank by Equity = Points + value_weight * Value
+        equities = torch.tensor(move_points, dtype=torch.float32, device=self.device) + self.value_weight * win_probs
         best_idx = torch.argmax(equities).item()
         best_move = moves[best_idx]
         best_value = win_probs[best_idx].item()

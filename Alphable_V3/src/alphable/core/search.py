@@ -67,6 +67,7 @@ class AlphableSearch:
         opp_reply_top_k=3,
         mode='bc_0ply',
         infer_batch_size=256,
+        value_weight=60.0,
     ):
         """
         Initializes the Monte Carlo Rack Sampling search engine.
@@ -81,6 +82,7 @@ class AlphableSearch:
                 for 1-ply opponent simulation (intended for RL value nets).
             infer_batch_size (int): Inference batch size to control GPU memory
                 for positions with many legal moves.
+            value_weight (float): Equity weight multiplier applied to model value predictions.
         """
         self.engine = inference_engine
         self.num_simulations = num_simulations
@@ -88,6 +90,7 @@ class AlphableSearch:
         self.opp_reply_top_k = opp_reply_top_k
         self.mode = mode
         self.infer_batch_size = infer_batch_size
+        self.value_weight = float(value_weight)
 
     def _batched_forward_values(self, board_state_pairs):
         values = []
@@ -108,14 +111,14 @@ class AlphableSearch:
 
         1. Generate all legal moves for our rack.
         2. Evaluate all immediate "After-States" using the Value Network.
-        3. Pick the Top-K highest-valued moves as "Candidates".
+        3. Pick diverse Top-K moves as "Candidates" (Equity, Leave/Value, and Score).
         4. For each Candidate:
            a. Apply the move to get our new Board and Score.
            b. Sample N random opponent racks.
            c. For each opponent rack, generate their legal replies.
            d. Find the opponent's best reply using the Value Network (evaluating from their perspective).
-           e. The "True Value" of our Candidate is the average Value of the board *after* the opponent's best reply.
-        5. Return the Candidate with the highest True Value.
+           e. The "True Equity" evaluates the net score gain and strategic advantage over the 2-ply exchange.
+        5. Return the Candidate with the highest expected equity.
         """
         # Step 1: Generate all our legal moves
         my_moves = self.engine.move_gen.generate(board, rack)
@@ -152,7 +155,7 @@ class AlphableSearch:
         for i in range(len(my_moves)):
             pts = batch_moves[i][4]
             val = win_probs[i]
-            equity = float(pts) + 25.0 * val
+            equity = float(pts) + self.value_weight * val
             candidate_evals.append({
                 'move': batch_moves[i][0],
                 'board': batch_moves[i][1],
@@ -163,9 +166,38 @@ class AlphableSearch:
                 'equity': equity,
             })
 
-        # Step 3: Pick Top-K Candidates (ranked by total equity = points + 25.0 * value)
-        candidate_evals.sort(key=lambda x: x['equity'], reverse=True)
-        top_candidates = candidate_evals[:self.top_k_candidates]
+        # Step 3: Pick Top-K Candidates with Strategic Diversity
+        # (Combined Equity, Strategic/Leave Value, and Raw Score)
+        selected_candidates = []
+        seen_moves = set()
+
+        def add_cand(c):
+            m = c['move']
+            key = (m['row'], m['col'], m['dir'], m['word'])
+            if key not in seen_moves:
+                seen_moves.add(key)
+                selected_candidates.append(c)
+
+        by_equity = sorted(candidate_evals, key=lambda x: x['equity'], reverse=True)
+        by_value = sorted(candidate_evals, key=lambda x: x['value'], reverse=True)
+        by_points = sorted(candidate_evals, key=lambda x: x['points'], reverse=True)
+
+        # 1. Top 2 by total equity
+        for c in by_equity[:2]:
+            add_cand(c)
+        # 2. Top 1 by pure strategic value / leave
+        if by_value:
+            add_cand(by_value[0])
+        # 3. Top 1 by pure points (greedy play)
+        if by_points:
+            add_cand(by_points[0])
+        # 4. Fill remaining slots up to top_k_candidates with highest remaining equity
+        for c in by_equity[2:]:
+            if len(selected_candidates) >= self.top_k_candidates:
+                break
+            add_cand(c)
+
+        top_candidates = selected_candidates[:self.top_k_candidates]
 
         if self.mode == 'bc_0ply':
             top_to_print = min(3, len(top_candidates))
@@ -199,7 +231,7 @@ class AlphableSearch:
             # Note: We must update the unseen distribution since we just played tiles from our rack
             # The tiles we played are now on the board, so they remain "seen".
 
-            total_simulation_value = 0.0
+            total_simulation_equity = 0.0
 
             for sim in range(self.num_simulations):
                 # 4b. Sample Opponent Rack
@@ -209,8 +241,8 @@ class AlphableSearch:
                 opp_moves = self.engine.move_gen.generate(cand_board, opp_rack)
 
                 if not opp_moves:
-                    # Opponent passes. The value is just the value of our board state.
-                    total_simulation_value += cand['value']
+                    # Opponent passes. Equity is our immediate move points + value_weight * after-state value
+                    total_simulation_equity += float(cand['points']) + self.value_weight * cand['value']
                     continue
 
                 # 4d. Find Opponent's Best Reply
@@ -238,29 +270,38 @@ class AlphableSearch:
                     list(zip(opp_batch_boards, opp_batch_states))
                 )
 
-                # Opponent total move equity: immediate points + 25.0 * after-state value
-                opp_equities = [float(p) + 25.0 * v for p, v in zip(opp_move_points, opp_vals)]
+                # Opponent total move equity: immediate points + value_weight * after-state value
+                opp_equities = [float(p) + self.value_weight * v for p, v in zip(opp_move_points, opp_vals)]
 
                 k = min(max(3, self.opp_reply_top_k), len(opp_equities))
-                topk_equities = sorted(opp_equities, reverse=True)[:k]
+                topk_indices = sorted(range(len(opp_equities)), key=lambda idx: opp_equities[idx], reverse=True)[:k]
+                topk_equities = [opp_equities[idx] for idx in topk_indices]
+                topk_points = [float(opp_move_points[idx]) for idx in topk_indices]
+                topk_vals = [opp_vals[idx] for idx in topk_indices]
+
                 # Softmax temperature over top replies to avoid extreme single-outlier noise
                 exp_weights = [math.exp((eq - topk_equities[0]) / 5.0) for eq in topk_equities]
-                expected_opp_equity = sum(w * eq for w, eq in zip(exp_weights, topk_equities)) / sum(exp_weights)
+                sum_w = sum(exp_weights)
+                expected_opp_points = sum(w * p for w, p in zip(exp_weights, topk_points)) / sum_w
+                expected_opp_val = sum(w * v for w, v in zip(exp_weights, topk_vals)) / sum_w
 
-                # 4e. Net simulation value from our perspective:
-                # continuation value reflects the negative of opponent's expected equity
-                sim_value = -expected_opp_equity / 25.0
-                total_simulation_value += sim_value
+                # 4e. Net simulation equity from our perspective over the 2-ply exchange:
+                # - Net points: cand['points'] - expected_opp_points
+                # - Net strategic advantage: cand['value'] - expected_opp_val
+                sim_points_diff = float(cand['points']) - expected_opp_points
+                sim_strategic_diff = cand['value'] - expected_opp_val
+                sim_equity = sim_points_diff + self.value_weight * sim_strategic_diff
+                total_simulation_equity += sim_equity
 
-            # Average the simulated values across all N random racks
-            avg_expected_value = total_simulation_value / self.num_simulations
-            cand_total_equity = float(cand['points']) + 25.0 * avg_expected_value
+            # Average the simulated equity across all N random racks
+            cand_total_equity = total_simulation_equity / self.num_simulations
+            cand_sim_val = (cand_total_equity - float(cand['points'])) / self.value_weight
             print(f"Candidate {cand_idx+1}: {cand_move['word']} at {cand_move['row']},{cand_move['col']} | "
-                  f"Points: {cand['points']} | 0-Ply Val: {cand['value']:.3f} | 1-Ply Sim Val: {avg_expected_value:.3f} | Total Equity: {cand_total_equity:.1f}")
+                  f"Points: {cand['points']} | 0-Ply Val: {cand['value']:.3f} | 1-Ply Sim Equity: {cand_total_equity:.1f}")
 
             if cand_total_equity > best_expected_equity:
                 best_expected_equity = cand_total_equity
-                best_expected_value = avg_expected_value
+                best_expected_value = cand_sim_val
                 best_candidate = cand_move
 
         return best_candidate, best_expected_value

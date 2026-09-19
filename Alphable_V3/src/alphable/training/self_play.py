@@ -46,7 +46,11 @@ def compact_board(board):
     return ''.join(''.join(row) for row in board)
 
 
-def evaluate_moves(engine, board, rack, score_diff, bag_remaining, infer_batch_size=256):
+def evaluate_moves(engine, board, rack, score_diff, bag_remaining, infer_batch_size=256, value_weight=60.0):
+    """
+    Evaluates all legal moves for a given state using batched GPU inference.
+    Returns sorted list of move evaluations with both raw points and equity.
+    """
     moves = engine.move_gen.generate(board, rack)
     if not moves:
         return []
@@ -76,7 +80,8 @@ def evaluate_moves(engine, board, rack, score_diff, bag_remaining, infer_batch_s
 
     all_vals = torch.cat(vals) if vals else torch.empty(0, device=engine.device)
     points_tensor = torch.tensor([ms[2] for ms in move_states], dtype=torch.float32, device=engine.device)
-    equities = points_tensor + 25.0 * all_vals
+    w = float(value_weight if value_weight is not None else getattr(engine, 'value_weight', 60.0))
+    equities = points_tensor + w * all_vals
 
     sorted_indices = torch.argsort(equities, descending=True).cpu().tolist()
     vals_cpu = all_vals.cpu().tolist()
@@ -137,7 +142,7 @@ def choose_greedy_move(board, rack, move_gen):
     }
 
 
-def evaluate_moves_grouped(eval_jobs, infer_batch_size=256):
+def evaluate_moves_grouped(eval_jobs, infer_batch_size=256, value_weight=60.0):
     """Evaluate move candidates for many game states, grouped by engine.
 
     eval_jobs: list of {
@@ -158,6 +163,7 @@ def evaluate_moves_grouped(eval_jobs, infer_batch_size=256):
     for _, idxs in by_engine.items():
         first = eval_jobs[idxs[0]]
         engine = first['engine']
+        w = float(value_weight if value_weight is not None else getattr(engine, 'value_weight', 60.0))
 
         flat_items = []
         for idx in idxs:
@@ -206,7 +212,7 @@ def evaluate_moves_grouped(eval_jobs, infer_batch_size=256):
             evals = []
             for i, (move, new_board, points, new_rack, _) in enumerate(move_states):
                 val = job_vals[i]
-                equity = float(points) + 25.0 * val
+                equity = float(points) + w * val
                 evals.append({
                     'move': move,
                     'value': val,

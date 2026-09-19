@@ -15,9 +15,15 @@ def test_evaluate_moves_calculates_equity():
     assert 'value' in top
     assert 'equity' in top
 
-    # Every item must have equity = points + 25.0 * value
+    # Every item must have equity = points + engine.value_weight * value
     for item in evals:
-        expected_equity = item['points'] + 25.0 * item['value']
+        expected_equity = item['points'] + engine.value_weight * item['value']
+        assert abs(item['equity'] - expected_equity) < 1e-3
+
+    # Test with custom value_weight
+    custom_evals = evaluate_moves(engine, board, rack, score_diff=0, bag_remaining=86, value_weight=75.0)
+    for item in custom_evals:
+        expected_equity = item['points'] + 75.0 * item['value']
         assert abs(item['equity'] - expected_equity) < 1e-3
 
     # Must be sorted by equity descending

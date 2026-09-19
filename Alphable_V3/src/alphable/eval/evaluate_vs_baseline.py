@@ -103,6 +103,7 @@ def run_game(
             top_candidates = []
 
             if is_alphable_turn:
+                vw = getattr(engine, 'value_weight', 60.0)
                 move_evals = evaluate_moves(
                     engine,
                     board,
@@ -110,6 +111,7 @@ def run_game(
                     score_diff,
                     tiles_in_bag,
                     infer_batch_size=infer_batch_size,
+                    value_weight=vw,
                 )
                 top_candidates = [
                     {
@@ -118,7 +120,7 @@ def run_game(
                         'col': m['move']['col'],
                         'dir': m['move']['dir'],
                         'value': round(m['value'], 4),
-                        'equity': round(m.get('equity', m['points'] + 25.0 * m['value']), 2),
+                        'equity': round(m.get('equity', m['points'] + vw * m['value']), 2),
                         'points': m['points'],
                     }
                     for m in move_evals[:3]
@@ -301,10 +303,12 @@ def evaluate(args):
         raise FileNotFoundError(f"Model not found: {args.model}")
 
     print(f"Loading model from {args.model}")
+    value_weight = getattr(args, 'value_weight', 60.0)
     engine = inference.AlphableInference(
         model_path=args.model,
         device=device,
         dict_path=args.dict,
+        value_weight=value_weight,
     )
     engine.model_path = args.model
 
@@ -315,11 +319,12 @@ def evaluate(args):
         opp_reply_top_k=args.opp_reply_top_k,
         mode=args.mode,
         infer_batch_size=args.infer_batch_size,
+        value_weight=value_weight,
     )
 
     timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
     print(
-        f"--- Alphable vs {args.opponent.capitalize()} ({args.games} games) ---")
+        f"--- Alphable vs {args.opponent.capitalize()} ({args.games} games, value_weight={value_weight}) ---")
 
     wins = 0
     ties = 0
@@ -355,6 +360,7 @@ def evaluate(args):
         'opponent': args.opponent,
         'model': os.path.abspath(args.model),
         'mode': args.mode,
+        'value_weight': value_weight,
         'games': args.games,
         'wins': wins,
         'losses': losses,
@@ -396,6 +402,8 @@ def main():
     parser.add_argument('--games', type=int, default=5)
     parser.add_argument(
         '--mode', choices=['bc_0ply', 'lookahead'], default='lookahead')
+    parser.add_argument('--value-weight', type=float, default=60.0,
+                        help='Equity weight multiplier applied to model value predictions.')
     parser.add_argument('--simulations', type=int, default=16)
     parser.add_argument('--top-k', type=int, default=3)
     parser.add_argument('--opp-reply-top-k', type=int, default=5)
