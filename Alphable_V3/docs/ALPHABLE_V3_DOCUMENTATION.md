@@ -482,35 +482,25 @@ Then open `http://localhost:5000` and load games from `vs_random` / `vs_greedy`.
 
 ---
 
-## 7. Operational Guidance
+## 7. Current Benchmark Records (V3 Generation 2)
 
-Recommended progression:
-
-1. Stabilize supervised model quality first.
-2. Generate RL data in batches.
-3. RL fine-tune from best supervised checkpoint.
-4. Compare checkpoints with head-to-head matches.
-5. Switch search mode to lookahead for RL checkpoints only after outcome-value behavior is validated.
-
-Practical stopping condition for a phase:
-
-1. Validation improvements flatten over repeated runs.
-2. Match win-rate improvements flatten over repeated runs.
-3. Chosen move quality appears stable on held-out real board states.
+Evaluated under identical conditions against `GreedyBot` (5 games with 1-ply Monte Carlo lookahead):
+- **Win Rate:** **80.0%** (4 wins / 1 loss)
+- **Average Points per Game:** **447.2 pts**
+- **Net Cumulative Margin:** **+281 points** (+56.2 net point differential per game)
+- **Superhuman Demonstrations:** `TRAPNEST` (89 pts), `ONIGIRIS` (78 pts), `ALNAGER` (75 pts), `HOUND` (53 pts), `QINTAR` (52 pts), `UNIQUE` (51 pts)
 
 ---
 
-## 8. File Map
+## 8. File Map & Detailed Guides
 
-- `alphable_net.py`: Neural architecture.
-- `dataset.py`: Compact JSONL to tensor dataset adapter.
-- `prepare_dataset.py`: Human-game supervised data generation.
-- `train_supervised.py`: Supervised BC training.
-- `search.py`: BC 0-ply and lookahead search logic.
-- `self_play.py`: Self-play RL sample generation.
-- `train_rl.py`: Outcome-based RL fine-tuning.
-- `evaluate_matches.py`: Checkpoint-vs-checkpoint match evaluator.
-- `game_logger.py`: V2 replay logger (visualizer-compatible JSON schema).
-- `evaluate_vs_baseline.py`: Shared V2 evaluator for random/greedy baselines.
-- `evaluate_vs_random.py`: Wrapper for V2 random-baseline evaluation.
-- `evaluate_vs_greedy.py`: Wrapper for V2 greedy-baseline evaluation.
+For dedicated deep-dives, refer to the specialized documentation files:
+- Architecture: [`docs/architecture/ARCHITECTURE.md`](file:///home/targed/Documents/Git/Alphable/Alphable_V3/docs/architecture/ARCHITECTURE.md)
+- Search & Minimax Equity: [`docs/architecture/SEARCH_AND_EQUITY.md`](file:///home/targed/Documents/Git/Alphable/Alphable_V3/docs/architecture/SEARCH_AND_EQUITY.md)
+- Core Modules: [`docs/components/CORE_MODULES.md`](file:///home/targed/Documents/Git/Alphable/Alphable_V3/docs/components/CORE_MODULES.md)
+- Training Pipeline: [`docs/components/TRAINING_PIPELINE.md`](file:///home/targed/Documents/Git/Alphable/Alphable_V3/docs/components/TRAINING_PIPELINE.md)
+- Evaluation & Analytics: [`docs/components/EVALUATION_AND_ANALYTICS.md`](file:///home/targed/Documents/Git/Alphable/Alphable_V3/docs/components/EVALUATION_AND_ANALYTICS.md)
+- Training Lifecycle: [`docs/workflows/TRAINING_WORKFLOW.md`](file:///home/targed/Documents/Git/Alphable/Alphable_V3/docs/workflows/TRAINING_WORKFLOW.md)
+- CLI Manual: [`docs/workflows/CLI_REFERENCE.md`](file:///home/targed/Documents/Git/Alphable/Alphable_V3/docs/workflows/CLI_REFERENCE.md)
+- What We Have Tried: [`docs/decisions/WHAT_WE_HAVE_TRIED.md`](file:///home/targed/Documents/Git/Alphable/Alphable_V3/docs/decisions/WHAT_WE_HAVE_TRIED.md)
+- Bug Post-Mortems: [`docs/decisions/BUGS_AND_POSTMORTEMS.md`](file:///home/targed/Documents/Git/Alphable/Alphable_V3/docs/decisions/BUGS_AND_POSTMORTEMS.md)

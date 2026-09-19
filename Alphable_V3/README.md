@@ -112,4 +112,30 @@ To start the visualizer:
 This handles installing node modules and starting both the Flask backend and the React frontend.
 
 ---
-*For detailed architecture notes on how the Scrabble AI evaluates after-states and uses GADDAG, see the [ALPHABLE_V3_DOCUMENTATION.md](ALPHABLE_V3_DOCUMENTATION.md).*
+
+## 🏆 Current Performance Benchmarks (V3 Generation 2)
+
+Evaluated under identical conditions against `GreedyBot` (1-ply Monte Carlo lookahead search):
+- **Win Rate:** **80.0%** (4 wins / 1 loss)
+- **Average Points per Game:** **447.2 pts**
+- **Net Cumulative Margin:** **+281 points** (+56.2 net point differential per game)
+- **Superhuman Demonstrations:** `TRAPNEST` (89 pts), `ONIGIRIS` (78 pts), `ALNAGER` (75 pts), `HOUND` (53 pts), `QINTAR` (52 pts)
+
+---
+
+## 📚 Exhaustive Documentation
+
+Comprehensive guides, architectural blueprints, and workflows are available in the [`docs/`](docs/) directory:
+
+- [**Master Documentation Index**](docs/README.md)
+- [**Quick Start Guide**](docs/QUICK_START.md)
+- [**Neural Network & Tensor Architecture**](docs/architecture/ARCHITECTURE.md)
+- [**Search & Minimax Move Equity**](docs/architecture/SEARCH_AND_EQUITY.md)
+- [**Core Modules Reference**](docs/components/CORE_MODULES.md)
+- [**Training Pipeline Reference**](docs/components/TRAINING_PIPELINE.md)
+- [**Evaluation & Analytics Reference**](docs/components/EVALUATION_AND_ANALYTICS.md)
+- [**End-to-End Training Lifecycle**](docs/workflows/TRAINING_WORKFLOW.md)
+- [**CLI Reference Manual**](docs/workflows/CLI_REFERENCE.md)
+- [**Experiment History & What We Have Tried**](docs/decisions/WHAT_WE_HAVE_TRIED.md)
+- [**Technical Bug Post-Mortems**](docs/decisions/BUGS_AND_POSTMORTEMS.md)
+- [**Master V3 Specification**](docs/ALPHABLE_V3_DOCUMENTATION.md)
