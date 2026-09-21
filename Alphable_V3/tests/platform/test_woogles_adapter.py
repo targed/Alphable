@@ -88,6 +88,56 @@ SAMPLE_GAME_OVER_HTML = """
 </html>
 """
 
+SAMPLE_WAITING_FOR_GAME_HTML = """
+<!DOCTYPE html>
+<html>
+<head><title>Woogles Match</title></head>
+<body>
+  <div class="end-message" style="width: 300px; height: 30px;">
+    Waiting for game to start...
+  </div>
+  <div id="rack">
+    <div class="tile"><span class="rune"><span>I</span></span><span class="point-value">1</span></div>
+    <div class="tile"><span class="rune"><span>I</span></span><span class="point-value">1</span></div>
+    <div class="tile"><span class="rune"><span>N</span></span><span class="point-value">1</span></div>
+  </div>
+  <div class="player-card on-turn" style="width: 200px; height: 50px;">
+    <div class="player-info"><p class="player-name"><span>AlphableUser</span></p></div>
+    <button class="score">0</button>
+  </div>
+  <div class="player-card" style="width: 200px; height: 50px;">
+    <div class="player-info"><p class="player-name"><span>STEEBot</span></p></div>
+    <button class="score">0</button>
+  </div>
+</body>
+</html>
+"""
+
+SAMPLE_SPECTATOR_LOADING_HTML = """
+<!DOCTYPE html>
+<html>
+<head><title>Woogles Match</title></head>
+<body>
+  <div class="game-controls" style="width: 300px; height: 40px;">
+    <button>Analyze</button>
+    <button>Exit</button>
+  </div>
+  <div id="rack">
+    <div class="tile"><span class="rune"><span>A</span></span><span class="point-value">1</span></div>
+    <div class="tile"><span class="rune"><span>B</span></span><span class="point-value">3</span></div>
+  </div>
+  <div class="player-card on-turn" style="width: 200px; height: 50px;">
+    <div class="player-info"><p class="player-name"><span>AlphableUser</span></p></div>
+    <button class="score">0</button>
+  </div>
+  <div class="player-card" style="width: 200px; height: 50px;">
+    <div class="player-info"><p class="player-name"><span>STEEBot</span></p></div>
+    <button class="score">0</button>
+  </div>
+</body>
+</html>
+"""
+
 
 @pytest.fixture(scope="module")
 def browser_context():
@@ -162,3 +212,144 @@ def test_woogles_adapter_game_over_parsing(browser_context):
     assert result["my_score"] == 360
     assert result["opponent_score"] == 389
     page.close()
+
+
+def test_woogles_adapter_waiting_for_game_start_not_game_over(browser_context):
+    page = browser_context.new_page()
+    page.set_content(SAMPLE_WAITING_FOR_GAME_HTML)
+
+    adapter = WooglesAdapter()
+    adapter.page = page
+    adapter.opponent_username = "STEEBot"
+
+    state = adapter.get_game_state()
+
+    assert state.is_game_over is False
+    assert adapter.is_game_over() is False
+    assert state.winner is None
+    assert state.rack == ["I", "I", "N"]
+    assert adapter.is_my_turn_active() is True
+    page.close()
+
+
+def test_woogles_adapter_spectator_loading_with_rack_not_game_over(browser_context):
+    page = browser_context.new_page()
+    page.set_content(SAMPLE_SPECTATOR_LOADING_HTML)
+
+    adapter = WooglesAdapter()
+    adapter.page = page
+    adapter.opponent_username = "STEEBot"
+
+    state = adapter.get_game_state()
+
+    assert state.is_game_over is False
+    assert adapter.is_game_over() is False
+    assert state.winner is None
+    assert state.rack == ["A", "B"]
+    page.close()
+
+
+def test_placement_plan_skips_existing_letters(browser_context):
+    page = browser_context.new_page()
+    # Build a 225-tile container with 'E' at index 8*15 + 7 = 127
+    tiles_html = "".join(
+        f'<div class="tile"><span class="rune"><span>E</span></span><span class="point-value">1</span></div>'
+        if i == (8 * 15 + 7) else '<div class="tile"></div>'
+        for i in range(225)
+    )
+    html = f"""
+    <!DOCTYPE html><html><body>
+      <div class="board-spaces-container"><div class="tiles">{tiles_html}</div></div>
+    </body></html>
+    """
+    page.set_content(html)
+
+    # Word 'LETS' starting at row 7, col 7 Down.
+    # Row 7, Col 7: empty ('L')
+    # Row 8, Col 7: occupied by 'E' -> MUST BE SKIPPED!
+    # Row 9, Col 7: empty ('T')
+    # Row 10, Col 7: empty ('S')
+    plan = page.evaluate("""({row, col, isDown, word}) => {
+        const tilesContainer = document.querySelector(".board-spaces-container .tiles");
+        const tiles = tilesContainer ? Array.from(tilesContainer.children) : [];
+        const dr = isDown ? 1 : 0;
+        const dc = isDown ? 0 : 1;
+        
+        let firstEmpty = -1;
+        const lettersToType = [];
+        
+        for (let k = 0; k < word.length; k++) {
+            const r = row + k * dr;
+            const c = col + k * dc;
+            const idx = r * 15 + c;
+            let hasLetter = false;
+            if (tiles[idx]) {
+                const rune = tiles[idx].querySelector(".rune span, .rune");
+                if (rune && rune.innerText.trim().length > 0) {
+                    hasLetter = true;
+                }
+            }
+            if (!hasLetter) {
+                if (firstEmpty === -1) firstEmpty = k;
+                lettersToType.push(word[k].toUpperCase());
+            }
+        }
+        if (firstEmpty === -1) firstEmpty = 0;
+        return { firstEmpty, lettersToType };
+    }""", {"row": 7, "col": 7, "isDown": True, "word": "LETS"})
+
+    assert plan["firstEmpty"] == 0
+    # Must NOT contain the second 'E', preventing the "LEETS" bug!
+    assert plan["lettersToType"] == ["L", "T", "S"]
+    page.close()
+
+
+def test_placement_plan_first_letter_occupied(browser_context):
+    page = browser_context.new_page()
+    # 'B' at row 7, col 7 = index 112
+    tiles_html = "".join(
+        f'<div class="tile"><span class="rune"><span>B</span></span><span class="point-value">3</span></div>'
+        if i == (7 * 15 + 7) else '<div class="tile"></div>'
+        for i in range(225)
+    )
+    html = f"""
+    <!DOCTYPE html><html><body>
+      <div class="board-spaces-container"><div class="tiles">{tiles_html}</div></div>
+    </body></html>
+    """
+    page.set_content(html)
+
+    # Word 'BEETS' at (7, 7) Down. First letter 'B' is already on board.
+    plan = page.evaluate("""({row, col, isDown, word}) => {
+        const tilesContainer = document.querySelector(".board-spaces-container .tiles");
+        const tiles = tilesContainer ? Array.from(tilesContainer.children) : [];
+        const dr = isDown ? 1 : 0;
+        const dc = isDown ? 0 : 1;
+        
+        let firstEmpty = -1;
+        const lettersToType = [];
+        
+        for (let k = 0; k < word.length; k++) {
+            const r = row + k * dr;
+            const c = col + k * dc;
+            const idx = r * 15 + c;
+            let hasLetter = false;
+            if (tiles[idx]) {
+                const rune = tiles[idx].querySelector(".rune span, .rune");
+                if (rune && rune.innerText.trim().length > 0) {
+                    hasLetter = true;
+                }
+            }
+            if (!hasLetter) {
+                if (firstEmpty === -1) firstEmpty = k;
+                lettersToType.push(word[k].toUpperCase());
+            }
+        }
+        if (firstEmpty === -1) firstEmpty = 0;
+        return { firstEmpty, lettersToType };
+    }""", {"row": 7, "col": 7, "isDown": True, "word": "BEETS"})
+
+    assert plan["firstEmpty"] == 1
+    assert plan["lettersToType"] == ["E", "E", "T", "S"]
+    page.close()
+

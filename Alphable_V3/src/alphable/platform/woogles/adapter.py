@@ -159,15 +159,30 @@ class WooglesAdapter(AbstractPlatformAdapter):
 
         # 4a. Select bot level if requested
         if config.bot_name:
-            bot_elem = self.page.locator(f"text={config.bot_name}").first
-            if not bot_elem.is_visible(timeout=1000):
-                # Click bot selector card to expand options
-                bot_card = self.page.locator("text=/\\b(HastyBot|BestBot|BeginnerBot)\\b/").first
-                if bot_card.is_visible():
-                    bot_card.click()
+            bot_selector = self.page.locator(".bot-selector, #seekForm_botType").first
+            try:
+                bot_selector.wait_for(state="visible", timeout=3000)
+                current_text = bot_selector.inner_text()
+                if config.bot_name.lower() not in current_text.lower():
+                    bot_selector.click()
                     time.sleep(0.3)
-                    # Click target bot option
-                    self.page.locator(f"text={config.bot_name}").first.click()
+                    # Click target bot option in dropdown
+                    target_option = self.page.locator(
+                        f".ant-select-dropdown .ant-select-item-option:has-text('{config.bot_name}')"
+                    ).first
+                    if target_option.is_visible(timeout=2000):
+                        target_option.click()
+                        time.sleep(0.3)
+                    else:
+                        # Fallback case-insensitive match
+                        opt = self.page.locator(".ant-select-dropdown .ant-select-item-option").filter(
+                            has_text=re.compile(config.bot_name, re.IGNORECASE)
+                        ).first
+                        if opt.is_visible(timeout=1000):
+                            opt.click()
+                            time.sleep(0.3)
+            except Exception as e:
+                print(f"Warning: Failed to select bot '{config.bot_name}': {e}")
             self.opponent_username = config.bot_name
 
         # 4b. Select dictionary if dropdown available
@@ -192,11 +207,22 @@ class WooglesAdapter(AbstractPlatformAdapter):
         btn_create = self.page.locator(".ant-modal-content button:has-text('Create game'), button:has-text('Create game')").first
         btn_create.click()
 
-        # 6. Wait for game board to render
+        # 6. Wait for game board to render and session to hydrate
         print("Waiting for game board to load...")
         self.page.wait_for_url("**/game/**", timeout=20000)
         self.page.wait_for_selector("#board-spaces", timeout=15000)
-        time.sleep(1.0)
+        try:
+            self.page.wait_for_function("""() => {
+                const rackTiles = document.querySelectorAll("#rack .tile, .rack .tile, .rack-container .tile");
+                const hasActionBtns = Array.from(document.querySelectorAll(".game-controls button, button")).some(
+                    b => b.innerText && (b.innerText.includes("Play") || b.innerText.includes("Pass") || b.innerText.includes("Exchange"))
+                );
+                const hasOnTurn = document.querySelector(".player-card.on-turn");
+                return (rackTiles.length > 0) || hasActionBtns || !!hasOnTurn;
+            }""", timeout=15000)
+        except Exception:
+            pass
+        time.sleep(0.5)
 
         self.current_game_url = self.page.url
         print(f"✓ Game successfully loaded: {self.current_game_url}")
@@ -302,23 +328,44 @@ class WooglesAdapter(AbstractPlatformAdapter):
                 }
             });
 
-            // End message / Game Over
-            const endMsgEl = document.querySelector(".end-message");
-            let isGameOver = !!endMsgEl;
+            // End message / Game Over detection
+            let isGameOver = false;
             let winner = null;
-            if (endMsgEl) {
+
+            const endMsgEl = document.querySelector(".end-message");
+            if (endMsgEl && endMsgEl.offsetWidth > 0 && endMsgEl.offsetHeight > 0) {
                 const txt = endMsgEl.innerText.trim();
-                const mWin = txt.match(/([A-Za-z0-9_]+)\\s+wins/);
-                if (mWin) {
-                    winner = mWin[1];
-                } else {
-                    winner = myScore > oppScore ? myName : (oppScore > myScore ? oppName : "Draw");
-                }
-            } else {
-                const controls = document.querySelector(".game-controls");
-                if (controls && controls.innerText.includes("Analyze")) {
+                // Ignore transient "Waiting for game to start..." or connecting messages
+                if (!txt.toLowerCase().includes("waiting for game to start") && 
+                    /wins|won|final score|draw|resigned|forfeited|timed out|game over/i.test(txt)) {
                     isGameOver = true;
-                    winner = myScore > oppScore ? myName : (oppScore > myScore ? oppName : "Draw");
+                    const mWin = txt.match(/([A-Za-z0-9_]+)\\s+wins/i);
+                    if (mWin) {
+                        winner = mWin[1];
+                    } else if (/draw/i.test(txt)) {
+                        winner = "Draw";
+                    } else {
+                        winner = myScore > oppScore ? myName : (oppScore > myScore ? oppName : "Draw");
+                    }
+                }
+            }
+
+            if (!isGameOver) {
+                const rackTiles = document.querySelectorAll("#rack .tile, .rack .tile, .rack-container .tile");
+                const hasActionBtns = Array.from(document.querySelectorAll(".game-controls button, button")).some(
+                    b => b.offsetWidth > 0 && /^(play|pass|exchange)$/i.test((b.innerText || "").trim())
+                );
+                
+                // Active gameplay cannot be game over if player holds rack tiles or action buttons are visible
+                if (rackTiles.length === 0 && !hasActionBtns) {
+                    const controls = document.querySelector(".game-controls");
+                    if (controls && controls.offsetWidth > 0) {
+                        const cText = controls.innerText || "";
+                        if (cText.includes("Analyze") && (cText.includes("Export") || cText.includes("Rematch") || cText.includes("Exit"))) {
+                            isGameOver = true;
+                            winner = myScore > oppScore ? myName : (oppScore > myScore ? oppName : "Draw");
+                        }
+                    }
                 }
             }
 
@@ -360,6 +407,20 @@ class WooglesAdapter(AbstractPlatformAdapter):
         """
         Polls until it is Alphable's turn to play.
         """
+        # Recall any lingering uncommitted tiles before polling
+        if self.page:
+            try:
+                uncommitted = self.page.evaluate("""() => {
+                    return document.querySelectorAll(
+                        ".board-spaces-container .tiles > div.second-color, .board-spaces-container .tiles > div.uncommitted"
+                    ).length;
+                }""")
+                if uncommitted > 0:
+                    self.page.keyboard.press("Escape")
+                    time.sleep(0.2)
+            except Exception:
+                pass
+
         start_time = time.time()
         while time.time() - start_time < timeout:
             state = self.get_game_state()
@@ -421,20 +482,24 @@ class WooglesAdapter(AbstractPlatformAdapter):
         self.page.keyboard.press("Escape")
         time.sleep(0.15)
 
-        # 1. Determine the first EMPTY square along the word's path
-        # In Scrabble, a word may connect through existing tiles on the board.
-        # Woogles only allows selecting an EMPTY square; clicking an occupied tile fails to focus.
+        # 1. Determine the first EMPTY square along the word's path and exact letters to type
+        # In Scrabble, a word connects through existing tiles on the board.
+        # Woogles automatically skips any square that already has an existing tile.
+        # Typing a letter that is already on the board pushes the cursor forward and inserts an extra duplicate tile (e.g. "LEETS" instead of "LETS").
+        # Therefore, we ONLY type characters for EMPTY squares!
         is_down = dir_str.lower() in ("down", "d")
         dr = 1 if is_down else 0
         dc = 0 if is_down else 1
 
-        first_empty_k, letters_to_type = self.page.evaluate("""({row, col, isDown, word}) => {
+        placement_plan = self.page.evaluate("""({row, col, isDown, word}) => {
             const tilesContainer = document.querySelector(".board-spaces-container .tiles");
             const tiles = tilesContainer ? Array.from(tilesContainer.children) : [];
             const dr = isDown ? 1 : 0;
             const dc = isDown ? 0 : 1;
             
             let firstEmpty = -1;
+            const lettersToType = [];
+            
             for (let k = 0; k < word.length; k++) {
                 const r = row + k * dr;
                 const c = col + k * dc;
@@ -446,19 +511,29 @@ class WooglesAdapter(AbstractPlatformAdapter):
                         hasLetter = true;
                     }
                 }
-                if (!hasLetter && firstEmpty === -1) {
-                    firstEmpty = k;
+                
+                if (hasLetter) {
+                    // Occupied square: Woogles automatically skips this when typing!
+                } else {
+                    // Empty square: will receive typed letter
+                    if (firstEmpty === -1) {
+                        firstEmpty = k;
+                    }
+                    lettersToType.push(word[k].toUpperCase());
                 }
             }
             if (firstEmpty === -1) firstEmpty = 0;
-            return [firstEmpty, word.slice(firstEmpty)];
+            return { firstEmpty, lettersToType };
         }""", {"row": move.row, "col": move.col, "isDown": is_down, "word": move.word})
+
+        first_empty_k = placement_plan["firstEmpty"]
+        letters_to_type = placement_plan["lettersToType"]
 
         target_row = move.row + first_empty_k * dr
         target_col = move.col + first_empty_k * dc
         target_idx = target_row * 15 + target_col
 
-        # 2. Click the target empty starting square on the board
+        # 2. Click target empty starting square on the board
         spaces = self.page.locator("#board-spaces > div")
         if spaces.count() > target_idx:
             cell = spaces.nth(target_idx)
@@ -471,40 +546,83 @@ class WooglesAdapter(AbstractPlatformAdapter):
             cell = square
         time.sleep(0.15)
 
-        # Verify that the cell is actually selected
-        try:
-            is_selected = cell.evaluate("el => el.classList.contains('selected')")
-            if not is_selected:
+        # 3. Ensure direction arrow points in the required direction (Across vs Down)
+        arrow_ok = False
+        for _ in range(5):
+            arrow_state = self.page.evaluate("""(idx) => {
+                const cell = document.querySelectorAll("#board-spaces > div")[idx];
+                if (!cell) return { isSelected: false, hasRight: false, hasDown: false };
+                const isSelected = cell.classList.contains("selected");
+                const hasRight = !!cell.querySelector(".anticon-arrow-right, [data-icon='arrow-right']");
+                const hasDown = !!cell.querySelector(".anticon-arrow-down, [data-icon='arrow-down']");
+                return { isSelected, hasRight, hasDown };
+            }""", target_idx)
+
+            if not arrow_state["isSelected"]:
                 cell.click(force=True)
-                time.sleep(0.15)
+                time.sleep(0.1)
+                continue
+
+            if is_down and arrow_state["hasDown"]:
+                arrow_ok = True
+                break
+            if not is_down and arrow_state["hasRight"]:
+                arrow_ok = True
+                break
+
+            # Toggle direction by clicking the selected cell again
+            cell.click(force=True)
+            time.sleep(0.15)
+
+        if not arrow_ok:
+            print(f"⚠ Failed to orient direction arrow to {'Down' if is_down else 'Across'}. Recalling...")
+            self.page.keyboard.press("Escape")
+            time.sleep(0.2)
+            return False
+
+        # Focus board container so keystrokes register reliably
+        try:
+            self.page.locator("#board-container").focus()
         except Exception:
             pass
 
-        # 3. Verify direction arrow directly on the selected cell (Across vs Down)
-        has_down = cell.locator(".anticon-arrow-down").count() > 0
-        has_right = cell.locator(".anticon-arrow-right").count() > 0
-
-        if is_down and not has_down:
-            cell.click(force=True)
-            time.sleep(0.1)
-            if cell.locator(".anticon-arrow-down").count() == 0:
-                self.page.keyboard.press("Space")
-                time.sleep(0.1)
-        elif not is_down and not has_right:
-            cell.click(force=True)
-            time.sleep(0.1)
-            if cell.locator(".anticon-arrow-right").count() == 0:
-                self.page.keyboard.press("Space")
-                time.sleep(0.1)
-
-        # 4. Type remaining letters sequentially
+        # 4. Type ONLY the letters needed for empty squares
         for char in letters_to_type:
             self.page.keyboard.press(char.upper())
-            time.sleep(0.06)
+            time.sleep(0.08)
 
-        time.sleep(0.2)
+        time.sleep(0.25)
 
-        # 5. Click Play button or press Enter
+        # 5. Pre-submission verification: Check that tentatively placed tiles match move.word
+        tentative_matches = self.page.evaluate("""({row, col, isDown, word}) => {
+            const tilesContainer = document.querySelector(".board-spaces-container .tiles");
+            if (!tilesContainer) return false;
+            const tiles = Array.from(tilesContainer.children);
+            const dr = isDown ? 1 : 0;
+            const dc = isDown ? 0 : 1;
+            
+            for (let k = 0; k < word.length; k++) {
+                const r = row + k * dr;
+                const c = col + k * dc;
+                const idx = r * 15 + c;
+                if (!tiles[idx]) return false;
+                const rune = tiles[idx].querySelector(".rune span, .rune");
+                const placedChar = rune ? rune.innerText.trim().toUpperCase() : "";
+                const expectedChar = word[k].toUpperCase();
+                if (placedChar !== expectedChar) {
+                    return false;
+                }
+            }
+            return true;
+        }""", {"row": move.row, "col": move.col, "isDown": is_down, "word": move.word})
+
+        if not tentative_matches:
+            print(f"⚠ Placed tiles on board do not match target word '{move.word}'. Recalling uncommitted tiles...")
+            self.page.keyboard.press("Escape")
+            time.sleep(0.3)
+            return False
+
+        # 6. Click Play button or press Enter
         btn_play = self.page.locator("button.play, button:has-text('Play')").first
         try:
             if btn_play.is_visible(timeout=500) and btn_play.is_enabled():
@@ -514,7 +632,7 @@ class WooglesAdapter(AbstractPlatformAdapter):
         except Exception:
             self.page.keyboard.press("Enter")
 
-        # 6. Fast polling verification (wait up to 6.0 seconds for move acceptance)
+        # 7. Fast polling verification (wait up to 6.0 seconds for move acceptance)
         start_wait = time.time()
         move_accepted = False
         while time.time() - start_wait < 6.0:
@@ -536,7 +654,10 @@ class WooglesAdapter(AbstractPlatformAdapter):
                         myOnTurn = onTurn;
                     }
                 });
-                const isGameOver = !!document.querySelector(".end-message");
+                const endEl = document.querySelector(".end-message");
+                const isGameOver = !!(endEl && endEl.offsetWidth > 0 && 
+                    !endEl.innerText.toLowerCase().includes("waiting for game to start") &&
+                    /wins|won|final score|draw|resigned|forfeited|timed out|game over/i.test(endEl.innerText));
                 return { uncommitted, oppOnTurn, myOnTurn, isGameOver };
             }""", self.opponent_username)
 
@@ -571,7 +692,12 @@ class WooglesAdapter(AbstractPlatformAdapter):
             return False
         try:
             return self.page.evaluate("""(oppName) => {
-                if (document.querySelector(".end-message")) return false;
+                const endEl = document.querySelector(".end-message");
+                if (endEl && endEl.offsetWidth > 0 && 
+                    !endEl.innerText.toLowerCase().includes("waiting for game to start") &&
+                    /wins|won|final score|draw|resigned|forfeited|timed out|game over/i.test(endEl.innerText)) {
+                    return false;
+                }
                 const visibleCards = Array.from(document.querySelectorAll(".player-card")).filter(c => 
                     c.offsetWidth > 0 && c.offsetHeight > 0
                 );
@@ -597,9 +723,31 @@ class WooglesAdapter(AbstractPlatformAdapter):
             return True
         try:
             return self.page.evaluate("""() => {
-                if (document.querySelector(".end-message")) return true;
+                const endMsgEl = document.querySelector(".end-message");
+                if (endMsgEl && endMsgEl.offsetWidth > 0 && endMsgEl.offsetHeight > 0) {
+                    const txt = endMsgEl.innerText.trim();
+                    if (!txt.toLowerCase().includes("waiting for game to start") && 
+                        /wins|won|final score|draw|resigned|forfeited|timed out|game over/i.test(txt)) {
+                        return true;
+                    }
+                }
+
+                const rackTiles = document.querySelectorAll("#rack .tile, .rack .tile, .rack-container .tile");
+                const hasActionBtns = Array.from(document.querySelectorAll(".game-controls button, button")).some(
+                    b => b.offsetWidth > 0 && /^(play|pass|exchange)$/i.test((b.innerText || "").trim())
+                );
+                if (rackTiles.length > 0 || hasActionBtns) {
+                    return false;
+                }
+
                 const controls = document.querySelector(".game-controls");
-                if (controls && controls.innerText.includes("Analyze")) return true;
+                if (controls && controls.offsetWidth > 0) {
+                    const cText = controls.innerText || "";
+                    if (cText.includes("Analyze") && (cText.includes("Export") || cText.includes("Rematch") || cText.includes("Exit"))) {
+                        return true;
+                    }
+                }
+
                 return false;
             }""")
         except Exception:

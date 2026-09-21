@@ -85,7 +85,11 @@ class OnlineGameRunner:
         final_scores = [0, 0]
 
         try:
-            while not self.adapter.is_game_over():
+            while True:
+                if turn_idx > 0 and self.adapter.is_game_over():
+                    print("Game over detected.")
+                    break
+
                 turn_idx += 1
                 print(f"\n--- Turn {turn_idx}: Waiting for our turn... ---")
                 state = self.adapter.wait_for_my_turn(poll_interval=0.5, timeout=180.0)
@@ -145,6 +149,7 @@ class OnlineGameRunner:
                     if not success:
                         print("⚠ Move was not accepted by platform. Re-evaluating next play...")
                         time.sleep(1.0)
+                        turn_idx -= 1
                         continue
 
                     turns_log.append({
