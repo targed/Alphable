@@ -5,7 +5,7 @@ import PlayerHUD from './PlayerHUD';
 import { BoardSquare, PremiumSquareType } from '../types';
 import { InteractiveGameConfig, PlayerType } from './NewInteractiveGame';
 
-const API_URL = 'http://localhost:5000/api';
+import { API_URL } from '../config';
 
 interface Props {
   config: InteractiveGameConfig;
@@ -92,6 +92,7 @@ const InteractiveGame: React.FC<Props> = ({ config, onBack }) => {
 
   useEffect(() => {
     initGame();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const buildInitialBag = () => {
@@ -158,6 +159,7 @@ const InteractiveGame: React.FC<Props> = ({ config, onBack }) => {
         makeAIMove(getCurrentPlayerType());
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [gameState?.isP1Turn, loading, autoPlayAI]);
 
   const applyMoveToBoard = (board: string[][], move: Move) => {
@@ -195,7 +197,9 @@ const InteractiveGame: React.FC<Props> = ({ config, onBack }) => {
           ai_type: aiTypeToUse,
           temperature,
           top_k: topK,
-          dictionary: config.dictionary
+          dictionary: config.dictionary,
+          model: config.model,
+          value_weight: config.valueWeight ?? 60.0
         })
       });
 

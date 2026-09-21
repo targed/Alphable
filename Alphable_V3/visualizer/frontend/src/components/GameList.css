@@ -42,8 +42,81 @@
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
+.game-list-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.search-input {
+  flex: 1;
+  min-width: 250px;
+  padding: 0.75rem 1rem;
+  border: 1px solid #dcdfe6;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.search-input:focus {
+  border-color: #667eea;
+  box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.2);
+}
+
+.filter-pills {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.filter-pill {
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  border: 1px solid #e0e0e0;
+  background: #f8f9fa;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: #555;
+  transition: all 0.2s;
+}
+
+.filter-pill:hover {
+  background: #edf2f7;
+}
+
+.filter-pill.active {
+  background: #667eea;
+  color: white;
+  border-color: #667eea;
+}
+
 .game-card-header {
-  margin-bottom: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+.winner-badge {
+  font-size: 0.75rem;
+  padding: 0.25rem 0.6rem;
+  border-radius: 12px;
+  font-weight: 600;
+}
+
+.winner-alphable {
+  background: #d4edda;
+  color: #155724;
+}
+
+.winner-other {
+  background: #fff3cd;
+  color: #856404;
 }
 
 .game-timestamp {

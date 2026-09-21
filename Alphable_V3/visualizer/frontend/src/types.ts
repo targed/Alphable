@@ -42,7 +42,16 @@ export interface GameListItem {
   player_names: [string, string];
   final_score: [number, number];
   total_turns: number;
+  winner?: string;
+  score_margin?: number;
+  bingos?: number;
   metadata: GameMetadata;
+}
+
+export interface ModelItem {
+  name: string;
+  size_mb: number;
+  modified: string;
 }
 
 export interface PlayerStats {

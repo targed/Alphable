@@ -6,7 +6,7 @@ import GameViewer from './components/GameViewer';
 import NewInteractiveGame, { InteractiveGameConfig } from './components/NewInteractiveGame';
 import InteractiveGame from './components/InteractiveGame';
 
-const API_URL = 'http://localhost:5000/api';
+import { API_URL } from './config';
 
 type AppMode = 'replay_list' | 'replay_view' | 'interactive_setup' | 'interactive_play';
 
