@@ -38,6 +38,11 @@ def main():
     search_subparsers = search_parser.add_subparsers(dest='subcommand')
     search_subparsers.add_parser('debug', help='Search debug')
 
+    # Play
+    play_parser = subparsers.add_parser('play', help='Play live on online platforms')
+    play_subparsers = play_parser.add_subparsers(dest='subcommand')
+    play_subparsers.add_parser('woogles', help='Play on Woogles.io', add_help=False)
+
     # We will pass the unparsed args to the actual module main functions
     args, unknown = parser.parse_known_args()
 
@@ -77,6 +82,10 @@ def main():
         from alphable.core.search import main as search_debug_main
         sys.argv = [sys.argv[0]] + unknown
         search_debug_main()
+    elif args.command == 'play' and args.subcommand == 'woogles':
+        from alphable.platform.cli import main as play_woogles_main
+        sys.argv = [sys.argv[0]] + unknown
+        play_woogles_main()
     else:
         parser.print_help()
 

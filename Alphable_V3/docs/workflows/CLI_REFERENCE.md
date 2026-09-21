@@ -163,3 +163,31 @@ python -m alphable.cli.main eval plot [OPTIONS]
 | :--- | :--- | :--- | :--- |
 | `--history` | `str` | *Required* | Path to `<model>_history.json` |
 | `--output` | `str` | `reports/progress.png` | Destination PNG image file |
+
+---
+
+## 8. `alphable play woogles`
+Plays live games on [Woogles.io](https://woogles.io) using Alphable's 1-ply lookahead search, Playwright browser automation, and human-like move pacing.
+
+```bash
+python -m alphable.cli.main play woogles [OPTIONS]
+```
+
+### Options
+| Flag | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `--bot` | `str` | `HastyBot` | Opponent bot on Woogles (`HastyBot`, `BestBot`, `BeginnerBot`) |
+| `--model` | `str` | `models/alphable_v3_rl_gen2.pth` | Model checkpoint to evaluate |
+| `--dict` | `str` | `resources/CSW24.txt` | Scrabble lexicon dictionary |
+| `--mode` | `str` | `lookahead` | Search mode: `lookahead` (1-ply) or `bc_0ply` |
+| `--value-weight`| `float` | `60.0` | Strategic equity multiplier $W$ |
+| `--time-control`| `str` | `15+0` | Match clock time control (`15+0`, `5+0`) |
+| `--game-mode` | `str` | `realtime` | Game mode: `realtime` or `correspondence` |
+| `--headless` | `flag` | `False` (Headed) | Run browser in background without visible window |
+| `--delay-min` | `float` | `2.0` | Minimum natural thinking delay in seconds |
+| `--delay-max` | `float` | `6.0` | Maximum natural thinking delay in seconds |
+| `--output-dir`| `str` | `data/woogles/games` | Output directory for replays and summaries |
+| `--profile-dir`| `str` | `~/.alphable/woogles_profile` | Persistent browser context (stores login session) |
+| `--simulations`| `int` | `16` | Opponent leave simulations per candidate |
+| `--top-k` | `int` | `3` | Candidate moves evaluated deeply in lookahead search |
+
