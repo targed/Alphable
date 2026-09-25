@@ -9,6 +9,7 @@ from alphable.core import inference
 from alphable.core import simulator
 from alphable.core.leave_eval import compute_leave_equity, BASE_TILE_EQUITY
 from alphable.core.defense import compute_board_defense_adjustment
+from alphable.core.endgame import ExactEndgameSolver
 
 
 def get_unseen_distribution(board, my_rack):
@@ -93,6 +94,7 @@ class AlphableSearch:
         self.mode = mode
         self.infer_batch_size = infer_batch_size
         self.value_weight = float(value_weight)
+        self.endgame_solver = ExactEndgameSolver(self.engine)
 
     def _batched_forward_values(self, board_state_pairs):
         values = []
@@ -205,6 +207,16 @@ class AlphableSearch:
            e. The "True Equity" evaluates net points, strategic advantage, defense, and leave.
         5. Return the Candidate with the highest expected equity.
         """
+        # Step 0: Deterministic Exact Endgame when bag is empty
+        if bag_remaining == 0:
+            unseen_tiles = get_unseen_distribution(board, rack)
+            if len(unseen_tiles) <= 7:
+                best_endgame_move, best_margin = self.endgame_solver.solve(
+                    board, rack, unseen_tiles, score_diff=score_diff, max_depth=4
+                )
+                norm_val = math.tanh(best_margin / 100.0)
+                return best_endgame_move, norm_val
+
         # Step 1: Generate all our legal moves
         my_moves = self.engine.move_gen.generate(board, rack)
 
