@@ -15,6 +15,7 @@ def main():
     train_subparsers = train_parser.add_subparsers(dest='subcommand')
     train_subparsers.add_parser('supervised', help='Supervised training')
     train_subparsers.add_parser('rl', help='Reinforcement learning training')
+    train_subparsers.add_parser('rl-selfplay', help='Pure outcome self-play RL training')
 
     # Selfplay
     selfplay_parser = subparsers.add_parser('selfplay', help='Selfplay utilities')
@@ -58,6 +59,10 @@ def main():
         from alphable.training.train_rl import main as train_rl_main
         sys.argv = [sys.argv[0]] + unknown
         train_rl_main()
+    elif args.command == 'train' and args.subcommand == 'rl-selfplay':
+        from alphable.training.self_play_rl import main as train_rl_selfplay_main
+        sys.argv = [sys.argv[0]] + unknown
+        train_rl_selfplay_main()
     elif args.command == 'selfplay' and args.subcommand == 'generate':
         from alphable.training.self_play import main as self_play_main
         sys.argv = [sys.argv[0]] + unknown

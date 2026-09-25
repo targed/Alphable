@@ -16,6 +16,7 @@ def test_cli_help(capsys):
     (["data", "prepare"], "alphable.training.prepare_dataset.main"),
     (["train", "supervised"], "alphable.training.train_supervised.main"),
     (["train", "rl"], "alphable.training.train_rl.main"),
+    (["train", "rl-selfplay"], "alphable.training.self_play_rl.main"),
     (["selfplay", "generate"], "alphable.training.self_play.main"),
     (["eval", "matches"], "alphable.eval.evaluate_matches.main"),
     (["eval", "baseline"], "alphable.eval.evaluate_vs_baseline.main"),
