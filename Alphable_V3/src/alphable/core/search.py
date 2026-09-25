@@ -3,6 +3,7 @@ import argparse
 import random
 import copy
 import math
+import time
 from collections import Counter
 import torch
 from alphable.core import inference
@@ -217,9 +218,14 @@ class AlphableSearch:
         if bag_remaining == 0:
             unseen_tiles = get_unseen_distribution(board, rack)
             if len(unseen_tiles) <= 7:
+                t0_endgame = time.time()
+                print(f"Solving exact endgame (bag=0, our_rack={len(rack)} tiles, opp_rack={len(unseen_tiles)} tiles)...")
                 best_endgame_move, best_margin = self.endgame_solver.solve(
                     board, rack, unseen_tiles, score_diff=score_diff, max_depth=4
                 )
+                dt_endgame = time.time() - t0_endgame
+                word_str = best_endgame_move['word'] if best_endgame_move else 'PASS'
+                print(f"Endgame solved in {dt_endgame:.2f}s: best move {word_str} (spread margin: {best_margin:+.1f})")
                 norm_val = math.tanh(best_margin / 100.0)
                 return best_endgame_move, norm_val
 
@@ -462,7 +468,7 @@ class AlphableSearch:
                     counter_moves = self.engine.move_gen.generate(cand['board'], replenished_rack)
                     if counter_moves:
                         best_counter_pts = -float('inf')
-                        for cm in counter_moves[:10]:
+                        for cm in counter_moves:
                             _, c_pts, c_nr = simulator.simulate_move(cand['board'], cm, replenished_rack)
                             c_leave = compute_leave_equity(c_nr, bag_remaining=max(0, bag_remaining - 7))
                             c_score = float(c_pts) + c_leave

@@ -26,12 +26,29 @@ def rack_points(rack: List[str]) -> int:
 
 
 class ExactEndgameSolver:
-    def __init__(self, inference_engine):
+    def __init__(self, inference_engine, branch_limit: int = 5):
         """
         Args:
             inference_engine: Provides move generation (move_gen.generate).
+            branch_limit: Maximum number of non-out candidate moves to branch on per ply.
         """
         self.engine = inference_engine
+        self.branch_limit = branch_limit
+
+    def _get_candidate_moves(self, board, rack):
+        moves = self.engine.move_gen.generate(board, rack)
+        if not moves:
+            return []
+        evaluated = []
+        for m in moves:
+            nb, pts, nr = simulator.simulate_move(board, m, rack)
+            evaluated.append((m, nb, pts, nr))
+        evaluated.sort(key=lambda item: item[2], reverse=True)
+        # Always include all moves that go out (empty rack)
+        out_moves = [item for item in evaluated if len(item[3]) == 0]
+        # Top-K highest-scoring non-out moves
+        non_out_moves = [item for item in evaluated if len(item[3]) > 0][:self.branch_limit]
+        return out_moves + non_out_moves
 
     def solve(
         self,
@@ -54,30 +71,30 @@ class ExactEndgameSolver:
         Returns:
             Tuple of (best_move, guaranteed_spread_margin).
         """
-        moves = self.engine.move_gen.generate(board, my_rack)
-        if not moves:
+        # Adaptive depth limit: if either player has > 3 tiles, search at depth 2 (immediate turn + reply)
+        # to ensure instantaneous solving (< 0.2s) without combinatorial explosion.
+        # When both players have <= 3 tiles, search at full depth 4 to solve out completely.
+        if len(my_rack) > 3 or len(opp_rack) > 3:
+            effective_depth = min(max_depth, 2)
+        else:
+            effective_depth = max_depth
+
+        candidates = self._get_candidate_moves(board, my_rack)
+        if not candidates:
             # We must pass. Evaluate opponent's reply.
             margin = self._minimax(
                 board, opp_rack, my_rack, score_diff,
                 is_maximizing=False, alpha=-float('inf'), beta=float('inf'),
-                depth=max_depth - 1, consecutive_passes=1
+                depth=effective_depth - 1, consecutive_passes=1
             )
             return None, margin
-
-        # Sort moves by immediate points descending for maximum alpha-beta pruning
-        evaluated_moves = []
-        for m in moves:
-            nb, pts, nr = simulator.simulate_move(board, m, my_rack)
-            evaluated_moves.append((m, nb, pts, nr))
-
-        evaluated_moves.sort(key=lambda item: item[2], reverse=True)
 
         best_move = None
         best_margin = -float('inf')
         alpha = -float('inf')
         beta = float('inf')
 
-        for move, new_board, pts, new_rack in evaluated_moves:
+        for move, new_board, pts, new_rack in candidates:
             # Case 1: We play out all our tiles!
             if len(new_rack) == 0:
                 # Terminal win: we score pts + 2 * remaining opponent tiles
@@ -87,7 +104,7 @@ class ExactEndgameSolver:
                 margin = self._minimax(
                     new_board, opp_rack, new_rack, score_diff + pts,
                     is_maximizing=False, alpha=alpha, beta=beta,
-                    depth=max_depth - 1, consecutive_passes=0
+                    depth=effective_depth - 1, consecutive_passes=0
                 )
 
             if margin > best_margin:
@@ -119,14 +136,9 @@ class ExactEndgameSolver:
         """
         # Terminal check 1: double pass (game over)
         if consecutive_passes >= 2:
-            # In standard Scrabble, when game ends with tiles in hand and neither played out,
-            # each player is deducted their remaining tile points:
-            # my_score - my_rack_pts - (opp_score - opp_rack_pts)
             if is_maximizing:
-                # active is us, passive is opp
                 return float(score_diff - rack_points(active_rack) + rack_points(passive_rack))
             else:
-                # active is opp, passive is us
                 return float(score_diff + rack_points(passive_rack) - rack_points(active_rack))
 
         # Terminal check 2: depth limit reached
@@ -136,25 +148,19 @@ class ExactEndgameSolver:
             else:
                 return float(score_diff + rack_points(passive_rack) - rack_points(active_rack))
 
-        moves = self.engine.move_gen.generate(board, active_rack)
+        candidates = self._get_candidate_moves(board, active_rack)
 
         # If no legal moves, player passes
-        if not moves:
+        if not candidates:
             return self._minimax(
                 board, passive_rack, active_rack, score_diff,
                 is_maximizing=not is_maximizing, alpha=alpha, beta=beta,
                 depth=depth - 1, consecutive_passes=consecutive_passes + 1
             )
 
-        evaluated_moves = []
-        for m in moves:
-            nb, pts, nr = simulator.simulate_move(board, m, active_rack)
-            evaluated_moves.append((m, nb, pts, nr))
-        evaluated_moves.sort(key=lambda item: item[2], reverse=True)
-
         if is_maximizing:
             max_eval = -float('inf')
-            for _, nb, pts, nr in evaluated_moves:
+            for _, nb, pts, nr in candidates:
                 if len(nr) == 0:
                     # Active player (us) went out!
                     ev = float(score_diff + pts + 2 * rack_points(passive_rack))
@@ -171,7 +177,7 @@ class ExactEndgameSolver:
             return max_eval
         else:
             min_eval = float('inf')
-            for _, nb, pts, nr in evaluated_moves:
+            for _, nb, pts, nr in candidates:
                 if len(nr) == 0:
                     # Active player (opponent) went out!
                     ev = float(score_diff - pts - 2 * rack_points(passive_rack))

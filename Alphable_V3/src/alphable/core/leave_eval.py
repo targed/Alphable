@@ -7,32 +7,32 @@ accounting for high-value synergy tiles (?, S), bingo stems (TISANE, RETINA), du
 and vowel/consonant balance.
 """
 
-from typing import List, Union, Dict, Set
+from typing import List, Union, Dict, Set, Tuple
 
 # Single tile equity values (baseline points added to expected equity)
 BASE_TILE_EQUITY: Dict[str, float] = {
     "?": 26.5,   # Blank is the highest equity tile in Scrabble (+25 to +30 pts)
     "S": 8.2,    # Pluralizer and hook master (+8 to +10 pts)
-    "Z": 3.5,    # High point tile that plays easily on DL/TL
-    "X": 3.2,    # Plays easily on 2-letter words (AX, EX, OX, XI, XU)
-    "R": 2.2,    # Premium bingo tile
-    "E": 2.0,    # Core high-probability vowel
-    "T": 1.8,    # Excellent bingo consonant
-    "N": 1.6,    # High-flexibility connector (-ING, -TION)
-    "H": 1.5,
-    "C": 1.2,
-    "A": 1.2,
+    "Z": 2.5,    # High point tile that plays easily on DL/TL
+    "X": 2.5,    # Plays easily on 2-letter words (AX, EX, OX, XI, XU)
+    "R": 1.8,    # Premium bingo tile
+    "E": 1.6,    # Core high-probability vowel
+    "T": 1.6,    # Excellent bingo consonant
+    "N": 1.4,    # High-flexibility connector (-ING, -TION)
+    "H": 1.2,
     "D": 1.0,
-    "L": 0.8,
-    "M": 0.6,
+    "A": 0.8,
+    "C": 0.8,
+    "L": 0.6,
+    "M": 0.5,
     "P": 0.5,
-    "I": 0.5,
+    "I": 0.4,
     "O": -1.5,
     "G": -1.2,
-    "B": -1.8,
-    "K": -1.8,
-    "F": -2.0,
-    "Y": -1.8,
+    "B": -1.5,
+    "K": -1.5,
+    "F": -1.8,
+    "Y": -1.5,
     "J": -2.5,
     "W": -3.5,
     "U": -4.0,
@@ -72,35 +72,60 @@ DUPLICATE_PENALTIES: Dict[str, float] = {
 
 VOWELS = set("AEIOU")
 
-# Synergy bonuses for classic 2-tile bingo stems and compounds
+# Synergy bonuses for classic 2-tile bingo stems and tactical compounds
 STEM_SYNERGIES: Dict[str, float] = {
     "?S": 5.0,
-    "ER": 2.5,
-    "ES": 3.0,
-    "IN": 2.0,
-    "RE": 2.5,
-    "ST": 2.5,
-    "RS": 2.5,
-    "ED": 2.2,
     "QU": 6.5,   # Neutralizes Q penalty
+    "ES": 2.0,
+    "ST": 1.8,
+    "ER": 1.5,
+    "IN": 1.5,
+    "RS": 1.5,
+    "ED": 1.5,
 }
 
 # Synergy bonuses for classic 3-tile and multi-tile bingo stems
 MULTI_STEM_SYNERGIES: Dict[str, float] = {
-    "RET": 3.0,
-    "SAT": 2.8,
-    "TIN": 2.5,
-    "ARE": 2.8,
-    "ERS": 3.2,
-    "INE": 3.0,
-    "EST": 3.5,
-    "ATE": 2.8,
-    "ION": 2.5,
+    "RETIN": 4.5,
     "TISAN": 4.5,
-    "STARE": 5.0,
-    "RETIN": 5.0,
+    "STARE": 4.5,
     "SATIN": 4.5,
+    "EST": 2.5,
+    "ERS": 2.5,
+    "RET": 2.5,
+    "SAT": 2.5,
+    "INE": 2.2,
+    "TIN": 2.0,
+    "ARE": 2.0,
+    "ATE": 2.0,
+    "ION": 2.0,
 }
+
+# Ordered stems by length (5 first, then 3, then 2) for non-overlapping evaluation
+STEM_HIERARCHY: List[Tuple[str, float]] = [
+    # 5-letter classic bingo stems
+    ("RETIN", 4.5),
+    ("TISAN", 4.5),
+    ("STARE", 4.5),
+    ("SATIN", 4.5),
+    # 3-letter high-synergy stems
+    ("EST", 2.5),
+    ("ERS", 2.5),
+    ("RET", 2.5),
+    ("SAT", 2.5),
+    ("INE", 2.2),
+    ("TIN", 2.0),
+    ("ARE", 2.0),
+    ("ATE", 2.0),
+    ("ION", 2.0),
+    # 2-letter connectors (applied only if tiles not already covered by a 3+ stem)
+    ("ES", 2.0),
+    ("ST", 1.8),
+    ("ER", 1.5),
+    ("IN", 1.5),
+    ("RS", 1.5),
+    ("ED", 1.5),
+]
 
 
 def compute_leave_equity(rack: Union[List[str], str], bag_remaining: int = 100) -> float:
@@ -152,7 +177,6 @@ def compute_leave_equity(rack: Union[List[str], str], bag_remaining: int = 100) 
             equity += pen * excess * (1.2 ** (excess - 1))
 
     # 2. Vowel / Consonant balance penalty
-    leave_len = len(rack)
     natural_tiles = vowel_count + consonant_count
 
     if natural_tiles > 1:
@@ -170,28 +194,20 @@ def compute_leave_equity(rack: Union[List[str], str], bag_remaining: int = 100) 
             elif v_ratio < 0.25:
                 equity -= (0.25 - v_ratio) * 15.0
 
-    # 3. Two-letter synergy bonus
+    # 3. Tactical synergy pairs
     tiles_set = set(tile_counts.keys())
     if blank_count > 0 and "S" in tiles_set:
         equity += STEM_SYNERGIES.get("?S", 5.0)
     if "Q" in tiles_set and "U" in tiles_set:
         equity += STEM_SYNERGIES.get("QU", 6.5)
-    if "E" in tiles_set and "R" in tiles_set:
-        equity += STEM_SYNERGIES.get("ER", 2.5)
-    if "E" in tiles_set and "S" in tiles_set:
-        equity += STEM_SYNERGIES.get("ES", 3.0)
-    if "I" in tiles_set and "N" in tiles_set:
-        equity += STEM_SYNERGIES.get("IN", 2.0)
-    if "S" in tiles_set and "T" in tiles_set:
-        equity += STEM_SYNERGIES.get("ST", 2.5)
-    if "R" in tiles_set and "S" in tiles_set:
-        equity += STEM_SYNERGIES.get("RS", 2.5)
-    if "E" in tiles_set and "D" in tiles_set:
-        equity += STEM_SYNERGIES.get("ED", 2.2)
 
-    # 4. Multi-letter bingo stem synergies
-    for stem, bonus in MULTI_STEM_SYNERGIES.items():
-        if set(stem).issubset(tiles_set):
+    # 4. Hierarchical, non-overlapping bingo stem synergies
+    # Applies the strongest stem match first without stacking sub-stems on the same tiles
+    used_stem_tiles: Set[str] = set()
+    for stem, bonus in STEM_HIERARCHY:
+        stem_set = set(stem)
+        if stem_set.issubset(tiles_set) and not stem_set.intersection(used_stem_tiles):
             equity += bonus
+            used_stem_tiles.update(stem_set)
 
     return round(equity, 2)
