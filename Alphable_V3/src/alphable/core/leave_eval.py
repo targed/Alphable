@@ -3,41 +3,49 @@ Empirical Rack Leave Valuation and Synergy Modeling for Alphable.
 
 Based on tournament Scrabble empirical equity tables (Lipkin-Smith / Super-Leaves).
 Evaluates the expected future scoring equity of tiles remaining in hand after a move,
-accounting for high-value synergy tiles (?, S), bingo stems (TISANE), duplicate penalties,
+accounting for high-value synergy tiles (?, S), bingo stems (TISANE, RETINA), duplicate penalties,
 and vowel/consonant balance.
 """
 
-from typing import List, Union, Dict
+from typing import List, Union, Dict, Set
 
 # Single tile equity values (baseline points added to expected equity)
 BASE_TILE_EQUITY: Dict[str, float] = {
     "?": 26.5,   # Blank is the highest equity tile in Scrabble (+25 to +30 pts)
     "S": 8.2,    # Pluralizer and hook master (+8 to +10 pts)
-    "Z": 3.2,    # High point tile that plays easily on DL/TL
-    "X": 3.0,    # Plays easily on 2-letter words (AX, EX, OX, XI, XU)
-    "H": 1.2,
-    "C": 1.0,
-    "D": 0.8,
-    "M": 0.5,
-    "P": 0.4,
-    "T": 0.3,
-    "R": 0.2,
-    "E": 0.1,
-    "N": 0.0,
-    "A": -0.2,
-    "L": -0.5,
-    "I": -0.8,
+    "Z": 3.5,    # High point tile that plays easily on DL/TL
+    "X": 3.2,    # Plays easily on 2-letter words (AX, EX, OX, XI, XU)
+    "R": 2.2,    # Premium bingo tile
+    "E": 2.0,    # Core high-probability vowel
+    "T": 1.8,    # Excellent bingo consonant
+    "N": 1.6,    # High-flexibility connector (-ING, -TION)
+    "H": 1.5,
+    "C": 1.2,
+    "A": 1.2,
+    "D": 1.0,
+    "L": 0.8,
+    "M": 0.6,
+    "P": 0.5,
+    "I": 0.5,
     "O": -1.5,
-    "G": -1.5,
-    "B": -2.0,
-    "K": -2.0,
-    "F": -2.2,
-    "Y": -2.2,
-    "J": -3.0,
+    "G": -1.2,
+    "B": -1.8,
+    "K": -1.8,
+    "F": -2.0,
+    "Y": -1.8,
+    "J": -2.5,
     "W": -3.5,
     "U": -4.0,
     "V": -5.5,   # Hard to dump, few 2-letter words
     "Q": -7.5,   # Massive liability without U
+}
+
+# Standard Scrabble tile face values (for unplayed tile deductions in endgame)
+TILE_POINTS: Dict[str, int] = {
+    "A": 1, "B": 3, "C": 3, "D": 2, "E": 1, "F": 4, "G": 2, "H": 4,
+    "I": 1, "J": 8, "K": 5, "L": 1, "M": 3, "N": 1, "O": 1, "P": 3,
+    "Q": 10, "R": 1, "S": 1, "T": 1, "U": 1, "V": 4, "W": 4, "X": 8,
+    "Y": 4, "Z": 10, "?": 0,
 }
 
 # Duplicate penalties for redundant tiles
@@ -64,7 +72,7 @@ DUPLICATE_PENALTIES: Dict[str, float] = {
 
 VOWELS = set("AEIOU")
 
-# Synergy bonuses for classic 2-tile and 3-tile bingo stems
+# Synergy bonuses for classic 2-tile bingo stems and compounds
 STEM_SYNERGIES: Dict[str, float] = {
     "?S": 5.0,
     "ER": 2.5,
@@ -73,22 +81,48 @@ STEM_SYNERGIES: Dict[str, float] = {
     "RE": 2.5,
     "ST": 2.5,
     "RS": 2.5,
+    "ED": 2.2,
     "QU": 6.5,   # Neutralizes Q penalty
 }
 
+# Synergy bonuses for classic 3-tile and multi-tile bingo stems
+MULTI_STEM_SYNERGIES: Dict[str, float] = {
+    "RET": 3.0,
+    "SAT": 2.8,
+    "TIN": 2.5,
+    "ARE": 2.8,
+    "ERS": 3.2,
+    "INE": 3.0,
+    "EST": 3.5,
+    "ATE": 2.8,
+    "ION": 2.5,
+    "TISAN": 4.5,
+    "STARE": 5.0,
+    "RETIN": 5.0,
+    "SATIN": 4.5,
+}
 
-def compute_leave_equity(rack: Union[List[str], str]) -> float:
+
+def compute_leave_equity(rack: Union[List[str], str], bag_remaining: int = 100) -> float:
     """
     Computes the strategic expected equity (in Scrabble points) of a rack leave.
 
     Args:
         rack: List or string of tiles remaining in rack (e.g. ['A', 'E', 'R', 'T'] or "AERT").
+        bag_remaining: Number of tiles left in the bag. When 0, leave equity equals the
+                       negative face value of the tiles (pure endgame deduction).
 
     Returns:
         float: Expected leave equity in points (can be positive or negative).
     """
     if not rack:
         return 0.0
+
+    # In Scrabble endgame (bag == 0), rack leave represents dead tiles that will be deducted
+    # from the player at the end of the game (or awarded to the opponent if they go out).
+    if bag_remaining == 0:
+        total_unplayed_deduction = sum(TILE_POINTS.get(char.upper(), 0) for char in rack)
+        return -float(total_unplayed_deduction)
 
     equity = 0.0
     vowel_count = 0
@@ -144,9 +178,20 @@ def compute_leave_equity(rack: Union[List[str], str]) -> float:
         equity += STEM_SYNERGIES.get("QU", 6.5)
     if "E" in tiles_set and "R" in tiles_set:
         equity += STEM_SYNERGIES.get("ER", 2.5)
+    if "E" in tiles_set and "S" in tiles_set:
+        equity += STEM_SYNERGIES.get("ES", 3.0)
     if "I" in tiles_set and "N" in tiles_set:
         equity += STEM_SYNERGIES.get("IN", 2.0)
     if "S" in tiles_set and "T" in tiles_set:
         equity += STEM_SYNERGIES.get("ST", 2.5)
+    if "R" in tiles_set and "S" in tiles_set:
+        equity += STEM_SYNERGIES.get("RS", 2.5)
+    if "E" in tiles_set and "D" in tiles_set:
+        equity += STEM_SYNERGIES.get("ED", 2.2)
+
+    # 4. Multi-letter bingo stem synergies
+    for stem, bonus in MULTI_STEM_SYNERGIES.items():
+        if set(stem).issubset(tiles_set):
+            equity += bonus
 
     return round(equity, 2)

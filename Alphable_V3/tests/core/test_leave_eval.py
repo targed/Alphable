@@ -67,3 +67,30 @@ def test_vowel_consonant_imbalance():
     # All vowels penalty (e.g. AEIOU)
     all_vow = compute_leave_equity(["A", "E", "I", "O", "U"])
     assert all_vow < balanced
+
+
+def test_lipkin_smith_bingo_stem_equities():
+    # RETIN stem should have strong positive synergy (+10.0 to +16.0)
+    retin_equity = compute_leave_equity("RETIN")
+    assert retin_equity >= 10.0, f"Expected RETIN equity >= 10.0, got {retin_equity}"
+
+    # E, R, T individual baselines should be positive
+    e_val = compute_leave_equity("E")
+    r_val = compute_leave_equity("R")
+    t_val = compute_leave_equity("T")
+    assert e_val >= 1.5, f"Expected E equity >= 1.5, got {e_val}"
+    assert r_val >= 1.5, f"Expected R equity >= 1.5, got {r_val}"
+    assert t_val >= 1.5, f"Expected T equity >= 1.5, got {t_val}"
+
+
+def test_multi_tile_stem_synergies():
+    # 3-letter stems like RET or SAT should have bonus beyond raw sum
+    ret_equity = compute_leave_equity("RET")
+    assert ret_equity >= 7.0, f"Expected RET equity >= 7.0, got {ret_equity}"
+
+
+def test_endgame_zero_bag_deduction():
+    # When bag is 0, leave equity is pure face value deduction: Q (10) + Z (10) = -20 pts
+    qz_endgame = compute_leave_equity("QZ", bag_remaining=0)
+    assert qz_endgame == -20.0, f"Expected QZ endgame penalty -20.0, got {qz_endgame}"
+
