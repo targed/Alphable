@@ -7,6 +7,8 @@ from collections import Counter
 import torch
 from alphable.core import inference
 from alphable.core import simulator
+from alphable.core.leave_eval import compute_leave_equity, BASE_TILE_EQUITY
+from alphable.core.defense import compute_board_defense_adjustment
 
 
 def get_unseen_distribution(board, my_rack):
@@ -62,9 +64,10 @@ class AlphableSearch:
     def __init__(
         self,
         inference_engine,
-        num_simulations=10,
-        top_k_candidates=5,
+        num_simulations=16,
+        top_k_candidates=10,
         opp_reply_top_k=3,
+        opp_reply_prune_k=15,
         mode='bc_0ply',
         infer_batch_size=256,
         value_weight=60.0,
@@ -76,18 +79,17 @@ class AlphableSearch:
             inference_engine (AlphableInference): The Phase 1/2 NN and GADDAG wrapper.
             num_simulations (int): Number of opponent racks to sample per candidate move.
             top_k_candidates (int): Number of our own top moves to simulate deeply.
-            opp_reply_top_k (int): Number of strongest opponent replies to average
-                instead of taking a single worst-case max.
-            mode (str): 'bc_0ply' for behavior-cloning argmax play, 'lookahead'
-                for 1-ply opponent simulation (intended for RL value nets).
-            infer_batch_size (int): Inference batch size to control GPU memory
-                for positions with many legal moves.
+            opp_reply_top_k (int): Number of strongest opponent replies to average.
+            opp_reply_prune_k (int): Stage 1 fast pruning limit for opponent replies.
+            mode (str): 'bc_0ply' for direct evaluation, 'lookahead' for 1-ply opponent simulation.
+            infer_batch_size (int): Inference batch size to control GPU memory.
             value_weight (float): Equity weight multiplier applied to model value predictions.
         """
         self.engine = inference_engine
         self.num_simulations = num_simulations
         self.top_k_candidates = top_k_candidates
         self.opp_reply_top_k = opp_reply_top_k
+        self.opp_reply_prune_k = opp_reply_prune_k
         self.mode = mode
         self.infer_batch_size = infer_batch_size
         self.value_weight = float(value_weight)
@@ -105,33 +107,121 @@ class AlphableSearch:
                 values.extend(chunk_vals.detach().cpu().tolist())
         return values
 
+    def _generate_exchange_candidates(self, board, rack, score_diff, bag_remaining):
+        """
+        Generates tactical tile exchange candidates when bag has >= 7 tiles and
+        rack has severe structural flaws (all consonants, all vowels, or bad clunkers).
+        """
+        if bag_remaining < 7 or not rack:
+            return []
+
+        rack_str = "".join(rack).upper()
+        vowels = [c for c in rack_str if c in "AEIOU"]
+        consonants = [c for c in rack_str if c not in "AEIOU" and c != "?"]
+        blanks = [c for c in rack_str if c == "?"]
+
+        candidates = []
+
+        # Flaw 1: All consonants (0 vowels and 0 blanks)
+        if len(vowels) == 0 and len(blanks) == 0 and len(consonants) >= 5:
+            sorted_cons = sorted(consonants, key=lambda c: BASE_TILE_EQUITY.get(c, -5.0), reverse=True)
+            keep_count = min(2, len(sorted_cons) - 1)
+            dump = sorted_cons[keep_count:]
+            if len(dump) >= 3:
+                candidates.append(dump)
+
+        # Flaw 2: All vowels (0 consonants and 0 blanks)
+        elif len(consonants) == 0 and len(blanks) == 0 and len(vowels) >= 5:
+            sorted_vow = sorted(vowels, key=lambda c: BASE_TILE_EQUITY.get(c, -5.0), reverse=True)
+            keep_count = min(2, len(sorted_vow) - 1)
+            dump = sorted_vow[keep_count:]
+            if len(dump) >= 3:
+                candidates.append(dump)
+
+        # Flaw 3: Severe clunker concentration (e.g. holding Q without U, multiple V's, W's)
+        # or heavy duplicate penalties (e.g. III, UUU, VVV)
+        counts = Counter(rack_str)
+        heavy_duplicates = []
+        for tile, cnt in counts.items():
+            if cnt >= 3 and tile in "IUOVW":
+                heavy_duplicates.extend([tile] * (cnt - 1))
+            elif cnt >= 2 and tile in "UV":
+                heavy_duplicates.extend([tile] * (cnt - 1))
+
+        if "Q" in counts and "U" not in counts:
+            heavy_duplicates.append("Q")
+
+        if len(heavy_duplicates) >= 2:
+            dump = heavy_duplicates[:5]
+            if dump not in candidates and len(dump) >= 2:
+                candidates.append(dump)
+
+        exchange_moves = []
+        for dump_tiles in candidates:
+            kept_rack = list(rack)
+            for d in dump_tiles:
+                if d in kept_rack:
+                    kept_rack.remove(d)
+
+            leave_eq = compute_leave_equity(kept_rack)
+            turn_loss_penalty = 12.0
+            expected_exchange_equity = leave_eq - turn_loss_penalty
+
+            move_dict = {
+                "action": "EXCHANGE",
+                "tiles_to_exchange": dump_tiles,
+                "word": f"EXCHANGE({','.join(dump_tiles)})",
+                "row": 7,
+                "col": 7,
+                "dir": "Across",
+                "points": 0,
+            }
+            exchange_moves.append({
+                "move": move_dict,
+                "board": copy.deepcopy(board),
+                "score_diff": score_diff,
+                "rack": kept_rack,
+                "points": 0,
+                "value": 0.0,
+                "leave_equity": leave_eq,
+                "defense_adj": 0.0,
+                "equity": expected_exchange_equity,
+            })
+
+        return exchange_moves
+
     def find_best_move(self, board, rack, score_diff, bag_remaining):
         """
-        1-Ply Lookahead with Opponent Rack Sampling.
+        1-Ply Lookahead with Opponent Rack Sampling, Leave Valuation, and Two-Stage Pruning.
 
-        1. Generate all legal moves for our rack.
-        2. Evaluate all immediate "After-States" using the Value Network.
+        1. Generate all legal moves for our rack and evaluate tactical exchange candidates.
+        2. Evaluate all immediate "After-States" using Leave Equity, Defense Adjustments, and Value Network.
         3. Pick diverse Top-K moves as "Candidates" (Equity, Leave/Value, and Score).
         4. For each Candidate:
            a. Apply the move to get our new Board and Score.
            b. Sample N random opponent racks.
-           c. For each opponent rack, generate their legal replies.
-           d. Find the opponent's best reply using the Value Network (evaluating from their perspective).
-           e. The "True Equity" evaluates the net score gain and strategic advantage over the 2-ply exchange.
+           c. Generate opponent replies and prune to Top-M via fast heuristic (Stage 1).
+           d. Deep evaluate Top-M replies using Value Network (Stage 2).
+           e. The "True Equity" evaluates net points, strategic advantage, defense, and leave.
         5. Return the Candidate with the highest expected equity.
         """
         # Step 1: Generate all our legal moves
         my_moves = self.engine.move_gen.generate(board, rack)
 
-        if not my_moves:
-            return None, 0.0  # Pass or Exchange
+        # Step 1b: Generate candidate exchanges if bag allows
+        exchange_candidates = self._generate_exchange_candidates(board, rack, score_diff, bag_remaining)
 
-        print(f"Generated {len(my_moves)} legal moves.")
+        if not my_moves and not exchange_candidates:
+            return None, 0.0  # Pass
+
+        if my_moves:
+            print(f"Generated {len(my_moves)} legal moves.")
+        if exchange_candidates:
+            print(f"Generated {len(exchange_candidates)} exchange candidate(s).")
 
         # Step 2: Evaluate 0-Ply Value (Immediate After-State)
         candidate_evals = []
 
-        # We process our moves in batches to utilize the GPU efficiently
         batch_boards = []
         batch_states = []
         batch_moves = []
@@ -149,41 +239,49 @@ class AlphableSearch:
             batch_states.append(s_tensor)
             batch_moves.append((move, new_board, new_score_diff, new_rack, points))
 
-        win_probs = self._batched_forward_values(
-            list(zip(batch_boards, batch_states)))
+        win_probs = []
+        if batch_boards:
+            win_probs = self._batched_forward_values(
+                list(zip(batch_boards, batch_states)))
 
         for i in range(len(my_moves)):
-            pts = batch_moves[i][4]
+            move, n_board, n_sd, n_rack, pts = batch_moves[i]
             val = win_probs[i]
-            equity = float(pts) + self.value_weight * val
+            leave_eq = compute_leave_equity(n_rack)
+            def_adj = compute_board_defense_adjustment(board, n_board, move, score_diff)
+            equity = float(pts) + leave_eq + def_adj + self.value_weight * val
             candidate_evals.append({
-                'move': batch_moves[i][0],
-                'board': batch_moves[i][1],
-                'score_diff': batch_moves[i][2],
-                'rack': batch_moves[i][3],
+                'move': move,
+                'board': n_board,
+                'score_diff': n_sd,
+                'rack': n_rack,
                 'points': pts,
                 'value': val,
+                'leave_equity': leave_eq,
+                'defense_adj': def_adj,
                 'equity': equity,
             })
 
+        for exc in exchange_candidates:
+            candidate_evals.append(exc)
+
         # Step 3: Pick Top-K Candidates with Strategic Diversity
-        # (Combined Equity, Strategic/Leave Value, and Raw Score)
         selected_candidates = []
         seen_moves = set()
 
         def add_cand(c):
             m = c['move']
-            key = (m['row'], m['col'], m['dir'], m['word'])
+            key = (m.get('action', 'PLAY'), m['row'], m['col'], m['dir'], m['word'])
             if key not in seen_moves:
                 seen_moves.add(key)
                 selected_candidates.append(c)
 
         by_equity = sorted(candidate_evals, key=lambda x: x['equity'], reverse=True)
-        by_value = sorted(candidate_evals, key=lambda x: x['value'], reverse=True)
+        by_value = sorted(candidate_evals, key=lambda x: x['value'] + x.get('leave_equity', 0.0) / max(1.0, self.value_weight), reverse=True)
         by_points = sorted(candidate_evals, key=lambda x: x['points'], reverse=True)
 
-        # 1. Top 2 by total equity
-        for c in by_equity[:2]:
+        # 1. Top candidates by total equity
+        for c in by_equity[:min(4, len(by_equity))]:
             add_cand(c)
         # 2. Top 1 by pure strategic value / leave
         if by_value:
@@ -192,7 +290,7 @@ class AlphableSearch:
         if by_points:
             add_cand(by_points[0])
         # 4. Fill remaining slots up to top_k_candidates with highest remaining equity
-        for c in by_equity[2:]:
+        for c in by_equity[len(selected_candidates):]:
             if len(selected_candidates) >= self.top_k_candidates:
                 break
             add_cand(c)
@@ -206,7 +304,8 @@ class AlphableSearch:
                 m = c['move']
                 print(
                     f"0-Ply Candidate {i+1}: {m['word']} at {m['row']},{m['col']} | "
-                    f"Points: {c['points']} | Val: {c['value']:.3f} | Equity: {c['equity']:.1f}"
+                    f"Points: {c['points']} | Leave: {c.get('leave_equity', 0.0):+.1f} | Def: {c.get('defense_adj', 0.0):+.1f} | "
+                    f"Val: {c['value']:.3f} | Equity: {c['equity']:.1f}"
                 )
 
             best = top_candidates[0]
@@ -227,9 +326,10 @@ class AlphableSearch:
             cand_move = cand['move']
             cand_board = cand['board']
             cand_score_diff = cand['score_diff']
-
-            # Note: We must update the unseen distribution since we just played tiles from our rack
-            # The tiles we played are now on the board, so they remain "seen".
+            cand_points = cand['points']
+            cand_val = cand['value']
+            cand_leave = cand.get('leave_equity', 0.0)
+            cand_def = cand.get('defense_adj', 0.0)
 
             total_simulation_equity = 0.0
 
@@ -241,63 +341,77 @@ class AlphableSearch:
                 opp_moves = self.engine.move_gen.generate(cand_board, opp_rack)
 
                 if not opp_moves:
-                    # Opponent passes. Equity is our immediate move points + value_weight * after-state value
-                    total_simulation_equity += float(cand['points']) + self.value_weight * cand['value']
+                    # Opponent passes.
+                    sim_equity = float(cand_points) + cand_leave + cand_def + self.value_weight * cand_val
+                    total_simulation_equity += sim_equity
                     continue
 
-                # 4d. Find Opponent's Best Reply
+                # Stage 1: Fast Heuristic Pruning (points + leave equity)
+                scored_opp = []
+                for opp_m in opp_moves:
+                    opp_nb, opp_pts, opp_nr = simulator.simulate_move(cand_board, opp_m, opp_rack)
+                    opp_leave = compute_leave_equity(opp_nr)
+                    h_score = float(opp_pts) + opp_leave
+                    scored_opp.append((h_score, opp_m, opp_nb, opp_pts, opp_nr, opp_leave))
+
+                scored_opp.sort(key=lambda x: x[0], reverse=True)
+                top_opp = scored_opp[:self.opp_reply_prune_k]
+
+                # Stage 2: Deep Evaluation on Top-M opponent replies
                 opp_batch_boards = []
                 opp_batch_states = []
                 opp_move_points = []
+                opp_leaves = []
 
-                for opp_move in opp_moves:
-                    opp_new_board, opp_points, opp_new_rack = simulator.simulate_move(
-                        cand_board, opp_move, opp_rack)
-
-                    # Opponent's perspective: Score diff is inverted.
-                    opp_score_diff = -(cand_score_diff - opp_points)
-
-                    b_tensor = inference.board_to_tensor(opp_new_board)
+                for _, opp_m, opp_nb, opp_pts, opp_nr, opp_leave in top_opp:
+                    opp_score_diff = -(cand_score_diff - opp_pts)
+                    b_tensor = inference.board_to_tensor(opp_nb)
                     s_tensor = inference.state_to_tensor(
-                        opp_new_rack, opp_score_diff, bag_remaining)
+                        opp_nr, opp_score_diff, bag_remaining)
 
                     opp_batch_boards.append(b_tensor)
                     opp_batch_states.append(s_tensor)
-                    opp_move_points.append(opp_points)
+                    opp_move_points.append(opp_pts)
+                    opp_leaves.append(opp_leave)
 
-                # Evaluate from opponent's perspective. Higher equity is better for them.
                 opp_vals = self._batched_forward_values(
                     list(zip(opp_batch_boards, opp_batch_states))
                 )
 
-                # Opponent total move equity: immediate points + value_weight * after-state value
-                opp_equities = [float(p) + self.value_weight * v for p, v in zip(opp_move_points, opp_vals)]
+                opp_equities = [
+                    float(p) + l + self.value_weight * v
+                    for p, l, v in zip(opp_move_points, opp_leaves, opp_vals)
+                ]
 
-                k = min(max(3, self.opp_reply_top_k), len(opp_equities))
+                k = min(max(1, self.opp_reply_top_k), len(opp_equities))
                 topk_indices = sorted(range(len(opp_equities)), key=lambda idx: opp_equities[idx], reverse=True)[:k]
                 topk_equities = [opp_equities[idx] for idx in topk_indices]
                 topk_points = [float(opp_move_points[idx]) for idx in topk_indices]
                 topk_vals = [opp_vals[idx] for idx in topk_indices]
 
-                # Softmax temperature over top replies to avoid extreme single-outlier noise
                 exp_weights = [math.exp((eq - topk_equities[0]) / 5.0) for eq in topk_equities]
                 sum_w = sum(exp_weights)
                 expected_opp_points = sum(w * p for w, p in zip(exp_weights, topk_points)) / sum_w
                 expected_opp_val = sum(w * v for w, v in zip(exp_weights, topk_vals)) / sum_w
 
-                # 4e. Net simulation equity from our perspective over the 2-ply exchange:
-                # - Net points: cand['points'] - expected_opp_points
-                # - Net strategic advantage: cand['value'] - expected_opp_val
-                sim_points_diff = float(cand['points']) - expected_opp_points
-                sim_strategic_diff = cand['value'] - expected_opp_val
-                sim_equity = sim_points_diff + self.value_weight * sim_strategic_diff
+                sim_points_diff = float(cand_points) - expected_opp_points
+                sim_strategic_diff = cand_val - expected_opp_val
+                sim_equity = (
+                    sim_points_diff
+                    + cand_leave
+                    + cand_def
+                    + self.value_weight * sim_strategic_diff
+                )
                 total_simulation_equity += sim_equity
 
-            # Average the simulated equity across all N random racks
+            # Average simulated equity across all random racks
             cand_total_equity = total_simulation_equity / self.num_simulations
-            cand_sim_val = (cand_total_equity - float(cand['points'])) / self.value_weight
-            print(f"Candidate {cand_idx+1}: {cand_move['word']} at {cand_move['row']},{cand_move['col']} | "
-                  f"Points: {cand['points']} | 0-Ply Val: {cand['value']:.3f} | 1-Ply Sim Equity: {cand_total_equity:.1f}")
+            cand_sim_val = (cand_total_equity - float(cand_points) - cand_leave - cand_def) / max(1.0, self.value_weight)
+            print(
+                f"Candidate {cand_idx+1}: {cand_move['word']} at {cand_move['row']},{cand_move['col']} | "
+                f"Points: {cand_points} | Leave: {cand_leave:+.1f} | Def: {cand_def:+.1f} | "
+                f"0-Ply Val: {cand_val:.3f} | 1-Ply Sim Equity: {cand_total_equity:.1f}"
+            )
 
             if cand_total_equity > best_expected_equity:
                 best_expected_equity = cand_total_equity

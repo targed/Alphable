@@ -230,3 +230,141 @@ def test_search_opponent_has_no_moves_passes():
     best_move, best_val = searcher.find_best_move(board, ['T', 'E', 'S', 'T'], score_diff=0, bag_remaining=86)
     assert best_move['word'] == 'TEST'
     assert best_val == pytest.approx(0.5)
+
+
+def test_blank_preservation_over_low_score():
+    from unittest.mock import MagicMock
+    import torch
+    from alphable.core.search import AlphableSearch
+
+    mock_engine = MagicMock()
+    mock_engine.device = 'cpu'
+    mock_engine.model.return_value = torch.zeros((10, 1))
+
+    # cand1 burns ? for 16 pts by playing DAWTS (S is not in rack naturally)
+    cand1 = {'row': 7, 'col': 7, 'dir': 'Across', 'word': 'DAWTS'}
+    # cand2 plays DINT for 10 pts and keeps ?
+    cand2 = {'row': 7, 'col': 7, 'dir': 'Across', 'word': 'DINT'}
+
+    def mock_generate(board, rack):
+        if board[7][7] == '.':
+            return [cand1, cand2]
+        return []  # opponent passes
+
+    mock_engine.move_gen.generate.side_effect = mock_generate
+
+    searcher = AlphableSearch(
+        inference_engine=mock_engine,
+        num_simulations=1,
+        top_k_candidates=2,
+        opp_reply_top_k=1,
+        mode='lookahead',
+    )
+    board = create_empty_board()
+    # Rack with blank
+    rack = ['D', 'A', 'W', 'T', 'I', 'N', '?']
+    best_move, _ = searcher.find_best_move(board, rack, score_diff=0, bag_remaining=70)
+
+    # DINT must be selected over DAWTS because keeping ? (+26.5 leave) far outweighs +6 raw score difference!
+    assert best_move['word'] == 'DINT'
+
+
+def test_exchange_generated_on_all_consonants():
+    from unittest.mock import MagicMock
+    from alphable.core.search import AlphableSearch
+
+    mock_engine = MagicMock()
+    searcher = AlphableSearch(inference_engine=mock_engine)
+    board = create_empty_board()
+    rack = ['B', 'C', 'D', 'F', 'G', 'G', 'K']
+
+    exchanges = searcher._generate_exchange_candidates(board, rack, score_diff=0, bag_remaining=50)
+    assert len(exchanges) > 0
+    assert exchanges[0]['move']['action'] == 'EXCHANGE'
+    assert len(exchanges[0]['move']['tiles_to_exchange']) >= 3
+
+
+def test_exchange_chosen_over_terrible_board_move():
+    from unittest.mock import MagicMock
+    import torch
+    from alphable.core.search import AlphableSearch
+
+    mock_engine = MagicMock()
+    mock_engine.device = 'cpu'
+    mock_engine.model.return_value = torch.zeros((10, 1))
+
+    board = create_empty_board()
+    board[7][7] = 'E'
+    rack = ['B', 'C', 'D', 'F', 'G', 'K', 'V']
+
+    # Playing FE scores 5 points but leaves 0 vowels (BCDGKV with -24.2 leave equity)
+    weak_move = {'row': 7, 'col': 6, 'dir': 'Across', 'word': 'FE'}
+
+    def mock_generate(b, r):
+        if b[7][6] == '.':
+            return [weak_move]
+        return []
+
+    mock_engine.move_gen.generate.side_effect = mock_generate
+
+    searcher = AlphableSearch(
+        inference_engine=mock_engine,
+        num_simulations=1,
+        top_k_candidates=2,
+        opp_reply_top_k=1,
+        mode='lookahead',
+    )
+    best_move, _ = searcher.find_best_move(board, rack, score_diff=0, bag_remaining=40)
+
+    # Exchanging clunky consonants should be chosen over playing FE and crippling the rack
+    assert best_move.get('action') == 'EXCHANGE'
+    assert len(best_move.get('tiles_to_exchange')) >= 3
+
+
+def test_two_stage_pruning_filters_opponent_moves():
+    from unittest.mock import MagicMock
+    import torch
+    from alphable.core.search import AlphableSearch
+
+    mock_engine = MagicMock()
+    mock_engine.device = 'cpu'
+    # Return 0.0 values for batch inputs
+    mock_engine.model.side_effect = lambda b, s: torch.zeros((b.shape[0], 1))
+
+    board = create_empty_board()
+    board[7][7] = 'A'
+
+    cand = {'row': 7, 'col': 8, 'dir': 'Across', 'word': 'AT'}
+
+    # Generate 50 opponent replies
+    opp_replies = [
+        {'row': 0, 'col': 0, 'dir': 'Across', 'word': f'M{i}'}
+        for i in range(50)
+    ]
+
+    def mock_generate(b, r):
+        if b[7][8] == '.':
+            return [cand]
+        return opp_replies
+
+    mock_engine.move_gen.generate.side_effect = mock_generate
+
+    # Set opp_reply_prune_k=5
+    searcher = AlphableSearch(
+        inference_engine=mock_engine,
+        num_simulations=1,
+        top_k_candidates=1,
+        opp_reply_prune_k=5,
+        mode='lookahead',
+    )
+    rack = ['A', 'T', 'E', 'R', 'S', 'I', 'N']
+    searcher.find_best_move(board, rack, score_diff=0, bag_remaining=60)
+
+    # In Step 4 simulation, mock_engine.model should only have been called with at most 5 opponent moves in the batch
+    # instead of all 50!
+    for call in mock_engine.model.call_args_list:
+        b_arg, s_arg = call[0]
+        # First call is 0-ply candidate eval (1 move). Subsequent calls in simulation must be <= opp_reply_prune_k (5)
+        assert b_arg.shape[0] <= 5
+
+

@@ -23,10 +23,11 @@ def parse_args():
         default="HastyBot",
         help="Opponent bot name on Woogles (e.g. HastyBot, BestBot, BeginnerBot).",
     )
+    default_model = "models/alphable_v3_rl_gen3_distilled.pth" if os.path.exists("models/alphable_v3_rl_gen3_distilled.pth") else "models/alphable_v3_rl_gen2.pth"
     parser.add_argument(
         "--model",
         type=str,
-        default="models/alphable_v3_rl_gen2.pth",
+        default=default_model,
         help="Path to neural network checkpoint to use.",
     )
     parser.add_argument(
@@ -94,14 +95,57 @@ def parse_args():
     parser.add_argument(
         "--simulations",
         type=int,
-        default=16,
+        default=10,
         help="Number of opponent leave simulations per candidate in lookahead mode.",
     )
     parser.add_argument(
         "--top-k",
         type=int,
-        default=3,
+        default=5,
         help="Number of candidate moves evaluated in lookahead search.",
+    )
+    parser.add_argument(
+        "--games",
+        type=int,
+        default=1,
+        help="Number of online matches to play in series (default: 1).",
+    )
+    parser.add_argument(
+        "--opponent",
+        type=str,
+        default="bot",
+        choices=["bot", "human"],
+        help="Opponent type: 'bot' (computer bot) or 'human' (human player).",
+    )
+    parser.add_argument(
+        "--takeover",
+        action="store_true",
+        default=False,
+        help="Interactive Takeover Mode: launch browser and let human start or join a match, then Alphable takes over play.",
+    )
+    parser.add_argument(
+        "--auto-seek",
+        action="store_true",
+        default=False,
+        help="Post an open challenge to the public Woogles lobby for automatic human matchmaking.",
+    )
+    parser.add_argument(
+        "--game-url",
+        type=str,
+        default=None,
+        help="Direct Woogles game URL (e.g. https://woogles.io/game/...) to join and play.",
+    )
+    parser.add_argument(
+        "--no-gcg",
+        action="store_true",
+        default=False,
+        help="Disable automatic GCG file export upon match completion.",
+    )
+    parser.add_argument(
+        "--no-analysis",
+        action="store_true",
+        default=False,
+        help="Disable automatic post-game Analyzer evaluations extraction.",
     )
     parser.add_argument(
         "--keep-open",
@@ -121,10 +165,28 @@ def parse_args():
 def main():
     args = parse_args()
 
+    # Determine matchmaking mode
+    match_mode = "bot"
+    opponent_type = args.opponent
+    if args.takeover:
+        match_mode = "takeover"
+        opponent_type = "human"
+    elif args.auto_seek:
+        match_mode = "auto-seek"
+        opponent_type = "human"
+    elif args.opponent == "human":
+        match_mode = "takeover"
+
+    # Takeover mode must run in headed mode so user can interact
+    headless = args.headless
+    if match_mode == "takeover" and headless:
+        print("Note: Takeover mode requires interactive browser window. Setting headless=False.")
+        headless = False
+
     adapter = WooglesAdapter()
     try:
-        print(f"Launching browser (headless={args.headless}, profile={args.profile_dir})...")
-        adapter.start(headless=args.headless, user_data_dir=args.profile_dir)
+        print(f"Launching browser (headless={headless}, profile={args.profile_dir})...")
+        adapter.start(headless=headless, user_data_dir=args.profile_dir)
         user = adapter.ensure_logged_in()
         print(f"Logged in / Session established as: {user}")
 
@@ -142,17 +204,22 @@ def main():
         )
 
         config = PlatformGameConfig(
-            opponent_type="bot",
+            opponent_type=opponent_type,
             bot_name=args.bot,
             dictionary="CSW24" if "CSW" in args.dict.upper() else "NWL23",
             game_mode=args.game_mode,
             time_control=args.time_control,
             rated=False,
+            match_mode=match_mode,
+            game_url=args.game_url,
+            num_games=args.games,
+            export_gcg=not args.no_gcg,
+            extract_analysis=not args.no_analysis,
         )
 
         runner.play_match(config)
 
-        if args.keep_open and not args.headless:
+        if args.keep_open and not headless:
             print("\nMatch session completed. Press Enter to close browser window...")
             try:
                 input()

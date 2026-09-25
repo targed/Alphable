@@ -47,6 +47,8 @@ class OnlineGameRunner:
         self.delay_max = float(delay_max)
         self.output_dir = Path(output_dir)
         self.output_dir.mkdir(parents=True, exist_ok=True)
+        self.matches_dir = self.output_dir.parent / "matches"
+        self.matches_dir.mkdir(parents=True, exist_ok=True)
         self.summaries_dir = self.output_dir.parent / "summaries"
         self.summaries_dir.mkdir(parents=True, exist_ok=True)
 
@@ -69,20 +71,49 @@ class OnlineGameRunner:
 
     def play_match(self, config: PlatformGameConfig) -> Dict[str, Any]:
         """
-        Executes a single online match from lobby creation to game over and replay saving.
+        Executes an online match or series of matches from lobby to completion,
+        saving full replays, official GCG exports, and post-game Analyzer evaluations.
+        """
+        if config.num_games > 1:
+            return self.play_series(config)
+        return self._execute_single_game(config, game_idx=1, total_games=1)
+
+    def _execute_single_game(
+        self,
+        config: PlatformGameConfig,
+        game_idx: int = 1,
+        total_games: int = 1,
+        is_rematch: bool = False,
+    ) -> Dict[str, Any]:
+        """
+        Runs a single match, exports GCG and Analyzer data, and organizes files into a per-game folder.
         """
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-        print("=" * 65)
-        print(f"Starting Online Scrabble Match: Alphable vs {config.bot_name}")
-        print(f"Mode: {self.mode}, Dictionary: {config.dictionary}, Time: {config.time_control}")
-        print("=" * 65)
+        opponent_display = config.bot_name if config.opponent_type == "bot" else "Human Opponent"
 
-        # 1. Create or join game
-        game_url = self.adapter.create_game(config)
+        if total_games > 1:
+            print("\n" + "=" * 65)
+            print(f"Match {game_idx}/{total_games}: Alphable vs {opponent_display}")
+            print(f"Mode: {self.mode}, Dictionary: {config.dictionary}, Time: {config.time_control}")
+            print("=" * 65)
+        else:
+            print("=" * 65)
+            print(f"Starting Online Scrabble Match: Alphable vs {opponent_display}")
+            print(f"Mode: {self.mode}, Dictionary: {config.dictionary}, Time: {config.time_control}")
+            print("=" * 65)
+
+        # 1. Ensure browser session is active and healthy
+        if hasattr(self.adapter, "ensure_browser_active"):
+            self.adapter.ensure_browser_active()
+
+        if not is_rematch:
+            game_url = self.adapter.create_game(config)
+        else:
+            game_url = getattr(self.adapter, "current_game_url", None) or "unknown"
 
         turns_log: List[Dict[str, Any]] = []
         turn_idx = 0
-        final_scores = [0, 0]
+        retry_count = 0
 
         try:
             while True:
@@ -130,54 +161,109 @@ class OnlineGameRunner:
 
                 # 4. Submit move to platform
                 if best_move is not None:
-                    word = best_move["word"]
-                    r = best_move["row"]
-                    c = best_move["col"]
-                    d = best_move["dir"]
-                    pts = best_move.get("points", 0)
+                    action = best_move.get("action", "PLAY")
+                    if action == "EXCHANGE":
+                        exch_tiles = best_move.get("tiles_to_exchange", [])
+                        print(f"Executing EXCHANGE of {exch_tiles} (Value: {best_val:.3f})")
+                        move_cmd = PlatformMove(
+                            action="EXCHANGE",
+                            tiles_to_exchange=exch_tiles,
+                        )
+                        success = self.adapter.play_move(move_cmd)
+                        if not success:
+                            retry_count += 1
+                            print(f"⚠ Exchange was not accepted by platform (attempt {retry_count}/3). Retrying...")
+                            time.sleep(1.0)
+                            if retry_count < 3:
+                                turn_idx -= 1
+                                continue
+                            else:
+                                print("⚠ Maximum retries (3) exceeded for exchange. Passing turn to prevent timeout forfeit...")
+                                self.adapter.play_move(PlatformMove(action="PASS"))
+                                turns_log.append({
+                                    "turn": turn_idx,
+                                    "player": 0,
+                                    "action_type": "PASS",
+                                    "timestamp": datetime.now().isoformat(),
+                                })
+                                retry_count = 0
+                                time.sleep(1.0)
+                                continue
 
-                    print(f"Playing: '{word}' at ({r},{c}) {d} (Est Points: {pts}, Value: {best_val:.3f})")
+                        retry_count = 0
+                        turns_log.append({
+                            "turn": turn_idx,
+                            "player": 0,
+                            "action_type": "EXCHANGE",
+                            "tiles_to_exchange": exch_tiles,
+                            "points": 0,
+                            "value": round(float(best_val), 4),
+                            "rack": rack_str,
+                            "timestamp": datetime.now().isoformat(),
+                        })
+                    else:
+                        word = best_move["word"]
+                        r = best_move["row"]
+                        c = best_move["col"]
+                        d = best_move["dir"]
+                        pts = best_move.get("points", 0)
 
-                    move_cmd = PlatformMove(
-                        action="PLAY",
-                        word=word,
-                        row=r,
-                        col=c,
-                        direction=d,
-                    )
-                    success = self.adapter.play_move(move_cmd)
-                    if not success:
-                        print("⚠ Move was not accepted by platform. Re-evaluating next play...")
-                        time.sleep(1.0)
-                        turn_idx -= 1
-                        continue
+                        print(f"Playing: '{word}' at ({r},{c}) {d} (Est Points: {pts}, Value: {best_val:.3f})")
 
-                    turns_log.append({
-                        "turn": turn_idx,
-                        "player": 0,
-                        "action_type": "PLAY",
-                        "word": word,
-                        "row": r,
-                        "col": c,
-                        "direction": d,
-                        "points": pts,
-                        "value": round(float(best_val), 4),
-                        "rack": rack_str,
-                        "timestamp": datetime.now().isoformat(),
-                    })
+                        move_cmd = PlatformMove(
+                            action="PLAY",
+                            word=word,
+                            row=r,
+                            col=c,
+                            direction=d,
+                        )
+                        success = self.adapter.play_move(move_cmd)
+                        if not success:
+                            retry_count += 1
+                            print(f"⚠ Move was not accepted by platform (attempt {retry_count}/3). Recalling tiles and re-evaluating...")
+                            self.adapter.recall_tiles()
+                            time.sleep(1.0)
+                            if retry_count < 3:
+                                turn_idx -= 1
+                                continue
+                            else:
+                                print("⚠ Maximum retries (3) exceeded for play. Passing turn to prevent timeout forfeit...")
+                                self.adapter.play_move(PlatformMove(action="PASS"))
+                                turns_log.append({
+                                    "turn": turn_idx,
+                                    "player": 0,
+                                    "action_type": "PASS",
+                                    "timestamp": datetime.now().isoformat(),
+                                })
+                                retry_count = 0
+                                time.sleep(1.0)
+                                continue
+
+                        retry_count = 0
+
+                        turns_log.append({
+                            "turn": turn_idx,
+                            "player": 0,
+                            "action_type": "PLAY",
+                            "word": word,
+                            "row": r,
+                            "col": c,
+                            "direction": d,
+                            "points": pts,
+                            "value": round(float(best_val), 4),
+                            "rack": rack_str,
+                            "timestamp": datetime.now().isoformat(),
+                        })
                 else:
-                    # Pass or Exchange
-                    print("No viable legal move found. Passing turn...")
-                    move_cmd = PlatformMove(action="PASS")
-                    self.adapter.play_move(move_cmd)
-
+                    print("No legal plays found. Passing turn...")
+                    self.adapter.play_move(PlatformMove(action="PASS"))
                     turns_log.append({
                         "turn": turn_idx,
                         "player": 0,
                         "action_type": "PASS",
-                        "rack": rack_str,
                         "timestamp": datetime.now().isoformat(),
                     })
+                    retry_count = 0
 
                 # Allow server to register move
                 time.sleep(1.0)
@@ -189,38 +275,76 @@ class OnlineGameRunner:
             print(f"Exception during match execution: {e}")
             traceback.print_exc()
 
-        # 5. Compile Final Result & Replay
+        # 5. Extract Final Result
         final_result = self.adapter.get_final_result()
-        replay_filename = f"game_{timestamp}.json"
-        replay_path = self.output_dir / replay_filename
+        opponent_name = final_result.get("opponent_name", opponent_display)
+
+        # 6. Setup dedicated Match Directory
+        raw_id = (game_url or "").rstrip("/").split("/")[-1] if game_url else "unknown"
+        game_id = raw_id.split("?")[0] if raw_id else "unknown"
+        match_folder_name = f"match_{timestamp}_{game_id}"
+        match_dir = self.matches_dir / match_folder_name
+        match_dir.mkdir(parents=True, exist_ok=True)
+
+        # 7. Export GCG if requested
+        gcg_path_str: Optional[str] = None
+        if config.export_gcg:
+            gcg_file = match_dir / "game.gcg"
+            gcg_path_str = self.adapter.export_gcg(str(gcg_file))
+
+        # 8. Extract Analyzer evaluations if requested
+        analysis_data: List[Dict[str, Any]] = []
+        if config.extract_analysis:
+            analysis_data = self.adapter.extract_analysis()
+            if analysis_data:
+                analysis_path = match_dir / "analysis.json"
+                with open(analysis_path, "w", encoding="utf-8") as f:
+                    json.dump(analysis_data, f, indent=2)
+
+        # 9. Save Replay JSON in match folder and backward compatibility in output_dir
+        replay_path = match_dir / "replay.json"
+        legacy_replay_path = self.output_dir / f"game_{timestamp}.json"
 
         replay_data = {
             "metadata": {
                 "platform": "woogles",
                 "game_url": game_url,
+                "opponent": opponent_name,
                 "bot_name": config.bot_name,
                 "dictionary": config.dictionary,
                 "time_control": config.time_control,
                 "mode": self.mode,
                 "value_weight": self.value_weight,
                 "timestamp": timestamp,
+                "game_index": game_idx,
+                "total_games": total_games,
             },
-            "player_names": [final_result.get("my_name", "Alphable"), final_result.get("opponent_name", config.bot_name)],
+            "player_names": [final_result.get("my_name", "Alphable"), opponent_name],
             "final_score": [final_result.get("my_score", 0), final_result.get("opponent_score", 0)],
             "winner": final_result.get("winner", "Unknown"),
+            "gcg_export": gcg_path_str,
+            "analysis_turns_count": len(analysis_data),
             "turns": turns_log,
         }
 
         with open(replay_path, "w", encoding="utf-8") as f:
             json.dump(replay_data, f, indent=2)
 
-        summary_filename = f"run_{timestamp}_summary.json"
-        summary_path = self.summaries_dir / summary_filename
+        with open(legacy_replay_path, "w", encoding="utf-8") as f:
+            json.dump(replay_data, f, indent=2)
+
+        # 10. Save Match Summary
+        summary_path = match_dir / "summary.json"
+        legacy_summary_path = self.summaries_dir / f"run_{timestamp}_summary.json"
         summary_data = {
             "timestamp": timestamp,
             "platform": "woogles",
-            "opponent": config.bot_name,
+            "match_id": game_id,
+            "match_folder": str(match_dir),
+            "opponent": opponent_name,
             "game_replay": str(replay_path),
+            "gcg_file": gcg_path_str,
+            "has_analysis": len(analysis_data) > 0,
             "final_score": replay_data["final_score"],
             "winner": replay_data["winner"],
             "turns_count": len(turns_log),
@@ -228,10 +352,95 @@ class OnlineGameRunner:
         with open(summary_path, "w", encoding="utf-8") as f:
             json.dump(summary_data, f, indent=2)
 
+        with open(legacy_summary_path, "w", encoding="utf-8") as f:
+            json.dump(summary_data, f, indent=2)
+
         print("\n" + "=" * 65)
         print(f"MATCH COMPLETED: {summary_data['winner']} won ({summary_data['final_score'][0]} - {summary_data['final_score'][1]})")
-        print(f"Replay saved to: {replay_path}")
-        print(f"Summary saved to: {summary_path}")
+        print(f"📁 Match folder: {match_dir}")
+        if gcg_path_str:
+            print(f"📄 GCG export: {gcg_path_str}")
+        if analysis_data:
+            print(f"📊 Macondo analysis: {len(analysis_data)} turns saved to analysis.json")
         print("=" * 65)
 
         return summary_data
+
+    def play_series(self, config: PlatformGameConfig) -> Dict[str, Any]:
+        """
+        Executes a series of N online matches, chaining games via Rematch where available.
+        """
+        series_timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        opponent_display = config.bot_name if config.opponent_type == "bot" else "Human"
+
+        print("\n" + "#" * 65)
+        print(f"STARTING ONLINE SCRABBLE SERIES ({config.num_games} Games)")
+        print(f"Opponent: {opponent_display}, Mode: {self.mode}, Dictionary: {config.dictionary}")
+        print("#" * 65)
+
+        series_results: List[Dict[str, Any]] = []
+        my_wins = 0
+        opp_wins = 0
+        draws = 0
+        score_diffs = []
+
+        is_rematch_ready = False
+        for game_idx in range(1, config.num_games + 1):
+            summary = self._execute_single_game(
+                config,
+                game_idx=game_idx,
+                total_games=config.num_games,
+                is_rematch=is_rematch_ready,
+            )
+            series_results.append(summary)
+
+            my_score, opp_score = summary["final_score"]
+            diff = my_score - opp_score
+            score_diffs.append(diff)
+            winner = summary["winner"]
+
+            my_name = summary.get("my_name", "Alphable")
+            if winner == my_name or (my_score > opp_score and winner not in ("Draw", summary["opponent"])):
+                my_wins += 1
+            elif winner == "Draw" or my_score == opp_score:
+                draws += 1
+            else:
+                opp_wins += 1
+
+            is_rematch_ready = False
+            if game_idx < config.num_games:
+                time.sleep(1.0)
+                rematch_success = self.adapter.trigger_rematch()
+                if rematch_success:
+                    is_rematch_ready = True
+                else:
+                    print("Rematch unavailable. Launching next match in lobby...")
+                    if hasattr(self.adapter, "ensure_browser_active"):
+                        self.adapter.ensure_browser_active()
+                    if hasattr(self.adapter, "reset_to_lobby"):
+                        self.adapter.reset_to_lobby()
+
+        avg_diff = sum(score_diffs) / len(score_diffs) if score_diffs else 0.0
+        series_summary_path = self.summaries_dir / f"run_{series_timestamp}_series.json"
+        series_summary_data = {
+            "timestamp": series_timestamp,
+            "total_games": config.num_games,
+            "alphable_wins": my_wins,
+            "opponent_wins": opp_wins,
+            "draws": draws,
+            "average_score_diff": round(avg_diff, 2),
+            "games": series_results,
+        }
+
+        with open(series_summary_path, "w", encoding="utf-8") as f:
+            json.dump(series_summary_data, f, indent=2)
+
+        print("\n" + "#" * 65)
+        print("SERIES COMPLETED")
+        print(f"Wins / Losses / Draws: {my_wins} / {opp_wins} / {draws}")
+        print(f"Win Rate: {my_wins / config.num_games:.1%}")
+        print(f"Average Score Diff: {avg_diff:+.1f}")
+        print(f"Series summary saved: {series_summary_path}")
+        print("#" * 65)
+
+        return series_summary_data

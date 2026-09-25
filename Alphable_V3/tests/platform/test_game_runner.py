@@ -68,6 +68,20 @@ class MockPlatformAdapter(AbstractPlatformAdapter):
             "url": "https://woogles.io/game/mock_12345",
         }
 
+    def export_gcg(self, destination_path: str):
+        p = Path(destination_path)
+        p.parent.mkdir(parents=True, exist_ok=True)
+        p.write_text("#mock gcg\n>Alphable: A 8H CAT +10 10\n")
+        return str(p)
+
+    def extract_analysis(self) -> list:
+        return [{"turn_title": "Turn 1", "suggestions": [{"coords": "8H", "word": "CAT", "points": 10, "leave": "DEFG", "equity": 15.2}]}]
+
+    def trigger_rematch(self) -> bool:
+        self.game_over = False
+        self.turns_played = 0
+        return True
+
     def close(self) -> None:
         pass
 
@@ -108,6 +122,14 @@ def test_online_game_runner_flow(tmp_path):
     replay_file = Path(summary["game_replay"])
     assert replay_file.exists()
 
+    # Verify dedicated match directory contents
+    match_folder = Path(summary["match_folder"])
+    assert match_folder.exists()
+    assert (match_folder / "replay.json").exists()
+    assert (match_folder / "game.gcg").exists()
+    assert (match_folder / "analysis.json").exists()
+    assert (match_folder / "summary.json").exists()
+
     with open(replay_file, "r") as f:
         replay_data = json.load(f)
 
@@ -115,6 +137,7 @@ def test_online_game_runner_flow(tmp_path):
     assert "turns" in replay_data
     assert len(replay_data["turns"]) == 2
     assert replay_data["player_names"] == ["Alphable", "HastyBot"]
+    assert replay_data["analysis_turns_count"] == 1
 
 
 def test_platform_game_over_immediate(tmp_path):
@@ -139,3 +162,94 @@ def test_platform_game_over_immediate(tmp_path):
     summary = runner.play_match(config)
     assert summary["turns_count"] == 0
     assert summary["winner"] == "Alphable"
+
+
+def test_multi_game_series_flow(tmp_path):
+    mock_adapter = MockPlatformAdapter()
+    output_dir = tmp_path / "games"
+
+    runner = OnlineGameRunner(
+        adapter=mock_adapter,
+        model_path="models/alphable_v3_rl_gen2.pth",
+        dict_path="resources/CSW24.txt",
+        mode="greedy",
+        delay_min=0.01,
+        delay_max=0.01,
+        output_dir=str(output_dir),
+    )
+
+    config = PlatformGameConfig(
+        opponent_type="bot",
+        bot_name="STEEBot",
+        dictionary="CSW24",
+        num_games=2,
+        export_gcg=True,
+        extract_analysis=True,
+    )
+
+    series_summary = runner.play_match(config)
+    assert series_summary["total_games"] == 2
+    assert series_summary["alphable_wins"] == 2
+    assert len(series_summary["games"]) == 2
+
+    # Both matches should have created their own dedicated folders
+    for game in series_summary["games"]:
+        match_folder = Path(game["match_folder"])
+        assert match_folder.exists()
+        assert (match_folder / "game.gcg").exists()
+        assert (match_folder / "analysis.json").exists()
+
+
+class FailingMoveMockAdapter(MockPlatformAdapter):
+    """Adapter where PLAY moves fail to test retries, but PASS succeeds."""
+    def __init__(self):
+        super().__init__()
+        self.play_attempts = 0
+        self.recall_tiles_count = 0
+
+    def recall_tiles(self):
+        self.recall_tiles_count += 1
+
+    def play_move(self, move: PlatformMove) -> bool:
+        self.moves_received.append(move)
+        if move.action == "PLAY":
+            self.play_attempts += 1
+            return False  # Simulate platform rejection
+        elif move.action == "PASS":
+            self.turns_played += 1
+            self.game_over = True
+            return True
+        return False
+
+
+def test_online_game_runner_retry_and_pass_fallback(tmp_path):
+    failing_adapter = FailingMoveMockAdapter()
+    output_dir = tmp_path / "games_retry"
+
+    runner = OnlineGameRunner(
+        adapter=failing_adapter,
+        model_path="models/alphable_v3_rl_gen2.pth",
+        dict_path="resources/CSW24.txt",
+        mode="greedy",
+        delay_min=0.01,
+        delay_max=0.01,
+        output_dir=str(output_dir),
+    )
+
+    config = PlatformGameConfig(
+        opponent_type="bot",
+        bot_name="HastyBot",
+        dictionary="CSW24",
+        num_games=1,
+        export_gcg=False,
+        extract_analysis=False,
+    )
+
+    summary = runner.play_match(config)
+    # Runner should have attempted PLAY 3 times, recalled tiles 3 times, and then successfully passed
+    assert failing_adapter.play_attempts == 3
+    assert failing_adapter.recall_tiles_count >= 3
+    # Check that the last submitted move was PASS
+    assert failing_adapter.moves_received[-1].action == "PASS"
+    assert summary["winner"] == "Alphable"
+

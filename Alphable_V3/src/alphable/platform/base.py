@@ -31,12 +31,17 @@ class OnlineGameState:
 class PlatformGameConfig:
     """Configuration used to establish or join an online game."""
     opponent_type: str = "bot"                  # "bot" or "human"
-    bot_name: str = "HastyBot"                  # "HastyBot", "BestBot", "BeginnerBot"
+    bot_name: str = "HastyBot"                  # "HastyBot", "BestBot", "BeginnerBot", "STEEBot"
     dictionary: str = "CSW24"                   # "CSW24" or "NWL23"
     game_mode: str = "realtime"                 # "realtime" or "correspondence"
-    time_control: str = "15+0"                  # "15+0", "5+0", "3+0"
+    time_control: str = "15+0"                  # "15+0", "5+0", "3+0", "20+0"
     rated: bool = False
     challenge_user: Optional[str] = None
+    match_mode: str = "bot"                     # "bot", "takeover", "auto-seek"
+    game_url: Optional[str] = None              # Direct URL to attach to
+    num_games: int = 1                          # Number of matches in series
+    export_gcg: bool = True                     # Download official GCG file
+    extract_analysis: bool = True               # Scrape post-game Analyzer data
 
 
 @dataclass
@@ -94,6 +99,34 @@ class AbstractPlatformAdapter(ABC):
     @abstractmethod
     def get_final_result(self) -> Dict[str, Any]:
         """Fetch final game outcome, scores, and replay metadata."""
+        pass
+
+    def export_gcg(self, destination_path: str) -> Optional[str]:
+        """Export official GCG file for the completed match. Returns saved path or None."""
+        return None
+
+    def extract_analysis(self) -> List[Dict[str, Any]]:
+        """Extract optimal move suggestions and equities from the platform's post-game Analyzer."""
+        return []
+
+    def trigger_rematch(self) -> bool:
+        """Request or accept a rematch after game conclusion. Returns True if next game starts."""
+        return False
+
+    def is_browser_alive(self) -> bool:
+        """Check if browser/session is alive and responsive."""
+        return True
+
+    def ensure_browser_active(self, headless: Optional[bool] = None, user_data_dir: Optional[str] = None) -> None:
+        """Ensure the browser/session is active, restarting if closed."""
+        pass
+
+    def reset_to_lobby(self) -> None:
+        """Reset platform adapter state and navigate back to the main lobby."""
+        pass
+
+    def recall_tiles(self) -> None:
+        """Recall uncommitted tiles from the board back to the rack and clear cursor."""
         pass
 
     @abstractmethod

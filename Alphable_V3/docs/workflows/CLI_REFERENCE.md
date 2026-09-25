@@ -177,7 +177,7 @@ python -m alphable.cli.main play woogles [OPTIONS]
 | Flag | Type | Default | Description |
 | :--- | :--- | :--- | :--- |
 | `--bot` | `str` | `HastyBot` | Opponent bot on Woogles (`HastyBot`, `BestBot`, `BeginnerBot`) |
-| `--model` | `str` | `models/alphable_v3_rl_gen2.pth` | Model checkpoint to evaluate |
+| `--model` | `str` | `models/alphable_v3_rl_gen3_distilled.pth` | Model checkpoint to evaluate |
 | `--dict` | `str` | `resources/CSW24.txt` | Scrabble lexicon dictionary |
 | `--mode` | `str` | `lookahead` | Search mode: `lookahead` (1-ply) or `bc_0ply` |
 | `--value-weight`| `float` | `60.0` | Strategic equity multiplier $W$ |
@@ -188,6 +188,36 @@ python -m alphable.cli.main play woogles [OPTIONS]
 | `--delay-max` | `float` | `6.0` | Maximum natural thinking delay in seconds |
 | `--output-dir`| `str` | `data/woogles/games` | Output directory for replays and summaries |
 | `--profile-dir`| `str` | `~/.alphable/woogles_profile` | Persistent browser context (stores login session) |
-| `--simulations`| `int` | `16` | Opponent leave simulations per candidate |
-| `--top-k` | `int` | `3` | Candidate moves evaluated deeply in lookahead search |
+| `--simulations`| `int` | `10` | Opponent leave simulations per candidate |
+| `--top-k` | `int` | `5` | Candidate moves evaluated deeply in lookahead search |
+| `--games` | `int` | `1` | Number of matches to play in series (chains via Rematch) |
+| `--opponent` | `str` | `bot` | Opponent type: `bot` or `human` |
+| `--takeover` | `flag` | `False` | Interactive takeover mode: human starts match, Alphable takes over |
+| `--auto-seek` | `flag` | `False` | Post open seek to Woogles lobby for automatic human matchmaking |
+| `--game-url` | `str` | `None` | Direct Woogles match URL to join and play |
+| `--no-gcg` | `flag` | `False` | Disable automatic official GCG file export |
+| `--no-analysis`| `flag` | `False` | Disable automatic post-game Macondo WASM Analyzer extraction |
+
+### Strategic Engine Features
+- **Two-Stage Opponent Reply Pruning**: Filters ~800 opponent replies to top-15 before neural network evaluation, speeding up lookahead by up to 20x.
+- **Empirical Rack Leave Valuation**: Lipkin-Smith equity tables for blanks (`?`: +26.5), `S` hooks (+8.2), duplicate penalties, and vowel-consonant ratios prevent blank-burning blunders.
+- **Defensive Hot-Spot Modeling**: Seizes open Triple Word Scores (+6.0 bonus) and penalizes moves that expose open lanes to opponent counter-bingos (-3.5 to -5.5 penalty).
+- **Tactical Tile Exchanges**: Automatically triggers tile exchange when holding unplayable or vowel/consonant-deprived racks when bag $\ge 7$.
+
+### Organized Match Directories
+Each completed match creates a self-contained folder under `data/woogles/matches/match_<timestamp>_<game_id>/`:
+- `replay.json`: Full Alphable turn evaluation log, candidate moves, thinking times, scores, and board states.
+- `game.gcg`: Official Woogles GCG game replay file (compatible with Quackle, Macondo, and Cross-Tables).
+- `analysis.json`: Turn-by-turn Macondo optimal move suggestions, rack leaves, points, and equities extracted from Woogles Analyzer.
+- `summary.json`: High-level match result, scores, winner, and metadata.
+
+---
+
+## 9. Macondo Distillation Pipeline
+Fine-tunes the value network from thousands of grandmaster turns extracted from completed Woogles matches:
+
+```bash
+python -m alphable.training.distill_macondo --epochs 8
+```
+
 
