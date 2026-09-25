@@ -368,3 +368,74 @@ def test_two_stage_pruning_filters_opponent_moves():
         assert b_arg.shape[0] <= 5
 
 
+def test_selective_2ply_trigger_condition():
+    from unittest.mock import MagicMock
+    from alphable.core.search import AlphableSearch
+
+    mock_engine = MagicMock()
+    mock_engine.device = 'cpu'
+    searcher = AlphableSearch(
+        inference_engine=mock_engine,
+        num_simulations=2,
+        top_k_candidates=2,
+        enable_2ply=True,
+        two_ply_threshold=10.0,
+    )
+    assert searcher.enable_2ply is True
+    assert searcher.two_ply_threshold == 10.0
+
+
+def test_selective_2ply_reevaluates_close_candidates():
+    from unittest.mock import MagicMock
+    import torch
+    from alphable.core.search import AlphableSearch
+
+    mock_engine = MagicMock()
+    mock_engine.device = 'cpu'
+    mock_engine.model.side_effect = lambda b, s: torch.zeros((b.shape[0], 1))
+
+    # Candidate 1: LOW at (7,7) Across
+    # Candidate 2: HI at (7,7) Across
+    cand1 = {'row': 7, 'col': 7, 'dir': 'Across', 'word': 'LOW'}
+    cand2 = {'row': 7, 'col': 7, 'dir': 'Across', 'word': 'HI'}
+
+    # On ply 2 (counter-response), cand2 allows high-scoring follow-up at (0,0) TW
+    followup_for_cand2 = {'row': 0, 'col': 0, 'dir': 'Across', 'word': 'QUIZ'}
+
+    call_idx = 0
+
+    def mock_gen(b, r):
+        nonlocal call_idx
+        call_idx += 1
+        # Call 1: initial 0-ply candidates
+        if call_idx == 1:
+            return [cand1, cand2]
+        # Calls 2 & 3: 1-ply opponent replies (both pass)
+        if call_idx in (2, 3):
+            return []
+        # Call 4+: 2-ply counter-responses. cand2 gets high-scoring follow-up
+        if b[7][7] == 'H' and b[7][8] == 'I':
+            return [followup_for_cand2]
+        return []
+
+
+    mock_engine.move_gen.generate.side_effect = mock_gen
+
+    searcher = AlphableSearch(
+        inference_engine=mock_engine,
+        num_simulations=1,
+        top_k_candidates=2,
+        enable_2ply=True,
+        two_ply_threshold=8.0,
+        mode='lookahead',
+    )
+
+    board = create_empty_board()
+    rack = ['L', 'O', 'W', 'H', 'I', 'G', 'H']
+    best_move, _ = searcher.find_best_move(board, rack, score_diff=0, bag_remaining=50)
+
+    # Candidate 2 (HI) should win over LOW because 2-ply follow-up boosts its equity!
+    assert best_move['word'] == 'HI'
+
+
+

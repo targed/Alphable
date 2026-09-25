@@ -72,6 +72,8 @@ class AlphableSearch:
         mode='bc_0ply',
         infer_batch_size=256,
         value_weight=60.0,
+        enable_2ply=False,
+        two_ply_threshold=8.0,
     ):
         """
         Initializes the Monte Carlo Rack Sampling search engine.
@@ -85,6 +87,8 @@ class AlphableSearch:
             mode (str): 'bc_0ply' for direct evaluation, 'lookahead' for 1-ply opponent simulation.
             infer_batch_size (int): Inference batch size to control GPU memory.
             value_weight (float): Equity weight multiplier applied to model value predictions.
+            enable_2ply (bool): Whether to perform selective 2-ply counter-response on top 2 moves.
+            two_ply_threshold (float): Point gap below which selective 2-ply is triggered.
         """
         self.engine = inference_engine
         self.num_simulations = num_simulations
@@ -94,6 +98,8 @@ class AlphableSearch:
         self.mode = mode
         self.infer_batch_size = infer_batch_size
         self.value_weight = float(value_weight)
+        self.enable_2ply = bool(enable_2ply)
+        self.two_ply_threshold = float(two_ply_threshold)
         self.endgame_solver = ExactEndgameSolver(self.engine)
 
     def _batched_forward_values(self, board_state_pairs):
@@ -437,12 +443,43 @@ class AlphableSearch:
                 f"0-Ply Val: {cand_val:.3f} | 1-Ply Sim Equity: {cand_total_equity:.1f}"
             )
 
-            if cand_total_equity > best_expected_equity:
-                best_expected_equity = cand_total_equity
-                best_expected_value = cand_sim_val
-                best_candidate = cand_move
+            cand['sim_equity'] = cand_total_equity
+            cand['sim_val'] = cand_sim_val
 
-        return best_candidate, best_expected_value
+        # Sort candidates by 1-ply simulated equity
+        top_candidates.sort(key=lambda c: c.get('sim_equity', -float('inf')), reverse=True)
+
+        # Step 5: Selective 2-Ply Lookahead on Top-2 Candidates if equity is close
+        if self.enable_2ply and len(top_candidates) >= 2:
+            gap = top_candidates[0]['sim_equity'] - top_candidates[1]['sim_equity']
+            if gap <= self.two_ply_threshold:
+                print(f"Selective 2-Ply Triggered: Candidate 1 and 2 equity gap is {gap:.1f} <= {self.two_ply_threshold:.1f} pts.")
+                for cand in top_candidates[:2]:
+                    needed_tiles = 7 - len(cand['rack'])
+                    remaining_unseen = [t for t in unseen_tiles if t not in cand['rack']]
+                    drawn_tiles = sample_opponent_rack(remaining_unseen, sample_size=needed_tiles)
+                    replenished_rack = cand['rack'] + drawn_tiles
+                    counter_moves = self.engine.move_gen.generate(cand['board'], replenished_rack)
+                    if counter_moves:
+                        best_counter_pts = -float('inf')
+                        for cm in counter_moves[:10]:
+                            _, c_pts, c_nr = simulator.simulate_move(cand['board'], cm, replenished_rack)
+                            c_leave = compute_leave_equity(c_nr, bag_remaining=max(0, bag_remaining - 7))
+                            c_score = float(c_pts) + c_leave
+                            if c_score > best_counter_pts:
+                                best_counter_pts = c_score
+                        cand['two_ply_equity'] = cand['sim_equity'] + 0.3 * best_counter_pts
+                    else:
+                        cand['two_ply_equity'] = cand['sim_equity']
+
+                top_candidates[:2] = sorted(
+                    top_candidates[:2],
+                    key=lambda c: c.get('two_ply_equity', c.get('sim_equity', -float('inf'))),
+                    reverse=True
+                )
+
+        best_cand = top_candidates[0]
+        return best_cand['move'], best_cand.get('sim_val', best_cand.get('value', 0.0))
 
 
 def main():
