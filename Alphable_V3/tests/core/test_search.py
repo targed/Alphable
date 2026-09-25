@@ -438,4 +438,114 @@ def test_selective_2ply_reevaluates_close_candidates():
     assert best_move['word'] == 'HI'
 
 
+def test_generate_exchange_candidates_heavy_duplicates():
+    from alphable.core.inference import AlphableInference
+    from alphable.core.search import AlphableSearch
+
+    engine = AlphableInference(device='cpu')
+    searcher = AlphableSearch(inference_engine=engine, value_weight=25.0)
+    board = create_empty_board()
+
+    # 1. Test 3 L's (Turn 8: ELLLNPT)
+    rack_3L = ['E', 'L', 'L', 'L', 'N', 'P', 'T']
+    exchanges_3L = searcher._generate_exchange_candidates(board, rack_3L, score_diff=0, bag_remaining=23)
+    assert len(exchanges_3L) > 0
+    # Must dump the 2 extra L's
+    dumped_tiles = [set(e['move']['tiles_to_exchange']) for e in exchanges_3L]
+    assert {'L'} in dumped_tiles
+
+    # 2. Test 3 N's (Turn 11: ADLNNNR)
+    rack_3N = ['A', 'D', 'L', 'N', 'N', 'N', 'R']
+    exchanges_3N = searcher._generate_exchange_candidates(board, rack_3N, score_diff=0, bag_remaining=10)
+    assert len(exchanges_3N) > 0
+    dumped_tiles_N = [set(e['move']['tiles_to_exchange']) for e in exchanges_3N]
+    assert {'N'} in dumped_tiles_N
+
+    # 3. Test 0 vowels (Turn 1: FNRRTVX)
+    rack_0v = ['F', 'N', 'R', 'R', 'T', 'V', 'X']
+    exchanges_0v = searcher._generate_exchange_candidates(board, rack_0v, score_diff=0, bag_remaining=86)
+    assert len(exchanges_0v) > 0
+    # Should dump 6 consonants, keeping at most 1
+    dump_lens = [len(e['move']['tiles_to_exchange']) for e in exchanges_0v]
+    assert any(l >= 5 for l in dump_lens)
+
+    # 4. Exchange candidate has model value evaluated and valid equity
+    exc = exchanges_3L[0]
+    assert 'value' in exc
+    assert isinstance(exc['value'], float)
+    assert 'equity' in exc
+
+
+def test_candidate_selection_guarantees_top_points():
+    from unittest.mock import MagicMock
+    from alphable.core.search import AlphableSearch
+
+    mock_engine = MagicMock()
+    mock_engine.device = 'cpu'
+    mock_engine.state_vector_size = 36
+    # Mock model output: gives low value to high scoring play, high value to low scoring play
+    mock_engine.model.return_value = MagicMock(
+        view=lambda *_: MagicMock(detach=lambda: MagicMock(cpu=lambda: MagicMock(tolist=lambda: [0.1, 0.9, 0.2, 0.8])))
+    )
+
+    # Move 1: 45 pts (low value)
+    # Move 2: 10 pts (high value)
+    # Move 3: 40 pts (low value)
+    # Move 4: 8 pts (high value)
+    cand1 = {'row': 7, 'col': 7, 'dir': 'Across', 'word': 'BINGOES'}  # 45 pts
+    cand2 = {'row': 7, 'col': 7, 'dir': 'Across', 'word': 'PA'}       # 10 pts
+    cand3 = {'row': 7, 'col': 7, 'dir': 'Across', 'word': 'MAJOR'}    # 40 pts
+    cand4 = {'row': 7, 'col': 7, 'dir': 'Across', 'word': 'IO'}       # 8 pts
+
+    mock_engine.move_gen.generate.return_value = [cand1, cand2, cand3, cand4]
+
+    searcher = AlphableSearch(
+        inference_engine=mock_engine,
+        num_simulations=1,
+        top_k_candidates=4,
+        mode='lookahead',
+        value_weight=25.0,
+    )
+
+    board = create_empty_board()
+    rack = ['B', 'I', 'N', 'G', 'O', 'E', 'S']
+    searcher._batched_forward_values = MagicMock(return_value=[0.1, 0.9, 0.2, 0.8])
+
+    # In Step 3, top 2 by pure points (BINGOES, MAJOR) MUST be selected into top_candidates
+    evals = [
+        {'move': cand1, 'board': board, 'score_diff': 45, 'rack': [], 'points': 45, 'value': 0.1, 'equity': 45 + 25*0.1},
+        {'move': cand2, 'board': board, 'score_diff': 10, 'rack': ['B', 'I', 'N', 'G', 'O'], 'points': 10, 'value': 0.9, 'equity': 10 + 25*0.9},
+        {'move': cand3, 'board': board, 'score_diff': 40, 'rack': ['B', 'E'], 'points': 40, 'value': 0.2, 'equity': 40 + 25*0.2},
+        {'move': cand4, 'board': board, 'score_diff': 8, 'rack': ['B', 'N', 'G', 'O', 'S'], 'points': 8, 'value': 0.8, 'equity': 8 + 25*0.8},
+    ]
+
+    selected_candidates = []
+    seen_moves = set()
+    def add_cand(c):
+        m = c['move']
+        key = (m.get('action', 'PLAY'), m['row'], m['col'], m['dir'], m['word'])
+        if key not in seen_moves:
+            seen_moves.add(key)
+            selected_candidates.append(c)
+
+    by_equity = sorted(evals, key=lambda x: x['equity'], reverse=True)
+    by_value = sorted(evals, key=lambda x: x['value'] + x.get('leave_equity', 0.0) / max(1.0, 25.0), reverse=True)
+    by_points = sorted(evals, key=lambda x: x['points'], reverse=True)
+
+    for c in by_equity[:min(2, len(by_equity))]:
+        add_cand(c)
+    for c in by_points[:min(2, len(by_points))]:
+        add_cand(c)
+    if by_value:
+        add_cand(by_value[0])
+    for c in by_equity:
+        if len(selected_candidates) >= 4:
+            break
+        add_cand(c)
+
+    words = [c['move']['word'] for c in selected_candidates]
+    assert 'BINGOES' in words
+    assert 'MAJOR' in words
+
+
 

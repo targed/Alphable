@@ -32,7 +32,7 @@ class OnlineGameRunner:
         model_path: Optional[str] = None,
         dict_path: str = "resources/CSW24.txt",
         mode: str = "lookahead",
-        value_weight: float = 60.0,
+        value_weight: float = 25.0,
         delay_min: float = 2.0,
         delay_max: float = 6.0,
         output_dir: str = "data/woogles/games",

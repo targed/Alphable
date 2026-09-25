@@ -15,15 +15,18 @@ def test_evaluate_moves_calculates_equity():
     assert 'value' in top
     assert 'equity' in top
 
-    # Every item must have equity = points + engine.value_weight * value
+    # Every item must have equity = points + leave_equity + engine.value_weight * value
+    from alphable.core.leave_eval import compute_leave_equity
     for item in evals:
-        expected_equity = item['points'] + engine.value_weight * item['value']
+        leave_eq = compute_leave_equity(item['new_rack'], bag_remaining=86)
+        expected_equity = item['points'] + leave_eq + engine.value_weight * item['value']
         assert abs(item['equity'] - expected_equity) < 1e-3
 
     # Test with custom value_weight
     custom_evals = evaluate_moves(engine, board, rack, score_diff=0, bag_remaining=86, value_weight=75.0)
     for item in custom_evals:
-        expected_equity = item['points'] + 75.0 * item['value']
+        leave_eq = compute_leave_equity(item['new_rack'], bag_remaining=86)
+        expected_equity = item['points'] + leave_eq + 75.0 * item['value']
         assert abs(item['equity'] - expected_equity) < 1e-3
 
     # Must be sorted by equity descending

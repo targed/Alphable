@@ -215,16 +215,6 @@ class SelfPlayRLTrainer:
 
                 unseen_dist = get_unseen_distribution(board, racks[p])
                 unseen_counts = Counter(unseen_dist)
-                board_str = ''.join(''.join(row) for row in board)
-
-                traj.record_turn(
-                    player=p,
-                    board_str=board_str,
-                    rack=racks[p],
-                    score_diff=score_diff,
-                    bag_count=bag_rem,
-                    unseen_counts=unseen_counts,
-                )
 
                 move_evals = evaluate_moves(
                     inference_engine,
@@ -239,11 +229,33 @@ class SelfPlayRLTrainer:
 
                 if selected is None:
                     consecutive_passes += 1
+                    board_str = ''.join(''.join(row) for row in board)
+                    traj.record_turn(
+                        player=p,
+                        board_str=board_str,
+                        rack=racks[p],
+                        score_diff=score_diff,
+                        bag_count=bag_rem,
+                        unseen_counts=unseen_counts,
+                    )
                 else:
                     consecutive_passes = 0
                     board = selected['new_board']
                     scores[p] += selected['points']
-                    racks[p] = selected['new_rack']
+                    leave_rack = selected['new_rack']
+                    post_score_diff = scores[p] - scores[o]
+                    post_board_str = ''.join(''.join(row) for row in board)
+
+                    traj.record_turn(
+                        player=p,
+                        board_str=post_board_str,
+                        rack=leave_rack,
+                        score_diff=post_score_diff,
+                        bag_count=bag_rem,
+                        unseen_counts=unseen_counts,
+                    )
+
+                    racks[p] = list(leave_rack)
                     needed = 7 - len(racks[p])
                     racks[p].extend(draw_tiles(bag, needed))
 

@@ -78,3 +78,7 @@ def test_self_play_trainer_generate_games():
     for s in samples:
         assert -1.0 <= s['target'] <= 1.0
 
+    # Verify after-states: when moves are played, rack leave has < 7 tiles
+    leaves = [s for s in samples if len(s['rack']) < 7]
+    assert len(leaves) > 0, "Self-play RL trainer should record after-state leaves (< 7 tiles) for played moves"
+

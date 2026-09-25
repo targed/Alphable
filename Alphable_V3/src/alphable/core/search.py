@@ -72,7 +72,7 @@ class AlphableSearch:
         opp_reply_prune_k=15,
         mode='bc_0ply',
         infer_batch_size=256,
-        value_weight=60.0,
+        value_weight=25.0,
         enable_2ply=False,
         two_ply_threshold=8.0,
     ):
@@ -105,13 +105,15 @@ class AlphableSearch:
 
     def _batched_forward_values(self, board_state_pairs):
         values = []
+        dev = getattr(self.engine, 'device', 'cpu')
+        device = dev if isinstance(dev, (str, torch.device)) else 'cpu'
         with torch.no_grad():
             for i in range(0, len(board_state_pairs), self.infer_batch_size):
                 chunk = board_state_pairs[i:i + self.infer_batch_size]
                 b_tensors = torch.stack(
-                    [p[0] for p in chunk]).to(self.engine.device)
+                    [p[0] for p in chunk]).to(device)
                 s_tensors = torch.stack(
-                    [p[1] for p in chunk]).to(self.engine.device)
+                    [p[1] for p in chunk]).to(device)
                 chunk_vals = self.engine.model(b_tensors, s_tensors).view(-1)
                 values.extend(chunk_vals.detach().cpu().tolist())
         return values
@@ -134,7 +136,7 @@ class AlphableSearch:
         # Flaw 1: All consonants (0 vowels and 0 blanks)
         if len(vowels) == 0 and len(blanks) == 0 and len(consonants) >= 5:
             sorted_cons = sorted(consonants, key=lambda c: BASE_TILE_EQUITY.get(c, -5.0), reverse=True)
-            keep_count = min(2, len(sorted_cons) - 1)
+            keep_count = min(1, len(sorted_cons) - 1)
             dump = sorted_cons[keep_count:]
             if len(dump) >= 3:
                 candidates.append(dump)
@@ -142,19 +144,19 @@ class AlphableSearch:
         # Flaw 2: All vowels (0 consonants and 0 blanks)
         elif len(consonants) == 0 and len(blanks) == 0 and len(vowels) >= 5:
             sorted_vow = sorted(vowels, key=lambda c: BASE_TILE_EQUITY.get(c, -5.0), reverse=True)
-            keep_count = min(2, len(sorted_vow) - 1)
+            keep_count = min(1, len(sorted_vow) - 1)
             dump = sorted_vow[keep_count:]
             if len(dump) >= 3:
                 candidates.append(dump)
 
         # Flaw 3: Severe clunker concentration (e.g. holding Q without U, multiple V's, W's)
-        # or heavy duplicate penalties (e.g. III, UUU, VVV)
+        # or heavy duplicate penalties (3+ copies of ANY tile, or 2+ copies of U, V, W)
         counts = Counter(rack_str)
         heavy_duplicates = []
         for tile, cnt in counts.items():
-            if cnt >= 3 and tile in "IUOVW":
+            if cnt >= 3:
                 heavy_duplicates.extend([tile] * (cnt - 1))
-            elif cnt >= 2 and tile in "UV":
+            elif cnt >= 2 and tile in "UVW":
                 heavy_duplicates.extend([tile] * (cnt - 1))
 
         if "Q" in counts and "U" not in counts:
@@ -165,6 +167,11 @@ class AlphableSearch:
             if dump not in candidates and len(dump) >= 2:
                 candidates.append(dump)
 
+        state_vec_size = getattr(self.engine, 'state_vector_size', 36)
+        if not isinstance(state_vec_size, int):
+            state_vec_size = 36
+        unseen_counts_map = Counter(get_unseen_distribution(board, rack)) if state_vec_size >= 63 else None
+
         exchange_moves = []
         for dump_tiles in candidates:
             kept_rack = list(rack)
@@ -172,9 +179,19 @@ class AlphableSearch:
                 if d in kept_rack:
                     kept_rack.remove(d)
 
-            leave_eq = compute_leave_equity(kept_rack)
-            turn_loss_penalty = 12.0
-            expected_exchange_equity = leave_eq - turn_loss_penalty
+            leave_eq = compute_leave_equity(kept_rack, bag_remaining=bag_remaining)
+            b_tensor = inference.board_to_tensor(board)
+            s_tensor = inference.state_to_tensor(
+                kept_rack, score_diff, bag_remaining,
+                unseen_counts=unseen_counts_map,
+                state_vector_size=state_vec_size,
+            )
+            try:
+                val = self._batched_forward_values([(b_tensor, s_tensor)])[0]
+            except Exception:
+                val = 0.0
+            turn_loss_penalty = 5.0
+            expected_exchange_equity = leave_eq - turn_loss_penalty + self.value_weight * val
 
             move_dict = {
                 "action": "EXCHANGE",
@@ -191,7 +208,7 @@ class AlphableSearch:
                 "score_diff": score_diff,
                 "rack": kept_rack,
                 "points": 0,
-                "value": 0.0,
+                "value": val,
                 "leave_equity": leave_eq,
                 "defense_adj": 0.0,
                 "equity": expected_exchange_equity,
@@ -313,16 +330,16 @@ class AlphableSearch:
         by_points = sorted(candidate_evals, key=lambda x: x['points'], reverse=True)
 
         # 1. Top candidates by total equity
-        for c in by_equity[:min(4, len(by_equity))]:
+        for c in by_equity[:min(2, len(by_equity))]:
             add_cand(c)
-        # 2. Top 1 by pure strategic value / leave
+        # 2. Top 2 by pure points (guarantees highest-scoring board plays/bingos compete in deep simulation)
+        for c in by_points[:min(2, len(by_points))]:
+            add_cand(c)
+        # 3. Top 1 by pure strategic value / leave
         if by_value:
             add_cand(by_value[0])
-        # 3. Top 1 by pure points (greedy play)
-        if by_points:
-            add_cand(by_points[0])
         # 4. Fill remaining slots up to top_k_candidates with highest remaining equity
-        for c in by_equity[len(selected_candidates):]:
+        for c in by_equity:
             if len(selected_candidates) >= self.top_k_candidates:
                 break
             add_cand(c)

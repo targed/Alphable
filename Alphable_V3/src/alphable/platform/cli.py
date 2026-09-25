@@ -46,7 +46,7 @@ def parse_args():
     parser.add_argument(
         "--value-weight",
         type=float,
-        default=60.0,
+        default=25.0,
         help="Weight multiplier W applied to strategic leave values.",
     )
     parser.add_argument(

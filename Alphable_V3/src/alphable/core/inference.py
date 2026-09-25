@@ -131,7 +131,7 @@ def state_to_tensor(rack, score_diff, bag_remaining, unseen_counts=None, state_v
 
 
 class AlphableInference:
-    def __init__(self, model_path=None, device='cpu', dict_path='resources/NWL2023.txt', value_weight=60.0, state_vector_size=36):
+    def __init__(self, model_path=None, device='cpu', dict_path='resources/NWL2023.txt', value_weight=25.0, state_vector_size=36):
         self.device = torch.device(device)
         self.value_weight = float(value_weight)
         self.state_vector_size = state_vector_size
