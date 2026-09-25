@@ -11,6 +11,7 @@ from tqdm import tqdm
 
 from alphable.core import inference
 from alphable.core import simulator
+from alphable.core.leave_eval import compute_leave_equity
 
 
 STANDARD_TILE_COUNTS = {
@@ -46,7 +47,7 @@ def compact_board(board):
     return ''.join(''.join(row) for row in board)
 
 
-def evaluate_moves(engine, board, rack, score_diff, bag_remaining, infer_batch_size=256, value_weight=60.0):
+def evaluate_moves(engine, board, rack, score_diff, bag_remaining, infer_batch_size=256, value_weight=60.0, unseen_counts=None):
     """
     Evaluates all legal moves for a given state using batched GPU inference.
     Returns sorted list of move evaluations with both raw points and equity.
@@ -73,7 +74,11 @@ def evaluate_moves(engine, board, rack, score_diff, bag_remaining, infer_batch_s
             ]).to(engine.device)
             s_vec_size = getattr(engine, 'state_vector_size', 36)
             s_tensors = torch.stack([
-                inference.state_to_tensor(ms[3], ms[4], bag_remaining, state_vector_size=s_vec_size) for ms in chunk
+                inference.state_to_tensor(
+                    ms[3], ms[4], bag_remaining,
+                    unseen_counts=unseen_counts,
+                    state_vector_size=s_vec_size,
+                ) for ms in chunk
             ]).to(engine.device)
 
             chunk_vals = engine.model(b_tensors, s_tensors).view(-1)
@@ -81,8 +86,9 @@ def evaluate_moves(engine, board, rack, score_diff, bag_remaining, infer_batch_s
 
     all_vals = torch.cat(vals) if vals else torch.empty(0, device=engine.device)
     points_tensor = torch.tensor([ms[2] for ms in move_states], dtype=torch.float32, device=engine.device)
+    leave_tensor = torch.tensor([compute_leave_equity(ms[3], bag_remaining=bag_remaining) for ms in move_states], dtype=torch.float32, device=engine.device)
     w = float(value_weight if value_weight is not None else getattr(engine, 'value_weight', 60.0))
-    equities = points_tensor + w * all_vals
+    equities = points_tensor + leave_tensor + w * all_vals
 
     sorted_indices = torch.argsort(equities, descending=True).cpu().tolist()
     vals_cpu = all_vals.cpu().tolist()

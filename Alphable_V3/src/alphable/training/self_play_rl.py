@@ -233,6 +233,7 @@ class SelfPlayRLTrainer:
                     score_diff,
                     bag_rem,
                     infer_batch_size=128,
+                    unseen_counts=unseen_counts,
                 )
                 selected = choose_move_with_temperature(move_evals, temperature=temp, top_k=top_k)
 
