@@ -172,6 +172,89 @@ class SelfPlayRLTrainer:
 
         return total_loss / max(1, batches)
 
+    def generate_games(
+        self,
+        num_games: int,
+        dict_path: str = 'resources/CSW24.txt',
+        temp: float = 0.2,
+        top_k: int = 5,
+    ) -> List[Dict]:
+        """
+        Plays self-play matches against itself, capturing boards, racks,
+        63-dim bag-tracking features, and end-of-game victory margins.
+        """
+        from alphable.training.self_play import build_bag, draw_tiles, evaluate_moves, choose_move_with_temperature
+        from alphable.core import simulator
+        from alphable.core.search import get_unseen_distribution
+        from collections import Counter
+        from tqdm import tqdm
+
+        inference_engine = inference.AlphableInference(
+            dict_path=dict_path,
+            device=self.device.type,
+            state_vector_size=self.state_vector_size,
+        )
+        inference_engine.model = self.model
+
+        all_samples = []
+        print(f"Generating {num_games} self-play games for pure outcome RL...")
+
+        for game_idx in tqdm(range(num_games), desc="Self-Play Games"):
+            board = simulator.create_empty_board()
+            bag = build_bag()
+            racks = [draw_tiles(bag, 7), draw_tiles(bag, 7)]
+            scores = [0, 0]
+            traj = SelfPlayTrajectory()
+            consecutive_passes = 0
+
+            for turn in range(120):
+                p = turn % 2
+                o = 1 - p
+                score_diff = scores[p] - scores[o]
+                bag_rem = len(bag)
+
+                unseen_dist = get_unseen_distribution(board, racks[p])
+                unseen_counts = Counter(unseen_dist)
+                board_str = ''.join(''.join(row) for row in board)
+
+                traj.record_turn(
+                    player=p,
+                    board_str=board_str,
+                    rack=racks[p],
+                    score_diff=score_diff,
+                    bag_count=bag_rem,
+                    unseen_counts=unseen_counts,
+                )
+
+                move_evals = evaluate_moves(
+                    inference_engine,
+                    board,
+                    racks[p],
+                    score_diff,
+                    bag_rem,
+                    infer_batch_size=128,
+                )
+                selected = choose_move_with_temperature(move_evals, temperature=temp, top_k=top_k)
+
+                if selected is None:
+                    consecutive_passes += 1
+                else:
+                    consecutive_passes = 0
+                    board = selected['new_board']
+                    scores[p] += selected['points']
+                    racks[p] = selected['new_rack']
+                    needed = 7 - len(racks[p])
+                    racks[p].extend(draw_tiles(bag, needed))
+
+                if consecutive_passes >= 2 or len(racks[p]) == 0:
+                    break
+
+            game_samples = traj.finalize(scores=(scores[0], scores[1]))
+            all_samples.extend(game_samples)
+
+        print(f"Collected {len(all_samples)} turn decision samples from {num_games} games.")
+        return all_samples
+
     def save_model(self, save_path: str):
         """Saves current model weights to disk."""
         os.makedirs(os.path.dirname(save_path) or '.', exist_ok=True)
@@ -181,12 +264,14 @@ class SelfPlayRLTrainer:
 def main():
     import argparse
     parser = argparse.ArgumentParser(description="Pure outcome-driven self-play RL training")
-    parser.add_argument('--model', type=str, default=None, help='Model checkpoint to load')
-    parser.add_argument('--save-model', type=str, default='models/alphable_v3_rl_selfplay.pth')
-    parser.add_argument('--state-size', type=int, default=63)
-    parser.add_argument('--batch-size', type=int, default=64)
-    parser.add_argument('--lr', type=float, default=5e-4)
-    parser.add_argument('--epochs', type=int, default=10)
+    parser.add_argument('--model', type=str, default='models/alphable_v3_rl_gen3_distilled.pth', help='Warm-start model checkpoint')
+    parser.add_argument('--save-model', type=str, default='models/alphable_v3_rl_gen4.pth', help='Destination checkpoint')
+    parser.add_argument('--dict', type=str, default='resources/CSW24.txt', help='Dictionary file')
+    parser.add_argument('--games', type=int, default=10, help='Number of self-play games to generate')
+    parser.add_argument('--state-size', type=int, default=63, help='State vector size (63 for bag tracking)')
+    parser.add_argument('--batch-size', type=int, default=64, help='Training batch size')
+    parser.add_argument('--lr', type=float, default=5e-4, help='Learning rate')
+    parser.add_argument('--epochs', type=int, default=5, help='Training epochs')
     args = parser.parse_args()
 
     device = 'cuda' if torch.cuda.is_available() else 'cpu'
@@ -198,6 +283,19 @@ def main():
     )
     print(f"Initialized SelfPlayRLTrainer on {device} with state_vector_size={args.state_size}")
 
+    if args.games > 0:
+        dict_path = args.dict
+        if not os.path.exists(dict_path):
+            dict_path = 'resources/NWL2023.txt'
+        samples = trainer.generate_games(num_games=args.games, dict_path=dict_path)
+        print(f"Initial evaluation loss on new self-play data: {trainer.evaluate_loss(samples):.4f}")
+        for epoch in range(args.epochs):
+            loss = trainer.train_epoch(samples, batch_size=args.batch_size, lr=args.lr)
+            print(f"Epoch {epoch+1}/{args.epochs} - Outcome MSE Loss: {loss:.4f}")
+        trainer.save_model(args.save_model)
+        print(f"✓ Trained model checkpoint saved to: {args.save_model}")
+
 
 if __name__ == '__main__':
     main()
+

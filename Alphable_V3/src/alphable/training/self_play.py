@@ -71,8 +71,9 @@ def evaluate_moves(engine, board, rack, score_diff, bag_remaining, infer_batch_s
             b_tensors = torch.stack([
                 inference.board_to_tensor(ms[1]) for ms in chunk
             ]).to(engine.device)
+            s_vec_size = getattr(engine, 'state_vector_size', 36)
             s_tensors = torch.stack([
-                inference.state_to_tensor(ms[3], ms[4], bag_remaining) for ms in chunk
+                inference.state_to_tensor(ms[3], ms[4], bag_remaining, state_vector_size=s_vec_size) for ms in chunk
             ]).to(engine.device)
 
             chunk_vals = engine.model(b_tensors, s_tensors).view(-1)
@@ -195,8 +196,9 @@ def evaluate_moves_grouped(eval_jobs, infer_batch_size=256, value_weight=60.0):
                 b_tensors = torch.stack([
                     inference.board_to_tensor(item[0][1]) for item in chunk
                 ]).to(engine.device)
+                s_vec_size = getattr(engine, 'state_vector_size', 36)
                 s_tensors = torch.stack([
-                    inference.state_to_tensor(item[0][3], item[0][4], item[1]) for item in chunk
+                    inference.state_to_tensor(item[0][3], item[0][4], item[1], state_vector_size=s_vec_size) for item in chunk
                 ]).to(engine.device)
                 chunk_vals = engine.model(b_tensors, s_tensors).view(-1)
                 vals.extend(chunk_vals.detach().cpu().tolist())

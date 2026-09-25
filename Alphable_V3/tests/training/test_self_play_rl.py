@@ -66,3 +66,15 @@ def test_self_play_trainer_train_step(tmp_path):
     # Train for 2 epochs
     trained_loss = trainer.train_epoch(samples, batch_size=4, lr=1e-3)
     assert trained_loss is not None
+
+
+def test_self_play_trainer_generate_games():
+    import os
+    dict_path = 'resources/CSW24.txt' if os.path.exists('resources/CSW24.txt') else 'resources/NWL2023.txt'
+    trainer = SelfPlayRLTrainer(model_path=None, state_vector_size=63, device='cpu')
+    samples = trainer.generate_games(num_games=1, dict_path=dict_path, temp=0.5, top_k=2)
+    assert len(samples) > 0
+    # Every sample has target in [-1, 1]
+    for s in samples:
+        assert -1.0 <= s['target'] <= 1.0
+

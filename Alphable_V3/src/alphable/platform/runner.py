@@ -67,6 +67,8 @@ class OnlineGameRunner:
             num_simulations=num_simulations,
             top_k_candidates=top_k,
             value_weight=self.value_weight,
+            enable_2ply=(mode == "lookahead"),
+            two_ply_threshold=8.0,
         )
 
     def play_match(self, config: PlatformGameConfig) -> Dict[str, Any]:

@@ -15,7 +15,7 @@ def main():
     train_subparsers = train_parser.add_subparsers(dest='subcommand')
     train_subparsers.add_parser('supervised', help='Supervised training')
     train_subparsers.add_parser('rl', help='Reinforcement learning training')
-    train_subparsers.add_parser('rl-selfplay', help='Pure outcome self-play RL training')
+    train_subparsers.add_parser('rl-selfplay', help='Pure outcome self-play RL training', add_help=False)
 
     # Selfplay
     selfplay_parser = subparsers.add_parser('selfplay', help='Selfplay utilities')
