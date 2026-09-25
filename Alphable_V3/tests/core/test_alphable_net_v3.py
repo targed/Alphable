@@ -15,6 +15,15 @@ def test_net_forward_and_no_dropout():
     assert out.shape == (4, 1)
     assert (out >= -1.0).all() and (out <= 1.0).all()
 
+
+def test_net_forward_63_dim_state():
+    net = AlphableValueNet(board_channels=31, state_vector_size=63)
+    b = torch.randn(3, 31, 15, 15)
+    s = torch.randn(3, 63)
+    out = net(b, s)
+    assert out.shape == (3, 1)
+    assert (out >= -1.0).all() and (out <= 1.0).all()
+
 def test_net_gradient_flow():
     net = AlphableValueNet(board_channels=31, state_vector_size=36)
     b = torch.randn(2, 31, 15, 15, requires_grad=True)

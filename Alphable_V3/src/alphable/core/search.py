@@ -238,6 +238,11 @@ class AlphableSearch:
         batch_states = []
         batch_moves = []
 
+        state_vec_size = getattr(self.engine, 'state_vector_size', 36)
+        if not isinstance(state_vec_size, int):
+            state_vec_size = 36
+        unseen_counts_map = Counter(get_unseen_distribution(board, rack)) if state_vec_size >= 63 else None
+
         for move in my_moves:
             new_board, points, new_rack = simulator.simulate_move(
                 board, move, rack)
@@ -245,7 +250,10 @@ class AlphableSearch:
 
             b_tensor = inference.board_to_tensor(new_board)
             s_tensor = inference.state_to_tensor(
-                new_rack, new_score_diff, bag_remaining)
+                new_rack, new_score_diff, bag_remaining,
+                unseen_counts=unseen_counts_map,
+                state_vector_size=state_vec_size,
+            )
 
             batch_boards.append(b_tensor)
             batch_states.append(s_tensor)
@@ -375,11 +383,15 @@ class AlphableSearch:
                 opp_move_points = []
                 opp_leaves = []
 
+                opp_unseen_map = Counter(unseen_tiles) if state_vec_size >= 63 else None
                 for _, opp_m, opp_nb, opp_pts, opp_nr, opp_leave in top_opp:
                     opp_score_diff = -(cand_score_diff - opp_pts)
                     b_tensor = inference.board_to_tensor(opp_nb)
                     s_tensor = inference.state_to_tensor(
-                        opp_nr, opp_score_diff, bag_remaining)
+                        opp_nr, opp_score_diff, bag_remaining,
+                        unseen_counts=opp_unseen_map,
+                        state_vector_size=state_vec_size,
+                    )
 
                     opp_batch_boards.append(b_tensor)
                     opp_batch_states.append(s_tensor)

@@ -52,9 +52,17 @@ def board_to_tensor(board):
 
     return torch.from_numpy(arr)
 
-def state_to_tensor(rack, score_diff, bag_remaining):
+STANDARD_TILE_COUNTS = {
+    'A': 9, 'B': 2, 'C': 2, 'D': 4, 'E': 12, 'F': 2, 'G': 3, 'H': 2,
+    'I': 9, 'J': 1, 'K': 1, 'L': 4, 'M': 2, 'N': 6, 'O': 8, 'P': 2,
+    'Q': 1, 'R': 6, 'S': 4, 'T': 6, 'U': 4, 'V': 2, 'W': 2, 'X': 1,
+    'Y': 2, 'Z': 1, '?': 2,
+}
+
+
+def state_to_tensor(rack, score_diff, bag_remaining, unseen_counts=None, state_vector_size=36):
     """
-    Converts the game state into an enriched [36] tensor.
+    Converts the game state into an enriched tensor of size state_vector_size (default 36 or 63).
     Elements:
       0-25: Counts of A-Z tiles in rack
       26: Count of blank tiles in rack
@@ -67,8 +75,10 @@ def state_to_tensor(rack, score_diff, bag_remaining):
       33: Has S (1.0 or 0.0)
       34: Duplicate letter penalty / 7.0
       35: Empty leave flag (1.0 if bingo/out else 0.0)
+      36-61 (when state_vector_size >= 63): Unseen A-Z ratios (unseen_count / standard_count)
+      62 (when state_vector_size >= 63): Unseen blank '?' ratio (unseen_count / 2.0)
     """
-    arr = np.zeros(36, dtype=np.float32)
+    arr = np.zeros(state_vector_size, dtype=np.float32)
 
     vowel_count = 0
     consonant_count = 0
@@ -110,16 +120,26 @@ def state_to_tensor(rack, score_diff, bag_remaining):
     arr[34] = dup_penalty / 7.0
     arr[35] = 1.0 if leave_len == 0 else 0.0
 
+    # 36-62: Unseen tile distribution features (Bag tracking)
+    if state_vector_size >= 63 and unseen_counts is not None:
+        for i, char in enumerate("ABCDEFGHIJKLMNOPQRSTUVWXYZ"):
+            std_cnt = STANDARD_TILE_COUNTS.get(char, 1)
+            arr[36 + i] = unseen_counts.get(char, 0) / float(std_cnt)
+        arr[62] = unseen_counts.get('?', 0) / 2.0
+
     return torch.from_numpy(arr)
 
+
 class AlphableInference:
-    def __init__(self, model_path=None, device='cpu', dict_path='resources/NWL2023.txt', value_weight=60.0):
+    def __init__(self, model_path=None, device='cpu', dict_path='resources/NWL2023.txt', value_weight=60.0, state_vector_size=36):
         self.device = torch.device(device)
         self.value_weight = float(value_weight)
-        self.model = AlphableValueNet().to(self.device)
+        self.state_vector_size = state_vector_size
+        self.model = AlphableValueNet(state_vector_size=state_vector_size).to(self.device)
         if model_path:
             load_checkpoint_compatible(self.model, model_path, self.device)
         self.model.eval()
+
 
         # Load GADDAG (using NWL2023 or CSW24 which exist in the directory)
         self.gaddag = structure.Gaddag.load(dict_path)
