@@ -89,6 +89,9 @@ class SelfPlayRLTrainer:
         if model_path and os.path.exists(model_path):
             load_checkpoint_compatible(self.model, model_path, self.device)
 
+        print("Note: In Scrabble, pure-outcome self-play RL carries high tile-luck variance (~50%).")
+        print("For optimal tournament strength, prefer offline Grandmaster Distillation (distill_macondo.py).")
+
         self.criterion = nn.MSELoss()
         self.optimizer = optim.AdamW(self.model.parameters(), lr=lr, weight_decay=weight_decay)
 

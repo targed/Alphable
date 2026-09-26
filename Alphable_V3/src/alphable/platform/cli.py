@@ -23,7 +23,7 @@ def parse_args():
         default="HastyBot",
         help="Opponent bot name on Woogles (e.g. HastyBot, BestBot, BeginnerBot).",
     )
-    default_model = "models/alphable_v3_rl_gen3_distilled.pth" if os.path.exists("models/alphable_v3_rl_gen3_distilled.pth") else "models/alphable_v3_rl_gen2.pth"
+    default_model = "models/alphable_v3_macondo_v2.pth" if os.path.exists("models/alphable_v3_macondo_v2.pth") else ("models/alphable_v3_rl_gen3_distilled.pth" if os.path.exists("models/alphable_v3_rl_gen3_distilled.pth") else "models/alphable_v3_rl_gen2.pth")
     parser.add_argument(
         "--model",
         type=str,
