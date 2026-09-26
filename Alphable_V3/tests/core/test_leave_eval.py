@@ -94,3 +94,15 @@ def test_endgame_zero_bag_deduction():
     qz_endgame = compute_leave_equity("QZ", bag_remaining=0)
     assert qz_endgame == -20.0, f"Expected QZ endgame penalty -20.0, got {qz_endgame}"
 
+
+def test_duplicate_blank_diminishing_returns():
+    # Single blank is worth +26.5; second blank should have diminishing returns (+6.0 pts)
+    single_blank = compute_leave_equity(["?"])
+    double_blank = compute_leave_equity(["?", "?"])
+    assert single_blank == pytest.approx(26.5)
+    assert double_blank == pytest.approx(32.5)
+    assert double_blank > single_blank
+    # Difference should be ~6.0 pts, preventing equity hoarding over 60+ pt bingos
+    assert (double_blank - single_blank) == pytest.approx(6.0, abs=0.5)
+
+

@@ -168,7 +168,12 @@ def compute_leave_equity(rack: Union[List[str], str], bag_remaining: int = 100) 
             else:
                 consonant_count += 1
 
-    # 1. Duplicate tile penalties (e.g. holding II, UUU, VV)
+    # 1. Duplicate tile penalties (e.g. holding II, UUU, VV, ??)
+    if blank_count > 1:
+        # A single blank is worth +26.5; a second blank adds only +6.0 (total ~32.5)
+        # to prevent equity hoarding and passing up real bingos.
+        equity -= 20.5 * (blank_count - 1)
+
     for tile, count in tile_counts.items():
         if count > 1:
             pen = DUPLICATE_PENALTIES.get(tile, -2.5)

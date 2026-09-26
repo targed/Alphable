@@ -363,8 +363,12 @@ class AlphableSearch:
         print(
             f"Selected Top {len(top_candidates)} Candidates for Deep Simulation.")
 
-        # Determine unseen tiles
+        # Determine unseen tiles and sample Common Random Numbers (CRN) for fair candidate comparison
         unseen_tiles = get_unseen_distribution(board, rack)
+        sampled_opp_racks = [
+            sample_opponent_rack(unseen_tiles, sample_size=7)
+            for _ in range(self.num_simulations)
+        ]
 
         best_candidate = None
         best_expected_equity = -float('inf')
@@ -382,16 +386,13 @@ class AlphableSearch:
 
             total_simulation_equity = 0.0
 
-            for sim in range(self.num_simulations):
-                # 4b. Sample Opponent Rack
-                opp_rack = sample_opponent_rack(unseen_tiles, sample_size=7)
-
+            for opp_rack in sampled_opp_racks:
                 # 4c. Generate Opponent Replies
                 opp_moves = self.engine.move_gen.generate(cand_board, opp_rack)
 
                 if not opp_moves:
                     # Opponent passes.
-                    sim_equity = float(cand_points) + cand_leave + cand_def + self.value_weight * cand_val
+                    sim_equity = float(cand_points) + cand_leave + self.value_weight * cand_val
                     total_simulation_equity += sim_equity
                     continue
 
@@ -449,17 +450,18 @@ class AlphableSearch:
 
                 sim_points_diff = float(cand_points) - expected_opp_points
                 sim_strategic_diff = cand_val - expected_opp_val
+                # Opponent counterplay on cand_board already models defensive exposure.
+                # Redundant cand_def is omitted to avoid double-penalizing perimeter plays.
                 sim_equity = (
                     sim_points_diff
                     + cand_leave
-                    + cand_def
                     + self.value_weight * sim_strategic_diff
                 )
                 total_simulation_equity += sim_equity
 
-            # Average simulated equity across all random racks
+            # Average simulated equity across all sampled racks
             cand_total_equity = total_simulation_equity / self.num_simulations
-            cand_sim_val = (cand_total_equity - float(cand_points) - cand_leave - cand_def) / max(1.0, self.value_weight)
+            cand_sim_val = (cand_total_equity - float(cand_points) - cand_leave) / max(1.0, self.value_weight)
             print(
                 f"Candidate {cand_idx+1}: {cand_move['word']} at {cand_move['row']},{cand_move['col']} | "
                 f"Points: {cand_points} | Leave: {cand_leave:+.1f} | Def: {cand_def:+.1f} | "

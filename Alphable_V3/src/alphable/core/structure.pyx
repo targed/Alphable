@@ -94,13 +94,13 @@ class MoveGenerator:
                     up_part = ""
                     curr = r - 1
                     while curr >= 0 and board[curr][c] != '.':
-                        up_part = board[curr][c] + up_part
+                        up_part = board[curr][c].upper() + up_part
                         curr -= 1
                     
                     down_part = ""
                     curr = r + 1
                     while curr < 15 and board[curr][c] != '.':
-                        down_part += board[curr][c]
+                        down_part += board[curr][c].upper()
                         curr += 1
                     
                     for char_code in range(ord('A'), ord('Z')+1):
@@ -112,7 +112,7 @@ class MoveGenerator:
                     cross_checks[(r,c)] = valid_chars
 
     def _fast_word_check(self, word):
-        path = word[::-1] + BREAK
+        path = word.upper()[::-1] + BREAK
         curr = self.gaddag.root
         for char in path:
             if char not in curr:
@@ -155,7 +155,7 @@ class MoveGenerator:
             candidates = set()
             
             if char_on_board != '.':
-                candidates.add(char_on_board)
+                candidates.add(char_on_board.upper())
             else:
                 for tile in rack:
                     if rack[tile] > 0:
@@ -203,7 +203,7 @@ class MoveGenerator:
             char_on_board = board[row][col]
             candidates = set()
             if char_on_board != '.':
-                candidates.add(char_on_board)
+                candidates.add(char_on_board.upper())
             else:
                 for tile in rack:
                     if rack[tile] > 0:
