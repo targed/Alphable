@@ -144,8 +144,17 @@ class WooglesAdapter(AbstractPlatformAdapter):
             return
         try:
             print("Resetting navigation back to Woogles lobby...")
+            try:
+                self.page.keyboard.press("Escape")
+                time.sleep(0.2)
+            except Exception:
+                pass
             self.page.goto(WOOGLES_BASE_URL, wait_until="domcontentloaded")
             time.sleep(1.0)
+            try:
+                self.page.keyboard.press("Escape")
+            except Exception:
+                pass
         except Exception:
             pass
 
@@ -238,107 +247,132 @@ class WooglesAdapter(AbstractPlatformAdapter):
             return self.current_game_url
 
         # Bot Mode
-        # 2. Navigate to lobby to create fresh game or resume
-        self.page.goto(f"{WOOGLES_BASE_URL}/", wait_until="domcontentloaded")
-        time.sleep(1.0)
-
-        # Check for "Resume your game" banner in lobby
-        resume_btn = self.page.locator("text=/Resume your game/i").first
-        try:
-            if resume_btn.is_visible():
-                banner_txt = resume_btn.inner_text().strip().replace("\n", " ")
-                print(f"✓ Found ongoing match banner ({banner_txt}). Resuming...")
-                resume_btn.click()
-                self.page.wait_for_url("**/game/**", timeout=10000)
-                self._wait_for_game_ready()
-                self.current_game_url = self.page.url
-                self.opponent_username = config.bot_name or "Opponent"
-                return self.current_game_url
-        except Exception:
-            pass
-
-        print(f"Creating Woogles match vs {config.bot_name} ({config.dictionary}, {config.game_mode})...")
-
-        # 3. Click "Play a computer" button
-        btn_play_comp = self.page.locator(".bot").first
-        try:
-            btn_play_comp.wait_for(state="visible", timeout=10000)
-        except Exception:
-            btn_play_comp = self.page.locator("text=Play a computer").first
-            btn_play_comp.wait_for(state="visible", timeout=10000)
-
-        btn_play_comp.click()
-        time.sleep(0.5)
-
-        # 4. Configure bot modal
-        modal = self.page.locator(".ant-modal-content, .seek-modal, [role='dialog']").first
-        modal.wait_for(state="visible", timeout=10000)
-
-        # 4a. Select bot level if requested
-        if config.bot_name:
-            bot_selector = self.page.locator(".bot-selector, #seekForm_botType").first
+        max_attempts = 3
+        for attempt in range(1, max_attempts + 1):
             try:
-                bot_selector.wait_for(state="visible", timeout=3000)
-                current_text = bot_selector.inner_text()
-                if config.bot_name.lower() not in current_text.lower():
-                    bot_selector.click()
-                    time.sleep(0.3)
-                    # Click target bot option in dropdown
-                    target_option = self.page.locator(
-                        f".ant-select-dropdown .ant-select-item-option:has-text('{config.bot_name}')"
-                    ).first
-                    if target_option.is_visible(timeout=2000):
-                        target_option.click()
-                        time.sleep(0.3)
-                    else:
-                        # Fallback case-insensitive match
-                        opt = self.page.locator(".ant-select-dropdown .ant-select-item-option").filter(
-                            has_text=re.compile(config.bot_name, re.IGNORECASE)
-                        ).first
-                        if opt.is_visible(timeout=1000):
-                            opt.click()
+                # 2. Navigate to lobby to create fresh game or resume
+                if "/game/" in self.page.url:
+                    self.reset_to_lobby()
+                else:
+                    try:
+                        self.page.keyboard.press("Escape")
+                        time.sleep(0.2)
+                    except Exception:
+                        pass
+                    self.page.goto(f"{WOOGLES_BASE_URL}/", wait_until="domcontentloaded")
+                    time.sleep(1.0)
+
+                # Check for "Resume your game" banner in lobby
+                resume_btn = self.page.locator("text=/Resume your game/i").first
+                try:
+                    if resume_btn.is_visible():
+                        banner_txt = resume_btn.inner_text().strip().replace("\n", " ")
+                        print(f"✓ Found ongoing match banner ({banner_txt}). Resuming...")
+                        resume_btn.click()
+                        self.page.wait_for_url("**/game/**", timeout=10000)
+                        self._wait_for_game_ready()
+                        self.current_game_url = self.page.url
+                        self.opponent_username = config.bot_name or "Opponent"
+                        return self.current_game_url
+                except Exception:
+                    pass
+
+                print(f"Creating Woogles match vs {config.bot_name} ({config.dictionary}, {config.game_mode}) [attempt {attempt}/{max_attempts}]...")
+
+                # 3. Click "Play a computer" button
+                btn_play_comp = self.page.locator(".bot, button:has-text('Play a computer'), text='Play a computer'").first
+                btn_play_comp.wait_for(state="visible", timeout=10000)
+
+                try:
+                    btn_play_comp.click(timeout=5000)
+                except Exception:
+                    btn_play_comp.click(force=True, timeout=3000)
+
+                time.sleep(0.5)
+
+                # 4. Configure bot modal
+                modal = self.page.locator(".ant-modal-content, .seek-modal, [role='dialog']").first
+                modal.wait_for(state="visible", timeout=8000)
+
+                # 4a. Select bot level if requested
+                if config.bot_name:
+                    bot_selector = modal.locator(".bot-selector, #seekForm_botType").first
+                    try:
+                        bot_selector.wait_for(state="visible", timeout=3000)
+                        current_text = bot_selector.inner_text()
+                        if config.bot_name.lower() not in current_text.lower():
+                            bot_selector.click()
                             time.sleep(0.3)
+                            # Click target bot option in dropdown
+                            target_option = self.page.locator(
+                                f".ant-select-dropdown .ant-select-item-option:has-text('{config.bot_name}')"
+                            ).first
+                            if target_option.is_visible(timeout=2000):
+                                target_option.click()
+                                time.sleep(0.3)
+                            else:
+                                # Fallback case-insensitive match
+                                opt = self.page.locator(".ant-select-dropdown .ant-select-item-option").filter(
+                                    has_text=re.compile(config.bot_name, re.IGNORECASE)
+                                ).first
+                                if opt.is_visible(timeout=1000):
+                                    opt.click()
+                                    time.sleep(0.3)
+                    except Exception as e:
+                        print(f"Warning: Failed to select bot '{config.bot_name}': {e}")
+                    self.opponent_username = config.bot_name
+
+                # 4b. Select dictionary if dropdown available
+                try:
+                    dict_dropdown = modal.locator("select[name='dictionary'], [role='combobox']").first
+                    if dict_dropdown.is_visible(timeout=1000):
+                        dict_dropdown.select_option(label=re.compile(config.dictionary, re.IGNORECASE))
+                except Exception:
+                    pass
+
+                # 4c. Select game mode (Real-time vs Correspondence)
+                try:
+                    if config.game_mode.lower() == "correspondence":
+                        modal.locator("button:has-text('Correspondence')").first.click()
+                    else:
+                        modal.locator("button:has-text('Real-time')").first.click()
+                    time.sleep(0.3)
+                except Exception:
+                    pass
+
+                # 5. Click "Create game"
+                btn_create = modal.locator(".ant-modal-content button:has-text('Create game'), button:has-text('Create game')").first
+                try:
+                    btn_create.click(timeout=5000)
+                except Exception:
+                    btn_create.click(force=True, timeout=3000)
+
+                # 6. Wait for game board to render and session to hydrate
+                print("Waiting for game board to load...")
+                self.page.wait_for_url("**/game/**", timeout=20000)
+                self._wait_for_game_ready()
+
+                self.current_game_url = self.page.url
+                print(f"✓ Game successfully loaded: {self.current_game_url}")
+                return self.current_game_url
+
             except Exception as e:
-                print(f"Warning: Failed to select bot '{config.bot_name}': {e}")
-            self.opponent_username = config.bot_name
-
-        # 4b. Select dictionary if dropdown available
-        try:
-            dict_dropdown = self.page.locator("select[name='dictionary'], [role='combobox']").first
-            if dict_dropdown.is_visible(timeout=1000):
-                dict_dropdown.select_option(label=re.compile(config.dictionary, re.IGNORECASE))
-        except Exception:
-            pass
-
-        # 4c. Select game mode (Real-time vs Correspondence)
-        try:
-            if config.game_mode.lower() == "correspondence":
-                self.page.locator("button:has-text('Correspondence')").first.click()
-            else:
-                self.page.locator("button:has-text('Real-time')").first.click()
-            time.sleep(0.3)
-        except Exception:
-            pass
-
-        # 5. Click "Create game"
-        btn_create = self.page.locator(".ant-modal-content button:has-text('Create game'), button:has-text('Create game')").first
-        btn_create.click()
-
-        # 6. Wait for game board to render and session to hydrate
-        print("Waiting for game board to load...")
-        self.page.wait_for_url("**/game/**", timeout=20000)
-        self._wait_for_game_ready()
-
-        self.current_game_url = self.page.url
-        print(f"✓ Game successfully loaded: {self.current_game_url}")
-        return self.current_game_url
+                print(f"⚠ Game creation attempt {attempt}/{max_attempts} failed: {e}")
+                if attempt < max_attempts:
+                    print("Retrying game creation from lobby...")
+                    self.reset_to_lobby()
+                    time.sleep(1.5)
+                else:
+                    raise e
 
     def _wait_for_game_ready(self, timeout: float = 20.0) -> None:
         """Waits for game board, rack, action buttons, or on-turn indicator to hydrate."""
         self.page.wait_for_selector("#board-spaces", timeout=int(timeout * 1000))
         try:
             self.page.wait_for_function("""() => {
-                const rackTiles = document.querySelectorAll("#rack .tile, .rack .tile, .rack-container .tile");
+                const rackTiles = Array.from(document.querySelectorAll("#rack .tile, .rack .tile, .rack-container .tile")).filter(
+                    t => !t.closest(".ant-modal, .exchange, .modal, [role='dialog']")
+                );
                 const hasActionBtns = Array.from(document.querySelectorAll(".game-controls button, button")).some(
                     b => b.innerText && (b.innerText.includes("Play") || b.innerText.includes("Pass") || b.innerText.includes("Exchange"))
                 );
@@ -385,10 +419,12 @@ class WooglesAdapter(AbstractPlatformAdapter):
         if board_data:
             board = board_data
 
-        # 2. Parse Rack Tiles via #rack .tile (excluding dummy/hidden 128 tiles and validating blanks)
+        # 2. Parse Rack Tiles via #rack .tile (excluding dummy/hidden 128 tiles, modal tiles, and validating blanks)
         rack = self.page.evaluate("""() => {
             const tiles = [];
-            const rackTiles = document.querySelectorAll("#rack .tile, .rack .tile, .rack-container .tile");
+            const rackTiles = Array.from(document.querySelectorAll("#rack .tile, .rack .tile, .rack-container .tile")).filter(
+                t => !t.closest(".ant-modal, .exchange, .modal, [role='dialog']")
+            );
             rackTiles.forEach(t => {
                 // If tile has explicit data-letter attribute
                 const dlAttr = t.getAttribute("data-letter");
@@ -424,10 +460,12 @@ class WooglesAdapter(AbstractPlatformAdapter):
             return tiles;
         }""")
 
-        # Scrabble rule: English Scrabble has at most 2 blanks in the entire bag.
-        # If rack has > 2 blanks or > 7 tiles, it indicates unhydrated / phantom DOM state.
-        if rack and (rack.count("?") > 2 or len(rack) > 7):
-            rack = []
+        # Scrabble rule: English Scrabble has at most 2 blanks in the entire bag and at most 7 tiles on rack.
+        if rack:
+            if rack.count("?") > 2:
+                rack = []
+            elif len(rack) > 7:
+                rack = rack[:7]
 
         # 3. Parse Metadata, Scores, Bag, Turn, and Status via in-page JavaScript
         meta = self.page.evaluate("""(oppNameParam) => {
@@ -494,7 +532,9 @@ class WooglesAdapter(AbstractPlatformAdapter):
             }
 
             if (!isGameOver) {
-                const rackTiles = document.querySelectorAll("#rack .tile, .rack .tile, .rack-container .tile");
+                const rackTiles = Array.from(document.querySelectorAll("#rack .tile, .rack .tile, .rack-container .tile")).filter(
+                    t => !t.closest(".ant-modal, .exchange, .modal, [role='dialog']")
+                );
                 const hasActionBtns = Array.from(document.querySelectorAll(".game-controls button, button")).some(
                     b => b.offsetWidth > 0 && /^(play|pass|exchange)$/i.test((b.innerText || "").trim())
                 );
@@ -699,9 +739,18 @@ class WooglesAdapter(AbstractPlatformAdapter):
 
                 # 5. Wait for exchange modal to close
                 try:
-                    modal.wait_for(state="hidden", timeout=3000)
+                    modal.wait_for(state="hidden", timeout=4000)
                 except Exception:
-                    self.page.keyboard.press("Escape")
+                    if modal.is_visible():
+                        print("⚠ Exchange modal did not close after submit. Aborting exchange with Escape...")
+                        self.page.keyboard.press("Escape")
+                        return False
+
+                # Ensure board container is focused for subsequent turn actions
+                try:
+                    self.page.locator("#board-container, #board-spaces").first.click(timeout=1000)
+                except Exception:
+                    pass
 
                 return True
             except Exception as e:
@@ -981,7 +1030,9 @@ class WooglesAdapter(AbstractPlatformAdapter):
                     }
                 }
 
-                const rackTiles = document.querySelectorAll("#rack .tile, .rack .tile, .rack-container .tile");
+                const rackTiles = Array.from(document.querySelectorAll("#rack .tile, .rack .tile, .rack-container .tile")).filter(
+                    t => !t.closest(".ant-modal, .exchange, .modal, [role='dialog']")
+                );
                 const hasActionBtns = Array.from(document.querySelectorAll(".game-controls button, button")).some(
                     b => b.offsetWidth > 0 && /^(play|pass|exchange)$/i.test((b.innerText || "").trim())
                 );
@@ -1111,7 +1162,9 @@ class WooglesAdapter(AbstractPlatformAdapter):
                         };
                     });
 
-                    const rackTiles = Array.from(document.querySelectorAll("#rack .tile, .rack .tile")).map(t => {
+                    const rackTiles = Array.from(document.querySelectorAll("#rack .tile, .rack .tile, .rack-container .tile")).filter(
+                        t => !t.closest(".ant-modal, .exchange, .modal, [role='dialog']")
+                    ).map(t => {
                         return t.querySelector(".rune span, .rune")?.innerText.trim() || "?";
                     });
 

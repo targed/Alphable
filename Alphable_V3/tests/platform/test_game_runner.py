@@ -253,3 +253,53 @@ def test_online_game_runner_retry_and_pass_fallback(tmp_path):
     assert failing_adapter.moves_received[-1].action == "PASS"
     assert summary["winner"] == "Alphable"
 
+
+class CrashingFirstGameAdapter(MockPlatformAdapter):
+    """Adapter where game 1 throws TimeoutError during create_game, but game 2 succeeds."""
+    def __init__(self):
+        super().__init__()
+        self.game_count = 0
+        self.reset_to_lobby_called = 0
+
+    def create_game(self, config: PlatformGameConfig) -> str:
+        self.game_count += 1
+        if self.game_count == 1:
+            raise TimeoutError("Locator.click: Timeout 15000ms exceeded. waiting for locator('.bot').first")
+        return "https://woogles.io/game/mock_game_2"
+
+    def reset_to_lobby(self):
+        self.reset_to_lobby_called += 1
+
+
+def test_online_game_runner_series_error_isolation(tmp_path):
+    crashing_adapter = CrashingFirstGameAdapter()
+    output_dir = tmp_path / "games_series_crash"
+
+    runner = OnlineGameRunner(
+        adapter=crashing_adapter,
+        model_path="models/alphable_v3_rl_gen2.pth",
+        dict_path="resources/CSW24.txt",
+        mode="greedy",
+        delay_min=0.01,
+        delay_max=0.01,
+        output_dir=str(output_dir),
+    )
+
+    config = PlatformGameConfig(
+        opponent_type="bot",
+        bot_name="HastyBot",
+        dictionary="CSW24",
+        num_games=2,
+        export_gcg=False,
+        extract_analysis=False,
+    )
+
+    series_summary = runner.play_match(config)
+    # The runner must NOT crash! It should record game 1 error, reset to lobby, and successfully play game 2
+    assert series_summary["total_games"] == 2
+    assert series_summary["completed_games"] == 2
+    assert len(series_summary["games"]) == 2
+    assert "error" in series_summary["games"][0]["status"]
+    assert series_summary["games"][1]["winner"] == "Alphable"
+    assert crashing_adapter.reset_to_lobby_called >= 1
+

@@ -669,6 +669,66 @@ def test_woogles_adapter_play_move_exchange(browser_context):
     page.close()
 
 
+def test_woogles_adapter_rack_parsing_ignores_exchange_modal(browser_context):
+    """
+    Verifies that tiles inside an exchange modal (which also uses #rack) are never counted
+    as player rack tiles, preventing false 14-tile counts and rack clearing.
+    """
+    html = """
+    <!DOCTYPE html>
+    <html>
+    <body>
+      <div class="rack-container">
+        <div id="rack" class="rack">
+          <div class="tile" data-letter="1"><span class="rune"><span>A</span></span><span class="point-value">1</span></div>
+          <div class="tile" data-letter="5"><span class="rune"><span>E</span></span><span class="point-value">1</span></div>
+          <div class="tile" data-letter="9"><span class="rune"><span>I</span></span><span class="point-value">1</span></div>
+          <div class="tile" data-letter="15"><span class="rune"><span>O</span></span><span class="point-value">1</span></div>
+          <div class="tile" data-letter="16"><span class="rune"><span>P</span></span><span class="point-value">3</span></div>
+          <div class="tile" data-letter="18"><span class="rune"><span>R</span></span><span class="point-value">1</span></div>
+          <div class="tile" data-letter="19"><span class="rune"><span>S</span></span><span class="point-value">1</span></div>
+        </div>
+      </div>
+      <div class="ant-modal-wrap" style="display: none;">
+        <div class="ant-modal exchange">
+          <div class="ant-modal-title">Exchange tiles</div>
+          <div id="rack" class="rack">
+            <div class="tile" data-letter="2"><span class="rune"><span>B</span></span><span class="point-value">3</span></div>
+            <div class="tile" data-letter="3"><span class="rune"><span>C</span></span><span class="point-value">3</span></div>
+            <div class="tile" data-letter="4"><span class="rune"><span>D</span></span><span class="point-value">2</span></div>
+            <div class="tile" data-letter="6"><span class="rune"><span>F</span></span><span class="point-value">4</span></div>
+            <div class="tile" data-letter="7"><span class="rune"><span>G</span></span><span class="point-value">2</span></div>
+            <div class="tile" data-letter="8"><span class="rune"><span>H</span></span><span class="point-value">4</span></div>
+            <div class="tile" data-letter="10"><span class="rune"><span>J</span></span><span class="point-value">8</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="player-card on-turn" style="width: 200px; height: 50px;">
+        <div class="player-info"><p class="player-name"><span>AlphableUser</span></p></div>
+        <button class="score">100</button>
+      </div>
+      <div class="player-card" style="width: 200px; height: 50px;">
+        <div class="player-info"><p class="player-name"><span>HastyBot</span></p></div>
+        <button class="score">90</button>
+      </div>
+    </body>
+    </html>
+    """
+    page = browser_context.new_page()
+    page.set_content(html)
+    adapter = WooglesAdapter()
+    adapter.page = page
+    adapter.opponent_username = "HastyBot"
+
+    state = adapter.get_game_state()
+    # Must contain ONLY the 7 player rack tiles, NOT all 14 tiles
+    assert len(state.rack) == 7
+    assert state.rack == ["A", "E", "I", "O", "P", "R", "S"]
+    assert state.is_my_turn is True
+    page.close()
+
+
+
 
 
 

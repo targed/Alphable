@@ -108,16 +108,18 @@ class OnlineGameRunner:
         if hasattr(self.adapter, "ensure_browser_active"):
             self.adapter.ensure_browser_active()
 
-        if not is_rematch:
-            game_url = self.adapter.create_game(config)
-        else:
-            game_url = getattr(self.adapter, "current_game_url", None) or "unknown"
-
         turns_log: List[Dict[str, Any]] = []
         turn_idx = 0
         retry_count = 0
+        game_url: Optional[str] = getattr(self.adapter, "current_game_url", None) or "unknown"
+        match_error: Optional[str] = None
 
         try:
+            if not is_rematch:
+                game_url = self.adapter.create_game(config)
+            else:
+                game_url = getattr(self.adapter, "current_game_url", None) or "unknown"
+
             while True:
                 if turn_idx > 0 and self.adapter.is_game_over():
                     print("Game over detected.")
@@ -272,10 +274,12 @@ class OnlineGameRunner:
 
         except KeyboardInterrupt:
             print("\nMatch interrupted by user.")
+            match_error = "interrupted"
         except Exception as e:
             import traceback
             print(f"Exception during match execution: {e}")
             traceback.print_exc()
+            match_error = str(e)
 
         # 5. Extract Final Result
         final_result = self.adapter.get_final_result()
@@ -350,6 +354,7 @@ class OnlineGameRunner:
             "final_score": replay_data["final_score"],
             "winner": replay_data["winner"],
             "turns_count": len(turns_log),
+            "status": f"error: {match_error}" if match_error else "completed",
         }
         with open(summary_path, "w", encoding="utf-8") as f:
             json.dump(summary_data, f, indent=2)
@@ -388,12 +393,43 @@ class OnlineGameRunner:
 
         is_rematch_ready = False
         for game_idx in range(1, config.num_games + 1):
-            summary = self._execute_single_game(
-                config,
-                game_idx=game_idx,
-                total_games=config.num_games,
-                is_rematch=is_rematch_ready,
-            )
+            try:
+                summary = self._execute_single_game(
+                    config,
+                    game_idx=game_idx,
+                    total_games=config.num_games,
+                    is_rematch=is_rematch_ready,
+                )
+            except Exception as e:
+                import traceback
+                print(f"\n❌ Uncaught error during Match {game_idx}/{config.num_games}: {e}")
+                traceback.print_exc()
+
+                summary = {
+                    "timestamp": datetime.now().strftime("%Y%m%d_%H%M%S"),
+                    "platform": "woogles",
+                    "match_id": "error",
+                    "match_folder": "",
+                    "opponent": config.bot_name or "Opponent",
+                    "game_replay": None,
+                    "gcg_file": None,
+                    "has_analysis": False,
+                    "final_score": [0, 0],
+                    "winner": config.bot_name or "Opponent",
+                    "turns_count": 0,
+                    "my_name": "Alphable",
+                    "status": f"error: {e}",
+                }
+
+                # Reset browser to lobby so subsequent match starts with a clean slate
+                try:
+                    if hasattr(self.adapter, "ensure_browser_active"):
+                        self.adapter.ensure_browser_active()
+                    if hasattr(self.adapter, "reset_to_lobby"):
+                        self.adapter.reset_to_lobby()
+                except Exception as res_err:
+                    print(f"Failed to reset browser to lobby after error: {res_err}")
+
             series_results.append(summary)
 
             my_score, opp_score = summary["final_score"]
@@ -409,10 +445,35 @@ class OnlineGameRunner:
             else:
                 opp_wins += 1
 
+            # Save intermediate series summary after each game so progress is never lost
+            avg_diff = sum(score_diffs) / len(score_diffs) if score_diffs else 0.0
+            series_summary_path = self.summaries_dir / f"run_{series_timestamp}_series.json"
+            series_summary_data = {
+                "timestamp": series_timestamp,
+                "total_games": config.num_games,
+                "completed_games": len(series_results),
+                "alphable_wins": my_wins,
+                "opponent_wins": opp_wins,
+                "draws": draws,
+                "average_score_diff": round(avg_diff, 2),
+                "games": series_results,
+            }
+            try:
+                with open(series_summary_path, "w", encoding="utf-8") as f:
+                    json.dump(series_summary_data, f, indent=2)
+            except Exception:
+                pass
+
             is_rematch_ready = False
             if game_idx < config.num_games:
                 time.sleep(1.0)
-                rematch_success = self.adapter.trigger_rematch()
+                rematch_success = False
+                if summary.get("status") == "completed":
+                    try:
+                        rematch_success = self.adapter.trigger_rematch()
+                    except Exception:
+                        rematch_success = False
+
                 if rematch_success:
                     is_rematch_ready = True
                 else:
@@ -427,6 +488,7 @@ class OnlineGameRunner:
         series_summary_data = {
             "timestamp": series_timestamp,
             "total_games": config.num_games,
+            "completed_games": len(series_results),
             "alphable_wins": my_wins,
             "opponent_wins": opp_wins,
             "draws": draws,
