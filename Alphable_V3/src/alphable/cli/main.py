@@ -16,6 +16,7 @@ def main():
     train_subparsers.add_parser('supervised', help='Supervised training')
     train_subparsers.add_parser('rl', help='Reinforcement learning training')
     train_subparsers.add_parser('rl-selfplay', help='Pure outcome self-play RL training', add_help=False)
+    train_subparsers.add_parser('distill-macondo', help='Grandmaster Macondo knowledge distillation training', add_help=False)
 
     # Selfplay
     selfplay_parser = subparsers.add_parser('selfplay', help='Selfplay utilities')
@@ -63,6 +64,10 @@ def main():
         from alphable.training.self_play_rl import main as train_rl_selfplay_main
         sys.argv = [sys.argv[0]] + unknown
         train_rl_selfplay_main()
+    elif args.command == 'train' and args.subcommand == 'distill-macondo':
+        from alphable.training.distill_macondo import main as distill_macondo_main
+        sys.argv = [sys.argv[0]] + unknown
+        distill_macondo_main()
     elif args.command == 'selfplay' and args.subcommand == 'generate':
         from alphable.training.self_play import main as self_play_main
         sys.argv = [sys.argv[0]] + unknown

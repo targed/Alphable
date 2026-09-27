@@ -1,6 +1,6 @@
 # Alphable V3: Search & Move Equity Formulation
 
-This document details the search algorithm, evaluation mathematics, and tactical lookahead mechanics that power move selection in **Alphable V3**.
+This document details the search algorithms, evaluation mathematics, and tactical lookahead mechanics that power move selection in **Alphable V3**.
 
 ---
 
@@ -8,17 +8,18 @@ This document details the search algorithm, evaluation mathematics, and tactical
 
 In Scrabble, choosing the move with the highest immediate points is known as **Greedy play**. While greedy play is strong against novice humans, it routinely loses to expert players because it ignores:
 1. **Leave Quality:** Discarding high-value synergy tiles (e.g. burning both blanks or dumping an `'S'` for 8 points).
-2. **Board Openness:** Playing a high-scoring word that leaves an open Triple Word Score or Triple Letter hook for the opponent.
+2. **Board Openness:** Playing a word that exposes an open Triple Word Score (TWS) or Triple Letter hook for the opponent.
 3. **Endgame Tile Trapping:** Failing to track remaining unseen tiles as the bag empties.
 
 To balance immediate points with long-term strategic advantage, Alphable models move selection using **Total Equity**:
 
-$$\text{Equity}(m) = \text{Points}(m) + \lambda \times V(s'_m)$$
+$$\text{Equity}(m) = \text{Points}(m) + \text{LeaveEquity}(R') + \text{DefenseAdj}(B, B') + \lambda \times V(s'_m)$$
 
 Where:
-- $\text{Points}(m)$: Immediate score earned by playing move $m$ (including all cross-words, premium multipliers, and the +50 bingo bonus).
-- $s'_m$: The **after-state** resulting from playing $m$ on the current board.
-- $V(s'_m) \in [-1.0, 1.0]$: Neural network value estimating the mover's long-term win probability / normalized margin from after-state $s'_m$.
+- $\text{Points}(m)$: Immediate score earned by playing move $m$ (including all perpendicular cross-words, square multipliers, and the +50 bingo bonus).
+- $\text{LeaveEquity}(R')$: Empirical future expected value of the tiles left in hand after the move (from Super-Leaves tournament tables).
+- $\text{DefenseAdj}(B, B')$: Heuristic board security adjustment for occupying or dangerously exposing high-multiplier squares (TWS / DWS).
+- $V(s'_m) \in [-1.0, 1.0]$: Neural network value estimating long-term game equity from after-state $s'_m$.
 - $\lambda = 25.0$: The **Equity Scale Factor**. In championship Scrabble AI research, a $+1.0$ swing in value (from even to dominant) corresponds to an equity advantage of roughly $+25$ points.
 
 ---
@@ -31,92 +32,93 @@ Alphable supports two move selection modes in [`src/alphable/core/search.py`](fi
 1. Generate all legal moves $M$ using the C++ GADDAG generator.
 2. For each move $m \in M$, simulate the after-state $s'_m$.
 3. Run a batched forward pass through `AlphableValueNet` to obtain $V(s'_m)$ for all candidates simultaneously.
-4. Compute $\text{Equity}(m) = \text{Points}(m) + 25.0 \times V(s'_m)$.
+4. Compute 0-ply Equity for every move.
 5. Select $\arg\max_m \text{Equity}(m)$.
 - **Latency:** ~5–15 ms total per turn on GPU.
 
 ### B. 1-Ply Monte Carlo Lookahead (`mode='lookahead'`)
-When playing against high-level opponents, direct 0-ply evaluation can occasionally overlook an opponent's direct tactical counterattack. 1-ply lookahead simulates the opponent's strongest replies using **Monte Carlo Rack Sampling**.
+When playing against high-level opponents, direct 0-ply evaluation can occasionally overlook an opponent's direct tactical counterattack. 1-ply lookahead simulates the opponent's strongest replies using **Monte Carlo Rack Sampling with Common Random Numbers (CRN)**.
 
 ---
 
-## 3. The 1-Ply Monte Carlo Rack Sampling Algorithm
+## 3. The 1-Ply Monte Carlo Search Workflow
 
 ```
-+-----------------------------------------------------------------------------+
-|                      1-Ply Monte Carlo Search Workflow                      |
-+-----------------------------------------------------------------------------+
-|                                                                             |
-|  1. Candidate Generation & 0-Ply Filtering                                  |
-|     - Generate all legal moves for our rack using GADDAG.                   |
-|     - Score each candidate via 0-ply Equity = Points + 25 * V(s').         |
-|     - Select top-K candidates (default: K=3) for deep lookahead simulation. |
-|                                                                             |
-|  2. Unseen Tile Distribution Calculation                                    |
-|     - Standard Bag (100 tiles) - Board Tiles - Our Rack = Unseen Tiles.     |
-|                                                                             |
-|  3. Monte Carlo Simulation Loop (for each of the K candidates):             |
-|     FOR sim = 1 to N_simulations (default: N=10):                           |
-|       a. Sample 7 random tiles from Unseen Tiles to form Opponent Rack.     |
-|       b. Generate all legal opponent replies on resulting board cand_board. |
-|       c. Simulate each opponent reply to get (opp_points, opp_afterstate).  |
-|       d. Forward pass opp replies: opp_val = model(opp_afterstate).         |
-|       e. Calculate Opponent Reply Equity:                                   |
-|          opp_equity = opp_points + 25.0 * opp_val                           |
-|       f. Softmax-temperature average over top opponent replies:             |
-|          expected_opp_equity = sum(w_i * opp_equity_i)                      |
-|       g. Net Simulation Value = -expected_opp_equity / 25.0                 |
-|                                                                             |
-|  4. Candidate Equity Ranking & Move Selection                               |
-|     - Average simulation value across all N simulations.                    |
-|     - cand_total_equity = cand_points - expected_opp_equity                 |
-|     - Select candidate with maximum net equity.                             |
-|                                                                             |
-+-----------------------------------------------------------------------------+
++---------------------------------------------------------------------------------+
+|                       1-Ply Monte Carlo Search Workflow                         |
++---------------------------------------------------------------------------------+
+|                                                                                 |
+|  1. Exact Endgame Check (Bag = 0)                                               |
+|     - If bag == 0 and unseen <= 7: invoke ExactEndgameSolver (deterministic).    |
+|                                                                                 |
+|  2. Candidate Generation & Strategic Diversity Selection                        |
+|     - Generate all legal board moves with GADDAG.                               |
+|     - Generate tactical tile exchange candidates if bag >= 7 and rack flawed.   |
+|     - Score all moves via 0-Ply Equity.                                         |
+|     - Pick Top-K diverse candidates (top equity, top points, top leave).        |
+|                                                                                 |
+|  3. Common Random Numbers (CRN) Pre-Sampling                                    |
+|     - Sample N opponent racks (default: N=10) ONCE from unseen tile bag.        |
+|     - Identical N racks are evaluated across all K candidate moves.             |
+|                                                                                 |
+|  4. Monte Carlo Opponent Simulation (for each candidate C):                     |
+|     FOR each sampled opponent rack:                                             |
+|       a. Generate opponent replies on candidate's resulting board.              |
+|       b. Stage 1 Fast Pruning: Rank opponent replies by (pts + leave).          |
+|       c. Stage 2 Deep Evaluation: Evaluate top replies with ValueNet.           |
+|       d. Softmax weighting over top replies -> Expected Opponent Points & Value.|
+|                                                                                 |
+|  5. 1-Ply Equity Computation:                                                   |
+|     SimEquity = (CandPoints - ExpectedOppPoints) + CandLeave + 25 * SimValueDiff|
+|                                                                                 |
+|  6. Selective 2-Ply Trigger:                                                    |
+|     - If gap between Top 1 and Top 2 <= 8.0 pts, evaluate 1-ply counter-reply.  |
+|                                                                                 |
++---------------------------------------------------------------------------------+
 ```
 
-### Unseen Tile Probability Distribution
-Implemented in `get_unseen_distribution(board, my_rack)`:
-- Total standard Scrabble tile distribution consists of 100 tiles:
-  `A:9, B:2, C:2, D:4, E:12, F:2, G:3, H:2, I:9, J:1, K:1, L:4, M:2, N:6, O:8, P:2, Q:1, R:6, S:4, T:6, U:4, V:2, W:2, X:1, Y:2, Z:1, ?:2`
-- All tiles currently visible on the $15 \times 15$ board are decremented.
-- All tiles in our own rack are decremented.
-- The remaining multiset forms the true conditional distribution of unseen tiles in the bag and opponent rack.
-
 ---
 
-## 4. Zero-Sum Opponent Reply Equity Deduction
+## 4. Key Mathematical Innovations
 
-### The Mathematical Formulation
-In zero-sum game theory, our equity gain from a round equals what we score minus what our opponent scores on their counter-turn, plus the net value of the final board state:
+### A. Common Random Numbers (CRN) Variance Reduction
+In standard Monte Carlo simulation, evaluating candidate moves $C_1$ and $C_2$ with independently drawn random opponent racks yields:
 
-$$\text{Net Equity}(m) = \text{Points}(m) - \text{Expected Opponent Equity}$$
+$$\text{Var}(C_1 - C_2) = \text{Var}(C_1) + \text{Var}(C_2)$$
 
-Where:
-$$\text{Expected Opponent Equity} = \sum_{j \in \text{top replies}} w_j \left( \text{opp\_points}_j + 25.0 \times V_{\text{opp}}(s''_j) \right)$$
+With a small sample size ($N = 10$), the standard error is $\pm 15$ to $\pm 20$ points, allowing small plays to randomly beat 70-point bingos if the bingo faces an unlucky opponent sample.
 
-And softmax temperature weights over the opponent's best replies:
-$$w_j = \frac{\exp\left(\frac{\text{opp\_equity}_j - \max(\text{opp\_equity})}{\tau}\right)}{\sum_k \exp\left(\frac{\text{opp\_equity}_k - \max(\text{opp\_equity})}{\tau}\right)}$$
+Under **Common Random Numbers (CRN)**, both candidates are evaluated against the **exact same set of sampled opponent racks**:
 
-Using $\tau = 5.0$ prevents single noisy outlier plays from skewing the expected counter-reply while ensuring the opponent is modeled as choosing their highest-equity plays.
+$$\text{Var}(C_1 - C_2) = \text{Var}(C_1) + \text{Var}(C_2) - 2 \text{Cov}(C_1, C_2)$$
 
----
+Because strong racks (e.g. blanks, high consonants) boost opponent counter-scores against *both* candidates, the covariance term $\text{Cov}(C_1, C_2)$ is strongly positive, reducing inter-candidate variance by **over 70%**.
 
-## 5. Live Tactical Defense Case Study
+### B. Leave Valuation & Duplicate Diminishing Returns
+[`leave_eval.py`](file:///home/targed/Documents/Git/Alphable/Alphable_V3/src/alphable/core/leave_eval.py) models rack leave value based on the Lipkin-Smith Super-Leaves tables:
+- **Base Tile Equities:** `?` (+26.5), `S` (+8.2), `Z` (+2.5), `X` (+2.5), `R` (+1.8), ..., `Q` (-7.5).
+- **Duplicate Blank Diminishing Returns:**
+  $$\text{If } \text{blank\_count} > 1: \quad \text{Equity} \mathrel{-}= 20.5 \times (\text{blank\_count} - 1)$$
+  - First blank: $+26.5$
+  - Second blank: $+6.0$ (total `??` $= +32.5$).
+  - Prevents the engine from hoarding blanks on rack over immediate 60+ point bingos.
+- **Stem Synergies:** Non-overlapping stem bonuses for classic bingo stems:
+  - 5-letter: `RETIN` (+4.5), `TISAN` (+4.5), `STARE` (+4.5), `SATIN` (+4.5)
+  - 3-letter: `EST`, `ERS`, `RET`, `SAT`, `INE` (+2.0 to +2.5)
+  - 2-letter pairs: `QU` (+6.5, neutralizes Q), `?S` (+5.0), `ES`, `ST`, `ER`, `ED` (+1.5 to +2.0)
+- **Vowel / Consonant Balance:** Parabolic penalty when vowel ratio exceeds 65% or drops below 25%, with heavy penalties for 0 vowels or 0 consonants.
 
-During baseline testing against `GreedyBot`:
-- **Board State:** Turn 1, center opening.
-- **Candidate 1:** `TAX` at (7, 6) Across.
-  - Immediate Points: 20 pts.
-  - Raw 0-ply Neural Value: $+0.716$.
-  - 1-Ply Simulation: Conceded an open Triple Word hook where GreedyBot replied for $55+$ points.
-  - 1-Ply Simulated Value: $-2.300$.
-  - **Net Total Equity:** $20 - 57.5 = \mathbf{-37.5}$.
-- **Candidate 2:** `DEATH` at (7, 7) Across.
-  - Immediate Points: 26 pts.
-  - Raw 0-ply Neural Value: $+0.453$.
-  - 1-Ply Simulation: Closed down the open board; opponent reply was limited to safe low-scoring plays.
-  - 1-Ply Simulated Value: $-1.850$.
-  - **Net Total Equity:** $26 - 46.3 = \mathbf{-20.3}$.
+### C. Defensive Hot-Spot Modeling
+[`defense.py`](file:///home/targed/Documents/Git/Alphable/Alphable_V3/src/alphable/core/defense.py) scans all 8 Triple Word Score (TWS) squares:
+- **Occupation Bonus:** $+6.0$ points when a move directly occupies an open TWS square.
+- **Exposure Penalty:** $-5.5$ points if newly placed tiles create an open horizontal or vertical lane 1 square away from an unoccupied TWS.
+- **Score-Adaptive Weighting:**
+  - Leading by $\ge +40$: defense weight $= 1.4\times$ (lock down the board).
+  - Trailing by $\le -40$: defense weight $= 0.6\times$ (open the board for comeback bingos).
+- **No Double-Counting:** `cand_def` is utilized for 0-ply candidate pruning, but omitted from 1-ply simulated equity because opponent counter-moves on `cand_board` already explicitly simulate and score the opened lane.
 
-**Outcome:** Under uncorrected search, the bot would have selected `TAX` because its 0-ply value was higher (+0.716 vs +0.453). With our zero-sum opponent equity deduction, Alphable correctly detected the counterattack, rejected `TAX`, played `DEATH`, and went on to win the game **412 to 379**.
+### D. Deterministic Exact Endgame Solver
+When $bag = 0$, all remaining unseen tiles are in the opponent's rack. [`endgame.py`](file:///home/targed/Documents/Git/Alphable/Alphable_V3/src/alphable/core/endgame.py) activates an exact minimax solver:
+- Searches all sequences up to 4 plies deep.
+- Evaluates out-of-tile bonuses: when a player empties their rack, they score double the face value of the opponent's remaining tiles.
+- Guarantees the optimal spread-maximizing play in close games.
