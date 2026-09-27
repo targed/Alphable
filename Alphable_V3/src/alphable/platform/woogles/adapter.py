@@ -280,7 +280,7 @@ class WooglesAdapter(AbstractPlatformAdapter):
                 print(f"Creating Woogles match vs {config.bot_name} ({config.dictionary}, {config.game_mode}) [attempt {attempt}/{max_attempts}]...")
 
                 # 3. Click "Play a computer" button
-                btn_play_comp = self.page.locator(".bot, button:has-text('Play a computer'), text='Play a computer'").first
+                btn_play_comp = self.page.locator(".bot, button:has-text('Play a computer'), :text('Play a computer')").first
                 btn_play_comp.wait_for(state="visible", timeout=10000)
 
                 try:

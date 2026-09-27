@@ -15,8 +15,8 @@ BOARD_COLS = 15
 # UI Action Button & Control Selectors
 SELECTORS = {
     # Lobby & Matchmaking
-    "btn_play_computer": "button:has-text('Play a computer'), text='Play a computer'",
-    "btn_create_game_lobby": "button:has-text('Create a game'), text='Create a game'",
+    "btn_play_computer": ".bot, button:has-text('Play a computer'), :text('Play a computer')",
+    "btn_create_game_lobby": "button:has-text('Create a game'), :text('Create a game')",
     "modal_play_computer": ".modal, [role='dialog']",
     "btn_create_game_submit": "button:has-text('Create game')",
     "select_bot_level": "text=Select bot level",
