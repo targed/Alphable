@@ -12,7 +12,7 @@ from datetime import datetime
 from pathlib import Path
 from typing import Dict, List, Optional, Any
 
-from alphable.core import inference, search
+from alphable.core import inference, search, simulator, leave_eval
 from alphable.platform.base import (
     AbstractPlatformAdapter,
     OnlineGameState,
@@ -70,6 +70,12 @@ class OnlineGameRunner:
             enable_2ply=(mode == "lookahead"),
             two_ply_threshold=8.0,
         )
+        if self.mode == "transformer":
+            from alphable.models.transformer_ranker import SmolLM2CandidateRanker
+            print(f"Initializing SmolLM2 Transformer Candidate Ranker on {device}...")
+            self.transformer_ranker = SmolLM2CandidateRanker(device=device)
+        else:
+            self.transformer_ranker = None
 
     def play_match(self, config: PlatformGameConfig) -> Dict[str, Any]:
         """
@@ -147,6 +153,22 @@ class OnlineGameRunner:
                         score_diff,
                         state.bag_remaining,
                     )
+                elif self.mode == "transformer":
+                    legal_moves = self.engine.move_gen.generate(state.board, state.rack)
+                    if legal_moves:
+                        scored_cands = []
+                        for m in legal_moves:
+                            nb, pts, nr = simulator.simulate_move(state.board, m, state.rack)
+                            l_eq = leave_eval.compute_leave_equity(nr, state.bag_remaining)
+                            scored_cands.append((m, pts + l_eq))
+                        scored_cands.sort(key=lambda x: x[1], reverse=True)
+                        top_cands = [x[0] for x in scored_cands[:25]]
+                        best_move = self.transformer_ranker.select_best_move(
+                            state.board, state.rack, score_diff, state.bag_remaining, top_cands
+                        )
+                        best_val = 0.0
+                    else:
+                        best_move, best_val = None, 0.0
                 else:
                     best_move, best_val = self.engine.find_best_move(
                         state.board,

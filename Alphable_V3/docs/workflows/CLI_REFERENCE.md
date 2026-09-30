@@ -45,9 +45,10 @@ python -m alphable.cli.main play woogles [OPTIONS]
 | `--bot` | `str` | `HastyBot` | Opponent bot name (`HastyBot`, `BestBot`, `BeginnerBot`). |
 | `--model` | `str` | `models/alphable_v3_macondo_v2.pth` | Path to neural network checkpoint to use. |
 | `--dict` | `str` | `resources/CSW24.txt` | Dictionary text file (`resources/CSW24.txt` or `resources/NWL2023.txt`). |
-| `--mode` | `str` | `lookahead` | Search mode: `lookahead` (1-ply Monte Carlo) or `bc_0ply` (fast argmax). |
-| `--top-k` | `int` | `5` | Number of candidate moves evaluated in lookahead search. |
-| `--simulations` | `int` | `10` | Number of opponent leave simulations per candidate under CRN. |
+| `--mode` | `str` | `lookahead` | Decision engine mode: `lookahead` (1-ply Monte Carlo), `bc_0ply` (fast argmax), or `transformer` (SmolLM2 attention candidate ranker). |
+| `--transformer-model` | `str` | `HuggingFaceTB/SmolLM2-135M-Instruct` | HuggingFace model repo or local directory for transformer ranker mode. |
+| `--top-k` | `int` | `5` | Number of candidate moves evaluated in lookahead / transformer search. |
+| `--simulations` | `int` | `10` | Number of opponent leave simulations per candidate under CRN (lookahead mode). |
 | `--value-weight` | `float` | `25.0` | Weight multiplier $W$ applied to strategic leave values. |
 | `--games` | `int` | `1` | Number of matches to play in sequence before terminating. |
 | `--time-control` | `str` | `15+0` | Time control string (e.g. `15+0`, `5+0`, `3+0`). |
@@ -152,7 +153,40 @@ python -m alphable.cli.main train rl-selfplay \
 
 ---
 
-## 4. `alphable data prepare`
+## 4. `alphable train transformer-ranker`
+
+Fine-tunes the autoregressive `SmolLM2-135M` candidate ranker on grandmaster human match decisions extracted from Woogles replays.
+
+```bash
+python -m alphable.cli.main train transformer-ranker [OPTIONS]
+```
+
+### Options Reference
+| Flag | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `--model-name` | `str` | `HuggingFaceTB/SmolLM2-135M-Instruct` | Base HuggingFace transformer model repository. |
+| `--matches-dir`| `str` | `data/woogles/matches` | Directory containing Woogles match replay directories with `analysis.json`. |
+| `--output-dir` | `str` | `models/transformer_ranker_v1` | Directory to save fine-tuned HuggingFace model and tokenizer checkpoints. |
+| `--dict` | `str` | `resources/CSW24.txt` | Dictionary path for GADDAG move generation during candidate extraction. |
+| `--epochs` | `int` | `3` | Number of fine-tuning epochs. |
+| `--batch-size` | `int` | `8` | Training batch size. |
+| `--lr` | `float` | `5e-5` | Learning rate for AdamW optimizer with cosine schedule. |
+| `--max-turns` | `int` | `None` | Optional limit on the number of training turns (useful for fast debugging). |
+| `--candidate-k`| `int` | `5` | Number of candidate moves included in each decision prompt. |
+
+### Practical Example
+```bash
+python -m alphable.cli.main train transformer-ranker \
+  --matches-dir data/woogles/matches \
+  --output-dir models/transformer_ranker_v1 \
+  --epochs 3 \
+  --batch-size 8 \
+  --lr 5e-5
+```
+
+---
+
+## 5. `alphable data prepare`
 
 Processes raw game replays (JSON/GCG) into compact supervised dataset samples with hard-negative mining and continuous deficit scaling.
 

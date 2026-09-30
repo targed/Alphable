@@ -40,8 +40,8 @@ def parse_args():
         "--mode",
         type=str,
         default="lookahead",
-        choices=["lookahead", "bc_0ply"],
-        help="Search mode: 'lookahead' (1-ply Monte Carlo) or 'bc_0ply' (direct evaluation).",
+        choices=["lookahead", "bc_0ply", "transformer"],
+        help="Search mode: 'lookahead' (1-ply Monte Carlo), 'bc_0ply' (direct evaluation), or 'transformer' (SmolLM2 candidate ranker).",
     )
     parser.add_argument(
         "--value-weight",

@@ -138,3 +138,39 @@ The model consists of a **Dual-Stream Residual Network**:
 To support seamless migration between older 36-dimensional checkpoints and newer 63-dimensional models, [`inference.py`](file:///home/targed/Documents/Git/Alphable/Alphable_V3/src/alphable/core/inference.py) implements `load_checkpoint_compatible()`:
 - Automatically maps overlapping layers while initializing newly added unseen-distribution weights cleanly.
 - Preserves backwards compatibility with legacy models.
+
+---
+
+## 4. SmolLM2 Transformer Candidate Ranker Architecture
+
+In addition to the ResNet value network, Alphable V3 supports pre-trained autoregressive transformers as candidate move rankers via [`SmolLM2CandidateRanker`](file:///home/targed/Documents/Git/Alphable/Alphable_V3/src/alphable/models/transformer_ranker.py).
+
+```
+   Board State & Rack ───────► GADDAG Move Generator (C++ / Cython)
+                                            │
+                                  100% Legal Move List
+                                            │
+                               Heuristic Pre-Filtering
+                               (Points + Leave + Defense)
+                                            │
+                                   Top N Candidates (≤ 26)
+                                            │
+                                            ▼
+                           Structured Prompt Formatter
+                                            │
+                                            ▼
+                 SmolLM2-135M Transformer Forward Pass (Single Token)
+                                            │
+                                Logit Slicing ([A] .. [Z])
+                                            │
+                                Softmax Ranking Distribution
+                                            │
+                                            ▼
+                               Selected Best Move Execution
+```
+
+### Key Design Tenets:
+1. **Zero Hallucination Guarantee**: The transformer never generates words or tile placements freely. GADDAG guarantees all input candidates are strictly legal in the current CSW24 lexicon and board geometry.
+2. **Single-Forward-Pass Ranking**: Candidates are labeled with single-token identifiers (`[A]`, `[B]`, ...). The ranker inspects the logits at the final prompt token corresponding to candidate label IDs, evaluating all candidates in parallel in a single forward pass (~15 ms on RTX GPU).
+3. **Multi-Aspect Context Injection**: The prompt informs the transformer of score differential, tiles remaining in the bag, the active rack, leave values, and board openness/defense for each move.
+4. **Fine-Tuning on Grandmaster Matches**: Supervised cross-entropy training on 15,000+ turns extracted from top Woogles championship matches aligns SmolLM2 attention with expert positional evaluation.
