@@ -9,6 +9,7 @@ import torch
 from alphable.core import inference
 from alphable.core import simulator
 from alphable.core import leave_eval
+from alphable.core import defense
 from alphable.logging.game_logger import GameLogger, MoveEntry
 from alphable.core.search import AlphableSearch
 from alphable.training.self_play import apply_endgame_adjustments, build_bag, draw_tiles, evaluate_moves
@@ -107,29 +108,70 @@ def run_game(
             if is_alphable_turn:
                 if transformer_ranker is not None:
                     if legal_moves:
-                        scored_cands = []
-                        for m in legal_moves:
-                            nb, pts, nr = simulator.simulate_move(board, m, racks[player])
-                            leq = leave_eval.compute_leave_equity(nr, tiles_in_bag)
-                            scored_cands.append((m, pts + leq, pts))
-                        scored_cands.sort(key=lambda x: x[1], reverse=True)
-                        top_candidates = [
-                            {
-                                'word': m[0]['word'],
-                                'row': m[0]['row'],
-                                'col': m[0]['col'],
-                                'dir': m[0]['dir'],
-                                'value': 0.0,
-                                'equity': round(m[1], 2),
-                                'points': m[2],
-                            }
-                            for m in scored_cands[:3]
-                        ]
-                        cands = [x[0] for x in scored_cands[:20]]
-                        chosen_move = transformer_ranker.select_best_move(
-                            board, racks[player], score_diff, tiles_in_bag, cands
-                        )
-                        chosen_value = 0.0
+                        # 1. Exact Endgame Solver Handoff if bag is empty
+                        if tiles_in_bag == 0:
+                            from alphable.core.endgame import ExactEndgameSolver
+                            from alphable.core.search import get_unseen_distribution
+                            unseen = get_unseen_distribution(board, racks[player])
+                            if len(unseen) <= 7:
+                                solver = ExactEndgameSolver(engine)
+                                eg_move, _ = solver.solve(board, racks[player], unseen, score_diff=score_diff)
+                                if eg_move:
+                                    chosen_move = eg_move
+                                    chosen_value = 0.0
+
+                        if chosen_move is None:
+                            scored_cands = []
+                            for m in legal_moves:
+                                nb, pts, nr = simulator.simulate_move(board, m, racks[player])
+                                leq = leave_eval.compute_leave_equity(nr, tiles_in_bag)
+                                def_adj = defense.compute_board_defense_adjustment(board, nb, m, score_diff)
+                                total_eq = float(pts) + leq + def_adj
+                                scored_cands.append((m, total_eq, pts, def_adj))
+                            scored_cands.sort(key=lambda x: x[1], reverse=True)
+                            top_candidates = [
+                                {
+                                    'word': m[0]['word'],
+                                    'row': m[0]['row'],
+                                    'col': m[0]['col'],
+                                    'dir': m[0]['dir'],
+                                    'value': 0.0,
+                                    'equity': round(m[1], 2),
+                                    'points': m[2],
+                                }
+                                for m in scored_cands[:3]
+                            ]
+                            # Competitive candidate filtering & hybrid equity weighting
+                            best_heuristic_eq = scored_cands[0][1]
+                            competitive_scored = [
+                                x for x in scored_cands[:8]
+                                if (best_heuristic_eq - x[1]) <= 12.0
+                            ]
+                            cands = [x[0] for x in competitive_scored]
+                            ranked = transformer_ranker.rank_candidates(
+                                board, racks[player], score_diff, tiles_in_bag, cands
+                            )
+                            if ranked:
+                                cand_to_h_eq = {id(x[0]): x[1] for x in competitive_scored}
+                                ranked_combined = []
+                                for cand, prob, logit in ranked:
+                                    h_eq = cand_to_h_eq.get(id(cand), 0.0)
+                                    combined_score = h_eq + 8.0 * prob
+                                    ranked_combined.append((cand, prob, combined_score))
+                                ranked_combined.sort(key=lambda x: x[2], reverse=True)
+                                best_cand, best_prob, _ = ranked_combined[0]
+
+                                # Defensive guardrail: if top choice concedes high vulnerability and #2 is viable
+                                if len(ranked_combined) > 1 and ranked_combined[1][1] > 0.15:
+                                    nb_best, _, _ = simulator.simulate_move(board, best_cand, racks[player])
+                                    best_def = defense.compute_board_defense_adjustment(board, nb_best, best_cand, score_diff)
+                                    if best_def <= -3.0:
+                                        nb_alt, _, _ = simulator.simulate_move(board, ranked_combined[1][0], racks[player])
+                                        alt_def = defense.compute_board_defense_adjustment(board, nb_alt, ranked_combined[1][0], score_diff)
+                                        if alt_def > best_def:
+                                            best_cand = ranked_combined[1][0]
+                                chosen_move = best_cand
+                                chosen_value = 0.0
                     else:
                         chosen_move = None
                         chosen_value = 0.0

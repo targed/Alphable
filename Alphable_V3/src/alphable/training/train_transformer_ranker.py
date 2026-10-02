@@ -17,7 +17,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 from torch.utils.data import Dataset, DataLoader
 from tqdm import tqdm
-from transformers import AutoTokenizer, AutoModelForCausalLM
+from transformers import AutoTokenizer, AutoModelForCausalLM, get_cosine_schedule_with_warmup
 
 from alphable.models.transformer_ranker import CANDIDATE_LABELS
 
@@ -27,7 +27,7 @@ class ScrabbleRankingDataset(Dataset):
     Dataset of (prompt_ids, target_label_idx) pairs for fine-tuning SmolLM2.
     """
 
-    def __init__(self, samples: List[Dict[str, Any]], tokenizer, max_length: int = 512):
+    def __init__(self, samples: List[Dict[str, Any]], tokenizer, max_length: int = 384):
         self.samples = samples
         self.tokenizer = tokenizer
         self.max_length = max_length
@@ -75,6 +75,55 @@ def collate_ranking_batch(batch: List[Dict[str, Any]], pad_token_id: int):
     }
 
 
+def parse_gcg_state_history(gcg_file: str) -> List[Dict[str, int]]:
+    """
+    Parses game.gcg to track player cumulative scores and bag counts turn-by-turn.
+    Returns list of dicts: {'score_diff': int, 'bag_remaining': int} for each turn.
+    """
+    if not os.path.exists(gcg_file):
+        return []
+
+    player_scores = {}
+    turns = []
+    tiles_played_total = 0
+
+    with open(gcg_file, "r", encoding="utf-8", errors="ignore") as f:
+        for line in f:
+            line = line.strip()
+            if not line.startswith(">"):
+                continue
+            parts = line[1:].split()
+            if len(parts) < 3:
+                continue
+
+            p_name = parts[0].rstrip(":")
+            cum_score = None
+            for item in reversed(parts):
+                if item.isdigit():
+                    cum_score = int(item)
+                    break
+
+            if p_name not in player_scores:
+                player_scores[p_name] = 0
+
+            other_scores = [score for name, score in player_scores.items() if name != p_name]
+            opp_score = other_scores[0] if other_scores else 0
+            curr_score = player_scores[p_name]
+            score_diff = curr_score - opp_score
+
+            bag_rem = max(0, 100 - tiles_played_total)
+            turns.append({"score_diff": score_diff, "bag_remaining": bag_rem})
+
+            if cum_score is not None:
+                player_scores[p_name] = cum_score
+            if len(parts) >= 4:
+                word_part = parts[3]
+                tiles_played = len([c for c in word_part if c != "."])
+                tiles_played_total += tiles_played
+
+    return turns
+
+
 def extract_match_ranking_samples(
     match_dir: str,
     max_candidates_per_turn: int = 8,
@@ -91,6 +140,9 @@ def extract_match_ranking_samples(
             analysis_data = json.load(f)
     except Exception:
         return []
+
+    gcg_file = os.path.join(match_dir, "game.gcg")
+    gcg_history = parse_gcg_state_history(gcg_file)
 
     samples = []
 
@@ -134,12 +186,22 @@ def extract_match_ranking_samples(
         if target_label_idx is None:
             continue
 
+        # Exact game state margin and bag counts
+        if t_idx < len(gcg_history):
+            score_diff = gcg_history[t_idx]["score_diff"]
+            bag_remaining = gcg_history[t_idx]["bag_remaining"]
+        else:
+            score_diff = 0
+            bag_remaining = max(0, 100 - (t_idx * 7))
+
+        margin_str = f"+{score_diff}" if score_diff > 0 else str(score_diff)
+
         prompt_lines = [
             "<|im_start|>system",
             "You are an expert Scrabble grandmaster. Analyze the board state, tile rack, point margins, and candidate plays, then select the optimal move.<|im_end|>",
             "<|im_start|>user",
             f"[GAME STATE]",
-            f"Turn: {t_idx + 1}",
+            f"Score Margin: {margin_str} | Bag: {bag_remaining} tiles remaining",
             f"Hand Rack: [{rack_str}]",
             "",
             "[CANDIDATE PLAYS]",
@@ -184,10 +246,11 @@ def prepare_ranking_dataset(
 def train_transformer_ranker(
     matches_dir: str = "data/woogles/matches",
     model_name: str = "HuggingFaceTB/SmolLM2-135M-Instruct",
-    output_dir: str = "models/smollm2_scrabble_ranker",
-    epochs: int = 4,
+    output_dir: str = "models/transformer_ranker_v2",
+    epochs: int = 5,
     batch_size: int = 8,
-    lr: float = 2e-5,
+    gradient_accumulation_steps: int = 2,
+    lr: float = 5e-5,
     max_candidates: int = 8,
     max_samples: Optional[int] = None,
     device: Optional[str] = None,
@@ -258,8 +321,16 @@ def train_transformer_ranker(
     optimizer = torch.optim.AdamW(model.parameters(), lr=lr, weight_decay=0.01)
     best_val_acc = 0.0
 
+    gradient_accumulation_steps = max(1, gradient_accumulation_steps)
+    total_opt_steps = (len(train_loader) // gradient_accumulation_steps) * epochs
+    warmup_steps = min(150, max(10, total_opt_steps // 10))
+    scheduler = get_cosine_schedule_with_warmup(
+        optimizer, num_warmup_steps=warmup_steps, num_training_steps=max(1, total_opt_steps)
+    )
+
     os.makedirs(output_dir, exist_ok=True)
 
+    optimizer.zero_grad()
     for epoch in range(1, epochs + 1):
         model.train()
         total_loss = 0.0
@@ -267,12 +338,10 @@ def train_transformer_ranker(
         total_samples = 0
 
         pbar = tqdm(train_loader, desc=f"Epoch {epoch}/{epochs} [Train]")
-        for batch in pbar:
+        for step_idx, batch in enumerate(pbar):
             input_ids = batch["input_ids"].to(device)
             attention_mask = batch["attention_mask"].to(device)
             target_indices = batch["target_label_idx"].to(device)
-
-            optimizer.zero_grad()
 
             outputs = model(input_ids=input_ids, attention_mask=attention_mask)
             # Find the position of the last non-padded token for each sequence in batch
@@ -283,17 +352,23 @@ def train_transformer_ranker(
             # Extract logits for candidate labels and cast to float32 for stable cross-entropy
             cand_logits = last_logits[:, label_token_ids].float()
 
-            loss = F.cross_entropy(cand_logits, target_indices)
+            raw_loss = F.cross_entropy(cand_logits, target_indices)
+            loss = raw_loss / gradient_accumulation_steps
             loss.backward()
-            optimizer.step()
 
-            total_loss += loss.item() * batch_size_cur
+            if (step_idx + 1) % gradient_accumulation_steps == 0 or (step_idx + 1) == len(train_loader):
+                torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=1.0)
+                optimizer.step()
+                scheduler.step()
+                optimizer.zero_grad()
+
+            total_loss += raw_loss.item() * batch_size_cur
             preds = torch.argmax(cand_logits, dim=-1)
             correct_top1 += (preds == target_indices).sum().item()
             total_samples += batch_size_cur
 
             pbar.set_postfix({
-                "loss": f"{loss.item():.4f}",
+                "loss": f"{raw_loss.item():.4f}",
                 "acc": f"{(correct_top1 / total_samples) * 100:.1f}%",
             })
 
@@ -359,10 +434,11 @@ def main():
     parser = argparse.ArgumentParser(description="Fine-tune SmolLM2 Candidate Ranker on Scrabble Grandmaster data.")
     parser.add_argument("--matches-dir", type=str, default="data/woogles/matches", help="Directory with match data.")
     parser.add_argument("--model-name", type=str, default="HuggingFaceTB/SmolLM2-135M-Instruct", help="Base model name.")
-    parser.add_argument("--output-dir", type=str, default="models/smollm2_scrabble_ranker", help="Save directory.")
-    parser.add_argument("--epochs", type=int, default=4, help="Training epochs.")
+    parser.add_argument("--output-dir", type=str, default="models/transformer_ranker_v2", help="Save directory.")
+    parser.add_argument("--epochs", type=int, default=5, help="Training epochs.")
     parser.add_argument("--batch-size", type=int, default=8, help="Training batch size.")
-    parser.add_argument("--lr", type=float, default=2e-5, help="Learning rate.")
+    parser.add_argument("--grad-accum", type=int, default=2, help="Gradient accumulation steps.")
+    parser.add_argument("--lr", type=float, default=5e-5, help="Learning rate.")
     parser.add_argument("--max-candidates", type=int, default=8, help="Max candidates per turn.")
     parser.add_argument("--max-samples", type=int, default=None, help="Max samples to train on.")
     args = parser.parse_args()
@@ -373,6 +449,7 @@ def main():
         output_dir=args.output_dir,
         epochs=args.epochs,
         batch_size=args.batch_size,
+        gradient_accumulation_steps=args.grad_accum,
         lr=args.lr,
         max_candidates=args.max_candidates,
         max_samples=args.max_samples,

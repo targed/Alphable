@@ -42,7 +42,7 @@ class SmolLM2CandidateRanker:
         self,
         model_name_or_path: str = "HuggingFaceTB/SmolLM2-135M-Instruct",
         device: Optional[str] = None,
-        max_candidates: int = 26,
+        max_candidates: int = 8,
     ):
         """
         Initializes the candidate ranker.
@@ -50,7 +50,7 @@ class SmolLM2CandidateRanker:
         Args:
             model_name_or_path: Hugging Face model identifier or local directory.
             device: 'cuda' or 'cpu'. If None, auto-detected.
-            max_candidates: Maximum number of candidate moves to evaluate per turn (default 26 for A-Z).
+            max_candidates: Maximum number of candidate moves to evaluate per turn (default 8 for A-H).
         """
         if device is None:
             self.device = "cuda" if torch.cuda.is_available() else "cpu"
@@ -111,11 +111,12 @@ class SmolLM2CandidateRanker:
         word = move["word"]
         l_eq = leave_eval.compute_leave_equity(new_rack, bag_remaining)
         def_adj = defense.compute_board_defense_adjustment(board, new_board, move, score_diff)
+        total_eq = float(pts) + l_eq + def_adj
         is_bingo = " [BINGO!]" if (len(rack) - len(new_rack) == 7) else ""
 
         return (
             f"{coords} {word} (+{pts} pts{is_bingo}, "
-            f"leave: [{''.join(new_rack)}], leave_eq: {l_eq:+.1f}, def: {def_adj:+.1f})"
+            f"leave: [{''.join(new_rack)}], eq: {total_eq:+.1f})"
         )
 
     def format_prompt(

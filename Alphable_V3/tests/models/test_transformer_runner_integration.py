@@ -26,7 +26,7 @@ def test_runner_transformer_mode_move_selection(tmp_path):
     mock_adapter = MockPlatformAdapter()
     mock_ranker = MagicMock()
     chosen_move = {"row": 7, "col": 7, "dir": "Across", "word": "CAT"}
-    mock_ranker.select_best_move.return_value = chosen_move
+    mock_ranker.rank_candidates.return_value = [(chosen_move, 0.95, 10.0)]
 
     with patch("alphable.models.transformer_ranker.SmolLM2CandidateRanker", return_value=mock_ranker):
         runner = OnlineGameRunner(
@@ -42,5 +42,5 @@ def test_runner_transformer_mode_move_selection(tmp_path):
         res = runner.play_match(config)
 
         assert res["turns_count"] >= 1
-        assert mock_ranker.select_best_move.called
+        assert mock_ranker.rank_candidates.called
         assert len(mock_adapter.moves_received) >= 1
