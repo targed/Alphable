@@ -38,9 +38,10 @@ class OnlineGameRunner:
         output_dir: str = "data/woogles/games",
         num_simulations: int = 16,
         top_k: int = 3,
+        transformer_model_path: str = "models/transformer_ranker_v2",
     ):
         self.adapter = adapter
-        self.dict_path = dict_path
+        self.dict_path = inference.resolve_path(dict_path)
         self.mode = mode
         self.value_weight = float(value_weight)
         self.delay_min = float(delay_min)
@@ -54,11 +55,12 @@ class OnlineGameRunner:
 
         # Initialize AI engine
         device = "cuda" if inference.torch.cuda.is_available() else "cpu"
-        print(f"Initializing Alphable AI engine on {device} (model={model_path}, W={self.value_weight})...")
+        resolved_model = inference.resolve_path(model_path) if model_path else None
+        print(f"Initializing Alphable AI engine on {device} (model={resolved_model}, W={self.value_weight})...")
         self.engine = inference.AlphableInference(
-            model_path=model_path,
+            model_path=resolved_model,
             device=device,
-            dict_path=dict_path,
+            dict_path=self.dict_path,
             value_weight=self.value_weight,
         )
         self.searcher = search.AlphableSearch(
@@ -72,8 +74,12 @@ class OnlineGameRunner:
         )
         if self.mode == "transformer":
             from alphable.models.transformer_ranker import SmolLM2CandidateRanker
-            print(f"Initializing SmolLM2 Transformer Candidate Ranker on {device}...")
-            self.transformer_ranker = SmolLM2CandidateRanker(device=device)
+            resolved_t_model = inference.resolve_path(transformer_model_path)
+            print(f"Initializing SmolLM2 Transformer Candidate Ranker on {device} ({resolved_t_model})...")
+            self.transformer_ranker = SmolLM2CandidateRanker(
+                model_name_or_path=resolved_t_model,
+                device=device,
+            )
         else:
             self.transformer_ranker = None
 

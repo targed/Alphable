@@ -19,6 +19,7 @@ from torch.utils.data import Dataset, DataLoader
 from tqdm import tqdm
 from transformers import AutoTokenizer, AutoModelForCausalLM, get_cosine_schedule_with_warmup
 
+from alphable.core.inference import resolve_path
 from alphable.models.transformer_ranker import CANDIDATE_LABELS
 
 
@@ -265,6 +266,12 @@ def train_transformer_ranker(
     tokenizer = AutoTokenizer.from_pretrained(model_name)
     if tokenizer.pad_token is None:
         tokenizer.pad_token = tokenizer.eos_token
+
+    matches_dir = resolve_path(matches_dir)
+    if not os.path.exists(output_dir):
+        alt_v3 = os.path.join("Alphable_V3", output_dir)
+        if os.path.exists(os.path.dirname(alt_v3)):
+            output_dir = alt_v3
 
     print(f"Extracting ranking samples from {matches_dir}...")
     samples = prepare_ranking_dataset(matches_dir, max_candidates=max_candidates, max_samples=max_samples)

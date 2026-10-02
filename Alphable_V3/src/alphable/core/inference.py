@@ -1,3 +1,4 @@
+import os
 import torch
 import numpy as np
 from alphable.core import structure
@@ -130,18 +131,37 @@ def state_to_tensor(rack, score_diff, bag_remaining, unseen_counts=None, state_v
     return torch.from_numpy(arr)
 
 
+def resolve_path(path: str | None) -> str | None:
+    """
+    Resolves relative filepaths across different execution working directories
+    (e.g., repository root Documents/Git/Alphable vs package root Alphable_V3).
+    """
+    if not path:
+        return path
+    if os.path.exists(path):
+        return path
+    alt_v3 = os.path.join("Alphable_V3", path)
+    if os.path.exists(alt_v3):
+        return alt_v3
+    alt_parent = os.path.join("..", path)
+    if os.path.exists(alt_parent):
+        return alt_parent
+    return path
+
+
 class AlphableInference:
     def __init__(self, model_path=None, device='cpu', dict_path='resources/NWL2023.txt', value_weight=25.0, state_vector_size=36):
         self.device = torch.device(device)
         self.value_weight = float(value_weight)
         self.state_vector_size = state_vector_size
         self.model = AlphableValueNet(state_vector_size=state_vector_size).to(self.device)
-        if model_path:
+        model_path = resolve_path(model_path)
+        if model_path and os.path.exists(model_path):
             load_checkpoint_compatible(self.model, model_path, self.device)
         self.model.eval()
 
-
         # Load GADDAG (using NWL2023 or CSW24 which exist in the directory)
+        dict_path = resolve_path(dict_path)
         self.gaddag = structure.Gaddag.load(dict_path)
         self.move_gen = structure.MoveGenerator(self.gaddag)
 

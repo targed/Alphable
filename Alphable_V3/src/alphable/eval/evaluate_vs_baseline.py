@@ -372,18 +372,29 @@ def evaluate(args):
     if device == 'auto':
         device = 'cuda' if torch.cuda.is_available() else 'cpu'
 
-    if not os.path.exists(args.model):
-        raise FileNotFoundError(f"Model not found: {args.model}")
+    resolved_model = inference.resolve_path(args.model)
+    resolved_dict = inference.resolve_path(args.dict)
+    is_transformer = getattr(args, 'mode', None) == 'transformer'
 
-    print(f"Loading model from {args.model}")
+    if not is_transformer:
+        if not resolved_model or not os.path.exists(resolved_model):
+            raise FileNotFoundError(f"Model not found: {args.model}")
+        print(f"Loading model from {resolved_model}")
+        model_to_use = resolved_model
+    else:
+        # In transformer mode, ResNet checkpoint is optional
+        model_to_use = resolved_model if (resolved_model and os.path.exists(resolved_model)) else None
+        if model_to_use:
+            print(f"Loading optional base model from {model_to_use}")
+
     value_weight = getattr(args, 'value_weight', 60.0)
     engine = inference.AlphableInference(
-        model_path=args.model,
+        model_path=model_to_use,
         device=device,
-        dict_path=args.dict,
+        dict_path=resolved_dict,
         value_weight=value_weight,
     )
-    engine.model_path = args.model
+    engine.model_path = model_to_use
 
     searcher = AlphableSearch(
         engine,
@@ -396,11 +407,12 @@ def evaluate(args):
     )
 
     transformer_ranker = None
-    if getattr(args, 'mode', None) == 'transformer':
+    if is_transformer:
         from alphable.models.transformer_ranker import SmolLM2CandidateRanker
-        t_model = getattr(args, 'transformer_model', 'models/transformer_ranker_v1')
-        print(f"Initializing SmolLM2 Candidate Ranker on {device} ({t_model})...")
-        transformer_ranker = SmolLM2CandidateRanker(model_name_or_path=t_model, device=device)
+        t_model = getattr(args, 'transformer_model', 'models/transformer_ranker_v2')
+        t_model_resolved = inference.resolve_path(t_model)
+        print(f"Initializing SmolLM2 Candidate Ranker on {device} ({t_model_resolved})...")
+        transformer_ranker = SmolLM2CandidateRanker(model_name_or_path=t_model_resolved, device=device)
 
     timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
     print(
@@ -485,7 +497,7 @@ def main():
     parser.add_argument(
         '--mode', choices=['bc_0ply', 'lookahead', 'transformer'], default='lookahead')
     parser.add_argument(
-        '--transformer-model', default='models/transformer_ranker_v1',
+        '--transformer-model', default='models/transformer_ranker_v2',
         help='Transformer model checkpoint directory or HuggingFace repo')
     parser.add_argument('--value-weight', type=float, default=25.0,
                         help='Equity weight multiplier applied to model value predictions.')
