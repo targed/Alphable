@@ -134,7 +134,8 @@ def state_to_tensor(rack, score_diff, bag_remaining, unseen_counts=None, state_v
 def resolve_path(path: str | None) -> str | None:
     """
     Resolves relative filepaths across different execution working directories
-    (e.g., repository root Documents/Git/Alphable vs package root Alphable_V3).
+    (e.g., repository root Documents/Git/Alphable vs package root Alphable_V3),
+    and handles common dictionary aliases (e.g., NWL23 vs NWL2023).
     """
     if not path:
         return path
@@ -146,6 +147,26 @@ def resolve_path(path: str | None) -> str | None:
     alt_parent = os.path.join("..", path)
     if os.path.exists(alt_parent):
         return alt_parent
+
+    # Check common lexicon aliases (NWL23 <-> NWL2023)
+    if "NWL23" in path:
+        alt_nwl = path.replace("NWL23", "NWL2023")
+        res = resolve_path(alt_nwl)
+        if res and os.path.exists(res):
+            return res
+    if "NWL2023" in path:
+        alt_nwl = path.replace("NWL2023", "NWL23")
+        res = resolve_path(alt_nwl)
+        if res and os.path.exists(res):
+            return res
+
+    # Check if raw lexicon name was passed (e.g. "CSW24" or "NWL23")
+    if not path.endswith(".txt") and "/" not in path and "\\" not in path:
+        res_txt = os.path.join("resources", f"{path}.txt")
+        res = resolve_path(res_txt)
+        if res and os.path.exists(res):
+            return res
+
     return path
 
 

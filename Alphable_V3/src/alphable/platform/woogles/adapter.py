@@ -221,12 +221,7 @@ class WooglesAdapter(AbstractPlatformAdapter):
             modal.wait_for(state="visible", timeout=10000)
 
             # Configure dictionary
-            try:
-                dict_dropdown = modal.locator("select[name='dictionary'], [role='combobox']").first
-                if dict_dropdown.is_visible(timeout=1000):
-                    dict_dropdown.select_option(label=re.compile(config.dictionary, re.IGNORECASE))
-            except Exception:
-                pass
+            self._select_modal_dictionary(modal, config.dictionary)
 
             # Configure game mode
             try:
@@ -322,13 +317,8 @@ class WooglesAdapter(AbstractPlatformAdapter):
                         print(f"Warning: Failed to select bot '{config.bot_name}': {e}")
                     self.opponent_username = config.bot_name
 
-                # 4b. Select dictionary if dropdown available
-                try:
-                    dict_dropdown = modal.locator("select[name='dictionary'], [role='combobox']").first
-                    if dict_dropdown.is_visible(timeout=1000):
-                        dict_dropdown.select_option(label=re.compile(config.dictionary, re.IGNORECASE))
-                except Exception:
-                    pass
+                # 4b. Select dictionary
+                self._select_modal_dictionary(modal, config.dictionary)
 
                 # 4c. Select game mode (Real-time vs Correspondence)
                 try:
@@ -364,6 +354,74 @@ class WooglesAdapter(AbstractPlatformAdapter):
                     time.sleep(1.5)
                 else:
                     raise e
+
+    def _select_modal_dictionary(self, modal, target_dict: str) -> None:
+        """
+        Selects the specified dictionary (e.g. NWL23 or CSW24) in the Woogles game creation modal.
+        Handles Ant Design custom select components with dropdown portal overlays.
+        """
+        if not target_dict:
+            return
+
+        dict_upper = target_dict.upper()
+        is_nwl = "NWL" in dict_upper
+        is_csw = "CSW" in dict_upper
+
+        # Target Ant Design select for lexicon
+        dict_selector = modal.locator(".ant-select:has(#seekForm_lexicon), .ant-form-item:has(label[for='seekForm_lexicon']) .ant-select, #seekForm_lexicon").first
+        try:
+            dict_selector.wait_for(state="visible", timeout=3000)
+            current_text = dict_selector.inner_text().strip()
+
+            # Check if target dictionary is already active
+            if is_nwl and "NWL" in current_text.upper():
+                print(f"✓ Target dictionary '{target_dict}' is already selected ({current_text}).")
+                return
+            if "21" in dict_upper and "21" in current_text:
+                print(f"✓ Target dictionary '{target_dict}' is already selected ({current_text}).")
+                return
+            if is_csw and ("24" in dict_upper or "CSW" in dict_upper) and "24" in current_text:
+                print(f"✓ Target dictionary '{target_dict}' is already selected ({current_text}).")
+                return
+
+            print(f"Selecting dictionary '{target_dict}' (currently '{current_text}')...")
+            # Click to open the Ant Design dropdown
+            click_el = dict_selector.locator(".ant-select-selector").first
+            if click_el.is_visible():
+                click_el.click()
+            else:
+                dict_selector.click()
+            time.sleep(0.4)
+
+            # Match option in the opened dropdown (e.g. "NWL 23", "CSW 24", or "CSW 21")
+            if is_nwl:
+                pattern = r"NWL\s*23|NWL\s*2023|NWL"
+            elif "21" in dict_upper:
+                pattern = r"CSW\s*21|CSW\s*2021"
+            else:
+                pattern = r"CSW\s*24|CSW\s*2024|CSW"
+            opt = self.page.locator(".ant-select-dropdown:not(.ant-select-dropdown-hidden) .ant-select-item-option").filter(
+                has_text=re.compile(pattern, re.IGNORECASE)
+            ).first
+
+            if not opt.is_visible(timeout=1500):
+                opt = self.page.locator(".ant-select-dropdown .ant-select-item-option").filter(
+                    has_text=re.compile(pattern, re.IGNORECASE)
+                ).first
+
+            if opt.is_visible(timeout=2000):
+                opt_text = opt.inner_text().strip()
+                opt.click()
+                time.sleep(0.3)
+                print(f"✓ Selected dictionary: {opt_text}")
+            else:
+                native_select = modal.locator("select[name='dictionary'], select#seekForm_lexicon").first
+                if native_select.is_visible(timeout=500):
+                    native_select.select_option(label=re.compile(pattern, re.IGNORECASE))
+                else:
+                    print(f"Warning: Could not find dictionary option matching '{pattern}' in dropdown.")
+        except Exception as e:
+            print(f"Warning: Failed to select dictionary '{target_dict}': {e}")
 
     def _wait_for_game_ready(self, timeout: float = 20.0) -> None:
         """Waits for game board, rack, action buttons, or on-turn indicator to hydrate."""

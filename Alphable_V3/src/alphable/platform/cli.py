@@ -32,9 +32,11 @@ def parse_args():
     )
     parser.add_argument(
         "--dict",
+        "--dictionary",
         type=str,
+        dest="dict",
         default="resources/CSW24.txt",
-        help="Lexicon dictionary path (e.g. resources/CSW24.txt).",
+        help="Lexicon dictionary path or name (e.g. resources/CSW24.txt, resources/NWL23.txt, NWL23).",
     )
     parser.add_argument(
         "--mode",
@@ -206,7 +208,10 @@ def main():
         config = PlatformGameConfig(
             opponent_type=opponent_type,
             bot_name=args.bot,
-            dictionary="CSW24" if "CSW" in args.dict.upper() else "NWL23",
+            dictionary=(
+                "NWL23" if "NWL" in args.dict.upper()
+                else ("CSW21" if "CSW21" in args.dict.upper() else "CSW24")
+            ),
             game_mode=args.game_mode,
             time_control=args.time_control,
             rated=False,

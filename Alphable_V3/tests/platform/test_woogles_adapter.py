@@ -728,6 +728,47 @@ def test_woogles_adapter_rack_parsing_ignores_exchange_modal(browser_context):
     page.close()
 
 
+def test_woogles_adapter_select_modal_dictionary(browser_context):
+    html = """
+    <!DOCTYPE html>
+    <html>
+    <body>
+      <div class="ant-modal-content">
+        <div class="ant-select ant-select-outlined ant-select-in-form-item">
+          <div class="ant-select-selector">
+            <input id="seekForm_lexicon" role="combobox" />
+            <span class="ant-select-selection-item">CSW 24 (World English)</span>
+          </div>
+        </div>
+      </div>
+      <div class="ant-select-dropdown">
+        <div class="ant-select-item ant-select-item-option" onclick="document.querySelector('.ant-select-selection-item').innerText='CSW 24 (World English)'">CSW 24 (World English)</div>
+        <div class="ant-select-item ant-select-item-option" onclick="document.querySelector('.ant-select-selection-item').innerText='NWL 23 (US, Canada, Thailand)'">NWL 23 (US, Canada, Thailand)</div>
+        <div class="ant-select-item ant-select-item-option" onclick="document.querySelector('.ant-select-selection-item').innerText='CSW 21 (World English)'">CSW 21 (World English)</div>
+      </div>
+    </body>
+    </html>
+    """
+    page = browser_context.new_page()
+    page.set_content(html)
+    adapter = WooglesAdapter()
+    adapter.page = page
+
+    modal = page.locator(".ant-modal-content").first
+    # Initial is CSW 24
+    assert "CSW 24" in page.locator(".ant-select-selection-item").inner_text()
+
+    # Select NWL23
+    adapter._select_modal_dictionary(modal, "NWL23")
+    assert "NWL 23" in page.locator(".ant-select-selection-item").inner_text()
+
+    # Select CSW21
+    adapter._select_modal_dictionary(modal, "CSW21")
+    assert "CSW 21" in page.locator(".ant-select-selection-item").inner_text()
+
+    page.close()
+
+
 
 
 
