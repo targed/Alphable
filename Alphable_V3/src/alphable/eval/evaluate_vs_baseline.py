@@ -8,6 +8,7 @@ import torch
 
 from alphable.core import inference
 from alphable.core import simulator
+from alphable.core import leave_eval
 from alphable.logging.game_logger import GameLogger, MoveEntry
 from alphable.core.search import AlphableSearch
 from alphable.training.self_play import apply_endgame_adjustments, build_bag, draw_tiles, evaluate_moves
@@ -54,6 +55,7 @@ def run_game(
     timestamp,
     max_turns,
     infer_batch_size,
+    transformer_ranker=None,
 ):
     board = simulator.create_empty_board()
     bag = build_bag()
@@ -103,43 +105,72 @@ def run_game(
             top_candidates = []
 
             if is_alphable_turn:
-                vw = getattr(engine, 'value_weight', 60.0)
-                move_evals = evaluate_moves(
-                    engine,
-                    board,
-                    racks[player],
-                    score_diff,
-                    tiles_in_bag,
-                    infer_batch_size=infer_batch_size,
-                    value_weight=vw,
-                )
-                top_candidates = [
-                    {
-                        'word': m['move']['word'],
-                        'row': m['move']['row'],
-                        'col': m['move']['col'],
-                        'dir': m['move']['dir'],
-                        'value': round(m['value'], 4),
-                        'equity': round(m.get('equity', m['points'] + vw * m['value']), 2),
-                        'points': m['points'],
-                    }
-                    for m in move_evals[:3]
-                ]
-
-                if move_evals:
-                    if searcher.mode == 'bc_0ply':
-                        selected = move_evals[0]
-                        chosen_move = selected['move']
-                        chosen_value = selected['value']
-                    else:
-                        best_move, best_val = searcher.find_best_move(
-                            board,
-                            racks[player],
-                            score_diff,
-                            tiles_in_bag,
+                if transformer_ranker is not None:
+                    if legal_moves:
+                        scored_cands = []
+                        for m in legal_moves:
+                            nb, pts, nr = simulator.simulate_move(board, m, racks[player])
+                            leq = leave_eval.compute_leave_equity(nr, tiles_in_bag)
+                            scored_cands.append((m, pts + leq, pts))
+                        scored_cands.sort(key=lambda x: x[1], reverse=True)
+                        top_candidates = [
+                            {
+                                'word': m[0]['word'],
+                                'row': m[0]['row'],
+                                'col': m[0]['col'],
+                                'dir': m[0]['dir'],
+                                'value': 0.0,
+                                'equity': round(m[1], 2),
+                                'points': m[2],
+                            }
+                            for m in scored_cands[:3]
+                        ]
+                        cands = [x[0] for x in scored_cands[:20]]
+                        chosen_move = transformer_ranker.select_best_move(
+                            board, racks[player], score_diff, tiles_in_bag, cands
                         )
-                        chosen_move = best_move
-                        chosen_value = best_val
+                        chosen_value = 0.0
+                    else:
+                        chosen_move = None
+                        chosen_value = 0.0
+                else:
+                    vw = getattr(engine, 'value_weight', 60.0)
+                    move_evals = evaluate_moves(
+                        engine,
+                        board,
+                        racks[player],
+                        score_diff,
+                        tiles_in_bag,
+                        infer_batch_size=infer_batch_size,
+                        value_weight=vw,
+                    )
+                    top_candidates = [
+                        {
+                            'word': m['move']['word'],
+                            'row': m['move']['row'],
+                            'col': m['move']['col'],
+                            'dir': m['move']['dir'],
+                            'value': round(m['value'], 4),
+                            'equity': round(m.get('equity', m['points'] + vw * m['value']), 2),
+                            'points': m['points'],
+                        }
+                        for m in move_evals[:3]
+                    ]
+
+                    if move_evals:
+                        if searcher.mode == 'bc_0ply':
+                            selected = move_evals[0]
+                            chosen_move = selected['move']
+                            chosen_value = selected['value']
+                        else:
+                            best_move, best_val = searcher.find_best_move(
+                                board,
+                                racks[player],
+                                score_diff,
+                                tiles_in_bag,
+                            )
+                            chosen_move = best_move
+                            chosen_value = best_val
                 action_id = 0 if chosen_move else -1
             else:
                 chosen_move = choose_baseline_move(
@@ -322,9 +353,16 @@ def evaluate(args):
         value_weight=value_weight,
     )
 
+    transformer_ranker = None
+    if getattr(args, 'mode', None) == 'transformer':
+        from alphable.models.transformer_ranker import SmolLM2CandidateRanker
+        t_model = getattr(args, 'transformer_model', 'models/transformer_ranker_v1')
+        print(f"Initializing SmolLM2 Candidate Ranker on {device} ({t_model})...")
+        transformer_ranker = SmolLM2CandidateRanker(model_name_or_path=t_model, device=device)
+
     timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
     print(
-        f"--- Alphable vs {args.opponent.capitalize()} ({args.games} games, value_weight={value_weight}) ---")
+        f"--- Alphable vs {args.opponent.capitalize()} ({args.games} games, value_weight={value_weight}, mode={args.mode}) ---")
 
     wins = 0
     ties = 0
@@ -339,6 +377,7 @@ def evaluate(args):
             timestamp=timestamp,
             max_turns=args.max_turns,
             infer_batch_size=args.infer_batch_size,
+            transformer_ranker=transformer_ranker,
         )
         game_results.append(result)
 
@@ -360,6 +399,7 @@ def evaluate(args):
         'opponent': args.opponent,
         'model': os.path.abspath(args.model),
         'mode': args.mode,
+        'transformer_model': getattr(args, 'transformer_model', None) if args.mode == 'transformer' else None,
         'value_weight': value_weight,
         'games': args.games,
         'wins': wins,
@@ -396,13 +436,16 @@ def main():
     parser = argparse.ArgumentParser(
         description='Evaluate Alphable V2 vs a baseline and log replay files.')
     parser.add_argument(
-        '--model', default='models/alphable_rl_best_val_model.pth')
+        '--model', default='models/alphable_v3_macondo_v2.pth')
     parser.add_argument(
         '--opponent', choices=['random', 'greedy'], required=True)
     parser.add_argument('--games', type=int, default=5)
     parser.add_argument(
-        '--mode', choices=['bc_0ply', 'lookahead'], default='lookahead')
-    parser.add_argument('--value-weight', type=float, default=60.0,
+        '--mode', choices=['bc_0ply', 'lookahead', 'transformer'], default='lookahead')
+    parser.add_argument(
+        '--transformer-model', default='models/transformer_ranker_v1',
+        help='Transformer model checkpoint directory or HuggingFace repo')
+    parser.add_argument('--value-weight', type=float, default=25.0,
                         help='Equity weight multiplier applied to model value predictions.')
     parser.add_argument('--simulations', type=int, default=16)
     parser.add_argument('--top-k', type=int, default=3)

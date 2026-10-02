@@ -5,6 +5,8 @@ __pycache__/
 
 # C extensions
 *.so
+*.safetensors
+**/models/transformer_ranker_*/
 
 # Cython generated files
 structure.c
