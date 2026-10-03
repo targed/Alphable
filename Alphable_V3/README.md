@@ -78,14 +78,42 @@ alphable selfplay generate --help
 ```
 
 ### 4. Evaluation
-To run matches between models or evaluate against a baseline (greedy/random):
+To run matches between models, evaluate against baselines (greedy/random), or play Transformer vs NN:
 ```bash
 alphable eval matches --help
-alphable eval baseline --opponent random
+
+# Evaluate against greedy or random
 alphable eval baseline --opponent greedy
+alphable eval baseline --opponent random
+
+# Evaluate SmolLM2 Candidate Ranker vs NN Alphable head-to-head
+alphable eval baseline \
+  --opponent nn \
+  --games 5 \
+  --mode transformer \
+  --transformer-model models/transformer_ranker_v2 \
+  --model models/alphable_v3_macondo_v2.pth
 ```
 
-### 5. Automated Pipeline
+### 5. Online Platform Play (Woogles.io)
+To play autonomous matches on Woogles with ResNet or Transformer modes:
+```bash
+alphable play woogles --help
+
+# 1-ply Monte Carlo search (ResNet champion model)
+alphable play woogles --bot HastyBot --mode lookahead
+
+# SmolLM2 Candidate Ranker mode (with optional --no-delay for instant blitz play)
+alphable play woogles --bot HastyBot --mode transformer --no-delay
+```
+
+### 6. SmolLM2 Transformer Ranker Training
+To fine-tune an autoregressive transformer on expert Scrabble decisions:
+```bash
+alphable train transformer-ranker --help
+```
+
+### 7. Automated Pipeline
 To run a full RL calibration cycle:
 ```bash
 alphable pipeline calibrate --help

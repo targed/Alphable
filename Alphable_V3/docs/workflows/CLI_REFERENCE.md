@@ -44,9 +44,9 @@ python -m alphable.cli.main play woogles [OPTIONS]
 | :--- | :--- | :--- | :--- |
 | `--bot` | `str` | `HastyBot` | Opponent bot name (`HastyBot`, `BestBot`, `BeginnerBot`). |
 | `--model` | `str` | `models/alphable_v3_macondo_v2.pth` | Path to neural network checkpoint to use. |
-| `--dict` | `str` | `resources/CSW24.txt` | Dictionary text file (`resources/CSW24.txt` or `resources/NWL2023.txt`). |
+| `--dict`, `--dictionary` | `str` | `resources/CSW24.txt` | Dictionary text file path or lexicon code (e.g. `resources/CSW24.txt`, `resources/NWL23.txt`, or `NWL23`). Automatically sets the dropdown on Woogles to match. |
 | `--mode` | `str` | `lookahead` | Decision engine mode: `lookahead` (1-ply Monte Carlo), `bc_0ply` (fast argmax), or `transformer` (SmolLM2 attention candidate ranker). |
-| `--transformer-model` | `str` | `HuggingFaceTB/SmolLM2-135M-Instruct` | HuggingFace model repo or local directory for transformer ranker mode. |
+| `--transformer-model` | `str` | `models/transformer_ranker_v2` | Transformer model checkpoint directory or HuggingFace repo (used when `--mode transformer` is active). |
 | `--top-k` | `int` | `5` | Number of candidate moves evaluated in lookahead / transformer search. |
 | `--simulations` | `int` | `10` | Number of opponent leave simulations per candidate under CRN (lookahead mode). |
 | `--value-weight` | `float` | `25.0` | Weight multiplier $W$ applied to strategic leave values. |
@@ -60,6 +60,7 @@ python -m alphable.cli.main play woogles [OPTIONS]
 | `--headless` | `flag` | `False` | Run browser in background without visible window (headed is default). |
 | `--delay-min` | `float` | `2.0` | Minimum natural thinking delay in seconds before submitting move. |
 | `--delay-max` | `float` | `6.0` | Maximum natural thinking delay in seconds before submitting move. |
+| `--no-delay` | `flag` | `False` | Disable artificial pacing delay completely; submit plays immediately once calculated. |
 | `--profile-dir` | `str` | `~/.alphable/woogles_profile` | Directory for persistent browser login session. |
 | `--output-dir` | `str` | `data/woogles/games` | Directory to save match replays and summaries. |
 | `--no-gcg` | `flag` | `False` | Disable automatic GCG file export upon match completion. |
@@ -77,13 +78,25 @@ python -m alphable.cli.main play woogles \
   --mode lookahead \
   --top-k 5 --simulations 10
 
-# Fast evaluation in 0-ply mode (sub-second moves)
+# Play with the SmolLM2 Candidate Ranker (fine-tuned v2 model)
 python -m alphable.cli.main play woogles \
   --bot HastyBot \
-  --games 5 \
-  --model models/alphable_v3_macondo_v2.pth \
-  --mode bc_0ply \
-  --delay-min 1.0 --delay-max 2.0
+  --mode transformer \
+  --transformer-model models/transformer_ranker_v2 \
+  --dict resources/CSW24.txt
+
+# Play without delay (instant moves on Woogles)
+python -m alphable.cli.main play woogles \
+  --bot HastyBot \
+  --mode transformer \
+  --no-delay \
+  --dict resources/CSW24.txt
+
+# Play on North American Lexicon (NWL23) - automatically selected on Woogles
+python -m alphable.cli.main play woogles \
+  --bot BestBot \
+  --dict resources/NWL23.txt \
+  --mode lookahead
 ```
 
 ---
@@ -269,7 +282,7 @@ python -m alphable.cli.main eval matches \
 
 ## 7. `alphable eval baseline`
 
-Runs benchmark series against automated test baselines (`greedy` or `random`).
+Runs benchmark series against automated test baselines (`greedy`, `random`, or the full neural network Alphable engine `nn`).
 
 ```bash
 python -m alphable.cli.main eval baseline [OPTIONS]
@@ -278,12 +291,43 @@ python -m alphable.cli.main eval baseline [OPTIONS]
 ### Options Reference
 | Flag | Type | Default | Description |
 | :--- | :--- | :--- | :--- |
-| `--model` | `str` | *Required* | Checkpoint path to evaluate. |
-| `--opponent` | `str` | `greedy` | Opponent type: `greedy` or `random`. |
-| `--games` | `int` | `10` | Number of games to simulate. |
-| `--mode` | `str` | `lookahead` | Search mode: `lookahead` or `bc_0ply`. |
+| `--opponent` | `str` | *Required* | Opponent type: `random`, `greedy`, `nn` (1-ply MCTS neural net), `nn_lookahead`, `nn_0ply`, or `alphable_nn`. |
+| `--model` | `str` | `models/alphable_v3_macondo_v2.pth` | Checkpoint path to evaluate (or path to neural network opponent when playing in transformer mode). |
+| `--games` | `int` | `5` | Number of games to simulate. |
+| `--mode` | `str` | `lookahead` | Search mode: `lookahead` (1-ply Monte Carlo), `bc_0ply` (0-ply argmax), or `transformer` (SmolLM2 attention candidate ranker). |
+| `--transformer-model` | `str` | `models/transformer_ranker_v2` | Transformer model checkpoint directory or HuggingFace repo (used in `--mode transformer`). |
+| `--dict` | `str` | `resources/CSW24.txt` | Dictionary lexicon text file path. |
 | `--top-k` | `int` | `5` | Top-K candidate moves evaluated in lookahead. |
 | `--simulations` | `int` | `10` | Simulations per candidate. |
+| `--value-weight` | `float` | `25.0` | Multiplier $W$ applied to value network evaluations. |
+| `--output-dir` | `str` | `data/vs_<opponent>` | Directory to save match replays and summaries. |
+
+### Practical Examples
+```bash
+# 1. Play SmolLM2 Candidate Ranker vs ResNet NN Alphable head-to-head
+python -m alphable.cli.main eval baseline \
+  --opponent nn \
+  --games 5 \
+  --mode transformer \
+  --transformer-model models/transformer_ranker_v2 \
+  --model models/alphable_v3_macondo_v2.pth \
+  --dict resources/CSW24.txt
+
+# 2. Evaluate SmolLM2 Candidate Ranker vs Greedy baseline
+python -m alphable.cli.main eval baseline \
+  --opponent greedy \
+  --games 10 \
+  --mode transformer \
+  --transformer-model models/transformer_ranker_v2 \
+  --dict resources/CSW24.txt
+
+# 3. Standard 1-ply Monte Carlo NN search vs Greedy baseline
+python -m alphable.cli.main eval baseline \
+  --opponent greedy \
+  --games 10 \
+  --model models/alphable_v3_macondo_v2.pth \
+  --mode lookahead
+```
 
 ---
 

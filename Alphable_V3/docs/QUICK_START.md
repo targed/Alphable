@@ -30,6 +30,7 @@ On RTX 50-series GPUs, PyTorch's native ATen CUDA convolution kernels run with m
 
 ## 2. Play Against HastyBot on Woogles
 
+### Option A: Standard 1-Ply Lookahead MCTS (ResNet Model)
 Launch an autonomous match series on [Woogles.io](https://woogles.io) using the production champion model `alphable_v3_macondo_v2.pth`:
 
 ```bash
@@ -42,10 +43,33 @@ python -m alphable.cli.main play woogles \
   --top-k 5 --simulations 10
 ```
 
+### Option B: SmolLM2 Transformer Candidate Ranker
+Play live on Woogles using the fine-tuned autoregressive transformer ranker:
+
+```bash
+python -m alphable.cli.main play woogles \
+  --bot HastyBot \
+  --games 5 \
+  --mode transformer \
+  --transformer-model models/transformer_ranker_v2 \
+  --dict resources/CSW24.txt
+```
+
+### Option C: Instant Zero-Delay Play (`--no-delay`)
+Disable artificial pacing to submit moves immediately upon calculation:
+
+```bash
+python -m alphable.cli.main play woogles \
+  --bot HastyBot \
+  --mode transformer \
+  --no-delay \
+  --dict resources/CSW24.txt
+```
+
 ### What You Will See
 - The browser opens and automatically challenges `HastyBot`.
 - Alphable reads the board, hand rack, and scores directly from the DOM.
-- 1-ply Monte Carlo search evaluates candidate moves using Common Random Numbers (CRN), Super-Leaves stem equities, and defense modeling.
+- The engine evaluates candidate plays and submits moves smoothly (or instantly if `--no-delay` is passed).
 - When the bag hits 0, the deterministic exact endgame minimax solver kicks in, solving out winning sequences in $<0.001$ seconds.
 - Replay JSON, GCG match records, and Macondo Analyzer reports are saved to `data/woogles/matches/`.
 
@@ -53,8 +77,22 @@ python -m alphable.cli.main play woogles \
 
 ## 3. Offline Benchmark Evaluation
 
+### Transformer vs Neural Network Alphable Head-to-Head
+Play the SmolLM2 Candidate Ranker directly against the 1-ply Monte Carlo ResNet engine:
+
+```bash
+python -m alphable.cli.main eval baseline \
+  --opponent nn \
+  --games 5 \
+  --mode transformer \
+  --transformer-model models/transformer_ranker_v2 \
+  --model models/alphable_v3_macondo_v2.pth \
+  --dict resources/CSW24.txt
+```
+Outputs turn logs, tile exchanges, and full match summaries to `data/vs_nn/`.
+
 ### Alphable vs GreedyBot
-To test Alphable locally against a greedy point-maximizing opponent:
+To test Alphable locally against a greedy point-maximizing baseline:
 
 ```bash
 python -m alphable.cli.main eval baseline \

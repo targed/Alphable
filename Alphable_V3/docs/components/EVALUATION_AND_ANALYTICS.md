@@ -30,21 +30,45 @@ python -m alphable.cli.main eval matches \
 
 ## 2. `evaluate_vs_baseline.py` ([`src/alphable/eval/evaluate_vs_baseline.py`](file:///home/targed/Documents/Git/Alphable/Alphable_V3/src/alphable/eval/evaluate_vs_baseline.py))
 
-Benchmark evaluation harness testing an Alphable model against standardized automated baselines (`random` or `greedy`).
+Benchmark evaluation harness testing an Alphable agent against automated baselines (`random`, `greedy`) or pitting the SmolLM2 Candidate Ranker directly against the ResNet Neural Network engine (`nn`).
 
 ### Features
 - **Opponent Types:**
   - `random`: Randomly selects any legal Scrabble play.
   - `greedy`: Evaluates all legal plays and selects the play with the maximum immediate points.
+  - `nn` / `nn_lookahead`: Full Alphable Neural Network player using 1-ply Monte Carlo lookahead search under Common Random Numbers (CRN).
+  - `nn_0ply`: Neural Network player using fast 0-ply value network evaluation.
 - **Search Modes:**
   - `bc_0ply`: Fast 0-ply argmax evaluation using the value network.
   - `lookahead`: 1-ply Monte Carlo lookahead search with minimax opponent reply equity deduction.
+  - `transformer`: SmolLM2 Candidate Ranker evaluating top candidate plays via single-token autoregressive attention.
+- **First-Class Scrabble Actions:**
+  - Full support for `PLAY`, `PASS`, and `EXCHANGE`.
+  - On `EXCHANGE` actions (e.g. `EXCHANGE(A,I,I,O,O,O)` to fix bad leaves), the engine draws replacements from the tile bag, returns the exchanged tiles, and tracks rack state accurately without board placement errors.
 - **Logging & Artifacts:**
   - Outputs detailed move-by-move replay JSON and human-readable ASCII game boards in TXT format to `data/vs_<opponent>/`.
   - Generates comprehensive run summaries tracking win rate, score margins, average points per move, and bingo counts.
 
 ### CLI Execution
 ```bash
+# 1. Evaluate Transformer vs ResNet NN Alphable head-to-head
+python -m alphable.cli.main eval baseline \
+  --opponent nn \
+  --games 5 \
+  --mode transformer \
+  --transformer-model models/transformer_ranker_v2 \
+  --model models/alphable_v3_macondo_v2.pth \
+  --dict resources/CSW24.txt
+
+# 2. Evaluate Transformer vs Greedy baseline
+python -m alphable.cli.main eval baseline \
+  --opponent greedy \
+  --games 10 \
+  --mode transformer \
+  --transformer-model models/transformer_ranker_v2 \
+  --dict resources/CSW24.txt
+
+# 3. Standard 1-ply Monte Carlo NN search vs Greedy baseline
 python -m alphable.cli.main eval baseline \
   --model models/alphable_v3_macondo_v2.pth \
   --opponent greedy \
