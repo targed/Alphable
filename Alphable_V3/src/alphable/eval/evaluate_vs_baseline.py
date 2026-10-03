@@ -24,7 +24,12 @@ def board_to_visualizer_string(board):
 
 
 def move_to_desc(move):
-    return f"Plays '{move['word']}' at {move['row']},{move['col']} {move['dir']}"
+    if not move:
+        return "PASS"
+    if move.get("action") == "EXCHANGE":
+        tiles = "".join(move.get("tiles_to_exchange", []))
+        return f"Exchanges [{tiles}]"
+    return f"Plays '{move.get('word', '?')}' at {move.get('row', '?')},{move.get('col', '?')} {move.get('dir', '?')}"
 
 
 def choose_baseline_move(opponent, legal_moves, board, rack):
@@ -64,9 +69,12 @@ def run_game(
     scores = [0, 0]
     consecutive_passes = 0
 
+    is_nn_opp = opponent in ['nn', 'nn_lookahead', 'nn_0ply', 'alphable_nn']
+    opp_display = 'Alphable-NN' if is_nn_opp else opponent.capitalize()
+    p0_label = 'Alphable-Transformer' if transformer_ranker is not None else 'Alphable'
     alphable_first = game_idx % 2 == 0
-    p0_name = 'Alphable' if alphable_first else opponent.capitalize()
-    p1_name = opponent.capitalize() if alphable_first else 'Alphable'
+    p0_name = p0_label if alphable_first else opp_display
+    p1_name = opp_display if alphable_first else p0_label
 
     logger = GameLogger(p0_name, p1_name)
     logger.set_metadata(
@@ -215,8 +223,35 @@ def run_game(
                             chosen_value = best_val
                 action_id = 0 if chosen_move else -1
             else:
-                chosen_move = choose_baseline_move(
-                    opponent, legal_moves, board, racks[player])
+                if is_nn_opp:
+                    if legal_moves:
+                        if opponent == 'nn_0ply':
+                            vw = getattr(engine, 'value_weight', 25.0)
+                            move_evals = evaluate_moves(
+                                engine,
+                                board,
+                                racks[player],
+                                score_diff,
+                                tiles_in_bag,
+                                infer_batch_size=infer_batch_size,
+                                value_weight=vw,
+                            )
+                            chosen_move = move_evals[0]['move'] if move_evals else None
+                            chosen_value = move_evals[0]['value'] if move_evals else 0.0
+                        else:
+                            best_move, best_val = searcher.find_best_move(
+                                board,
+                                racks[player],
+                                score_diff,
+                                tiles_in_bag,
+                            )
+                            chosen_move = best_move
+                            chosen_value = best_val
+                    else:
+                        chosen_move, chosen_value = None, 0.0
+                else:
+                    chosen_move = choose_baseline_move(
+                        opponent, legal_moves, board, racks[player])
                 action_id = 0 if chosen_move else -1
 
             action_type = 'PASS'
@@ -225,8 +260,22 @@ def run_game(
             direction = None
 
             if chosen_move is None:
+                action_type = 'PASS'
                 consecutive_passes += 1
                 score_delta = 0
+            elif chosen_move.get('action') == 'EXCHANGE':
+                action_type = 'EXCHANGE'
+                exch_tiles = chosen_move.get('tiles_to_exchange', [])
+                for t in exch_tiles:
+                    if t in racks[player]:
+                        racks[player].remove(t)
+                drawn = draw_tiles(bag, len(exch_tiles))
+                racks[player].extend(drawn)
+                bag.extend(exch_tiles)
+                score_delta = 0
+                consecutive_passes = 0
+                move_count += 1
+                word = f"EXCHANGE({''.join(exch_tiles)})"
             else:
                 action_type = 'PLAY'
                 word = chosen_move['word']
@@ -269,7 +318,7 @@ def run_game(
             if chosen_move is None:
                 logtxt.write(f"Turn {turn_index+1} P{player}: PASS\n")
             else:
-                who = 'Alphable' if is_alphable_turn else opponent.capitalize()
+                who = p0_label if is_alphable_turn else opp_display
                 line = f"Turn {turn_index+1} P{player} ({who}): {move_to_desc(chosen_move)} (+{score_delta})"
                 if chosen_value is not None:
                     line += f" [value={chosen_value:.3f}]"
@@ -376,13 +425,15 @@ def evaluate(args):
     resolved_dict = inference.resolve_path(args.dict)
     is_transformer = getattr(args, 'mode', None) == 'transformer'
 
-    if not is_transformer:
+    requires_nn_model = (not is_transformer) or (args.opponent in ['nn', 'nn_lookahead', 'nn_0ply', 'alphable_nn'])
+
+    if requires_nn_model:
         if not resolved_model or not os.path.exists(resolved_model):
             raise FileNotFoundError(f"Model not found: {args.model}")
-        print(f"Loading model from {resolved_model}")
+        print(f"Loading neural network model from {resolved_model}")
         model_to_use = resolved_model
     else:
-        # In transformer mode, ResNet checkpoint is optional
+        # In transformer mode without NN opponent, ResNet checkpoint is optional
         model_to_use = resolved_model if (resolved_model and os.path.exists(resolved_model)) else None
         if model_to_use:
             print(f"Loading optional base model from {model_to_use}")
@@ -492,7 +543,8 @@ def main():
     parser.add_argument(
         '--model', default='models/alphable_v3_macondo_v2.pth')
     parser.add_argument(
-        '--opponent', choices=['random', 'greedy'], required=True)
+        '--opponent', choices=['random', 'greedy', 'nn', 'nn_lookahead', 'nn_0ply', 'alphable_nn'], required=True,
+        help='Opponent: random, greedy, nn (1-ply MCTS neural net), nn_lookahead, or nn_0ply.')
     parser.add_argument('--games', type=int, default=5)
     parser.add_argument(
         '--mode', choices=['bc_0ply', 'lookahead', 'transformer'], default='lookahead')

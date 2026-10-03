@@ -223,11 +223,17 @@ class OnlineGameRunner:
 
                 calc_time = time.time() - t0
 
-                # 3. Apply human-like pacing delay
-                think_delay = random.uniform(self.delay_min, self.delay_max)
-                actual_sleep = max(0.1, think_delay - calc_time)
-                print(f"Move computed in {calc_time:.2f}s. Pacing delay: {actual_sleep:.2f}s...")
-                time.sleep(actual_sleep)
+                # 3. Apply human-like pacing delay (if enabled)
+                if self.delay_max > 0.0:
+                    think_delay = random.uniform(self.delay_min, self.delay_max)
+                    actual_sleep = max(0.0, think_delay - calc_time)
+                    if actual_sleep > 0:
+                        print(f"Move computed in {calc_time:.2f}s. Pacing delay: {actual_sleep:.2f}s...")
+                        time.sleep(actual_sleep)
+                    else:
+                        print(f"Move computed in {calc_time:.2f}s. (Instant submission)")
+                else:
+                    print(f"Move computed in {calc_time:.2f}s. (No pacing delay)")
 
                 # 4. Submit move to platform
                 if best_move is not None:

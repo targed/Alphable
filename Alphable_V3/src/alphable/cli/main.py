@@ -28,7 +28,7 @@ def main():
     eval_parser = subparsers.add_parser('eval', help='Evaluation utilities')
     eval_subparsers = eval_parser.add_subparsers(dest='subcommand')
     eval_subparsers.add_parser('matches', help='Evaluate matches')
-    eval_subparsers.add_parser('baseline', help='Evaluate baseline')
+    eval_subparsers.add_parser('baseline', help='Evaluate baseline', add_help=False)
     eval_subparsers.add_parser('plot', help='Plot training progress')
 
     # Pipeline

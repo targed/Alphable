@@ -83,6 +83,18 @@ def parse_args():
         help="Maximum thinking/pacing delay in seconds before submitting move.",
     )
     parser.add_argument(
+        "--no-delay",
+        action="store_true",
+        default=False,
+        help="Disable artificial pacing delay (play moves immediately upon computation).",
+    )
+    parser.add_argument(
+        "--transformer-model",
+        type=str,
+        default="models/transformer_ranker_v2",
+        help="Transformer model checkpoint directory or HuggingFace repo (used in --mode transformer).",
+    )
+    parser.add_argument(
         "--output-dir",
         type=str,
         default="data/woogles/games",
@@ -192,17 +204,21 @@ def main():
         user = adapter.ensure_logged_in()
         print(f"Logged in / Session established as: {user}")
 
+        delay_min = 0.0 if args.no_delay else args.delay_min
+        delay_max = 0.0 if args.no_delay else args.delay_max
+
         runner = OnlineGameRunner(
             adapter=adapter,
             model_path=args.model,
             dict_path=args.dict,
             mode=args.mode,
             value_weight=args.value_weight,
-            delay_min=args.delay_min,
-            delay_max=args.delay_max,
+            delay_min=delay_min,
+            delay_max=delay_max,
             output_dir=args.output_dir,
             num_simulations=args.simulations,
             top_k=args.top_k,
+            transformer_model_path=args.transformer_model,
         )
 
         config = PlatformGameConfig(
