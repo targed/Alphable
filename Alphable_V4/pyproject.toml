@@ -1,0 +1,33 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "alphable-v4"
+version = "0.4.0"
+description = "Alphable V4: Championship-tier Scrabble AI with MAGPIE, BAMS, and Cross-Attention Value Networks"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "torch>=2.0.0",
+    "torchvision>=0.15.0",
+    "numpy>=1.24.0",
+    "tqdm>=4.65.0",
+    "requests>=2.31.0",
+    "pandas>=2.0.0",
+    "pyarrow>=14.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-cov>=4.0.0",
+]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["alphable_v4*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+norecursedirs = ["alphable_v4", "vendor", "data", ".git", ".pytest_cache"]
