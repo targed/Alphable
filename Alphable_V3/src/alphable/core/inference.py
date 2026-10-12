@@ -218,7 +218,7 @@ class AlphableInference:
             new_score_diff = current_score_diff + points
 
             board_tensor = board_to_tensor(new_board)
-            state_tensor = state_to_tensor(new_rack, new_score_diff, bag_remaining)
+            state_tensor = state_to_tensor(new_rack, new_score_diff, bag_remaining, state_vector_size=self.state_vector_size)
 
             batch_boards.append(board_tensor)
             batch_states.append(state_tensor)
