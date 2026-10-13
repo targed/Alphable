@@ -112,3 +112,37 @@ class TestBAMSSearch:
         _, meta = bams.select_move(state)
         print(f"\nMidgame BAMS Latency: {meta['latency_ms']:.2f} ms")
         assert meta["latency_ms"] < 1500.0, f"Latency {meta['latency_ms']:.1f} ms exceeded threshold"
+
+    def test_dynamic_search_params(self, shared_engine, checkpoint_path):
+        """Verifies dynamic beam scaling based on score differential and bag count."""
+        bams = BAMSSearch.from_checkpoint(shared_engine, checkpoint_path, config=BAMSConfig())
+        
+        # Trailing by 30 points -> beam 18+, deficit 7.5
+        trailing_state = GameState(score=200, opp_score=235, bag_count=40)
+        beam_t, def_t = bams.get_dynamic_search_params(trailing_state)
+        assert beam_t >= 18
+        assert def_t >= 7.5
+
+        # Leading by 40 points -> beam <= 10, deficit <= 3.0
+        leading_state = GameState(score=300, opp_score=255, bag_count=30)
+        beam_l, def_l = bams.get_dynamic_search_params(leading_state)
+        assert beam_l <= 10
+        assert def_l <= 3.0
+
+    def test_exact_endgame_alphabeta_solver(self, shared_engine, checkpoint_path):
+        """Verifies exact alpha-beta minimax endgame solver activates and selects optimal play."""
+        cgp = "11WYLE/5ADNOUN1A2/2EMBLOOMS2W2/2HUI2T3Li2/6QI2BAE2/5KIF1ZIGs1F/4GONIA1PUT1O/5A1ELVEN1GO/7D2DEVOT/12AXE/12R1R/12I2/8JIRRE2/8ARIOT2/5SAPIENCY2 ADRTHEC/ESTUESN 443/442 0 -lex CSW24"
+        state = GameState.from_cgp(cgp)
+        state.bag_count = 0
+
+        bams = BAMSSearch.from_checkpoint(
+            shared_engine,
+            checkpoint_path,
+            config=BAMSConfig(use_exact_endgame=True),
+        )
+
+        selected, meta = bams.select_move(state)
+        assert selected is not None
+        assert meta["method"] in ("exact_alphabeta_endgame", "deterministic_endgame")
+        assert selected.word == "RATCHED"
+        assert selected.score == 87

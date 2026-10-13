@@ -27,13 +27,15 @@ from alphable_v4.models.value_net import V4ValueNetwork
 @dataclass
 class BAMSConfig:
     """Configuration hyperparameters for BAMS search."""
-    num_samples: int = 32           # Number of opponent rack simulations (N)
-    candidate_beam: int = 15        # Top static-equity candidates to rollout (K)
-    value_weight: float = 12.0       # Points-scale multiplier for normalized equity [-1, 1]
+    num_samples: int = 24           # Number of opponent rack simulations (N)
+    candidate_beam: int = 15        # Base top static-equity candidates to rollout (K)
+    value_weight: float = 4.5       # Points-scale multiplier for centered normalized equity [-1, 1]
     static_equity_weight: float = 1.0 # Blending weight for MAGPIE's static leave equity
-    opp_penalty_weight: float = 0.25  # Defensive counter-play risk penalty weight
-    max_static_deficit: float = 4.0   # Maximum static equity deficit allowed for rollout
+    opp_penalty_weight: float = 0.12  # Relative excess counter-play risk penalty weight
+    max_static_deficit: float = 3.5   # Base maximum static equity deficit allowed for rollout
     use_crn: bool = True            # Common Random Numbers for opponent rack samples
+    dynamic_beam: bool = True       # Context-adaptive beam size and deficit scaling
+    use_exact_endgame: bool = True  # Native alpha-beta minimax endgame solver (depth 6-10)
     seed: Optional[int] = None       # Random seed for reproducible simulations
     device: str = "cuda" if torch.cuda.is_available() else "cpu"
 
@@ -89,6 +91,38 @@ class BAMSSearch:
             model.load_state_dict(checkpoint)
         return cls(engine=engine, value_net=model, config=conf)
 
+    def get_dynamic_search_params(self, game_state: GameState) -> Tuple[int, float]:
+        """
+        Dynamically adjusts candidate beam size K and maximum static equity deficit
+        based on match context, score differential, and tile bag exhaustion.
+        """
+        if not getattr(self.config, "dynamic_beam", True):
+            return self.config.candidate_beam, getattr(self.config, "max_static_deficit", 5.0)
+
+        score_diff = game_state.score - game_state.opp_score
+        bag_count = game_state.bag_count
+
+        base_beam = self.config.candidate_beam
+        base_deficit = getattr(self.config, "max_static_deficit", 5.0)
+
+        # Trailing by >= 25 points: Widen deficit and beam to find high-ceiling comeback plays
+        if score_diff <= -25:
+            beam = min(25, max(base_beam, 18))
+            deficit = max(base_deficit, 7.5)
+        # Leading by >= 35 points: Tighten search to safe, high-equity plays
+        elif score_diff >= 35:
+            beam = max(8, min(base_beam, 10))
+            deficit = min(base_deficit, 3.0)
+        # Early game (bag >= 50): Allow broader strategic exploration
+        elif bag_count >= 50:
+            beam = max(base_beam, 15)
+            deficit = max(base_deficit, 6.0)
+        else:
+            beam = base_beam
+            deficit = base_deficit
+
+        return beam, deficit
+
     def select_move(
         self,
         game_state: GameState,
@@ -103,12 +137,12 @@ class BAMSSearch:
         """
         start_time = time.perf_counter()
         N = num_samples if num_samples is not None else self.config.num_samples
-        K = self.config.candidate_beam
+        beam_size, max_deficit = self.get_dynamic_search_params(game_state)
 
         # 1. Candidate Generation
         if candidates is None:
             candidates = self.engine.generate_moves(
-                game_state=game_state, max_candidates=max(100, K)
+                game_state=game_state, max_candidates=max(100, beam_size)
             )
 
         if not candidates:
@@ -122,9 +156,8 @@ class BAMSSearch:
 
         # Filter candidates: top K by static equity, and within max_static_deficit of top move
         top_equity = candidates[0].equity
-        max_deficit = getattr(self.config, "max_static_deficit", 4.0)
         eval_candidates = [
-            c for c in candidates[:K]
+            c for c in candidates[:beam_size]
             if (top_equity - c.equity) <= max_deficit
         ]
         if not eval_candidates:
@@ -133,7 +166,13 @@ class BAMSSearch:
         # 2. Check for Endgame Fast Path (unseen tiles <= 7)
         total_unseen = sum(game_state.unseen_counts.values())
         if total_unseen <= 7:
-            # Deterministic endgame: opponent holds all remaining unseen tiles
+            if game_state.bag_count == 0 and getattr(self.config, "use_exact_endgame", True):
+                exact_m, exact_meta = self._solve_exact_endgame(game_state, candidates)
+                if exact_m is not None:
+                    exact_meta["latency_ms"] = (time.perf_counter() - start_time) * 1000
+                    return exact_m, exact_meta
+
+            # Fallback deterministic endgame: opponent holds all remaining unseen tiles
             opp_rack_str = "".join(self.belief_net.get_unseen_tile_pool(game_state))
             selected, evals = self._evaluate_deterministic_endgame(game_state, eval_candidates, opp_rack_str)
             latency_ms = (time.perf_counter() - start_time) * 1000
@@ -204,27 +243,40 @@ class BAMSSearch:
             for idx, (c_idx, s_idx) in enumerate(state_index_mapping):
                 value_preds[(c_idx, s_idx)] = float(preds_np[idx])
 
-        # 6. Aggregate BAMS Scores
+        # 6. Aggregate BAMS Scores with Relative Counterplay Risk
+        all_opp_means = [float(np.mean(cand_dict["opp_scores"])) if cand_dict["opp_scores"] else 0.0 for cand_dict in cand_results]
+        baseline_opp_score = float(np.mean(all_opp_means)) if all_opp_means else 0.0
+
+        if self.value_net is not None:
+            all_val_means = [
+                float(np.mean([value_preds.get((c_idx, s_idx), 0.0) for s_idx in range(len(cand_dict["opp_scores"]))]))
+                if cand_dict["opp_scores"] else 0.0
+                for c_idx, cand_dict in enumerate(cand_results)
+            ]
+            baseline_value = float(np.mean(all_val_means)) if all_val_means else 0.0
+        else:
+            all_val_means = [0.0] * len(cand_results)
+            baseline_value = 0.0
+
         evaluated_candidates: List[BAMSCandidateEval] = []
         for c_idx, cand_dict in enumerate(cand_results):
             cand = cand_dict["candidate"]
-            opp_scores = cand_dict["opp_scores"]
-            mean_opp_score = float(np.mean(opp_scores)) if opp_scores else 0.0
+            mean_opp_score = all_opp_means[c_idx]
+            mean_value = all_val_means[c_idx]
 
-            if self.value_net is not None:
-                preds_for_c = [value_preds.get((c_idx, s_idx), 0.0) for s_idx in range(len(opp_scores))]
-                mean_value = float(np.mean(preds_for_c)) if preds_for_c else 0.0
-            else:
-                mean_value = 0.0
+            # Relative counterplay threat: only penalize above-average opponent leakiness
+            relative_threat = mean_opp_score - baseline_opp_score
+            # Relative positional advantage from Value Network
+            relative_value = mean_value - baseline_value
 
             # BAMS Score Formula:
             # cand.equity (immediate score + leave value)
-            # - opp_penalty_weight * Mean(OppScore) (defensive lane vulnerability)
-            # + ValueWeight * Mean(ValueNet) (long-term strategic board control)
+            # - opp_penalty_weight * relative_threat (penalizes plays leakier than alternatives)
+            # + value_weight * relative_value (rewards superior future board control)
             bams_score = (
                 (self.config.static_equity_weight * cand.equity)
-                - (self.config.opp_penalty_weight * mean_opp_score)
-                + (self.config.value_weight * mean_value)
+                - (self.config.opp_penalty_weight * relative_threat)
+                + (self.config.value_weight * relative_value)
             )
 
             evaluated_candidates.append(
@@ -267,6 +319,56 @@ class BAMSSearch:
         }
 
         return best_eval.move, metadata
+
+    def _solve_exact_endgame(
+        self,
+        game_state: GameState,
+        candidates: List[Move],
+    ) -> Tuple[Optional[Move], Dict[str, Any]]:
+        """
+        Solves the endgame using MAGPIE's exact alpha-beta minimax solver (depth 6-10).
+        Matches the returned play against legal candidate moves.
+        """
+        try:
+            cgp_str = game_state.to_cgp()
+            self.engine.set_cgp(cgp_str)
+            raw_output = self.engine.run_command("endgame")
+            lines = [l.strip() for l in raw_output.splitlines() if l.strip()]
+
+            header_idx = -1
+            for i, line in enumerate(lines):
+                if line.startswith("Play"):
+                    header_idx = i
+                    break
+
+            if header_idx != -1 and header_idx + 1 < len(lines):
+                play_line = lines[header_idx + 1]
+                tokens = play_line.split()
+                if len(tokens) >= 3:
+                    coord_str = tokens[0].upper()
+                    clean_word = tokens[1].replace("(", "").replace(")", "").upper()
+                    score_val = int(tokens[2]) if tokens[2].lstrip("-").isdigit() else None
+
+                    # Primary match: coordinate + word
+                    for c in candidates:
+                        if c.coord_str.upper() == coord_str and c.word.upper() == clean_word:
+                            return c, {
+                                "method": "exact_alphabeta_endgame",
+                                "raw_solver": play_line,
+                            }
+
+                    # Secondary match: coordinate + score
+                    if score_val is not None:
+                        for c in candidates:
+                            if c.coord_str.upper() == coord_str and c.score == score_val:
+                                return c, {
+                                    "method": "exact_alphabeta_endgame",
+                                    "raw_solver": play_line,
+                                }
+        except Exception:
+            pass
+
+        return None, {}
 
     def _evaluate_deterministic_endgame(
         self,

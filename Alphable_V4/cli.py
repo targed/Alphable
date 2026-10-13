@@ -281,7 +281,15 @@ def cmd_tournament(args):
     bams = BAMSSearch.from_checkpoint(
         engine,
         CHECKPOINT_PATH,
-        config=BAMSConfig(num_samples=24, candidate_beam=10, max_static_deficit=4.0),
+        config=BAMSConfig(
+            num_samples=24,
+            candidate_beam=15,
+            max_static_deficit=3.5,
+            opp_penalty_weight=0.12,
+            value_weight=4.5,
+            dynamic_beam=True,
+            use_exact_endgame=True,
+        ),
     )
 
     def bams_policy(state: GameState):
@@ -316,14 +324,19 @@ def cmd_tournament(args):
             best_m, val = v3_engine.find_best_move(v3_board, state.rack, score_diff, state.bag_count)
             if not best_m:
                 return Move.create_pass(), {"method": "v3_pass"}
-            _, points, new_rack = v3_simulator.simulate_move(v3_board, best_m, state.rack)
+            new_board, points, new_rack = v3_simulator.simulate_move(v3_board, best_m, state.rack)
             leave = "".join(new_rack)
             direction = best_m.get("dir") or best_m.get("direction") or "Across"
+            r, c = best_m["row"], best_m["col"]
+            word_with_blanks = "".join(
+                new_board[r + (i if direction == "Down" else 0)][c + (i if direction == "Across" else 0)]
+                for i in range(len(best_m["word"]))
+            )
             parsed = Move(
-                row=best_m["row"],
-                col=best_m["col"],
+                row=r,
+                col=c,
                 direction=direction,
-                word=best_m["word"],
+                word=word_with_blanks,
                 score=points,
                 leave=leave,
             )
@@ -356,13 +369,18 @@ def cmd_tournament(args):
             score_diff = state.score - state.opp_score
             ranked = ranker.rank_candidates(v3_board, state.rack, score_diff, state.bag_count, top_cands)
             best_m = ranked[0][0] if ranked else top_cands[0]
-            _, points, new_rack = v3_simulator.simulate_move(v3_board, best_m, state.rack)
+            new_board, points, new_rack = v3_simulator.simulate_move(v3_board, best_m, state.rack)
             direction = best_m.get("dir") or best_m.get("direction") or "Across"
+            r, c = best_m["row"], best_m["col"]
+            word_with_blanks = "".join(
+                new_board[r + (i if direction == "Down" else 0)][c + (i if direction == "Across" else 0)]
+                for i in range(len(best_m["word"]))
+            )
             parsed = Move(
-                row=best_m["row"],
-                col=best_m["col"],
+                row=r,
+                col=c,
                 direction=direction,
-                word=best_m["word"],
+                word=word_with_blanks,
                 score=points,
                 leave="".join(new_rack),
             )

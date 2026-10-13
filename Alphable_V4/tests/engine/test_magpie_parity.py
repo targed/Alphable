@@ -236,10 +236,10 @@ def test_direct_v3_gaddag_parity(engine):
     magpie_moves = engine.generate_moves(cgp=cgp_str, max_candidates=2000)
     magpie_words = set(m.word for m in magpie_moves if m.is_placement)
 
-    # V3 turns off cuDNN globally on import; restore it for V4
+    # V3 and V4 keep cuDNN disabled for Blackwell RTX 50-series stability
     try:
         import torch
-        torch.backends.cudnn.enabled = True
+        torch.backends.cudnn.enabled = False
     except ImportError:
         pass
 

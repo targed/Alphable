@@ -26,10 +26,13 @@ python cli.py play
 # 5. Run a Head-to-Head Tournament Series vs Base MAGPIE
 python cli.py tournament --opponent magpie --games 10
 
-# 6. Run a Tournament Series vs Old Alphable (V3 GADDAG)
-python cli.py tournament --opponent v3 --games 10
+# 6. Run a Tournament Series vs Alphable V3 ResNet Champion
+python cli.py tournament --opponent v3-resnet --games 5
 
-# 7. Run an AI Ablation Experiment (Neural Network ON vs OFF)
+# 7. Run a Tournament Series vs Alphable V3 SmolLM2 Transformer Ranker
+python cli.py tournament --opponent v3-transformer --games 5
+
+# 8. Run an AI Ablation Experiment (Neural Network ON vs OFF)
 python cli.py ablation --games 10
 ```
 
