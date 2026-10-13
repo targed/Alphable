@@ -112,3 +112,21 @@ def test_belief_samples_extraction():
 
     # Total tiles in target rack should be positive
     assert s0["opp_rack_target"].sum() > 0
+
+
+def test_hyperparameter_evaluation_function():
+    """Verifies Frontier 5 hyperparameter evaluator runs duplicate match test cleanly."""
+    from alphable_v4.training.optimize_hyperparams import evaluate_hyperparams
+    from alphable_v4.engine.magpie_bindings import MagpieEngine
+
+    engine = MagpieEngine(lexicon="CSW24")
+    ckpt = "/home/targed/Documents/Git/Alphable/Alphable_V4/models/checkpoints/v4_value_net_best.pt"
+    params = {"weight_2ply": 0.18, "opp_penalty_weight": 0.12, "max_static_deficit": 3.5, "value_weight": 4.5}
+
+    res = evaluate_hyperparams(engine, ckpt, params, num_matches=1, base_seed=123)
+    assert res["matches_played"] == 1
+    assert res["total_games"] == 2
+    assert "win_rate" in res
+    assert "net_spread" in res
+    assert isinstance(res["mean_bams_score"], float)
+    assert isinstance(res["mean_magpie_score"], float)

@@ -11,7 +11,7 @@ BAMS combines:
 
 from __future__ import annotations
 import time
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, replace
 from typing import List, Tuple, Dict, Optional, Any
 
 import numpy as np
@@ -20,7 +20,7 @@ import torch
 from alphable_v4.engine.move import Move
 from alphable_v4.engine.game_state import GameState
 from alphable_v4.engine.magpie_bindings import MagpieEngine
-from alphable_v4.models.belief_net import BayesianRackInference
+from alphable_v4.models.belief_net import BayesianRackInference, OpponentTracker
 from alphable_v4.models.value_net import V4ValueNetwork
 
 
@@ -36,6 +36,12 @@ class BAMSConfig:
     use_crn: bool = True            # Common Random Numbers for opponent rack samples
     dynamic_beam: bool = True       # Context-adaptive beam size and deficit scaling
     use_exact_endgame: bool = True  # Native alpha-beta minimax endgame solver (depth 6-10)
+    use_pre_endgame: bool = True    # Pre-endgame parity & tile-sticking solver (bag 1 to 5) (Frontier 3)
+    use_belief_tracker: bool = True # History-conditioned Bayesian belief tracker (Frontier 2)
+    nested_2ply: bool = True        # True 2-ply nested Monte Carlo rollout lookahead (Frontier 1)
+    candidate_beam_2ply: int = 6    # Number of top candidates evaluated with full 2-ply search
+    samples_2ply: int = 12          # Number of opponent rack samples for 2-ply stage
+    weight_2ply: float = 0.18       # Weight for 2-ply net exchange score in BAMS score
     seed: Optional[int] = None       # Random seed for reproducible simulations
     device: str = "cuda" if torch.cuda.is_available() else "cpu"
 
@@ -49,6 +55,7 @@ class BAMSCandidateEval:
     mean_opp_reply_score: float
     mean_value_pred: float
     bams_score: float
+    mean_2ply_net: Optional[float] = None
 
 
 class BAMSSearch:
@@ -66,6 +73,7 @@ class BAMSSearch:
         self.engine = engine
         self.config = config or BAMSConfig()
         self.belief_net = belief_net or BayesianRackInference()
+        self.opp_tracker = OpponentTracker()
         self.device = torch.device(self.config.device)
 
         if value_net is not None:
@@ -73,6 +81,17 @@ class BAMSSearch:
             self.value_net.eval()
         else:
             self.value_net = None
+
+    def record_opponent_move(
+        self,
+        opp_move: Move,
+        state_before: Optional[GameState] = None,
+    ) -> None:
+        """Records opponent's move to update Bayesian belief tracker (Frontier 2)."""
+        if getattr(self.config, "use_belief_tracker", True):
+            self.opp_tracker.update_after_opponent_move(
+                opp_move, state_before=state_before, engine=self.engine
+            )
 
     @classmethod
     def from_checkpoint(
@@ -86,9 +105,9 @@ class BAMSSearch:
         model = V4ValueNetwork(board_channels=32, state_dim=64, feature_dim=512, num_heads=8)
         checkpoint = torch.load(checkpoint_path, map_location=conf.device, weights_only=False)
         if "model_state_dict" in checkpoint:
-            model.load_state_dict(checkpoint["model_state_dict"])
+            model.load_state_dict(checkpoint["model_state_dict"], strict=False)
         else:
-            model.load_state_dict(checkpoint)
+            model.load_state_dict(checkpoint, strict=False)
         return cls(engine=engine, value_net=model, config=conf)
 
     def get_dynamic_search_params(self, game_state: GameState) -> Tuple[int, float]:
@@ -183,17 +202,27 @@ class BAMSSearch:
                 "opp_rack": opp_rack_str,
             }
 
-        # 3. Sample N opponent racks using Bayesian inference with CRN
+        # 2.5. Pre-Endgame Parity & Fishing Adjustment (bag count 1 to 5) (Frontier 3)
+        if 1 <= game_state.bag_count <= 5 and getattr(self.config, "use_pre_endgame", True):
+            eval_candidates = self._evaluate_pre_endgame(game_state, eval_candidates)
+
+        # 3. Sample N opponent racks using Bayesian inference with CRN & History Belief (Frontier 2)
         seed = self.config.seed if self.config.use_crn else None
+        tracker = self.opp_tracker if getattr(self.config, "use_belief_tracker", True) else None
         sampled_rack_lists = self.belief_net.sample_opponent_racks(
-            game_state, num_samples=N, seed=seed
+            game_state, num_samples=N, seed=seed, tracker=tracker
         )
         sampled_racks = ["".join(r) for r in sampled_rack_lists]
 
-        # 4. Monte Carlo 1-ply Simulation
+        # 4. Monte Carlo 1-ply & 2-ply Simulation (Frontier 1)
         cand_results: List[Dict[str, Any]] = []
         after_states_to_eval: List[GameState] = []
         state_index_mapping: List[Tuple[int, int]] = []  # (cand_idx, sample_idx)
+
+        use_2ply = getattr(self.config, "nested_2ply", True)
+        beam_2ply = getattr(self.config, "candidate_beam_2ply", 6)
+        samples_2ply_n = min(N, getattr(self.config, "samples_2ply", 12))
+        unseen_pool = self.belief_net.get_unseen_tile_pool(game_state) if use_2ply else []
 
         for c_idx, cand in enumerate(eval_candidates):
             # Apply our move
@@ -207,7 +236,9 @@ class BAMSSearch:
                 "immediate_score": cand.score,
                 "static_equity": cand.equity,
                 "opp_scores": [],
+                "2ply_scores": [],
             }
+            is_2ply_cand = use_2ply and cand.is_placement and (c_idx < beam_2ply)
 
             # Simulate opponent's best response for each sampled rack
             for s_idx, opp_r in enumerate(sampled_racks):
@@ -228,6 +259,25 @@ class BAMSSearch:
                     after_states_to_eval.append(resulting_state)
                     state_index_mapping.append((c_idx, s_idx))
 
+                # True 2-Ply Nested Lookahead (Frontier 1)
+                if is_2ply_cand and (s_idx < samples_2ply_n):
+                    try:
+                        tiles_needed = 7 - len(cand.leave or "")
+                        rem_pool = list(unseen_pool)
+                        for t in opp_r:
+                            if t in rem_pool:
+                                rem_pool.remove(t)
+                        rng = np.random.RandomState(42 + s_idx * 17) if self.config.use_crn else np.random
+                        drawn_idx = rng.choice(len(rem_pool), size=min(len(rem_pool), tiles_needed), replace=False) if rem_pool else []
+                        sim_rack = list(cand.leave or "") + [rem_pool[i] for i in drawn_idx]
+
+                        followups = self.engine.generate_moves(game_state=resulting_state, rack="".join(sim_rack), max_candidates=1)
+                        followup_eq = followups[0].equity if followups else 0.0
+                        net_2ply = cand.score - opp_score + followup_eq
+                    except Exception:
+                        net_2ply = cand.score - opp_score + (cand.equity - cand.score)
+                    cand_entry["2ply_scores"].append(net_2ply)
+
             cand_results.append(cand_entry)
 
         # 5. Batched Neural Evaluation on GPU
@@ -243,9 +293,16 @@ class BAMSSearch:
             for idx, (c_idx, s_idx) in enumerate(state_index_mapping):
                 value_preds[(c_idx, s_idx)] = float(preds_np[idx])
 
-        # 6. Aggregate BAMS Scores with Relative Counterplay Risk
+        # 6. Aggregate BAMS Scores with Relative Counterplay Risk & 2-Ply Net Exchange
         all_opp_means = [float(np.mean(cand_dict["opp_scores"])) if cand_dict["opp_scores"] else 0.0 for cand_dict in cand_results]
         baseline_opp_score = float(np.mean(all_opp_means)) if all_opp_means else 0.0
+
+        all_2ply_means = [
+            float(np.mean(cand_dict["2ply_scores"])) if cand_dict.get("2ply_scores") else None
+            for cand_dict in cand_results
+        ]
+        valid_2ply = [m for m in all_2ply_means if m is not None]
+        baseline_2ply = float(np.mean(valid_2ply)) if valid_2ply else 0.0
 
         if self.value_net is not None:
             all_val_means = [
@@ -263,19 +320,29 @@ class BAMSSearch:
             cand = cand_dict["candidate"]
             mean_opp_score = all_opp_means[c_idx]
             mean_value = all_val_means[c_idx]
+            mean_2ply = all_2ply_means[c_idx]
 
             # Relative counterplay threat: only penalize above-average opponent leakiness
             relative_threat = mean_opp_score - baseline_opp_score
             # Relative positional advantage from Value Network
             relative_value = mean_value - baseline_value
+            # Relative 2-ply net exchange advantage (strictly for placement moves)
+            if cand.is_placement and mean_2ply is not None:
+                relative_2ply = mean_2ply - baseline_2ply
+                w_2ply = getattr(self.config, "weight_2ply", 0.18)
+            else:
+                relative_2ply = 0.0
+                w_2ply = 0.0
 
             # BAMS Score Formula:
             # cand.equity (immediate score + leave value)
             # - opp_penalty_weight * relative_threat (penalizes plays leakier than alternatives)
+            # + weight_2ply * relative_2ply (rewards superior 2-turn net point exchange)
             # + value_weight * relative_value (rewards superior future board control)
             bams_score = (
                 (self.config.static_equity_weight * cand.equity)
                 - (self.config.opp_penalty_weight * relative_threat)
+                + (w_2ply * relative_2ply)
                 + (self.config.value_weight * relative_value)
             )
 
@@ -287,6 +354,7 @@ class BAMSSearch:
                     mean_opp_reply_score=mean_opp_score,
                     mean_value_pred=mean_value,
                     bams_score=bams_score,
+                    mean_2ply_net=mean_2ply,
                 )
             )
 
@@ -298,7 +366,7 @@ class BAMSSearch:
         latency_ms = (time.perf_counter() - start_time) * 1000
 
         metadata = {
-            "method": "bams_mc_rollout",
+            "method": "bams_mc_rollout_2ply" if use_2ply else "bams_mc_rollout",
             "latency_ms": latency_ms,
             "num_candidates_evaluated": len(evaluated_candidates),
             "num_samples": N,
@@ -311,6 +379,7 @@ class BAMSSearch:
                     "direction": e.move.direction,
                     "score": e.immediate_score,
                     "opp_reply_mean": round(e.mean_opp_reply_score, 2),
+                    "mean_2ply_net": round(e.mean_2ply_net, 2) if e.mean_2ply_net is not None else None,
                     "value_net_mean": round(e.mean_value_pred, 4),
                     "bams_score": round(e.bams_score, 2),
                 }
@@ -396,3 +465,85 @@ class BAMSSearch:
 
         best = max(evals, key=lambda x: x["net_delta"])
         return best["move"], evals
+
+    def _evaluate_pre_endgame(
+        self,
+        game_state: GameState,
+        candidates: List[Move],
+    ) -> List[Move]:
+        """
+        Frontier 3: Pre-Endgame Parity & Tile-Sticking Adjustment (bag count 1 to 5).
+        
+        Calculates:
+        1. Bag-emptying parity: Empties the bag, freezing opponent with their current rack
+           and transitioning directly into exact minimax endgame.
+        2. Dangerous tile sticking: Analyzes unseen tile hazards (e.g. stranded Q without U,
+           hard-to-play heavy consonants) and rewards plays that force the opponent to draw them.
+        3. Favorable tile capture: Rewards plays that secure valuable tiles (e.g. Blank or S).
+        """
+        unseen_pool = self.belief_net.get_unseen_tile_pool(game_state)
+        n_unseen = max(1, len(unseen_pool))
+        bag_count = game_state.bag_count
+
+        # Identify U-tile availability on board or rack for Q assessment
+        has_u_on_board_or_leave = any(
+            row_cell == "U" or row_cell == "u"
+            for row in game_state.board
+            for row_cell in row
+            if row_cell
+        )
+
+        def _tile_hazard(t: str, leave_str: str) -> float:
+            t_upper = t.upper()
+            if t_upper == "Q":
+                can_pair_u = has_u_on_board_or_leave or ("U" in leave_str)
+                return -3.5 if can_pair_u else -7.5
+            elif t_upper in ("Z", "J", "X"):
+                return -2.5
+            elif t_upper in ("V", "W"):
+                return -2.0
+            elif t_upper == "?":
+                return 4.0
+            elif t_upper == "S":
+                return 2.0
+            return 0.0
+
+        adjusted_candidates: List[Move] = []
+        for cand in candidates:
+            leave_str = cand.leave or ""
+            tiles_played = (
+                len(cand.tiles_placed)
+                if cand.is_placement
+                else (len(cand.word) if cand.is_exchange else 0)
+            )
+
+            pool_hazard_sum = sum(_tile_hazard(t, leave_str) for t in unseen_pool)
+            mean_pool_hazard = pool_hazard_sum / n_unseen
+
+            parity_delta = 0.0
+
+            if tiles_played >= bag_count:
+                # Bag is emptied!
+                # Tempo bonus: freezes opponent and closes the bag
+                parity_delta += 2.0
+                draw_count = min(bag_count, 7 - len(leave_str))
+                parity_delta += (draw_count / n_unseen) * pool_hazard_sum
+            else:
+                # Bag has tiles remaining: bag_rem = bag_count - tiles_played >= 1
+                bag_rem = bag_count - tiles_played
+                if bag_rem == 1:
+                    # Opponent will draw the final tile if they play >= 1 tile!
+                    # If unseen tiles are hazardous (pool_hazard < 0), sticking opp is positive
+                    parity_delta -= mean_pool_hazard * 1.5
+                else:
+                    parity_delta -= (bag_rem / n_unseen) * pool_hazard_sum * 0.5
+
+            if len(leave_str) <= 2:
+                parity_delta += 0.8
+
+            new_equity = cand.equity + parity_delta
+            adjusted_candidates.append(replace(cand, equity=new_equity))
+
+        # Re-sort candidates by updated equity descending
+        adjusted_candidates.sort(key=lambda c: c.equity, reverse=True)
+        return adjusted_candidates

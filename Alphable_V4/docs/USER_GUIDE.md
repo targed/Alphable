@@ -2,6 +2,8 @@
 
 Welcome to **Alphable V4**, the championship-tier competitive Scrabble artificial intelligence engine. This guide explains how to run, use, test, evaluate, and benchmark the engine.
 
+> **Master Command Manual & Full Benchmark Records**: See [TOURNAMENT_BENCHMARKS_AND_COMMAND_MANUAL.md](file:///home/targed/Documents/Git/Alphable/Alphable_V4/docs/TOURNAMENT_BENCHMARKS_AND_COMMAND_MANUAL.md) for 1,000-game match logs, duplicate tournament results, and hyperparameter tuning reference.
+
 ---
 
 ## ⚡ Quick Start: Commands Cheat Sheet

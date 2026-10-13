@@ -169,21 +169,55 @@ class V4ValueNetwork(nn.Module):
             nn.Tanh(),  # Bounded equity output in [-1.0, 1.0]
         )
 
+        # Frontier 4: Decoupled Positional Geometry Heads
+        self.bingo_head = nn.Sequential(
+            nn.Linear(feature_dim, 64),
+            nn.GELU(),
+            nn.Linear(64, 1),
+            nn.Sigmoid(),  # P(opponent bingo vulnerability) in [0.0, 1.0]
+        )
+        self.hook_head = nn.Sequential(
+            nn.Linear(feature_dim, 64),
+            nn.GELU(),
+            nn.Linear(64, 1),
+            nn.Softplus(),  # Hook anchor entropy / open volatility >= 0.0
+        )
+
+    def load_state_dict(self, state_dict, strict=True, assign=False):
+        """Overrides load_state_dict to support legacy checkpoints without geometric heads."""
+        has_geometry = any(
+            k.startswith("bingo_head.") or k.startswith("hook_head.")
+            for k in state_dict.keys()
+        )
+        if not has_geometry:
+            strict = False
+        return super().load_state_dict(state_dict, strict=strict, assign=assign)
+
     def forward(
-        self, board_tensor: torch.Tensor, state_vector: torch.Tensor
-    ) -> torch.Tensor:
+        self,
+        board_tensor: torch.Tensor,
+        state_vector: torch.Tensor,
+        return_geometry: bool = False,
+    ) -> torch.Tensor | Tuple[torch.Tensor, torch.Tensor, torch.Tensor]:
         """
         Forward pass.
         Args:
             board_tensor: (B, 32, 15, 15)
             state_vector: (B, 64)
+            return_geometry: If True, also returns (p_bingo, h_hook)
         Returns:
             equity: (B, 1) in [-1.0, 1.0]
+            (optional) p_bingo: (B, 1) in [0.0, 1.0]
+            (optional) h_hook: (B, 1) >= 0.0
         """
         board_feat = self.board_encoder(board_tensor)
         state_feat = self.state_encoder(state_vector)
         fused = self.fusion(board_feat, state_feat)
         equity = self.equity_head(fused)
+        if return_geometry:
+            p_bingo = self.bingo_head(fused)
+            h_hook = self.hook_head(fused)
+            return equity, p_bingo, h_hook
         return equity
 
     @torch.no_grad()
@@ -193,3 +227,11 @@ class V4ValueNetwork(nn.Module):
         """Fast inference evaluation for move candidates."""
         self.eval()
         return self(board_tensors, state_vectors)
+
+    @torch.no_grad()
+    def evaluate_geometry(
+        self, board_tensors: torch.Tensor, state_vectors: torch.Tensor
+    ) -> Tuple[torch.Tensor, torch.Tensor, torch.Tensor]:
+        """Fast inference evaluation for equity and spatial geometry (Frontier 4)."""
+        self.eval()
+        return self(board_tensors, state_vectors, return_geometry=True)

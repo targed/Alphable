@@ -14,8 +14,9 @@ import numpy as np
 import torch
 
 from alphable_v4.engine.game_state import GameState, STANDARD_TILE_COUNTS
+from alphable_v4.engine.move import Move
 from alphable_v4.models.value_net import V4ValueNetwork
-from alphable_v4.models.belief_net import BayesianRackInference, NeuralBeliefNet
+from alphable_v4.models.belief_net import BayesianRackInference, NeuralBeliefNet, OpponentTracker
 
 
 class TestValueNetwork:
@@ -35,6 +36,28 @@ class TestValueNetwork:
         assert equity.shape == (batch_size, 1), f"Expected shape ({batch_size}, 1), got {equity.shape}"
         # Tanh output must be bounded in [-1.0, 1.0]
         assert torch.all(equity >= -1.0) and torch.all(equity <= 1.0)
+
+    def test_positional_geometry_multi_heads(self):
+        """Verifies Frontier 4 decoupled geometric heads (equity, P_bingo, H_hook) shapes and bounds."""
+        model = V4ValueNetwork(board_channels=32, state_dim=64, feature_dim=512, num_heads=8)
+        model.eval()
+
+        batch_size = 4
+        dummy_board = torch.randn(batch_size, 32, 15, 15)
+        dummy_state = torch.randn(batch_size, 64)
+
+        equity, p_bingo, h_hook = model.evaluate_geometry(dummy_board, dummy_state)
+
+        assert equity.shape == (batch_size, 1)
+        assert torch.all(equity >= -1.0) and torch.all(equity <= 1.0)
+
+        # P(bingo) must be in [0.0, 1.0]
+        assert p_bingo.shape == (batch_size, 1)
+        assert torch.all(p_bingo >= 0.0) and torch.all(p_bingo <= 1.0)
+
+        # Hook entropy must be non-negative
+        assert h_hook.shape == (batch_size, 1)
+        assert torch.all(h_hook >= 0.0)
 
     def test_batch_evaluation_latency(self):
         """Validates that candidate evaluation latency meets the < 5 ms budget for 100 candidates."""
@@ -123,3 +146,51 @@ class TestBeliefNetwork:
         # Softmax outputs must sum to 1.0
         sums = probs.sum(dim=-1)
         assert torch.allclose(sums, torch.ones(8), atol=1e-5)
+
+    def test_negative_evidence_blank_decay(self):
+        """Verifies Frontier 2 OpponentTracker decays blank/power tile weights on exchange or low-score."""
+        tracker = OpponentTracker()
+        assert tracker.tile_weights['?'] == 1.0
+        assert tracker.tile_weights['S'] == 1.0
+
+        # Opponent exchanges 3 tiles: blank and S likelihood should decay significantly
+        exch_move = Move(is_exchange=True, word="AEI")
+        tracker.update_after_opponent_move(exch_move)
+        assert tracker.tile_weights['?'] < 0.60
+        assert tracker.tile_weights['S'] < 0.70
+
+        # Opponent plays a weak 10-point move placing 1 tile
+        weak_move = Move(score=10, tiles_placed="T", word="TO", is_pass=False, is_exchange=False)
+        tracker.update_after_opponent_move(weak_move)
+        assert tracker.tile_weights['?'] < 0.50
+
+        # Opponent plays an explosive 75-point bingo: blank likelihood resets
+        bingo_move = Move(score=75, tiles_placed="RETINAS", word="RETINAS")
+        tracker.update_after_opponent_move(bingo_move)
+        assert tracker.tile_weights['?'] == 1.0
+
+    def test_posterior_sampler_rack_validity_and_skew(self):
+        """Verifies posterior rack sampling respects physical tile conservation and skews away from decayed tiles."""
+        unseen = {"?": 2, "A": 5, "E": 5, "R": 5, "S": 3, "T": 5}
+        state = GameState(board=[[None]*15 for _ in range(15)], rack=list("RETINAS"), unseen_counts=unseen)
+        bayesian = BayesianRackInference(default_rack_size=7)
+
+        tracker = OpponentTracker()
+        # Strongly decay blank '?'
+        tracker.tile_weights['?'] = 0.05
+
+        samples_posterior = bayesian.sample_opponent_racks(state, num_samples=200, seed=42, tracker=tracker)
+        samples_uniform = bayesian.sample_opponent_racks(state, num_samples=200, seed=42, tracker=None)
+
+        blank_count_posterior = sum(r.count("?") for r in samples_posterior)
+        blank_count_uniform = sum(r.count("?") for r in samples_uniform)
+
+        # Racks sampled under negative evidence posterior must contain far fewer blanks
+        assert blank_count_posterior < blank_count_uniform * 0.40
+
+        # All racks must strictly respect tile conservation
+        pool = bayesian.get_unseen_tile_pool(state)
+        for r in samples_posterior:
+            assert len(r) == 7
+            for t in set(r):
+                assert r.count(t) <= pool.count(t)

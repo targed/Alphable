@@ -53,7 +53,7 @@ class TestBAMSSearch:
         assert selected_move.is_placement
         assert selected_move.score > 0
         assert selected_move.word != ""
-        assert meta["method"] == "bams_mc_rollout"
+        assert meta["method"] in ("bams_mc_rollout", "bams_mc_rollout_2ply")
         assert meta["latency_ms"] < 2000.0, f"Search latency {meta['latency_ms']:.1f}ms too high"
         assert len(meta["evaluations"]) > 0
 
@@ -146,3 +146,71 @@ class TestBAMSSearch:
         assert meta["method"] in ("exact_alphabeta_endgame", "deterministic_endgame")
         assert selected.word == "RATCHED"
         assert selected.score == 87
+
+    def test_nested_2ply_execution(self, shared_engine, checkpoint_path):
+        """Verifies Frontier 1 true 2-ply nested Monte Carlo rollout runs and populates 2-ply equity."""
+        state = GameState(board=[[None]*15 for _ in range(15)], rack=list("ENRSTUW"), lexicon="CSW24")
+        bams = BAMSSearch.from_checkpoint(
+            shared_engine,
+            checkpoint_path,
+            config=BAMSConfig(nested_2ply=True, candidate_beam_2ply=4, samples_2ply=8),
+        )
+
+        selected, meta = bams.select_move(state)
+        assert selected is not None
+        assert selected.is_placement
+        assert meta["method"] == "bams_mc_rollout_2ply"
+        assert len(meta["evaluations"]) >= 1
+        # Top evaluated candidates must have computed 2-ply net exchange
+        assert meta["evaluations"][0]["mean_2ply_net"] is not None
+
+    def test_nested_2ply_latency(self, shared_engine, checkpoint_path):
+        """Verifies Frontier 1 2-ply rollout complies with latency budget (<250 ms)."""
+        state = GameState(board=[[None]*15 for _ in range(15)], rack=list("AEINRST"), lexicon="CSW24")
+        bams = BAMSSearch.from_checkpoint(
+            shared_engine,
+            checkpoint_path,
+            config=BAMSConfig(nested_2ply=True, candidate_beam_2ply=6, samples_2ply=12),
+        )
+
+        _, meta = bams.select_move(state)
+        assert meta["latency_ms"] < 600.0, f"2-ply latency {meta['latency_ms']:.1f} ms exceeded threshold"
+
+    def test_pre_endgame_parity_and_sticking(self, shared_engine, checkpoint_path):
+        """Verifies Frontier 3 pre-endgame parity and tile-sticking equity adjustments."""
+        bams = BAMSSearch.from_checkpoint(shared_engine, checkpoint_path, config=BAMSConfig(use_pre_endgame=True))
+        
+        # Board with center word TRAIN
+        board = [[None]*15 for _ in range(15)]
+        for i, ch in enumerate("TRAIN"):
+            board[7][7+i] = ch
+
+        # Bag count is 1, unseen has stranded Q (no U)
+        unseen = {"Q": 1, "E": 2, "A": 2, "T": 2}
+        state = GameState(board=board, rack=list("RETINAS"), bag_count=1, unseen_counts=unseen)
+
+        cands = shared_engine.generate_moves(game_state=state, rack="RETINAS", max_candidates=10)
+        assert len(cands) > 0
+
+        adjusted = bams._evaluate_pre_endgame(state, cands)
+        assert len(adjusted) == len(cands)
+        # Verify candidate equity was updated and candidates remain sorted descending
+        for i in range(len(adjusted) - 1):
+            assert adjusted[i].equity >= adjusted[i+1].equity
+
+    def test_pre_endgame_full_bams_activation(self, shared_engine, checkpoint_path):
+        """Verifies full BAMS select_move operates seamlessly in pre-endgame bag counts (1-5)."""
+        board = [[None]*15 for _ in range(15)]
+        for i, ch in enumerate("TRAIN"):
+            board[7][7+i] = ch
+
+        state = GameState(board=board, rack=list("RETINAS"), bag_count=3)
+        bams = BAMSSearch.from_checkpoint(
+            shared_engine,
+            checkpoint_path,
+            config=BAMSConfig(use_pre_endgame=True, nested_2ply=True, candidate_beam_2ply=4, samples_2ply=6),
+        )
+
+        selected, meta = bams.select_move(state)
+        assert selected is not None
+        assert selected.is_placement

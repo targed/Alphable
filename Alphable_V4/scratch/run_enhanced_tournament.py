@@ -21,11 +21,15 @@ def run_tournament(n_games=30):
         config=BAMSConfig(
             num_samples=24,
             candidate_beam=15,
-            max_static_deficit=5.0,
-            opp_penalty_weight=0.25,
-            value_weight=6.0,
+            max_static_deficit=3.5,
+            opp_penalty_weight=0.12,
+            value_weight=4.5,
             dynamic_beam=True,
-            use_exact_endgame=True
+            use_exact_endgame=True,
+            nested_2ply=True,
+            candidate_beam_2ply=6,
+            samples_2ply=12,
+            weight_2ply=0.18,
         )
     )
 
@@ -47,10 +51,13 @@ def run_tournament(n_games=30):
 
     def magpie_policy(s):
         c = engine.generate_moves(game_state=s, max_candidates=5)
-        return (c[0], {}) if c else (Move.create_pass(), {})
+        m = c[0] if c else Move.create_pass()
+        bams.record_opponent_move(m, state_before=s)
+        return m, {}
 
     print(f"Starting {n_games}-game tournament: BAMS (Enhanced) vs Base MAGPIE (KLV)...", flush=True)
     for g in range(n_games):
+        bams.opp_tracker.reset()
         seed = 2026 + g * 37
         p1 = bams_policy if g % 2 == 0 else magpie_policy
         p2 = magpie_policy if g % 2 == 0 else bams_policy
