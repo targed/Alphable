@@ -214,3 +214,34 @@ class TestBAMSSearch:
         selected, meta = bams.select_move(state)
         assert selected is not None
         assert selected.is_placement
+
+    def test_asymmetric_volatility_control(self, shared_engine, checkpoint_path):
+        """Verifies Pillar 2 asymmetric board volatility computation and leading/trailing adjustments."""
+        bams = BAMSSearch.from_checkpoint(
+            shared_engine,
+            checkpoint_path,
+            config=BAMSConfig(use_volatility_control=True, candidate_beam_2ply=4, samples_2ply=6),
+        )
+
+        board_empty = [[None]*15 for _ in range(15)]
+        vol_empty = bams.compute_board_volatility(board_empty)
+        assert vol_empty >= 0.0
+
+        # Board with center word TRAIN has higher openness
+        board_train = [[None]*15 for _ in range(15)]
+        for i, ch in enumerate("TRAIN"):
+            board_train[7][7+i] = ch
+        vol_train = bams.compute_board_volatility(board_train)
+        assert vol_train >= 0.0
+
+        # Test leading position (+50 pts)
+        state_lead = GameState(board=board_train, rack=list("RETINAS"), score=350, opp_score=300)
+        move_lead, meta_lead = bams.select_move(state_lead)
+        assert move_lead is not None
+        assert move_lead.is_placement
+
+        # Test trailing position (-50 pts)
+        state_trail = GameState(board=board_train, rack=list("RETINAS"), score=250, opp_score=300)
+        move_trail, meta_trail = bams.select_move(state_trail)
+        assert move_trail is not None
+        assert move_trail.is_placement

@@ -92,28 +92,40 @@ class AnchoredRLTrainer:
 
         print(f"Collecting {num_games} self-play games for RL fine-tuning...")
         for g_idx in range(num_games):
+            bams.opp_tracker.reset()
+            game_transitions = []
+
+            def p1_policy(s: GameState):
+                b_tens = s.to_board_tensor().numpy()
+                s_vec = s.to_state_vector().numpy()
+                m, meta = bams.select_move(s)
+                game_transitions.append((1, b_tens, s_vec))
+                return m, meta
+
+            def p2_policy(s: GameState):
+                b_tens = s.to_board_tensor().numpy()
+                s_vec = s.to_state_vector().numpy()
+                m, meta = bams.select_move(s)
+                game_transitions.append((2, b_tens, s_vec))
+                return m, meta
+
             res = sim.play_game(
-                p1_policy=lambda s: bams.select_move(s),
-                p2_policy=lambda s: bams.select_move(s),
+                p1_policy=p1_policy,
+                p2_policy=p2_policy,
                 seed=5000 + g_idx,
                 max_turns=50,
             )
 
             # Outcome normalized margin in [-1.0, 1.0]
-            margin = (res["p1_score"] - res["p2_score"]) / max(50.0, abs(res["p1_score"] + res["p2_score"]))
+            total_pts = abs(res["p1_score"]) + abs(res["p2_score"])
+            margin = (res["p1_score"] - res["p2_score"]) / max(50.0, total_pts)
             margin = float(np.clip(margin, -1.0, 1.0))
 
-            # Sample positions from game history
-            for t_info in res["turn_history"]:
-                if t_info["player"] == 1:
-                    target_val = margin
-                else:
-                    target_val = -margin
-
-                # Extract dummy state representation for valid step
-                dummy_state = GameState()
-                boards.append(dummy_state.to_board_tensor().numpy())
-                states.append(dummy_state.to_state_vector().numpy())
+            # Record all real state transitions from this game
+            for player, b_tens, s_vec in game_transitions:
+                target_val = margin if player == 1 else -margin
+                boards.append(b_tens)
+                states.append(s_vec)
                 targets.append(target_val)
 
         return boards, states, targets

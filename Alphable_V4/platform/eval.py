@@ -167,6 +167,22 @@ class GameSimulator:
                 # Draw new tiles
                 p1_rack.extend(bag.draw(7 - len(p1_rack)))
                 scoreless_turns = 0
+            elif move_p1.is_exchange:
+                # Exchange tiles with the bag
+                if move_p1.leave is not None and len(move_p1.leave) < len(p1_rack):
+                    exch_tiles = list(p1_rack)
+                    for t in move_p1.leave:
+                        if t in exch_tiles:
+                            exch_tiles.remove(t)
+                else:
+                    exch_tiles = [t.upper() for t in move_p1.word if t.upper() in p1_rack]
+
+                if bag.count >= len(exch_tiles) and len(exch_tiles) > 0:
+                    for t in exch_tiles:
+                        p1_rack.remove(t)
+                    drawn = bag.exchange(exch_tiles)
+                    p1_rack.extend(drawn)
+                scoreless_turns += 1
             else:
                 scoreless_turns += 1
 
@@ -223,6 +239,22 @@ class GameSimulator:
 
                 p2_rack.extend(bag.draw(7 - len(p2_rack)))
                 scoreless_turns = 0
+            elif move_p2.is_exchange:
+                # Exchange tiles with the bag
+                if move_p2.leave is not None and len(move_p2.leave) < len(p2_rack):
+                    exch_tiles = list(p2_rack)
+                    for t in move_p2.leave:
+                        if t in exch_tiles:
+                            exch_tiles.remove(t)
+                else:
+                    exch_tiles = [t.upper() for t in move_p2.word if t.upper() in p2_rack]
+
+                if bag.count >= len(exch_tiles) and len(exch_tiles) > 0:
+                    for t in exch_tiles:
+                        p2_rack.remove(t)
+                    drawn = bag.exchange(exch_tiles)
+                    p2_rack.extend(drawn)
+                scoreless_turns += 1
             else:
                 scoreless_turns += 1
 

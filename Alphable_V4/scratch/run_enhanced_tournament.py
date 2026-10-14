@@ -20,16 +20,20 @@ def run_tournament(n_games=30):
         '/home/targed/Documents/Git/Alphable/Alphable_V4/models/checkpoints/v4_value_net_best.pt',
         config=BAMSConfig(
             num_samples=24,
-            candidate_beam=15,
+            candidate_beam=16,
+            candidate_beam_2ply=8,
+            samples_2ply=14,
             max_static_deficit=3.5,
             opp_penalty_weight=0.12,
             value_weight=4.5,
+            weight_2ply=0.18,
+            use_volatility_control=True,
+            volatility_weight=0.4,
             dynamic_beam=True,
             use_exact_endgame=True,
+            use_pre_endgame=True,
+            use_belief_tracker=True,
             nested_2ply=True,
-            candidate_beam_2ply=6,
-            samples_2ply=12,
-            weight_2ply=0.18,
         )
     )
 

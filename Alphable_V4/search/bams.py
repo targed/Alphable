@@ -18,7 +18,7 @@ import numpy as np
 import torch
 
 from alphable_v4.engine.move import Move
-from alphable_v4.engine.game_state import GameState
+from alphable_v4.engine.game_state import GameState, TW_SQUARES, DW_SQUARES, VOWELS
 from alphable_v4.engine.magpie_bindings import MagpieEngine
 from alphable_v4.models.belief_net import BayesianRackInference, OpponentTracker
 from alphable_v4.models.value_net import V4ValueNetwork
@@ -38,6 +38,8 @@ class BAMSConfig:
     use_exact_endgame: bool = True  # Native alpha-beta minimax endgame solver (depth 6-10)
     use_pre_endgame: bool = True    # Pre-endgame parity & tile-sticking solver (bag 1 to 5) (Frontier 3)
     use_belief_tracker: bool = True # History-conditioned Bayesian belief tracker (Frontier 2)
+    use_volatility_control: bool = True # Asymmetric board topology and volatility control (Pillar 2)
+    volatility_weight: float = 1.0  # Blending multiplier for board volatility adjustments
     nested_2ply: bool = True        # True 2-ply nested Monte Carlo rollout lookahead (Frontier 1)
     candidate_beam_2ply: int = 6    # Number of top candidates evaluated with full 2-ply search
     samples_2ply: int = 12          # Number of opponent rack samples for 2-ply stage
@@ -231,12 +233,14 @@ class BAMSSearch:
             except Exception:
                 continue
 
+            resulting_board = state_after_cand.board if cand.is_placement else game_state.board
             cand_entry = {
                 "candidate": cand,
                 "immediate_score": cand.score,
                 "static_equity": cand.equity,
                 "opp_scores": [],
                 "2ply_scores": [],
+                "volatility": self.compute_board_volatility(resulting_board) if getattr(self.config, "use_volatility_control", True) else 0.0,
             }
             is_2ply_cand = use_2ply and cand.is_placement and (c_idx < beam_2ply)
 
@@ -315,6 +319,9 @@ class BAMSSearch:
             all_val_means = [0.0] * len(cand_results)
             baseline_value = 0.0
 
+        all_vols = [cd.get("volatility", 0.0) for cd in cand_results]
+        baseline_vol = float(np.mean(all_vols)) if all_vols else 0.0
+
         evaluated_candidates: List[BAMSCandidateEval] = []
         for c_idx, cand_dict in enumerate(cand_results):
             cand = cand_dict["candidate"]
@@ -334,16 +341,32 @@ class BAMSSearch:
                 relative_2ply = 0.0
                 w_2ply = 0.0
 
+            # Asymmetric Game-State Volatility Control (Pillar 2)
+            if getattr(self.config, "use_volatility_control", True):
+                score_diff = game_state.score - game_state.opp_score
+                if score_diff <= -20:
+                    lambda_vol = 0.15 * min(2.0, (-score_diff) / 40.0)
+                elif score_diff >= 20:
+                    lambda_vol = -0.15 * min(2.0, score_diff / 40.0)
+                else:
+                    lambda_vol = -0.15 * (score_diff / 20.0)
+                relative_vol = cand_dict.get("volatility", 0.0) - baseline_vol
+                vol_adjustment = lambda_vol * getattr(self.config, "volatility_weight", 1.0) * relative_vol
+            else:
+                vol_adjustment = 0.0
+
             # BAMS Score Formula:
             # cand.equity (immediate score + leave value)
             # - opp_penalty_weight * relative_threat (penalizes plays leakier than alternatives)
             # + weight_2ply * relative_2ply (rewards superior 2-turn net point exchange)
             # + value_weight * relative_value (rewards superior future board control)
+            # + vol_adjustment (rewards board closure when leading, openness when trailing)
             bams_score = (
                 (self.config.static_equity_weight * cand.equity)
                 - (self.config.opp_penalty_weight * relative_threat)
                 + (w_2ply * relative_2ply)
                 + (self.config.value_weight * relative_value)
+                + vol_adjustment
             )
 
             evaluated_candidates.append(
@@ -547,3 +570,33 @@ class BAMSSearch:
         # Re-sort candidates by updated equity descending
         adjusted_candidates.sort(key=lambda c: c.equity, reverse=True)
         return adjusted_candidates
+
+    def compute_board_volatility(self, board: List[List[Optional[str]]]) -> float:
+        """
+        Measures board topological openness and vulnerability to high-scoring hooks (Pillar 2).
+        Higher values indicate volatile, open boards with accessible premium squares.
+        """
+        tw_open = 0
+        for r, c in TW_SQUARES:
+            if board[r][c] is None:
+                if any(board[r][i] is not None for i in range(15)) or any(board[j][c] is not None for j in range(15)):
+                    tw_open += 1
+
+        dw_open = 0
+        for r, c in DW_SQUARES:
+            if board[r][c] is None:
+                if any(board[r][i] is not None for i in range(15)) or any(board[j][c] is not None for j in range(15)):
+                    dw_open += 1
+
+        open_vowels = 0
+        for r in range(15):
+            for c in range(15):
+                val = board[r][c]
+                if val and val.upper() in VOWELS:
+                    for dr, dc in ((-1, 0), (1, 0), (0, -1), (0, 1)):
+                        nr, nc = r + dr, c + dc
+                        if 0 <= nr < 15 and 0 <= nc < 15 and board[nr][nc] is None:
+                            open_vowels += 1
+                            break
+
+        return float(tw_open * 1.5 + dw_open * 0.5 + open_vowels * 0.2)
