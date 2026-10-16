@@ -282,6 +282,41 @@ Samples $N$ random opponent racks from the unseen tile pool. Under CRN, this fun
 
 ---
 
+## 9. `transformer_ranker.py` ([`src/alphable/models/transformer_ranker.py`](file:///home/targed/Documents/Git/Alphable/Alphable_V3/src/alphable/models/transformer_ranker.py))
+
+Autoregressive Language Model Candidate Ranker for Alphable V3. Leverages pre-trained `HuggingFaceTB/SmolLM2-135M-Instruct` to re-rank top candidate moves using attention-based logit scoring.
+
+### Key Classes & Methods
+
+#### `SmolLM2CandidateRanker`
+- **Initialization:**
+  ```python
+  ranker = SmolLM2CandidateRanker(
+      model_path="HuggingFaceTB/SmolLM2-135M-Instruct",
+      device="cuda" if torch.cuda.is_available() else "cpu",
+      dtype=torch.bfloat16,
+  )
+  ```
+  - Initializes tokenizer and causal language model.
+  - Automatically handles cuDNN symbols on cutting-edge architectures (RTX 5000 / Blackwell) by disabling cudnn SDPA and utilizing native eager ATen kernels.
+  - Precomputes single-token candidate identifier IDs: `[A]`, `[B]`, ..., `[Z]`.
+
+- **Method `format_prompt(board, rack, score_diff, bag_remaining, candidates) -> str`:**
+  - Encodes the full turn context into a concise markdown structured prompt:
+    - Current score differential and bag count.
+    - Current rack letters (using `?` for blanks).
+    - Ranked list of candidate moves with coordinates, points, leave equity, defense adjustment, and move type (Word play, Blank assignment, Exchange, or Pass).
+  - Prompts the model to emit the single optimal letter label `[A]`–`[Z]`.
+
+- **Method `rank_candidates(board, rack, score_diff, bag_remaining, candidates) -> list[tuple[dict, float]]`:**
+  - Evaluates all candidate moves simultaneously in a single transformer forward pass.
+  - Extracts the logits at the prompt's final token index corresponding to the active candidate token IDs.
+  - Applies float32 softmax normalization over candidate logits.
+  - Returns candidates paired with model choice probabilities, sorted in descending order: `[(best_move, prob), ...]`.
+  - **Inference Latency:** **~15.6 ms** per turn on RTX 5070 Ti GPU.
+
+---
+
 ## Performance Benchmark Summary
 
 | Module | Operation | Latency | Device |
@@ -291,15 +326,19 @@ Samples $N$ random opponent racks from the unseen tile pool. Under CRN, this fun
 | `defense.py` | Line-of-sight hot-spot analysis | $0.015 \text{ ms}$ | CPU |
 | `endgame.py` | Exact minimax search (depth 4) | $0.0008 \text{ ms}$ | CPU |
 | `alphable_net.py` | Batched forward pass (batch=64) | $1.4 \text{ ms}$ | RTX 5070 Ti CUDA |
+| `transformer_ranker.py` | Full candidate ranker forward pass | $15.6 \text{ ms}$ | RTX 5070 Ti CUDA |
 | `search.py` | Full 1-ply lookahead ($K=5, N=10$) | $1.2 \text{ to } 1.8 \text{ s}$ | Hybrid CPU/CUDA |
 
 ---
 
 ## Integration Tests
-All core modules are verified by comprehensive unit tests in [`tests/core/`](file:///home/targed/Documents/Git/Alphable/Alphable_V3/tests/core):
+All modules are verified by comprehensive unit tests in [`tests/`](file:///home/targed/Documents/Git/Alphable/Alphable_V3/tests):
 - `tests/core/test_blank_movegen.py`: Validates GADDAG `.upper()` lowercase blank hook generation.
 - `tests/core/test_crn_search.py`: Validates Common Random Numbers variance reduction.
 - `tests/core/test_leave_eval.py`: Validates Super-Leaves tables and duplicate blank formula.
 - `tests/core/test_defense.py`: Validates Triple Word Score lane blocking and dynamic score weighting.
 - `tests/core/test_endgame.py`: Validates minimax alpha-beta terminal spread maximization.
-- Run all tests: `pytest tests/` (205/205 passing).
+- `tests/models/test_transformer_ranker.py`: Validates SmolLM2 single-token logit extraction, blank handling, exchange/pass support, and probability normalization.
+- `tests/models/test_transformer_runner_integration.py`: Validates online bot execution loop using transformer candidate ranker mode.
+- `tests/training/test_train_transformer_ranker.py`: Validates grandmaster match turn extraction and collation.
+- Run all tests: `pytest tests/` (214/214 passing).

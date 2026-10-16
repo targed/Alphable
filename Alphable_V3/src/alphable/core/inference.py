@@ -1,3 +1,4 @@
+import os
 import torch
 import numpy as np
 from alphable.core import structure
@@ -130,18 +131,58 @@ def state_to_tensor(rack, score_diff, bag_remaining, unseen_counts=None, state_v
     return torch.from_numpy(arr)
 
 
+def resolve_path(path: str | None) -> str | None:
+    """
+    Resolves relative filepaths across different execution working directories
+    (e.g., repository root Documents/Git/Alphable vs package root Alphable_V3),
+    and handles common dictionary aliases (e.g., NWL23 vs NWL2023).
+    """
+    if not path:
+        return path
+    if os.path.exists(path):
+        return path
+    alt_v3 = os.path.join("Alphable_V3", path)
+    if os.path.exists(alt_v3):
+        return alt_v3
+    alt_parent = os.path.join("..", path)
+    if os.path.exists(alt_parent):
+        return alt_parent
+
+    # Check common lexicon aliases (NWL23 <-> NWL2023)
+    if "NWL23" in path:
+        alt_nwl = path.replace("NWL23", "NWL2023")
+        res = resolve_path(alt_nwl)
+        if res and os.path.exists(res):
+            return res
+    if "NWL2023" in path:
+        alt_nwl = path.replace("NWL2023", "NWL23")
+        res = resolve_path(alt_nwl)
+        if res and os.path.exists(res):
+            return res
+
+    # Check if raw lexicon name was passed (e.g. "CSW24" or "NWL23")
+    if not path.endswith(".txt") and "/" not in path and "\\" not in path:
+        res_txt = os.path.join("resources", f"{path}.txt")
+        res = resolve_path(res_txt)
+        if res and os.path.exists(res):
+            return res
+
+    return path
+
+
 class AlphableInference:
     def __init__(self, model_path=None, device='cpu', dict_path='resources/NWL2023.txt', value_weight=25.0, state_vector_size=36):
         self.device = torch.device(device)
         self.value_weight = float(value_weight)
         self.state_vector_size = state_vector_size
         self.model = AlphableValueNet(state_vector_size=state_vector_size).to(self.device)
-        if model_path:
+        model_path = resolve_path(model_path)
+        if model_path and os.path.exists(model_path):
             load_checkpoint_compatible(self.model, model_path, self.device)
         self.model.eval()
 
-
         # Load GADDAG (using NWL2023 or CSW24 which exist in the directory)
+        dict_path = resolve_path(dict_path)
         self.gaddag = structure.Gaddag.load(dict_path)
         self.move_gen = structure.MoveGenerator(self.gaddag)
 
@@ -177,7 +218,7 @@ class AlphableInference:
             new_score_diff = current_score_diff + points
 
             board_tensor = board_to_tensor(new_board)
-            state_tensor = state_to_tensor(new_rack, new_score_diff, bag_remaining)
+            state_tensor = state_to_tensor(new_rack, new_score_diff, bag_remaining, state_vector_size=self.state_vector_size)
 
             batch_boards.append(board_tensor)
             batch_states.append(state_tensor)

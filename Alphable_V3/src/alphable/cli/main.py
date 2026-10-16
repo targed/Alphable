@@ -17,6 +17,7 @@ def main():
     train_subparsers.add_parser('rl', help='Reinforcement learning training')
     train_subparsers.add_parser('rl-selfplay', help='Pure outcome self-play RL training', add_help=False)
     train_subparsers.add_parser('distill-macondo', help='Grandmaster Macondo knowledge distillation training', add_help=False)
+    train_subparsers.add_parser('transformer-ranker', help='Fine-tune SmolLM2 Scrabble candidate ranker', add_help=False)
 
     # Selfplay
     selfplay_parser = subparsers.add_parser('selfplay', help='Selfplay utilities')
@@ -27,7 +28,7 @@ def main():
     eval_parser = subparsers.add_parser('eval', help='Evaluation utilities')
     eval_subparsers = eval_parser.add_subparsers(dest='subcommand')
     eval_subparsers.add_parser('matches', help='Evaluate matches')
-    eval_subparsers.add_parser('baseline', help='Evaluate baseline')
+    eval_subparsers.add_parser('baseline', help='Evaluate baseline', add_help=False)
     eval_subparsers.add_parser('plot', help='Plot training progress')
 
     # Pipeline
@@ -68,6 +69,10 @@ def main():
         from alphable.training.distill_macondo import main as distill_macondo_main
         sys.argv = [sys.argv[0]] + unknown
         distill_macondo_main()
+    elif args.command == 'train' and args.subcommand == 'transformer-ranker':
+        from alphable.training.train_transformer_ranker import main as train_transformer_ranker_main
+        sys.argv = [sys.argv[0]] + unknown
+        train_transformer_ranker_main()
     elif args.command == 'selfplay' and args.subcommand == 'generate':
         from alphable.training.self_play import main as self_play_main
         sys.argv = [sys.argv[0]] + unknown

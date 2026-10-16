@@ -58,8 +58,8 @@ To establish your session for the first time:
 
 ## 3. Running Online Match Series Against HastyBot
 
-### Standard Championship Match Series
-To launch a 15-game series against `HastyBot` using the production champion model:
+### Standard Championship Match Series (Lookahead Mode)
+To launch a 15-game series against `HastyBot` using the production champion ResNet model:
 
 ```bash
 python -m alphable.cli.main play woogles \
@@ -71,12 +71,39 @@ python -m alphable.cli.main play woogles \
   --top-k 5 --simulations 10
 ```
 
+### Transformer Candidate Ranker Match Series
+To run matches using the fine-tuned SmolLM2 Transformer Candidate Ranker:
+
+```bash
+python -m alphable.cli.main play woogles \
+  --bot HastyBot \
+  --games 5 \
+  --mode transformer \
+  --transformer-model models/transformer_ranker_v2 \
+  --dict resources/CSW24.txt
+```
+
+### Zero-Delay Play (`--no-delay`)
+By default, Alphable injects a natural thinking delay (`--delay-min 2.0 --delay-max 6.0`) to emulate human cadence. For automated testing or high-speed benchmark matches, disable the pacing delay completely:
+
+```bash
+python -m alphable.cli.main play woogles \
+  --bot HastyBot \
+  --mode transformer \
+  --no-delay \
+  --dict resources/CSW24.txt
+```
+
 ### Flag Breakdown & Best Practices
-- `--bot HastyBot`: Target opponent. You can also specify `BestBot` or `BeginnerBot`.
-- `--model models/alphable_v3_macondo_v2.pth`: Production model distilled from Macondo expert positions.
-- `--mode lookahead`: Activates 1-ply Monte Carlo lookahead search with Common Random Numbers (CRN), selective 2-ply, and exact endgame minimax.
-- `--top-k 5 --simulations 10`: Evaluates top 5 candidates against 10 sampled opponent racks under CRN (~1.5s per turn).
-- `--delay-min 2.0 --delay-max 5.0`: Injects natural human-like pacing before submitting plays to avoid triggering rate-limiting or anti-bot heuristics.
+- `--bot HastyBot`: Target opponent (`HastyBot`, `BestBot`, `BeginnerBot`).
+- `--mode {lookahead,bc_0ply,transformer}`:
+  - `lookahead`: 1-ply Monte Carlo lookahead with CRN, selective 2-ply, and exact endgame minimax.
+  - `transformer`: SmolLM2 Candidate Ranker evaluating top GADDAG candidate plays with autoregressive attention.
+  - `bc_0ply`: Sub-second 0-ply direct evaluation.
+- `--transformer-model`: Path to local fine-tuned transformer weights (default: `models/transformer_ranker_v2`) or HuggingFace repo.
+- `--no-delay`: Bypasses pacing delay sleep timers entirely, submitting moves immediately upon computation.
+- `--delay-min / --delay-max`: Minimum/maximum natural thinking delay in seconds (ignored if `--no-delay` is passed).
+- `--dict / --dictionary`: Lexicon file (`CSW24.txt` or `NWL23.txt`). The adapter automatically opens the Woogles challenge modal and clicks the corresponding Ant Design lexicon option (`CSW 24` or `NWL 23`).
 
 ---
 
@@ -166,31 +193,51 @@ The Woogles platform runner incorporates robust error isolation to ensure unatte
    - If an exchange modal or game-over modal remains on screen between matches, the adapter automatically dismisses it or refreshes the page.
 4. **Playwright Selector Resiliency:**
    - Replaced fragile text selectors with valid Playwright pseudo-classes: `:text('Play a computer')` and `:text('Create game')`.
+5. **Ant Design Lexicon Dropdown Synchronization:**
+   - On Woogles, the challenge lexicon is an Ant Design dropdown component (`#seekForm_lexicon`). Native `<select>` manipulation fails.
+   - The adapter clicks `.ant-select-selector`, waits for `.ant-select-item-option`, and clicks the matching lexicon item (`NWL 23` vs `CSW 24`).
+6. **Zero-Delay Pacing Bypass:**
+   - When `--no-delay` is passed, `runner.py` bypasses all sleep timers (`actual_sleep = 0.0`), eliminating any artificial pause between move computation and submission.
 
 ---
 
 ## 7. Useful Command Cheat Sheet
 
 ```bash
-# 1. Overnight 50-game endurance test against HastyBot
+# 1. Standard 15-game series against HastyBot in lookahead mode
 python -m alphable.cli.main play woogles \
   --bot HastyBot \
-  --games 50 \
+  --games 15 \
   --model models/alphable_v3_macondo_v2.pth \
   --mode lookahead \
   --top-k 5 --simulations 10
 
-# 2. Fast 10-game validation in headless mode
+# 2. SmolLM2 Transformer Ranker series against HastyBot
+python -m alphable.cli.main play woogles \
+  --bot HastyBot \
+  --games 5 \
+  --mode transformer \
+  --transformer-model models/transformer_ranker_v2 \
+  --dict resources/CSW24.txt
+
+# 3. High-speed zero-delay match on Woogles
+python -m alphable.cli.main play woogles \
+  --bot HastyBot \
+  --mode transformer \
+  --no-delay \
+  --dict resources/CSW24.txt
+
+# 4. Play against BestBot on North American Lexicon (NWL23)
+python -m alphable.cli.main play woogles \
+  --bot BestBot \
+  --games 5 \
+  --dict resources/NWL23.txt \
+  --mode lookahead
+
+# 5. Fast 10-game validation in headless mode
 python -m alphable.cli.main play woogles \
   --bot HastyBot \
   --games 10 \
   --headless \
-  --model models/alphable_v3_macondo_v2.pth
-
-# 3. Play against BestBot on North American Lexicon (NWL2023)
-python -m alphable.cli.main play woogles \
-  --bot BestBot \
-  --games 5 \
-  --dict resources/NWL2023.txt \
   --model models/alphable_v3_macondo_v2.pth
 ```

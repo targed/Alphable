@@ -119,10 +119,16 @@ def test_get_unseen_distribution_over_limit():
     assert 'A' not in unseen
 
 
-def test_search_penalizes_moves_conceding_high_opponent_equity():
+def test_search_penalizes_moves_conceding_high_opponent_equity(monkeypatch):
     from unittest.mock import MagicMock
     import torch
     from alphable.core.search import AlphableSearch
+
+    # Provide deterministic opponent rack with ZOO and IT so blanks aren't randomly drawn
+    monkeypatch.setattr(
+        'alphable.core.search.sample_opponent_rack',
+        lambda unseen, sample_size=7: ['Z', 'O', 'O', 'I', 'T', 'A', 'B']
+    )
 
     mock_engine = MagicMock()
     mock_engine.device = 'cpu'

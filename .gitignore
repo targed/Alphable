@@ -5,6 +5,8 @@ __pycache__/
 
 # C extensions
 *.so
+*.safetensors
+**/models/transformer_ranker_*/
 
 # Cython generated files
 structure.c
@@ -222,4 +224,15 @@ Alphable\Alphable_V2\data\gcg
 /Alphable_V2 copy
 /Alphable_V2/data
 /Alphable_V3/data
+/data
 /visualizer/frontend/node_modules
+
+# Full local training checkpoints with optimizer buffers (kept locally, not committed)
+*_full_training.pt
+*_full_training*.pt
+*_with_optimizer*.pt
+v4_value_net_best_full_training.pt
+
+# External vendor libraries built locally
+/Alphable_V4/vendor/
+

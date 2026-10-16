@@ -12,7 +12,7 @@ from datetime import datetime
 from pathlib import Path
 from typing import Dict, List, Optional, Any
 
-from alphable.core import inference, search
+from alphable.core import inference, search, simulator, leave_eval, defense, endgame
 from alphable.platform.base import (
     AbstractPlatformAdapter,
     OnlineGameState,
@@ -38,9 +38,10 @@ class OnlineGameRunner:
         output_dir: str = "data/woogles/games",
         num_simulations: int = 16,
         top_k: int = 3,
+        transformer_model_path: str = "models/transformer_ranker_v2",
     ):
         self.adapter = adapter
-        self.dict_path = dict_path
+        self.dict_path = inference.resolve_path(dict_path)
         self.mode = mode
         self.value_weight = float(value_weight)
         self.delay_min = float(delay_min)
@@ -54,11 +55,12 @@ class OnlineGameRunner:
 
         # Initialize AI engine
         device = "cuda" if inference.torch.cuda.is_available() else "cpu"
-        print(f"Initializing Alphable AI engine on {device} (model={model_path}, W={self.value_weight})...")
+        resolved_model = inference.resolve_path(model_path) if model_path else None
+        print(f"Initializing Alphable AI engine on {device} (model={resolved_model}, W={self.value_weight})...")
         self.engine = inference.AlphableInference(
-            model_path=model_path,
+            model_path=resolved_model,
             device=device,
-            dict_path=dict_path,
+            dict_path=self.dict_path,
             value_weight=self.value_weight,
         )
         self.searcher = search.AlphableSearch(
@@ -70,6 +72,16 @@ class OnlineGameRunner:
             enable_2ply=(mode == "lookahead"),
             two_ply_threshold=8.0,
         )
+        if self.mode == "transformer":
+            from alphable.models.transformer_ranker import SmolLM2CandidateRanker
+            resolved_t_model = inference.resolve_path(transformer_model_path)
+            print(f"Initializing SmolLM2 Transformer Candidate Ranker on {device} ({resolved_t_model})...")
+            self.transformer_ranker = SmolLM2CandidateRanker(
+                model_name_or_path=resolved_t_model,
+                device=device,
+            )
+        else:
+            self.transformer_ranker = None
 
     def play_match(self, config: PlatformGameConfig) -> Dict[str, Any]:
         """
@@ -147,6 +159,60 @@ class OnlineGameRunner:
                         score_diff,
                         state.bag_remaining,
                     )
+                elif self.mode == "transformer":
+                    legal_moves = self.engine.move_gen.generate(state.board, state.rack)
+                    if legal_moves:
+                        best_move = None
+                        # 1. Exact Endgame Solver Handoff if bag is empty
+                        if state.bag_remaining == 0:
+                            from alphable.core.search import get_unseen_distribution
+                            unseen = get_unseen_distribution(state.board, state.rack)
+                            if len(unseen) <= 7:
+                                solver = endgame.ExactEndgameSolver(self.engine)
+                                eg_move, _ = solver.solve(state.board, state.rack, unseen, score_diff=score_diff)
+                                if eg_move:
+                                    best_move = eg_move
+
+                        if best_move is None:
+                            scored_cands = []
+                            for m in legal_moves:
+                                nb, pts, nr = simulator.simulate_move(state.board, m, state.rack)
+                                l_eq = leave_eval.compute_leave_equity(nr, state.bag_remaining)
+                                def_adj = defense.compute_board_defense_adjustment(state.board, nb, m, score_diff)
+                                total_eq = float(pts) + l_eq + def_adj
+                                scored_cands.append((m, total_eq, def_adj))
+                            scored_cands.sort(key=lambda x: x[1], reverse=True)
+                            best_heuristic_eq = scored_cands[0][1]
+                            competitive_scored = [
+                                x for x in scored_cands[:8]
+                                if (best_heuristic_eq - x[1]) <= 12.0
+                            ]
+                            cands = [x[0] for x in competitive_scored]
+                            ranked = self.transformer_ranker.rank_candidates(
+                                state.board, state.rack, score_diff, state.bag_remaining, cands
+                            )
+                            if ranked:
+                                cand_to_h_eq = {id(x[0]): x[1] for x in competitive_scored}
+                                ranked_combined = []
+                                for cand, prob, logit in ranked:
+                                    h_eq = cand_to_h_eq.get(id(cand), 0.0)
+                                    combined_score = h_eq + 8.0 * prob
+                                    ranked_combined.append((cand, prob, combined_score))
+                                ranked_combined.sort(key=lambda x: x[2], reverse=True)
+                                best_cand, best_prob, _ = ranked_combined[0]
+
+                                if len(ranked_combined) > 1 and ranked_combined[1][1] > 0.15:
+                                    nb_best, _, _ = simulator.simulate_move(state.board, best_cand, state.rack)
+                                    best_def = defense.compute_board_defense_adjustment(state.board, nb_best, best_cand, score_diff)
+                                    if best_def <= -3.0:
+                                        nb_alt, _, _ = simulator.simulate_move(state.board, ranked_combined[1][0], state.rack)
+                                        alt_def = defense.compute_board_defense_adjustment(state.board, nb_alt, ranked_combined[1][0], score_diff)
+                                        if alt_def > best_def:
+                                            best_cand = ranked_combined[1][0]
+                                best_move = best_cand
+                        best_val = 0.0
+                    else:
+                        best_move, best_val = None, 0.0
                 else:
                     best_move, best_val = self.engine.find_best_move(
                         state.board,
@@ -157,11 +223,17 @@ class OnlineGameRunner:
 
                 calc_time = time.time() - t0
 
-                # 3. Apply human-like pacing delay
-                think_delay = random.uniform(self.delay_min, self.delay_max)
-                actual_sleep = max(0.1, think_delay - calc_time)
-                print(f"Move computed in {calc_time:.2f}s. Pacing delay: {actual_sleep:.2f}s...")
-                time.sleep(actual_sleep)
+                # 3. Apply human-like pacing delay (if enabled)
+                if self.delay_max > 0.0:
+                    think_delay = random.uniform(self.delay_min, self.delay_max)
+                    actual_sleep = max(0.0, think_delay - calc_time)
+                    if actual_sleep > 0:
+                        print(f"Move computed in {calc_time:.2f}s. Pacing delay: {actual_sleep:.2f}s...")
+                        time.sleep(actual_sleep)
+                    else:
+                        print(f"Move computed in {calc_time:.2f}s. (Instant submission)")
+                else:
+                    print(f"Move computed in {calc_time:.2f}s. (No pacing delay)")
 
                 # 4. Submit move to platform
                 if best_move is not None:

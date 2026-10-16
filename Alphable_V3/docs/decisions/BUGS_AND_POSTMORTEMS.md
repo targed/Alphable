@@ -15,6 +15,9 @@ This document provides in-depth technical post-mortems for the ten critical bugs
 8. [Bug 8: Blank Tile Board Blindness in MoveGenerator](#bug-8-blank-tile-board-blindness-in-movegenerator)
 9. [Bug 9: Double-Blank Heuristic Hoarding Trap](#bug-9-double-blank-heuristic-hoarding-trap)
 10. [Bug 10: Playwright CSS Selector Syntax Parsing Error](#bug-10-playwright-css-selector-syntax-parsing-error)
+11. [Bug 11: Exchange Move Board Index Crash in Head-to-Head Simulation Harness](#bug-11-exchange-move-board-index-crash-in-head-to-head-simulation-harness)
+12. [Bug 12: Woogles Ant Design Select Element Silent Failure for Dictionary Selection](#bug-12-woogles-ant-design-select-element-silent-failure-for-dictionary-selection)
+13. [Bug 13: Hardcoded Minimum Pacing Delay in Zero-Delay Matches](#bug-13-hardcoded-minimum-pacing-delay-in-zero-delay-matches)
 
 ---
 
@@ -269,3 +272,100 @@ Replaced standalone engine prefix `text=...` with Playwright's CSS pseudo-class 
 
 ### Verification
 Validated selector parsing against live Playwright DOM instances (0 syntax errors). Verified all 19 tests in `tests/platform/test_woogles_adapter.py` passing.
+
+---
+
+## Bug 11: Exchange Move Board Index Crash in Head-to-Head Simulation Harness
+
+### Symptoms
+When running head-to-head matches between the SmolLM2 Candidate Ranker and the ResNet Alphable engine (`--opponent nn`), the match crashed mid-game with an `IndexError`:
+```
+Traceback (most recent call last):
+  File "src/alphable/eval/evaluate_vs_baseline.py", line 241, in run_game
+    new_board, score_delta, _ = simulator.simulate_move(board, chosen_move, dict_path=resolved_dict)
+  File "src/alphable/core/simulator.py", line 125, in simulate_move
+    board[r][c] = tile
+IndexError: list index out of range
+```
+
+### Root Cause
+When the 1-ply Monte Carlo searcher faced a vowel-clogged rack (e.g. `[A, I, I, O, O, O, X]`), it correctly generated an `EXCHANGE(A,I,I,O,O,O)` action. However, [`evaluate_vs_baseline.py`](file:///home/targed/Documents/Git/Alphable/Alphable_V3/src/alphable/eval/evaluate_vs_baseline.py) passed all non-`None` moves into `simulator.simulate_move(board, chosen_move)`. Because exchange moves do not place tiles on the 15x15 board (coordinates default to `(7, 7)` or dummy values without valid placement segments), `simulate_move` attempted to index nonexistent placement segments and crashed.
+
+### The Fix
+Added first-class handling of `EXCHANGE` actions in [`evaluate_vs_baseline.py`](file:///home/targed/Documents/Git/Alphable/Alphable_V3/src/alphable/eval/evaluate_vs_baseline.py):
+```python
+elif chosen_move.get('action') == 'EXCHANGE':
+    action_type = 'EXCHANGE'
+    exch_tiles = chosen_move.get('tiles_to_exchange', [])
+    for t in exch_tiles:
+        if t in racks[player]:
+            racks[player].remove(t)
+    drawn = draw_tiles(bag, len(exch_tiles))
+    racks[player].extend(drawn)
+    bag.extend(exch_tiles)
+    score_delta = 0
+    consecutive_passes = 0
+    move_count += 1
+```
+Also updated `move_to_desc` to format exchange actions cleanly (e.g. `EXCHANGE(AIIOOO)`).
+
+### Verification
+Simulated full matches with `--opponent nn` where exchanges occurred. Match progressed seamlessly to endgame completion with zero exceptions.
+
+---
+
+## Bug 12: Woogles Ant Design Select Element Silent Failure for Dictionary Selection
+
+### Symptoms
+When specifying `--dict resources/NWL23.txt` (or `--dictionary NWL23`), the browser opened Woogles, but the challenge form retained the default `CSW 24` lexicon. The match started under CSW rules rather than the requested North American NWL lexicon.
+
+### Root Cause
+On Woogles, the challenge modal's lexicon selector `#seekForm_lexicon` is rendered using **Ant Design** (`ant-select`), not a standard HTML `<select>` tag. In Playwright, calling `page.select_option('#seekForm_lexicon', ...)` silently fails or throws an error because there are no native `<option>` tags inside an Ant Design selector wrapper.
+
+### The Fix
+Updated [`src/alphable/platform/woogles/adapter.py`](file:///home/targed/Documents/Git/Alphable/Alphable_V3/src/alphable/platform/woogles/adapter.py) to drive Ant Design's custom dropdown DOM:
+```python
+# Open the Ant Design dropdown container
+selector = page.locator('#seekForm_lexicon').locator('xpath=ancestor::div[contains(@class, "ant-select")]')
+selector.click()
+
+# Click the matching option in the dropdown overlay
+option = page.locator('.ant-select-dropdown:not(.ant-select-dropdown-hidden)') \
+             .locator('.ant-select-item-option') \
+             .filter(has_text=pattern)
+option.click()
+```
+
+### Verification
+Tested with both `resources/NWL23.txt` and `resources/CSW24.txt`. Verified the dropdown opens and clicks `NWL 23` and `CSW 24` properly on live Woogles lobby modals.
+
+---
+
+## Bug 13: Hardcoded Minimum Pacing Delay in Zero-Delay Matches
+
+### Symptoms
+When setting `--delay-min 0 --delay-max 0` to enable ultra-fast blitz or benchmark play, the engine still paused for ~100ms before submitting each move to the platform.
+
+### Root Cause
+In [`src/alphable/platform/runner.py`](file:///home/targed/Documents/Git/Alphable/Alphable_V3/src/alphable/platform/runner.py), the thinking delay logic was hardcoded with a floor of $0.1$ seconds:
+```python
+think_delay = random.uniform(self.delay_min, self.delay_max)
+actual_sleep = max(0.1, think_delay - calc_time)  # Hardcoded 100ms minimum!
+time.sleep(actual_sleep)
+```
+Even if `delay_min == delay_max == 0`, `actual_sleep` was forced to at least $0.1\text{s}$.
+
+### The Fix
+Added a conditional gate and `--no-delay` CLI flag:
+```python
+if self.delay_max > 0.0:
+    think_delay = random.uniform(self.delay_min, self.delay_max)
+    actual_sleep = max(0.0, think_delay - calc_time)
+    if actual_sleep > 0:
+        time.sleep(actual_sleep)
+else:
+    print(f"Move computed in {calc_time:.2f}s. (No pacing delay)")
+```
+
+### Verification
+Running with `--no-delay` verified that `actual_sleep` is 0.0s and moves are submitted directly to the board immediately upon computation.

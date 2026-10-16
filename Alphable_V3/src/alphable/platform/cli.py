@@ -32,16 +32,18 @@ def parse_args():
     )
     parser.add_argument(
         "--dict",
+        "--dictionary",
         type=str,
+        dest="dict",
         default="resources/CSW24.txt",
-        help="Lexicon dictionary path (e.g. resources/CSW24.txt).",
+        help="Lexicon dictionary path or name (e.g. resources/CSW24.txt, resources/NWL23.txt, NWL23).",
     )
     parser.add_argument(
         "--mode",
         type=str,
         default="lookahead",
-        choices=["lookahead", "bc_0ply"],
-        help="Search mode: 'lookahead' (1-ply Monte Carlo) or 'bc_0ply' (direct evaluation).",
+        choices=["lookahead", "bc_0ply", "transformer"],
+        help="Search mode: 'lookahead' (1-ply Monte Carlo), 'bc_0ply' (direct evaluation), or 'transformer' (SmolLM2 candidate ranker).",
     )
     parser.add_argument(
         "--value-weight",
@@ -79,6 +81,18 @@ def parse_args():
         type=float,
         default=6.0,
         help="Maximum thinking/pacing delay in seconds before submitting move.",
+    )
+    parser.add_argument(
+        "--no-delay",
+        action="store_true",
+        default=False,
+        help="Disable artificial pacing delay (play moves immediately upon computation).",
+    )
+    parser.add_argument(
+        "--transformer-model",
+        type=str,
+        default="models/transformer_ranker_v2",
+        help="Transformer model checkpoint directory or HuggingFace repo (used in --mode transformer).",
     )
     parser.add_argument(
         "--output-dir",
@@ -190,23 +204,30 @@ def main():
         user = adapter.ensure_logged_in()
         print(f"Logged in / Session established as: {user}")
 
+        delay_min = 0.0 if args.no_delay else args.delay_min
+        delay_max = 0.0 if args.no_delay else args.delay_max
+
         runner = OnlineGameRunner(
             adapter=adapter,
             model_path=args.model,
             dict_path=args.dict,
             mode=args.mode,
             value_weight=args.value_weight,
-            delay_min=args.delay_min,
-            delay_max=args.delay_max,
+            delay_min=delay_min,
+            delay_max=delay_max,
             output_dir=args.output_dir,
             num_simulations=args.simulations,
             top_k=args.top_k,
+            transformer_model_path=args.transformer_model,
         )
 
         config = PlatformGameConfig(
             opponent_type=opponent_type,
             bot_name=args.bot,
-            dictionary="CSW24" if "CSW" in args.dict.upper() else "NWL23",
+            dictionary=(
+                "NWL23" if "NWL" in args.dict.upper()
+                else ("CSW21" if "CSW21" in args.dict.upper() else "CSW24")
+            ),
             game_mode=args.game_mode,
             time_control=args.time_control,
             rated=False,

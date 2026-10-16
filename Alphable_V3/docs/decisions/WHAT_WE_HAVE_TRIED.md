@@ -87,6 +87,12 @@ To reach parity with expert bots, we augmented the neural value network with cla
 - **The Solution:** Added a duplicate blank penalty of $-20.5$ for the second blank (first blank $= +26.5$, second blank $= +6.0$, total `??` $= +32.5$, matching tournament Super-Leaves tables).
 - **Result:** Bot aggressively cashes in blanks for 60+ point bingos rather than hoarding them indefinitely.
 
+### I. SmolLM2 Pretrained Transformer Candidate Ranker
+- **The Concept:** In addition to the ResNet value network, explore whether a modern pretrained autoregressive language model (`SmolLM2-135M-Instruct`) could rank candidate plays effectively.
+- **Zero Hallucination Guarantee:** The transformer is never asked to generate free-form text or spell words from scratch. The C++ GADDAG engine generates 100% strictly legal Scrabble plays for the current board and lexicon, pre-filtering them into the top-$K$ candidates. The transformer prompt presents game state context (score deficit, remaining tiles in bag, active rack) alongside structured candidates, and evaluates the single-token logits corresponding to candidate selection digits (`1..K`).
+- **Empirical Training:** Fine-tuned on 15,000 grandmaster turns distilled from Woogles' Macondo Analyzer (`models/transformer_ranker_v2`). The model learned to identify winning bingos, rack leaves, and vowel/consonant balance.
+- **Head-to-Head Evaluation:** In direct matches against the 1-ply Monte Carlo ResNet engine (`--opponent nn`), the transformer ranker scores 430+ points per match, executing strategic bingos (`ROOMIES`, `OEDEMAS`) and tactical vowel dump tile exchanges.
+
 ---
 
 ## 4. What Failed & Key Lessons Learned
