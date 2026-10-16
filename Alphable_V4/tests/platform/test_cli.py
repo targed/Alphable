@@ -89,3 +89,52 @@ def test_cmd_models_output():
     assert "• PRESET: 'rl-gen1'" in output
     assert "• PRESET: 'scaled'" in output
     assert "• PRESET: 'v4-baseline'" in output
+
+
+def test_cmd_history_ledger():
+    from alphable_v4.cli import cmd_history
+    import argparse
+
+    args = argparse.Namespace(show=None, compare=None, tag=None, model=None, limit=25)
+    buf = io.StringIO()
+    with patch("sys.stdout", buf):
+        cmd_history(args)
+    output = buf.getvalue()
+
+    assert "ALPHABLE V4 TOURNAMENT BENCHMARK HISTORY LEDGER" in output
+    assert "V4-Baseline vs Base-MAGPIE" in output
+    assert "5-Frontiers vs Base-MAGPIE" in output
+    assert "V4-Champion vs Base-MAGPIE" in output
+    assert "3000g-duplicate-championship" in output
+
+
+def test_cmd_history_show_and_compare():
+    from alphable_v4.cli import cmd_history
+    import argparse
+
+    # Test show
+    args_show = argparse.Namespace(show="run_20261015_215837", compare=None, tag=None, model=None, limit=25)
+    buf = io.StringIO()
+    with patch("sys.stdout", buf):
+        cmd_history(args_show)
+    output_show = buf.getvalue()
+    assert "TOURNAMENT RUN DETAILS: run_20261015_215837" in output_show
+    assert "Duplicate (Pair-Swapped, Zero Luck)" in output_show
+    assert "806W - 664L - 30D" in output_show
+
+    # Test compare
+    args_comp = argparse.Namespace(
+        show=None,
+        compare=["run_20261013_143000", "run_20261015_215837"],
+        tag=None,
+        model=None,
+        limit=25,
+    )
+    buf_comp = io.StringIO()
+    with patch("sys.stdout", buf_comp):
+        cmd_history(args_comp)
+    output_comp = buf_comp.getvalue()
+    assert "HEAD-TO-HEAD BENCHMARK RUN COMPARISON" in output_comp
+    assert "Delta (B - A)" in output_comp
+    assert "+0.5%" in output_comp
+

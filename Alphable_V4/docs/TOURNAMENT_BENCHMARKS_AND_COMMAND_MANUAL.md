@@ -89,8 +89,23 @@ PYTHONPATH=. /home/targed/Documents/Git/Alphable/venv/bin/python cli.py analyze 
 
 ### G. Full Test Suite Verification
 ```bash
-# Run all 57 unit tests across engine, models, search, platform, and training:
+# Run all unit tests across engine, models, search, platform, and training:
 PYTHONPATH=. /home/targed/Documents/Git/Alphable/venv/bin/pytest tests/ -v
+```
+
+### H. Tournament History & Delta Comparison
+```bash
+# 1. View full historical ledger of all saved tournament runs:
+PYTHONPATH=. /home/targed/Documents/Git/Alphable/venv/bin/python cli.py history
+
+# 2. Inspect a specific benchmark run in detail (scores, error bars, t-test, duration):
+PYTHONPATH=. /home/targed/Documents/Git/Alphable/venv/bin/python cli.py history --show run_20261015_215837
+
+# 3. Compare two tournament benchmarks side-by-side with full delta analysis:
+PYTHONPATH=. /home/targed/Documents/Git/Alphable/venv/bin/python cli.py history --compare run_20261013_143000 run_20261015_215837
+
+# 4. Tag a tournament run for easy identification:
+PYTHONPATH=. /home/targed/Documents/Git/Alphable/venv/bin/python cli.py tournament --opponent magpie --games 100 --tag "depth-scaling"
 ```
 
 ---
@@ -101,6 +116,7 @@ PYTHONPATH=. /home/targed/Documents/Git/Alphable/venv/bin/pytest tests/ -v
 
 | Series Description | Total Games | BAMS Record | Win Rate | BAMS Mean | Opp Mean | Net Spread | Divergence Rate |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| **BAMS Scaled 2-Ply + Volatility (Duplicate Championship)** | **3,000 (1,500 pairs)** | **806W - 664L - 30D** | **54.7%** | **460.5 pts** | **453.5 pts** | **+7.1 pts** | **20.8%** |
 | **BAMS (Scaled 2-Ply + Volatility Control) vs Base MAGPIE** | **30** | **17W - 13L - 0D** | **56.7%** | **457.5 pts** | **444.4 pts** | **+13.1 pts** | **20.4%** |
 | **BAMS (All 5 Frontiers Active) vs Base MAGPIE** | **1,000** | **540W - 456L - 4D** | **54.2%** | **458.1 pts** | **448.3 pts** | **+9.8 pts** | **16.2%** |
 | **BAMS (All 5 Frontiers Active) vs Base MAGPIE** | **30** | **19W - 11L - 0D** | **63.3%** | **456.3 pts** | **448.5 pts** | **+7.8 pts** | **15.9%** |

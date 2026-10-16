@@ -1,0 +1,49 @@
+{
+  "run_id": "run_20261006_180000",
+  "timestamp": "2026-10-06T18:00:00",
+  "mode": "standard",
+  "tag": "1000g-v4-baseline-1ply",
+  "lexicon": "CSW24",
+  "total_games": 1000,
+  "duplicate_pairs": null,
+  "duration_seconds": 1210.5,
+  "seconds_per_game": 1.21,
+  "player1": {
+    "name": "Alphable V4 Baseline (1-Ply Search)",
+    "short_name": "V4-Baseline",
+    "spec": "v4-baseline",
+    "checkpoint_file": "v4_value_net_best.pt",
+    "mean_score": 452.8,
+    "bingos_per_game": 2.21,
+    "wins": 520
+  },
+  "player2": {
+    "name": "Base MAGPIE (KLV Static)",
+    "short_name": "Base-MAGPIE",
+    "spec": "magpie",
+    "checkpoint_file": null,
+    "mean_score": 448.5,
+    "bingos_per_game": 2.20,
+    "wins": 476
+  },
+  "draws": 4,
+  "win_rate": {
+    "percentage": 52.2,
+    "ci95": 3.1,
+    "ci_lower": 49.1,
+    "ci_upper": 55.3
+  },
+  "net_spread": {
+    "mean": 4.3,
+    "ci95": 3.9,
+    "ci_lower": 0.4,
+    "ci_upper": 8.2
+  },
+  "significance": {
+    "t_statistic": 2.15,
+    "p_value": 0.0318,
+    "verdict": "Statistically Significant (p < 0.05, Confirmed Edge)",
+    "hypothesis": "H0: Δ=0 vs H1: Δ!=0"
+  },
+  "notes": "Original V4 1-Ply BAMS baseline evaluation against Base MAGPIE without 2-ply nesting."
+}

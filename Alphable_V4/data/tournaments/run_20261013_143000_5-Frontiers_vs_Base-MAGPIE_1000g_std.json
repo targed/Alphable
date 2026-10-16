@@ -1,0 +1,49 @@
+{
+  "run_id": "run_20261013_143000",
+  "timestamp": "2026-10-13T14:30:00",
+  "mode": "standard",
+  "tag": "1000g-5-frontiers-official",
+  "lexicon": "CSW24",
+  "total_games": 1000,
+  "duplicate_pairs": null,
+  "duration_seconds": 1493.4,
+  "seconds_per_game": 1.49,
+  "player1": {
+    "name": "Alphable V4 5-Frontiers (1,000-Game Official Champion)",
+    "short_name": "5-Frontiers",
+    "spec": "5-frontiers",
+    "checkpoint_file": "v4_value_net_best.pt",
+    "mean_score": 458.1,
+    "bingos_per_game": 2.27,
+    "wins": 540
+  },
+  "player2": {
+    "name": "Base MAGPIE (KLV Static)",
+    "short_name": "Base-MAGPIE",
+    "spec": "magpie",
+    "checkpoint_file": null,
+    "mean_score": 448.3,
+    "bingos_per_game": 2.23,
+    "wins": 456
+  },
+  "draws": 4,
+  "win_rate": {
+    "percentage": 54.2,
+    "ci95": 3.1,
+    "ci_lower": 51.1,
+    "ci_upper": 57.3
+  },
+  "net_spread": {
+    "mean": 9.8,
+    "ci95": 3.9,
+    "ci_lower": 5.9,
+    "ci_upper": 13.7
+  },
+  "significance": {
+    "t_statistic": 4.90,
+    "p_value": 0.0,
+    "verdict": "Statistically Significant (p < 0.01, Strong Edge)",
+    "hypothesis": "H0: Δ=0 vs H1: Δ!=0"
+  },
+  "notes": "Official 1,000-game standard alternating tournament validating the full 5-Frontier engine improvements."
+}

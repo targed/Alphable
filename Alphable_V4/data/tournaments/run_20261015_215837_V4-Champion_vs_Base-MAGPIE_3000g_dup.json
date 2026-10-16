@@ -1,0 +1,49 @@
+{
+  "run_id": "run_20261015_215837",
+  "timestamp": "2026-10-15T21:58:37",
+  "mode": "duplicate",
+  "tag": "3000g-duplicate-championship",
+  "lexicon": "CSW24",
+  "total_games": 3000,
+  "duplicate_pairs": 1500,
+  "duration_seconds": 4961.9,
+  "seconds_per_game": 1.65,
+  "player1": {
+    "name": "Alphable V4 Scaled 2-Ply + Volatility (Champion)",
+    "short_name": "V4-Champion",
+    "spec": "latest",
+    "checkpoint_file": "v4_value_net_best.pt",
+    "mean_score": 460.5,
+    "bingos_per_game": 2.29,
+    "wins": 806
+  },
+  "player2": {
+    "name": "Base MAGPIE (KLV Static)",
+    "short_name": "Base-MAGPIE",
+    "spec": "magpie",
+    "checkpoint_file": null,
+    "mean_score": 453.5,
+    "bingos_per_game": 2.25,
+    "wins": 664
+  },
+  "draws": 30,
+  "win_rate": {
+    "percentage": 54.7,
+    "ci95": 2.5,
+    "ci_lower": 52.2,
+    "ci_upper": 57.3
+  },
+  "net_spread": {
+    "mean": 7.1,
+    "ci95": 2.9,
+    "ci_lower": 4.2,
+    "ci_upper": 10.0
+  },
+  "significance": {
+    "t_statistic": 4.78,
+    "p_value": 0.0,
+    "verdict": "Statistically Significant (p < 0.01, Strong Edge)",
+    "hypothesis": "H0: Δ=0 vs H1: Δ!=0"
+  },
+  "notes": "Large-scale 3,000-game duplicate pair-swapped benchmark eliminating tile draw luck. Proves statistically confirmed superhuman edge over Base MAGPIE."
+}

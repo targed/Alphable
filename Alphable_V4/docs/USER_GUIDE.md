@@ -128,6 +128,43 @@ python cli.py tournament --model latest --opponent v3-transformer --games 10
 
 ---
 
+## 📜 Automated Tournament History & Run Comparison
+
+Every tournament run automatically persists full statistical telemetry to `Alphable_V4/data/tournaments/` and appends an entry to the master ledger `tournament_history.jsonl`.
+
+### 1. View Benchmark History Ledger (`python cli.py history`)
+```bash
+python cli.py history
+```
+Displays an aligned historical ledger with Run ID, timestamp, mode (standard vs duplicate), matchup, game count, 95% Confidence Intervals for Win Rate and Net Spread, paired t-test results, and tags.
+
+### 2. Inspect Full Details of a Specific Run (`--show`)
+```bash
+# View exact scores, error bars, bingos, and duration:
+python cli.py history --show run_20261015_215837
+# Or by prefix / date:
+python cli.py history --show 20261015
+```
+
+### 3. Compare Two Runs Side-by-Side (`--compare`)
+```bash
+# Compare the 5-Frontiers 1,000-game run vs the 3,000-game Duplicate Championship:
+python cli.py history --compare run_20261013_143000 run_20261015_215837
+```
+Computes and displays exact mathematical deltas ($\Delta \text{Win Rate}$, $\Delta \text{Spread}$, $\Delta \text{Bingos}$, confidence interval narrowing, and speed).
+
+### 4. Tagging and Filtering Runs
+```bash
+# Run tournament with a custom tag:
+python cli.py tournament --opponent magpie --games 100 --tag "depth-scaling-test"
+
+# Filter history by tag or model:
+python cli.py history --tag "duplicate"
+python cli.py history --model "5-frontiers"
+```
+
+---
+
 ## 🧠 How Do I Know If It Is Just MAGPIE or If the AI Is Actually Doing Something?
 
 This is the most critical question in AI engine development. Here is the exact architectural and mathematical breakdown:

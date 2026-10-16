@@ -15,7 +15,9 @@ from __future__ import annotations
 import os
 import sys
 import time
+import json
 import argparse
+from datetime import datetime
 from typing import List, Dict, Tuple, Optional, Any, Callable
 
 import numpy as np
@@ -33,6 +35,12 @@ from alphable_v4.platform.eval import GameSimulator, MatchStats, ScrabbleBag
 
 CHECKPOINTS_DIR = os.path.normpath(
     os.path.join(os.path.dirname(__file__), "models", "checkpoints")
+)
+DATA_DIR = os.path.normpath(
+    os.path.join(os.path.dirname(__file__), "data")
+)
+TOURNAMENTS_DIR = os.path.normpath(
+    os.path.join(DATA_DIR, "tournaments")
 )
 
 # ==============================================================================
@@ -693,6 +701,7 @@ def cmd_tournament(args):
         p1_all_bingos = 0
         p2_all_bingos = 0
         pair_diffs = []
+        pair_records = []
 
         t_start = time.time()
         print(f"\nRunning {num_pairs} duplicate match pairs ({total_games} total games)...\n")
@@ -728,6 +737,19 @@ def cmd_tournament(args):
             else:
                 pair_draws += 1
                 verdict = "MATCH TIED"
+
+            pair_records.append({
+                "pair": p + 1,
+                "seed": seed,
+                "p1_gameA_score": res_a["p1_score"],
+                "p1_gameB_score": res_b["p2_score"],
+                "p1_pair_total": score_p1_pair,
+                "p2_gameA_score": res_a["p2_score"],
+                "p2_gameB_score": res_b["p1_score"],
+                "p2_pair_total": score_p2_pair,
+                "net_spread": pair_diff,
+                "verdict": verdict,
+            })
 
             print(
                 f"Pair {p+1:02d}/{num_pairs:02d} [Seed {seed}]: "
@@ -775,6 +797,41 @@ def cmd_tournament(args):
         print(f"Paired t-Test (H0: Δ=0) : t = {t_dup:.2f}, p-value = {p_val_dup:.4f} ({sig_dup})")
         print("Luck Cancellation       : Tile draw noise eliminated via paired symmetric seeds.")
         print("=" * 75)
+
+        if not getattr(args, "no_save", False):
+            p1_ckpt = getattr(args, "model_path", None) or MODEL_REGISTRY.get(args.model, {}).get("checkpoint_file")
+            p2_ckpt = getattr(args, "opponent_model_path", None) or MODEL_REGISTRY.get(args.opponent, {}).get("checkpoint_file")
+            save_tournament_telemetry(
+                mode="duplicate",
+                total_games=total_games,
+                duplicate_pairs=num_pairs,
+                duration_seconds=dt,
+                p1_name=p1_name,
+                p1_short=p1_short,
+                p1_spec=args.model,
+                p1_ckpt=p1_ckpt,
+                p1_mean=float(np.mean(p1_total_scores)),
+                p1_bingos_per_game=p1_all_bingos / total_games,
+                p1_wins=p1_pair_wins,
+                p2_name=p2_name,
+                p2_short=p2_short,
+                p2_spec=args.opponent,
+                p2_ckpt=p2_ckpt,
+                p2_mean=float(np.mean(p2_total_scores)),
+                p2_bingos_per_game=p2_all_bingos / total_games,
+                p2_wins=p2_pair_wins,
+                draws=pair_draws,
+                win_pct=pair_win_pct,
+                ci95_win=ci95_win_dup,
+                mean_spread=mean_dup_spread,
+                ci95_spread=ci95_dup_spread,
+                t_stat=t_dup,
+                p_val=p_val_dup,
+                sig_verdict=sig_dup,
+                lexicon=args.lexicon,
+                tag=args.tag,
+                records=pair_records,
+            )
         return
 
     # STANDARD ALTERNATING SEATS MODE
@@ -786,6 +843,7 @@ def cmd_tournament(args):
     p1_bingos = 0
     p2_bingos = 0
     game_margins = []
+    game_records = []
 
     t_start = time.time()
     for g in range(args.games):
@@ -815,17 +873,33 @@ def cmd_tournament(args):
 
         p1_sc = s1 if p1_is_first else s2
         p2_sc = s2 if p1_is_first else s1
-        game_margins.append(p1_sc - p2_sc)
+        margin = p1_sc - p2_sc
+        game_margins.append(margin)
 
         if p1_won:
             p1_wins += 1
             verdict = f"{p1_short} WON ✓"
+            winner_label = p1_short
         elif p2_won:
             p2_wins += 1
             verdict = f"{p2_short} WON"
+            winner_label = p2_short
         else:
             draws += 1
             verdict = "DRAW"
+            winner_label = "DRAW"
+
+        game_records.append({
+            "game": g + 1,
+            "seed": seed,
+            "p1_seat": "P1" if p1_is_first else "P2",
+            "p1_score": s1,
+            "p2_score": s2,
+            "p1_bingos": b1,
+            "p2_bingos": b2,
+            "margin": margin,
+            "winner": winner_label,
+        })
 
         print(
             f"Game {g+1:02d}/{args.games:02d} [{p1_short} {'P1' if p1_is_first else 'P2'}]: "
@@ -873,6 +947,41 @@ def cmd_tournament(args):
     print(f"Bernoulli Tile Noise    : 1 SD of 1,000-game tile noise is ±{se_p*100:.2f}%. Run-to-run")
     print(f"                          variations within ±{ci95_p:.1f}% are normal statistical noise.")
     print("=" * 75)
+
+    if not getattr(args, "no_save", False):
+        p1_ckpt = getattr(args, "model_path", None) or MODEL_REGISTRY.get(args.model, {}).get("checkpoint_file")
+        p2_ckpt = getattr(args, "opponent_model_path", None) or MODEL_REGISTRY.get(args.opponent, {}).get("checkpoint_file")
+        save_tournament_telemetry(
+            mode="standard",
+            total_games=args.games,
+            duplicate_pairs=None,
+            duration_seconds=dt,
+            p1_name=p1_name,
+            p1_short=p1_short,
+            p1_spec=args.model,
+            p1_ckpt=p1_ckpt,
+            p1_mean=float(np.mean(p1_scores)),
+            p1_bingos_per_game=p1_bingos / args.games,
+            p1_wins=p1_wins,
+            p2_name=p2_name,
+            p2_short=p2_short,
+            p2_spec=args.opponent,
+            p2_ckpt=p2_ckpt,
+            p2_mean=float(np.mean(p2_scores)),
+            p2_bingos_per_game=p2_bingos / args.games,
+            p2_wins=p2_wins,
+            draws=draws,
+            win_pct=win_pct,
+            ci95_win=ci95_p,
+            mean_spread=mean_margin,
+            ci95_spread=ci95_margin,
+            t_stat=t_stat,
+            p_val=p_val,
+            sig_verdict=sig_std,
+            lexicon=args.lexicon,
+            tag=args.tag,
+            records=game_records,
+        )
 
 
 # ==============================================================================
@@ -951,6 +1060,408 @@ def cmd_ablation(args):
 
 
 # ==============================================================================
+# TELEMETRY PERSISTENCE & HISTORY MANAGEMENT
+# ==============================================================================
+def save_tournament_telemetry(
+    mode: str,
+    total_games: int,
+    duplicate_pairs: Optional[int],
+    duration_seconds: float,
+    p1_name: str,
+    p1_short: str,
+    p1_spec: str,
+    p1_ckpt: Optional[str],
+    p1_mean: float,
+    p1_bingos_per_game: float,
+    p1_wins: int,
+    p2_name: str,
+    p2_short: str,
+    p2_spec: str,
+    p2_ckpt: Optional[str],
+    p2_mean: float,
+    p2_bingos_per_game: float,
+    p2_wins: int,
+    draws: int,
+    win_pct: float,
+    ci95_win: float,
+    mean_spread: float,
+    ci95_spread: float,
+    t_stat: float,
+    p_val: float,
+    sig_verdict: str,
+    lexicon: str,
+    tag: Optional[str] = None,
+    records: Optional[List[Dict[str, Any]]] = None,
+) -> str:
+    """Saves complete tournament telemetry JSON and appends an entry to the history ledger."""
+    os.makedirs(TOURNAMENTS_DIR, exist_ok=True)
+    timestamp_dt = datetime.now()
+    timestamp_str = timestamp_dt.strftime("%Y%m%d_%H%M%S")
+    iso_ts = timestamp_dt.isoformat(timespec="seconds")
+    run_id = f"run_{timestamp_str}"
+
+    mode_tag = "dup" if mode == "duplicate" else "std"
+    clean_p1 = p1_short.replace(" ", "-").replace("/", "-")
+    clean_p2 = p2_short.replace(" ", "-").replace("/", "-")
+    tag_clean = f"_{tag.replace(' ', '_')}" if tag else ""
+    filename = f"{run_id}_{clean_p1}_vs_{clean_p2}_{total_games}g_{mode_tag}{tag_clean}.json"
+    full_path = os.path.join(TOURNAMENTS_DIR, filename)
+
+    run_data = {
+        "run_id": run_id,
+        "timestamp": iso_ts,
+        "mode": mode,
+        "tag": tag or f"{total_games}g-{mode_tag}",
+        "lexicon": lexicon,
+        "total_games": total_games,
+        "duplicate_pairs": duplicate_pairs,
+        "duration_seconds": round(duration_seconds, 1),
+        "seconds_per_game": round(duration_seconds / total_games, 2) if total_games > 0 else 0.0,
+        "player1": {
+            "name": p1_name,
+            "short_name": p1_short,
+            "spec": p1_spec,
+            "checkpoint_file": p1_ckpt,
+            "mean_score": round(p1_mean, 1),
+            "bingos_per_game": round(p1_bingos_per_game, 2),
+            "wins": p1_wins,
+        },
+        "player2": {
+            "name": p2_name,
+            "short_name": p2_short,
+            "spec": p2_spec,
+            "checkpoint_file": p2_ckpt,
+            "mean_score": round(p2_mean, 1),
+            "bingos_per_game": round(p2_bingos_per_game, 2),
+            "wins": p2_wins,
+        },
+        "draws": draws,
+        "win_rate": {
+            "percentage": round(win_pct, 1),
+            "ci95": round(ci95_win, 1),
+            "ci_lower": round(win_pct - ci95_win, 1),
+            "ci_upper": round(win_pct + ci95_win, 1),
+        },
+        "net_spread": {
+            "mean": round(mean_spread, 1),
+            "ci95": round(ci95_spread, 1),
+            "ci_lower": round(mean_spread - ci95_spread, 1),
+            "ci_upper": round(mean_spread + ci95_spread, 1),
+        },
+        "significance": {
+            "t_statistic": round(t_stat, 2),
+            "p_value": round(p_val, 4),
+            "verdict": sig_verdict,
+            "hypothesis": "H0: Δ=0 vs H1: Δ!=0",
+        },
+        "details": records or [],
+    }
+
+    with open(full_path, "w", encoding="utf-8") as f:
+        json.dump(run_data, f, indent=2)
+
+    # Append to master tournament history ledger
+    ledger_path = os.path.join(TOURNAMENTS_DIR, "tournament_history.jsonl")
+    ledger_entry = {
+        "run_id": run_id,
+        "timestamp": iso_ts,
+        "mode": mode,
+        "tag": tag or f"{total_games}g-{mode_tag}",
+        "lexicon": lexicon,
+        "total_games": total_games,
+        "duplicate_pairs": duplicate_pairs,
+        "duration_seconds": round(duration_seconds, 1),
+        "player1": {
+            "name": p1_name,
+            "short_name": p1_short,
+            "spec": p1_spec,
+            "mean_score": round(p1_mean, 1),
+            "bingos_per_game": round(p1_bingos_per_game, 2),
+            "wins": p1_wins,
+        },
+        "player2": {
+            "name": p2_name,
+            "short_name": p2_short,
+            "spec": p2_spec,
+            "mean_score": round(p2_mean, 1),
+            "bingos_per_game": round(p2_bingos_per_game, 2),
+            "wins": p2_wins,
+        },
+        "draws": draws,
+        "win_rate": {"percentage": round(win_pct, 1), "ci95": round(ci95_win, 1)},
+        "net_spread": {"mean": round(mean_spread, 1), "ci95": round(ci95_spread, 1)},
+        "significance": {
+            "t_statistic": round(t_stat, 2),
+            "p_value": round(p_val, 4),
+            "verdict": sig_verdict,
+        },
+        "file": filename,
+    }
+    with open(ledger_path, "a", encoding="utf-8") as f:
+        f.write(json.dumps(ledger_entry) + "\n")
+
+    print("\n" + "-" * 75)
+    print(" PERSISTED TELEMETRY & LEDGER RECORD")
+    print("-" * 75)
+    print(f" ✓ Run ID        : {run_id}")
+    print(f" ✓ Telemetry File: data/tournaments/{filename}")
+    print(f" ✓ History Ledger: data/tournaments/tournament_history.jsonl")
+    print(f" Tip: View past runs with 'python cli.py history'")
+    print(f"      Compare runs with   'python cli.py history --compare <run1> <run2>'")
+    print("=" * 75)
+    return full_path
+
+
+def find_run_file(run_id_or_path: str) -> Optional[str]:
+    """Finds a run JSON file by path, exact filename, run_id, or prefix."""
+    if os.path.isfile(run_id_or_path):
+        return run_id_or_path
+
+    direct_in_dir = os.path.join(TOURNAMENTS_DIR, run_id_or_path)
+    if os.path.isfile(direct_in_dir):
+        return direct_in_dir
+    if not run_id_or_path.endswith(".json") and os.path.isfile(direct_in_dir + ".json"):
+        return direct_in_dir + ".json"
+
+    if os.path.isdir(TOURNAMENTS_DIR):
+        candidates = []
+        for f in os.listdir(TOURNAMENTS_DIR):
+            if f.endswith(".json") and f != "tournament_history.json":
+                if run_id_or_path in f:
+                    candidates.append(os.path.join(TOURNAMENTS_DIR, f))
+        if len(candidates) == 1:
+            return candidates[0]
+        elif len(candidates) > 1:
+            for c in candidates:
+                if os.path.basename(c).startswith(run_id_or_path):
+                    return c
+            return candidates[0]
+    return None
+
+
+def render_run_detail(r: Dict[str, Any]):
+    """Renders comprehensive details of a single benchmark run."""
+    p1 = r.get("player1", {})
+    p2 = r.get("player2", {})
+    wr = r.get("win_rate", {})
+    sp = r.get("net_spread", {})
+    sig = r.get("significance", {})
+    mode_str = "Duplicate (Pair-Swapped, Zero Luck)" if r.get("mode") == "duplicate" else "Standard (Alternating Seats)"
+
+    print("=" * 80)
+    print(f" TOURNAMENT RUN DETAILS: {r.get('run_id')}")
+    print("=" * 80)
+    print(f"Timestamp       : {r.get('timestamp')}")
+    print(f"Tag             : {r.get('tag')}")
+    print(f"Mode            : {mode_str}")
+    print(f"Lexicon         : {r.get('lexicon')}")
+    dup_info = f" ({r.get('duplicate_pairs')} pairs)" if r.get("duplicate_pairs") else ""
+    print(f"Total Games     : {r.get('total_games')}{dup_info}")
+    print(f"Duration        : {r.get('duration_seconds')}s ({r.get('seconds_per_game')}s/game)")
+    print("-" * 80)
+    print(f"Player 1        : {p1.get('name')}")
+    print(f"  Short / Spec  : {p1.get('short_name')} (preset: {p1.get('spec')})")
+    print(f"  Checkpoint    : {p1.get('checkpoint_file')}")
+    print(f"  Wins / Record : {p1.get('wins')}W - {p2.get('wins')}L - {r.get('draws')}D")
+    print(f"  Mean Score    : {p1.get('mean_score')} pts (Bingos/Game: {p1.get('bingos_per_game')})")
+    print("-" * 80)
+    print(f"Player 2        : {p2.get('name')}")
+    print(f"  Short / Spec  : {p2.get('short_name')} (preset: {p2.get('spec')})")
+    print(f"  Checkpoint    : {p2.get('checkpoint_file')}")
+    print(f"  Mean Score    : {p2.get('mean_score')} pts (Bingos/Game: {p2.get('bingos_per_game')})")
+    print("-" * 80)
+    print(f"Win Rate (95% CI)   : {wr.get('percentage')}% ± {wr.get('ci95')}% [{wr.get('ci_lower')}% — {wr.get('ci_upper')}%]")
+    print(f"Net Spread (95% CI) : {sp.get('mean'):+.1f} ± {sp.get('ci95')} pts/game [{sp.get('ci_lower'):+.1f} — {sp.get('ci_upper'):+.1f} pts]")
+    print(f"Paired t-Test       : t = {sig.get('t_statistic')}, p = {sig.get('p_value')} ({sig.get('verdict')})")
+    if r.get("notes"):
+        print(f"Notes           : {r.get('notes')}")
+    details = r.get("details", [])
+    if details:
+        print(f"Game Records    : {len(details)} recorded game data points saved in JSON.")
+    print("=" * 80)
+
+
+def render_run_comparison(r1: Dict[str, Any], r2: Dict[str, Any]):
+    """Renders a side-by-side comparative analysis between two tournament runs."""
+    p1_a = r1.get("player1", {})
+    p2_a = r1.get("player2", {})
+    wr_a = r1.get("win_rate", {})
+    sp_a = r1.get("net_spread", {})
+    sig_a = r1.get("significance", {})
+
+    p1_b = r2.get("player1", {})
+    p2_b = r2.get("player2", {})
+    wr_b = r2.get("win_rate", {})
+    sp_b = r2.get("net_spread", {})
+    sig_b = r2.get("significance", {})
+
+    d_wr = wr_b.get("percentage", 0.0) - wr_a.get("percentage", 0.0)
+    d_sp = sp_b.get("mean", 0.0) - sp_a.get("mean", 0.0)
+    d_p1_sc = (p1_b.get("mean_score", 0.0) or 0.0) - (p1_a.get("mean_score", 0.0) or 0.0)
+    d_p1_bg = (p1_b.get("bingos_per_game", 0.0) or 0.0) - (p1_a.get("bingos_per_game", 0.0) or 0.0)
+    d_speed = (r2.get("seconds_per_game", 0.0) or 0.0) - (r1.get("seconds_per_game", 0.0) or 0.0)
+
+    print("=" * 115)
+    print("                             HEAD-TO-HEAD BENCHMARK RUN COMPARISON")
+    print("=" * 115)
+    h_a = f"Run A ({r1.get('run_id','A')})"
+    h_b = f"Run B ({r2.get('run_id','B')})"
+    print(f"{'Metric':<25} {h_a:<40} {h_b:<40} {'Delta (B - A)'}")
+    print("-" * 115)
+    print(f"{'Tag':<25} {r1.get('tag','N/A'):<40} {r2.get('tag','N/A'):<40} —")
+    print(f"{'Date':<25} {r1.get('timestamp','')[:16]:<40} {r2.get('timestamp','')[:16]:<40} —")
+    print(f"{'Mode':<25} {r1.get('mode',''):<40} {r2.get('mode',''):<40} —")
+    games_delta = r2.get('total_games', 0) - r1.get('total_games', 0)
+    print(f"{'Total Games':<25} {str(r1.get('total_games','')):<40} {str(r2.get('total_games','')):<40} {games_delta:+d} games")
+    print(f"{'Player 1':<25} {p1_a.get('short_name','P1'):<40} {p1_b.get('short_name','P1'):<40} —")
+    print(f"{'Player 2':<25} {p2_a.get('short_name','P2'):<40} {p2_b.get('short_name','P2'):<40} —")
+    print("-" * 115)
+    wr_str_a = f"{wr_a.get('percentage', 0.0):.1f}% ± {wr_a.get('ci95', 0.0):.1f}%"
+    wr_str_b = f"{wr_b.get('percentage', 0.0):.1f}% ± {wr_b.get('ci95', 0.0):.1f}%"
+    print(f"{'Win Rate':<25} {wr_str_a:<40} {wr_str_b:<40} {d_wr:+.1f}%")
+    ci_w_a = f"[{wr_a.get('ci_lower', 0.0):.1f}% — {wr_a.get('ci_upper', 0.0):.1f}%]"
+    ci_w_b = f"[{wr_b.get('ci_lower', 0.0):.1f}% — {wr_b.get('ci_upper', 0.0):.1f}%]"
+    print(f"{'Win Rate 95% CI':<25} {ci_w_a:<40} {ci_w_b:<40} —")
+    sp_str_a = f"{sp_a.get('mean', 0.0):+.1f} ± {sp_a.get('ci95', 0.0):.1f} pts/g"
+    sp_str_b = f"{sp_b.get('mean', 0.0):+.1f} ± {sp_b.get('ci95', 0.0):.1f} pts/g"
+    print(f"{'Net Spread':<25} {sp_str_a:<40} {sp_str_b:<40} {d_sp:+.1f} pts/g")
+    ci_s_a = f"[{sp_a.get('ci_lower', 0.0):+.1f} — {sp_a.get('ci_upper', 0.0):+.1f} pts]"
+    ci_s_b = f"[{sp_b.get('ci_lower', 0.0):+.1f} — {sp_b.get('ci_upper', 0.0):+.1f} pts]"
+    print(f"{'Net Spread 95% CI':<25} {ci_s_a:<40} {ci_s_b:<40} —")
+    t_str_a = f"t = {sig_a.get('t_statistic', 0.0):.2f} (p = {sig_a.get('p_value', 0.0):.4f})"
+    t_str_b = f"t = {sig_b.get('t_statistic', 0.0):.2f} (p = {sig_b.get('p_value', 0.0):.4f})"
+    print(f"{'Paired t-Statistic':<25} {t_str_a:<40} {t_str_b:<40} —")
+    print(f"{'Statistical Verdict':<25} {sig_a.get('verdict',''):<40} {sig_b.get('verdict',''):<40} —")
+    sc1_a = f"{p1_a.get('mean_score', 0.0):.1f} pts ({p1_a.get('bingos_per_game', 0.0):.2f} bg)"
+    sc1_b = f"{p1_b.get('mean_score', 0.0):.1f} pts ({p1_b.get('bingos_per_game', 0.0):.2f} bg)"
+    print(f"{'P1 Mean Score':<25} {sc1_a:<40} {sc1_b:<40} {d_p1_sc:+.1f} pts ({d_p1_bg:+.2f} bg)")
+    sc2_a = f"{p2_a.get('mean_score', 0.0):.1f} pts ({p2_a.get('bingos_per_game', 0.0):.2f} bg)"
+    sc2_b = f"{p2_b.get('mean_score', 0.0):.1f} pts ({p2_b.get('bingos_per_game', 0.0):.2f} bg)"
+    d_p2_sc = (p2_b.get('mean_score', 0.0) or 0.0) - (p2_a.get('mean_score', 0.0) or 0.0)
+    print(f"{'P2 Mean Score':<25} {sc2_a:<40} {sc2_b:<40} {d_p2_sc:+.1f} pts")
+    spd_a = f"{r1.get('seconds_per_game', 0.0):.2f} s/game"
+    spd_b = f"{r2.get('seconds_per_game', 0.0):.2f} s/game"
+    print(f"{'Speed':<25} {spd_a:<40} {spd_b:<40} {d_speed:+.2f} s/game")
+    print("=" * 115)
+
+
+def cmd_history(args):
+    """View, search, and compare historical tournament benchmarks."""
+    ledger_path = os.path.join(TOURNAMENTS_DIR, "tournament_history.jsonl")
+
+    # Mode 1: Compare two runs
+    if args.compare:
+        id1, id2 = args.compare[0], args.compare[1]
+        f1 = find_run_file(id1)
+        f2 = find_run_file(id2)
+
+        if not f1:
+            print(f"Error: Could not locate tournament run for '{id1}'.")
+            return
+        if not f2:
+            print(f"Error: Could not locate tournament run for '{id2}'.")
+            return
+
+        with open(f1, "r", encoding="utf-8") as f:
+            r1 = json.load(f)
+        with open(f2, "r", encoding="utf-8") as f:
+            r2 = json.load(f)
+
+        render_run_comparison(r1, r2)
+        return
+
+    # Mode 2: Show specific run in full detail
+    if args.show:
+        target_file = find_run_file(args.show)
+        if not target_file:
+            print(f"Error: Could not locate tournament run for '{args.show}'.")
+            return
+        with open(target_file, "r", encoding="utf-8") as f:
+            run_data = json.load(f)
+        render_run_detail(run_data)
+        return
+
+    # Mode 3: Display ledger table
+    runs = []
+    if os.path.isfile(ledger_path):
+        with open(ledger_path, "r", encoding="utf-8") as f:
+            for line in f:
+                line = line.strip()
+                if line:
+                    try:
+                        runs.append(json.loads(line))
+                    except Exception:
+                        pass
+    elif os.path.isdir(TOURNAMENTS_DIR):
+        for f in sorted(os.listdir(TOURNAMENTS_DIR)):
+            if f.endswith(".json") and f != "tournament_history.json":
+                try:
+                    with open(os.path.join(TOURNAMENTS_DIR, f), "r", encoding="utf-8") as jf:
+                        runs.append(json.load(jf))
+                except Exception:
+                    pass
+
+    if not runs:
+        print("\nNo tournament runs found in data/tournaments/.")
+        print("Run a tournament to generate history records:")
+        print("  python cli.py tournament --opponent magpie --games 10\n")
+        return
+
+    # Filtering
+    if args.tag:
+        runs = [r for r in runs if args.tag.lower() in r.get("tag", "").lower()]
+    if args.model:
+        runs = [
+            r for r in runs
+            if args.model.lower() in r.get("player1", {}).get("name", "").lower()
+            or args.model.lower() in r.get("player1", {}).get("short_name", "").lower()
+            or args.model.lower() in r.get("player1", {}).get("spec", "").lower()
+        ]
+
+    runs = runs[-args.limit:]
+
+    print("=" * 135)
+    print("                                      ALPHABLE V4 TOURNAMENT BENCHMARK HISTORY LEDGER")
+    print("=" * 135)
+    print(
+        f"{'Run ID':<21} {'Date/Time':<16} {'Mode':<5} {'Matchup':<27} {'Games':<6} "
+        f"{'Win Rate (95% CI)':<20} {'Net Spread (95% CI)':<22} {'Sig (t, p)':<15} {'Tag'}"
+    )
+    print("-" * 135)
+
+    for r in runs:
+        run_id = r.get("run_id", "N/A")
+        ts = r.get("timestamp", "").replace("T", " ")[:16]
+        mode = "Dup" if r.get("mode") == "duplicate" else "Std"
+        p1 = r.get("player1", {}).get("short_name", "P1")
+        p2 = r.get("player2", {}).get("short_name", "P2")
+        matchup = f"{p1} vs {p2}"
+        if len(matchup) > 27:
+            matchup = matchup[:26] + "…"
+
+        games = str(r.get("total_games", 0))
+        wr = r.get("win_rate", {})
+        wr_str = f"{wr.get('percentage', 0.0):.1f}% ± {wr.get('ci95', 0.0):.1f}%"
+        sp = r.get("net_spread", {})
+        sp_str = f"{sp.get('mean', 0.0):+.1f} ± {sp.get('ci95', 0.0):.1f} pts"
+        sig = r.get("significance", {})
+        sig_str = f"t={sig.get('t_statistic', 0.0):.2f} p={sig.get('p_value', 0.0):.2f}"
+        tag = r.get("tag", "")
+
+        print(
+            f"{run_id:<21} {ts:<16} {mode:<5} {matchup:<27} {games:<6} "
+            f"{wr_str:<20} {sp_str:<22} {sig_str:<15} {tag}"
+        )
+
+    print("-" * 135)
+    print(f"Total Runs Displayed: {len(runs)} | Storage: data/tournaments/")
+    print("Commands:")
+    print("  • View details : python cli.py history --show <run_id>")
+    print("  • Compare runs : python cli.py history --compare <run1_id> <run2_id>")
+    print("=" * 135)
+
+
+# ==============================================================================
 # MAIN ENTRYPOINT
 # ==============================================================================
 def main():
@@ -1000,6 +1511,8 @@ def main():
     p_tournament.add_argument("--beam", type=int, default=None, help="Override candidate beam (K)")
     p_tournament.add_argument("--volatility-weight", type=float, default=None, help="Override volatility weight")
     p_tournament.add_argument("--device", type=str, default=None, help="Device ('cuda' or 'cpu')")
+    p_tournament.add_argument("--tag", type=str, default=None, help="Custom tag or label for this tournament run (e.g. 'rl-tune-exp1')")
+    p_tournament.add_argument("--no-save", action="store_true", help="Do not save run telemetry or append to history ledger")
 
     # 4. Ablation
     p_ablation = subparsers.add_parser("ablation", help="Quantify AI Value Network contribution (ON vs OFF)")
@@ -1007,6 +1520,14 @@ def main():
                             help="Model preset to ablate (default: latest)")
     p_ablation.add_argument("--games", type=int, default=10, help="Number of games to simulate")
     p_ablation.add_argument("--lexicon", type=str, default="CSW24", help="Lexicon (CSW24 or NWL23)")
+
+    # 5. History
+    p_history = subparsers.add_parser("history", help="Inspect and compare past tournament benchmarks")
+    p_history.add_argument("--show", type=str, default=None, help="Inspect detailed telemetry of a specific run (by ID or prefix)")
+    p_history.add_argument("--compare", nargs=2, metavar=("RUN1", "RUN2"), default=None, help="Compare two tournament runs side-by-side with delta analysis")
+    p_history.add_argument("--tag", type=str, default=None, help="Filter runs by tag substring")
+    p_history.add_argument("--model", type=str, default=None, help="Filter runs by model name substring")
+    p_history.add_argument("--limit", type=int, default=25, help="Maximum number of historical runs to display (default: 25)")
 
     args = parser.parse_args()
 
@@ -1020,6 +1541,8 @@ def main():
         cmd_tournament(args)
     elif args.command == "ablation":
         cmd_ablation(args)
+    elif args.command == "history":
+        cmd_history(args)
 
 
 if __name__ == "__main__":
