@@ -16,7 +16,7 @@ from alphable_v4.platform.eval import GameSimulator
 
 def run_scaling_benchmark(n_games=50):
     engine = MagpieEngine(lexicon='CSW24')
-    ckpt = '/home/targed/Documents/Git/Alphable/Alphable_V4/models/checkpoints/v4_value_net_best.pt'
+    ckpt = os.path.normpath(os.path.join(os.path.dirname(__file__), '..', 'models', 'checkpoints', 'v4_value_net_best.pt'))
     
     # Deep Scaled 2-Ply BAMS Configuration
     scaled_config = BAMSConfig(

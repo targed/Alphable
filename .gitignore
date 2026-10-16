@@ -232,3 +232,7 @@ Alphable\Alphable_V2\data\gcg
 *_full_training*.pt
 *_with_optimizer*.pt
 v4_value_net_best_full_training.pt
+
+# External vendor libraries built locally
+/Alphable_V4/vendor/
+

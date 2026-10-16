@@ -10,17 +10,16 @@ Welcome to **Alphable V4**, the championship-tier competitive Scrabble artificia
 
 ## ⚡ Quick Start: Commands Cheat Sheet
 
-Run all commands from `/home/targed/Documents/Git/Alphable/Alphable_V4` inside the virtual environment:
+Run all commands from the `Alphable_V4` directory inside your activated virtual environment:
 
 ```bash
 # 1. Activate Environment
-source /home/targed/Documents/Git/Alphable/venv/bin/activate
-export PYTHONPATH=/home/targed/Documents/Git/Alphable/Alphable_V4:$PYTHONPATH
+source venv/bin/activate
 
 # 2. View All Available Models & Presets
 python cli.py models
 
-# 3. Run the Full Test Suite (57 unit tests)
+# 3. Run the Full Test Suite (59 unit tests)
 pytest -v
 
 # 4. Analyze Any Position (Compare Base MAGPIE vs BAMS AI Side-by-Side)

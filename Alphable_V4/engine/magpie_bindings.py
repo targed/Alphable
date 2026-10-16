@@ -22,12 +22,20 @@ MAGPIE_DID_NOT_RUN = 2
 
 
 def find_libmagpie() -> str:
-    """Finds the libmagpie.so shared library file."""
-    # Search common relative locations
+    """Finds the libmagpie.so shared library file across common relative locations."""
     base_dir = os.path.dirname(os.path.abspath(__file__))
+    real_dir = os.path.dirname(os.path.realpath(__file__))
+    cwd = os.getcwd()
+
     candidates = [
         os.path.join(base_dir, "..", "vendor", "magpie", "bin", "libmagpie.so"),
         os.path.join(base_dir, "..", "vendor", "magpie", "bin", "libmagpie.dylib"),
+        os.path.join(real_dir, "..", "vendor", "magpie", "bin", "libmagpie.so"),
+        os.path.join(real_dir, "..", "vendor", "magpie", "bin", "libmagpie.dylib"),
+        os.path.join(cwd, "vendor", "magpie", "bin", "libmagpie.so"),
+        os.path.join(cwd, "vendor", "magpie", "bin", "libmagpie.dylib"),
+        os.path.join(cwd, "Alphable_V4", "vendor", "magpie", "bin", "libmagpie.so"),
+        os.path.join(cwd, "Alphable_V4", "vendor", "magpie", "bin", "libmagpie.dylib"),
         os.path.join(base_dir, "libmagpie.so"),
         "/usr/local/lib/libmagpie.so",
     ]
@@ -37,7 +45,8 @@ def find_libmagpie() -> str:
             return norm
 
     raise FileNotFoundError(
-        "Could not find libmagpie.so. Please run 'make libmagpie' inside vendor/magpie."
+        "Could not find libmagpie.so (or libmagpie.dylib). Please run 'make libmagpie' inside vendor/magpie "
+        "or execute ./install.sh to automatically compile it."
     )
 
 
@@ -122,11 +131,22 @@ class MagpieEngine:
         self._ctypes = MagpieCtypes(lib_path=lib_path)
 
         if data_dir is None:
-            # Default to vendor/magpie/data
             base_dir = os.path.dirname(os.path.abspath(__file__))
-            data_dir = os.path.normpath(
-                os.path.join(base_dir, "..", "vendor", "magpie", "data")
-            )
+            real_dir = os.path.dirname(os.path.realpath(__file__))
+            cwd = os.getcwd()
+            candidates = [
+                os.path.join(base_dir, "..", "vendor", "magpie", "data"),
+                os.path.join(real_dir, "..", "vendor", "magpie", "data"),
+                os.path.join(cwd, "vendor", "magpie", "data"),
+                os.path.join(cwd, "Alphable_V4", "vendor", "magpie", "data"),
+            ]
+            for c in candidates:
+                norm = os.path.normpath(c)
+                if os.path.isdir(norm):
+                    data_dir = norm
+                    break
+            if data_dir is None:
+                data_dir = os.path.normpath(os.path.join(base_dir, "..", "vendor", "magpie", "data"))
 
         self.data_dir = data_dir
         self.lexicon = lexicon

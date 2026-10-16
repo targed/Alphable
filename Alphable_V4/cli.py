@@ -261,10 +261,12 @@ def build_policy(
 
     # 2. V3 ResNet Champion (Macondo Distilled, 63 dims)
     if norm in ("v3", "v3-resnet"):
-        sys.path.insert(0, "/home/targed/Documents/Git/Alphable/Alphable_V3/src")
+        repo_root = os.path.normpath(os.path.join(os.path.dirname(__file__), ".."))
+        v3_src = os.path.join(repo_root, "Alphable_V3", "src")
+        sys.path.insert(0, v3_src)
         from alphable.core import inference as v3_inference, simulator as v3_simulator
-        v3_dict = "/home/targed/Documents/Git/Alphable/Alphable_V3/resources/CSW24.txt"
-        v3_model = "/home/targed/Documents/Git/Alphable/Alphable_V3/models/alphable_v3_macondo_v2.pth"
+        v3_dict = os.path.join(repo_root, "Alphable_V3", "resources", "CSW24.txt")
+        v3_model = os.path.join(repo_root, "Alphable_V3", "models", "alphable_v3_macondo_v2.pth")
         dev = device or ("cuda" if torch.cuda.is_available() else "cpu")
         v3_eng = v3_inference.AlphableInference(
             model_path=v3_model, dict_path=v3_dict, device=dev, state_vector_size=63
@@ -290,11 +292,13 @@ def build_policy(
 
     # 3. V3 SmolLM2 Transformer Ranker
     if norm == "v3-transformer":
-        sys.path.insert(0, "/home/targed/Documents/Git/Alphable/Alphable_V3/src")
+        repo_root = os.path.normpath(os.path.join(os.path.dirname(__file__), ".."))
+        v3_src = os.path.join(repo_root, "Alphable_V3", "src")
+        sys.path.insert(0, v3_src)
         from alphable.models.transformer_ranker import SmolLM2CandidateRanker
         from alphable.core import simulator as v3_simulator, structure as v3_structure
-        v3_dict = "/home/targed/Documents/Git/Alphable/Alphable_V3/resources/CSW24.txt"
-        t_model_path = "/home/targed/Documents/Git/Alphable/Alphable_V3/models/transformer_ranker_v2"
+        v3_dict = os.path.join(repo_root, "Alphable_V3", "resources", "CSW24.txt")
+        t_model_path = os.path.join(repo_root, "Alphable_V3", "models", "transformer_ranker_v2")
         dev = device or ("cuda" if torch.cuda.is_available() else "cpu")
         ranker = SmolLM2CandidateRanker(model_name_or_path=t_model_path, device=dev)
         g = v3_structure.Gaddag.load(v3_dict)

@@ -170,9 +170,14 @@ def run_hyperparameter_optimization(
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--checkpoint", default="/home/targed/Documents/Git/Alphable/Alphable_V4/models/checkpoints/v4_value_net_best.pt")
-    parser.add_argument("--output", default="/home/targed/Documents/Git/Alphable/Alphable_V4/data/optimal_hyperparams.json")
+    default_ckpt = os.path.normpath(
+        os.path.join(os.path.dirname(__file__), "..", "models", "checkpoints", "v4_value_net_best.pt")
+    )
+    default_out = os.path.normpath(
+        os.path.join(os.path.dirname(__file__), "..", "data", "optimal_hyperparams.json")
+    )
+    parser.add_argument("--checkpoint", default=default_ckpt)
+    parser.add_argument("--output", default=default_out)
     parser.add_argument("--matches", type=int, default=3)
     args = parser.parse_args()
 

@@ -8,12 +8,15 @@
 
 ## 1. Master Command Catalog
 
-All commands are run using the project virtual environment (`/home/targed/Documents/Git/Alphable/venv/bin/python`) from the `Alphable_V4` directory.
+All commands are run from the `Alphable_V4/` directory with your virtual environment activated:
+```bash
+source venv/bin/activate
+```
 
 ### A. Model Catalog & Inspection
 ```bash
 # View all registered checkpoints, presets, search parameters, and verified benchmark ratings:
-PYTHONPATH=. /home/targed/Documents/Git/Alphable/venv/bin/python cli.py models
+python cli.py models
 ```
 
 ### B. Head-to-Head Tournament Series vs Baselines
@@ -22,90 +25,90 @@ Run multi-game tournament series with automatic first-player alternating (`g % 2
 ```bash
 # 1. Official 1,000-Game Tournament vs Base MAGPIE (KLV Static Equity Top Move)
 # Uses the latest calibrated champion by default:
-PYTHONPATH=. /home/targed/Documents/Git/Alphable/venv/bin/python cli.py tournament --opponent magpie --games 1000
+python cli.py tournament --opponent magpie --games 1000
 
 # 2. Run 1,000 Games with the 5-Frontiers Champion (54.2% WR verified baseline):
-PYTHONPATH=. /home/targed/Documents/Git/Alphable/venv/bin/python cli.py tournament --model 5-frontiers --opponent magpie --games 1000
+python cli.py tournament --model 5-frontiers --opponent magpie --games 1000
 
 # 3. Run 1,000 Games with the original V4 1-Ply Baseline (52.2% WR):
-PYTHONPATH=. /home/targed/Documents/Git/Alphable/venv/bin/python cli.py tournament --model v4-baseline --opponent magpie --games 1000
+python cli.py tournament --model v4-baseline --opponent magpie --games 1000
 
 # 4. Run Tournament with RL Self-Play Fine-Tuned Model:
-PYTHONPATH=. /home/targed/Documents/Git/Alphable/venv/bin/python cli.py tournament --model rl-gen1 --opponent magpie --games 100
+python cli.py tournament --model rl-gen1 --opponent magpie --games 100
 
 # 5. Tournament vs Alphable V3 Macondo ResNet Champion (63 dims):
-PYTHONPATH=. /home/targed/Documents/Git/Alphable/venv/bin/python cli.py tournament --model latest --opponent v3-resnet --games 100
+python cli.py tournament --model latest --opponent v3-resnet --games 100
 
 # 6. Tournament vs Alphable V3 SmolLM2-135M Transformer Candidate Ranker:
-PYTHONPATH=. /home/targed/Documents/Git/Alphable/venv/bin/python cli.py tournament --model latest --opponent v3-transformer --games 10
+python cli.py tournament --model latest --opponent v3-transformer --games 10
 
 # 7. Tournament vs Score-Greedy Baseline:
-PYTHONPATH=. /home/targed/Documents/Git/Alphable/venv/bin/python cli.py tournament --model latest --opponent greedy --games 20
+python cli.py tournament --model latest --opponent greedy --games 20
 ```
 
 ### C. Direct Model-vs-Model Comparisons
 Pit any two Alphable V4 generations or models directly against each other:
 ```bash
 # Latest Champion vs 5-Frontiers Champion:
-PYTHONPATH=. /home/targed/Documents/Git/Alphable/venv/bin/python cli.py tournament --model latest --opponent 5-frontiers --games 50
+python cli.py tournament --model latest --opponent 5-frontiers --games 50
 
 # Latest Champion vs V4 Baseline:
-PYTHONPATH=. /home/targed/Documents/Git/Alphable/venv/bin/python cli.py tournament --model latest --opponent v4-baseline --games 50
+python cli.py tournament --model latest --opponent v4-baseline --games 50
 
 # RL Gen-1 Policy vs 5-Frontiers:
-PYTHONPATH=. /home/targed/Documents/Git/Alphable/venv/bin/python cli.py tournament --model rl-gen1 --opponent 5-frontiers --games 50
+python cli.py tournament --model rl-gen1 --opponent 5-frontiers --games 50
 ```
 
 ### D. Duplicate Pair-Swapped Tournaments (Zero Tile Luck Benchmark)
 Eliminates tile draw variance by playing identical rack seeds with swapped player seats:
 ```bash
 # Duplicate tournament between Latest Champion and Base MAGPIE (30 games = 15 duplicate pairs):
-PYTHONPATH=. /home/targed/Documents/Git/Alphable/venv/bin/python cli.py tournament --model latest --opponent magpie --games 30 --duplicate
+python cli.py tournament --model latest --opponent magpie --games 30 --duplicate
 
 # Duplicate tournament between Latest Champion and 5-Frontiers:
-PYTHONPATH=. /home/targed/Documents/Git/Alphable/venv/bin/python cli.py tournament --model latest --opponent 5-frontiers --games 20 --duplicate
+python cli.py tournament --model latest --opponent 5-frontiers --games 20 --duplicate
 ```
 
 ### E. Neural Network Value Ablation
 Quantifies exact point contribution of the ResNet-18 + Cross-Attention Value Network (Neural ON vs Neural OFF on identical seeds):
 ```bash
-PYTHONPATH=. /home/targed/Documents/Git/Alphable/venv/bin/python cli.py ablation --model latest --games 20
+python cli.py ablation --model latest --games 20
 ```
 
 ### F. Interactive Play & Positional Analysis
 ```bash
 # 1. Play interactively against Alphable V4 in your terminal (with board ASCII & hints)
-PYTHONPATH=. /home/targed/Documents/Git/Alphable/venv/bin/python cli.py play --model latest
+python cli.py play --model latest
 
 # 2. Analyze any rack on an empty board (compares MAGPIE vs BAMS evaluations)
-PYTHONPATH=. /home/targed/Documents/Git/Alphable/venv/bin/python cli.py analyze --model latest --rack "AQRTUYZ"
+python cli.py analyze --model latest --rack "AQRTUYZ"
 
 # 3. Analyze a mid-game rack with an existing board word hook
-PYTHONPATH=. /home/targed/Documents/Git/Alphable/venv/bin/python cli.py analyze --model latest --rack "TRAINER" --board-word "QUIZ" --board-coord "8D"
+python cli.py analyze --model latest --rack "TRAINER" --board-word "QUIZ" --board-coord "8D"
 
 # 4. Compare position analysis under different model presets:
-PYTHONPATH=. /home/targed/Documents/Git/Alphable/venv/bin/python cli.py analyze --model rl-gen1 --rack "RETINAS"
+python cli.py analyze --model rl-gen1 --rack "RETINAS"
 ```
 
 ### G. Full Test Suite Verification
 ```bash
 # Run all unit tests across engine, models, search, platform, and training:
-PYTHONPATH=. /home/targed/Documents/Git/Alphable/venv/bin/pytest tests/ -v
+pytest tests/ -v
 ```
 
 ### H. Tournament History & Delta Comparison
 ```bash
 # 1. View full historical ledger of all saved tournament runs:
-PYTHONPATH=. /home/targed/Documents/Git/Alphable/venv/bin/python cli.py history
+python cli.py history
 
 # 2. Inspect a specific benchmark run in detail (scores, error bars, t-test, duration):
-PYTHONPATH=. /home/targed/Documents/Git/Alphable/venv/bin/python cli.py history --show run_20261015_215837
+python cli.py history --show run_20261015_215837
 
 # 3. Compare two tournament benchmarks side-by-side with full delta analysis:
-PYTHONPATH=. /home/targed/Documents/Git/Alphable/venv/bin/python cli.py history --compare run_20261013_143000 run_20261015_215837
+python cli.py history --compare run_20261013_143000 run_20261015_215837
 
 # 4. Tag a tournament run for easy identification:
-PYTHONPATH=. /home/targed/Documents/Git/Alphable/venv/bin/python cli.py tournament --opponent magpie --games 100 --tag "depth-scaling"
+python cli.py tournament --opponent magpie --games 100 --tag "depth-scaling"
 ```
 
 ---

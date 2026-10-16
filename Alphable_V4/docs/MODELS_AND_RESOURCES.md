@@ -44,9 +44,8 @@ Alphable V4 separates **model weights** from **search execution policies**. You 
 
 All commands are run using Python inside the project virtual environment:
 ```bash
-cd /home/targed/Documents/Git/Alphable/Alphable_V4
-source /home/targed/Documents/Git/Alphable/venv/bin/activate
-export PYTHONPATH=.
+cd Alphable_V4
+source venv/bin/activate
 ```
 
 ### 1. View Models Catalog (`python cli.py models`)

@@ -86,7 +86,9 @@ def test_parse_gcg_text():
 
 
 def test_real_match_extraction():
-    match_dir = "/home/targed/Documents/Git/Alphable/Alphable_V3/data/woogles/matches/match_20260924_001412_aaa556goku"
+    match_dir = os.path.abspath(
+        os.path.join(os.path.dirname(__file__), "../../../Alphable_V3/data/woogles/matches/match_20260924_001412_aaa556goku")
+    )
     if not os.path.exists(match_dir):
         pytest.skip("Test match directory not available")
 
@@ -120,7 +122,9 @@ def test_hyperparameter_evaluation_function():
     from alphable_v4.engine.magpie_bindings import MagpieEngine
 
     engine = MagpieEngine(lexicon="CSW24")
-    ckpt = "/home/targed/Documents/Git/Alphable/Alphable_V4/models/checkpoints/v4_value_net_best.pt"
+    ckpt = os.path.normpath(
+        os.path.join(os.path.dirname(__file__), "..", "..", "models", "checkpoints", "v4_value_net_best.pt")
+    )
     params = {"weight_2ply": 0.18, "opp_penalty_weight": 0.12, "max_static_deficit": 3.5, "value_weight": 4.5}
 
     res = evaluate_hyperparams(engine, ckpt, params, num_matches=1, base_seed=123)

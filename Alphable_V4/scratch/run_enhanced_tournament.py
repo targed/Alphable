@@ -15,9 +15,10 @@ from alphable_v4.platform.eval import GameSimulator
 
 def run_tournament(n_games=30):
     engine = MagpieEngine(lexicon='CSW24')
+    ckpt = os.path.normpath(os.path.join(os.path.dirname(__file__), '..', 'models', 'checkpoints', 'v4_value_net_best.pt'))
     bams = BAMSSearch.from_checkpoint(
         engine,
-        '/home/targed/Documents/Git/Alphable/Alphable_V4/models/checkpoints/v4_value_net_best.pt',
+        ckpt,
         config=BAMSConfig(
             num_samples=24,
             candidate_beam=16,
