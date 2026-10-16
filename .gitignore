@@ -226,3 +226,9 @@ Alphable\Alphable_V2\data\gcg
 /Alphable_V3/data
 /data
 /visualizer/frontend/node_modules
+
+# Full local training checkpoints with optimizer buffers (kept locally, not committed)
+*_full_training.pt
+*_full_training*.pt
+*_with_optimizer*.pt
+v4_value_net_best_full_training.pt

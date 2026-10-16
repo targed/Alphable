@@ -10,7 +10,7 @@ All neural network weights are PyTorch state dictionaries saved in standard `.pt
 
 ```
 Alphable_V4/models/checkpoints/
-├── v4_value_net_best.pt       # ⭐ PRODUCTION CHAMPION VALUE NETWORK (157.8 MB, 32-ch ResNet-18 + Cross-Attention)
+├── v4_value_net_best.pt       # ⭐ PRODUCTION CHAMPION VALUE NETWORK (52.6 MB, 32-ch ResNet-18 + Cross-Attention)
 ├── v4_value_net_rl_gen1.pt    # 🔬 REINFORCEMENT LEARNING GEN-1 POLICY (52.9 MB, Anchored Self-Play Fine-Tuned)
 └── v4_belief_net_best.pt      # 🧠 BAYESIAN OPPONENT BELIEF NETWORK (366 KB, Dirichlet Tile Posterior Estimator)
 ```
@@ -19,7 +19,7 @@ Alphable_V4/models/checkpoints/
 
 | Checkpoint File | File Size | Architecture | State Vector Size | Training Methodology | Target Evaluation Quality | Status / Recommendation |
 | :--- | :---: | :--- | :---: | :--- | :--- | :--- |
-| **`v4_value_net_best.pt`** | **157.8 MB** | **ResNet-18 + Cross-Attention** (32 channels, 512-dim embedding, 8 heads) | **64 dims** | Supervised Knowledge Distillation on 10,000+ grandmaster positions + centered normalized equity targets. | Superhuman after-board evaluation; understands multi-turn bingo lanes, rack balance, vowel congestion, and defense. | **⭐ PRODUCTION CHAMPION** (Default for `latest`, `5-frontiers`, and `scaled` presets). |
+| **`v4_value_net_best.pt`** | **52.6 MB** | **ResNet-18 + Cross-Attention** (32 channels, 512-dim embedding, 8 heads) | **64 dims** | Supervised Knowledge Distillation on 10,000+ grandmaster positions + centered normalized equity targets. | Superhuman after-board evaluation; understands multi-turn bingo lanes, rack balance, vowel congestion, and defense. (Optimized for GitHub without Git LFS; full 157.8 MB Adam training checkpoint safely archived locally as `v4_value_net_best_full_training.pt`). | **⭐ PRODUCTION CHAMPION** (Default for `latest`, `5-frontiers`, and `scaled` presets). |
 | **`v4_value_net_rl_gen1.pt`** | **52.9 MB** | **ResNet-18 Value Network** | **64 dims** | **Anchored Self-Play RL**: Fine-tuned via policy gradient against anchored teacher ($D_{\text{KL}}$ penalty) to prevent policy collapse. | Aggressive tactical awareness in contested midgame positions; prevents passive defensive play. | **🔬 RL POLICY CHECKPOINT** (Selectable via `--model rl-gen1`). |
 | **`v4_belief_net_best.pt`** | **366 KB** | **Bayesian Dirichlet-Multinomial Estimator** | **27 dims** | Unseen tile pool tracking + negative-evidence opponent play observation. | Predicts opponent rack distributions with dynamic blank-probability decay when high-value tiles are withheld. | **🧠 ACTIVE INFERENCE TRACKER** (Used across all BAMS searches). |
 
