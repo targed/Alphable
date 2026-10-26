@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { BoardState, CandidateMove, GameSnapshot, PlayerConfig } from './types';
+import { BoardState, CandidateMove, GameSnapshot, PlayerConfig, EngineStats } from './types';
 import { Board, TILE_POINTS } from './components/Board';
 import { TileRack } from './components/TileRack';
 import { PlayerHUD } from './components/PlayerHUD';
@@ -9,6 +9,8 @@ import { BagModal } from './components/BagModal';
 import { DuplicateModal } from './components/DuplicateModal';
 import { GameReplayView } from './components/GameReplayView';
 import { PositionAnalyzer } from './components/PositionAnalyzer';
+import { WordInspector } from './components/WordInspector';
+import { EngineStatsView } from './components/EngineStatsView';
 
 const INITIAL_BOARD = (): BoardState => Array(15).fill(null).map(() => Array(15).fill(null));
 
@@ -86,12 +88,28 @@ export const App: React.FC = () => {
   const [autoPlaySpeed, setAutoPlaySpeed] = useState<number>(1.0);
   const [statusMessage, setStatusMessage] = useState<string>('Match ready. Play a move or start AI match.');
 
-  // Modals
+  // Modals & Panels
   const [isBagModalOpen, setIsBagModalOpen] = useState<boolean>(false);
   const [isDuplicateModalOpen, setIsDuplicateModalOpen] = useState<boolean>(false);
   const [duplicateP1Decision, setDuplicateP1Decision] = useState<any>(null);
   const [duplicateP2Decision, setDuplicateP2Decision] = useState<any>(null);
   const [isDuplicateLoading, setIsDuplicateLoading] = useState<boolean>(false);
+
+  // Engine Stats & Lexicon Word Inspector
+  const [engineStats, setEngineStats] = useState<EngineStats | null>(null);
+  const [activeRightTab, setActiveRightTab] = useState<'candidates' | 'stats' | 'dictionary'>('candidates');
+  const [inspectedWord, setInspectedWord] = useState<string>('');
+  const [isWordModalOpen, setIsWordModalOpen] = useState<boolean>(false);
+  const [autoDefineWord, setAutoDefineWord] = useState<boolean>(true);
+
+  // Inspect word in Lexicon Word Inspector without modifying game state
+  const handleInspectWord = (word: string | undefined | null) => {
+    if (!word) return;
+    const clean = word.replace(/[^A-Za-z]/g, '').trim().toUpperCase();
+    if (!clean) return;
+    setInspectedWord(clean);
+    setActiveRightTab('dictionary');
+  };
 
   // Human Move Input
   const [playWord, setPlayWord] = useState<string>('');
@@ -215,6 +233,23 @@ export const App: React.FC = () => {
 
         if (data.candidates) setCandidates(data.candidates);
 
+        if (data.metadata) {
+          setEngineStats({
+            engine: activeCfg.engine,
+            model: activeCfg.model,
+            method: data.metadata.method || 'bams_search',
+            latency_ms: data.metadata.latency_ms || 0,
+            stage: data.metadata.stage || 'Midgame',
+            num_candidates_evaluated: data.metadata.num_candidates_evaluated || (data.candidates ? data.candidates.length : 0),
+            num_samples: data.metadata.num_samples,
+            best_bams_score: data.metadata.best_bams_score,
+            static_equity: data.metadata.static_equity,
+            volatility_used: data.metadata.volatility_used,
+            sampled_racks: data.metadata.sampled_racks,
+            evaluations: data.metadata.evaluations,
+          });
+        }
+
         if (data.action === 'PLAY' && data.move) {
           recordSnapshot({
             player: playerIdx,
@@ -223,6 +258,11 @@ export const App: React.FC = () => {
             points: data.points,
             action: 'PLAY'
           });
+
+          if (autoDefineWord && data.move.word) {
+            const clean = data.move.word.replace(/[^A-Za-z]/g, '').trim().toUpperCase();
+            if (clean) setInspectedWord(clean);
+          }
 
           // Apply move to board
           const nextBoard = board.map(r => [...r]);
@@ -330,9 +370,10 @@ export const App: React.FC = () => {
     }
     const currentCfg = activePlayer === 0 ? player1 : player2;
     if (isAutoPlaying && currentCfg.type === 'ai' && !isThinking) {
+      const delay = autoPlaySpeed === 0 ? 15 : autoPlaySpeed * 1000;
       autoPlayTimerRef.current = setTimeout(() => {
         executeAiTurn(activePlayer);
-      }, autoPlaySpeed * 1000);
+      }, delay);
     } else if (isAutoPlaying && currentCfg.type === 'human') {
       // Pause if waiting on human
       setIsAutoPlaying(false);
@@ -381,6 +422,11 @@ export const App: React.FC = () => {
           points: data.points,
           action: 'PLAY'
         });
+
+        if (autoDefineWord && moveObj.word) {
+          const clean = moveObj.word.replace(/[^A-Za-z]/g, '').trim().toUpperCase();
+          if (clean) setInspectedWord(clean);
+        }
 
         const nextBoard = board.map(r => [...r]);
         const isAcross = playDir === 'Across';
@@ -540,6 +586,11 @@ export const App: React.FC = () => {
       action: 'PLAY (Duplicate Branch)'
     });
 
+    if (autoDefineWord && decision.move.word) {
+      const clean = decision.move.word.replace(/[^A-Za-z]/g, '').trim().toUpperCase();
+      if (clean) setInspectedWord(clean);
+    }
+
     const nextBoard = board.map(r => [...r]);
     const isAcross = (decision.move.direction || 'Across').toLowerCase().startsWith('a');
     const newHighlights: Array<[number, number]> = [];
@@ -618,6 +669,15 @@ export const App: React.FC = () => {
             <option value="CSW24">CSW24 (Collins)</option>
             <option value="NWL23">NWL23 (North American)</option>
           </select>
+          <button
+            className="btn-secondary"
+            onClick={() => setIsWordModalOpen(true)}
+            style={{ fontSize: '0.75rem', padding: '0.35rem 0.65rem' }}
+            title="Open Lexicon & Word Definition Inspector"
+          >
+            Word Lookup
+          </button>
+
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', fontSize: '0.8rem', color: '#10b981' }}>
             <span style={{ width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#10b981', display: 'inline-block' }}></span>
             <span>Online</span>
@@ -741,30 +801,82 @@ export const App: React.FC = () => {
                 )}
               </div>
 
-              {/* Right Column: Move Evaluations and History */}
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
-                <CandidateTable
-                  candidates={candidates}
-                  title="Live Strategic Evaluations"
-                  onHoverCandidate={(c) => {
-                    if (c && c.word && c.row !== undefined && c.col !== undefined) {
-                      const isAcross = (c.direction || 'Across').toLowerCase().startsWith('a');
-                      const h: Array<[number, number]> = [];
-                      for (let i = 0; i < c.word.length; i++) {
-                        h.push([isAcross ? c.row : c.row + i, isAcross ? c.col + i : c.col]);
+              {/* Right Column: Move Evaluations, Engine Stats, and Word Inspector */}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                {/* Right Column Navigation Tabs */}
+                <div style={{ display: 'flex', gap: '0.35rem', backgroundColor: 'var(--bg-elevated)', padding: '0.3rem', borderRadius: '6px', border: '1px solid var(--border-subtle)' }}>
+                  <button
+                    className={`studio-tab-btn ${activeRightTab === 'candidates' ? 'active' : ''}`}
+                    onClick={() => setActiveRightTab('candidates')}
+                    style={{ flex: 1, padding: '0.35rem 0.5rem', fontSize: '0.78rem' }}
+                  >
+                    Evaluations ({candidates.length})
+                  </button>
+                  <button
+                    className={`studio-tab-btn ${activeRightTab === 'stats' ? 'active' : ''}`}
+                    onClick={() => setActiveRightTab('stats')}
+                    style={{ flex: 1, padding: '0.35rem 0.5rem', fontSize: '0.78rem' }}
+                  >
+                    Engine Thoughts
+                  </button>
+                  <button
+                    className={`studio-tab-btn ${activeRightTab === 'dictionary' ? 'active' : ''}`}
+                    onClick={() => setActiveRightTab('dictionary')}
+                    style={{ flex: 1, padding: '0.35rem 0.5rem', fontSize: '0.78rem' }}
+                  >
+                    Word Inspector
+                  </button>
+                </div>
+
+                {activeRightTab === 'candidates' && (
+                  <CandidateTable
+                    candidates={candidates}
+                    title="Live Strategic Evaluations"
+                    onInspectWord={(w) => {
+                      setInspectedWord(w);
+                      setActiveRightTab('dictionary');
+                    }}
+                    onHoverCandidate={(c) => {
+                      if (c && c.word && c.row !== undefined && c.col !== undefined) {
+                        const isAcross = (c.direction || 'Across').toLowerCase().startsWith('a');
+                        const h: Array<[number, number]> = [];
+                        for (let i = 0; i < c.word.length; i++) {
+                          h.push([isAcross ? c.row : c.row + i, isAcross ? c.col + i : c.col]);
+                        }
+                        setHighlightCells(h);
+                      } else {
+                        setHighlightCells([]);
                       }
-                      setHighlightCells(h);
-                    } else {
-                      setHighlightCells([]);
-                    }
-                  }}
-                />
+                    }}
+                  />
+                )}
+
+                {activeRightTab === 'stats' && (
+                  <EngineStatsView
+                    stats={engineStats}
+                    currentCandidates={candidates}
+                    onSelectWord={(w) => {
+                      setInspectedWord(w);
+                      setActiveRightTab('dictionary');
+                    }}
+                  />
+                )}
+
+                {activeRightTab === 'dictionary' && (
+                  <WordInspector
+                    initialWord={inspectedWord}
+                    lexicon={lexicon}
+                    isInline={true}
+                    autoDefine={autoDefineWord}
+                    onToggleAutoDefine={setAutoDefineWord}
+                  />
+                )}
 
                 {/* Turn Snapshot History List */}
                 <div className="panel-card" style={{ flex: 1, minHeight: '200px', maxHeight: '340px', overflowY: 'auto' }}>
                   <div className="panel-title">
                     <span>Game Timeline ({historyStack.length} turns)</span>
-                    <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Click to rewind</span>
+                    <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Click word to define &bull; Rewind jumps</span>
                   </div>
                   {historyStack.length === 0 ? (
                     <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)', textAlign: 'center', padding: '1rem' }}>
@@ -774,40 +886,66 @@ export const App: React.FC = () => {
                     <table className="candidate-table">
                       <thead>
                         <tr>
-                          <th>Turn</th>
+                          <th style={{ width: '45px' }}>Turn</th>
                           <th>Player</th>
-                          <th>Move</th>
+                          <th>Move (Click to Define)</th>
                           <th style={{ textAlign: 'right' }}>Pts</th>
+                          <th style={{ textAlign: 'center', width: '70px' }}>Rewind</th>
                         </tr>
                       </thead>
                       <tbody>
                         {historyStack.map((snap, idx) => (
-                          <tr
-                            key={idx}
-                            onClick={() => {
-                              // Jump to this snapshot
-                              setIsAutoPlaying(false);
-                              setBoard(snap.board);
-                              setP1Rack(snap.p1Rack);
-                              setP2Rack(snap.p2Rack);
-                              setP1Score(snap.p1Score);
-                              setP2Score(snap.p2Score);
-                              setBag(snap.bag);
-                              setActivePlayer(snap.activePlayer);
-                              setTurnNumber(snap.turnNumber);
-                              setHistoryStack(historyStack.slice(0, idx));
-                              setStatusMessage(`Jumped back to Turn ${snap.turnNumber}.`);
-                            }}
-                          >
+                          <tr key={idx} style={{ backgroundColor: 'transparent' }}>
                             <td style={{ color: 'var(--text-muted)' }}>{snap.turnNumber}</td>
                             <td style={{ color: snap.lastMove?.player === 0 ? '#60a5fa' : '#c084fc', fontWeight: 600 }}>
                               {snap.lastMove?.player === 0 ? player1.name : player2.name}
                             </td>
                             <td style={{ fontWeight: 700 }}>
-                              {snap.lastMove?.word ? `${snap.lastMove.word} (${snap.lastMove.coord})` : (snap.lastMove?.action || 'MOVE')}
+                              {snap.lastMove?.word ? (
+                                <span
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    handleInspectWord(snap.lastMove?.word);
+                                  }}
+                                  style={{
+                                    color: '#38bdf8',
+                                    cursor: 'pointer',
+                                    textDecoration: 'underline',
+                                    textUnderlineOffset: '3px'
+                                  }}
+                                  title="Click to view definition in Lexicon Word Inspector"
+                                >
+                                  {snap.lastMove.word} {snap.lastMove.coord ? `(${snap.lastMove.coord})` : ''}
+                                </span>
+                              ) : (
+                                <span style={{ color: 'var(--text-muted)' }}>{snap.lastMove?.action || 'MOVE'}</span>
+                              )}
                             </td>
                             <td style={{ textAlign: 'right', fontWeight: 700, color: '#10b981' }}>
                               +{snap.lastMove?.points || 0}
+                            </td>
+                            <td style={{ textAlign: 'center' }}>
+                              <button
+                                className="btn-secondary"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  setIsAutoPlaying(false);
+                                  setBoard(snap.board);
+                                  setP1Rack(snap.p1Rack);
+                                  setP2Rack(snap.p2Rack);
+                                  setP1Score(snap.p1Score);
+                                  setP2Score(snap.p2Score);
+                                  setBag(snap.bag);
+                                  setActivePlayer(snap.activePlayer);
+                                  setTurnNumber(snap.turnNumber);
+                                  setHistoryStack(historyStack.slice(0, idx));
+                                  setStatusMessage(`Rewound to Turn ${snap.turnNumber}.`);
+                                }}
+                                style={{ padding: '0.18rem 0.45rem', fontSize: '0.7rem' }}
+                                title="Rewind match to this turn"
+                              >
+                                Rewind
+                              </button>
                             </td>
                           </tr>
                         ))}
@@ -841,6 +979,34 @@ export const App: React.FC = () => {
           onApplyDecision={handleApplyDuplicateDecision}
           onClose={() => setIsDuplicateModalOpen(false)}
         />
+      )}
+
+      {/* Standalone Word Definition Inspector Modal */}
+      {isWordModalOpen && (
+        <div
+          style={{
+            position: 'fixed',
+            inset: 0,
+            backgroundColor: 'rgba(0, 0, 0, 0.8)',
+            backdropFilter: 'blur(4px)',
+            zIndex: 1000,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: '1.5rem'
+          }}
+          onClick={() => setIsWordModalOpen(false)}
+        >
+          <div style={{ width: '100%', maxWidth: '580px' }} onClick={(e) => e.stopPropagation()}>
+            <WordInspector
+              initialWord={inspectedWord}
+              lexicon={lexicon}
+              onClose={() => setIsWordModalOpen(false)}
+              autoDefine={autoDefineWord}
+              onToggleAutoDefine={setAutoDefineWord}
+            />
+          </div>
+        </div>
       )}
     </div>
   );

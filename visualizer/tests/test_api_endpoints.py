@@ -92,3 +92,22 @@ def test_api_interactive_move_empty_rack_returns_pass(client):
     assert data["action"] == "PASS"
     assert data["points"] == 0
 
+
+def test_api_dictionary_lookup(client):
+    """Test word validity and definition lookup endpoint."""
+    res = client.get("/api/dictionary/lookup?word=QUIZ&lexicon=CSW24")
+    assert res.status_code == 200
+    data = res.get_json()
+    assert data["word"] == "QUIZ"
+    assert data["valid"] is True
+    assert data["score"] == 22
+    assert "definition" in data
+    assert len(data["definition"]) > 0
+
+    # Phoney / invalid word
+    res_invalid = client.get("/api/dictionary/lookup?word=XYZZYNOTAWARD&lexicon=CSW24")
+    assert res_invalid.status_code == 200
+    data_invalid = res_invalid.get_json()
+    assert data_invalid["valid"] is False
+
+

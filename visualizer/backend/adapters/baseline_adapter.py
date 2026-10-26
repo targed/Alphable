@@ -3,6 +3,7 @@ Baseline Adapter for Visualizer Studio: Base MAGPIE and Score Greedy Bots.
 """
 
 import sys
+import time
 from pathlib import Path
 from typing import List, Dict, Any, Optional
 
@@ -85,6 +86,7 @@ class BaselineAdapter(BaseEngineAdapter):
             }
 
 
+        t0 = time.perf_counter()
         game_state = GameState(
             board=board,
             rack=clean_rack,
@@ -100,6 +102,7 @@ class BaselineAdapter(BaseEngineAdapter):
             legal_moves = []
 
         bot_mode = mode or model_name or "magpie"
+        latency_ms = round((time.perf_counter() - t0) * 1000, 1)
 
         if not legal_moves:
             return {
@@ -108,14 +111,23 @@ class BaselineAdapter(BaseEngineAdapter):
                 "points": 0,
                 "equity": 0.0,
                 "new_rack": clean_rack,
-                "candidates": []
+                "candidates": [],
+                "metadata": {
+                    "mode": bot_mode,
+                    "method": "No Legal Moves (Pass)",
+                    "latency_ms": latency_ms,
+                    "num_candidates_evaluated": 0,
+                    "stage": "Endgame" if bag_remaining == 0 else "Midgame"
+                }
             }
 
         if bot_mode == "greedy":
             best_move = max(legal_moves, key=lambda m: m.score)
+            method_desc = "Score Greedy Search"
         else:
             # Base MAGPIE sorts by static equity by default
             best_move = legal_moves[0]
+            method_desc = "Classical KLV Static Equity"
 
         candidates = []
         for m in legal_moves[:15]:
@@ -149,7 +161,15 @@ class BaselineAdapter(BaseEngineAdapter):
             "equity": round(float(best_move.equity if hasattr(best_move, "equity") and best_move.equity is not None else best_move.score), 2),
             "new_rack": new_rack,
             "candidates": candidates,
-            "metadata": {"mode": bot_mode, "lexicon": lexicon}
+            "metadata": {
+                "mode": bot_mode,
+                "lexicon": lexicon,
+                "method": method_desc,
+                "latency_ms": latency_ms,
+                "num_candidates_evaluated": len(legal_moves),
+                "static_equity": round(float(best_move.equity if hasattr(best_move, "equity") and best_move.equity is not None else best_move.score), 2),
+                "stage": "Opening / Midgame" if bag_remaining > 5 else ("Pre-Endgame Parity" if bag_remaining > 0 else "Endgame"),
+            }
         }
 
     def validate_move(

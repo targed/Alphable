@@ -17,6 +17,7 @@ from visualizer.backend.adapters.v4_adapter import V4Adapter
 from visualizer.backend.adapters.v3_adapter import V3Adapter
 from visualizer.backend.adapters.baseline_adapter import BaselineAdapter
 from visualizer.backend.services.replay_service import ReplayService
+from visualizer.backend.services.dictionary_service import dictionary_service
 
 FRONTEND_BUILD_DIR = Path(__file__).resolve().parent.parent / "frontend" / "build"
 
@@ -105,6 +106,15 @@ def create_app() -> Flask:
             "count": len(tourneys),
             "tournaments": tourneys
         })
+
+    @app.route('/api/dictionary/lookup', methods=['GET'])
+    def lookup_word():
+        word = request.args.get("word", "").strip()
+        lexicon = request.args.get("lexicon", "CSW24").strip()
+        if not word:
+            return jsonify({"error": "Word parameter is required."}), 400
+        result = dictionary_service.lookup_word(word, lexicon)
+        return jsonify(result)
 
     @app.route('/api/interactive/move', methods=['POST'])
     def compute_ai_move():
@@ -248,5 +258,5 @@ if __name__ == '__main__':
     debug = os.environ.get('FLASK_DEBUG', '0') == '1'
 
     application = create_app()
-    print(f"\n🚀 Starting Alphable Visualizer Studio on http://{host}:{port}")
+    print(f"\nStarting Alphable Visualizer Studio on http://{host}:{port}")
     application.run(host=host, port=port, debug=debug)

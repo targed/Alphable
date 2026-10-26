@@ -107,11 +107,72 @@ export interface TournamentSummary {
   win_rate: {
     percentage: number;
     ci95?: number;
+    ci_lower?: number;
+    ci_upper?: number;
   };
   net_spread: {
     mean: number;
     ci95?: number;
+    ci_lower?: number;
+    ci_upper?: number;
   };
+  significance?: {
+    t_statistic: number;
+    p_value: number;
+    verdict: string;
+    hypothesis: string;
+  };
+  notes?: string;
+  details?: Array<{
+    pair: number;
+    seed: number;
+    p1_gameA_score: number;
+    p1_gameB_score: number;
+    p1_pair_total: number;
+    p2_gameA_score: number;
+    p2_gameB_score: number;
+    p2_pair_total: number;
+    net_spread: number;
+    verdict: string;
+  }>;
+}
+
+export interface WordDefinitionResult {
+  word: string;
+  valid: boolean;
+  lexicon: string;
+  valid_csw24: boolean;
+  valid_nwl23: boolean;
+  length: number;
+  score: number;
+  definition: string;
+  part_of_speech: string;
+  source: string;
+}
+
+export interface EngineStats {
+  engine: string;
+  model?: string;
+  method: string;
+  latency_ms: number;
+  stage: string;
+  num_candidates_evaluated: number;
+  num_samples?: number;
+  best_bams_score?: number;
+  static_equity?: number;
+  volatility_used?: boolean;
+  sampled_racks?: string[];
+  evaluations?: Array<{
+    word: string;
+    row: number;
+    col: number;
+    direction: string;
+    score: number;
+    opp_reply_mean?: number;
+    mean_2ply_net?: number;
+    value_net_mean?: number;
+    bams_score?: number;
+  }>;
 }
 
 export interface ComparisonResult {

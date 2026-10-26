@@ -5,6 +5,7 @@ interface CandidateTableProps {
   candidates: CandidateMove[];
   onSelectCandidate?: (candidate: CandidateMove) => void;
   onHoverCandidate?: (candidate: CandidateMove | null) => void;
+  onInspectWord?: (word: string) => void;
   title?: string;
 }
 
@@ -12,6 +13,7 @@ export const CandidateTable: React.FC<CandidateTableProps> = ({
   candidates,
   onSelectCandidate,
   onHoverCandidate,
+  onInspectWord,
   title = "AI Move Evaluations"
 }) => {
   if (!candidates || candidates.length === 0) {
@@ -51,7 +53,22 @@ export const CandidateTable: React.FC<CandidateTableProps> = ({
                 onMouseLeave={() => onHoverCandidate && onHoverCandidate(null)}
               >
                 <td style={{ color: 'var(--text-muted)', fontWeight: 600 }}>{idx + 1}</td>
-                <td style={{ fontWeight: 700, color: '#f8fafc' }}>{c.word || (c.is_pass ? "PASS" : "EXCH")}</td>
+                <td
+                  style={{
+                    fontWeight: 700,
+                    color: '#f8fafc',
+                    cursor: onInspectWord && c.word ? 'pointer' : 'default'
+                  }}
+                  onClick={(e) => {
+                    if (onInspectWord && c.word) {
+                      e.stopPropagation();
+                      onInspectWord(c.word);
+                    }
+                  }}
+                  title={onInspectWord && c.word ? "Click to view definition in lexicon" : undefined}
+                >
+                  {c.word || (c.is_pass ? "PASS" : "EXCH")}
+                </td>
                 <td style={{ color: '#38bdf8' }}>{c.coord} ({c.direction})</td>
                 <td style={{ textAlign: 'right', fontWeight: 700, color: '#10b981' }}>+{c.points}</td>
                 <td style={{ color: 'var(--text-secondary)', letterSpacing: '0.1em' }}>{c.leave || "—"}</td>

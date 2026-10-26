@@ -393,6 +393,7 @@ class BAMSSearch:
             "latency_ms": latency_ms,
             "num_candidates_evaluated": len(evaluated_candidates),
             "num_samples": N,
+            "sampled_racks": sampled_racks[:8],
             "best_bams_score": best_eval.bams_score,
             "evaluations": [
                 {

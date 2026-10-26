@@ -180,19 +180,31 @@ export const ArenaControls: React.FC<ArenaControlsProps> = ({
             {isGameOver ? "New Match" : "Reset"}
           </button>
 
-          {/* Speed Selector */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.2rem', marginLeft: '0.5rem' }}>
+          {/* Continuous Speed / Delay Slider */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginLeft: '0.5rem', backgroundColor: 'var(--bg-elevated)', padding: '0.25rem 0.6rem', borderRadius: '4px', border: '1px solid var(--border-subtle)' }}>
             <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>Delay:</span>
-            {[0.5, 1.0, 2.0].map(s => (
-              <button
-                key={s}
-                className={`studio-tab-btn ${autoPlaySpeed === s ? 'active' : ''}`}
-                onClick={() => onSpeedChange(s)}
-                style={{ padding: '0.2rem 0.45rem', fontSize: '0.75rem' }}
-              >
-                {s}s
-              </button>
-            ))}
+            <input
+              type="range"
+              min="0"
+              max="3"
+              step="0.1"
+              value={autoPlaySpeed}
+              onChange={(e) => onSpeedChange(parseFloat(e.target.value))}
+              style={{
+                width: '80px',
+                accentColor: '#3b82f6',
+                cursor: 'pointer'
+              }}
+              title={autoPlaySpeed === 0 ? "Real-time: As fast as engines can play" : `${autoPlaySpeed.toFixed(1)}s turn delay`}
+            />
+            <span style={{
+              fontSize: '0.75rem',
+              fontWeight: 700,
+              minWidth: '55px',
+              color: autoPlaySpeed === 0 ? '#10b981' : '#38bdf8'
+            }}>
+              {autoPlaySpeed === 0 ? 'Real-time' : `${autoPlaySpeed.toFixed(1)}s`}
+            </span>
           </div>
         </div>
       </div>

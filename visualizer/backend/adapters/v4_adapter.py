@@ -195,7 +195,16 @@ class V4Adapter(BaseEngineAdapter):
             "metadata": {
                 "model": model_name or "latest",
                 "lexicon": lexicon,
+                "method": meta.get("method", "bams_mc_rollout_2ply"),
+                "latency_ms": round(float(meta.get("latency_ms", 0.0)), 1),
+                "num_candidates_evaluated": meta.get("num_candidates_evaluated", len(candidates)),
+                "num_samples": meta.get("num_samples", 0),
+                "best_bams_score": round(float(meta.get("best_bams_score", best_move.score)), 2),
+                "static_equity": round(float(best_move.equity if hasattr(best_move, "equity") and best_move.equity is not None else best_move.score), 2),
                 "volatility_used": meta.get("volatility_applied", False),
+                "sampled_racks": meta.get("sampled_racks", []),
+                "evaluations": meta.get("evaluations", []),
+                "stage": "Opening / Midgame" if bag_remaining > 5 else ("Pre-Endgame Parity" if bag_remaining > 0 else "Endgame"),
             }
         }
 

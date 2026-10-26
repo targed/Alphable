@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { GameSummary, TournamentSummary, BoardState } from '../types';
 import { Board } from './Board';
 import { PlayerHUD } from './PlayerHUD';
+import { TournamentModal } from './TournamentModal';
 
 const EMPTY_BOARD = (): BoardState => Array(15).fill(null).map(() => Array(15).fill(null));
 
@@ -14,6 +15,7 @@ export const GameReplayView: React.FC = () => {
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const [playSpeed, setPlaySpeed] = useState<number>(1.0);
   const [activeSubTab, setActiveSubTab] = useState<'games' | 'tournaments'>('games');
+  const [selectedTournament, setSelectedTournament] = useState<TournamentSummary | null>(null);
 
   const playTimerRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -144,12 +146,23 @@ export const GameReplayView: React.FC = () => {
             tournaments.map(t => (
               <div
                 key={t.run_id}
+                onClick={() => setSelectedTournament(t)}
                 style={{
-                  padding: '0.75rem',
+                  padding: '0.85rem',
                   borderRadius: '8px',
                   backgroundColor: 'var(--bg-deep)',
                   border: '1px solid var(--border-subtle)',
-                  fontSize: '0.85rem'
+                  fontSize: '0.85rem',
+                  cursor: 'pointer',
+                  transition: 'all 0.15s ease'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.borderColor = '#f59e0b';
+                  e.currentTarget.style.backgroundColor = 'var(--bg-elevated)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.borderColor = 'var(--border-subtle)';
+                  e.currentTarget.style.backgroundColor = 'var(--bg-deep)';
                 }}
               >
                 <div style={{ display: 'flex', justifyContent: 'space-between', color: '#f59e0b', fontWeight: 700 }}>
@@ -164,6 +177,19 @@ export const GameReplayView: React.FC = () => {
                 </div>
                 <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: '0.2rem' }}>
                   Net Spread: +{t.net_spread.mean} pts | Tag: {t.tag || 'N/A'}
+                </div>
+                <div style={{ marginTop: '0.5rem', display: 'flex', justifyContent: 'flex-end' }}>
+                  <span style={{
+                    fontSize: '0.7rem',
+                    fontWeight: 700,
+                    padding: '0.15rem 0.45rem',
+                    borderRadius: '4px',
+                    backgroundColor: 'rgba(245, 158, 11, 0.15)',
+                    color: '#f59e0b',
+                    border: '1px solid rgba(245, 158, 11, 0.3)'
+                  }}>
+                    View Analytics &amp; Graphs &rarr;
+                  </span>
                 </div>
               </div>
             ))
@@ -273,6 +299,14 @@ export const GameReplayView: React.FC = () => {
           </table>
         </div>
       </div>
+
+      {/* Tournament Analytics Modal */}
+      {selectedTournament && (
+        <TournamentModal
+          tournament={selectedTournament}
+          onClose={() => setSelectedTournament(null)}
+        />
+      )}
     </div>
   );
 };
