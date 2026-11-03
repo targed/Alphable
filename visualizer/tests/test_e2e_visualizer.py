@@ -1,5 +1,6 @@
 import pytest
 from visualizer.backend.app import create_app
+from visualizer.backend.adapters.v3_adapter import V3_AVAILABLE
 
 @pytest.fixture
 def client():
@@ -24,7 +25,11 @@ def test_e2e_all_engines_move_generation(client):
     board = [[None for _ in range(15)] for _ in range(15)]
     rack = ["C", "A", "T", "S", "E", "R", "D"]
 
-    for engine in ["v4", "v3", "magpie", "greedy"]:
+    engines = ["v4", "magpie", "greedy"]
+    if V3_AVAILABLE:
+        engines.append("v3")
+
+    for engine in engines:
         payload = {
             "engine": engine,
             "board": board,
@@ -46,10 +51,14 @@ def test_e2e_cross_engine_comparison(client):
     board[7][7] = "A"
     rack = ["C", "T", "S", "E", "R", "D", "O"]
 
+    engines = ["v4", "magpie"]
+    if V3_AVAILABLE:
+        engines.append("v3")
+
     payload = {
         "board": board,
         "rack": rack,
-        "engines": ["v4", "v3", "magpie"],
+        "engines": engines,
         "lexicon": "CSW24"
     }
     res = client.post("/api/compare/position", json=payload)
@@ -57,8 +66,9 @@ def test_e2e_cross_engine_comparison(client):
     data = res.get_json()
     assert "comparisons" in data
     assert "v4" in data["comparisons"]
-    assert "v3" in data["comparisons"]
     assert "magpie" in data["comparisons"]
     assert data["comparisons"]["v4"]["action"] == "PLAY"
-    assert data["comparisons"]["v3"]["action"] == "PLAY"
     assert data["comparisons"]["magpie"]["action"] == "PLAY"
+    if V3_AVAILABLE:
+        assert "v3" in data["comparisons"]
+        assert data["comparisons"]["v3"]["action"] == "PLAY"

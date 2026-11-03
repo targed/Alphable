@@ -7,9 +7,10 @@ import time
 from pathlib import Path
 from typing import List, Dict, Any, Optional
 
-V4_DIR = Path(__file__).resolve().parent.parent.parent.parent / "Alphable_V4"
-if str(V4_DIR) not in sys.path:
-    sys.path.insert(0, str(V4_DIR))
+# Ensure repository root is importable for alphable_v4
+REPO_ROOT = Path(__file__).resolve().parent.parent.parent.parent
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
 
 try:
     from alphable_v4.engine.magpie_bindings import MagpieEngine

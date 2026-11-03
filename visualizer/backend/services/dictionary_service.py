@@ -12,8 +12,8 @@ from pathlib import Path
 from typing import Dict, Any, Optional
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent.parent
-CSW24_PATH = BASE_DIR / "Alphable_V4" / "resources" / "CSW24.txt"
-NWL23_PATH = BASE_DIR / "Alphable_V4" / "resources" / "NWL23.txt"
+CSW24_PATH = BASE_DIR / "resources" / "CSW24.txt"
+NWL23_PATH = BASE_DIR / "resources" / "NWL23.txt"
 
 # Standard Scrabble Letter Point Values
 LETTER_POINTS = {

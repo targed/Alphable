@@ -16,14 +16,17 @@ MODELS_DIR = V3_DIR / "models"
 if V3_SRC.exists() and str(V3_SRC) not in sys.path:
     sys.path.insert(0, str(V3_SRC))
 
-try:
-    import torch
-    from alphable.core import inference, simulator, structure
-    from alphable.training.self_play import evaluate_moves as get_move_evals, choose_move_with_temperature
-    V3_AVAILABLE = True
-except Exception as e:
-    print(f"Warning: Alphable V3 import error: {e}")
+if not V3_SRC.exists():
     V3_AVAILABLE = False
+else:
+    try:
+        import torch
+        from alphable.core import inference, simulator, structure
+        from alphable.training.self_play import evaluate_moves as get_move_evals, choose_move_with_temperature
+        V3_AVAILABLE = True
+    except Exception as e:
+        print(f"Warning: Alphable V3 import error: {e}")
+        V3_AVAILABLE = False
 
 from visualizer.backend.adapters.base import BaseEngineAdapter
 

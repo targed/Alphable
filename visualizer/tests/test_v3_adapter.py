@@ -1,5 +1,5 @@
 import pytest
-from visualizer.backend.adapters.v3_adapter import V3Adapter
+from visualizer.backend.adapters.v3_adapter import V3Adapter, V3_AVAILABLE
 
 def test_v3_adapter_metadata_and_capabilities():
     adapter = V3Adapter()
@@ -9,6 +9,8 @@ def test_v3_adapter_metadata_and_capabilities():
     assert isinstance(models, list)
 
 def test_v3_adapter_move_generation():
+    if not V3_AVAILABLE:
+        pytest.skip("Alphable V3 is not available in environment.")
     adapter = V3Adapter()
     board = [[None for _ in range(15)] for _ in range(15)]
     rack = ["C", "A", "T", "S", "E", "R", "D"]

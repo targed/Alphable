@@ -10,7 +10,7 @@ from datetime import datetime
 
 REPO_ROOT = Path(__file__).resolve().parent.parent.parent.parent
 V3_DATA_DIR = REPO_ROOT / "Alphable_V3" / "data"
-V4_DATA_DIR = REPO_ROOT / "Alphable_V4" / "data"
+V4_DATA_DIR = REPO_ROOT / "data"
 V4_TOURNAMENTS_DIR = V4_DATA_DIR / "tournaments"
 
 
