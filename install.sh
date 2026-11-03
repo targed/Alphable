@@ -48,11 +48,7 @@ echo ""
 echo "==> Step 2: Setting Up Virtual Environment..."
 
 VENV_DIR="$SCRIPT_DIR/venv"
-if [ -d "$SCRIPT_DIR/../venv" ] && [ ! -d "$VENV_DIR" ]; then
-    # Use existing workspace venv if present
-    VENV_DIR="$SCRIPT_DIR/../venv"
-    echo "✓ Using existing workspace virtual environment: $VENV_DIR"
-elif [ ! -d "$VENV_DIR" ]; then
+if [ ! -d "$VENV_DIR" ]; then
     echo "Creating virtual environment at $VENV_DIR..."
     "$PYTHON_BIN" -m venv "$VENV_DIR"
     echo "✓ Created virtual environment."
@@ -109,14 +105,14 @@ fi
 echo ""
 echo "==> Step 5: Verifying Neural Network Checkpoints..."
 
-VALUE_CKPT="$SCRIPT_DIR/models/checkpoints/v4_value_net_best.pt"
-BELIEF_CKPT="$SCRIPT_DIR/models/checkpoints/v4_belief_net_best.pt"
+VALUE_CKPT="$SCRIPT_DIR/alphable_v4/models/checkpoints/v4_value_net_best.pt"
+BELIEF_CKPT="$SCRIPT_DIR/alphable_v4/models/checkpoints/v4_belief_net_best.pt"
 
 if [ -f "$VALUE_CKPT" ] && [ -f "$BELIEF_CKPT" ]; then
     echo "✓ Value Network Checkpoint present: $(basename "$VALUE_CKPT") ($("$VENV_PYTHON" -c "import os; print(f'{os.path.getsize(\"$VALUE_CKPT\")/(1024*1024):.1f} MB')"))"
     echo "✓ Belief Network Checkpoint present: $(basename "$BELIEF_CKPT")"
 else
-    echo "WARNING: One or more model checkpoints are missing from models/checkpoints/."
+    echo "WARNING: One or more model checkpoints are missing from alphable_v4/models/checkpoints/."
 fi
 
 # ------------------------------------------------------------------------------

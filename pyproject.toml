@@ -25,6 +25,9 @@ dev = [
     "pytest-cov>=4.0.0",
 ]
 
+[project.scripts]
+alphable = "alphable_v4.cli:main"
+
 [tool.setuptools.packages.find]
 where = ["."]
 include = ["alphable_v4*"]
@@ -32,5 +35,5 @@ include = ["alphable_v4*"]
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 pythonpath = ["."]
-norecursedirs = ["alphable_v4", "vendor", "data", ".git", ".pytest_cache"]
+norecursedirs = ["vendor", "data", ".git", ".pytest_cache", "visualizer/frontend/node_modules"]
 

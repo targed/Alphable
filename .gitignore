@@ -211,20 +211,6 @@ marimo/_static/
 marimo/_lsp/
 __marimo__/
 
-Alphable\Alphable_V2\data\gcg
-/Alphable_V2/data/gcg
-/Alphable_V1/data
-/Alphable_V2/data/whoogles/data/gcg
-/Alphable_V2/data/vs_greedy
-/Alphable_V2/data/vs_random
-/Alphable_V2/data/whoogles/data/gcg_CSW24
-/Alphable_V2/data
-/Alphable_V2/data
-/Alphable_V2/data
-/Alphable_V2 copy
-/Alphable_V2/data
-/Alphable_V3/data
-/data
 /visualizer/frontend/node_modules
 !/visualizer/frontend/build/
 
@@ -235,5 +221,5 @@ Alphable\Alphable_V2\data\gcg
 v4_value_net_best_full_training.pt
 
 # External vendor libraries built locally
-/Alphable_V4/vendor/
+/vendor/
 

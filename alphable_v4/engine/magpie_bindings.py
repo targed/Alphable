@@ -28,14 +28,15 @@ def find_libmagpie() -> str:
     cwd = os.getcwd()
 
     candidates = [
-        os.path.join(base_dir, "..", "vendor", "magpie", "bin", "libmagpie.so"),
-        os.path.join(base_dir, "..", "vendor", "magpie", "bin", "libmagpie.dylib"),
-        os.path.join(real_dir, "..", "vendor", "magpie", "bin", "libmagpie.so"),
-        os.path.join(real_dir, "..", "vendor", "magpie", "bin", "libmagpie.dylib"),
+        # Relative to alphable_v4/engine: root vendor/
+        os.path.join(base_dir, "..", "..", "vendor", "magpie", "bin", "libmagpie.so"),
+        os.path.join(base_dir, "..", "..", "vendor", "magpie", "bin", "libmagpie.dylib"),
+        os.path.join(real_dir, "..", "..", "vendor", "magpie", "bin", "libmagpie.so"),
+        os.path.join(real_dir, "..", "..", "vendor", "magpie", "bin", "libmagpie.dylib"),
+        # Relative to current working directory
         os.path.join(cwd, "vendor", "magpie", "bin", "libmagpie.so"),
         os.path.join(cwd, "vendor", "magpie", "bin", "libmagpie.dylib"),
-        os.path.join(cwd, "Alphable_V4", "vendor", "magpie", "bin", "libmagpie.so"),
-        os.path.join(cwd, "Alphable_V4", "vendor", "magpie", "bin", "libmagpie.dylib"),
+        # Fallback in engine directory or system paths
         os.path.join(base_dir, "libmagpie.so"),
         "/usr/local/lib/libmagpie.so",
     ]
@@ -135,10 +136,9 @@ class MagpieEngine:
             real_dir = os.path.dirname(os.path.realpath(__file__))
             cwd = os.getcwd()
             candidates = [
-                os.path.join(base_dir, "..", "vendor", "magpie", "data"),
-                os.path.join(real_dir, "..", "vendor", "magpie", "data"),
+                os.path.join(base_dir, "..", "..", "vendor", "magpie", "data"),
+                os.path.join(real_dir, "..", "..", "vendor", "magpie", "data"),
                 os.path.join(cwd, "vendor", "magpie", "data"),
-                os.path.join(cwd, "Alphable_V4", "vendor", "magpie", "data"),
             ]
             for c in candidates:
                 norm = os.path.normpath(c)
@@ -146,7 +146,7 @@ class MagpieEngine:
                     data_dir = norm
                     break
             if data_dir is None:
-                data_dir = os.path.normpath(os.path.join(base_dir, "..", "vendor", "magpie", "data"))
+                data_dir = os.path.normpath(os.path.join(base_dir, "..", "..", "vendor", "magpie", "data"))
 
         self.data_dir = data_dir
         self.lexicon = lexicon
