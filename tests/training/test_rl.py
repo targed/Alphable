@@ -24,7 +24,7 @@ def shared_engine():
 
 def test_anchored_rl_initialization():
     checkpoint_path = os.path.join(
-        os.path.dirname(__file__), "..", "..", "models", "checkpoints", "v4_value_net_best.pt"
+        os.path.dirname(__file__), "..", "..", "alphable_v4", "models", "checkpoints", "v4_value_net_best.pt"
     )
     checkpoint_path = os.path.normpath(checkpoint_path)
 
@@ -38,7 +38,7 @@ def test_anchored_rl_initialization():
 
 def test_anchored_rl_fine_tune_run(shared_engine, tmp_path):
     checkpoint_path = os.path.join(
-        os.path.dirname(__file__), "..", "..", "models", "checkpoints", "v4_value_net_best.pt"
+        os.path.dirname(__file__), "..", "..", "alphable_v4", "models", "checkpoints", "v4_value_net_best.pt"
     )
     checkpoint_path = os.path.normpath(checkpoint_path)
 

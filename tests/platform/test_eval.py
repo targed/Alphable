@@ -32,7 +32,7 @@ def shared_engine():
 @pytest.fixture(scope="module")
 def checkpoint_path():
     path = os.path.join(
-        os.path.dirname(__file__), "..", "..", "models", "checkpoints", "v4_value_net_best.pt"
+        os.path.dirname(__file__), "..", "..", "alphable_v4", "models", "checkpoints", "v4_value_net_best.pt"
     )
     return os.path.normpath(path)
 

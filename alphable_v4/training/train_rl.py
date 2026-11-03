@@ -50,11 +50,15 @@ class AnchoredRLTrainer:
 
     def __init__(
         self,
-        checkpoint_path: str = "models/checkpoints/v4_value_net_best.pt",
+        checkpoint_path: Optional[str] = None,
         anchor_weight: float = 0.05,
         dynamic_damping_factor: float = 1.5,
         device: str = "cuda" if torch.cuda.is_available() else "cpu",
     ):
+        if checkpoint_path is None:
+            checkpoint_path = os.path.normpath(
+                os.path.join(os.path.dirname(__file__), "..", "models", "checkpoints", "v4_value_net_best.pt")
+            )
         self.device = torch.device(device)
         self.anchor_weight = anchor_weight
         self.dynamic_damping_factor = dynamic_damping_factor
@@ -170,7 +174,7 @@ class AnchoredRLTrainer:
         num_games: int = 10,
         epochs: int = 5,
         lr: float = 2e-5,
-        output_checkpoint: str = "models/checkpoints/v4_value_net_champion.pt",
+        output_checkpoint: str = "alphable_v4/models/checkpoints/v4_value_net_champion.pt",
     ) -> str:
         """Runs the complete Anchored RL fine-tuning loop."""
         boards, states, targets = self.collect_self_play_games(engine, num_games=num_games)

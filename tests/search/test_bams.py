@@ -31,7 +31,7 @@ def shared_engine():
 def checkpoint_path():
     """Path to trained V4 Value Network checkpoint."""
     path = os.path.join(
-        os.path.dirname(__file__), "..", "..", "models", "checkpoints", "v4_value_net_best.pt"
+        os.path.dirname(__file__), "..", "..", "alphable_v4", "models", "checkpoints", "v4_value_net_best.pt"
     )
     return os.path.normpath(path)
 

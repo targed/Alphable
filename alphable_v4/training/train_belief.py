@@ -39,7 +39,7 @@ class BeliefDataset(Dataset):
 
 def train_belief_network(
     data_path: str = "data/belief/belief_dataset.npz",
-    checkpoint_dir: str = "models/checkpoints",
+    checkpoint_dir: str = "alphable_v4/models/checkpoints",
     epochs: int = 15,
     batch_size: int = 128,
     lr: float = 1e-3,

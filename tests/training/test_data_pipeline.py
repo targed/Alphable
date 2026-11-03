@@ -123,7 +123,7 @@ def test_hyperparameter_evaluation_function():
 
     engine = MagpieEngine(lexicon="CSW24")
     ckpt = os.path.normpath(
-        os.path.join(os.path.dirname(__file__), "..", "..", "models", "checkpoints", "v4_value_net_best.pt")
+        os.path.join(os.path.dirname(__file__), "..", "..", "alphable_v4", "models", "checkpoints", "v4_value_net_best.pt")
     )
     params = {"weight_2ply": 0.18, "opp_penalty_weight": 0.12, "max_static_deficit": 3.5, "value_weight": 4.5}
 
