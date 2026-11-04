@@ -1,48 +1,48 @@
 # Phase 2 Results: Model Architecture, Training, and Verification
 
 ## 1. Executive Summary
-Phase 2 implemented, benchmarked, and trained the core neural and probabilistic models for **Alphable V4**:
-1. **Hybrid ResNet-18 + Cross-Attention Value Network (`V4ValueNetwork`)**:
+Phase 2 implemented, benchmarked, and trained the core neural and probabilistic models for Alphable V4:
+1. Hybrid ResNet-18 + Cross-Attention Value Network (`V4ValueNetwork`):
    - 32-channel ResNet-18 spatial board encoder.
    - 64-dimensional game state vector encoder.
    - 8-head multi-head cross-attention fusion layer.
    - Bounded Tanh equity head outputting normalized equities in `[-1.0, 1.0]`.
-2. **Opponent Hidden Rack Belief Models**:
-   - `BayesianRackInference`: Exact Dirichlet-multinomial / hypergeometric sampling from unseen tile pool with Common Random Numbers (CRN) support and dynamic confidence scoring.
+2. Opponent Hidden Rack Belief Models:
+   - `BayesianRackInference`: Dirichlet-multinomial sampling from unseen tile pool with Common Random Numbers (CRN) support and dynamic confidence scoring.
    - `NeuralBeliefNet`: Multi-layer feedforward network predicting opponent letter distribution from visible state vector.
-3. **Training & Checkpoint Verification**:
+3. Training & Checkpoint Verification:
    - Trained `V4ValueNetwork` on 22,869 Macondo-distilled continuous deficit positions with Huber loss ($\delta=0.1$).
-   - Checkpoint saved to `Alphable_V4/models/checkpoints/v4_value_net_best.pt`.
+   - Checkpoint saved to `alphable_v4/models/checkpoints/v4_value_net_best.pt`.
    - Trained `NeuralBeliefNet` on 24,474 belief pairs with KL divergence loss.
-   - Checkpoint saved to `Alphable_V4/models/checkpoints/v4_belief_net_best.pt`.
+   - Checkpoint saved to `alphable_v4/models/checkpoints/v4_belief_net_best.pt`.
 
 ---
 
-## 2. Quantitative Performance & Verification
+## 2. Quantitative Performance and Verification
 
 ### A. Value Network Training Metrics
 | Metric | Target | Achieved | Status |
 |---|---|---|---|
-| **Validation Huber Loss** | $\le 0.05$ | **0.00930** | **PASS (5.3x lower error)** |
-| **Target Correlation** | $\ge 0.70$ | **0.7388** | **PASS** |
-| **Raw Macondo Correlation** | - | **0.5813** | **PASS** |
-| **GPU 100-Candidate Latency** | $< 5.0$ ms | **1.96 ms** | **PASS** |
+| Validation Huber Loss | $\le 0.05$ | 0.00930 | **PASS** |
+| Target Correlation | $\ge 0.70$ | 0.7388 | **PASS** |
+| Raw Macondo Correlation | - | 0.5813 | **PASS** |
+| GPU 100-Candidate Latency | $< 5.0$ ms | 1.96 ms | **PASS** |
 
 ### B. Belief Network Training Metrics
 | Metric | Value |
 |---|---|
-| **Dataset Size** | 24,474 game turns |
-| **Validation KL Divergence** | **0.98378** |
-| **Sampling Consistency (CRN)** | 100% deterministic with seed |
-| **Unseen Pool Integrity** | 100% valid tile distribution |
+| Dataset Size | 24,474 game turns |
+| Validation KL Divergence | 0.98378 |
+| Sampling Consistency (CRN) | 100% deterministic with seed |
+| Unseen Pool Integrity | 100% valid tile distribution |
 
 ### C. GPU Inference Latency Benchmark (NVIDIA GeForce RTX 5070 Ti)
 Using cuDNN 9 (`libnvrtc.so` + `libcudnn.so.9`):
-- **100 Candidate Moves Batch Latency**:
-  - Minimum: **1.83 ms**
-  - Mean: **1.96 ms**
-  - Maximum: **2.18 ms**
-- **Throughput**: $> 50,000$ candidate positions evaluated per second.
+- 100 Candidate Moves Batch Latency:
+  - Minimum: 1.83 ms
+  - Mean: 1.96 ms
+  - Maximum: 2.18 ms
+- Throughput: $> 50,000$ candidate positions evaluated per second.
 
 ---
 
@@ -84,4 +84,4 @@ tests/training/test_data_pipeline.py::test_belief_samples_extraction PASSED [100
 
 ============================== 32 passed in 8.52s ==============================
 ```
-All 32 tests passing. Phase 2 verification gate successfully passed.
+All 32 tests passing. Phase 2 verification gate complete.

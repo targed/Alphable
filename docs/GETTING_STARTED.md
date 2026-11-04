@@ -1,187 +1,183 @@
-# Getting Started with Alphable V4
+# Getting started with Alphable V4
 
-This guide walks you through setting up Alphable V4 from a fresh clone, compiling the native C engine, verifying model weights, and running your first Scrabble matches.
+This guide covers setting up Alphable V4 from a fresh clone, compiling the native C engine, verifying model weights, and running Scrabble matches and evaluations.
 
 ---
 
-## 1. System Requirements
+## 1. System requirements
 
 | Component | Minimum | Recommended |
 | :--- | :--- | :--- |
-| **Operating System** | Linux (Ubuntu 20.04+, Debian, Fedora, Arch) or macOS (12.0+) or Windows (via WSL2) | Ubuntu 22.04 LTS or macOS (Apple Silicon M-series) |
-| **Python** | 3.10 | 3.11 or 3.12 |
-| **C/C++ Compiler** | GCC 9+ or Clang 11+ (`make` required) | Modern GCC / Clang |
-| **Memory (RAM)** | 4 GB | 8 GB+ |
-| **GPU (Optional)** | CPU execution supported natively | NVIDIA GPU with CUDA 11.8+ / 12.0+ (for sub-2ms tensor inference) |
+| Operating System | Linux (Ubuntu 20.04+, Debian, Fedora, Arch), macOS (12.0+), or Windows (WSL2) | Ubuntu 22.04 LTS or macOS (Apple Silicon) |
+| Python | 3.10 | 3.11 or 3.12 |
+| C Compiler | GCC 9+ or Clang 11+ (`make` required) | Modern GCC or Clang |
+| Memory (RAM) | 4 GB | 8 GB+ |
+| GPU (Optional) | CPU execution supported natively | NVIDIA GPU with CUDA 11.8+ or 12.0+ |
 
 ---
 
-## 2. One-Command Automated Setup
+## 2. Automated installation
 
-From inside the `Alphable_V4` directory, run the automated installation script:
+Run the automated installer from the repository root:
 
 ```bash
-cd Alphable_V4
 chmod +x install.sh
 ./install.sh
 ```
 
-### What this script does:
-1. Detects Python 3.10+ on your system.
+The installer performs these steps:
+1. Verifies a compatible Python 3.10+ runtime.
 2. Creates and activates an isolated virtual environment (`venv`).
-3. Installs all required dependencies (`torch`, `numpy`, `scipy`, `pandas`, `tqdm`, `requests`, `pyarrow`, `pytest`).
+3. Installs dependencies (`torch`, `numpy`, `scipy`, `pandas`, `tqdm`, `requests`, `pyarrow`, `pytest`).
 4. Compiles the native C MAGPIE solver (`vendor/magpie/bin/libmagpie.so` or `libmagpie.dylib`).
-5. Checks model weight checkpoints in `models/checkpoints/`.
-6. Executes smoke tests to verify move generation and policy loading.
+5. Confirms that neural network checkpoints exist in `alphable_v4/models/checkpoints/`.
+6. Runs smoke tests to verify move generation and policy loading.
 
 ---
 
-## 3. Manual Step-by-Step Installation
+## 3. Manual installation
 
-If you prefer to configure your environment manually instead of running `install.sh`:
+If you prefer to configure the environment manually instead of running `install.sh`:
 
-### Step 1: Create and Activate Virtual Environment
+### Step 1: Create and activate virtual environment
 ```bash
-cd Alphable_V4
 python3 -m venv venv
 source venv/bin/activate
 ```
 
-### Step 2: Install Python Dependencies
+### Step 2: Install Python dependencies
 ```bash
 pip install --upgrade pip setuptools wheel
 pip install -r requirements.txt
 ```
 
-### Step 3: Compile the Native MAGPIE C Engine
-Alphable V4 uses MAGPIE for sub-millisecond legal move generation:
+### Step 3: Compile the native MAGPIE C engine
+Alphable V4 uses MAGPIE for legal move generation:
 ```bash
-# If vendor/magpie is empty, clone it:
+# Clone MAGPIE if vendor/magpie is not yet populated
 if [ ! -d "vendor/magpie/src" ]; then
     git clone https://github.com/jvc56/MAGPIE.git vendor/magpie
 fi
 
-# Build the shared library (generates bin/libmagpie.so on Linux or bin/libmagpie.dylib on macOS):
+# Build the shared library (generates bin/libmagpie.so on Linux or bin/libmagpie.dylib on macOS)
 make -C vendor/magpie libmagpie
 ```
 
-### Step 4: Verify Your Installation
-Run the unit test suite to verify that the C engine, neural weights, and BAMS search are working together:
+### Step 4: Verify the installation
+Run the test suite to confirm that the C engine, neural weights, and BAMS search function properly:
 ```bash
-export PYTHONPATH=.
 pytest tests/ -v
 ```
-All 59 unit tests should pass.
+All 59 unit and integration tests should pass.
 
 ---
 
-## 4. Your First 5 Minutes: Core Commands
+## 4. Core commands
 
-All CLI commands are executed through `cli.py`:
+Activate the virtual environment before running commands:
 
 ```bash
-# Ensure your environment is active and PYTHONPATH is set:
 source venv/bin/activate
-export PYTHONPATH=.
 ```
 
-### 1. Inspect Available Models and Presets
+All commands run through `cli.py` or `./cli.py` from the repository root:
+
+### 1. Inspect available models and presets
 ```bash
 python cli.py models
 ```
-Displays all registered checkpoints, parameters, and verified tournament ratings:
-- `latest`: Calibrated Scaled 2-Ply + Volatility (⭐ Production Champion)
-- `5-frontiers`: Verified 1,000-Game Benchmark Model (54.2% Win Rate vs Base MAGPIE)
-- `rl-gen1`: Anchored Self-Play Policy Gradient checkpoint
-- `scaled`: Grandmaster deep 2-ply lookahead ($K=12, N=20$)
-- `v4-baseline`: 1-Ply reference model ($52.2\%$ WR)
-- `static-magpie`: Classical C-based KLV solver (zero neural evaluation)
+Lists registered checkpoints, parameters, and verified tournament ratings:
+- `latest`: Calibrated Scaled 2-Ply search with volatility control (56.7% win rate vs Base MAGPIE)
+- `5-frontiers`: 1,000-game benchmark baseline with pre-endgame parity and belief tracking (54.2% win rate vs Base MAGPIE)
+- `rl-gen1`: Policy gradient fine-tuning with anchored teacher loss
+- `scaled`: 2-ply lookahead ($K=12, N=20$)
+- `v4-baseline`: 1-ply reference model (52.2% win rate)
+- `static-magpie`: Classical C solver using static KLV tables (no neural evaluation)
 
----
-
-### 2. Analyze Any Board Position
-Compare what classical Base MAGPIE plays versus what the Alphable V4 AI plays:
+### 2. Analyze a board position
+Compare static MAGPIE evaluation with Alphable V4 BAMS evaluation:
 ```bash
-# Analyze an opening rack:
+# Analyze an opening rack
 python cli.py analyze --model latest --rack "AQRTUYZ"
 
-# Analyze a mid-game position with an existing board word:
+# Analyze a mid-game position with an existing board word
 python cli.py analyze --model latest --rack "TRAINER" --board-word "QUIZ" --board-coord "8D"
 ```
-The output displays a side-by-side evaluation table:
+The output displays:
 - Candidate rank and coordinates
-- Immediate score and leave
+- Immediate score and rack leave
 - Base MAGPIE static equity
-- Monte Carlo opponent counter-threat
-- ResNet-18 neural board control score
+- Monte Carlo opponent counter-threat estimate
+- ResNet-18 board control score
 - Final BAMS selection and divergence indicator
 
----
-
-### 3. Play an Interactive Game in the Terminal
-Play a full game of Scrabble against Alphable V4:
+### 3. Play an interactive game in the terminal
 ```bash
 python cli.py play --model latest
 ```
 - Enter moves using standard Scrabble notation: `8H CATS` or `H8 CATS`.
-- Type `hint` if you want the AI to suggest a move with equity reasoning.
+- Use `-ABC` to exchange tiles.
+- Type `hint` to view move recommendations with score breakdowns.
 - Type `pass` to pass or `quit` to exit.
 
----
-
-### 4. Run a Head-to-Head Tournament
-Benchmark the AI against Base MAGPIE or another model:
+### 4. Run tournaments
+Benchmark models against Base MAGPIE or each other:
 ```bash
-# Run 10 games with alternating first turns:
+# 10 games with alternating first turns
 python cli.py tournament --opponent magpie --games 10
 
-# Run a duplicate (pair-swapped) tournament to eliminate tile draw luck:
+# Duplicate tournament with paired seeds and swapped seats to eliminate tile luck
 python cli.py tournament --model latest --opponent magpie --games 10 --duplicate
 ```
-At the end of each tournament, the CLI computes:
-- Win rate with 95% Confidence Intervals
-- Score differential with 95% Confidence Intervals
+Each tournament reports:
+- Win rate with 95% confidence intervals
+- Score differential with 95% confidence intervals
 - Paired two-tailed t-test and p-value
-- Automatic saving to `data/tournaments/`
+- Saved telemetry in `data/tournaments/`
 
----
-
-### 5. Inspect and Compare Past Benchmarks
-Review all completed tournament runs in the persistent ledger:
+### 5. Inspect tournament history
+Review previous tournament runs recorded in the persistent ledger:
 ```bash
-# View the summary ledger of all runs:
+# View summary ledger
 python cli.py history
 
-# Inspect full details of a specific run:
+# Inspect details for a specific run
 python cli.py history --show run_20261015_215837
 
-# Compare two tournament runs side-by-side with mathematical deltas:
+# Compare two runs side-by-side with statistical deltas
 python cli.py history --compare run_20261013_143000 run_20261015_215837
 ```
 
+### 6. Launch the visualizer studio
+Start the web interface to view games and move evaluations:
+```bash
+./start_visualizer.sh
+# or: cd visualizer && ./run.sh
+```
+Open `http://localhost:5000` in your browser.
+
 ---
 
-## 5. Troubleshooting & FAQ
+## 5. Troubleshooting
 
-### Q: `FileNotFoundError: Could not find libmagpie.so`
-**Cause**: The C engine has not been compiled yet.  
-**Fix**: Run `make -C vendor/magpie libmagpie` or `./install.sh`. Ensure `build-essential` (Linux) or Xcode CLI tools (macOS) are installed.
+### `FileNotFoundError: Could not find libmagpie.so`
+The C engine has not been compiled yet. Run `make -C vendor/magpie libmagpie` or `./install.sh`. Verify that `build-essential` (Linux) or Xcode command-line tools (macOS) are installed.
 
-### Q: Can I run Alphable V4 on a machine without a GPU?
-**Yes.** The Value Network runs on CPU automatically if CUDA is not available. To explicitly force CPU mode:
+### Running without a GPU
+Alphable V4 runs on CPU by default when CUDA is unavailable. To force CPU execution explicitly:
 ```bash
 python cli.py tournament --opponent magpie --games 10 --device cpu
 ```
 
-### Q: Which lexicon is used by default?
-Alphable V4 defaults to **CSW24** (Collins Scrabble Words 2024, the international standard). To switch to North American rules (**NWL23**):
+### Choosing a lexicon
+Alphable V4 defaults to CSW24 (Collins Scrabble Words 2024). To use North American rules (NWL23):
 ```bash
 python cli.py analyze --lexicon NWL23 --rack "RETINAS"
 python cli.py tournament --lexicon NWL23 --games 20
 ```
 
-### Q: Where do I find the full documentation?
-- [ARCHITECTURE.md](file:///home/targed/Documents/Git/Alphable/Alphable_V4/docs/ARCHITECTURE.md): Deep dive into the BAMS search equation and ResNet-18 architecture.
-- [USER_GUIDE.md](file:///home/targed/Documents/Git/Alphable/Alphable_V4/docs/USER_GUIDE.md): In-depth guide to all CLI commands, parameters, and tuning flags.
-- [TOURNAMENT_BENCHMARKS_AND_COMMAND_MANUAL.md](file:///home/targed/Documents/Git/Alphable/Alphable_V4/docs/TOURNAMENT_BENCHMARKS_AND_COMMAND_MANUAL.md): Full tournament logs and model registry details.
-- [STATISTICAL_SIGNIFICANCE_AND_BENCHMARKING_GUIDE.md](file:///home/targed/Documents/Git/Alphable/Alphable_V4/docs/STATISTICAL_SIGNIFICANCE_AND_BENCHMARKING_GUIDE.md): Why Scrabble has high variance and how paired duplicate matches eliminate tile luck.
+### Additional documentation
+- [ARCHITECTURE.md](ARCHITECTURE.md): BAMS formulation, tensor representations, and ResNet-18 architecture.
+- [USER_GUIDE.md](USER_GUIDE.md): CLI commands, search parameters, and tuning flags.
+- [TOURNAMENT_BENCHMARKS_AND_COMMAND_MANUAL.md](TOURNAMENT_BENCHMARKS_AND_COMMAND_MANUAL.md): Historical benchmark logs and model registry details.
+- [STATISTICAL_SIGNIFICANCE_AND_BENCHMARKING_GUIDE.md](STATISTICAL_SIGNIFICANCE_AND_BENCHMARKING_GUIDE.md): Statistical methodology and duplicate match configuration.

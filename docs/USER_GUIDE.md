@@ -1,213 +1,228 @@
-# Alphable V4: Complete User & Operator Guide
+# Alphable V4 user guide
 
-Welcome to **Alphable V4**, the championship-tier competitive Scrabble artificial intelligence engine. This guide explains how to run, use, test, evaluate, and benchmark the engine.
+This guide covers model selection, command-line arguments, tournament benchmarking, run comparison, the Visualizer Studio, and how Alphable V4 differs from classical static engines.
 
-> **Catalogs & References**:
-> - [MODELS_AND_RESOURCES.md](file:///home/targed/Documents/Git/Alphable/Alphable_V4/docs/MODELS_AND_RESOURCES.md): Detailed catalog of neural checkpoints, search presets, architectures, parameters, and verified benchmarks.
-> - [TOURNAMENT_BENCHMARKS_AND_COMMAND_MANUAL.md](file:///home/targed/Documents/Git/Alphable/Alphable_V4/docs/TOURNAMENT_BENCHMARKS_AND_COMMAND_MANUAL.md): Master tournament logs, 1,000-game records, and duplicate benchmark reports.
+Related references:
+- [MODELS_AND_RESOURCES.md](MODELS_AND_RESOURCES.md): Neural checkpoints, search presets, architectures, parameters, and verified benchmarks.
+- [TOURNAMENT_BENCHMARKS_AND_COMMAND_MANUAL.md](TOURNAMENT_BENCHMARKS_AND_COMMAND_MANUAL.md): Master tournament logs, 1,000-game records, and duplicate benchmark reports.
+- [STATISTICAL_SIGNIFICANCE_AND_BENCHMARKING_GUIDE.md](STATISTICAL_SIGNIFICANCE_AND_BENCHMARKING_GUIDE.md): Methodology for paired duplicate matches and statistical tests.
 
 ---
 
-## ⚡ Quick Start: Commands Cheat Sheet
+## Commands cheat sheet
 
-Run all commands from the `Alphable_V4` directory inside your activated virtual environment:
+Run commands from the repository root within your activated virtual environment:
 
 ```bash
-# 1. Activate Environment
+# 1. Activate environment
 source venv/bin/activate
 
-# 2. View All Available Models & Presets
+# 2. View available models and presets
 python cli.py models
 
-# 3. Run the Full Test Suite (59 unit tests)
-pytest -v
+# 3. Run the test suite
+pytest tests/ -v
 
-# 4. Analyze Any Position (Compare Base MAGPIE vs BAMS AI Side-by-Side)
+# 4. Analyze positions (Base MAGPIE vs BAMS side-by-side)
 python cli.py analyze --model latest --rack "AQRTUYZ"
 python cli.py analyze --model latest --rack "TRAINER" --board-word "QUIZ" --board-coord "8D"
 
-# 5. Play an Interactive Match Against Alphable V4 in the Terminal
+# 5. Play an interactive match in the terminal
 python cli.py play --model latest
 
-# 6. Run a Tournament vs Base MAGPIE (1,000 Games)
-python cli.py tournament --opponent magpie --games 1000
+# 6. Run a tournament vs Base MAGPIE (100 games)
+python cli.py tournament --opponent magpie --games 100
 
-# 7. Compare Two Models Directly (e.g. Latest Champion vs 5-Frontiers)
+# 7. Compare two models directly
 python cli.py tournament --model latest --opponent 5-frontiers --games 50
 
-# 8. Run a Duplicate Tournament (Zero Tile Luck)
+# 8. Run a duplicate tournament (zero tile luck)
 python cli.py tournament --model latest --opponent 5-frontiers --games 30 --duplicate
 
-# 9. Run an AI Ablation Experiment (Neural Network ON vs OFF)
+# 9. Run an ablation experiment (neural evaluation on vs off)
 python cli.py ablation --games 10
+
+# 10. Start the Visualizer Studio
+./start_visualizer.sh
+# or: cd visualizer && ./run.sh
 ```
 
 ---
 
-## 🏷️ How to Select and Specify Models in Alphable V4
+## Model selection and presets
 
-Alphable V4 features a flexible model registry and preset system inspired by Alphable V3, but upgraded for V4's multi-stage BAMS architecture.
+Alphable V4 includes a model registry with several configured presets.
 
-### 1. View All Models (`python cli.py models`)
-To view all available checkpoints, search configurations, file sizes, and verified benchmark ratings, simply run:
+### 1. View all models
+To display available checkpoints, search configurations, file sizes, and verified benchmark ratings:
 ```bash
 python cli.py models
 ```
 
-### 2. Available Model Presets
-You can pass any of the following names or aliases to `--model` (Player 1) or `--opponent` (Player 2):
+### 2. Available model presets
+Pass any of the following names or aliases to `--model` (Player 1) or `--opponent` (Player 2):
 
-| Preset Flag | Canonical Name | Checkpoint File | Description & Win Rate |
+| Preset Flag | Canonical Name | Checkpoint File | Description & Verified Performance |
 | :--- | :--- | :--- | :--- |
-| `--model latest` | **V4 Scaled Champion** | `v4_value_net_best.pt` | ⭐ **Current Champion**: Scaled 2-ply search ($K=8, N=14$) + volatility control ($w=0.4$). **56.7% Win Rate (+13.1 pts spread)**. Aliases: `champion`, `calibrated`. |
-| `--model 5-frontiers` | **V4 5-Frontiers Champion** | `v4_value_net_best.pt` | 🏆 **Official 1,000-Game Baseline**: Search with pre-endgame parity & belief tracking. **54.2% Win Rate (+9.8 pts spread)**. Aliases: `frontiers`, `v5-frontier-v4`. |
-| `--model rl-gen1` | **V4 RL Gen-1 Policy** | `v4_value_net_rl_gen1.pt` | 🔬 **RL Fine-Tuned**: Policy gradient fine-tuning with anchored teacher loss. Aliases: `rl`, `self-play`. |
-| `--model scaled` | **Deep Scaled 2-Ply** | `v4_value_net_best.pt` | ⚡ **Grandmaster Depth**: Deep 2-ply lookahead ($K=12, N=20$) for high-precision tournament play. Aliases: `deep-scaled`, `deep`. |
-| `--model v4-baseline` | **V4 1-Ply Baseline** | `v4_value_net_best.pt` | 📦 **V4 Baseline**: Standard 1-ply BAMS without 2-ply nesting ($52.2\%$ WR, $+4.3$ pts). Alias: `baseline`. |
-| `--model static-magpie` | **Base MAGPIE** | None (C solver) | ⚙️ **Pure Static KLV**: Classical C-based static equity solver (zero neural). Alias: `magpie`. |
+| `--model latest` | V4 Scaled Champion | `v4_value_net_best.pt` | Scaled 2-ply search ($K=8, N=14$) with volatility control ($w=0.4$). 56.7% win rate (+13.1 pts spread) vs Base MAGPIE. Aliases: `champion`, `calibrated`. |
+| `--model 5-frontiers` | V4 5-Frontiers Champion | `v4_value_net_best.pt` | 1,000-game baseline configuration with pre-endgame parity and belief tracking. 54.2% win rate (+9.8 pts spread) vs Base MAGPIE. Aliases: `frontiers`, `v5-frontier-v4`. |
+| `--model rl-gen1` | V4 RL Gen-1 Policy | `v4_value_net_rl_gen1.pt` | Policy gradient fine-tuning with anchored teacher loss. Aliases: `rl`, `self-play`. |
+| `--model scaled` | Deep Scaled 2-Ply | `v4_value_net_best.pt` | 2-ply lookahead ($K=12, N=20$) for deep tournament search. Aliases: `deep-scaled`, `deep`. |
+| `--model v4-baseline` | V4 1-Ply Baseline | `v4_value_net_best.pt` | Standard 1-ply BAMS without 2-ply lookahead (52.2% win rate, +4.3 pts). Alias: `baseline`. |
+| `--model static-magpie` | Base MAGPIE | None (C solver) | Classical C static equity solver using precomputed KLV tables (no neural evaluation). Alias: `magpie`. |
 
-### 3. Loading Custom Checkpoint Files (`--model-path`)
-If you train a new checkpoint or want to load specific weights from disk:
+### 3. Loading custom checkpoints
+To load a specific weight file:
 ```bash
-python cli.py tournament --model-path models/checkpoints/v4_value_net_rl_gen1.pt --opponent magpie --games 50
+python cli.py tournament --model-path alphable_v4/models/checkpoints/v4_value_net_rl_gen1.pt --opponent magpie --games 50
 ```
 
 ---
 
-## ⚔️ How to Test, Run, and Compare Models
+## Running and comparing models
 
-### 1. The Standard 1,000-Game Tournament vs Base MAGPIE
-To reproduce or verify large-scale win rate benchmarks against Base MAGPIE:
+### 1. Standard tournaments against Base MAGPIE
+To test win rates against Base MAGPIE:
 ```bash
-# 1. Test the latest calibrated champion (56.7% WR target):
+# Test the latest calibrated model
 python cli.py tournament --model latest --opponent magpie --games 1000
 
-# 2. Test the 5-frontiers 1,000-game baseline (54.2% WR verified):
+# Test the 5-frontiers baseline
 python cli.py tournament --model 5-frontiers --opponent magpie --games 1000
 
-# 3. Test the original V4 1-ply baseline (52.2% WR verified):
+# Test the 1-ply baseline
 python cli.py tournament --model v4-baseline --opponent magpie --games 1000
 
-# 4. Test the RL fine-tuned model:
+# Test the RL fine-tuned checkpoint
 python cli.py tournament --model rl-gen1 --opponent magpie --games 1000
 ```
-*(Note: If you omit `--model`, it automatically defaults to `latest`)*
+Omitting `--model` defaults to `latest`.
 
-### 2. Head-to-Head Comparison Between Two Models
-You can pit any two models directly against each other with alternating first turns:
+### 2. Head-to-head model comparisons
+You can test two models directly with alternating first turns:
 ```bash
-# Latest Champion vs 5-Frontiers:
+# Latest champion vs 5-frontiers
 python cli.py tournament --model latest --opponent 5-frontiers --games 50
 
-# Latest Champion vs V4 Baseline:
+# Latest champion vs 1-ply baseline
 python cli.py tournament --model latest --opponent v4-baseline --games 50
 
-# RL Gen-1 Policy vs 5-Frontiers:
+# RL Gen-1 vs 5-frontiers
 python cli.py tournament --model rl-gen1 --opponent 5-frontiers --games 50
 ```
 
-### 3. Zero-Tile-Luck Duplicate Matches (`--duplicate`)
-In standard Scrabble tournaments, tile draw luck introduces $\approx 5\text{--}10\%$ outcome noise. Using `--duplicate` plays every board seed twice with swapped player seats:
+### 3. Duplicate matches (`--duplicate`)
+Standard Scrabble matches have 5% to 10% outcome variance from tile bag draws. Using `--duplicate` plays every game seed twice with swapped player seats:
 - Game A: Model 1 plays Player 1, Model 2 plays Player 2 on seed $S$.
-- Game B: Model 2 plays Player 1, Model 1 plays Player 2 on the **exact same seed $S$**.
+- Game B: Model 2 plays Player 1, Model 1 plays Player 2 on the same seed $S$.
 ```bash
 python cli.py tournament --model latest --opponent 5-frontiers --games 30 --duplicate
 ```
-Outputs net match pair score differential and duplicate match wins, completely neutralizing tile luck.
+The CLI reports net pair score differentials and duplicate match wins, removing tile draw variance.
 
-### 4. Cross-Generation Tournaments vs Alphable V3
-You can pit Alphable V4 directly against the legacy Alphable V3 champions:
+### 4. Cross-generation matches against Alphable V3
+You can evaluate Alphable V4 against earlier Alphable V3 baselines:
 ```bash
-# Vs Alphable V3 Macondo ResNet Champion (63 dims):
+# Against Alphable V3 Macondo ResNet (63 dimensions)
 python cli.py tournament --model latest --opponent v3-resnet --games 100
 
-# Vs Alphable V3 SmolLM2-135M Transformer Candidate Ranker:
+# Against Alphable V3 SmolLM2-135M transformer candidate ranker
 python cli.py tournament --model latest --opponent v3-transformer --games 10
 ```
 
 ---
 
-## 📜 Automated Tournament History & Run Comparison
+## Visualizer Studio
 
-Every tournament run automatically persists full statistical telemetry to `Alphable_V4/data/tournaments/` and appends an entry to the master ledger `tournament_history.jsonl`.
+Alphable includes a dedicated visualizer web application for inspecting games, evaluating move options, and reviewing tournament runs:
 
-### 1. View Benchmark History Ledger (`python cli.py history`)
+```bash
+# Launch from the repository root
+./start_visualizer.sh
+
+# Or start from the visualizer directory
+cd visualizer && ./run.sh
+```
+
+The server runs at `http://localhost:5000` and provides:
+- Interactive board display with move coordinates and score annotations
+- Move candidate ranker showing static equity, opponent threat, and neural value components
+- Game replay browser that loads completed matches from `data/tournaments/`
+- Real-time position analysis on custom board setups
+
+---
+
+## Tournament history and run comparison
+
+Tournament runs automatically save telemetry to `data/tournaments/` and append a record to the master ledger at `data/tournaments/tournament_history.jsonl`.
+
+### 1. View benchmark history
 ```bash
 python cli.py history
 ```
-Displays an aligned historical ledger with Run ID, timestamp, mode (standard vs duplicate), matchup, game count, 95% Confidence Intervals for Win Rate and Net Spread, paired t-test results, and tags.
+Displays a table of completed runs with Run ID, timestamp, match type (standard or duplicate), matchup, game count, win rate, net spread with 95% confidence intervals, and paired t-test results.
 
-### 2. Inspect Full Details of a Specific Run (`--show`)
+### 2. Inspect a specific run
 ```bash
-# View exact scores, error bars, bingos, and duration:
+# Inspect by full run ID
 python cli.py history --show run_20261015_215837
-# Or by prefix / date:
+
+# Or by date prefix
 python cli.py history --show 20261015
 ```
 
-### 3. Compare Two Runs Side-by-Side (`--compare`)
+### 3. Compare two runs
 ```bash
-# Compare the 5-Frontiers 1,000-game run vs the 3,000-game Duplicate Championship:
 python cli.py history --compare run_20261013_143000 run_20261015_215837
 ```
-Computes and displays exact mathematical deltas ($\Delta \text{Win Rate}$, $\Delta \text{Spread}$, $\Delta \text{Bingos}$, confidence interval narrowing, and speed).
+Calculates deltas for win rate, point spread, bingo rates, confidence interval widths, and turn speed.
 
-### 4. Tagging and Filtering Runs
+### 4. Filtering history
 ```bash
-# Run tournament with a custom tag:
-python cli.py tournament --opponent magpie --games 100 --tag "depth-scaling-test"
-
-# Filter history by tag or model:
+# Filter by tag
 python cli.py history --tag "duplicate"
+
+# Filter by model
 python cli.py history --model "5-frontiers"
 ```
 
 ---
 
-## 🧠 How Do I Know If It Is Just MAGPIE or If the AI Is Actually Doing Something?
+## How Alphable V4 differs from Base MAGPIE
 
-This is the most critical question in AI engine development. Here is the exact architectural and mathematical breakdown:
+Base MAGPIE and Alphable V4 use different evaluation criteria when selecting plays.
 
-### 1. What Base MAGPIE Does (The Static Engine)
-Base MAGPIE is a classical C-based Scrabble solver. When given a board and rack, it calculates:
+### 1. Base MAGPIE evaluation
+Base MAGPIE is a classical C Scrabble solver. Given a board and rack, it calculates:
 $$\text{Static Equity} = \text{Immediate Points} + \text{Leave Value}$$
-- **Immediate Points**: Points earned from the tiles placed this turn.
-- **Leave Value**: Estimated future value of the remaining rack tiles from precomputed static leave tables (KLV).
+- Immediate points: score from the played tiles.
+- Leave value: estimated value of remaining rack tiles from precomputed static tables (KLV).
 
-**What Base MAGPIE CANNOT See:**
-1. **It has NO idea what tiles the opponent holds**: It assumes a generic, static probability.
-2. **It does NOT simulate the opponent's counter-move**: It doesn't see if playing a word gives the opponent an easy 60-point triple-word hook or opens a dangerous bingo lane.
-3. **It does NOT evaluate the future board geometry**: It does not evaluate how open, congested, or defensively vulnerable the resulting board is for the rest of the game.
+Base MAGPIE does not track what tiles the opponent is likely to hold, does not simulate the opponent's counter-replies, and does not evaluate how the play alters the defensive topology of the board.
 
----
-
-### 2. What the AI Adds (Belief Inference + Rollouts + Volatility + Neural Value Net)
-When Alphable V4 searches, it executes **Belief-Augmented Monte Carlo Search (BAMS)**:
+### 2. Alphable V4 evaluation
+Alphable V4 searches candidate plays using Belief-Augmented Monte Carlo Search (BAMS):
 $$\text{BAMS\_Score}(c) = \text{Static Eq}(c) - \beta \cdot \mathbb{E}[\text{OppScore}(c)] + \gamma \cdot \mathbb{E}[V(S')] + \Delta_{\text{2ply}}(c) + \Omega_{\text{vol}}(S')$$
 
-1. **Bayesian Rack Inference (`BayesianRackInference`)**:
-   - Inspects the unseen tile pool and samples $N$ opponent racks using Dirichlet-multinomial sampling with **Common Random Numbers (CRN)**.
-2. **Nested 2-Ply Monte Carlo Rollout**:
-   - Simulates the opponent's strongest counter-plays and tests follow-up turns to measure true net exchanges.
-3. **ResNet-18 + Cross-Attention Value Network (`V4ValueNetwork`)**:
-   - Evaluates the resulting 15×15 after-board tensor (32 channels) and 64-dimensional game state vector on GPU in **1.96 ms**.
-4. **Asymmetric Board Topology Control**:
-   - When leading ($\Delta \ge 20$), penalizes exposed premium lanes to protect leads; when trailing ($\Delta \le -20$), injects volatility to open comeback bingo lanes.
+The algorithm incorporates four factors:
+1. Bayesian rack inference (`BayesianRackInference`): samples opponent racks from unseen tiles using Dirichlet-multinomial sampling with Common Random Numbers (CRN), ensuring consistent comparisons across candidate moves.
+2. Monte Carlo rollouts: simulates opponent replies to estimate immediate counter-threats.
+3. Neural value network (`V4ValueNetwork`): evaluates the resulting 15×15 after-state board tensor (32 channels) and 64-dimensional game state vector using ResNet-18 with cross-attention (1.96 ms on GPU for 100 states).
+4. Volatility adjustment: penalizes open lanes when defending a lead ($\Delta \ge 20$) and values high-variance board positions when trailing ($\Delta \le -20$).
 
----
+### 3. Example move divergence in terminal analysis
 
-### 3. Concrete Visual Proof in the Terminal
-
-When you run:
+Running an analysis demonstrates where the evaluations differ:
 ```bash
 python cli.py analyze --model latest --rack RETINAS
 ```
-You get a breakdown showing the exact numbers:
+
+Example output:
 ```text
 #   Move           Pts   Leave   Static Eq   Opp Threat   Neural Val   BAMS Score
 --------------------------------------------------------------------------------
 1   8B ANESTRI     66            66.00       46.7 pts     +0.1290      65.91      [BASE MAGPIE #1]
-6   8D ANESTRI     66            66.00       42.5 pts     +0.3774      68.38      [AI CHOSEN #1 ★]
+6   8D ANESTRI     66            66.00       42.5 pts     +0.3774      68.38      [AI CHOSEN #1]
 --------------------------------------------------------------------------------
 Base MAGPIE Latency: 0.67 ms | AI Policy Latency: 839.05 ms
 
@@ -216,12 +231,12 @@ DECISION SUMMARY:
   • AI Policy Choice   : 8D ANESTRI (Score: 66, BAMS Score: 68.38)
 
   >>> [AI DIVERGENCE DETECTED] <<<
-  The AI actively overrode Base MAGPIE's #1 move!
+  The AI policy selected 8D over Base MAGPIE's top choice 8B.
 ```
 
-#### What this proves:
-- Both `8B ANESTRI` and `8D ANESTRI` score the exact same **66 points** and leave empty racks.
-- Base MAGPIE rates them identical ($66.00$).
-- But the AI rollout discovers that `8D` reduces the opponent's counter-attack reply from **46.7 pts down to 42.5 pts**.
-- The AI Value Network also rates `8D` higher (+0.3774 vs +0.1290).
-- **The AI actively steers the choice toward defensive safety and board control!**
+In this position:
+- Both `8B ANESTRI` and `8D ANESTRI` score 66 points and leave empty racks.
+- Base MAGPIE treats them as identical (static equity 66.00).
+- The Monte Carlo simulation indicates that `8D` lowers the opponent's average reply from 46.7 points to 42.5 points.
+- The neural value network rates the resulting board position higher for `8D` (+0.3774 vs +0.1290).
+- BAMS selects `8D` based on lower counter-threat and stronger board control.
