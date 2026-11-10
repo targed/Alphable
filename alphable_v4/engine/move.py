@@ -65,6 +65,26 @@ class Move:
         """Returns tiles placed from rack. If tiles_placed is empty, falls back to word."""
         return self.tiles_placed if self.tiles_placed else self.word
 
+    def get_tiles_played(self, rack_len: int = 7) -> int:
+        """
+        Returns the number of tiles played from the rack.
+        Accounts for:
+        1. Pass: 0 tiles
+        2. Exchange: number of exchanged tiles
+        3. Placement with explicit tiles_placed: len(tiles_placed)
+        4. Placement with leave: max(1, rack_len - len(leave))
+        5. Placement fallback: min(rack_len, len(word))
+        """
+        if self.is_pass:
+            return 0
+        if self.is_exchange:
+            return len(self.word)
+        if self.tiles_placed:
+            return len(self.tiles_placed)
+        if self.leave is not None and len(self.leave) > 0:
+            return max(1, rack_len - len(self.leave))
+        return min(rack_len, len(self.word)) if self.word else 0
+
     def to_cgp_action(self) -> str:
         """Formats the move as an action string for CGP/MAGPIE."""
         if self.is_pass:
@@ -103,7 +123,9 @@ class Move:
     def parse_coordinate(cls, coord: str) -> Tuple[int, int, str]:
         """
         Parses Scrabble coordinate like '8H' (Across) or 'H8' (Down).
-        Returns (row, col, direction). Both 0-indexed.
+        Returns (row, col, direction). Both 0-indexed (0..14).
+        Enforces standard Scrabble coordinate bounds: row 1..15, col A..O.
+        Raises ValueError if coordinate is invalid or out of bounds.
         """
         coord = coord.strip().upper()
         if not coord:
@@ -114,7 +136,10 @@ class Move:
             match = re.match(r"^(\d+)([A-O])$", coord)
             if not match:
                 raise ValueError(f"Invalid across coordinate: {coord}")
-            row = int(match.group(1)) - 1
+            row_num = int(match.group(1))
+            if not (1 <= row_num <= 15):
+                raise ValueError(f"Row number out of bounds (1-15): {row_num} in coordinate '{coord}'")
+            row = row_num - 1
             col = ord(match.group(2)) - ord('A')
             return row, col, "Across"
         else:
@@ -122,12 +147,15 @@ class Move:
             match = re.match(r"^([A-O])(\d+)$", coord)
             if not match:
                 raise ValueError(f"Invalid down coordinate: {coord}")
+            row_num = int(match.group(2))
+            if not (1 <= row_num <= 15):
+                raise ValueError(f"Row number out of bounds (1-15): {row_num} in coordinate '{coord}'")
             col = ord(match.group(1)) - ord('A')
-            row = int(match.group(2)) - 1
+            row = row_num - 1
             return row, col, "Down"
 
     @classmethod
-    def from_ucgi_line(cls, line: str) -> Optional[Move]:
+    def from_ucgi_line(cls, line: str, tiles_placed: str = "") -> Optional[Move]:
         """
         Parses a single line of MAGPIE machine-readable / UCGI move output.
         Handles:
@@ -201,6 +229,7 @@ class Move:
                 col=col,
                 direction=direction,
                 word=word,
+                tiles_placed=tiles_placed,
                 score=score,
                 leave=leave,
                 equity=equity,

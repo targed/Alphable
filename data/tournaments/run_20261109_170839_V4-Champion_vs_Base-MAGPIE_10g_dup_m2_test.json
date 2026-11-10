@@ -1,0 +1,140 @@
+{
+  "run_id": "run_20261109_170839",
+  "timestamp": "2026-11-09T17:08:39",
+  "mode": "duplicate",
+  "tag": "m2_test",
+  "lexicon": "CSW24",
+  "total_games": 10,
+  "duplicate_pairs": 5,
+  "duration_seconds": 22.9,
+  "seconds_per_game": 2.29,
+  "player1": {
+    "name": "Alphable V4 Scaled 2-Ply + Volatility (Champion)",
+    "short_name": "V4-Champion",
+    "spec": "latest",
+    "checkpoint_file": "v4_value_net_best.pt",
+    "mean_score": 438.4,
+    "bingos_per_game": 1.9,
+    "wins": 2
+  },
+  "player2": {
+    "name": "Base MAGPIE (KLV Static)",
+    "short_name": "Base-MAGPIE",
+    "spec": "magpie",
+    "checkpoint_file": null,
+    "mean_score": 447.5,
+    "bingos_per_game": 2.2,
+    "wins": 3
+  },
+  "draws": 0,
+  "win_rate": {
+    "percentage": 40.0,
+    "ci95": 42.9,
+    "ci_lower": -2.9,
+    "ci_upper": 82.9
+  },
+  "net_spread": {
+    "mean": -9.1,
+    "ci95": 19.4,
+    "ci_lower": -28.5,
+    "ci_upper": 10.3
+  },
+  "significance": {
+    "t_statistic": -0.92,
+    "p_value": 0.4103,
+    "verdict": "Not Yet Statistically Significant (p >= 0.05)",
+    "hypothesis": "H0: \u0394=0 vs H1: \u0394!=0"
+  },
+  "details": [
+    {
+      "pair": 1,
+      "seed": 1000,
+      "p1_gameA_score": 522,
+      "p1_gameB_score": 395,
+      "p1_pair_total": 917,
+      "p2_gameA_score": 401,
+      "p2_gameB_score": 573,
+      "p2_pair_total": 974,
+      "net_spread": -57,
+      "phase_spreads": {
+        "opening": -6.0,
+        "midgame": -14.5,
+        "pre_endgame": 19.5,
+        "endgame": -27.5
+      },
+      "verdict": "Base-MAGPIE WON MATCH"
+    },
+    {
+      "pair": 2,
+      "seed": 1031,
+      "p1_gameA_score": 418,
+      "p1_gameB_score": 466,
+      "p1_pair_total": 884,
+      "p2_gameA_score": 530,
+      "p2_gameB_score": 426,
+      "p2_pair_total": 956,
+      "net_spread": -72,
+      "phase_spreads": {
+        "opening": -2.5,
+        "midgame": -78.5,
+        "pre_endgame": 41.5,
+        "endgame": 3.5
+      },
+      "verdict": "Base-MAGPIE WON MATCH"
+    },
+    {
+      "pair": 3,
+      "seed": 1062,
+      "p1_gameA_score": 528,
+      "p1_gameB_score": 404,
+      "p1_pair_total": 932,
+      "p2_gameA_score": 440,
+      "p2_gameB_score": 460,
+      "p2_pair_total": 900,
+      "net_spread": 32,
+      "phase_spreads": {
+        "opening": -3.5,
+        "midgame": -4.5,
+        "pre_endgame": 26.5,
+        "endgame": -2.5
+      },
+      "verdict": "V4-Champion WON MATCH"
+    },
+    {
+      "pair": 4,
+      "seed": 1093,
+      "p1_gameA_score": 453,
+      "p1_gameB_score": 369,
+      "p1_pair_total": 822,
+      "p2_gameA_score": 401,
+      "p2_gameB_score": 422,
+      "p2_pair_total": 823,
+      "net_spread": -1,
+      "phase_spreads": {
+        "opening": 0.0,
+        "midgame": 7.0,
+        "pre_endgame": 0.5,
+        "endgame": -8.0
+      },
+      "verdict": "Base-MAGPIE WON MATCH"
+    },
+    {
+      "pair": 5,
+      "seed": 1124,
+      "p1_gameA_score": 383,
+      "p1_gameB_score": 446,
+      "p1_pair_total": 829,
+      "p2_gameA_score": 486,
+      "p2_gameB_score": 336,
+      "p2_pair_total": 822,
+      "net_spread": 7,
+      "phase_spreads": {
+        "opening": -2.5,
+        "midgame": 65.5,
+        "pre_endgame": -69.0,
+        "endgame": 9.5
+      },
+      "verdict": "V4-Champion WON MATCH"
+    }
+  ]
+}

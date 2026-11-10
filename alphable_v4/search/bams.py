@@ -344,12 +344,9 @@ class BAMSSearch:
             # Asymmetric Game-State Volatility Control (Pillar 2)
             if getattr(self.config, "use_volatility_control", True):
                 score_diff = game_state.score - game_state.opp_score
-                if score_diff <= -20:
-                    lambda_vol = 0.15 * min(2.0, (-score_diff) / 40.0)
-                elif score_diff >= 20:
-                    lambda_vol = -0.15 * min(2.0, score_diff / 40.0)
-                else:
-                    lambda_vol = -0.15 * (score_diff / 20.0)
+                # Continuous linear ramp saturating at +/- 2.0 (reached at score_diff = +/- 80)
+                clamped_ratio = max(-2.0, min(2.0, float(score_diff) / 40.0))
+                lambda_vol = -0.15 * clamped_ratio
                 relative_vol = cand_dict.get("volatility", 0.0) - baseline_vol
                 vol_adjustment = lambda_vol * getattr(self.config, "volatility_weight", 1.0) * relative_vol
             else:
@@ -533,13 +530,10 @@ class BAMSSearch:
             return 0.0
 
         adjusted_candidates: List[Move] = []
+        rack_size = len(game_state.rack) if game_state.rack else 7
         for cand in candidates:
             leave_str = cand.leave or ""
-            tiles_played = (
-                len(cand.tiles_placed)
-                if cand.is_placement
-                else (len(cand.word) if cand.is_exchange else 0)
-            )
+            tiles_played = cand.get_tiles_played(rack_len=rack_size)
 
             pool_hazard_sum = sum(_tile_hazard(t, leave_str) for t in unseen_pool)
             mean_pool_hazard = pool_hazard_sum / n_unseen

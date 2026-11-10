@@ -59,6 +59,35 @@ def test_build_magpie_policy():
     assert meta.get("method") == "magpie_static_top"
 
 
+def test_build_magpie_pat_and_tuned_policies():
+    engine = get_shared_engine("CSW24")
+
+    # PAT Policy
+    pol_pat, name_pat, short_pat = build_policy(engine, spec="magpie-pat")
+    assert short_pat == "MAGPIE-PAT"
+    assert "PAT" in name_pat
+
+    state = GameState(board=[[None]*15 for _ in range(15)], rack=list("RETINAS"), lexicon="CSW24")
+    m_pat, meta_pat = pol_pat(state)
+    assert m_pat is not None
+    assert meta_pat.get("method") == "magpie_pat_top"
+
+    # Tuned Policy
+    pol_tuned, name_tuned, short_tuned = build_policy(engine, spec="magpie-tuned")
+    assert short_tuned == "MAGPIE-Tuned"
+    assert "Maximally Tuned" in name_tuned
+
+    m_tuned, meta_tuned = pol_tuned(state)
+    assert m_tuned is not None
+    assert meta_tuned.get("method") in ("magpie_sim_top", "magpie_pat_top", "magpie_endgame_solve")
+
+    # V4-PAT Policy
+    pol_v4pat, name_v4pat, short_v4pat = build_policy(engine, spec="v4-pat")
+    assert short_v4pat == "V4-Champion-PAT"
+    assert callable(pol_v4pat)
+
+
+
 def test_build_bams_presets():
     engine = get_shared_engine("CSW24")
 

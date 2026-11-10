@@ -83,7 +83,7 @@ class WooglesBotAgent:
 
         # Format Woogles string
         if not move.is_placement:
-            if move.word == "--":
+            if move.is_pass or move.word in ("--", "pass"):
                 cmd_str = "pass"
             else:
                 cmd_str = f"exchange {move.word}"

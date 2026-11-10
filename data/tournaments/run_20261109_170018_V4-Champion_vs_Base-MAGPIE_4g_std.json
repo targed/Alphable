@@ -1,0 +1,182 @@
+{
+  "run_id": "run_20261109_170018",
+  "timestamp": "2026-11-09T17:00:18",
+  "mode": "standard",
+  "tag": "4g-std",
+  "lexicon": "CSW24",
+  "total_games": 4,
+  "duplicate_pairs": null,
+  "duration_seconds": 5.1,
+  "seconds_per_game": 1.28,
+  "player1": {
+    "name": "Alphable V4 Scaled 2-Ply + Volatility (Champion)",
+    "short_name": "V4-Champion",
+    "spec": "latest",
+    "checkpoint_file": "v4_value_net_best.pt",
+    "mean_score": 460.2,
+    "bingos_per_game": 2.0,
+    "wins": 2
+  },
+  "player2": {
+    "name": "Base MAGPIE (KLV Static)",
+    "short_name": "Base-MAGPIE",
+    "spec": "magpie",
+    "checkpoint_file": null,
+    "mean_score": 449.0,
+    "bingos_per_game": 2.5,
+    "wins": 2
+  },
+  "draws": 0,
+  "win_rate": {
+    "percentage": 50.0,
+    "ci95": 49.0,
+    "ci_lower": 1.0,
+    "ci_upper": 99.0
+  },
+  "net_spread": {
+    "mean": 11.2,
+    "ci95": 82.8,
+    "ci_lower": -71.6,
+    "ci_upper": 94.1
+  },
+  "significance": {
+    "t_statistic": 0.27,
+    "p_value": 0.8073,
+    "verdict": "Not Yet Statistically Significant (p >= 0.05)",
+    "hypothesis": "H0: \u0394=0 vs H1: \u0394!=0"
+  },
+  "details": [
+    {
+      "game": 1,
+      "seed": 1000,
+      "p1_seat": "P1",
+      "p1_score": 529,
+      "p2_score": 452,
+      "p1_bingos": 2,
+      "p2_bingos": 2,
+      "margin": 77,
+      "phase_scores": {
+        "opening": {
+          "p1": 114,
+          "p2": 48,
+          "margin": 66
+        },
+        "midgame": {
+          "p1": 335,
+          "p2": 343,
+          "margin": -8
+        },
+        "pre_endgame": {
+          "p1": 49,
+          "p2": 11,
+          "margin": 38
+        },
+        "endgame": {
+          "p1": 31,
+          "p2": 50,
+          "margin": -19
+        }
+      },
+      "winner": "V4-Champion"
+    },
+    {
+      "game": 2,
+      "seed": 1031,
+      "p1_seat": "P2",
+      "p1_score": 416,
+      "p2_score": 453,
+      "p1_bingos": 2,
+      "p2_bingos": 3,
+      "margin": -37,
+      "phase_scores": {
+        "opening": {
+          "p1": 93,
+          "p2": 75,
+          "margin": 18
+        },
+        "midgame": {
+          "p1": 226,
+          "p2": 251,
+          "margin": -25
+        },
+        "pre_endgame": {
+          "p1": 97,
+          "p2": 44,
+          "margin": 53
+        },
+        "endgame": {
+          "p1": 0,
+          "p2": 83,
+          "margin": -83
+        }
+      },
+      "winner": "Base-MAGPIE"
+    },
+    {
+      "game": 3,
+      "seed": 1062,
+      "p1_seat": "P1",
+      "p1_score": 528,
+      "p2_score": 440,
+      "p1_bingos": 2,
+      "p2_bingos": 3,
+      "margin": 88,
+      "phase_scores": {
+        "opening": {
+          "p1": 126,
+          "p2": 120,
+          "margin": 6
+        },
+        "midgame": {
+          "p1": 250,
+          "p2": 238,
+          "margin": 12
+        },
+        "pre_endgame": {
+          "p1": 121,
+          "p2": 54,
+          "margin": 67
+        },
+        "endgame": {
+          "p1": 31,
+          "p2": 28,
+          "margin": 3
+        }
+      },
+      "winner": "V4-Champion"
+    },
+    {
+      "game": 4,
+      "seed": 1093,
+      "p1_seat": "P2",
+      "p1_score": 368,
+      "p2_score": 451,
+      "p1_bingos": 2,
+      "p2_bingos": 2,
+      "margin": -83,
+      "phase_scores": {
+        "opening": {
+          "p1": 43,
+          "p2": 81,
+          "margin": -38
+        },
+        "midgame": {
+          "p1": 267,
+          "p2": 276,
+          "margin": -9
+        },
+        "pre_endgame": {
+          "p1": 30,
+          "p2": 37,
+          "margin": -7
+        },
+        "endgame": {
+          "p1": 28,
+          "p2": 57,
+          "margin": -29
+        }
+      },
+      "winner": "Base-MAGPIE"
+    }
+  ]
+}

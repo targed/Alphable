@@ -1,0 +1,86 @@
+{
+  "run_id": "run_20261109_170037",
+  "timestamp": "2026-11-09T17:00:37",
+  "mode": "duplicate",
+  "tag": "4g-dup",
+  "lexicon": "CSW24",
+  "total_games": 4,
+  "duplicate_pairs": 2,
+  "duration_seconds": 4.7,
+  "seconds_per_game": 1.17,
+  "player1": {
+    "name": "Alphable V4 Scaled 2-Ply + Volatility (Champion)",
+    "short_name": "V4-Champion",
+    "spec": "latest",
+    "checkpoint_file": "v4_value_net_best.pt",
+    "mean_score": 444.8,
+    "bingos_per_game": 2.25,
+    "wins": 1
+  },
+  "player2": {
+    "name": "Base MAGPIE (KLV Static)",
+    "short_name": "Base-MAGPIE",
+    "spec": "magpie",
+    "checkpoint_file": null,
+    "mean_score": 457.5,
+    "bingos_per_game": 2.5,
+    "wins": 1
+  },
+  "draws": 0,
+  "win_rate": {
+    "percentage": 50.0,
+    "ci95": 69.3,
+    "ci_lower": -19.3,
+    "ci_upper": 119.3
+  },
+  "net_spread": {
+    "mean": -12.8,
+    "ci95": 96.5,
+    "ci_lower": -109.3,
+    "ci_upper": 83.8
+  },
+  "significance": {
+    "t_statistic": -0.26,
+    "p_value": 0.8387,
+    "verdict": "Not Yet Statistically Significant (p >= 0.05)",
+    "hypothesis": "H0: \u0394=0 vs H1: \u0394!=0"
+  },
+  "details": [
+    {
+      "pair": 1,
+      "seed": 1000,
+      "p1_gameA_score": 522,
+      "p1_gameB_score": 415,
+      "p1_pair_total": 937,
+      "p2_gameA_score": 401,
+      "p2_gameB_score": 463,
+      "p2_pair_total": 864,
+      "net_spread": 73,
+      "phase_spreads": {
+        "opening": -18.0,
+        "midgame": 49.0,
+        "pre_endgame": 11.5,
+        "endgame": -6.0
+      },
+      "verdict": "V4-Champion WON MATCH"
+    },
+    {
+      "pair": 2,
+      "seed": 1031,
+      "p1_gameA_score": 426,
+      "p1_gameB_score": 416,
+      "p1_pair_total": 842,
+      "p2_gameA_score": 513,
+      "p2_gameB_score": 453,
+      "p2_pair_total": 966,
+      "net_spread": -124,
+      "phase_spreads": {
+        "opening": -2.5,
+        "midgame": -68.0,
+        "pre_endgame": 64.5,
+        "endgame": -56.0
+      },
+      "verdict": "Base-MAGPIE WON MATCH"
+    }
+  ]
+}

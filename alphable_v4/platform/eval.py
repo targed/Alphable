@@ -88,6 +88,24 @@ class ScrabbleBag:
         return len(self.tiles)
 
 
+def get_game_phase(turn_num: int, bag_count: int) -> str:
+    """
+    Classifies the game state into one of four distinct phases:
+    - OPENING: turns 1 to 5
+    - MIDGAME: turn > 5 and bag > 14
+    - PRE_ENDGAME: bag in 1..14
+    - ENDGAME: bag == 0
+    """
+    if bag_count == 0:
+        return "endgame"
+    elif 1 <= bag_count <= 14:
+        return "pre_endgame"
+    elif turn_num <= 5:
+        return "opening"
+    else:
+        return "midgame"
+
+
 class GameSimulator:
     """Runs full 2-player Scrabble matches."""
 
@@ -121,11 +139,25 @@ class GameSimulator:
 
         scoreless_turns = 0
         turn_history = []
+        phase_scores: Dict[str, Dict[str, int]] = {
+            "opening": {"p1": 0, "p2": 0},
+            "midgame": {"p1": 0, "p2": 0},
+            "pre_endgame": {"p1": 0, "p2": 0},
+            "endgame": {"p1": 0, "p2": 0},
+        }
+        phase_counts: Dict[str, Dict[str, int]] = {
+            "opening": {"p1": 0, "p2": 0},
+            "midgame": {"p1": 0, "p2": 0},
+            "pre_endgame": {"p1": 0, "p2": 0},
+            "endgame": {"p1": 0, "p2": 0},
+        }
 
         turn_num = 0
         while turn_num < max_turns:
             # Player 1's Turn
             turn_num += 1
+            phase_p1 = get_game_phase(turn_num, bag.count)
+            phase_counts[phase_p1]["p1"] += 1
             state_p1 = GameState(
                 board=board,
                 rack=p1_rack,
@@ -150,6 +182,7 @@ class GameSimulator:
                     p1_invalid += 1
 
                 p1_score += move_p1.score
+                phase_scores[phase_p1]["p1"] += move_p1.score
                 if move_p1.leave is not None and len(move_p1.leave) <= len(p1_rack):
                     tiles_played = len(p1_rack) - len(move_p1.leave)
                     p1_rack = list(move_p1.leave)
@@ -186,12 +219,20 @@ class GameSimulator:
             else:
                 scoreless_turns += 1
 
-            turn_history.append({"player": 1, "move": str(move_p1), "score": move_p1.score, "total": p1_score})
+            turn_history.append({
+                "player": 1,
+                "turn": turn_num,
+                "phase": phase_p1,
+                "move": str(move_p1),
+                "score": move_p1.score,
+                "total": p1_score,
+            })
 
             # Check Player 1 out of tiles and bag empty
             if len(p1_rack) == 0 and bag.count == 0:
                 penalty = sum(TILE_VALUES.get(t.upper(), 0) for t in p2_rack)
                 p1_score += 2 * penalty
+                phase_scores["endgame"]["p1"] += 2 * penalty
                 break
 
             if scoreless_turns >= 6:
@@ -199,6 +240,8 @@ class GameSimulator:
 
             # Player 2's Turn
             turn_num += 1
+            phase_p2 = get_game_phase(turn_num, bag.count)
+            phase_counts[phase_p2]["p2"] += 1
             state_p2 = GameState(
                 board=board,
                 rack=p2_rack,
@@ -223,6 +266,7 @@ class GameSimulator:
                     p2_invalid += 1
 
                 p2_score += move_p2.score
+                phase_scores[phase_p2]["p2"] += move_p2.score
                 if move_p2.leave is not None and len(move_p2.leave) <= len(p2_rack):
                     tiles_played = len(p2_rack) - len(move_p2.leave)
                     p2_rack = list(move_p2.leave)
@@ -258,11 +302,19 @@ class GameSimulator:
             else:
                 scoreless_turns += 1
 
-            turn_history.append({"player": 2, "move": str(move_p2), "score": move_p2.score, "total": p2_score})
+            turn_history.append({
+                "player": 2,
+                "turn": turn_num,
+                "phase": phase_p2,
+                "move": str(move_p2),
+                "score": move_p2.score,
+                "total": p2_score,
+            })
 
             if len(p2_rack) == 0 and bag.count == 0:
                 penalty = sum(TILE_VALUES.get(t.upper(), 0) for t in p1_rack)
                 p2_score += 2 * penalty
+                phase_scores["endgame"]["p2"] += 2 * penalty
                 break
 
             if scoreless_turns >= 6:
@@ -274,6 +326,8 @@ class GameSimulator:
             p2_rem = sum(TILE_VALUES.get(t.upper(), 0) for t in p2_rack)
             p1_score -= p1_rem
             p2_score -= p2_rem
+            phase_scores["endgame"]["p1"] -= p1_rem
+            phase_scores["endgame"]["p2"] -= p2_rem
 
         winner = 1 if p1_score > p2_score else (2 if p2_score > p1_score else 0)
         return {
@@ -286,6 +340,8 @@ class GameSimulator:
             "p2_invalid": p2_invalid,
             "total_turns": turn_num,
             "turn_history": turn_history,
+            "phase_scores": phase_scores,
+            "phase_counts": phase_counts,
         }
 
     def run_match_series(

@@ -94,10 +94,10 @@ class MagpieCtypes:
 
         # char *magpie_get_last_command_output(const Magpie *mp);
         cdll.magpie_get_last_command_output.argtypes = [ctypes.c_void_p]
-        cdll.magpie_get_last_command_output.restype = ctypes.c_char_p
+        cdll.magpie_get_last_command_output.restype = ctypes.c_void_p
 
         # void magpie_free_string(char *str);
-        cdll.magpie_free_string.argtypes = [ctypes.c_char_p]
+        cdll.magpie_free_string.argtypes = [ctypes.c_void_p]
         cdll.magpie_free_string.restype = None
 
         # bool magpie_has_error(const Magpie *mp);
@@ -106,11 +106,11 @@ class MagpieCtypes:
 
         # char *magpie_get_and_clear_error(Magpie *mp);
         cdll.magpie_get_and_clear_error.argtypes = [ctypes.c_void_p]
-        cdll.magpie_get_and_clear_error.restype = ctypes.c_char_p
+        cdll.magpie_get_and_clear_error.restype = ctypes.c_void_p
 
         # char *magpie_get_last_command_status_message(Magpie *mp);
         cdll.magpie_get_last_command_status_message.argtypes = [ctypes.c_void_p]
-        cdll.magpie_get_last_command_status_message.restype = ctypes.c_char_p
+        cdll.magpie_get_last_command_status_message.restype = ctypes.c_void_p
 
         # void magpie_stop_current_command(Magpie *mp);
         cdll.magpie_stop_current_command.argtypes = [ctypes.c_void_p]
@@ -128,6 +128,7 @@ class MagpieEngine:
         lexicon: str = "CSW24",
         lib_path: Optional[str] = None,
         use_wmp: bool = False,
+        use_pat: bool = False,
     ):
         self._ctypes = MagpieCtypes(lib_path=lib_path)
 
@@ -151,6 +152,7 @@ class MagpieEngine:
         self.data_dir = data_dir
         self.lexicon = lexicon
         self.use_wmp = use_wmp
+        self.use_pat = use_pat
 
         data_bytes = self.data_dir.encode("utf-8")
         self._handle = self._ctypes._cdll.magpie_create_with_options(
@@ -162,7 +164,7 @@ class MagpieEngine:
 
         if self._ctypes._cdll.magpie_has_error(self._handle):
             err_ptr = self._ctypes._cdll.magpie_get_and_clear_error(self._handle)
-            err_msg = err_ptr.decode("utf-8") if err_ptr else "Unknown error"
+            err_msg = self._take_string(err_ptr) if err_ptr else "Unknown error"
             self._ctypes._cdll.magpie_destroy(self._handle)
             self._handle = None
             raise RuntimeError(f"Failed to initialize MAGPIE: {err_msg}")
@@ -170,6 +172,8 @@ class MagpieEngine:
         # Set default lexicon and output settings for clean machine-readable move generation
         if lexicon:
             self.set_lexicon(lexicon)
+            if self.use_pat:
+                self.set_pat(lexicon)
         self._current_numplays = 100
         self.run_command(f"set -shwithmoves false -numplays {self._current_numplays} -maxnumdplays {self._current_numplays}")
 
@@ -188,6 +192,14 @@ class MagpieEngine:
     def __del__(self):
         self.close()
 
+    def _take_string(self, ptr: Optional[int]) -> str:
+        """Copies a C string returned by libmagpie and immediately frees the C heap allocation."""
+        if not ptr:
+            return ""
+        val = ctypes.string_at(ptr).decode("utf-8")
+        self._ctypes._cdll.magpie_free_string(ptr)
+        return val
+
     def run_command(self, cmd: str, human_readable: bool = False) -> str:
         """Runs a MAGPIE console command synchronously and returns the output string."""
         if not self._handle:
@@ -205,18 +217,25 @@ class MagpieEngine:
             err_msg = ""
             if self._ctypes._cdll.magpie_has_error(self._handle):
                 err_ptr = self._ctypes._cdll.magpie_get_and_clear_error(self._handle)
-                if err_ptr:
-                    err_msg = err_ptr.decode("utf-8")
+                err_msg = self._take_string(err_ptr)
             raise RuntimeError(f"MAGPIE command '{cmd}' failed (code {ret}): {err_msg}")
 
         out_ptr = self._ctypes._cdll.magpie_get_last_command_output(self._handle)
-        output = out_ptr.decode("utf-8") if out_ptr else ""
-        return output
+        return self._take_string(out_ptr)
 
     def set_lexicon(self, lexicon: str) -> None:
         """Switches current lexicon (e.g. 'CSW24', 'NWL23', 'CSW21')."""
         self.run_command(f"set -lex {lexicon}")
         self.lexicon = lexicon
+
+    def set_pat(self, pat_lexicon: Optional[str] = None) -> None:
+        """Enables or disables Positional Adjustment Term (PAT)."""
+        if pat_lexicon:
+            self.run_command(f"set -pat {pat_lexicon}")
+            self.use_pat = True
+        else:
+            self.run_command("set -pat none")
+            self.use_pat = False
 
     def set_cgp(self, cgp: str) -> None:
         """Sets the current game board and rack state using a CGP string."""
@@ -285,3 +304,7 @@ class MagpieEngine:
         if cgp is not None:
             self.set_cgp(cgp)
         return self.run_command("endgame")
+
+    def simulate(self, iterations: int = 50) -> str:
+        """Runs Monte Carlo simulation lookahead over generated candidates."""
+        return self.run_command(f"simulate -iterations {iterations}")

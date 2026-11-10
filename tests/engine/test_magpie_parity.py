@@ -252,3 +252,45 @@ def test_direct_v3_gaddag_parity(engine):
         f"Mismatch: V3-only: {v3_words - magpie_words}, MAGPIE-only: {magpie_words - v3_words}"
     )
 
+
+def test_magpie_pat_differentiation(engine):
+    """Verifies that enabling PAT differentiates static equities and alters candidate ranking."""
+    engine.set_lexicon("CSW24")
+    engine.set_pat(None)
+    cgp_opening = "15/15/15/15/15/15/15/15/15/15/15/15/15/15/15 RETINAS/ 0/0 0"
+    moves_no_pat = engine.generate_moves(cgp=cgp_opening, max_candidates=5)
+
+    # Enable PAT
+    engine.set_pat("CSW24")
+    moves_pat = engine.generate_moves(cgp=cgp_opening, max_candidates=5)
+
+    # Clean up state
+    engine.set_pat(None)
+
+    assert len(moves_no_pat) > 0
+    assert len(moves_pat) > 0
+
+    # Without PAT, all 7-letter anagrams on an empty board have identical 66.0 equity
+    equities_no_pat = [m.equity for m in moves_no_pat]
+    assert all(eq == 66.0 for eq in equities_no_pat)
+
+    # With PAT, positional term differentiates candidate equities
+    equities_pat = [m.equity for m in moves_pat]
+    assert len(set(equities_pat)) > 1, "PAT should differentiate candidate equities"
+    assert moves_pat[0].coord_str == "8D", "Top PAT move on RETINAS should be centered at 8D"
+
+
+def test_magpie_simulation_execution(engine):
+    """Verifies that MAGPIE Monte Carlo simulation (PIMC) runs rollouts."""
+    engine.set_lexicon("CSW24")
+    cgp_opening = "15/15/15/15/15/15/15/15/15/15/15/15/15/15/15 RETINAS/ 0/0 0"
+    engine.set_cgp(cgp_opening)
+    engine.generate_moves(max_candidates=5)
+    sim_out = engine.simulate(iterations=50)
+
+    assert sim_out is not None
+    assert len(sim_out) > 0
+    assert "8B" in sim_out or "8C" in sim_out or "8D" in sim_out
+    assert "Showing" in sim_out or "1:" in sim_out
+
+
