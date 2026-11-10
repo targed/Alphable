@@ -1,3 +1,36 @@
 \section{Introduction}
 \label{sec:introduction}
-Stub for Introduction.
+
+Imperfect-information games have long stood as grand challenge domains for artificial intelligence. While complete-information games such as Chess, Go, and Shogi have witnessed superhuman breakthroughs through deep reinforcement learning and Monte Carlo Tree Search \citep{silver2016mastering, silver2017mastering}, environments featuring hidden private states require fundamentally different algorithmic paradigms \citep{moravcik2017deepstack, brown2019superhuman, sokota2026scalable}. In imperfect-information settings, an agent must formulate strategic decisions without direct observation of opponent private assets, reasoning instead over probability distributions of hidden states while actively balancing offensive payoff, defensive lane exposure, and information revelation.
+
+The game of Scrabble represents a classic, mathematically rich imperfect-information benchmark. Originating as a combinatorially complex linguistic board game, tournament Scrabble features:
+\begin{enumerate}
+    \item \textbf{Massive Action Space:} At any given turn, an agent selects from hundreds to tens of thousands of valid legal plays across a $15 \times 15$ grid, governed by strict lexical constraints (e.g., CSW24 or NWL23 lexica).
+    \item \textbf{Hidden Information Sets:} Each player possesses a private rack of up to 7 tiles drawn without replacement from a finite bag of 100 tiles. Opponent tiles are concealed until played onto the board.
+    \item \textbf{Stochastic State Transitions:} Tile replenishment after each play introduces environmental uncertainty governed by hypergeometric and multinomial probability laws.
+    \item \textbf{Asymmetric Tactical Coupling:} Placed tiles permanently alter board topology, opening or closing scoring hooks, premium multiplier lanes (Double/Triple Word and Letter scores), and rack-dumping opportunities for the opponent.
+\end{enumerate}
+
+\subsection{The Status Quo and Its Limitations}
+
+For over two decades, competitive computer Scrabble has been dominated by two foundational algorithmic paradigms:
+\begin{enumerate}
+    \item \textbf{Static 1-Ply Heuristic Engines:} Pioneer systems such as Maven \citep{sheppard2002world} and contemporary high-speed C engines such as \magpie\ evaluate candidate plays $a$ using a 1-ply static equity function:
+    \begin{equation}
+        \label{eq:static_equity}
+        \equity(a) = \score(a) + \leaveval(r \setminus a)
+    \end{equation}
+    where $\score(a)$ represents immediate board points and $\leaveval$ is precomputed via lookup tables (e.g., Komodo Leave Values or KLV2) derived from millions of simulated rack draws. While exceptionally fast ($\sim 0.7$ ms per candidate generation), this formulation is myopic: it possesses zero multi-ply tactical lookahead, ignores opponent counterplay threats, and assumes rack leave quality is invariant to board configuration.
+    \item \textbf{Perfect Information Monte Carlo (PIMC):} Systems such as Quackle \citep{olaughlin2006quackle} evaluate candidate plays by sampling determinized opponent racks and simulating rollouts. However, PIMC suffers from the well-documented \textit{strategy fusion flaw} \citep{sokota2026scalable}: by determinizing the game during search, PIMC implicitly assumes the player will possess clairvoyant knowledge of the opponent's private tiles on subsequent plies, frequently causing engines to overvalue speculative defensive maneuvers that fail in real imperfect-information play.
+\end{enumerate}
+
+\subsection{Our Contributions}
+
+In this paper, we introduce \textbf{\algo}, a championship-caliber, open-source Scrabble engine designed to bridge the gap between high-speed candidate generation and deep imperfect-information search. Our primary scientific contributions are as follows:
+\begin{itemize}
+    \item \textbf{Deep Cross-Attention Value Valuation:} We develop a 28-channel spatial board tensor representation coupled with a ResNet-18 convolutional backbone and cross-attention cross-talk with 7-tile rack token embeddings. The network is distilled on massive game states via Huber loss to accurately predict positional equity conditioned on global board geometry.
+    \item \textbf{Belief-Augmented Monte Carlo Search (\bams):} We formulate an asymmetric 2-ply search algorithm that models opponent replies and our counter-replies across belief-weighted rack distributions, circumventing the strategy fusion flaw while maintaining real-time latency ($<70$ ms/turn).
+    \item \textbf{Bayesian Negative-Evidence Opponent Belief Tracking:} Rather than assuming uniform random sampling from unseen tiles, \algo\ tracks a dynamic posterior belief over the opponent's hidden rack. When an opponent bypasses an open 60-point bingo lane to make a modest 14-point play, our tracker applies Bayes' rule with negative evidence, decaying the posterior likelihood of high-threat tiles ($?$, S) and permitting offensive lane exploitation without ghost-threat paralysis.
+    \item \textbf{Compound Late-Game Optimization:} We integrate pre-endgame bag parity tracking (manipulating tile consumption to stick the opponent with heavy consonant penalties) with a native exact minimax alpha-beta solver when the bag reaches zero tiles.
+    \item \textbf{Empirical and Methodological Rigor:} Across 10,000 paired duplicate tournament games (5,000 duplicate pairs), \algo\ demonstrates a statistically verified $+7.06 \pm 0.81$ net point spread ($p = 2.90 \times 10^{-18}$) over 1-ply Static KLV Base \magpie. We provide an adversarial parameter ceiling audit revealing where 2-ply neural search triumphs and where raw C simulation throughput ($\sim 98,000$ rollouts/sec) retains an edge.
+\end{itemize}

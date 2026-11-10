@@ -1,3 +1,22 @@
 \section{Related Work}
 \label{sec:related_work}
-Stub for Related Work \citep{sokota2026scalable, sheppard2002world, olaughlin2006quackle}.
+
+\subsection{Lexical Generation and Word Graph Automata}
+
+Modern Scrabble search rests upon efficient move generation over directed acyclic word graphs. \citet{appel1988world} introduced the Directed Acyclic Word Graph (DAWG), transforming board-wide lexical prefix lookups into linear graph traversals. \citet{gordon1994faster} subsequently established the GADDAG data structure, which traverses valid words bidirectionally outward from existing anchor squares. Modern competitive engines, including \magpie\ and \macondo, utilize Kurn Word Graphs (KWG) and compacted GADDAGs capable of generating millions of valid board placements per second in native compiled code. \algo\ directly builds on \magpie's optimized C GADDAG generator as its low-level move generation substrate.
+
+\subsection{Classical Scrabble AI and Static Leave Values}
+
+\citet{sheppard2002world} established the foundational architecture of championship computer Scrabble in Maven. Maven combined 1-ply candidate generation with tabular rack leave values (the Komodo Leave Values, KLV), computed via offline Monte Carlo simulation of millions of prospective tile draws. Maven pioneered ``B-1'' lookahead: evaluating candidate plays under simulated 1-ply opponent replies.
+
+\citet{olaughlin2006quackle} formalized \quackle, an open-source C++ engine that became the international research standard. \quackle\ introduced Perfect Information Monte Carlo (PIMC) simulation to estimate win percentages rather than expected margins. \macondo\ modernized this pipeline in Go, incorporating superleaf leave tables (KLV2), B* search heuristic pruning, and multi-core candidate simulations.
+
+Contemporary high-throughput engines, notably \magpie, implement KLV2 leave valuation alongside optional Positional Adjustment Terms (PAT). However, in default benchmark modes, \magpie\ functions as a purely static 1-ply greedy evaluator, choosing moves maximizing immediate score plus static leave value without dynamic multi-ply lookahead or opponent modeling.
+
+\subsection{Imperfect-Information Game AI and Search}
+
+Imperfect-information games have witnessed substantial recent breakthroughs. In Heads-Up and Multiplayer No-Limit Texas Hold'em, DeepStack \citep{moravcik2017deepstack} and Pluribus \citep{brown2019superhuman} demonstrated superhuman play using Counterfactual Regret Minimization (CFR) and continual resolving of public subgames. However, Poker features small discrete action spaces at each decision node (fold, call, raise), in sharp contrast to Scrabble's combinatorial action branching ($\sim 10^3$ to $10^4$ plays).
+
+In large-scale board wargames, \citet{sokota2026scalable} recently introduced Ataraxos, achieving superhuman performance in Stratego—a game characterized by massive hidden piece identities and long horizon lengths. \citet{sokota2026scalable} emphasized the pathology of the strategy fusion flaw in PIMC search: determinized rollouts assume an agent knows hidden opponent states in future plies, leading to systematic defensive misjudgments. They established that combining policy/value networks with belief-consistent test-time search provides a unified design pattern across imperfect-information environments. 
+
+\algo\ builds directly upon these game-theoretic insights, formulating Belief-Augmented Monte Carlo Search (\bams) to execute nested 2-ply counterplay rollouts over dynamic belief distributions, completely avoiding strategy fusion while retaining the real-time throughput necessary for competitive Scrabble play.
