@@ -41,6 +41,15 @@ MANIFEST
 pip-log.txt
 pip-delete-this-directory.txt
 
+# LaTeX compilation intermediates
+paper/*.aux
+paper/*.bbl
+paper/*.blg
+paper/*.out
+paper/*.log
+paper/main.pdf
+
+
 # Unit test / coverage reports
 htmlcov/
 .tox/
