@@ -1,0 +1,53 @@
+\begin{thebibliography}{7}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Fortuin et~al.(1971)Fortuin, Kasteleyn, and
+  Ginibre]{fortuin1971correlation}
+C.~M. Fortuin, P.~W. Kasteleyn, and J.~Ginibre.
+\newblock Correlation inequalities on some partially ordered sets.
+\newblock \emph{Communications in Mathematical Physics}, 22\penalty0
+  (2):\penalty0 89--103, 1971.
+
+\bibitem[Harris(1960)]{harris1960lower}
+Theodore~E. Harris.
+\newblock A lower bound for the critical probability in a certain percolation
+  process.
+\newblock \emph{Mathematical Proceedings of the Cambridge Philosophical
+  Society}, 56\penalty0 (1):\penalty0 13--20, 1960.
+
+\bibitem[O'Laughlin and Katz-Brown(2006)]{olaughlin2006quackle}
+John O'Laughlin and Jason Katz-Brown.
+\newblock Quackle: An open-source {S}crabble artificial intelligence and
+  simulation tool.
+\newblock In \emph{Proceedings of the AAAI Conference on Artificial
+  Intelligence}, 2006.
+
+\bibitem[Sheppard(2002)]{sheppard2002world}
+Brian Sheppard.
+\newblock World-championship-caliber {S}crabble.
+\newblock \emph{Artificial Intelligence}, 134\penalty0 (1-2):\penalty0
+  241--275, 2002.
+
+\bibitem[Sokota et~al.(2026)Sokota, Vinitsky, Hu, Fan, Kolter, and
+  Farina]{sokota2026scalable}
+Samuel Sokota, Eugene Vinitsky, Hengyuan Hu, Zhiyuan Fan, J.~Zico Kolter, and
+  Gabriele Farina.
+\newblock Scalable decision making for games of imperfect information.
+\newblock \emph{arXiv preprint arXiv:2511.07312}, 2026.
+
+\bibitem[Student(1908)]{student1908probable}
+Student.
+\newblock The probable error of a mean.
+\newblock \emph{Biometrika}, pages 1--25, 1908.
+
+\bibitem[Wilson(1927)]{wilson1927probable}
+Edwin~B. Wilson.
+\newblock Probable inference, the law of succession, and statistical inference.
+\newblock \emph{Journal of the American Statistical Association}, 22\penalty0
+  (158):\penalty0 209--212, 1927.
+
+\end{thebibliography}

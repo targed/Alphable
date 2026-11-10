@@ -1,0 +1,63 @@
+\documentclass[10pt,twocolumn,letterpaper]{article}
+
+\usepackage[top=0.75in,bottom=0.85in,left=0.75in,right=0.75in]{geometry}
+% Standard Computer Modern fonts
+\usepackage{microtype}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{amsmath,amssymb,amsfonts,amsthm}
+\usepackage{natbib}
+\usepackage{url}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage[colorlinks=true,linkcolor=blue,citecolor=blue,urlcolor=blue]{hyperref}
+
+% Import notation and macros
+\input{macros.tex}
+
+% Listings styling for algorithms
+\lstset{
+  basicstyle=\footnotesize\ttfamily,
+  breaklines=true,
+  frame=single,
+  numbers=left,
+  numberstyle=\tiny\color{gray},
+  captionpos=b
+}
+
+\title{\textbf{Alphable: Belief-Augmented Monte Carlo Search and Cross-Attention Valuation in Imperfect-Information Scrabble}}
+
+\author{
+  \textbf{The Alphable Research Team}\thanks{Correspondence: \texttt{alphable.research@gmail.com}. Source code, datasets, and pre-trained models are publicly available at \url{https://github.com/Alphable/Alphable}.} \\
+  \textit{Open-Source Scrabble AI Consortium}
+}
+
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\input{sections/00_abstract.tex}
+
+\input{sections/01_introduction.tex}
+\input{sections/02_related_work.tex}
+\input{sections/03_game_formulation.tex}
+\input{sections/04_neural_architecture.tex}
+\input{sections/05_bams_search.tex}
+\input{sections/06_late_game.tex}
+\input{sections/07_experiments.tex}
+\input{sections/08_critical_audit.tex}
+\input{sections/09_conclusion.tex}
+
+\bibliographystyle{plainnat}
+\bibliography{references}
+
+\clearpage
+\appendix
+\onecolumn
+\section*{Appendix: Theoretical Proofs and Mathematical Foundations}
+\input{appendix/proof_crn.tex}
+\input{appendix/proof_duplicate.tex}
+
+\end{document}
