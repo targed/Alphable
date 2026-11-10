@@ -1,3 +1,8 @@
 \section{Conclusion and Future Directions}
 \label{sec:conclusion}
-Stub for Conclusion.
+
+In this paper, we introduced \algo, an open-source, championship-caliber Scrabble engine designed to overcome the structural limitations of static heuristic valuation and the strategy fusion flaw of classical PIMC. By combining high-speed C GADDAG move generation with deep cross-attention value networks, Bayesian negative-evidence opponent belief tracking, and Belief-Augmented Monte Carlo Search (\bams), \algo\ achieves a verified $+7.06 \pm 0.81$ net point spread advantage ($p = 2.90 \times 10^{-18}$, $t = 8.749$) over 1-ply Static KLV Base \magpie\ across 10,000 paired duplicate tournament games.
+
+Our game-phase sensitivity analysis demonstrates that \algo's edge is engineered through strategic patience: absorbing minor early deficits ($-4.00$ pts over turns 1--5) to construct an insurmountable $+17.67$ point compound advantage in late-game pre-endgame bag parity and exact endgame alpha-beta lookahead. Furthermore, our adversarial parameter ceiling audit demonstrates that while \algo\ decisively surpasses static 1-ply baselines, raw compiled C Monte Carlo simulation throughput ($\sim 98,000$ rollouts/sec) retains an advantage over 2-ply neural lookahead when compute time is unconstrained.
+
+To foster reproducible research at the intersection of deep reinforcement learning, heuristic search, and imperfect-information games, we make the complete \algo\ codebase, neural model checkpoints, benchmark evaluation suites, and 10,000-game historical tournament datasets publicly available under the GNU General Public License v3.0 (GPLv3) at \url{https://github.com/Alphable/Alphable}.
