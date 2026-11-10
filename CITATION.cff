@@ -1,0 +1,24 @@
+cff-version: 1.2.0
+message: "If you use this software or cite our paper, please cite it as below."
+title: "Alphable V4: Belief-Augmented Monte Carlo Search and Cross-Attention Valuation in Imperfect-Information Scrabble"
+authors:
+  - name: "Alphable Research Team"
+version: "4.0.0"
+date-released: "2026-11-10"
+license: "GPL-3.0-or-later"
+repository-code: "https://github.com/Alphable/Alphable"
+keywords:
+  - "artificial intelligence"
+  - "reinforcement learning"
+  - "imperfect information games"
+  - "scrabble"
+  - "monte carlo search"
+  - "cross-attention"
+  - "bayesian belief tracking"
+preferred-citation:
+  type: article
+  title: "Alphable: Belief-Augmented Monte Carlo Search and Cross-Attention Valuation in Imperfect-Information Scrabble"
+  authors:
+    - name: "Alphable Research Team"
+  journal: "arXiv preprint"
+  year: 2026
