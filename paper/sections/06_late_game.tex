@@ -1,3 +1,32 @@
 \section{Late-Game Optimization and Exact Solvers}
 \label{sec:late_game}
-Stub for Late Game.
+
+The transition from open midgame play to the late game is marked by a fundamental phase change in information structure. As the tile bag empties, the space of unseen letters shrinks to zero, and the game transitions from a stochastic POMDP into a deterministic, perfect-information combinatorial game. \algo\ implements specialized algorithmic modules to exploit this transition.
+
+\subsection{Pre-Endgame Bag Parity and Tile Sticking}
+
+When the tile bag contains between $1$ and $14$ tiles ($1 \le |\bag| \le 14$), strategic play is governed by bag parity and tile tracking:
+\begin{enumerate}
+    \item \textbf{Bag-Emptier Tempo:} The player who empties the final tiles of the bag frequently incurs a positional disadvantage, as the remaining player then holds full knowledge of the opponent's private rack without having to draw unknown tiles.
+    \item \textbf{Tile Sticking Logic:} Using exact tile accounting, \algo\ evaluates candidate plays by their consumed tile length $|c_i| = \mathrm{len}(c_i.\mathrm{tiles\_played})$. By selecting valid plays that leave an odd number of tiles in the bag, \algo\ forces the opponent into taking the final draw.
+    \item \textbf{Consonant Penalty Trapping:} If the unseen pool contains cumbersome high-point consonants ($Q, Z, X$) or heavy vowel surpluses, \algo\ prioritizes defensive plays that restrict open vowel hooks, stranding the opponent with unplayable tiles and extracting severe unplayed tile penalties at game conclusion.
+\end{enumerate}
+
+\subsection{Exact Alpha-Beta Minimax Endgame Solver}
+
+Once the tile bag reaches zero ($|\bag| = 0$), private information vanishes: Player 1's rack $\rack_1$ and Player 2's rack $\rack_2 = U$ are completely known to both agents. At this instant, \algo\ switches from \bams\ to an exact complete-information alpha-beta minimax solver:
+
+\begin{enumerate}
+    \item \textbf{Search Depth and Horizon:} The search solves to terminal state (typically 6 to 10 plies until one player plays out or consecutive passes occur).
+    \item \textbf{Terminal Utility Function:} When player $p$ plays out all tiles in rack $\rack_p$, the standard tournament Scrabble scoring rule applies:
+    \begin{equation}
+        \label{eq:endgame_terminal}
+        \Delta_{\mathrm{terminal}} = S_1 - S_2 \pm 2 \sum_{t \in \rack_{\opp}} \mathrm{PointValue}(t)
+    \end{equation}
+    where twice the face value of the opponent's unplayed tiles is transferred to the player who played out.
+    \item \textbf{Transposition Tables and Move Ordering:} The solver maintains an exact transposition table indexed by Zobrist hash keys over $(\board, \rack_1, \rack_2, p)$. Candidate moves are ordered heuristically by immediate points and rack depletion rate, achieving high alpha-beta branch pruning efficiency.
+\end{enumerate}
+
+\subsection{Empirical Divergence from 1-Ply Baselines}
+
+In 1-ply static engines (including Base \magpie\ in default mode), endgame decisions are made greedily using $\score(a) + \leaveval(\rack \setminus a)$. Because tabular leave values are calibrated for midgame draws, they fail completely when no bag remains. A greedy 1-ply engine frequently plays a 25-point play that leaves one unplayable letter on its rack, allowing an exact solver to execute a 15-point play followed by a terminal outplay, winning the game by $+30$ points on unplayed tile transfer. As demonstrated in our experiments (\S\ref{sec:experiments}), late-game optimization accounts for $+17.67$ net points of \algo's total competitive spread.

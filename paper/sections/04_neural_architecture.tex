@@ -1,3 +1,53 @@
 \section{Neural Value Network and Cross-Attention Architecture}
 \label{sec:neural_architecture}
-Stub for Neural Architecture.
+
+In classical Scrabble engines, board state evaluation is completely decoupled from rack leave evaluation: tabular leave values (KLV/KLV2) assess the quality of unplayed letters in isolation, blind to whether the board presents open triple-word lanes, constricted clusters, or accessible vowel hooks. To resolve this structural deficiency, \algo\ introduces a unified deep neural value network that jointly conditions board topology on rack composition.
+
+\subsection{Input Tensor Representation}
+
+The input to the \algo\ value network consists of a multi-channel spatial tensor and a discrete sequence of rack tokens:
+\begin{enumerate}
+    \item \textbf{Spatial Board Tensor ($\mathbf{X}_{\mathrm{board}} \in \mathbb{R}^{28 \times 15 \times 15}$):}
+    \begin{itemize}
+        \item Channels $0 \le c \le 25$: Binary one-hot letter planes corresponding to English alphabet characters $\text{A}$ through $\text{Z}$.
+        \item Channel $26$: Binary indicator plane for placed blank tiles (which contribute zero letter score).
+        \item Channel $27$: Normalized premium multiplier grid, encoding Double Letter ($\times 1.2$), Triple Letter ($\times 1.5$), Double Word ($\times 2.0$), and Triple Word ($\times 3.0$) coordinates.
+    \end{itemize}
+    \item \textbf{Rack Embedding Sequence ($\mathbf{X}_{\mathrm{rack}} \in \mathbb{Z}^7$):}
+    The player's rack tiles are mapped through a discrete embedding table into $d = 64$-dimensional dense vectors:
+    \begin{equation}
+        \mathbf{E}_{\mathrm{rack}} = \mathrm{Embedding}(\mathbf{X}_{\mathrm{rack}}) \in \mathbb{R}^{7 \times 64}
+    \end{equation}
+\end{enumerate}
+
+\subsection{Cross-Attention Backbone Architecture}
+
+The neural network processes the dual inputs through a hybrid convolutional and cross-attentive architecture:
+\begin{enumerate}
+    \item \textbf{Convolutional Feature Extractor:} The spatial tensor $\mathbf{X}_{\mathrm{board}}$ passes through an initial $7 \times 7$ convolutional layer ($28 \to 64$ channels, stride 1, padding 3), followed by Batch Normalization and ReLU activation. It then traverses 4 residual blocks (ResNet-18 style), producing spatial feature map $\mathbf{F}_{\mathrm{board}} \in \mathbb{R}^{64 \times 15 \times 15}$.
+    \item \textbf{Spatial Tokenization:} $\mathbf{F}_{\mathrm{board}}$ is reshaped into a sequence of $225$ spatial visual tokens:
+    \begin{equation}
+        \mathbf{K}_{\mathrm{board}}, \mathbf{V}_{\mathrm{board}} = \mathbf{F}_{\mathrm{board}}^{\top} \in \mathbb{R}^{225 \times 64}
+    \end{equation}
+    \item \textbf{Multi-Head Cross-Attention:} We treat the 7 rack tile embeddings as queries $\mathbf{Q} = \mathbf{E}_{\mathrm{rack}} \mathbf{W}_Q$, attending over spatial board keys $\mathbf{K} = \mathbf{K}_{\mathrm{board}} \mathbf{W}_K$ and values $\mathbf{V} = \mathbf{V}_{\mathrm{board}} \mathbf{W}_V$ across $h = 4$ attention heads:
+    \begin{equation}
+        \mathrm{Attention}(\mathbf{Q}, \mathbf{K}, \mathbf{V}) = \mathrm{softmax}\left( \frac{\mathbf{Q} \mathbf{K}^\top}{\sqrt{d_k}} \right) \mathbf{V}
+    \end{equation}
+    This mechanism allows individual rack letters (e.g., an unplayed S or blank) to dynamically query specific board coordinates (e.g., open triple-word hook lanes), computing context-dependent synergy representations.
+    \item \textbf{Scalar Equity Head:} The cross-attended rack representations are pooled and concatenated with the globally pooled board representation, passing through a multi-layer perceptron ($128 \to 64 \to 1$) with Layer Normalization to output a predicted scalar equity offset $\hat{V}(s) \in \mathbb{R}$.
+\end{enumerate}
+
+\subsection{Distillation and Robust Huber Training}
+
+Training a value network from scratch via self-play in Scrabble is complicated by the high variance of 50-point bingo bonuses and random tile draws. We adopt a supervised distillation framework:
+\begin{itemize}
+    \item \textbf{Distillation Dataset:} 500,000 tournament game positions annotated with asymptotic KLV2 leaf evaluations and Monte Carlo rollouts.
+    \item \textbf{Huber Loss Formulation:} To prevent occasional triple-triple blowouts ($\ge 150$ points) from destabilizing weight convergence, we optimize the network using Huber Loss ($\delta = 1.0$):
+    \begin{equation}
+        \mathcal{L}_\delta(y, \hat{y}) = \begin{cases}
+            \frac{1}{2} (y - \hat{y})^2 & \text{for } |y - \hat{y}| \le \delta \\
+            \delta \cdot (|y - \hat{y}| - \frac{1}{2} \delta) & \text{otherwise}
+        \end{cases}
+    \end{equation}
+\end{itemize}
+The resulting value network achieves an inference latency of $4.2$ ms on a single GPU (or $14.8$ ms on standard 8-core CPU), enabling seamless integration into multi-candidate tree search.
