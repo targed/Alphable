@@ -23,6 +23,7 @@ Welcome to the documentation repository for **Alphable V4**, a superhuman hybrid
 
 ## Empirical Benchmarks & Operational Guides
 
+- **[TESTING_AND_VERIFICATION_GUIDE.md](TESTING_AND_VERIFICATION_GUIDE.md)**: Comprehensive manual for running automated tests, executing paired duplicate tournaments, analyzing game phases, and interpreting statistical metrics.
 - **[STATISTICAL_SIGNIFICANCE_AND_BENCHMARKING_GUIDE.md](STATISTICAL_SIGNIFICANCE_AND_BENCHMARKING_GUIDE.md)**: Rigorous guide to interpreting duplicate tournaments, two-proportion z-tests, Wilson score intervals, and paired t-tests.
 - **[TOURNAMENT_BENCHMARKS_AND_COMMAND_MANUAL.md](TOURNAMENT_BENCHMARKS_AND_COMMAND_MANUAL.md)**: Master CLI reference for running duplicate tournaments, evaluating checkpoints, and logging match telemetry.
 - **[GETTING_STARTED.md](GETTING_STARTED.md)**: Setup guide, virtual environment instructions, and dependencies.
