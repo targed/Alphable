@@ -376,38 +376,58 @@ class MagpieEngine:
             coord_token = tokens[0].upper()
             word_token = tokens[1].replace("(", "").replace(")", "").upper()
             
-            # Find score
-            score_val = None
-            if len(tokens) >= 3 and tokens[2].lstrip("-").isdigit():
-                score_val = int(tokens[2])
-
-            # Find simulated equity, win prob, and spread
-            sim_equity = 0.0
-            win_prob = 0.50
-            spread = 0.0
-
-            # Scan tokens for float values after the '-' delimiter
+            # Find score (the integer immediately before '-')
             dash_idx = -1
             for idx, tok in enumerate(tokens):
                 if tok == "-":
                     dash_idx = idx
                     break
 
-            if dash_idx != -1 and dash_idx + 1 < len(tokens):
-                try:
-                    sim_equity = float(tokens[dash_idx + 1])
-                except ValueError:
-                    pass
+            score_val = 0
+            if dash_idx > 0 and tokens[dash_idx - 1].lstrip("-").isdigit():
+                score_val = int(tokens[dash_idx - 1])
+            elif len(tokens) >= 3 and tokens[2].lstrip("-").isdigit():
+                score_val = int(tokens[2])
+
+            win_pct = 50.0
+            win_sem = 0.0
+            sim_equity = 0.0
+            equity_sem = 0.0
+            static_equity = 0.0
+
+            if dash_idx != -1:
+                # Column 1 after dash: win percentage (0 to 100%)
+                if dash_idx + 1 < len(tokens):
+                    try:
+                        win_pct = float(tokens[dash_idx + 1])
+                    except ValueError:
+                        pass
+                # Column 2 after dash: win percentage SEM
                 if dash_idx + 2 < len(tokens):
                     try:
-                        win_prob = float(tokens[dash_idx + 2])
+                        win_sem = float(tokens[dash_idx + 2])
                     except ValueError:
                         pass
+                # Column 3 after dash: simulated equity spread (points)
                 if dash_idx + 3 < len(tokens):
                     try:
-                        spread = float(tokens[dash_idx + 3])
+                        sim_equity = float(tokens[dash_idx + 3])
                     except ValueError:
                         pass
+                # Column 4 after dash: simulated equity SEM
+                if dash_idx + 4 < len(tokens):
+                    try:
+                        equity_sem = float(tokens[dash_idx + 4])
+                    except ValueError:
+                        pass
+                # Column 5 after dash: static equity
+                if dash_idx + 5 < len(tokens):
+                    try:
+                        static_equity = float(tokens[dash_idx + 5])
+                    except ValueError:
+                        pass
+
+            win_prob = win_pct / 100.0
 
             # Match against candidate_moves
             matched_move = None
@@ -450,7 +470,11 @@ class MagpieEngine:
                 "score": matched_move.score if matched_move else (score_val or 0),
                 "sim_equity": sim_equity,
                 "win_prob": win_prob,
-                "spread": spread,
+                "win_pct": win_pct,
+                "win_sem": win_sem,
+                "sim_sem": equity_sem,
+                "static_equity": static_equity,
+                "spread": sim_equity,
                 "raw_line": line,
             })
 

@@ -448,9 +448,9 @@ class BAMSSearch:
         """
         start_time = time.perf_counter()
 
-        # 1. Candidate Generation
+        # 1. Candidate Generation (focus on top 8 candidates under PAT)
         if candidates is None:
-            candidates = self.engine.generate_moves(game_state=game_state, max_candidates=15)
+            candidates = self.engine.generate_moves(game_state=game_state, max_candidates=8)
 
         if not candidates:
             return Move.create_pass(), {"method": "fallback_pass", "latency_ms": (time.perf_counter() - start_time) * 1000}
@@ -458,17 +458,16 @@ class BAMSSearch:
         if len(candidates) == 1:
             return candidates[0], {"method": "forced_move", "latency_ms": (time.perf_counter() - start_time) * 1000}
 
-        # 2. Check for Endgame Fast Path (unseen tiles <= 7)
-        total_unseen = sum(game_state.unseen_counts.values())
-        if total_unseen <= 7 and game_state.bag_count == 0 and getattr(self.config, "use_exact_endgame", True):
+        # 2. Check for Endgame Fast Path: exact alpha-beta when bag reaches 0
+        if game_state.bag_count == 0 and getattr(self.config, "use_exact_endgame", True):
             exact_m, exact_meta = self._solve_exact_endgame(game_state, candidates)
             if exact_m is not None:
                 exact_meta["latency_ms"] = (time.perf_counter() - start_time) * 1000
                 return exact_m, exact_meta
 
-        # 3. Native C Monte Carlo Simulation
+        # 3. Native C Monte Carlo Simulation (30-35 iterations for deep lookahead)
         sim_results = self.engine.simulate_candidates(
-            iterations=getattr(self.config, "sim_iterations", 25),
+            iterations=getattr(self.config, "sim_iterations", 35),
             candidate_moves=candidates,
             game_state=game_state,
         )
@@ -476,28 +475,36 @@ class BAMSSearch:
         if not sim_results:
             return candidates[0], {"method": "pimc_fallback_static", "latency_ms": (time.perf_counter() - start_time) * 1000}
 
-        # 4. Neural Value & Volatility Re-Ranking on top simulated candidates (top 4)
+        # 4. Relative Neural Value & Volatility Re-Ranking on top simulated contenders (top 4)
         top_sim = sim_results[:4]
         scored_candidates = []
         score_diff = game_state.score - game_state.opp_score
 
+        base_wp = float(np.mean([e["win_prob"] for e in top_sim]))
+
+        # Relative volatility calculation
+        cand_vols = []
         for entry in top_sim:
             cand = entry["move"]
-            sim_equity = entry["sim_equity"]
-            win_prob = entry["win_prob"]
-
-            # Construct after-state
             try:
                 state_after = game_state.apply_move(cand)
                 resulting_board = state_after.board if cand.is_placement else game_state.board
             except Exception:
-                state_after = game_state
                 resulting_board = game_state.board
+            cand_vols.append(self.compute_board_volatility(resulting_board) if getattr(self.config, "use_volatility_control", True) else 0.0)
 
-            # Neural Value Prediction
+        base_vol = float(np.mean(cand_vols)) if cand_vols else 0.0
+        clamped_ratio = max(-2.0, min(2.0, float(score_diff) / 40.0))
+        lambda_vol = -0.15 * clamped_ratio
+
+        # Relative neural value calculation
+        cand_nns = []
+        for entry in top_sim:
+            cand = entry["move"]
             neural_val = 0.0
             if self.value_net is not None:
                 try:
+                    state_after = game_state.apply_move(cand)
                     with torch.no_grad():
                         b_tensor = state_after.to_board_tensor().unsqueeze(0).to(self.device)
                         s_vector = state_after.to_state_vector().unsqueeze(0).to(self.device)
@@ -505,16 +512,28 @@ class BAMSSearch:
                         neural_val = float(neural_pred.squeeze().cpu().numpy())
                 except Exception:
                     neural_val = 0.0
+            cand_nns.append(neural_val)
 
-            # Volatility control: penalize variance when ahead, reward variance when trailing
-            volatility = self.compute_board_volatility(resulting_board) if getattr(self.config, "use_volatility_control", True) else 0.0
-            vol_clamp = max(-0.30, min(0.60, 0.15 + (score_diff / 100.0)))
+        base_nn = float(np.mean(cand_nns)) if cand_nns else 0.0
 
-            pimc_w = getattr(self.config, "pimc_weight", 1.0)
-            win_w = getattr(self.config, "win_prob_weight", 15.0)
-            val_w = getattr(self.config, "value_weight", 4.5)
+        pimc_w = getattr(self.config, "pimc_weight", 1.0)
+        win_w = getattr(self.config, "win_prob_weight", 8.0)
+        val_w = getattr(self.config, "value_weight", 3.0)
+        vol_w = getattr(self.config, "volatility_weight", 0.4)
 
-            composite_score = (sim_equity * pimc_w) + (win_prob * win_w) + (neural_val * val_w) - (volatility * vol_clamp)
+        for i, entry in enumerate(top_sim):
+            cand = entry["move"]
+            sim_equity = entry["sim_equity"]
+            win_prob = entry["win_prob"]
+            neural_val = cand_nns[i]
+            volatility = cand_vols[i]
+
+            rel_wp = win_prob - base_wp
+            rel_nn = neural_val - base_nn
+            rel_vol = volatility - base_vol
+
+            vol_adj = lambda_vol * vol_w * rel_vol
+            composite_score = (sim_equity * pimc_w) + (rel_wp * win_w) + (rel_nn * val_w) + vol_adj
 
             scored_candidates.append({
                 "candidate": cand,
