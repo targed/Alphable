@@ -1,7 +1,7 @@
 # Alphable V4: Tournament Benchmarks & Master Command Manual
 
 **Location**: `docs/TOURNAMENT_BENCHMARKS_AND_COMMAND_MANUAL.md`  
-**Last Updated**: 2026-10-13  
+**Last Updated**: 2026-11-12  
 **Status**: Verified & Active Reference  
 
 ---
@@ -17,28 +17,30 @@ python cli.py models
 ```
 
 ### B. Head-to-Head Tournament Series vs Baselines
-Run tournament series with automatic first-player alternating (`g % 2 == 0`):
 
 ```bash
-# 1. 1,000-Game tournament vs Base MAGPIE (KLV static equity baseline):
-python cli.py tournament --opponent magpie --games 1000
+# 1. SOTA BENCHMARK: Alphable V4 Hybrid PIMC vs Maximally Tuned MAGPIE (40 games, duplicate):
+python cli.py tournament --model hybrid-pimc --opponent magpie-tuned --games 40 --duplicate
 
-# 2. 1,000 Games with the 5-Frontiers Champion (54.2% WR verified baseline):
-python cli.py tournament --model 5-frontiers --opponent magpie --games 1000
+# 2. 1,000-Game duplicate tournament vs 1-Ply Base MAGPIE (KLV static equity baseline):
+python cli.py tournament --model latest --opponent magpie --games 1000 --duplicate
 
-# 3. 1,000 Games with the V4 1-Ply Baseline (52.2% WR):
-python cli.py tournament --model v4-baseline --opponent magpie --games 1000
+# 3. 1,000 Games with the 5-Frontiers Champion (54.2% WR verified baseline):
+python cli.py tournament --model 5-frontiers --opponent magpie --games 1000 --duplicate
 
-# 4. Tournament with RL self-play fine-tuned model:
-python cli.py tournament --model rl-gen1 --opponent magpie --games 100
+# 4. Tournament with PAT candidate generator vs Tuned MAGPIE:
+python cli.py tournament --model v4-pat --opponent magpie-tuned --games 40 --duplicate
 
-# 5. Tournament vs Alphable V3 Macondo ResNet Champion (63 dims):
-python cli.py tournament --model latest --opponent v3-resnet --games 100
+# 5. Tournament with RL self-play fine-tuned model:
+python cli.py tournament --model rl-gen1 --opponent magpie --games 100 --duplicate
 
-# 6. Tournament vs Alphable V3 SmolLM2-135M Transformer candidate ranker:
+# 6. Tournament vs Alphable V3 Macondo ResNet Champion (63 dims):
+python cli.py tournament --model latest --opponent v3-resnet --games 100 --duplicate
+
+# 7. Tournament vs Alphable V3 SmolLM2-135M Transformer candidate ranker:
 python cli.py tournament --model latest --opponent v3-transformer --games 10
 
-# 7. Tournament vs Score-Greedy baseline:
+# 8. Tournament vs Score-Greedy baseline:
 python cli.py tournament --model latest --opponent greedy --games 20
 ```
 
@@ -58,8 +60,11 @@ python cli.py tournament --model rl-gen1 --opponent 5-frontiers --games 50
 ### D. Duplicate Pair-Swapped Tournaments (Equal Tile Seed Benchmark)
 Cancels tile draw variance by playing identical rack seeds with swapped seats:
 ```bash
-# Duplicate tournament between Latest Champion and Base MAGPIE (30 games = 15 duplicate pairs):
-python cli.py tournament --model latest --opponent magpie --games 30 --duplicate
+# SOTA Benchmark: Hybrid PIMC vs Maximally Tuned MAGPIE (40 games = 20 duplicate pairs):
+python cli.py tournament --model hybrid-pimc --opponent magpie-tuned --games 40 --duplicate
+
+# Duplicate tournament between Latest Champion and Base MAGPIE (100 games = 50 duplicate pairs):
+python cli.py tournament --model latest --opponent magpie --games 100 --duplicate
 
 # Duplicate tournament between Latest Champion and 5-Frontiers:
 python cli.py tournament --model latest --opponent 5-frontiers --games 20 --duplicate

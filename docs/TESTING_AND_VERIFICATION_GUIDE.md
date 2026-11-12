@@ -155,3 +155,98 @@ pytest tests/platform/test_audit.py -v
 ```
 
 All commands must exit with code 0.
+
+---
+
+## 7. Model vs. Model Tournament Benchmarking & Testing Levels
+
+Codebase tests (`pytest`) verify that functions execute without crashing, preserve state consistency, and respect memory bounds. However, verifying whether an AI model plays better Scrabble requires **game-theoretic tournament testing**.
+
+Alphable provides a tournament engine with four operational testing tiers depending on your runtime budget and precision requirements.
+
+### The Four Tournament Testing Tiers
+
+| Tier / Level | Game Count | Duplicate Pairs | Runtime | Recommended Use Case |
+| :--- | :---: | :---: | :---: | :--- |
+| **Level 1: Smoke Test** | 4 games | 2 pairs | ~45 seconds | Sanity check during development. Confirms move generation, C bindings, and value net inference communicate without errors. |
+| **Level 2: Evaluation Benchmark** | 40 games | 20 pairs | ~8 minutes | Quick validation of algorithmic changes. Yields initial net spread and win-rate directionality. |
+| **Level 3: Statistical Benchmark** | 100–500 games | 50–250 pairs | 20–90 minutes | Detects moderate effect sizes ($\Delta \ge 5$ pts) with Wilson 95% confidence intervals ($\pm 4–8\%$). |
+| **Level 4: Grandmaster Verification** | 1,000–10,000 games | 500–5,000 pairs | Multi-hour / Overnight | Publication-grade proof with narrow confidence intervals ($\pm 0.8$ pts) and $p < 10^{-15}$. |
+
+---
+
+### Available Model & Opponent Presets
+
+Pass any of the following keys to `--model` (Player 1) or `--opponent` (Player 2):
+
+| Preset Key | Aliases | Description | Engine Type |
+| :--- | :--- | :--- | :--- |
+| **`hybrid-pimc`** | `sota`, `pimc`, `v4-hybrid` | Native C PIMC simulation (~98k nps) + Cross-Attention Value Net re-ranking | Hybrid C/Neural (SOTA) |
+| **`latest`** | `champion`, `calibrated` | Alphable V4 Champion 2-ply BAMS with neural value network and Bayesian belief tracking | Python / PyTorch BAMS |
+| **`v4-pat`** | `champion-pat` | V4 Champion 2-ply BAMS with PAT-enhanced candidate generator | Python / PyTorch BAMS |
+| **`5-frontiers`** | `frontier-v4` | Full 5-frontiers search (nested 2-ply, belief tracking, pre-endgame, endgame) | Python / PyTorch BAMS |
+| **`rl-gen1`** | `rl` | V4 fine-tuned via self-play reinforcement learning | Python / PyTorch BAMS |
+| **`magpie-tuned`** | `magpie-sim`, `tuned-magpie` | Maximally Tuned Base MAGPIE (`-pat CSW24`, C PIMC simulation, exact endgame) | Native C Benchmark |
+| **`magpie`** | `base-magpie` | Default 1-ply Static KLV Base MAGPIE | Native C Baseline |
+| **`v3-resnet`** | `v3` | Alphable V3 Macondo ResNet Champion (63 dims) | Legacy PyTorch |
+| **`v3-transformer`** | — | Alphable V3 SmolLM2-135M Autoregressive Transformer candidate ranker | Legacy HuggingFace |
+| **`greedy`** | — | Score-greedy baseline (picks move with highest immediate score) | Heuristic Baseline |
+
+---
+
+### Running Alphable V4 Hybrid PIMC vs. Tuned MAGPIE
+
+To directly benchmark the new SOTA Hybrid PIMC engine against Tuned MAGPIE across differing testing levels:
+
+#### Option A: Using the Automated Reproduction Script
+
+```bash
+# Level 1: Quick 4-game smoke test (~45 seconds)
+./scripts/reproduce_benchmarks.sh --hybrid-smoke
+
+# Level 2: Standard 40-game duplicate benchmark (~8 minutes)
+./scripts/reproduce_benchmarks.sh --hybrid-vs-tuned 40
+
+# Level 3: 100-game statistical tournament (~20 minutes)
+./scripts/reproduce_benchmarks.sh --hybrid-vs-tuned 100
+```
+
+#### Option B: Using the Direct CLI (`cli.py`)
+
+```bash
+# Level 1: Smoke test (4 games / 2 duplicate pairs)
+python cli.py tournament --model hybrid-pimc --opponent magpie-tuned --games 4 --duplicate
+
+# Level 2: Standard evaluation (40 games / 20 duplicate pairs)
+python cli.py tournament --model hybrid-pimc --opponent magpie-tuned --games 40 --duplicate
+
+# Level 3: High-confidence benchmark (100 games / 50 duplicate pairs)
+python cli.py tournament --model hybrid-pimc --opponent magpie-tuned --games 100 --duplicate
+
+# Level 4: Deep statistical verification (1,000 games / 500 duplicate pairs)
+python cli.py tournament --model hybrid-pimc --opponent magpie-tuned --games 1000 --duplicate
+```
+
+> **Note on `--duplicate`**: Always include `--duplicate`. Without this flag, games alternate seats but use random tile bags, reintroducing tile-draw luck and tripling the sample size required for statistical significance.
+
+---
+
+### 8. Inspecting and Comparing Match Telemetry
+
+Every tournament automatically persists full structured telemetry to `data/tournaments/`:
+
+- JSON detail file: `data/tournaments/run_<timestamp>_<p1>_vs_<p2>_<N>g_dup.json`
+- Historical ledger: `data/tournaments/tournament_history.jsonl`
+
+#### View Past Tournament Records
+```bash
+# Display the historical ledger of all tournaments run on this machine
+python cli.py history
+```
+
+#### Compare Two Specific Tournament Runs Side-by-Side
+```bash
+# Compare two tournament runs by their run IDs:
+python cli.py history --compare run_20261109_tuned_ceiling run_20261112_103230
+```
+This comparison displays win rate, score differential, bingo frequency, and phase-by-phase net spread side by side to quantify exactly where performance improved.
