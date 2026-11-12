@@ -307,4 +307,195 @@ class MagpieEngine:
 
     def simulate(self, iterations: int = 50) -> str:
         """Runs Monte Carlo simulation lookahead over generated candidates."""
-        return self.run_command(f"simulate -iterations {iterations}")
+        self.run_command(f"set -iterations {iterations}")
+        return self.run_command("simulate")
+
+    def simulate_candidates(
+        self,
+        iterations: int = 25,
+        candidate_moves: Optional[List[Move]] = None,
+        game_state: Optional[GameState] = None,
+    ) -> List[Dict[str, Any]]:
+        """
+        Runs native C Monte Carlo simulation rollouts and returns parsed candidate moves
+        with their simulated return equity, win probability, and spread.
+
+        Args:
+            iterations: Number of Monte Carlo rollout iterations per candidate in C (~98k nps).
+            candidate_moves: Optional pre-generated list of Move objects to match against.
+            game_state: Optional GameState to set before simulation.
+
+        Returns:
+            List of dictionaries:
+            [{
+                "rank": int,
+                "move": Move,
+                "score": int,
+                "sim_equity": float,
+                "win_prob": float,
+                "spread": float,
+                "raw_line": str
+            }, ...]
+        """
+        if game_state is not None:
+            self.set_cgp(game_state.to_cgp())
+            if candidate_moves is None:
+                candidate_moves = self.generate_moves(max_candidates=15)
+            else:
+                self.run_command("generate")
+        elif candidate_moves is None:
+            candidate_moves = self.generate_moves(max_candidates=15)
+
+        if not candidate_moves:
+            return []
+
+        # Configure iterations and run native simulation
+        self.run_command(f"set -iterations {iterations}")
+        try:
+            raw_output = self.run_command("simulate")
+        except Exception:
+            return []
+
+        results: List[Dict[str, Any]] = []
+        for line in raw_output.splitlines():
+            line = line.strip()
+            if not line or ":" not in line:
+                continue
+
+            # Format: '1:   8F STARNIE        66 - 69.13 0.6156 25.13 ...'
+            parts = line.split(":", 1)
+            rank_str = parts[0].strip()
+            if not rank_str.isdigit():
+                continue
+
+            rank = int(rank_str)
+            tokens = parts[1].strip().split()
+            if len(tokens) < 4:
+                continue
+
+            coord_token = tokens[0].upper()
+            word_token = tokens[1].replace("(", "").replace(")", "").upper()
+            
+            # Find score
+            score_val = None
+            if len(tokens) >= 3 and tokens[2].lstrip("-").isdigit():
+                score_val = int(tokens[2])
+
+            # Find simulated equity, win prob, and spread
+            sim_equity = 0.0
+            win_prob = 0.50
+            spread = 0.0
+
+            # Scan tokens for float values after the '-' delimiter
+            dash_idx = -1
+            for idx, tok in enumerate(tokens):
+                if tok == "-":
+                    dash_idx = idx
+                    break
+
+            if dash_idx != -1 and dash_idx + 1 < len(tokens):
+                try:
+                    sim_equity = float(tokens[dash_idx + 1])
+                except ValueError:
+                    pass
+                if dash_idx + 2 < len(tokens):
+                    try:
+                        win_prob = float(tokens[dash_idx + 2])
+                    except ValueError:
+                        pass
+                if dash_idx + 3 < len(tokens):
+                    try:
+                        spread = float(tokens[dash_idx + 3])
+                    except ValueError:
+                        pass
+
+            # Match against candidate_moves
+            matched_move = None
+            for c in candidate_moves:
+                if c.coord_str.upper() == coord_token and c.word.upper() == word_token:
+                    matched_move = c
+                    break
+
+            # Secondary match: coord and score
+            if matched_move is None and score_val is not None:
+                for c in candidate_moves:
+                    if c.coord_str.upper() == coord_token and c.score == score_val:
+                        matched_move = c
+                        break
+
+            # If still unmatched, construct Move object from parsed tokens
+            if matched_move is None:
+                try:
+                    if coord_token in ("PASS", "-"):
+                        matched_move = Move.create_pass()
+                    elif coord_token.startswith("-"):
+                        # Exchange
+                        matched_move = Move(
+                            row=0, col=0, direction="Across", word="",
+                            score=0, is_exchange=True, letters_exchanged=list(coord_token[1:])
+                        )
+                    else:
+                        matched_move = Move.from_coordinates(
+                            coord_str=coord_token,
+                            word=word_token,
+                            score=score_val or 0,
+                            equity=sim_equity,
+                        )
+                except Exception:
+                    continue
+
+            results.append({
+                "rank": rank,
+                "move": matched_move,
+                "score": matched_move.score if matched_move else (score_val or 0),
+                "sim_equity": sim_equity,
+                "win_prob": win_prob,
+                "spread": spread,
+                "raw_line": line,
+            })
+
+        return results
+
+    def solve_endgame_move(
+        self,
+        game_state: Optional[GameState] = None,
+        candidate_moves: Optional[List[Move]] = None,
+    ) -> Optional[Move]:
+        """
+        Solves the endgame using MAGPIE's exact alpha-beta solver and returns
+        the optimal Move object.
+        """
+        if game_state is not None:
+            self.set_cgp(game_state.to_cgp())
+
+        try:
+            raw_output = self.solve_endgame()
+        except Exception:
+            return None
+
+        lines = [l.strip() for l in raw_output.splitlines() if l.strip()]
+        for line in lines:
+            if line.startswith("Endgame") or line.startswith("Play") or "nodes" in line.lower():
+                continue
+            parts = line.split()
+            if len(parts) >= 2:
+                coord = parts[0].upper()
+                clean_word = parts[1].replace("(", "").replace(")", "").upper()
+                score = int(parts[2]) if len(parts) >= 3 and parts[2].lstrip("-").isdigit() else 0
+
+                if candidate_moves:
+                    for c in candidate_moves:
+                        if c.coord_str.upper() == coord and c.word.upper() == clean_word:
+                            return c
+                        if c.coord_str.upper() == coord and c.score == score:
+                            return c
+
+                try:
+                    if coord == "PASS":
+                        return Move.create_pass()
+                    return Move.from_coordinates(coord_str=coord, word=clean_word, score=score)
+                except Exception:
+                    continue
+
+        return None
+

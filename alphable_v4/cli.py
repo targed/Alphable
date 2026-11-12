@@ -218,6 +218,25 @@ MODEL_REGISTRY: Dict[str, Dict[str, Any]] = {
             "use_pre_endgame": True,
         },
     },
+    "hybrid-pimc": {
+        "name": "Alphable V4 Hybrid PIMC (Native Simulation + Neural Re-Ranking)",
+        "short_name": "Hybrid-PIMC",
+        "checkpoint_file": "v4_value_net_best.pt",
+        "description": "Native C PIMC rollouts (~98k nps) + ResNet-18 Cross-Attention value network re-ranking",
+        "verified_wr": "Grandmaster Benchmark vs Tuned MAGPIE",
+        "status": "🚀 SOTA HYBRID ENGINE",
+        "config": {
+            "hybrid_pimc": True,
+            "sim_iterations": 25,
+            "use_pat": True,
+            "pimc_weight": 1.0,
+            "win_prob_weight": 15.0,
+            "value_weight": 4.5,
+            "use_volatility_control": True,
+            "volatility_weight": 0.4,
+            "use_exact_endgame": True,
+        },
+    },
 }
 
 PRESET_ALIASES: Dict[str, str] = {
@@ -240,6 +259,10 @@ PRESET_ALIASES: Dict[str, str] = {
     "magpie-sim": "magpie-tuned",
     "champion-pat": "v4-pat",
     "latest-pat": "v4-pat",
+    "pimc": "hybrid-pimc",
+    "hybrid": "hybrid-pimc",
+    "v4-hybrid": "hybrid-pimc",
+    "sota": "hybrid-pimc",
 }
 
 
@@ -455,7 +478,7 @@ def build_policy(
 
     # 5. Alphable V4 BAMS Model (Preset or Custom Checkpoint)
     canonical_key, info = resolve_preset(norm)
-    if canonical_key == "v4-pat" or norm in ("v4-pat", "champion-pat", "latest-pat"):
+    if canonical_key in ("v4-pat", "hybrid-pimc") or norm in ("v4-pat", "champion-pat", "latest-pat", "hybrid-pimc", "hybrid", "pimc"):
         engine.set_pat(lexicon)
     else:
         engine.set_pat(None)

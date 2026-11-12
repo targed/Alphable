@@ -10,9 +10,10 @@ BAMS combines:
 """
 
 from __future__ import annotations
+import os
 import time
 from dataclasses import dataclass, field, replace
-from typing import List, Tuple, Dict, Optional, Any
+from typing import List, Tuple, Dict, Optional, Any, Union
 
 import numpy as np
 import torch
@@ -22,6 +23,7 @@ from alphable_v4.engine.game_state import GameState, TW_SQUARES, DW_SQUARES, VOW
 from alphable_v4.engine.magpie_bindings import MagpieEngine
 from alphable_v4.models.belief_net import BayesianRackInference, OpponentTracker
 from alphable_v4.models.value_net import V4ValueNetwork
+from alphable_v4.models.compiled_inference import CompiledValueNetwork
 
 
 @dataclass
@@ -44,6 +46,12 @@ class BAMSConfig:
     candidate_beam_2ply: int = 6    # Number of top candidates evaluated with full 2-ply search
     samples_2ply: int = 12          # Number of opponent rack samples for 2-ply stage
     weight_2ply: float = 0.18       # Weight for 2-ply net exchange score in BAMS score
+    hybrid_pimc: bool = False       # Hybrid native C PIMC simulation + Neural Value Network re-ranking
+    sim_iterations: int = 25        # Iterations per candidate in native C PIMC simulation (~98k nps)
+    use_pat: bool = True            # Positional Adjustment Term candidate generator
+    pimc_weight: float = 1.0        # Weight for native PIMC simulated return
+    win_prob_weight: float = 15.0   # Weight for simulated win probability
+    use_compiled_model: bool = True # Fast TorchScript/ONNX compiled model if available
     seed: Optional[int] = None       # Random seed for reproducible simulations
     device: str = "cuda" if torch.cuda.is_available() else "cpu"
 
@@ -68,7 +76,7 @@ class BAMSSearch:
     def __init__(
         self,
         engine: MagpieEngine,
-        value_net: Optional[V4ValueNetwork] = None,
+        value_net: Optional[Union[V4ValueNetwork, CompiledValueNetwork]] = None,
         belief_net: Optional[BayesianRackInference] = None,
         config: Optional[BAMSConfig] = None,
     ):
@@ -104,6 +112,22 @@ class BAMSSearch:
     ) -> BAMSSearch:
         """Instantiates BAMSSearch by loading a trained Value Network checkpoint."""
         conf = config or BAMSConfig()
+
+        # Check if a compiled TorchScript model is available alongside checkpoint
+        candidates = [
+            checkpoint_path.replace(".pt", "_compiled.pt"),
+            checkpoint_path.replace("_best.pt", "_compiled.pt"),
+            os.path.join(os.path.dirname(checkpoint_path), "v4_value_net_compiled.pt"),
+        ]
+        if getattr(conf, "use_compiled_model", True):
+            for c_path in candidates:
+                if os.path.exists(c_path):
+                    try:
+                        model = CompiledValueNetwork(c_path, device=conf.device)
+                        return cls(engine=engine, value_net=model, config=conf)
+                    except Exception:
+                        pass
+
         model = V4ValueNetwork(board_channels=32, state_dim=64, feature_dim=512, num_heads=8)
         checkpoint = torch.load(checkpoint_path, map_location=conf.device, weights_only=False)
         if "model_state_dict" in checkpoint:
@@ -156,6 +180,9 @@ class BAMSSearch:
         Returns:
             (selected_move, search_metadata)
         """
+        if getattr(self.config, "hybrid_pimc", False):
+            return self.select_move_hybrid_pimc(game_state, candidates=candidates)
+
         start_time = time.perf_counter()
         N = num_samples if num_samples is not None else self.config.num_samples
         beam_size, max_deficit = self.get_dynamic_search_params(game_state)
@@ -410,6 +437,107 @@ class BAMSSearch:
 
         return best_eval.move, metadata
 
+    def select_move_hybrid_pimc(
+        self,
+        game_state: GameState,
+        candidates: Optional[List[Move]] = None,
+    ) -> Tuple[Move, Dict[str, Any]]:
+        """
+        Hybrid decision policy: Combines native C PIMC simulation rollouts (~98k nps)
+        with Cross-Attention Value Network re-ranking and volatility control.
+        """
+        start_time = time.perf_counter()
+
+        # 1. Candidate Generation
+        if candidates is None:
+            candidates = self.engine.generate_moves(game_state=game_state, max_candidates=15)
+
+        if not candidates:
+            return Move.create_pass(), {"method": "fallback_pass", "latency_ms": (time.perf_counter() - start_time) * 1000}
+
+        if len(candidates) == 1:
+            return candidates[0], {"method": "forced_move", "latency_ms": (time.perf_counter() - start_time) * 1000}
+
+        # 2. Check for Endgame Fast Path (unseen tiles <= 7)
+        total_unseen = sum(game_state.unseen_counts.values())
+        if total_unseen <= 7 and game_state.bag_count == 0 and getattr(self.config, "use_exact_endgame", True):
+            exact_m, exact_meta = self._solve_exact_endgame(game_state, candidates)
+            if exact_m is not None:
+                exact_meta["latency_ms"] = (time.perf_counter() - start_time) * 1000
+                return exact_m, exact_meta
+
+        # 3. Native C Monte Carlo Simulation
+        sim_results = self.engine.simulate_candidates(
+            iterations=getattr(self.config, "sim_iterations", 25),
+            candidate_moves=candidates,
+            game_state=game_state,
+        )
+
+        if not sim_results:
+            return candidates[0], {"method": "pimc_fallback_static", "latency_ms": (time.perf_counter() - start_time) * 1000}
+
+        # 4. Neural Value & Volatility Re-Ranking on top simulated candidates (top 4)
+        top_sim = sim_results[:4]
+        scored_candidates = []
+        score_diff = game_state.score - game_state.opp_score
+
+        for entry in top_sim:
+            cand = entry["move"]
+            sim_equity = entry["sim_equity"]
+            win_prob = entry["win_prob"]
+
+            # Construct after-state
+            try:
+                state_after = game_state.apply_move(cand)
+                resulting_board = state_after.board if cand.is_placement else game_state.board
+            except Exception:
+                state_after = game_state
+                resulting_board = game_state.board
+
+            # Neural Value Prediction
+            neural_val = 0.0
+            if self.value_net is not None:
+                try:
+                    with torch.no_grad():
+                        b_tensor = state_after.to_board_tensor().unsqueeze(0).to(self.device)
+                        s_vector = state_after.to_state_vector().unsqueeze(0).to(self.device)
+                        neural_pred = self.value_net.evaluate_batch(b_tensor, s_vector)
+                        neural_val = float(neural_pred.squeeze().cpu().numpy())
+                except Exception:
+                    neural_val = 0.0
+
+            # Volatility control: penalize variance when ahead, reward variance when trailing
+            volatility = self.compute_board_volatility(resulting_board) if getattr(self.config, "use_volatility_control", True) else 0.0
+            vol_clamp = max(-0.30, min(0.60, 0.15 + (score_diff / 100.0)))
+
+            pimc_w = getattr(self.config, "pimc_weight", 1.0)
+            win_w = getattr(self.config, "win_prob_weight", 15.0)
+            val_w = getattr(self.config, "value_weight", 4.5)
+
+            composite_score = (sim_equity * pimc_w) + (win_prob * win_w) + (neural_val * val_w) - (volatility * vol_clamp)
+
+            scored_candidates.append({
+                "candidate": cand,
+                "composite_score": composite_score,
+                "sim_equity": sim_equity,
+                "win_prob": win_prob,
+                "neural_val": neural_val,
+                "volatility": volatility,
+            })
+
+        best = max(scored_candidates, key=lambda x: x["composite_score"])
+        latency_ms = (time.perf_counter() - start_time) * 1000
+
+        return best["candidate"], {
+            "method": "hybrid_pimc",
+            "latency_ms": latency_ms,
+            "composite_score": best["composite_score"],
+            "sim_equity": best["sim_equity"],
+            "win_prob": best["win_prob"],
+            "neural_val": best["neural_val"],
+            "scored_candidates": scored_candidates,
+        }
+
     def _solve_exact_endgame(
         self,
         game_state: GameState,
@@ -419,6 +547,14 @@ class BAMSSearch:
         Solves the endgame using MAGPIE's exact alpha-beta minimax solver (depth 6-10).
         Matches the returned play against legal candidate moves.
         """
+        # First try direct native move solver
+        try:
+            native_m = self.engine.solve_endgame_move(game_state=game_state, candidate_moves=candidates)
+            if native_m is not None:
+                return native_m, {"method": "exact_alphabeta_endgame", "native": True}
+        except Exception:
+            pass
+
         try:
             cgp_str = game_state.to_cgp()
             self.engine.set_cgp(cgp_str)
