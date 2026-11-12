@@ -36,4 +36,10 @@ include = ["alphable_v4*"]
 testpaths = ["tests"]
 pythonpath = ["."]
 norecursedirs = ["vendor", "data", ".git", ".pytest_cache", "visualizer/frontend/node_modules"]
+markers = [
+    "unit: fast unit tests for isolated modules",
+    "e2e: end-to-end integration and workflow tests",
+    "audit: statistical and parameter ceiling audit verification",
+    "benchmark: tournament simulation and performance benchmarks",
+]
 
