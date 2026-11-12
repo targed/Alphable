@@ -1,0 +1,432 @@
+{
+  "run_id": "run_20261112_103230",
+  "timestamp": "2026-11-12T10:32:30",
+  "mode": "duplicate",
+  "tag": "40g-dup",
+  "lexicon": "CSW24",
+  "total_games": 40,
+  "duplicate_pairs": 20,
+  "duration_seconds": 526.8,
+  "seconds_per_game": 13.17,
+  "player1": {
+    "name": "Alphable V4 Hybrid PIMC (Native Simulation + Neural Re-Ranking)",
+    "short_name": "Hybrid-PIMC",
+    "spec": "hybrid-pimc",
+    "checkpoint_file": "v4_value_net_best.pt",
+    "mean_score": 401.4,
+    "bingos_per_game": 1.68,
+    "wins": 12
+  },
+  "player2": {
+    "name": "Maximally Tuned Base MAGPIE (PAT + PIMC + Endgame)",
+    "short_name": "MAGPIE-Tuned",
+    "spec": "magpie-tuned",
+    "checkpoint_file": null,
+    "mean_score": 413.6,
+    "bingos_per_game": 1.82,
+    "wins": 8
+  },
+  "draws": 0,
+  "win_rate": {
+    "percentage": 60.0,
+    "ci95": 21.5,
+    "ci_lower": 38.5,
+    "ci_upper": 81.5
+  },
+  "net_spread": {
+    "mean": -12.2,
+    "ci95": 26.4,
+    "ci_lower": -38.6,
+    "ci_upper": 14.3
+  },
+  "significance": {
+    "t_statistic": -0.9,
+    "p_value": 0.3782,
+    "verdict": "Not Yet Statistically Significant (p >= 0.05)",
+    "hypothesis": "H0: \u0394=0 vs H1: \u0394!=0"
+  },
+  "details": [
+    {
+      "pair": 1,
+      "seed": 1000,
+      "p1_gameA_score": 423,
+      "p1_gameB_score": 408,
+      "p1_pair_total": 831,
+      "p2_gameA_score": 372,
+      "p2_gameB_score": 433,
+      "p2_pair_total": 805,
+      "net_spread": 26,
+      "phase_spreads": {
+        "opening": -28.5,
+        "midgame": 0.5,
+        "pre_endgame": 47.0,
+        "endgame": -6.0
+      },
+      "verdict": "Hybrid-PIMC WON MATCH"
+    },
+    {
+      "pair": 2,
+      "seed": 1031,
+      "p1_gameA_score": 265,
+      "p1_gameB_score": 299,
+      "p1_pair_total": 564,
+      "p2_gameA_score": 428,
+      "p2_gameB_score": 343,
+      "p2_pair_total": 771,
+      "net_spread": -207,
+      "phase_spreads": {
+        "opening": 1.0,
+        "midgame": -99.0,
+        "pre_endgame": 2.5,
+        "endgame": -8.0
+      },
+      "verdict": "MAGPIE-Tuned WON MATCH"
+    },
+    {
+      "pair": 3,
+      "seed": 1062,
+      "p1_gameA_score": 261,
+      "p1_gameB_score": 403,
+      "p1_pair_total": 664,
+      "p2_gameA_score": 446,
+      "p2_gameB_score": 388,
+      "p2_pair_total": 834,
+      "net_spread": -170,
+      "phase_spreads": {
+        "opening": 21.5,
+        "midgame": -64.0,
+        "pre_endgame": 8.5,
+        "endgame": -51.0
+      },
+      "verdict": "MAGPIE-Tuned WON MATCH"
+    },
+    {
+      "pair": 4,
+      "seed": 1093,
+      "p1_gameA_score": 469,
+      "p1_gameB_score": 390,
+      "p1_pair_total": 859,
+      "p2_gameA_score": 355,
+      "p2_gameB_score": 456,
+      "p2_pair_total": 811,
+      "net_spread": 48,
+      "phase_spreads": {
+        "opening": -1.0,
+        "midgame": 43.5,
+        "pre_endgame": -14.5,
+        "endgame": -4.0
+      },
+      "verdict": "Hybrid-PIMC WON MATCH"
+    },
+    {
+      "pair": 5,
+      "seed": 1124,
+      "p1_gameA_score": 463,
+      "p1_gameB_score": 374,
+      "p1_pair_total": 837,
+      "p2_gameA_score": 359,
+      "p2_gameB_score": 331,
+      "p2_pair_total": 690,
+      "net_spread": 147,
+      "phase_spreads": {
+        "opening": 5.5,
+        "midgame": 36.0,
+        "pre_endgame": 24.0,
+        "endgame": 8.0
+      },
+      "verdict": "Hybrid-PIMC WON MATCH"
+    },
+    {
+      "pair": 6,
+      "seed": 1155,
+      "p1_gameA_score": 471,
+      "p1_gameB_score": 354,
+      "p1_pair_total": 825,
+      "p2_gameA_score": 343,
+      "p2_gameB_score": 551,
+      "p2_pair_total": 894,
+      "net_spread": -69,
+      "phase_spreads": {
+        "opening": -5.0,
+        "midgame": -43.0,
+        "pre_endgame": -39.0,
+        "endgame": 52.5
+      },
+      "verdict": "MAGPIE-Tuned WON MATCH"
+    },
+    {
+      "pair": 7,
+      "seed": 1186,
+      "p1_gameA_score": 485,
+      "p1_gameB_score": 400,
+      "p1_pair_total": 885,
+      "p2_gameA_score": 355,
+      "p2_gameB_score": 434,
+      "p2_pair_total": 789,
+      "net_spread": 96,
+      "phase_spreads": {
+        "opening": 31.0,
+        "midgame": 41.0,
+        "pre_endgame": 25.5,
+        "endgame": -49.5
+      },
+      "verdict": "Hybrid-PIMC WON MATCH"
+    },
+    {
+      "pair": 8,
+      "seed": 1217,
+      "p1_gameA_score": 478,
+      "p1_gameB_score": 394,
+      "p1_pair_total": 872,
+      "p2_gameA_score": 357,
+      "p2_gameB_score": 465,
+      "p2_pair_total": 822,
+      "net_spread": 50,
+      "phase_spreads": {
+        "opening": 17.5,
+        "midgame": -2.5,
+        "pre_endgame": -68.5,
+        "endgame": 78.5
+      },
+      "verdict": "Hybrid-PIMC WON MATCH"
+    },
+    {
+      "pair": 9,
+      "seed": 1248,
+      "p1_gameA_score": 422,
+      "p1_gameB_score": 338,
+      "p1_pair_total": 760,
+      "p2_gameA_score": 366,
+      "p2_gameB_score": 436,
+      "p2_pair_total": 802,
+      "net_spread": -42,
+      "phase_spreads": {
+        "opening": 2.5,
+        "midgame": -35.0,
+        "pre_endgame": -7.0,
+        "endgame": 18.5
+      },
+      "verdict": "MAGPIE-Tuned WON MATCH"
+    },
+    {
+      "pair": 10,
+      "seed": 1279,
+      "p1_gameA_score": 420,
+      "p1_gameB_score": 382,
+      "p1_pair_total": 802,
+      "p2_gameA_score": 440,
+      "p2_gameB_score": 408,
+      "p2_pair_total": 848,
+      "net_spread": -46,
+      "phase_spreads": {
+        "opening": 11.5,
+        "midgame": -22.5,
+        "pre_endgame": -25.0,
+        "endgame": 13.0
+      },
+      "verdict": "MAGPIE-Tuned WON MATCH"
+    },
+    {
+      "pair": 11,
+      "seed": 1310,
+      "p1_gameA_score": 448,
+      "p1_gameB_score": 420,
+      "p1_pair_total": 868,
+      "p2_gameA_score": 445,
+      "p2_gameB_score": 392,
+      "p2_pair_total": 837,
+      "net_spread": 31,
+      "phase_spreads": {
+        "opening": 5.0,
+        "midgame": 85.0,
+        "pre_endgame": 2.5,
+        "endgame": -77.0
+      },
+      "verdict": "Hybrid-PIMC WON MATCH"
+    },
+    {
+      "pair": 12,
+      "seed": 1341,
+      "p1_gameA_score": 366,
+      "p1_gameB_score": 269,
+      "p1_pair_total": 635,
+      "p2_gameA_score": 404,
+      "p2_gameB_score": 462,
+      "p2_pair_total": 866,
+      "net_spread": -231,
+      "phase_spreads": {
+        "opening": 5.5,
+        "midgame": -91.0,
+        "pre_endgame": -4.0,
+        "endgame": -26.0
+      },
+      "verdict": "MAGPIE-Tuned WON MATCH"
+    },
+    {
+      "pair": 13,
+      "seed": 1372,
+      "p1_gameA_score": 637,
+      "p1_gameB_score": 281,
+      "p1_pair_total": 918,
+      "p2_gameA_score": 309,
+      "p2_gameB_score": 583,
+      "p2_pair_total": 892,
+      "net_spread": 26,
+      "phase_spreads": {
+        "opening": 0.0,
+        "midgame": 25.5,
+        "pre_endgame": 49.0,
+        "endgame": -61.5
+      },
+      "verdict": "Hybrid-PIMC WON MATCH"
+    },
+    {
+      "pair": 14,
+      "seed": 1403,
+      "p1_gameA_score": 384,
+      "p1_gameB_score": 381,
+      "p1_pair_total": 765,
+      "p2_gameA_score": 467,
+      "p2_gameB_score": 512,
+      "p2_pair_total": 979,
+      "net_spread": -214,
+      "phase_spreads": {
+        "opening": -20.5,
+        "midgame": -68.5,
+        "pre_endgame": 27.0,
+        "endgame": -45.0
+      },
+      "verdict": "MAGPIE-Tuned WON MATCH"
+    },
+    {
+      "pair": 15,
+      "seed": 1434,
+      "p1_gameA_score": 421,
+      "p1_gameB_score": 282,
+      "p1_pair_total": 703,
+      "p2_gameA_score": 437,
+      "p2_gameB_score": 490,
+      "p2_pair_total": 927,
+      "net_spread": -224,
+      "phase_spreads": {
+        "opening": -47.5,
+        "midgame": -69.0,
+        "pre_endgame": -15.5,
+        "endgame": 20.0
+      },
+      "verdict": "MAGPIE-Tuned WON MATCH"
+    },
+    {
+      "pair": 16,
+      "seed": 1465,
+      "p1_gameA_score": 377,
+      "p1_gameB_score": 401,
+      "p1_pair_total": 778,
+      "p2_gameA_score": 372,
+      "p2_gameB_score": 354,
+      "p2_pair_total": 726,
+      "net_spread": 52,
+      "phase_spreads": {
+        "opening": 4.0,
+        "midgame": 13.0,
+        "pre_endgame": -3.0,
+        "endgame": 12.0
+      },
+      "verdict": "Hybrid-PIMC WON MATCH"
+    },
+    {
+      "pair": 17,
+      "seed": 1496,
+      "p1_gameA_score": 453,
+      "p1_gameB_score": 373,
+      "p1_pair_total": 826,
+      "p2_gameA_score": 431,
+      "p2_gameB_score": 359,
+      "p2_pair_total": 790,
+      "net_spread": 36,
+      "phase_spreads": {
+        "opening": -3.0,
+        "midgame": 97.5,
+        "pre_endgame": -93.0,
+        "endgame": 16.5
+      },
+      "verdict": "Hybrid-PIMC WON MATCH"
+    },
+    {
+      "pair": 18,
+      "seed": 1527,
+      "p1_gameA_score": 481,
+      "p1_gameB_score": 399,
+      "p1_pair_total": 880,
+      "p2_gameA_score": 389,
+      "p2_gameB_score": 383,
+      "p2_pair_total": 772,
+      "net_spread": 108,
+      "phase_spreads": {
+        "opening": 13.5,
+        "midgame": 68.0,
+        "pre_endgame": -21.5,
+        "endgame": -6.0
+      },
+      "verdict": "Hybrid-PIMC WON MATCH"
+    },
+    {
+      "pair": 19,
+      "seed": 1558,
+      "p1_gameA_score": 427,
+      "p1_gameB_score": 421,
+      "p1_pair_total": 848,
+      "p2_gameA_score": 413,
+      "p2_gameB_score": 405,
+      "p2_pair_total": 818,
+      "net_spread": 30,
+      "phase_spreads": {
+        "opening": 5.5,
+        "midgame": -22.0,
+        "pre_endgame": 45.0,
+        "endgame": -13.5
+      },
+      "verdict": "Hybrid-PIMC WON MATCH"
+    },
+    {
+      "pair": 20,
+      "seed": 1589,
+      "p1_gameA_score": 466,
+      "p1_gameB_score": 469,
+      "p1_pair_total": 935,
+      "p2_gameA_score": 428,
+      "p2_gameB_score": 441,
+      "p2_pair_total": 869,
+      "net_spread": 66,
+      "phase_spreads": {
+        "opening": 0.0,
+        "midgame": 11.5,
+        "pre_endgame": 18.0,
+        "endgame": 3.5
+      },
+      "verdict": "Hybrid-PIMC WON MATCH"
+    }
+  ],
+  "phase_summary": {
+    "opening": {
+      "mean_spread": 0.93,
+      "se": 3.87,
+      "ci95": 7.58
+    },
+    "midgame": {
+      "mean_spread": -4.75,
+      "se": 12.82,
+      "ci95": 25.12
+    },
+    "pre_endgame": {
+      "mean_spread": -2.1,
+      "se": 8.17,
+      "ci95": 16.02
+    },
+    "endgame": {
+      "mean_spread": -6.25,
+      "se": 8.48,
+      "ci95": 16.62
+    }
+  }
+}

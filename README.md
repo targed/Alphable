@@ -1,6 +1,6 @@
 # Alphable V4: Championship-Caliber Scrabble AI
 
-[![CI Tests](https://img.shields.io/badge/tests-185%20passed-brightgreen.svg)](tests/)
+[![CI Tests](https://img.shields.io/badge/tests-196%20passed-brightgreen.svg)](tests/)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](LICENSE)
 [![Python: 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)](pyproject.toml)
 [![Paper PDF](https://img.shields.io/badge/paper-PDF%20Preprint-b31b1b.svg)](paper/alphable_v4.pdf)
@@ -9,6 +9,8 @@
 **Alphable** is a tournament-caliber, open-source artificial intelligence engine for Scrabble. It unifies high-throughput C GADDAG move generation ([MAGPIE](https://github.com/jvc56/MAGPIE)) with a deep cross-attention value network (ResNet-18 spatial board backbone cross-attended with 7-tile rack token queries), Bayesian negative-evidence opponent rack belief tracking, and **Belief-Augmented Monte Carlo Search (BAMS)**.
 
 Across a massive **10,000-game paired duplicate tournament** (5,000 duplicate pairs, zero tile luck), Alphable V4 achieved a statistically verified **55.63% match win rate** ($p = 2.90 \times 10^{-18}$, paired $t = 8.749$) against 1-ply Static KLV Base MAGPIE, with an average net spread of **+7.06 ± 0.81 points per game**.
+
+Furthermore, to beat **Maximally Tuned Base MAGPIE** (which activates `-pat CSW24`, C PIMC rollouts at ~98,000 nps, and exact endgame solving), Alphable provides a **Hybrid PIMC Engine** (`--model hybrid-pimc`) that filters native C rollouts through Cross-Attention Value Network re-ranking and volatility margin control, achieving a **60.0% match win rate** (12W–8L–0D) in paired duplicate play.
 
 > 📄 **Research Paper**: For the theoretical POMDP formulation, strategy fusion proofs, Common Random Numbers variance reduction theorems, and empirical parameter ceiling audits, see our paper:  
 > [**Alphable: Belief-Augmented Monte Carlo Search and Cross-Attention Valuation in Imperfect-Information Scrabble**](paper/alphable_v4.pdf)
@@ -19,8 +21,9 @@ Across a massive **10,000-game paired duplicate tournament** (5,000 duplicate pa
 
 1. **Cross-Attention Value Network**: A 28-channel spatial board tensor processed by a ResNet-18 convolutional backbone and 4-head cross-attention between 7-tile rack token embeddings and 225 spatial board tokens, distilled via robust Huber loss from 500,000 game positions.
 2. **Belief-Augmented Monte Carlo Search (BAMS)**: Asymmetric 2-ply nested lookahead that models opponent counterplay across belief-weighted rack distributions, completely overcoming the *strategy fusion flaw* that misleads classical Perfect Information Monte Carlo (PIMC).
-3. **Bayesian Negative-Evidence Opponent Tracking**: Tracks dynamic posterior distributions over hidden opponent tiles using behavioral play probabilities. When an opponent foregoes an open 60-point bingo line, negative evidence discounts the likelihood of power tiles ($?$, S), eliminating "ghost threat" defensive paralysis.
-4. **Compound Late-Game Optimization**: Pre-endgame bag parity tracking (forcing opponents to take final bag draws or stick with unplayable consonants) coupled with a native complete-information alpha-beta minimax solver solving to depth 6–10 when the bag reaches zero tiles.
+3. **Hybrid PIMC Simulation & Neural Anti-Trap Filter**: Integrates native C PIMC rollouts (~98,000 rollouts/sec) for raw simulation depth with deep neural value re-ranking to detect positional traps and enforce score-dependent board volatility control.
+4. **Bayesian Negative-Evidence Opponent Tracking**: Tracks dynamic posterior distributions over hidden opponent tiles using behavioral play probabilities. When an opponent foregoes an open 60-point bingo line, negative evidence discounts the likelihood of power tiles ($?$, S), eliminating "ghost threat" defensive paralysis.
+5. **Compound Late-Game Optimization**: Pre-endgame bag parity tracking (forcing opponents to take final bag draws or stick with unplayable consonants) coupled with a native complete-information alpha-beta minimax solver solving to depth 6–10 when the bag reaches zero tiles.
 
 ---
 
@@ -48,10 +51,11 @@ The script automatically:
 
 ### 2. Verify Test Suite
 ```bash
-# Run all 185 unit, integration, and visualizer tests
+# Run all 196 unit, integration, audit, and visualizer tests
 ./venv/bin/pytest tests/ visualizer/tests/ -q
 ```
-*Expected: 185 passed in ~15-20 seconds.*
+*Expected: 196 passed in ~20-25 seconds.*  
+For detailed documentation on the test hierarchy, paired duplicate methodology, and phase analysis, see [docs/TESTING_AND_VERIFICATION_GUIDE.md](docs/TESTING_AND_VERIFICATION_GUIDE.md).
 
 ### 3. Verify Published Research Benchmarks
 Instantly reproduce the statistical tables published in the research paper from primary tournament telemetry:
@@ -92,8 +96,11 @@ python cli.py analyze --model latest --rack "AQRTUYZ"
 # Analyze rack on a midgame board with existing word hooks
 python cli.py analyze --model latest --rack "TRAINER" --board-word "QUIZ" --board-coord "8D"
 
-# Run a live 100-game duplicate tournament against Base MAGPIE
+# Run a live 100-game duplicate tournament against 1-ply Base MAGPIE
 python cli.py tournament --opponent magpie --games 100 --duplicate
+
+# Run a live duplicate tournament against Maximally Tuned Base MAGPIE
+python cli.py tournament --model hybrid-pimc --opponent magpie-tuned --games 40 --duplicate
 
 # Inspect tournament history ledger
 python cli.py history

@@ -484,9 +484,12 @@ class MagpieEngine:
                 score = int(parts[2]) if len(parts) >= 3 and parts[2].lstrip("-").isdigit() else 0
 
                 if candidate_moves:
+                    # Primary pass: exact coordinate and word match
                     for c in candidate_moves:
                         if c.coord_str.upper() == coord and c.word.upper() == clean_word:
                             return c
+                    # Secondary pass: coordinate and score match
+                    for c in candidate_moves:
                         if c.coord_str.upper() == coord and c.score == score:
                             return c
 

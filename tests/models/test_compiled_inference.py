@@ -77,12 +77,16 @@ def test_compiled_fallback_nonexistent():
 
 @pytest.mark.unit
 def test_bams_loads_compiled_model(tmp_path):
-    """Verifies BAMSSearch.from_checkpoint automatically utilizes compiled model."""
+    """Verifies BAMSSearch.from_checkpoint utilizes compiled model when opted in."""
     if not os.path.exists(COMPILED_PATH) or not os.path.exists(CHECKPOINT_PATH):
         pytest.skip("Model checkpoints not found.")
 
     engine = MagpieEngine()
-    bams = BAMSSearch.from_checkpoint(engine, CHECKPOINT_PATH)
+    bams = BAMSSearch.from_checkpoint(
+        engine,
+        CHECKPOINT_PATH,
+        config=BAMSConfig(use_compiled_model=True, device="cpu"),
+    )
     assert bams.value_net is not None
     assert isinstance(bams.value_net, CompiledValueNetwork)
     assert bams.value_net.is_compiled is True

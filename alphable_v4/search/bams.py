@@ -51,7 +51,7 @@ class BAMSConfig:
     use_pat: bool = True            # Positional Adjustment Term candidate generator
     pimc_weight: float = 1.0        # Weight for native PIMC simulated return
     win_prob_weight: float = 15.0   # Weight for simulated win probability
-    use_compiled_model: bool = True # Fast TorchScript/ONNX compiled model if available
+    use_compiled_model: bool = False # Fast TorchScript/ONNX compiled model (CPU only)
     seed: Optional[int] = None       # Random seed for reproducible simulations
     device: str = "cuda" if torch.cuda.is_available() else "cpu"
 
@@ -119,7 +119,7 @@ class BAMSSearch:
             checkpoint_path.replace("_best.pt", "_compiled.pt"),
             os.path.join(os.path.dirname(checkpoint_path), "v4_value_net_compiled.pt"),
         ]
-        if getattr(conf, "use_compiled_model", True):
+        if getattr(conf, "use_compiled_model", False):
             for c_path in candidates:
                 if os.path.exists(c_path):
                     try:
@@ -547,14 +547,6 @@ class BAMSSearch:
         Solves the endgame using MAGPIE's exact alpha-beta minimax solver (depth 6-10).
         Matches the returned play against legal candidate moves.
         """
-        # First try direct native move solver
-        try:
-            native_m = self.engine.solve_endgame_move(game_state=game_state, candidate_moves=candidates)
-            if native_m is not None:
-                return native_m, {"method": "exact_alphabeta_endgame", "native": True}
-        except Exception:
-            pass
-
         try:
             cgp_str = game_state.to_cgp()
             self.engine.set_cgp(cgp_str)

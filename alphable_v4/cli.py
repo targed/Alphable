@@ -374,7 +374,7 @@ def build_policy(
                 return cands[0], {"method": "magpie_single_candidate"}
 
             try:
-                out_sim = engine.run_command(f"simulate -iterations {sim_iters}")
+                out_sim = engine.simulate(iterations=sim_iters)
                 for line in out_sim.splitlines():
                     line = line.strip()
                     if not line or ":" not in line:
@@ -798,7 +798,8 @@ def cmd_play(args):
 # ==============================================================================
 def cmd_tournament(args):
     """Runs a multi-game tournament series comparing any model/preset against an opponent."""
-    engine = get_shared_engine(args.lexicon)
+    engine_p1 = MagpieEngine(lexicon=args.lexicon)
+    engine_p2 = MagpieEngine(lexicon=args.lexicon)
 
     # 1. Build Player 1 Policy
     overrides_p1 = {
@@ -807,7 +808,7 @@ def cmd_tournament(args):
         "volatility_weight": args.volatility_weight,
     }
     p1_policy, p1_name, p1_short = build_policy(
-        engine,
+        engine_p1,
         spec=args.model,
         model_path=args.model_path,
         overrides=overrides_p1,
@@ -817,7 +818,7 @@ def cmd_tournament(args):
 
     # 2. Build Player 2 (Opponent) Policy
     p2_policy, p2_name, p2_short = build_policy(
-        engine,
+        engine_p2,
         spec=args.opponent,
         model_path=args.opponent_model_path,
         overrides=None,
@@ -831,7 +832,7 @@ def cmd_tournament(args):
     print(f"   Total Games: {args.games} | Duplicate Mode: {'YES (Pair-Swapped)' if args.duplicate else 'NO (Alternating Seats)'}")
     print("=" * 75)
 
-    sim = GameSimulator(engine, lexicon=args.lexicon)
+    sim = GameSimulator(engine_p1, lexicon=args.lexicon)
 
     # DUPLICATE MATCH MODE
     if args.duplicate:

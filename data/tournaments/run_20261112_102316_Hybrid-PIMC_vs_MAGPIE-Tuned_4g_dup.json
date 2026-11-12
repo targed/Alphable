@@ -1,0 +1,108 @@
+{
+  "run_id": "run_20261112_102316",
+  "timestamp": "2026-11-12T10:23:16",
+  "mode": "duplicate",
+  "tag": "4g-dup",
+  "lexicon": "CSW24",
+  "total_games": 4,
+  "duplicate_pairs": 2,
+  "duration_seconds": 41.1,
+  "seconds_per_game": 10.27,
+  "player1": {
+    "name": "Alphable V4 Hybrid PIMC (Native Simulation + Neural Re-Ranking)",
+    "short_name": "Hybrid-PIMC",
+    "spec": "hybrid-pimc",
+    "checkpoint_file": "v4_value_net_best.pt",
+    "mean_score": 389.2,
+    "bingos_per_game": 1.75,
+    "wins": 1
+  },
+  "player2": {
+    "name": "Maximally Tuned Base MAGPIE (PAT + PIMC + Endgame)",
+    "short_name": "MAGPIE-Tuned",
+    "spec": "magpie-tuned",
+    "checkpoint_file": null,
+    "mean_score": 388.8,
+    "bingos_per_game": 1.25,
+    "wins": 1
+  },
+  "draws": 0,
+  "win_rate": {
+    "percentage": 50.0,
+    "ci95": 69.3,
+    "ci_lower": -19.3,
+    "ci_upper": 119.3
+  },
+  "net_spread": {
+    "mean": 0.5,
+    "ci95": 22.5,
+    "ci_lower": -22.0,
+    "ci_upper": 23.0
+  },
+  "significance": {
+    "t_statistic": 0.04,
+    "p_value": 0.9723,
+    "verdict": "Not Yet Statistically Significant (p >= 0.05)",
+    "hypothesis": "H0: \u0394=0 vs H1: \u0394!=0"
+  },
+  "details": [
+    {
+      "pair": 1,
+      "seed": 1000,
+      "p1_gameA_score": 506,
+      "p1_gameB_score": 335,
+      "p1_pair_total": 841,
+      "p2_gameA_score": 368,
+      "p2_gameB_score": 449,
+      "p2_pair_total": 817,
+      "net_spread": 24,
+      "phase_spreads": {
+        "opening": -24.0,
+        "midgame": 49.5,
+        "pre_endgame": -22.5,
+        "endgame": 9.0
+      },
+      "verdict": "Hybrid-PIMC WON MATCH"
+    },
+    {
+      "pair": 2,
+      "seed": 1031,
+      "p1_gameA_score": 272,
+      "p1_gameB_score": 444,
+      "p1_pair_total": 716,
+      "p2_gameA_score": 412,
+      "p2_gameB_score": 326,
+      "p2_pair_total": 738,
+      "net_spread": -22,
+      "phase_spreads": {
+        "opening": 1.0,
+        "midgame": -12.0,
+        "pre_endgame": -11.0,
+        "endgame": 11.0
+      },
+      "verdict": "MAGPIE-Tuned WON MATCH"
+    }
+  ],
+  "phase_summary": {
+    "opening": {
+      "mean_spread": -11.5,
+      "se": 12.5,
+      "ci95": 24.5
+    },
+    "midgame": {
+      "mean_spread": 18.75,
+      "se": 30.75,
+      "ci95": 60.27
+    },
+    "pre_endgame": {
+      "mean_spread": -16.75,
+      "se": 5.75,
+      "ci95": 11.27
+    },
+    "endgame": {
+      "mean_spread": 10.0,
+      "se": 1.0,
+      "ci95": 1.96
+    }
+  }
+}
