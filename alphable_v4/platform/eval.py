@@ -12,17 +12,22 @@ Tracks:
 """
 
 from __future__ import annotations
+import concurrent.futures
+from pathlib import Path
 import random
 import time
 from dataclasses import dataclass, field
 from typing import List, Dict, Tuple, Optional, Any, Callable
 
 import numpy as np
+import scipy.stats as st
 
 from alphable_v4.engine.move import Move
 from alphable_v4.engine.game_state import GameState, STANDARD_TILE_COUNTS, TILE_VALUES
 from alphable_v4.engine.magpie_bindings import MagpieEngine
 from alphable_v4.search.bams import BAMSSearch, BAMSConfig
+from alphable_v4.platform.checkpoint import TournamentCheckpointManager
+from alphable_v4.platform.policies import build_policy
 
 
 @dataclass
@@ -383,3 +388,245 @@ class GameSimulator:
                 )
 
         return stats
+
+
+def _run_duplicate_pair_worker(task: Dict[str, Any]) -> Dict[str, Any]:
+    """
+    Worker function executed in an isolated OS process.
+    Initializes its own independent MagpieEngine instances, compiles player policies,
+    and executes Game A and Game B for a single duplicate match pair.
+    """
+    lexicon = task.get("lexicon", "CSW24")
+    device = task.get("device", "cpu")
+    engine_p1 = MagpieEngine(lexicon=lexicon)
+    engine_p2 = MagpieEngine(lexicon=lexicon)
+
+    try:
+        p1_policy, p1_name, p1_short = build_policy(
+            engine_p1,
+            spec=task["p1_spec"],
+            model_path=task.get("p1_model_path"),
+            overrides=task.get("p1_kwargs"),
+            lexicon=lexicon,
+            device=device,
+        )
+        p2_policy, p2_name, p2_short = build_policy(
+            engine_p2,
+            spec=task["p2_spec"],
+            model_path=task.get("p2_model_path"),
+            overrides=task.get("p2_kwargs"),
+            lexicon=lexicon,
+            device=device,
+        )
+
+        sim = GameSimulator(engine_p1, lexicon=lexicon)
+        seed = task["seed"]
+
+        # Game A: P1 as Player 1, P2 as Player 2
+        res_a = sim.play_game(p1_policy, p2_policy, seed=seed)
+        # Game B: P2 as Player 1, P1 as Player 2 with IDENTICAL SEED
+        res_b = sim.play_game(p2_policy, p1_policy, seed=seed)
+
+        score_p1_pair = res_a["p1_score"] + res_b["p2_score"]
+        score_p2_pair = res_a["p2_score"] + res_b["p1_score"]
+        bingos_p1_pair = res_a["p1_bingos"] + res_b["p2_bingos"]
+        bingos_p2_pair = res_a["p2_bingos"] + res_b["p1_bingos"]
+
+        pair_diff = score_p1_pair - score_p2_pair
+        if pair_diff > 0:
+            verdict = f"{p1_short} WON MATCH"
+        elif pair_diff < 0:
+            verdict = f"{p2_short} WON MATCH"
+        else:
+            verdict = "MATCH TIED"
+
+        phases = ["opening", "midgame", "pre_endgame", "endgame"]
+        pair_phase_spreads = {}
+        for ph in phases:
+            p1_ph = res_a.get("phase_scores", {}).get(ph, {}).get("p1", 0) + res_b.get("phase_scores", {}).get(ph, {}).get("p2", 0)
+            p2_ph = res_a.get("phase_scores", {}).get(ph, {}).get("p2", 0) + res_b.get("phase_scores", {}).get(ph, {}).get("p1", 0)
+            pair_phase_spreads[ph] = (p1_ph - p2_ph) / 2.0
+
+        return {
+            "pair": task["pair_idx"] + 1,
+            "seed": seed,
+            "p1_name": p1_name,
+            "p1_short": p1_short,
+            "p2_name": p2_name,
+            "p2_short": p2_short,
+            "p1_gameA_score": res_a["p1_score"],
+            "p1_gameB_score": res_b["p2_score"],
+            "p1_pair_total": score_p1_pair,
+            "p2_gameA_score": res_a["p2_score"],
+            "p2_gameB_score": res_b["p1_score"],
+            "p2_pair_total": score_p2_pair,
+            "p1_bingos": bingos_p1_pair,
+            "p2_bingos": bingos_p2_pair,
+            "net_spread": pair_diff,
+            "phase_spreads": pair_phase_spreads,
+            "verdict": verdict,
+        }
+    finally:
+        engine_p1.close()
+        engine_p2.close()
+
+
+def run_parallel_duplicate_tournament(
+    p1_spec: str = "hybrid-pimc",
+    p2_spec: str = "magpie-tuned",
+    num_pairs: int = 10,
+    workers: int = 4,
+    lexicon: str = "CSW24",
+    device: str = "cpu",
+    start_seed: int = 1000,
+    seed_stride: int = 31,
+    p1_kwargs: Optional[Dict[str, Any]] = None,
+    p2_kwargs: Optional[Dict[str, Any]] = None,
+    p1_model_path: Optional[str] = None,
+    p2_model_path: Optional[str] = None,
+    checkpoint_path: Optional[str] = None,
+    resume: bool = False,
+    verbose: bool = True,
+) -> Dict[str, Any]:
+    """
+    Executes a parallel paired duplicate tournament across multiple CPU processes.
+    Supports atomic incremental checkpointing and recovery.
+    """
+    total_games = num_pairs * 2
+    t_start = time.time()
+
+    # Setup checkpoint manager
+    ckpt_mgr: Optional[TournamentCheckpointManager] = None
+    completed_seeds = set()
+    pair_records: List[Dict[str, Any]] = []
+
+    if checkpoint_path:
+        meta = {
+            "p1_spec": p1_spec,
+            "p2_spec": p2_spec,
+            "total_pairs": num_pairs,
+            "lexicon": lexicon,
+            "start_seed": start_seed,
+            "seed_stride": seed_stride,
+        }
+        ckpt_mgr = TournamentCheckpointManager(checkpoint_path, metadata=meta)
+        if resume:
+            completed_seeds, existing_records = ckpt_mgr.load_completed_pairs()
+            pair_records.extend(existing_records)
+            if verbose and existing_records:
+                print(f"[Checkpoint] Resumed {len(existing_records)}/{num_pairs} pairs from {checkpoint_path}")
+
+    # Prepare task list
+    tasks = []
+    for p in range(num_pairs):
+        seed = start_seed + p * seed_stride
+        if seed in completed_seeds:
+            continue
+        tasks.append({
+            "pair_idx": p,
+            "seed": seed,
+            "p1_spec": p1_spec,
+            "p2_spec": p2_spec,
+            "lexicon": lexicon,
+            "device": device,
+            "p1_kwargs": p1_kwargs or {},
+            "p2_kwargs": p2_kwargs or {},
+            "p1_model_path": p1_model_path,
+            "p2_model_path": p2_model_path,
+        })
+
+    if verbose:
+        print(f"Running {len(tasks)} remaining pairs across {workers} parallel worker processes...")
+
+    if tasks:
+        # Run worker tasks in parallel
+        max_workers = min(workers, len(tasks))
+        with concurrent.futures.ProcessPoolExecutor(max_workers=max_workers) as executor:
+            future_to_task = {executor.submit(_run_duplicate_pair_worker, t): t for t in tasks}
+            for future in concurrent.futures.as_completed(future_to_task):
+                task_info = future_to_task[future]
+                try:
+                    rec = future.result()
+                    pair_records.append(rec)
+                    if ckpt_mgr is not None:
+                        ckpt_mgr.record_pair(rec)
+
+                    if verbose:
+                        print(
+                            f"Pair {rec['pair']:02d}/{num_pairs:02d} [Seed {rec['seed']}]: "
+                            f"{rec['p1_short']} {rec['p1_gameA_score']}+{rec['p1_gameB_score']}={rec['p1_pair_total']} pts vs "
+                            f"{rec['p2_short']} {rec['p2_gameA_score']}+{rec['p2_gameB_score']}={rec['p2_pair_total']} pts | "
+                            f"Net: {rec['net_spread']:+d} pts | {rec['verdict']}"
+                        )
+                except Exception as exc:
+                    print(f"Worker generated an exception for Pair {task_info['pair_idx']+1} (Seed {task_info['seed']}): {exc}")
+                    raise exc
+
+    # Sort records by pair index
+    pair_records.sort(key=lambda r: r["pair"])
+    dt = time.time() - t_start
+
+    # Compute aggregate statistics
+    actual_pairs = len(pair_records)
+    p1_pair_wins = sum(1 for r in pair_records if r["net_spread"] > 0)
+    p2_pair_wins = sum(1 for r in pair_records if r["net_spread"] < 0)
+    pair_draws = sum(1 for r in pair_records if r["net_spread"] == 0)
+
+    pair_win_pct = (p1_pair_wins + 0.5 * pair_draws) / max(1, actual_pairs) * 100.0
+
+    pair_diffs_per_game = np.array([r["net_spread"] for r in pair_records]) / 2.0 if actual_pairs > 0 else np.array([0.0])
+    mean_dup_spread = float(np.mean(pair_diffs_per_game)) if actual_pairs > 0 else 0.0
+    std_dup_spread = float(np.std(pair_diffs_per_game, ddof=1)) if actual_pairs > 1 else 0.0
+    se_dup_spread = std_dup_spread / np.sqrt(actual_pairs) if actual_pairs > 0 else 0.0
+    ci95_dup_spread = 1.96 * se_dup_spread
+    t_dup = mean_dup_spread / se_dup_spread if se_dup_spread > 0 else 0.0
+    p_val_dup = float(st.t.sf(abs(t_dup), df=max(1, actual_pairs - 1)) * 2.0) if actual_pairs > 1 else 1.0
+
+    p_win_dup = (p1_pair_wins + 0.5 * pair_draws) / max(1, actual_pairs) if actual_pairs > 0 else 0.0
+    se_win_dup = np.sqrt(p_win_dup * (1.0 - p_win_dup) / actual_pairs) if actual_pairs > 0 else 0.0
+    ci95_win_dup = 1.96 * se_win_dup * 100.0
+
+    phases = ["opening", "midgame", "pre_endgame", "endgame"]
+    phase_means = {
+        ph: float(np.mean([r.get("phase_spreads", {}).get(ph, 0.0) for r in pair_records]))
+        if actual_pairs > 0 else 0.0
+        for ph in phases
+    }
+
+    p1_name = pair_records[0]["p1_name"] if pair_records else p1_spec
+    p1_short = pair_records[0]["p1_short"] if pair_records else p1_spec
+    p2_name = pair_records[0]["p2_name"] if pair_records else p2_spec
+    p2_short = pair_records[0]["p2_short"] if pair_records else p2_spec
+
+    p1_total_scores = [r["p1_pair_total"] / 2.0 for r in pair_records]
+    p2_total_scores = [r["p2_pair_total"] / 2.0 for r in pair_records]
+    p1_all_bingos = sum(r.get("p1_bingos", 0) for r in pair_records)
+    p2_all_bingos = sum(r.get("p2_bingos", 0) for r in pair_records)
+
+    return {
+        "mode": "duplicate",
+        "total_games": actual_pairs * 2,
+        "duplicate_pairs": actual_pairs,
+        "duration_seconds": dt,
+        "seconds_per_game": dt / max(1, actual_pairs * 2),
+        "workers": workers,
+        "p1_name": p1_name,
+        "p1_short": p1_short,
+        "p2_name": p2_name,
+        "p2_short": p2_short,
+        "p1_pair_wins": p1_pair_wins,
+        "p2_pair_wins": p2_pair_wins,
+        "pair_draws": pair_draws,
+        "pair_win_pct": pair_win_pct,
+        "ci95_win_pct": ci95_win_dup,
+        "p1_mean_score": float(np.mean(p1_total_scores)) if p1_total_scores else 0.0,
+        "p2_mean_score": float(np.mean(p2_total_scores)) if p2_total_scores else 0.0,
+        "p1_bingos_per_game": p1_all_bingos / max(1, actual_pairs * 2),
+        "p2_bingos_per_game": p2_all_bingos / max(1, actual_pairs * 2),
+        "net_spread_mean": mean_dup_spread,
+        "net_spread_ci95": ci95_dup_spread,
+        "t_statistic": t_dup,
+        "p_value": p_val_dup,
+        "phase_means": phase_means,
+        "pair_records": pair_records,
+    }
