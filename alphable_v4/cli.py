@@ -30,7 +30,7 @@ from alphable_v4.engine.magpie_bindings import MagpieEngine
 from alphable_v4.models.value_net import V4ValueNetwork
 from alphable_v4.models.belief_net import BayesianRackInference
 from alphable_v4.search.bams import BAMSSearch, BAMSConfig
-from alphable_v4.platform.eval import GameSimulator, MatchStats, ScrabbleBag
+from alphable_v4.platform.eval import GameSimulator, MatchStats, ScrabbleBag, run_parallel_duplicate_tournament
 
 
 CHECKPOINTS_DIR = os.path.normpath(
@@ -358,6 +358,104 @@ def cmd_play(args):
 # ==============================================================================
 def cmd_tournament(args):
     """Runs a multi-game tournament series comparing any model/preset against an opponent."""
+    # PARALLEL MULTI-PROCESS DUPLICATE TOURNAMENT
+    if getattr(args, "parallel", False):
+        workers = args.workers or max(1, (os.cpu_count() or 4))
+        num_pairs = max(1, args.games // 2)
+        overrides_p1 = {
+            "num_samples": args.samples,
+            "candidate_beam": args.beam,
+            "volatility_weight": args.volatility_weight,
+        }
+        ckpt_path = args.checkpoint
+        if not ckpt_path and not getattr(args, "no_save", False):
+            ckpt_dir = os.path.join(TOURNAMENTS_DIR, "checkpoints")
+            os.makedirs(ckpt_dir, exist_ok=True)
+            tag_part = f"_{args.tag}" if args.tag else ""
+            ckpt_path = os.path.join(ckpt_dir, f"{args.model}_vs_{args.opponent}{tag_part}.checkpoint.jsonl")
+
+        print("=" * 75)
+        print(f"   ALPHABLE V4 PARALLEL TOURNAMENT: {args.model} vs {args.opponent}")
+        print(f"   Total Games: {num_pairs * 2} ({num_pairs} duplicate pairs) | Workers: {workers}")
+        if ckpt_path:
+            print(f"   Checkpoint Journal: {ckpt_path} (Resume: {'ON' if getattr(args, 'resume', False) else 'OFF'})")
+        print("=" * 75)
+
+        res = run_parallel_duplicate_tournament(
+            p1_spec=args.model,
+            p2_spec=args.opponent,
+            num_pairs=num_pairs,
+            workers=workers,
+            lexicon=args.lexicon,
+            device=args.device or "cpu",
+            p1_kwargs=overrides_p1,
+            p2_kwargs=None,
+            p1_model_path=args.model_path,
+            p2_model_path=args.opponent_model_path,
+            checkpoint_path=ckpt_path,
+            resume=getattr(args, "resume", False),
+            verbose=True,
+        )
+
+        sig_verdict = (
+            "Statistically Significant (p < 0.01, Strong Edge)" if res["p_value"] < 0.01
+            else ("Statistically Significant (p < 0.05, Confirmed Edge)" if res["p_value"] < 0.05
+            else "Not Yet Statistically Significant (p >= 0.05)")
+        )
+        print("\n" + "=" * 75)
+        print(" PARALLEL DUPLICATE TOURNAMENT RESULTS SUMMARY (ZERO TILE LUCK)")
+        print("=" * 75)
+        print(f"Matchup: {res['p1_name']} vs {res['p2_name']}")
+        print(f"Total Games Played: {res['total_games']} ({res['duplicate_pairs']} duplicate pairs) across {workers} workers in {res['duration_seconds']:.1f}s ({res['seconds_per_game']:.2f}s/game)")
+        print(f"Match Pair Record : {res['p1_pair_wins']}W - {res['p2_pair_wins']}L - {res['pair_draws']}D ({res['pair_win_pct']:.1f}% Match Win Rate for {res['p1_short']})")
+        print(f"{res['p1_short']} Mean Score: {res['p1_mean_score']:.1f} pts (Bingos/Game: {res['p1_bingos_per_game']:.2f})")
+        print(f"{res['p2_short']} Mean Score: {res['p2_mean_score']:.1f} pts (Bingos/Game: {res['p2_bingos_per_game']:.2f})")
+        print(f"Net Score Spread  : {res['net_spread_mean']:+.1f} pts per game in favor of {res['p1_short']}")
+        print(f"Phase Net Spreads : Opening {res['phase_means']['opening']:+.1f} | Midgame {res['phase_means']['midgame']:+.1f} | Pre-End {res['phase_means']['pre_endgame']:+.1f} | End {res['phase_means']['endgame']:+.1f} pts/game")
+        print("-" * 75)
+        print(" STATISTICAL SIGNIFICANCE (ZERO TILE LUCK TEST)")
+        print("-" * 75)
+        print(f"Match Win Rate (95% CI) : {res['pair_win_pct']:.1f}% ± {res['ci95_win_pct']:.1f}% [{res['pair_win_pct'] - res['ci95_win_pct']:.1f}% — {res['pair_win_pct'] + res['ci95_win_pct']:.1f}%]")
+        print(f"Net Spread (95% CI)     : {res['net_spread_mean']:+.1f} ± {res['net_spread_ci95']:.1f} pts/game [{res['net_spread_mean'] - res['net_spread_ci95']:+.1f} — {res['net_spread_mean'] + res['net_spread_ci95']:+.1f} pts]")
+        print(f"Paired t-Test (H0: Δ=0) : t = {res['t_statistic']:.2f}, p-value = {res['p_value']:.4f} ({sig_verdict})")
+        print("=" * 75)
+
+        if not getattr(args, "no_save", False):
+            p1_ckpt = getattr(args, "model_path", None) or MODEL_REGISTRY.get(args.model, {}).get("checkpoint_file")
+            p2_ckpt = getattr(args, "opponent_model_path", None) or MODEL_REGISTRY.get(args.opponent, {}).get("checkpoint_file")
+            save_tournament_telemetry(
+                mode="duplicate",
+                total_games=res["total_games"],
+                duplicate_pairs=res["duplicate_pairs"],
+                duration_seconds=res["duration_seconds"],
+                p1_name=res["p1_name"],
+                p1_short=res["p1_short"],
+                p1_spec=args.model,
+                p1_ckpt=p1_ckpt,
+                p1_mean=res["p1_mean_score"],
+                p1_bingos_per_game=res["p1_bingos_per_game"],
+                p1_wins=res["p1_pair_wins"],
+                p2_name=res["p2_name"],
+                p2_short=res["p2_short"],
+                p2_spec=args.opponent,
+                p2_ckpt=p2_ckpt,
+                p2_mean=res["p2_mean_score"],
+                p2_bingos_per_game=res["p2_bingos_per_game"],
+                p2_wins=res["p2_pair_wins"],
+                draws=res["pair_draws"],
+                win_pct=res["pair_win_pct"],
+                ci95_win=res["ci95_win_pct"],
+                mean_spread=res["net_spread_mean"],
+                ci95_spread=res["net_spread_ci95"],
+                t_stat=res["t_statistic"],
+                p_val=res["p_value"],
+                sig_verdict=sig_verdict,
+                lexicon=args.lexicon,
+                tag=args.tag,
+                records=res["pair_records"],
+            )
+        return
+
     engine_p1 = MagpieEngine(lexicon=args.lexicon)
     engine_p2 = MagpieEngine(lexicon=args.lexicon)
 
@@ -1206,7 +1304,8 @@ def cmd_history(args):
 # ==============================================================================
 # MAIN ENTRYPOINT
 # ==============================================================================
-def main():
+def build_parser() -> argparse.ArgumentParser:
+    """Constructs the top-level argument parser for the Alphable V4 CLI."""
     parser = argparse.ArgumentParser(
         description="Alphable V4 Command Center: Interactive play, analysis, tournaments, model registry, and AI ablation."
     )
@@ -1248,6 +1347,10 @@ def main():
     p_tournament.add_argument("--opponent-model-path", type=str, default=None, help="Custom checkpoint path for opponent (.pt)")
     p_tournament.add_argument("--games", type=int, default=10, help="Number of games to simulate (default: 10)")
     p_tournament.add_argument("--duplicate", action="store_true", help="Run duplicate pair-swapped matches to neutralize tile draw luck")
+    p_tournament.add_argument("--parallel", action="store_true", help="Run duplicate pairs in parallel across multi-core worker processes")
+    p_tournament.add_argument("--workers", type=int, default=None, help="Number of parallel worker processes (defaults to CPU count)")
+    p_tournament.add_argument("--resume", action="store_true", help="Resume tournament from existing checkpoint if interrupted")
+    p_tournament.add_argument("--checkpoint", type=str, default=None, help="Path to checkpoint journal file (.checkpoint.jsonl)")
     p_tournament.add_argument("--lexicon", type=str, default="CSW24", help="Lexicon (CSW24 or NWL23)")
     p_tournament.add_argument("--samples", type=int, default=None, help="Override opponent rack samples (N)")
     p_tournament.add_argument("--beam", type=int, default=None, help="Override candidate beam (K)")
@@ -1271,6 +1374,11 @@ def main():
     p_history.add_argument("--model", type=str, default=None, help="Filter runs by model name substring")
     p_history.add_argument("--limit", type=int, default=25, help="Maximum number of historical runs to display (default: 25)")
 
+    return parser
+
+
+def main():
+    parser = build_parser()
     args = parser.parse_args()
 
     if args.command == "models":
