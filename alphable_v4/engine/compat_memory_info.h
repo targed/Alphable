@@ -222,11 +222,11 @@ static inline int get_num_cores(void) {
   return core_count;
 }
 
-static inline bool get_available_memory_bytes(uint64_t *out) {
+static inline bool get_available_memory_bytes(int64_t *out) {
   if (!out) {
     return false;
   }
-  *out = get_search_memory_budget_base();
+  *out = (int64_t)get_search_memory_budget_base();
   return true;
 }
 
