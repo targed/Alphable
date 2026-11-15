@@ -14,11 +14,29 @@ import os
 import shutil
 import sys
 import re
+import subprocess
 
 REPO_ROOT = os.path.normpath(os.path.join(os.path.dirname(__file__), ".."))
 SRC_HEADER = os.path.join(REPO_ROOT, "alphable_v4", "engine", "compat_memory_info.h")
 TARGET_COMPAT = os.path.join(REPO_ROOT, "vendor", "magpie", "src", "compat", "memory_info.h")
 LIBMAGPIE = os.path.join(REPO_ROOT, "vendor", "magpie", "bin", "libmagpie.so")
+
+def reset_vendor_git_files():
+    """If vendor/magpie is a git checkout, restore pristine files modified by previous patch attempts."""
+    magpie_dir = os.path.join(REPO_ROOT, "vendor", "magpie")
+    if os.path.isdir(os.path.join(magpie_dir, ".git")):
+        try:
+            res = subprocess.run(
+                ["git", "-C", magpie_dir, "checkout", "--", "src/def/peg_defs.h", "src/impl/peg_pool.c", "src/impl/peg_pool.h"],
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                text=True,
+                check=False
+            )
+            if res.returncode == 0:
+                print("[Patcher] Restored pristine upstream state for peg_defs.h and peg_pool.* from git.")
+        except Exception as e:
+            print(f"[Patcher] Note: git checkout in vendor/magpie skipped: {e}")
 
 def patch_memory_info():
     if os.path.exists(SRC_HEADER) and os.path.isdir(os.path.dirname(TARGET_COMPAT)):
@@ -75,7 +93,7 @@ def patch_peg_defs():
     """
     Ensure PEG_POOL_WORKER_STACK_BYTES has a single canonical definition in memory_info.h.
     1. Strip any legacy macro or enum shims from peg_pool.h.
-    2. In src/def/peg_defs.h: remove PEG_POOL_WORKER_STACK_BYTES if present so it doesn't collide with memory_info.h.
+    2. In src/def/peg_defs.h: remove duplicate PEG_POOL_QUEUE_INIT_CAP and remove PEG_POOL_WORKER_STACK_BYTES.
     3. In src/impl/peg_pool.c: ensure #include "../compat/memory_info.h" is present.
     """
     peg_defs_path = os.path.join(REPO_ROOT, "vendor", "magpie", "src", "def", "peg_defs.h")
@@ -106,26 +124,36 @@ def patch_peg_defs():
         except Exception as e:
             print(f"[Patcher] Warning cleaning {peg_pool_h_path}: {e}")
 
-    # Step B: In src/def/peg_defs.h: remove PEG_POOL_WORKER_STACK_BYTES so memory_info.h is canonical
+    # Step B: In src/def/peg_defs.h: deduplicate PEG_POOL_QUEUE_INIT_CAP and remove PEG_POOL_WORKER_STACK_BYTES
     if os.path.exists(peg_defs_path):
         try:
             with open(peg_defs_path, "r", encoding="utf-8", errors="ignore") as f:
                 content = f.read()
-            if "PEG_POOL_WORKER_STACK_BYTES" in content:
-                # Remove enum member or define
-                cleaned = re.sub(r'#define PEG_POOL_WORKER_STACK_BYTES[^\n]*\n', '', content)
+            cleaned = content
+
+            # Deduplicate any duplicate PEG_POOL_QUEUE_INIT_CAP enum blocks
+            dup_pattern = re.compile(r'(?:\n\s*//[^\n]*\n\s*)*enum\s*\{[^}]*PEG_POOL_QUEUE_INIT_CAP[^}]*\};\s*')
+            matches = list(dup_pattern.finditer(cleaned))
+            if len(matches) > 1:
+                for m in reversed(matches[1:]):
+                    cleaned = cleaned[:m.start()] + cleaned[m.end():]
+                print(f"[Patcher] Removed duplicate PEG_POOL_QUEUE_INIT_CAP block from {os.path.relpath(peg_defs_path, REPO_ROOT)}")
+
+            # Remove PEG_POOL_WORKER_STACK_BYTES so memory_info.h is canonical
+            if "PEG_POOL_WORKER_STACK_BYTES" in cleaned:
+                cleaned = re.sub(r'#define PEG_POOL_WORKER_STACK_BYTES[^\n]*\n', '', cleaned)
                 cleaned = re.sub(r'\s*PEG_POOL_WORKER_STACK_BYTES\s*=\s*[^,\n]+,?', '', cleaned)
-                # Clean up empty enum if needed
                 cleaned = re.sub(r'enum\s*\{\s*\};\s*\n?', '', cleaned)
-                if cleaned != content:
-                    with open(peg_defs_path, "w", encoding="utf-8") as f:
-                        f.write(cleaned)
-                    print(f"[Patcher] Harmonized PEG_POOL_WORKER_STACK_BYTES in {os.path.relpath(peg_defs_path, REPO_ROOT)}")
-                    if os.path.exists(LIBMAGPIE):
-                        try:
-                            os.remove(LIBMAGPIE)
-                        except OSError:
-                            pass
+                print(f"[Patcher] Harmonized PEG_POOL_WORKER_STACK_BYTES in {os.path.relpath(peg_defs_path, REPO_ROOT)}")
+
+            if cleaned != content:
+                with open(peg_defs_path, "w", encoding="utf-8") as f:
+                    f.write(cleaned)
+                if os.path.exists(LIBMAGPIE):
+                    try:
+                        os.remove(LIBMAGPIE)
+                    except OSError:
+                        pass
         except Exception as e:
             print(f"[Patcher] Warning patching {peg_defs_path}: {e}")
 
@@ -154,6 +182,7 @@ def patch_peg_defs():
             print(f"[Patcher] Warning patching {peg_pool_c_path}: {e}")
 
 if __name__ == "__main__":
+    reset_vendor_git_files()
     patch_memory_info()
     patch_builtin_shims()
     patch_peg_defs()
