@@ -49,21 +49,24 @@ echo -e "\n[Step 1/5] Checking Environment Modules..."
 # On The Mill, check if environment modules are available
 if command -v module >/dev/null 2>&1; then
     # Attempt to load Python 3.11 or modern Python if available
-    if module avail python 2>&1 | grep -q "python/3.11"; then
-        echo "Loading module python/3.11..."
-        module load python/3.11
+    if module avail python 2>&1 | grep -q "python/3\.11"; then
+        echo "Loading module python/3.11.7..."
+        module load python/3.11.7 2>/dev/null || module load python/3.11 2>/dev/null || true
     elif module avail python 2>&1 | grep -q "python/3"; then
-        PY_MOD=$(module avail python 2>&1 | grep -o 'python/3\.[0-9]*' | head -n 1)
+        PY_MOD=$(module avail python 2>&1 | grep -o 'python/3\.[0-9.]*' | head -n 1)
         echo "Loading module $PY_MOD..."
-        module load "$PY_MOD"
+        module load "$PY_MOD" 2>/dev/null || true
     fi
 
-    # Attempt to load GCC if available for native C MAGPIE build (prefer highest version: 12, 11, etc.)
-    if module avail gcc 2>&1 | grep -q "gcc/"; then
+    # Attempt to load modern GCC (GCC 12.2.0) for native C MAGPIE build
+    if module avail gcc 2>&1 | grep -q "gcc/12"; then
+        echo "Loading module gcc/12.2.0..."
+        module load gcc/12.2.0 2>/dev/null || module load gcc/12 2>/dev/null || true
+    elif module avail gcc 2>&1 | grep -q "gcc/"; then
         GCC_MOD=$(module avail gcc 2>&1 | grep -o 'gcc/[0-9.]*' | sort -V | tail -n 1)
         if [ -n "$GCC_MOD" ]; then
             echo "Loading module $GCC_MOD..."
-            module load "$GCC_MOD"
+            module load "$GCC_MOD" 2>/dev/null || true
         fi
     fi
 else
