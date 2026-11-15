@@ -58,15 +58,25 @@ if command -v module >/dev/null 2>&1; then
         module load "$PY_MOD"
     fi
 
-    # Attempt to load GCC if available for native C MAGPIE build
+    # Attempt to load GCC if available for native C MAGPIE build (prefer highest version: 12, 11, etc.)
     if module avail gcc 2>&1 | grep -q "gcc/"; then
-        GCC_MOD=$(module avail gcc 2>&1 | grep -o 'gcc/[0-9.]*' | head -n 1)
-        echo "Loading module $GCC_MOD..."
-        module load "$GCC_MOD"
+        GCC_MOD=$(module avail gcc 2>&1 | grep -o 'gcc/[0-9.]*' | sort -V | tail -n 1)
+        if [ -n "$GCC_MOD" ]; then
+            echo "Loading module $GCC_MOD..."
+            module load "$GCC_MOD"
+        fi
     fi
 else
     echo "No module command found; using host environment."
 fi
+
+# Configure C compiler: prefer gcc from environment module or path over default cc
+if command -v gcc >/dev/null 2>&1; then
+    export CC="$(command -v gcc)"
+elif command -v cc >/dev/null 2>&1; then
+    export CC="$(command -v cc)"
+fi
+echo "Using C compiler: $CC ($($CC --version 2>&1 | head -n 1))"
 
 # Ensure Python 3 is accessible
 PYTHON_BIN=$(command -v python3 || command -v python || true)
@@ -95,27 +105,18 @@ fi
 VENV_PYTHON="./$VENV_DIR/bin/python"
 
 # ------------------------------------------------------------------------------
-# 3. Native C Engine (MAGPIE) Compilation & Patch Application
+# 3. Native C Engine (MAGPIE) Compilation & Cluster Compatibility Patches
 # ------------------------------------------------------------------------------
-echo -e "\n[Step 3/5] Verifying Native C Engine & Memory Patch (libmagpie.so)..."
+echo -e "\n[Step 3/5] Verifying Native C Engine & Applying Cluster Patches..."
+
+# Apply memory bounding and __has_builtin compatibility patches
+"$PYTHON_BIN" scripts/patch_magpie_cluster.py
 
 LIBMAGPIE="vendor/magpie/bin/libmagpie.so"
-PATCH_HEADER="alphable_v4/engine/compat_memory_info.h"
-TARGET_HEADER="vendor/magpie/src/compat/memory_info.h"
-
-# Ensure cluster memory bounding & thread pinning patch is synced
-if [ -f "$PATCH_HEADER" ] && [ -d "vendor/magpie/src/compat" ]; then
-    if ! cmp -s "$PATCH_HEADER" "$TARGET_HEADER"; then
-        echo "Applying cluster memory bounding & thread pinning patch to $TARGET_HEADER..."
-        cp "$PATCH_HEADER" "$TARGET_HEADER"
-        rm -f "$LIBMAGPIE"
-    fi
-fi
-
 if [ ! -f "$LIBMAGPIE" ]; then
-    echo "Compiling native C library $LIBMAGPIE..."
+    echo "Compiling native C library $LIBMAGPIE using $CC..."
     make -C vendor/magpie clean || true
-    make -C vendor/magpie libmagpie
+    make -C vendor/magpie CC="$CC" libmagpie
 else
     echo "Verified native C engine library exists: $LIBMAGPIE"
 fi

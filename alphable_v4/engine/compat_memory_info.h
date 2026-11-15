@@ -1,6 +1,10 @@
 #ifndef COMPAT_MEMORY_INFO_H
 #define COMPAT_MEMORY_INFO_H
 
+#ifndef __has_builtin
+#define __has_builtin(x) 0
+#endif
+
 #include <errno.h>
 #include <stdint.h>
 #include <stdbool.h>
