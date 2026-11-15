@@ -3,11 +3,11 @@
 Automated compatibility patcher for native C MAGPIE engine on HPC clusters.
 
 Applies:
-1. Cluster memory bounding & thread pinning patch (compat_memory_info.h -> memory_info.h).
+1. Cluster memory bounding, thread pinning, and cache index definitions (compat_memory_info.h -> memory_info.h).
 2. __has_builtin macro shim for legacy compilers (e.g. GCC 8 on RHEL/CentOS nodes)
    where #if defined(__has_builtin) && __has_builtin(...) causes syntax errors.
-3. Pre-endgame (PEG) worker stack size definitions ensuring collision-free enum
-   declarations across GCC 8 through GCC 13+ and different MAGPIE checkouts.
+3. Pre-endgame (PEG) worker stack size definitions ensuring single canonical declaration
+   in memory_info.h across GCC 8 through GCC 13+ and different MAGPIE checkouts.
 """
 
 import os
@@ -73,87 +73,78 @@ def patch_builtin_shims():
 
 def patch_peg_defs():
     """
-    Ensure PEG_POOL_WORKER_STACK_BYTES is defined without causing enum syntax collisions.
-    1. Strip any legacy macro or enum shims from peg_pool.h and peg_pool.c.
-    2. In src/def/peg_defs.h: ensure PEG_POOL_WORKER_STACK_BYTES is defined.
-    3. In src/impl/peg_pool.c: ensure #include "../def/peg_defs.h" is present.
+    Ensure PEG_POOL_WORKER_STACK_BYTES has a single canonical definition in memory_info.h.
+    1. Strip any legacy macro or enum shims from peg_pool.h.
+    2. In src/def/peg_defs.h: remove PEG_POOL_WORKER_STACK_BYTES if present so it doesn't collide with memory_info.h.
+    3. In src/impl/peg_pool.c: ensure #include "../compat/memory_info.h" is present.
     """
     peg_defs_path = os.path.join(REPO_ROOT, "vendor", "magpie", "src", "def", "peg_defs.h")
     peg_pool_c_path = os.path.join(REPO_ROOT, "vendor", "magpie", "src", "impl", "peg_pool.c")
     peg_pool_h_path = os.path.join(REPO_ROOT, "vendor", "magpie", "src", "impl", "peg_pool.h")
 
-    # Step A: Clean up any macro injections from peg_defs.h, peg_pool.h, peg_pool.c
+    # Step A: Clean up any macro/enum injections from peg_pool.h
     macro_patterns = [
         re.compile(r'#ifndef PEG_POOL_WORKER_STACK_BYTES\s*\n\s*#define PEG_POOL_WORKER_STACK_BYTES\s+[^\n]+\s*\n\s*#endif\s*\n?', re.MULTILINE),
         re.compile(r'#ifndef PEG_POOL_WORKER_STACK_BYTES\s*\nenum\s*\{[^}]*PEG_POOL_WORKER_STACK_BYTES[^}]*\};\s*\n(#define PEG_POOL_WORKER_STACK_BYTES[^\n]*\n)?#endif\s*\n?', re.MULTILINE),
     ]
-    for p in [peg_pool_h_path, peg_pool_c_path]:
-        if os.path.exists(p):
-            try:
-                with open(p, "r", encoding="utf-8", errors="ignore") as f:
-                    content = f.read()
-                cleaned = content
-                for pat in macro_patterns:
-                    cleaned = pat.sub("", cleaned)
-                if cleaned != content:
-                    with open(p, "w", encoding="utf-8") as f:
-                        f.write(cleaned)
-                    print(f"[Patcher] Cleaned legacy PEG shims from {os.path.relpath(p, REPO_ROOT)}")
-                    if os.path.exists(LIBMAGPIE):
-                        try:
-                            os.remove(LIBMAGPIE)
-                        except OSError:
-                            pass
-            except Exception as e:
-                print(f"[Patcher] Warning cleaning {p}: {e}")
-
-    # Step B: Ensure src/def/peg_defs.h has PEG_POOL_WORKER_STACK_BYTES
-    if os.path.exists(peg_defs_path):
+    if os.path.exists(peg_pool_h_path):
         try:
-            with open(peg_defs_path, "r", encoding="utf-8", errors="ignore") as f:
+            with open(peg_pool_h_path, "r", encoding="utf-8", errors="ignore") as f:
                 content = f.read()
-            # Clean any internal #define inside enum
-            content = re.sub(r'\n#define PEG_POOL_WORKER_STACK_BYTES PEG_POOL_WORKER_STACK_BYTES\s*\n', '\n', content)
-            if "PEG_POOL_WORKER_STACK_BYTES" not in content:
-                enum_block = (
-                    "\n// PEG work-stealing pool capacities (peg_pool.c).\n"
-                    "enum {\n"
-                    "  PEG_POOL_QUEUE_INIT_CAP = 1024,\n"
-                    "  PEG_POOL_WORKER_STACK_BYTES = 64 * 1024 * 1024,\n"
-                    "};\n\n"
-                )
-                if "#endif" in content:
-                    idx = content.rfind("#endif")
-                    content = content[:idx] + enum_block + content[idx:]
-                else:
-                    content += enum_block
-                with open(peg_defs_path, "w", encoding="utf-8") as f:
-                    f.write(content)
-                print(f"[Patcher] Added PEG_POOL_WORKER_STACK_BYTES to {os.path.relpath(peg_defs_path, REPO_ROOT)}")
+            cleaned = content
+            for pat in macro_patterns:
+                cleaned = pat.sub("", cleaned)
+            if cleaned != content:
+                with open(peg_pool_h_path, "w", encoding="utf-8") as f:
+                    f.write(cleaned)
+                print(f"[Patcher] Cleaned legacy PEG shims from {os.path.relpath(peg_pool_h_path, REPO_ROOT)}")
                 if os.path.exists(LIBMAGPIE):
                     try:
                         os.remove(LIBMAGPIE)
                     except OSError:
                         pass
         except Exception as e:
+            print(f"[Patcher] Warning cleaning {peg_pool_h_path}: {e}")
+
+    # Step B: In src/def/peg_defs.h: remove PEG_POOL_WORKER_STACK_BYTES so memory_info.h is canonical
+    if os.path.exists(peg_defs_path):
+        try:
+            with open(peg_defs_path, "r", encoding="utf-8", errors="ignore") as f:
+                content = f.read()
+            if "PEG_POOL_WORKER_STACK_BYTES" in content:
+                # Remove enum member or define
+                cleaned = re.sub(r'#define PEG_POOL_WORKER_STACK_BYTES[^\n]*\n', '', content)
+                cleaned = re.sub(r'\s*PEG_POOL_WORKER_STACK_BYTES\s*=\s*[^,\n]+,?', '', cleaned)
+                # Clean up empty enum if needed
+                cleaned = re.sub(r'enum\s*\{\s*\};\s*\n?', '', cleaned)
+                if cleaned != content:
+                    with open(peg_defs_path, "w", encoding="utf-8") as f:
+                        f.write(cleaned)
+                    print(f"[Patcher] Harmonized PEG_POOL_WORKER_STACK_BYTES in {os.path.relpath(peg_defs_path, REPO_ROOT)}")
+                    if os.path.exists(LIBMAGPIE):
+                        try:
+                            os.remove(LIBMAGPIE)
+                        except OSError:
+                            pass
+        except Exception as e:
             print(f"[Patcher] Warning patching {peg_defs_path}: {e}")
 
-    # Step C: Ensure src/impl/peg_pool.c includes ../def/peg_defs.h
+    # Step C: Ensure src/impl/peg_pool.c includes ../compat/memory_info.h
     if os.path.exists(peg_pool_c_path):
         try:
             with open(peg_pool_c_path, "r", encoding="utf-8", errors="ignore") as f:
                 content = f.read()
-            if "peg_defs.h" not in content:
+            if "memory_info.h" not in content:
                 if '#include "peg_pool.h"' in content:
                     content = content.replace(
                         '#include "peg_pool.h"',
-                        '#include "peg_pool.h"\n#include "../def/peg_defs.h"'
+                        '#include "peg_pool.h"\n#include "../compat/memory_info.h"'
                     )
                 else:
-                    content = '#include "../def/peg_defs.h"\n' + content
+                    content = '#include "../compat/memory_info.h"\n' + content
                 with open(peg_pool_c_path, "w", encoding="utf-8") as f:
                     f.write(content)
-                print(f"[Patcher] Injected #include \"../def/peg_defs.h\" into {os.path.relpath(peg_pool_c_path, REPO_ROOT)}")
+                print(f"[Patcher] Injected #include \"../compat/memory_info.h\" into {os.path.relpath(peg_pool_c_path, REPO_ROOT)}")
                 if os.path.exists(LIBMAGPIE):
                     try:
                         os.remove(LIBMAGPIE)

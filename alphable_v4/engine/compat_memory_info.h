@@ -39,6 +39,61 @@
 #define PEG_TT_MIN_SIZE_POWER 12
 #endif
 
+// Per-worker stack of the PEG pool (peg_pool.c).
+#ifdef __EMSCRIPTEN__
+enum {
+  PEG_POOL_WORKER_STACK_BYTES = 4 * 1024 * 1024,
+};
+#else
+enum {
+  PEG_POOL_WORKER_STACK_BYTES = 64 * 1024 * 1024,
+};
+#endif
+
+// Buckets of a simulation's best-move carry (best_move_carry.h).
+#ifdef __EMSCRIPTEN__
+enum {
+  SIM_BEST_MOVE_CARRY_BUCKETS = 128,
+};
+#else
+enum {
+  SIM_BEST_MOVE_CARRY_BUCKETS = 1024,
+};
+#endif
+
+// Entries of an endgame worker's lane shadow cache (lane_shadow_cache.h).
+#ifdef __EMSCRIPTEN__
+enum {
+  ENDGAME_LANE_SHADOW_CACHE_INDEX_BITS = 12,
+};
+#else
+enum {
+  ENDGAME_LANE_SHADOW_CACHE_INDEX_BITS = 16,
+};
+#endif
+
+// Entries of the anchor plays an endgame worker's lane shadow cache holds.
+#ifdef __EMSCRIPTEN__
+enum {
+  ENDGAME_ANCHOR_PLAY_CACHE_INDEX_BITS = 13,
+};
+#else
+enum {
+  ENDGAME_ANCHOR_PLAY_CACHE_INDEX_BITS = 18,
+};
+#endif
+
+// Entries of the cross set cache (cross_set_cache.h) of an endgame worker.
+#ifdef __EMSCRIPTEN__
+enum {
+  CROSS_SET_CACHE_INDEX_BITS = 11,
+};
+#else
+enum {
+  CROSS_SET_CACHE_INDEX_BITS = 14,
+};
+#endif
+
 static inline bool search_memory_is_bounded(void) {
 #ifdef __EMSCRIPTEN__
   return true;
