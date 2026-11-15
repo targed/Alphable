@@ -1,0 +1,30 @@
+===========================================================================
+   MISSOURI S&T 'THE MILL' - ALPHABLE V4 BATCH TOURNAMENT
+===========================================================================
+SLURM Job ID        : 2744270
+SLURM Job Name      : alphable-10k
+Execution Node      : compute-14-21.mill
+Assigned Cores      : 32
+Working Directory   : /home/ltkhg4/Code/git/Alphable/slurm
+Start Timestamp     : Fri Nov 13 13:04:06 CST 2026
+===========================================================================
+
+[Step 1/5] Checking Environment Modules...
+Loading module python/3.11...
+Loading module gcc/12.2.0...
+Using base Python: /share/apps/common/python/3.11.7/bin/python3 (Python 3.11.7)
+
+[Step 2/5] Bootstrapping Virtual Environment...
+Creating virtual environment at venv...
+Upgrading pip and installing dependencies...
+Requirement already satisfied: pip in ./venv/lib/python3.11/site-packages (23.2.1)
+Collecting pip
+  Obtaining dependency information for pip from https://files.pythonhosted.org/packages/07/25/ee8c38ae72d66b844ce8eb9711ba905dba21ca1a8a0c960057c41cd23337/pip-26.3-py3-none-any.whl.metadata
+  Downloading pip-26.3-py3-none-any.whl.metadata (4.6 kB)
+Using cached pip-26.3-py3-none-any.whl (2.0 MB)
+Installing collected packages: pip
+  Attempting uninstall: pip
+    Found existing installation: pip 23.2.1
+    Uninstalling pip-23.2.1:
+      Successfully uninstalled pip-23.2.1
+Successfully installed pip-26.3

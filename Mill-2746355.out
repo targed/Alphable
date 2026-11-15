@@ -1,0 +1,46 @@
+===========================================================================
+   MISSOURI S&T 'THE MILL' - ALPHABLE V4 BATCH TOURNAMENT
+===========================================================================
+SLURM Job ID        : 2746355
+SLURM Job Name      : alphable-10k
+Execution Node      : compute-41-11.mill
+Assigned Cores      : 32
+Working Directory   : /home/ltkhg4/Code/git/Alphable
+Start Timestamp     : Fri Nov 13 22:58:14 CST 2026
+===========================================================================
+
+[Step 1/5] Checking Environment Modules...
+Loading module python/3.11...
+Loading module gcc/12.2.0...
+Using base Python: /share/apps/common/python/3.11.7/bin/python3 (Python 3.11.7)
+
+[Step 2/5] Bootstrapping Virtual Environment...
+Found existing virtual environment at venv.
+
+[Step 3/5] Verifying Native C Engine (libmagpie.so)...
+Verified native C engine library exists: vendor/magpie/bin/libmagpie.so
+
+[Step 4/5] Verifying Checkpoints & Data Directories...
+
+[Step 5/5] Launching Parallel Tournament Execution...
+Tournament Matchup : hybrid-pimc vs magpie-tuned
+Total Games        : 10000 (Duplicate Mode: 5000 symmetric pairs)
+Parallel Workers   : 32
+Lexicon            : CSW24
+Fault Recovery     : --resume ENABLED (Incremental Checkpoints in data/tournaments/checkpoints/)
+===========================================================================
+   ALPHABLE V4 PARALLEL TOURNAMENT: hybrid-pimc vs magpie-tuned
+   Total Games: 10000 (5000 duplicate pairs) | Workers: 32
+   Checkpoint Journal: /home/ltkhg4/Code/git/Alphable/data/tournaments/checkpoints/hybrid-pimc_vs_magpie-tuned_10k-hpc.checkpoint.jsonl (Resume: ON)
+===========================================================================
+Running 5000 remaining pairs across 32 parallel worker processes...
+Pair 09/5000 [Seed 1248]: Hybrid-PIMC 445+408=853 pts vs MAGPIE-Tuned 402+420=822 pts | Net: +31 pts | Hybrid-PIMC WON MATCH
+Pair 01/5000 [Seed 1000]: Hybrid-PIMC 438+399=837 pts vs MAGPIE-Tuned 325+472=797 pts | Net: +40 pts | Hybrid-PIMC WON MATCH
+Pair 10/5000 [Seed 1279]: Hybrid-PIMC 450+478=928 pts vs MAGPIE-Tuned 355+353=708 pts | Net: +220 pts | Hybrid-PIMC WON MATCH
+Pair 15/5000 [Seed 1434]: Hybrid-PIMC 547+402=949 pts vs MAGPIE-Tuned 433+442=875 pts | Net: +74 pts | Hybrid-PIMC WON MATCH
+Pair 21/5000 [Seed 1620]: Hybrid-PIMC 388+502=890 pts vs MAGPIE-Tuned 449+409=858 pts | Net: +32 pts | Hybrid-PIMC WON MATCH
+Pair 02/5000 [Seed 1031]: Hybrid-PIMC 373+371=744 pts vs MAGPIE-Tuned 359+400=759 pts | Net: -15 pts | MAGPIE-Tuned WON MATCH
+Pair 30/5000 [Seed 1899]: Hybrid-PIMC 446+375=821 pts vs MAGPIE-Tuned 335+500=835 pts | Net: -14 pts | MAGPIE-Tuned WON MATCH
+Pair 05/5000 [Seed 1124]: Hybrid-PIMC 380+457=837 pts vs MAGPIE-Tuned 388+311=699 pts | Net: +138 pts | Hybrid-PIMC WON MATCH
+Pair 12/5000 [Seed 1341]: Hybrid-PIMC 438+432=870 pts vs MAGPIE-Tuned 451+299=750 pts | Net: +120 pts | Hybrid-PIMC WON MATCH
+Worker generated an exception for Pair 3 (Seed 1062): A process in the process pool was terminated abruptly while the future was running or pending.

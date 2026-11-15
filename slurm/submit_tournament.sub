@@ -19,10 +19,11 @@
 
 #SBATCH --job-name=alphable-10k
 #SBATCH --ntasks=1
-#SBATCH --cpus-per-task=64
-#SBATCH --time=01:00:00
-#SBATCH --mem=64G
+#SBATCH --cpus-per-task=24
+#SBATCH --time=10:00:00
+#SBATCH --mem=128G
 #SBATCH --mail-type=begin,end,fail,requeue
+#SBATCH --mail-user=ltkhg4@mst.edu
 #SBATCH --export=all
 #SBATCH --output=Mill-%j.out
 #SBATCH --error=Mill-%j.err
@@ -138,13 +139,11 @@ echo "Parallel Workers   : $WORKERS"
 echo "Lexicon            : $LEXICON"
 echo "Fault Recovery     : --resume ENABLED (Incremental Checkpoints in data/tournaments/checkpoints/)"
 
-$VENV_PYTHON cli.py tournament \
+$VENV_PYTHON -u cli.py tournament \
     --model "$MODEL" \
     --opponent "$OPPONENT" \
     --games "$GAMES" \
     --duplicate \
-    --parallel \
-    --workers "$WORKERS" \
     --resume \
     --tag "$TAG" \
     --lexicon "$LEXICON"

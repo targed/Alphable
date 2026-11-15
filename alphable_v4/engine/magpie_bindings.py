@@ -175,7 +175,7 @@ class MagpieEngine:
             if self.use_pat:
                 self.set_pat(lexicon)
         self._current_numplays = 100
-        self.run_command(f"set -shwithmoves false -numplays {self._current_numplays} -maxnumdplays {self._current_numplays}")
+        self.run_command(f"set -shwithmoves false -numplays {self._current_numplays} -maxnumdplays {self._current_numplays} -ttfraction 0.001")
 
     def __enter__(self) -> MagpieEngine:
         return self

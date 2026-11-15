@@ -1,0 +1,94 @@
+===========================================================================
+   MISSOURI S&T 'THE MILL' - ALPHABLE V4 BATCH TOURNAMENT
+===========================================================================
+SLURM Job ID        : 2746429
+SLURM Job Name      : alphable-10k
+Execution Node      : compute-41-03.mill
+Assigned Cores      : 24
+Working Directory   : /home/ltkhg4/Code/git/Alphable
+Start Timestamp     : Fri Nov 13 23:52:11 CST 2026
+===========================================================================
+
+[Step 1/5] Checking Environment Modules...
+Loading module python/3.11...
+Loading module gcc/12.2.0...
+Using base Python: /share/apps/common/python/3.11.7/bin/python3 (Python 3.11.7)
+
+[Step 2/5] Bootstrapping Virtual Environment...
+Found existing virtual environment at venv.
+
+[Step 3/5] Verifying Native C Engine (libmagpie.so)...
+Verified native C engine library exists: vendor/magpie/bin/libmagpie.so
+
+[Step 4/5] Verifying Checkpoints & Data Directories...
+
+[Step 5/5] Launching Parallel Tournament Execution...
+Tournament Matchup : hybrid-pimc vs magpie-tuned
+Total Games        : 10000 (Duplicate Mode: 5000 symmetric pairs)
+Parallel Workers   : 24
+Lexicon            : CSW24
+Fault Recovery     : --resume ENABLED (Incremental Checkpoints in data/tournaments/checkpoints/)
+===========================================================================
+   ALPHABLE V4 PARALLEL TOURNAMENT: hybrid-pimc vs magpie-tuned
+   Total Games: 10000 (5000 duplicate pairs) | Workers: 24
+   Checkpoint Journal: /home/ltkhg4/Code/git/Alphable/data/tournaments/checkpoints/hybrid-pimc_vs_magpie-tuned_10k-hpc.checkpoint.jsonl (Resume: ON)
+===========================================================================
+[Checkpoint] Resumed 17/5000 pairs from /home/ltkhg4/Code/git/Alphable/data/tournaments/checkpoints/hybrid-pimc_vs_magpie-tuned_10k-hpc.checkpoint.jsonl
+Running 4986 remaining pairs across 24 parallel worker processes...
+Pair 35/5000 [Seed 2054]: Hybrid-PIMC 426+505=931 pts vs MAGPIE-Tuned 458+413=871 pts | Net: +60 pts | Hybrid-PIMC WON MATCH
+Pair 24/5000 [Seed 1713]: Hybrid-PIMC 406+379=785 pts vs MAGPIE-Tuned 386+447=833 pts | Net: -48 pts | MAGPIE-Tuned WON MATCH
+Pair 17/5000 [Seed 1496]: Hybrid-PIMC 388+431=819 pts vs MAGPIE-Tuned 437+350=787 pts | Net: +32 pts | Hybrid-PIMC WON MATCH
+Pair 13/5000 [Seed 1372]: Hybrid-PIMC 484+447=931 pts vs MAGPIE-Tuned 439+522=961 pts | Net: -30 pts | MAGPIE-Tuned WON MATCH
+Pair 27/5000 [Seed 1806]: Hybrid-PIMC 420+473=893 pts vs MAGPIE-Tuned 429+474=903 pts | Net: -10 pts | MAGPIE-Tuned WON MATCH
+Pair 26/5000 [Seed 1775]: Hybrid-PIMC 460+358=818 pts vs MAGPIE-Tuned 325+512=837 pts | Net: -19 pts | MAGPIE-Tuned WON MATCH
+Pair 11/5000 [Seed 1310]: Hybrid-PIMC 346+400=746 pts vs MAGPIE-Tuned 503+401=904 pts | Net: -158 pts | MAGPIE-Tuned WON MATCH
+Pair 14/5000 [Seed 1403]: Hybrid-PIMC 533+390=923 pts vs MAGPIE-Tuned 392+514=906 pts | Net: +17 pts | Hybrid-PIMC WON MATCH
+Pair 42/5000 [Seed 2271]: Hybrid-PIMC 386+392=778 pts vs MAGPIE-Tuned 401+461=862 pts | Net: -84 pts | MAGPIE-Tuned WON MATCH
+Pair 45/5000 [Seed 2364]: Hybrid-PIMC 505+457=962 pts vs MAGPIE-Tuned 448+482=930 pts | Net: +32 pts | Hybrid-PIMC WON MATCH
+Pair 39/5000 [Seed 2178]: Hybrid-PIMC 491+367=858 pts vs MAGPIE-Tuned 396+394=790 pts | Net: +68 pts | Hybrid-PIMC WON MATCH
+Pair 44/5000 [Seed 2333]: Hybrid-PIMC 361+390=751 pts vs MAGPIE-Tuned 411+464=875 pts | Net: -124 pts | MAGPIE-Tuned WON MATCH
+Pair 41/5000 [Seed 2240]: Hybrid-PIMC 391+356=747 pts vs MAGPIE-Tuned 347+391=738 pts | Net: +9 pts | Hybrid-PIMC WON MATCH
+Pair 43/5000 [Seed 2302]: Hybrid-PIMC 470+389=859 pts vs MAGPIE-Tuned 318+426=744 pts | Net: +115 pts | Hybrid-PIMC WON MATCH
+Pair 40/5000 [Seed 2209]: Hybrid-PIMC 440+310=750 pts vs MAGPIE-Tuned 432+425=857 pts | Net: -107 pts | MAGPIE-Tuned WON MATCH
+Pair 46/5000 [Seed 2395]: Hybrid-PIMC 470+358=828 pts vs MAGPIE-Tuned 319+483=802 pts | Net: +26 pts | Hybrid-PIMC WON MATCH
+Pair 47/5000 [Seed 2426]: Hybrid-PIMC 376+413=789 pts vs MAGPIE-Tuned 551+414=965 pts | Net: -176 pts | MAGPIE-Tuned WON MATCH
+Pair 48/5000 [Seed 2457]: Hybrid-PIMC 528+324=852 pts vs MAGPIE-Tuned 344+515=859 pts | Net: -7 pts | MAGPIE-Tuned WON MATCH
+Pair 49/5000 [Seed 2488]: Hybrid-PIMC 415+477=892 pts vs MAGPIE-Tuned 346+521=867 pts | Net: +25 pts | Hybrid-PIMC WON MATCH
+Pair 51/5000 [Seed 2550]: Hybrid-PIMC 400+379=779 pts vs MAGPIE-Tuned 354+354=708 pts | Net: +71 pts | Hybrid-PIMC WON MATCH
+Pair 50/5000 [Seed 2519]: Hybrid-PIMC 430+434=864 pts vs MAGPIE-Tuned 375+427=802 pts | Net: +62 pts | Hybrid-PIMC WON MATCH
+Pair 52/5000 [Seed 2581]: Hybrid-PIMC 387+355=742 pts vs MAGPIE-Tuned 382+475=857 pts | Net: -115 pts | MAGPIE-Tuned WON MATCH
+Pair 53/5000 [Seed 2612]: Hybrid-PIMC 375+479=854 pts vs MAGPIE-Tuned 410+430=840 pts | Net: +14 pts | Hybrid-PIMC WON MATCH
+Pair 32/5000 [Seed 1961]: Hybrid-PIMC 440+505=945 pts vs MAGPIE-Tuned 379+428=807 pts | Net: +138 pts | Hybrid-PIMC WON MATCH
+Pair 38/5000 [Seed 2147]: Hybrid-PIMC 434+395=829 pts vs MAGPIE-Tuned 477+414=891 pts | Net: -62 pts | MAGPIE-Tuned WON MATCH
+Pair 54/5000 [Seed 2643]: Hybrid-PIMC 481+437=918 pts vs MAGPIE-Tuned 378+430=808 pts | Net: +110 pts | Hybrid-PIMC WON MATCH
+Pair 19/5000 [Seed 1558]: Hybrid-PIMC 411+420=831 pts vs MAGPIE-Tuned 387+423=810 pts | Net: +21 pts | Hybrid-PIMC WON MATCH
+Pair 16/5000 [Seed 1465]: Hybrid-PIMC 453+356=809 pts vs MAGPIE-Tuned 396+505=901 pts | Net: -92 pts | MAGPIE-Tuned WON MATCH
+Pair 29/5000 [Seed 1868]: Hybrid-PIMC 414+518=932 pts vs MAGPIE-Tuned 463+439=902 pts | Net: +30 pts | Hybrid-PIMC WON MATCH
+Pair 28/5000 [Seed 1837]: Hybrid-PIMC 433+387=820 pts vs MAGPIE-Tuned 393+393=786 pts | Net: +34 pts | Hybrid-PIMC WON MATCH
+Pair 25/5000 [Seed 1744]: Hybrid-PIMC 435+451=886 pts vs MAGPIE-Tuned 387+449=836 pts | Net: +50 pts | Hybrid-PIMC WON MATCH
+Pair 23/5000 [Seed 1682]: Hybrid-PIMC 417+330=747 pts vs MAGPIE-Tuned 420+378=798 pts | Net: -51 pts | MAGPIE-Tuned WON MATCH
+Pair 36/5000 [Seed 2085]: Hybrid-PIMC 416+472=888 pts vs MAGPIE-Tuned 474+358=832 pts | Net: +56 pts | Hybrid-PIMC WON MATCH
+Pair 31/5000 [Seed 1930]: Hybrid-PIMC 475+312=787 pts vs MAGPIE-Tuned 298+470=768 pts | Net: +19 pts | Hybrid-PIMC WON MATCH
+Pair 33/5000 [Seed 1992]: Hybrid-PIMC 402+379=781 pts vs MAGPIE-Tuned 391+393=784 pts | Net: -3 pts | MAGPIE-Tuned WON MATCH
+Pair 20/5000 [Seed 1589]: Hybrid-PIMC 390+334=724 pts vs MAGPIE-Tuned 447+591=1038 pts | Net: -314 pts | MAGPIE-Tuned WON MATCH
+Pair 18/5000 [Seed 1527]: Hybrid-PIMC 383+496=879 pts vs MAGPIE-Tuned 501+297=798 pts | Net: +81 pts | Hybrid-PIMC WON MATCH
+Pair 56/5000 [Seed 2705]: Hybrid-PIMC 443+420=863 pts vs MAGPIE-Tuned 422+399=821 pts | Net: +42 pts | Hybrid-PIMC WON MATCH
+Pair 37/5000 [Seed 2116]: Hybrid-PIMC 471+423=894 pts vs MAGPIE-Tuned 411+496=907 pts | Net: -13 pts | MAGPIE-Tuned WON MATCH
+Pair 55/5000 [Seed 2674]: Hybrid-PIMC 424+386=810 pts vs MAGPIE-Tuned 434+408=842 pts | Net: -32 pts | MAGPIE-Tuned WON MATCH
+Pair 57/5000 [Seed 2736]: Hybrid-PIMC 402+369=771 pts vs MAGPIE-Tuned 498+466=964 pts | Net: -193 pts | MAGPIE-Tuned WON MATCH
+Pair 60/5000 [Seed 2829]: Hybrid-PIMC 494+450=944 pts vs MAGPIE-Tuned 460+464=924 pts | Net: +20 pts | Hybrid-PIMC WON MATCH
+Pair 58/5000 [Seed 2767]: Hybrid-PIMC 640+398=1038 pts vs MAGPIE-Tuned 348+526=874 pts | Net: +164 pts | Hybrid-PIMC WON MATCH
+Pair 61/5000 [Seed 2860]: Hybrid-PIMC 377+391=768 pts vs MAGPIE-Tuned 404+387=791 pts | Net: -23 pts | MAGPIE-Tuned WON MATCH
+Pair 34/5000 [Seed 2023]: Hybrid-PIMC 435+434=869 pts vs MAGPIE-Tuned 399+495=894 pts | Net: -25 pts | MAGPIE-Tuned WON MATCH
+Pair 22/5000 [Seed 1651]: Hybrid-PIMC 442+333=775 pts vs MAGPIE-Tuned 362+487=849 pts | Net: -74 pts | MAGPIE-Tuned WON MATCH
+Pair 64/5000 [Seed 2953]: Hybrid-PIMC 395+409=804 pts vs MAGPIE-Tuned 384+450=834 pts | Net: -30 pts | MAGPIE-Tuned WON MATCH
+Pair 59/5000 [Seed 2798]: Hybrid-PIMC 336+490=826 pts vs MAGPIE-Tuned 382+369=751 pts | Net: +75 pts | Hybrid-PIMC WON MATCH
+Pair 76/5000 [Seed 3325]: Hybrid-PIMC 432+381=813 pts vs MAGPIE-Tuned 474+468=942 pts | Net: -129 pts | MAGPIE-Tuned WON MATCH
+Pair 79/5000 [Seed 3418]: Hybrid-PIMC 565+390=955 pts vs MAGPIE-Tuned 344+474=818 pts | Net: +137 pts | Hybrid-PIMC WON MATCH
+Pair 78/5000 [Seed 3387]: Hybrid-PIMC 504+371=875 pts vs MAGPIE-Tuned 372+371=743 pts | Net: +132 pts | Hybrid-PIMC WON MATCH
+Pair 82/5000 [Seed 3511]: Hybrid-PIMC 380+375=755 pts vs MAGPIE-Tuned 347+406=753 pts | Net: +2 pts | Hybrid-PIMC WON MATCH
+Pair 81/5000 [Seed 3480]: Hybrid-PIMC 439+421=860 pts vs MAGPIE-Tuned 351+397=748 pts | Net: +112 pts | Hybrid-PIMC WON MATCH
+Pair 80/5000 [Seed 3449]: Hybrid-PIMC 428+385=813 pts vs MAGPIE-Tuned 331+420=751 pts | Net: +62 pts | Hybrid-PIMC WON MATCH
+Pair 86/5000 [Seed 3635]: Hybrid-PIMC 323+311=634 pts vs MAGPIE-Tuned 353+399=752 pts | Net: -118 pts | MAGPIE-Tuned WON MATCH
+Pair 85/5000 [Seed 3604]: Hybrid-PIMC 409+310=719 pts vs MAGPIE-Tuned 357+478=835 pts | Net: -116 pts | MAGPIE-Tuned WON MATCH
+Worker generated an exception for Pair 62 (Seed 2891): A process in the process pool was terminated abruptly while the future was running or pending.

@@ -1,0 +1,20 @@
+Traceback (most recent call last):
+  File "/home/ltkhg4/Code/git/Alphable/cli.py", line 13, in <module>
+    main()
+  File "/home/ltkhg4/Code/git/Alphable/alphable_v4/cli.py", line 1391, in main
+    cmd_tournament(args)
+  File "/home/ltkhg4/Code/git/Alphable/alphable_v4/cli.py", line 384, in cmd_tournament
+    res = run_parallel_duplicate_tournament(
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ltkhg4/Code/git/Alphable/alphable_v4/platform/eval.py", line 563, in run_parallel_duplicate_tournament
+    raise exc
+  File "/home/ltkhg4/Code/git/Alphable/alphable_v4/platform/eval.py", line 549, in run_parallel_duplicate_tournament
+    rec = future.result()
+          ^^^^^^^^^^^^^^^
+  File "/usr/lib64/python3.11/concurrent/futures/_base.py", line 449, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib64/python3.11/concurrent/futures/_base.py", line 401, in __get_result
+    raise self._exception
+concurrent.futures.process.BrokenProcessPool: A process in the process pool was terminated abruptly while the future was running or pending.
+slurmstepd: error: Detected 1 oom-kill event(s) in StepId=2746429.batch. Some of your processes may have been killed by the cgroup out-of-memory handler.
