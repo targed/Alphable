@@ -80,24 +80,25 @@ MAGPIE_DIR="$SCRIPT_DIR/vendor/magpie"
 SO_FILE="$MAGPIE_DIR/bin/libmagpie.so"
 DYLIB_FILE="$MAGPIE_DIR/bin/libmagpie.dylib"
 
-#if [ ! -d "$MAGPIE_DIR" ]; then
-#    echo "Cloning MAGPIE engine repository..."
-#    mkdir -p "$SCRIPT_DIR/vendor"
-#    git clone https://github.com/jvc56/MAGPIE.git "$MAGPIE_DIR"
-#fi
+if [ -d "$MAGPIE_DIR" ]; then
+    PATCH_HEADER="$SCRIPT_DIR/alphable_v4/engine/compat_memory_info.h"
+    TARGET_HEADER="$MAGPIE_DIR/src/compat/memory_info.h"
+    if [ -f "$PATCH_HEADER" ] && [ -d "$MAGPIE_DIR/src/compat" ]; then
+        if ! cmp -s "$PATCH_HEADER" "$TARGET_HEADER"; then
+            echo "Applying cluster memory bounding & thread pinning patch..."
+            cp "$PATCH_HEADER" "$TARGET_HEADER"
+            rm -f "$SO_FILE" "$DYLIB_FILE"
+        fi
+    fi
 
-#if [ ! -f "$SO_FILE" ] && [ ! -f "$DYLIB_FILE" ]; then
-#    echo "Building native MAGPIE shared library ('make libmagpie')..."
-#    if ! command -v make >/dev/null 2>&1; then
-#        echo "ERROR: 'make' is required to compile MAGPIE."
-#        echo "Install it via: sudo apt install build-essential (Linux) or xcode-select --install (macOS)"
-#        exit 1
-#    fi
-#    make -C "$MAGPIE_DIR" libmagpie
-#    echo "✓ Compiled native MAGPIE shared library."
-#else
-#    echo "✓ MAGPIE shared library is already compiled."
-#fi
+    if [ ! -f "$SO_FILE" ] && [ ! -f "$DYLIB_FILE" ]; then
+        echo "Building native MAGPIE shared library ('make libmagpie')..."
+        make -C "$MAGPIE_DIR" libmagpie
+        echo "✓ Compiled native MAGPIE shared library."
+    else
+        echo "✓ MAGPIE shared library is already compiled."
+    fi
+fi
 
 # ------------------------------------------------------------------------------
 # 5. Checkpoints Verification

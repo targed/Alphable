@@ -31,6 +31,7 @@ from alphable_v4.models.value_net import V4ValueNetwork
 from alphable_v4.models.belief_net import BayesianRackInference
 from alphable_v4.search.bams import BAMSSearch, BAMSConfig
 from alphable_v4.platform.eval import GameSimulator, MatchStats, ScrabbleBag, run_parallel_duplicate_tournament
+from alphable_v4.platform.checkpoint import TournamentCheckpointManager
 
 
 CHECKPOINTS_DIR = os.path.normpath(
@@ -506,11 +507,50 @@ def cmd_tournament(args):
         pair_diffs = []
         pair_records = []
 
+        # Setup checkpoint manager
+        ckpt_mgr = None
+        completed_seeds = set()
+        ckpt_path = getattr(args, "checkpoint", None)
+        if not ckpt_path and not getattr(args, "no_save", False):
+            ckpt_dir = os.path.join(TOURNAMENTS_DIR, "checkpoints")
+            os.makedirs(ckpt_dir, exist_ok=True)
+            tag_part = f"_{args.tag}" if args.tag else ""
+            ckpt_path = os.path.join(ckpt_dir, f"{args.model}_vs_{args.opponent}{tag_part}.checkpoint.jsonl")
+
+        if ckpt_path:
+            meta = {
+                "p1_spec": args.model,
+                "p2_spec": args.opponent,
+                "total_pairs": num_pairs,
+                "lexicon": args.lexicon,
+            }
+            ckpt_mgr = TournamentCheckpointManager(ckpt_path, metadata=meta)
+            if getattr(args, "resume", False):
+                completed_seeds, existing_records = ckpt_mgr.load_completed_pairs()
+                for rec in existing_records:
+                    pair_records.append(rec)
+                    p1_total_scores.append(rec["p1_pair_total"] / 2.0)
+                    p2_total_scores.append(rec["p2_pair_total"] / 2.0)
+                    p1_all_bingos += rec.get("p1_bingos", 0)
+                    p2_all_bingos += rec.get("p2_bingos", 0)
+                    diff = rec["net_spread"]
+                    pair_diffs.append(diff)
+                    if diff > 0:
+                        p1_pair_wins += 1
+                    elif diff < 0:
+                        p2_pair_wins += 1
+                    else:
+                        pair_draws += 1
+                if existing_records:
+                    print(f"[Checkpoint] Resumed {len(existing_records)}/{num_pairs} pairs from {ckpt_path}")
+
         t_start = time.time()
         print(f"\nRunning {num_pairs} duplicate match pairs ({total_games} total games)...\n")
 
         for p in range(num_pairs):
             seed = 1000 + p * 31
+            if seed in completed_seeds:
+                continue
 
             # Game A: P1 as Player 1, P2 as Player 2
             res_a = sim.play_game(p1_policy, p2_policy, seed=seed)
@@ -549,19 +589,28 @@ def cmd_tournament(args):
                 p2_ph = res_a.get("phase_scores", {}).get(ph, {}).get("p2", 0) + res_b.get("phase_scores", {}).get(ph, {}).get("p1", 0)
                 pair_phase_spreads[ph] = (p1_ph - p2_ph) / 2.0
 
-            pair_records.append({
+            rec = {
                 "pair": p + 1,
                 "seed": seed,
+                "p1_name": p1_name,
+                "p1_short": p1_short,
+                "p2_name": p2_name,
+                "p2_short": p2_short,
                 "p1_gameA_score": res_a["p1_score"],
                 "p1_gameB_score": res_b["p2_score"],
                 "p1_pair_total": score_p1_pair,
                 "p2_gameA_score": res_a["p2_score"],
                 "p2_gameB_score": res_b["p1_score"],
                 "p2_pair_total": score_p2_pair,
+                "p1_bingos": bingos_p1_pair,
+                "p2_bingos": bingos_p2_pair,
                 "net_spread": pair_diff,
                 "phase_spreads": pair_phase_spreads,
                 "verdict": verdict,
-            })
+            }
+            pair_records.append(rec)
+            if ckpt_mgr is not None:
+                ckpt_mgr.record_pair(rec)
 
             print(
                 f"Pair {p+1:02d}/{num_pairs:02d} [Seed {seed}]: "

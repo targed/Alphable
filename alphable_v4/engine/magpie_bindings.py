@@ -174,8 +174,9 @@ class MagpieEngine:
             self.set_lexicon(lexicon)
             if self.use_pat:
                 self.set_pat(lexicon)
+        threads = int(os.environ.get("MAGPIE_THREADS", "1"))
         self._current_numplays = 100
-        self.run_command(f"set -shwithmoves false -numplays {self._current_numplays} -maxnumdplays {self._current_numplays} -ttfraction 0.001")
+        self.run_command(f"set -shwithmoves false -numplays {self._current_numplays} -maxnumdplays {self._current_numplays} -ttfraction 0.05 -threads {threads}")
 
     def __enter__(self) -> MagpieEngine:
         return self

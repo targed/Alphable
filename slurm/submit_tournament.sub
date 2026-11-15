@@ -95,11 +95,23 @@ fi
 VENV_PYTHON="./$VENV_DIR/bin/python"
 
 # ------------------------------------------------------------------------------
-# 3. Native C Engine (MAGPIE) Compilation Check
+# 3. Native C Engine (MAGPIE) Compilation & Patch Application
 # ------------------------------------------------------------------------------
-echo -e "\n[Step 3/5] Verifying Native C Engine (libmagpie.so)..."
+echo -e "\n[Step 3/5] Verifying Native C Engine & Memory Patch (libmagpie.so)..."
 
 LIBMAGPIE="vendor/magpie/bin/libmagpie.so"
+PATCH_HEADER="alphable_v4/engine/compat_memory_info.h"
+TARGET_HEADER="vendor/magpie/src/compat/memory_info.h"
+
+# Ensure cluster memory bounding & thread pinning patch is synced
+if [ -f "$PATCH_HEADER" ] && [ -d "vendor/magpie/src/compat" ]; then
+    if ! cmp -s "$PATCH_HEADER" "$TARGET_HEADER"; then
+        echo "Applying cluster memory bounding & thread pinning patch to $TARGET_HEADER..."
+        cp "$PATCH_HEADER" "$TARGET_HEADER"
+        rm -f "$LIBMAGPIE"
+    fi
+fi
+
 if [ ! -f "$LIBMAGPIE" ]; then
     echo "Compiling native C library $LIBMAGPIE..."
     make -C vendor/magpie clean || true
@@ -125,6 +137,15 @@ mkdir -p data/tournaments/checkpoints
 # ------------------------------------------------------------------------------
 echo -e "\n[Step 5/5] Launching Parallel Tournament Execution..."
 
+# Enforce strict 1-thread-per-worker execution to prevent CPU over-subscription & thread contention
+export OMP_NUM_THREADS=1
+export MKL_NUM_THREADS=1
+export OPENBLAS_NUM_THREADS=1
+export VECLIB_MAXIMUM_THREADS=1
+export NUMEXPR_NUM_THREADS=1
+export MAGPIE_THREADS=1
+export MAGPIE_MAX_MEMORY_MB=512
+
 # Configurable Tournament Parameters (Can be overridden via environment variables)
 MODEL="${MODEL:-hybrid-pimc}"
 OPPONENT="${OPPONENT:-magpie-tuned}"
@@ -137,6 +158,8 @@ echo "Tournament Matchup : $MODEL vs $OPPONENT"
 echo "Total Games        : $GAMES (Duplicate Mode: $(($GAMES / 2)) symmetric pairs)"
 echo "Parallel Workers   : $WORKERS"
 echo "Lexicon            : $LEXICON"
+echo "Memory / Worker    : MAGPIE_MAX_MEMORY_MB=$MAGPIE_MAX_MEMORY_MB"
+echo "Threads / Worker   : MAGPIE_THREADS=$MAGPIE_THREADS, OMP_NUM_THREADS=$OMP_NUM_THREADS"
 echo "Fault Recovery     : --resume ENABLED (Incremental Checkpoints in data/tournaments/checkpoints/)"
 
 $VENV_PYTHON -u cli.py tournament \
@@ -144,6 +167,8 @@ $VENV_PYTHON -u cli.py tournament \
     --opponent "$OPPONENT" \
     --games "$GAMES" \
     --duplicate \
+    --parallel \
+    --workers "$WORKERS" \
     --resume \
     --tag "$TAG" \
     --lexicon "$LEXICON"

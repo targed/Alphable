@@ -13,6 +13,7 @@ Tracks:
 
 from __future__ import annotations
 import concurrent.futures
+import os
 from pathlib import Path
 import random
 import time
@@ -390,23 +391,57 @@ class GameSimulator:
         return stats
 
 
+_WORKER_CACHE: Dict[Tuple[Any, ...], Dict[str, Any]] = {}
+
+
+def _init_worker_env():
+    """Pin thread counts and memory limits inside worker process."""
+    os.environ["OMP_NUM_THREADS"] = "1"
+    os.environ["MKL_NUM_THREADS"] = "1"
+    os.environ["OPENBLAS_NUM_THREADS"] = "1"
+    os.environ["VECLIB_MAXIMUM_THREADS"] = "1"
+    os.environ["NUMEXPR_NUM_THREADS"] = "1"
+    os.environ["MAGPIE_THREADS"] = "1"
+    if "MAGPIE_MAX_MEMORY_MB" not in os.environ:
+        os.environ["MAGPIE_MAX_MEMORY_MB"] = "256"
+    try:
+        import torch
+        torch.set_num_threads(1)
+    except Exception:
+        pass
+
+
 def _run_duplicate_pair_worker(task: Dict[str, Any]) -> Dict[str, Any]:
     """
     Worker function executed in an isolated OS process.
-    Initializes its own independent MagpieEngine instances, compiles player policies,
-    and executes Game A and Game B for a single duplicate match pair.
+    Reuses persistent MagpieEngine and policy models across pairs in the same process
+    to eliminate redundant model loading, heap fragmentation, and thread over-subscription.
     """
+    _init_worker_env()
+
     lexicon = task.get("lexicon", "CSW24")
     device = task.get("device", "cpu")
-    engine_p1 = MagpieEngine(lexicon=lexicon)
-    engine_p2 = MagpieEngine(lexicon=lexicon)
+    p1_kwargs = task.get("p1_kwargs") or {}
+    p2_kwargs = task.get("p2_kwargs") or {}
+    cache_key = (
+        task["p1_spec"],
+        task["p2_spec"],
+        lexicon,
+        device,
+        task.get("p1_model_path"),
+        task.get("p2_model_path"),
+        tuple(sorted(p1_kwargs.items())),
+        tuple(sorted(p2_kwargs.items())),
+    )
 
-    try:
+    if cache_key not in _WORKER_CACHE:
+        engine_p1 = MagpieEngine(lexicon=lexicon)
+        engine_p2 = MagpieEngine(lexicon=lexicon)
         p1_policy, p1_name, p1_short = build_policy(
             engine_p1,
             spec=task["p1_spec"],
             model_path=task.get("p1_model_path"),
-            overrides=task.get("p1_kwargs"),
+            overrides=p1_kwargs,
             lexicon=lexicon,
             device=device,
         )
@@ -414,61 +449,77 @@ def _run_duplicate_pair_worker(task: Dict[str, Any]) -> Dict[str, Any]:
             engine_p2,
             spec=task["p2_spec"],
             model_path=task.get("p2_model_path"),
-            overrides=task.get("p2_kwargs"),
+            overrides=p2_kwargs,
             lexicon=lexicon,
             device=device,
         )
-
         sim = GameSimulator(engine_p1, lexicon=lexicon)
-        seed = task["seed"]
-
-        # Game A: P1 as Player 1, P2 as Player 2
-        res_a = sim.play_game(p1_policy, p2_policy, seed=seed)
-        # Game B: P2 as Player 1, P1 as Player 2 with IDENTICAL SEED
-        res_b = sim.play_game(p2_policy, p1_policy, seed=seed)
-
-        score_p1_pair = res_a["p1_score"] + res_b["p2_score"]
-        score_p2_pair = res_a["p2_score"] + res_b["p1_score"]
-        bingos_p1_pair = res_a["p1_bingos"] + res_b["p2_bingos"]
-        bingos_p2_pair = res_a["p2_bingos"] + res_b["p1_bingos"]
-
-        pair_diff = score_p1_pair - score_p2_pair
-        if pair_diff > 0:
-            verdict = f"{p1_short} WON MATCH"
-        elif pair_diff < 0:
-            verdict = f"{p2_short} WON MATCH"
-        else:
-            verdict = "MATCH TIED"
-
-        phases = ["opening", "midgame", "pre_endgame", "endgame"]
-        pair_phase_spreads = {}
-        for ph in phases:
-            p1_ph = res_a.get("phase_scores", {}).get(ph, {}).get("p1", 0) + res_b.get("phase_scores", {}).get(ph, {}).get("p2", 0)
-            p2_ph = res_a.get("phase_scores", {}).get(ph, {}).get("p2", 0) + res_b.get("phase_scores", {}).get(ph, {}).get("p1", 0)
-            pair_phase_spreads[ph] = (p1_ph - p2_ph) / 2.0
-
-        return {
-            "pair": task["pair_idx"] + 1,
-            "seed": seed,
+        _WORKER_CACHE[cache_key] = {
+            "engine_p1": engine_p1,
+            "engine_p2": engine_p2,
+            "p1_policy": p1_policy,
+            "p2_policy": p2_policy,
             "p1_name": p1_name,
             "p1_short": p1_short,
             "p2_name": p2_name,
             "p2_short": p2_short,
-            "p1_gameA_score": res_a["p1_score"],
-            "p1_gameB_score": res_b["p2_score"],
-            "p1_pair_total": score_p1_pair,
-            "p2_gameA_score": res_a["p2_score"],
-            "p2_gameB_score": res_b["p1_score"],
-            "p2_pair_total": score_p2_pair,
-            "p1_bingos": bingos_p1_pair,
-            "p2_bingos": bingos_p2_pair,
-            "net_spread": pair_diff,
-            "phase_spreads": pair_phase_spreads,
-            "verdict": verdict,
+            "sim": sim,
         }
-    finally:
-        engine_p1.close()
-        engine_p2.close()
+
+    cached = _WORKER_CACHE[cache_key]
+    sim = cached["sim"]
+    p1_policy = cached["p1_policy"]
+    p2_policy = cached["p2_policy"]
+    p1_name = cached["p1_name"]
+    p1_short = cached["p1_short"]
+    p2_name = cached["p2_name"]
+    p2_short = cached["p2_short"]
+    seed = task["seed"]
+
+    # Game A: P1 as Player 1, P2 as Player 2
+    res_a = sim.play_game(p1_policy, p2_policy, seed=seed)
+    # Game B: P2 as Player 1, P1 as Player 2 with IDENTICAL SEED
+    res_b = sim.play_game(p2_policy, p1_policy, seed=seed)
+
+    score_p1_pair = res_a["p1_score"] + res_b["p2_score"]
+    score_p2_pair = res_a["p2_score"] + res_b["p1_score"]
+    bingos_p1_pair = res_a["p1_bingos"] + res_b["p2_bingos"]
+    bingos_p2_pair = res_a["p2_bingos"] + res_b["p1_bingos"]
+
+    pair_diff = score_p1_pair - score_p2_pair
+    if pair_diff > 0:
+        verdict = f"{p1_short} WON MATCH"
+    elif pair_diff < 0:
+        verdict = f"{p2_short} WON MATCH"
+    else:
+        verdict = "MATCH TIED"
+
+    phases = ["opening", "midgame", "pre_endgame", "endgame"]
+    pair_phase_spreads = {}
+    for ph in phases:
+        p1_ph = res_a.get("phase_scores", {}).get(ph, {}).get("p1", 0) + res_b.get("phase_scores", {}).get(ph, {}).get("p2", 0)
+        p2_ph = res_a.get("phase_scores", {}).get(ph, {}).get("p2", 0) + res_b.get("phase_scores", {}).get(ph, {}).get("p1", 0)
+        pair_phase_spreads[ph] = (p1_ph - p2_ph) / 2.0
+
+    return {
+        "pair": task["pair_idx"] + 1,
+        "seed": seed,
+        "p1_name": p1_name,
+        "p1_short": p1_short,
+        "p2_name": p2_name,
+        "p2_short": p2_short,
+        "p1_gameA_score": res_a["p1_score"],
+        "p1_gameB_score": res_b["p2_score"],
+        "p1_pair_total": score_p1_pair,
+        "p2_gameA_score": res_a["p2_score"],
+        "p2_gameB_score": res_b["p1_score"],
+        "p2_pair_total": score_p2_pair,
+        "p1_bingos": bingos_p1_pair,
+        "p2_bingos": bingos_p2_pair,
+        "net_spread": pair_diff,
+        "phase_spreads": pair_phase_spreads,
+        "verdict": verdict,
+    }
 
 
 def run_parallel_duplicate_tournament(
