@@ -221,10 +221,10 @@ If you use Alphable V4 in your research or reference our benchmarks, please cite
 ```bibtex
 @article{alphable2026,
   title   = {Alphable: Belief-Augmented Monte Carlo Search and Cross-Attention Valuation in Imperfect-Information Scrabble},
-  author  = {{The Alphable Research Team}},
+  author  = {{Luke Kaiser}},
   journal = {arXiv preprint},
   year    = {2026},
-  url     = {https://github.com/Alphable/Alphable}
+  url     = {https://github.com/targed/Alphable}
 }
 ```
 

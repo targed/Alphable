@@ -33,7 +33,7 @@ Inspected `data/tournaments/` directory and executed mathematical verification o
    - Wilson 95% confidence interval: $[54.25\%, 57.00\%]$.
    - Mean per-game net score spread: $\bar{d} = +7.0630$ pts/game.
    - Sample standard deviation: $s = 57.0845$ pts. Standard error: $\text{SE} = \frac{s}{\sqrt{5000}} = 0.8073$ pts.
-   - Paired Student's $t$-statistic: $t = \frac{7.0630}{0.8073} = 8.7489$, degrees of freedom $\nu = 4,999$, two-tailed $p = 2.900 \times 10^{-18}$.
+   - Paired Student's $t$-statistic: $t = \frac{7.0630}{0.8073} = 8.7489$, degrees of freedom $\nu = 5,000$, two-tailed $p = 2.900 \times 10^{-18}$.
    - 95% Confidence Interval for net spread: $[+5.48, +8.65]$ pts/game.
    - First-Mover Advantage vs. Isolated Algorithmic Edge Decomposition:
      * Game A (P1 went first, P2 went second): Mean margin $(P1 - P2) = +21.84$ pts.

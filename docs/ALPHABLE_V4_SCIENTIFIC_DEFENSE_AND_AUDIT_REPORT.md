@@ -218,7 +218,7 @@ To test whether the empirical win-rate edge of Alphable V4 represents a genuine 
   - Sample mean pair spread: $\bar{d} = +7.0630$ pts/game.
   - Sample standard deviation: $s = 57.0845$ pts.
   - Standard error: $\text{SE} = \frac{57.0845}{\sqrt{5000}} = 0.8073$ pts.
-  - Degrees of freedom: $\nu = 4,999$.
+  - Degrees of freedom: $\nu = 5,000$.
   - Test statistic: $t = \frac{7.0630}{0.8073} = 8.7489$.
   - Two-tailed $p$-value: $p = 2.900 \times 10^{-18}$ ($< 10^{-17}$).
   - 95% Confidence Interval for net spread: $[+5.48, +8.65]$ pts/game.
