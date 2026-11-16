@@ -1,0 +1,71 @@
+{
+  "run_id": "run_20261115_203000",
+  "timestamp": "2026-11-15T20:30:00",
+  "mode": "duplicate",
+  "tag": "10000g-dup-hpc",
+  "lexicon": "CSW24",
+  "total_games": 9998,
+  "duplicate_pairs": 4999,
+  "cluster_info": {
+    "hpc_system": "Missouri S&T The Mill",
+    "scheduler": "SLURM",
+    "job_ids": [
+      "Mill-2747300",
+      "Mill-2748707",
+      "Mill-2750570"
+    ],
+    "workers": 24,
+    "compiler": "GCC 12.2.0",
+    "python": "Python 3.11.7"
+  },
+  "player1": {
+    "name": "Alphable V4 Hybrid PIMC (Native Simulation + Neural Re-Ranking)",
+    "short_name": "Hybrid-PIMC",
+    "spec": "hybrid-pimc",
+    "checkpoint_file": "v4_value_net_best.pt",
+    "mean_score": 417.38,
+    "match_wins": 2652,
+    "game_wins": 4997
+  },
+  "player2": {
+    "name": "Maximally Tuned Base MAGPIE (PAT + PIMC + Endgame)",
+    "short_name": "MAGPIE-Tuned",
+    "spec": "magpie-tuned",
+    "checkpoint_file": null,
+    "mean_score": 413.23,
+    "match_wins": 2322,
+    "game_wins": 4961
+  },
+  "draws": 25,
+  "game_draws": 40,
+  "win_rate": {
+    "percentage": 53.3,
+    "ci95": 1.38,
+    "game_win_percentage": 50.18
+  },
+  "net_spread": {
+    "mean_per_game": 4.15,
+    "mean_per_pair": 8.3,
+    "total_net": 41474,
+    "ci95_per_game": 1.46,
+    "ci_lower": 2.68,
+    "ci_upper": 5.61,
+    "std_per_pair": 105.66,
+    "q1": -63,
+    "median": 8,
+    "q3": 76,
+    "min": -332,
+    "max": 475
+  },
+  "first_player_advantage": {
+    "hybrid_as_first_spread_mean": 20.48,
+    "hybrid_as_second_spread_mean": -12.18,
+    "inferred_first_mover_bias": 16.33
+  },
+  "significance": {
+    "t_statistic": 5.5517,
+    "p_value": 2.8292884713981667e-08,
+    "verdict": "Statistically Significant (p < 0.001, Decisive 5.5-Sigma Superiority)",
+    "hypothesis": "H0: \u0394=0 (identical play) vs H1: \u0394>0 (Hybrid PIMC superiority)"
+  }
+}
