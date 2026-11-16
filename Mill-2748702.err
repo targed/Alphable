@@ -1,0 +1,83 @@
+make[1]: warning: -j24 forced in makefile: resetting jobserver mode.
+In file included from src/impl/../ent/autoplay_solver_settings.h:4,
+                 from src/impl/autoplay.h:6,
+                 from src/impl/autoplay.c:2:
+src/impl/../ent/../def/peg_defs.h:125:3: error: redeclaration of enumerator ‘PEG_POOL_QUEUE_INIT_CAP’
+  125 |   PEG_POOL_QUEUE_INIT_CAP = 1024,
+      |   ^~~~~~~~~~~~~~~~~~~~~~~
+src/impl/../ent/../def/peg_defs.h:119:3: note: previous definition of ‘PEG_POOL_QUEUE_INIT_CAP’ with type ‘enum <anonymous>’
+  119 |   PEG_POOL_QUEUE_INIT_CAP = 1024,
+      |   ^~~~~~~~~~~~~~~~~~~~~~~
+In file included from src/impl/../ent/autoplay_solver_settings.h:4,
+                 from src/impl/autoplay_solvers.h:5,
+                 from src/impl/autoplay_solvers.c:1:
+src/impl/../ent/../def/peg_defs.h:125:3: error: redeclaration of enumerator ‘PEG_POOL_QUEUE_INIT_CAP’
+  125 |   PEG_POOL_QUEUE_INIT_CAP = 1024,
+      |   ^~~~~~~~~~~~~~~~~~~~~~~
+src/impl/../ent/../def/peg_defs.h:119:3: note: previous definition of ‘PEG_POOL_QUEUE_INIT_CAP’ with type ‘enum <anonymous>’
+  119 |   PEG_POOL_QUEUE_INIT_CAP = 1024,
+      |   ^~~~~~~~~~~~~~~~~~~~~~~
+In file included from src/impl/../impl/peg.h:6,
+                 from src/impl/analyze.h:7,
+                 from src/impl/analyze.c:1:
+src/impl/../impl/../def/peg_defs.h:125:3: error: redeclaration of enumerator ‘PEG_POOL_QUEUE_INIT_CAP’
+  125 |   PEG_POOL_QUEUE_INIT_CAP = 1024,
+      |   ^~~~~~~~~~~~~~~~~~~~~~~
+src/impl/../impl/../def/peg_defs.h:119:3: note: previous definition of ‘PEG_POOL_QUEUE_INIT_CAP’ with type ‘enum <anonymous>’
+  119 |   PEG_POOL_QUEUE_INIT_CAP = 1024,
+      |   ^~~~~~~~~~~~~~~~~~~~~~~
+In file included from src/impl/../impl/../ent/autoplay_solver_settings.h:4,
+                 from src/impl/../impl/config.h:9,
+                 from src/impl/browser_game.c:19:
+src/impl/../impl/../ent/../def/peg_defs.h:125:3: error: redeclaration of enumerator ‘PEG_POOL_QUEUE_INIT_CAP’
+  125 |   PEG_POOL_QUEUE_INIT_CAP = 1024,
+      |   ^~~~~~~~~~~~~~~~~~~~~~~
+src/impl/../impl/../ent/../def/peg_defs.h:119:3: note: previous definition of ‘PEG_POOL_QUEUE_INIT_CAP’ with type ‘enum <anonymous>’
+  119 |   PEG_POOL_QUEUE_INIT_CAP = 1024,
+      |   ^~~~~~~~~~~~~~~~~~~~~~~
+make[1]: *** [Makefile:611: obj/lib-gcc12-b15-r7/src/impl/autoplay.o] Error 1
+make[1]: *** Waiting for unfinished jobs....
+In file included from src/impl/../ent/autoplay_solver_settings.h:4,
+                 from src/impl/config.h:9,
+                 from src/impl/config.c:1:
+src/impl/../ent/../def/peg_defs.h:125:3: error: redeclaration of enumerator ‘PEG_POOL_QUEUE_INIT_CAP’
+  125 |   PEG_POOL_QUEUE_INIT_CAP = 1024,
+      |   ^~~~~~~~~~~~~~~~~~~~~~~
+src/impl/../ent/../def/peg_defs.h:119:3: note: previous definition of ‘PEG_POOL_QUEUE_INIT_CAP’ with type ‘enum <anonymous>’
+  119 |   PEG_POOL_QUEUE_INIT_CAP = 1024,
+      |   ^~~~~~~~~~~~~~~~~~~~~~~
+make[1]: *** [Makefile:611: obj/lib-gcc12-b15-r7/src/impl/autoplay_solvers.o] Error 1
+make[1]: *** [Makefile:611: obj/lib-gcc12-b15-r7/src/impl/analyze.o] Error 1
+In file included from src/impl/../ent/autoplay_solver_settings.h:4,
+                 from src/impl/config.h:9,
+                 from src/impl/cmd_api.c:15:
+src/impl/../ent/../def/peg_defs.h:125:3: error: redeclaration of enumerator ‘PEG_POOL_QUEUE_INIT_CAP’
+  125 |   PEG_POOL_QUEUE_INIT_CAP = 1024,
+      |   ^~~~~~~~~~~~~~~~~~~~~~~
+src/impl/../ent/../def/peg_defs.h:119:3: note: previous definition of ‘PEG_POOL_QUEUE_INIT_CAP’ with type ‘enum <anonymous>’
+  119 |   PEG_POOL_QUEUE_INIT_CAP = 1024,
+      |   ^~~~~~~~~~~~~~~~~~~~~~~
+In file included from src/impl/peg.h:6,
+                 from src/impl/peg.c:1:
+src/impl/../def/peg_defs.h:125:3: error: redeclaration of enumerator ‘PEG_POOL_QUEUE_INIT_CAP’
+  125 |   PEG_POOL_QUEUE_INIT_CAP = 1024,
+      |   ^~~~~~~~~~~~~~~~~~~~~~~
+src/impl/../def/peg_defs.h:119:3: note: previous definition of ‘PEG_POOL_QUEUE_INIT_CAP’ with type ‘enum <anonymous>’
+  119 |   PEG_POOL_QUEUE_INIT_CAP = 1024,
+      |   ^~~~~~~~~~~~~~~~~~~~~~~
+make[1]: *** [Makefile:611: obj/lib-gcc12-b15-r7/src/impl/browser_game.o] Error 1
+In file included from src/impl/../ent/autoplay_solver_settings.h:4,
+                 from src/impl/config.h:9,
+                 from src/impl/exec.h:8,
+                 from src/impl/exec.c:1:
+src/impl/../ent/../def/peg_defs.h:125:3: error: redeclaration of enumerator ‘PEG_POOL_QUEUE_INIT_CAP’
+  125 |   PEG_POOL_QUEUE_INIT_CAP = 1024,
+      |   ^~~~~~~~~~~~~~~~~~~~~~~
+src/impl/../ent/../def/peg_defs.h:119:3: note: previous definition of ‘PEG_POOL_QUEUE_INIT_CAP’ with type ‘enum <anonymous>’
+  119 |   PEG_POOL_QUEUE_INIT_CAP = 1024,
+      |   ^~~~~~~~~~~~~~~~~~~~~~~
+make[1]: *** [Makefile:611: obj/lib-gcc12-b15-r7/src/impl/cmd_api.o] Error 1
+make[1]: *** [Makefile:611: obj/lib-gcc12-b15-r7/src/impl/exec.o] Error 1
+make[1]: *** [Makefile:611: obj/lib-gcc12-b15-r7/src/impl/peg.o] Error 1
+make[1]: *** [Makefile:611: obj/lib-gcc12-b15-r7/src/impl/config.o] Error 1
+make: *** [Makefile:503: libmagpie] Error 2

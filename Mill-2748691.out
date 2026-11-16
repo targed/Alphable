@@ -1,0 +1,293 @@
+===========================================================================
+   MISSOURI S&T 'THE MILL' - ALPHABLE V4 BATCH TOURNAMENT
+===========================================================================
+SLURM Job ID        : 2748691
+SLURM Job Name      : alphable-10k
+Execution Node      : compute-41-25.mill
+Assigned Cores      : 24
+Working Directory   : /home/ltkhg4/Code/git/Alphable
+Start Timestamp     : Sat Nov 14 22:46:38 CST 2026
+===========================================================================
+
+[Step 1/5] Checking Environment Modules...
+Loading module python/3.11.7...
+Loading module gcc/12.2.0...
+Using C compiler: /share/apps/common/gcc/12.2.0/bin/gcc (gcc (GCC) 12.2.0)
+Using base Python: /share/apps/common/python/3.11.7/bin/python3 (Python 3.11.7)
+
+[Step 2/5] Bootstrapping Virtual Environment...
+Found existing virtual environment at venv.
+
+[Step 3/5] Verifying Native C Engine & Applying Cluster Patches...
+[Patcher] Applying cluster memory bounding patch to /home/ltkhg4/Code/git/Alphable/vendor/magpie/src/compat/memory_info.h...
+[Patcher] MAGPIE compatibility check complete.
+Compiling native C library vendor/magpie/bin/libmagpie.so using /share/apps/common/gcc/12.2.0/bin/gcc...
+make: Entering directory '/home/ltkhg4/Code/git/Alphable/vendor/magpie'
+removed directory 'bin'
+removed 'obj/lib-gcc12-b15-r7/src/compat/catomic.d'
+removed 'obj/lib-gcc12-b15-r7/src/compat/catomic.o'
+removed 'obj/lib-gcc12-b15-r7/src/compat/cdir.d'
+removed 'obj/lib-gcc12-b15-r7/src/compat/cdir.o'
+removed 'obj/lib-gcc12-b15-r7/src/compat/cfile.d'
+removed 'obj/lib-gcc12-b15-r7/src/compat/cfile.o'
+removed 'obj/lib-gcc12-b15-r7/src/compat/chttp.d'
+removed 'obj/lib-gcc12-b15-r7/src/compat/chttp.o'
+removed 'obj/lib-gcc12-b15-r7/src/compat/cjson.d'
+removed 'obj/lib-gcc12-b15-r7/src/compat/cjson.o'
+removed 'obj/lib-gcc12-b15-r7/src/compat/cmap.d'
+removed 'obj/lib-gcc12-b15-r7/src/compat/cmap.o'
+removed 'obj/lib-gcc12-b15-r7/src/compat/cmemfile.d'
+removed 'obj/lib-gcc12-b15-r7/src/compat/cmemfile.o'
+removed 'obj/lib-gcc12-b15-r7/src/compat/cpath.d'
+removed 'obj/lib-gcc12-b15-r7/src/compat/cpath.o'
+removed 'obj/lib-gcc12-b15-r7/src/compat/cterm.d'
+removed 'obj/lib-gcc12-b15-r7/src/compat/cterm.o'
+removed 'obj/lib-gcc12-b15-r7/src/compat/cwin.d'
+removed 'obj/lib-gcc12-b15-r7/src/compat/cwin.o'
+removed 'obj/lib-gcc12-b15-r7/src/compat/linenoise.d'
+removed 'obj/lib-gcc12-b15-r7/src/compat/linenoise.o'
+removed 'obj/lib-gcc12-b15-r7/src/compat/sha256/sha256.d'
+removed 'obj/lib-gcc12-b15-r7/src/compat/sha256/sha256.o'
+removed directory 'obj/lib-gcc12-b15-r7/src/compat/sha256'
+removed 'obj/lib-gcc12-b15-r7/src/compat/xs_compress.d'
+removed 'obj/lib-gcc12-b15-r7/src/compat/xs_compress.o'
+removed directory 'obj/lib-gcc12-b15-r7/src/compat'
+removed directory 'obj/lib-gcc12-b15-r7/src/def'
+removed 'obj/lib-gcc12-b15-r7/src/ent/autoplay_results.d'
+removed 'obj/lib-gcc12-b15-r7/src/ent/autoplay_results.o'
+removed 'obj/lib-gcc12-b15-r7/src/ent/bag.d'
+removed 'obj/lib-gcc12-b15-r7/src/ent/bag.o'
+removed 'obj/lib-gcc12-b15-r7/src/ent/bai_result.d'
+removed 'obj/lib-gcc12-b15-r7/src/ent/bai_result.o'
+removed 'obj/lib-gcc12-b15-r7/src/ent/bai_sched_stats.d'
+removed 'obj/lib-gcc12-b15-r7/src/ent/bai_sched_stats.o'
+removed 'obj/lib-gcc12-b15-r7/src/ent/board_layout.d'
+removed 'obj/lib-gcc12-b15-r7/src/ent/board_layout.o'
+removed 'obj/lib-gcc12-b15-r7/src/ent/checkpoint.d'
+removed 'obj/lib-gcc12-b15-r7/src/ent/checkpoint.o'
+removed 'obj/lib-gcc12-b15-r7/src/ent/client_state.d'
+removed 'obj/lib-gcc12-b15-r7/src/ent/client_state.o'
+removed 'obj/lib-gcc12-b15-r7/src/ent/conversion_results.d'
+removed 'obj/lib-gcc12-b15-r7/src/ent/conversion_results.o'
+removed 'obj/lib-gcc12-b15-r7/src/ent/data_filepaths.d'
+removed 'obj/lib-gcc12-b15-r7/src/ent/data_filepaths.o'
+removed 'obj/lib-gcc12-b15-r7/src/ent/dawg_packed.d'
+removed 'obj/lib-gcc12-b15-r7/src/ent/dawg_packed.o'
+removed 'obj/lib-gcc12-b15-r7/src/ent/dictionary_word.d'
+removed 'obj/lib-gcc12-b15-r7/src/ent/dictionary_word.o'
+removed 'obj/lib-gcc12-b15-r7/src/ent/endgame_results.d'
+removed 'obj/lib-gcc12-b15-r7/src/ent/endgame_results.o'
+removed 'obj/lib-gcc12-b15-r7/src/ent/game.d'
+removed 'obj/lib-gcc12-b15-r7/src/ent/game.o'
+removed 'obj/lib-gcc12-b15-r7/src/ent/game_history.d'
+removed 'obj/lib-gcc12-b15-r7/src/ent/game_history.o'
+removed 'obj/lib-gcc12-b15-r7/src/ent/inference_results.d'
+removed 'obj/lib-gcc12-b15-r7/src/ent/inference_results.o'
+removed 'obj/lib-gcc12-b15-r7/src/ent/klv.d'
+removed 'obj/lib-gcc12-b15-r7/src/ent/klv.o'
+removed 'obj/lib-gcc12-b15-r7/src/ent/klv_csv.d'
+removed 'obj/lib-gcc12-b15-r7/src/ent/klv_csv.o'
+removed 'obj/lib-gcc12-b15-r7/src/ent/kwg_woadwage.d'
+removed 'obj/lib-gcc12-b15-r7/src/ent/kwg_woadwage.o'
+removed 'obj/lib-gcc12-b15-r7/src/ent/leave_rack.d'
+removed 'obj/lib-gcc12-b15-r7/src/ent/leave_rack.o'
+removed 'obj/lib-gcc12-b15-r7/src/ent/move.d'
+removed 'obj/lib-gcc12-b15-r7/src/ent/move.o'
+removed 'obj/lib-gcc12-b15-r7/src/ent/pat.d'
+removed 'obj/lib-gcc12-b15-r7/src/ent/pat.o'
+removed 'obj/lib-gcc12-b15-r7/src/ent/pat_eval.d'
+removed 'obj/lib-gcc12-b15-r7/src/ent/pat_eval.o'
+removed 'obj/lib-gcc12-b15-r7/src/ent/pat_features.d'
+removed 'obj/lib-gcc12-b15-r7/src/ent/pat_features.o'
+removed 'obj/lib-gcc12-b15-r7/src/ent/pat_file.d'
+removed 'obj/lib-gcc12-b15-r7/src/ent/pat_file.o'
+removed 'obj/lib-gcc12-b15-r7/src/ent/pat_lexicon.d'
+removed 'obj/lib-gcc12-b15-r7/src/ent/pat_lexicon.o'
+removed 'obj/lib-gcc12-b15-r7/src/ent/pat_utility.d'
+removed 'obj/lib-gcc12-b15-r7/src/ent/pat_utility.o'
+removed 'obj/lib-gcc12-b15-r7/src/ent/peg_adjust.d'
+removed 'obj/lib-gcc12-b15-r7/src/ent/peg_adjust.o'
+removed 'obj/lib-gcc12-b15-r7/src/ent/player.d'
+removed 'obj/lib-gcc12-b15-r7/src/ent/player.o'
+removed 'obj/lib-gcc12-b15-r7/src/ent/players_data.d'
+removed 'obj/lib-gcc12-b15-r7/src/ent/players_data.o'
+removed 'obj/lib-gcc12-b15-r7/src/ent/rack_info_table.d'
+removed 'obj/lib-gcc12-b15-r7/src/ent/rack_info_table.o'
+removed 'obj/lib-gcc12-b15-r7/src/ent/sim_results.d'
+removed 'obj/lib-gcc12-b15-r7/src/ent/sim_results.o'
+removed 'obj/lib-gcc12-b15-r7/src/ent/stats.d'
+removed 'obj/lib-gcc12-b15-r7/src/ent/stats.o'
+removed 'obj/lib-gcc12-b15-r7/src/ent/thread_control.d'
+removed 'obj/lib-gcc12-b15-r7/src/ent/thread_control.o'
+removed 'obj/lib-gcc12-b15-r7/src/ent/validated_move.d'
+removed 'obj/lib-gcc12-b15-r7/src/ent/validated_move.o'
+removed 'obj/lib-gcc12-b15-r7/src/ent/win_pct.d'
+removed 'obj/lib-gcc12-b15-r7/src/ent/win_pct.o'
+removed 'obj/lib-gcc12-b15-r7/src/ent/win_pct_counts.d'
+removed 'obj/lib-gcc12-b15-r7/src/ent/win_pct_counts.o'
+removed 'obj/lib-gcc12-b15-r7/src/ent/word_info_table.d'
+removed 'obj/lib-gcc12-b15-r7/src/ent/word_info_table.o'
+removed 'obj/lib-gcc12-b15-r7/src/ent/words.d'
+removed 'obj/lib-gcc12-b15-r7/src/ent/words.o'
+removed 'obj/lib-gcc12-b15-r7/src/ent/xoshiro.d'
+removed 'obj/lib-gcc12-b15-r7/src/ent/xoshiro.o'
+removed directory 'obj/lib-gcc12-b15-r7/src/ent'
+removed 'obj/lib-gcc12-b15-r7/src/impl/analyze.d'
+removed 'obj/lib-gcc12-b15-r7/src/impl/autoplay.d'
+removed 'obj/lib-gcc12-b15-r7/src/impl/autoplay_solvers.d'
+removed 'obj/lib-gcc12-b15-r7/src/impl/browser_game.d'
+removed 'obj/lib-gcc12-b15-r7/src/impl/census.d'
+removed 'obj/lib-gcc12-b15-r7/src/impl/census.o'
+removed 'obj/lib-gcc12-b15-r7/src/impl/census_gen.d'
+removed 'obj/lib-gcc12-b15-r7/src/impl/census_gen.o'
+removed 'obj/lib-gcc12-b15-r7/src/impl/census_play_scores.d'
+removed 'obj/lib-gcc12-b15-r7/src/impl/census_play_scores.o'
+removed 'obj/lib-gcc12-b15-r7/src/impl/census_rollout.d'
+removed 'obj/lib-gcc12-b15-r7/src/impl/census_rollout.o'
+removed 'obj/lib-gcc12-b15-r7/src/impl/cgp.d'
+removed 'obj/lib-gcc12-b15-r7/src/impl/cgp.o'
+removed 'obj/lib-gcc12-b15-r7/src/impl/cmd_api.d'
+removed 'obj/lib-gcc12-b15-r7/src/impl/command_input.d'
+removed 'obj/lib-gcc12-b15-r7/src/impl/command_input.o'
+removed 'obj/lib-gcc12-b15-r7/src/impl/config.d'
+removed 'obj/lib-gcc12-b15-r7/src/impl/contribute.d'
+removed 'obj/lib-gcc12-b15-r7/src/impl/contribute.o'
+removed 'obj/lib-gcc12-b15-r7/src/impl/contribute_tables.d'
+removed 'obj/lib-gcc12-b15-r7/src/impl/contribute_tables.o'
+removed 'obj/lib-gcc12-b15-r7/src/impl/convert.d'
+removed 'obj/lib-gcc12-b15-r7/src/impl/convert.o'
+removed 'obj/lib-gcc12-b15-r7/src/impl/data_fetch.d'
+removed 'obj/lib-gcc12-b15-r7/src/impl/data_fetch.o'
+removed 'obj/lib-gcc12-b15-r7/src/impl/endgame.d'
+removed 'obj/lib-gcc12-b15-r7/src/impl/exec.d'
+removed 'obj/lib-gcc12-b15-r7/src/impl/gameplay.d'
+removed 'obj/lib-gcc12-b15-r7/src/impl/gameplay.o'
+removed 'obj/lib-gcc12-b15-r7/src/impl/gcg.d'
+removed 'obj/lib-gcc12-b15-r7/src/impl/gcg.o'
+removed 'obj/lib-gcc12-b15-r7/src/impl/gcg_tokenizer.d'
+removed 'obj/lib-gcc12-b15-r7/src/impl/gcg_tokenizer.o'
+removed 'obj/lib-gcc12-b15-r7/src/impl/get_gcg.d'
+removed 'obj/lib-gcc12-b15-r7/src/impl/get_gcg.o'
+removed 'obj/lib-gcc12-b15-r7/src/impl/help_table.d'
+removed 'obj/lib-gcc12-b15-r7/src/impl/help_table.o'
+removed 'obj/lib-gcc12-b15-r7/src/impl/inference.d'
+removed 'obj/lib-gcc12-b15-r7/src/impl/inference.o'
+removed 'obj/lib-gcc12-b15-r7/src/impl/kwg_maker.d'
+removed 'obj/lib-gcc12-b15-r7/src/impl/kwg_maker.o'
+removed 'obj/lib-gcc12-b15-r7/src/impl/leave_blend.d'
+removed 'obj/lib-gcc12-b15-r7/src/impl/leave_blend.o'
+removed 'obj/lib-gcc12-b15-r7/src/impl/move_gen.d'
+removed 'obj/lib-gcc12-b15-r7/src/impl/move_gen.o'
+removed 'obj/lib-gcc12-b15-r7/src/impl/move_gen_threats.d'
+removed 'obj/lib-gcc12-b15-r7/src/impl/move_gen_threats.o'
+removed 'obj/lib-gcc12-b15-r7/src/impl/movegen_woadwage.d'
+removed 'obj/lib-gcc12-b15-r7/src/impl/movegen_woadwage.o'
+removed 'obj/lib-gcc12-b15-r7/src/impl/pat_gen.d'
+removed 'obj/lib-gcc12-b15-r7/src/impl/pat_gen.o'
+removed 'obj/lib-gcc12-b15-r7/src/impl/path_move_lists.d'
+removed 'obj/lib-gcc12-b15-r7/src/impl/path_move_lists.o'
+removed 'obj/lib-gcc12-b15-r7/src/impl/peg.d'
+removed directory 'obj/lib-gcc12-b15-r7/src/impl'
+removed directory 'obj/lib-gcc12-b15-r7/src/str'
+removed directory 'obj/lib-gcc12-b15-r7/src/util'
+removed directory 'obj/lib-gcc12-b15-r7/src'
+removed directory 'obj/lib-gcc12-b15-r7'
+removed directory 'obj'
+make: Leaving directory '/home/ltkhg4/Code/git/Alphable/vendor/magpie'
+make: Entering directory '/home/ltkhg4/Code/git/Alphable/vendor/magpie'
+make[1]: Entering directory '/home/ltkhg4/Code/git/Alphable/vendor/magpie'
+mkdir -p obj/lib-gcc12-b15-r7
+mkdir -p obj/lib-gcc12-b15-r7/src
+mkdir -p obj/lib-gcc12-b15-r7/src/compat
+mkdir -p obj/lib-gcc12-b15-r7/src/compat/sha256
+mkdir -p obj/lib-gcc12-b15-r7/src/def
+mkdir -p obj/lib-gcc12-b15-r7/src/ent
+mkdir -p obj/lib-gcc12-b15-r7/src/impl
+mkdir -p obj/lib-gcc12-b15-r7/src/str
+mkdir -p obj/lib-gcc12-b15-r7/src/util
+mkdir -p bin
+/share/apps/common/gcc/12.2.0/bin/gcc -O3 -flto -march=native -DNDEBUG -Wall -Wno-trigraphs -fPIC -falign-functions=64 -DMAGPIE_BUILD_TARGET=\"native\" -DBOARD_DIM=15 -DRACK_SIZE=7 -MMD -MP -c src/compat/catomic.c -o obj/lib-gcc12-b15-r7/src/compat/catomic.o
+/share/apps/common/gcc/12.2.0/bin/gcc -O3 -flto -march=native -DNDEBUG -Wall -Wno-trigraphs -fPIC -falign-functions=64 -DMAGPIE_BUILD_TARGET=\"native\" -DBOARD_DIM=15 -DRACK_SIZE=7 -MMD -MP -c src/compat/cdir.c -o obj/lib-gcc12-b15-r7/src/compat/cdir.o
+/share/apps/common/gcc/12.2.0/bin/gcc -O3 -flto -march=native -DNDEBUG -Wall -Wno-trigraphs -fPIC -falign-functions=64 -DMAGPIE_BUILD_TARGET=\"native\" -DBOARD_DIM=15 -DRACK_SIZE=7 -MMD -MP -c src/compat/cfile.c -o obj/lib-gcc12-b15-r7/src/compat/cfile.o
+/share/apps/common/gcc/12.2.0/bin/gcc -O3 -flto -march=native -DNDEBUG -Wall -Wno-trigraphs -fPIC -falign-functions=64 -DMAGPIE_BUILD_TARGET=\"native\" -DBOARD_DIM=15 -DRACK_SIZE=7 -MMD -MP -c src/compat/chttp.c -o obj/lib-gcc12-b15-r7/src/compat/chttp.o
+/share/apps/common/gcc/12.2.0/bin/gcc -O3 -flto -march=native -DNDEBUG -Wall -Wno-trigraphs -fPIC -falign-functions=64 -DMAGPIE_BUILD_TARGET=\"native\" -DBOARD_DIM=15 -DRACK_SIZE=7 -MMD -MP -c src/compat/cjson.c -o obj/lib-gcc12-b15-r7/src/compat/cjson.o
+/share/apps/common/gcc/12.2.0/bin/gcc -O3 -flto -march=native -DNDEBUG -Wall -Wno-trigraphs -fPIC -falign-functions=64 -DMAGPIE_BUILD_TARGET=\"native\" -DBOARD_DIM=15 -DRACK_SIZE=7 -MMD -MP -c src/compat/cmap.c -o obj/lib-gcc12-b15-r7/src/compat/cmap.o
+/share/apps/common/gcc/12.2.0/bin/gcc -O3 -flto -march=native -DNDEBUG -Wall -Wno-trigraphs -fPIC -falign-functions=64 -DMAGPIE_BUILD_TARGET=\"native\" -DBOARD_DIM=15 -DRACK_SIZE=7 -MMD -MP -c src/compat/cmemfile.c -o obj/lib-gcc12-b15-r7/src/compat/cmemfile.o
+/share/apps/common/gcc/12.2.0/bin/gcc -O3 -flto -march=native -DNDEBUG -Wall -Wno-trigraphs -fPIC -falign-functions=64 -DMAGPIE_BUILD_TARGET=\"native\" -DBOARD_DIM=15 -DRACK_SIZE=7 -MMD -MP -c src/compat/cpath.c -o obj/lib-gcc12-b15-r7/src/compat/cpath.o
+/share/apps/common/gcc/12.2.0/bin/gcc -O3 -flto -march=native -DNDEBUG -Wall -Wno-trigraphs -fPIC -falign-functions=64 -DMAGPIE_BUILD_TARGET=\"native\" -DBOARD_DIM=15 -DRACK_SIZE=7 -MMD -MP -c src/compat/cterm.c -o obj/lib-gcc12-b15-r7/src/compat/cterm.o
+/share/apps/common/gcc/12.2.0/bin/gcc -O3 -flto -march=native -DNDEBUG -Wall -Wno-trigraphs -fPIC -falign-functions=64 -DMAGPIE_BUILD_TARGET=\"native\" -DBOARD_DIM=15 -DRACK_SIZE=7 -MMD -MP -c src/compat/cwin.c -o obj/lib-gcc12-b15-r7/src/compat/cwin.o
+/share/apps/common/gcc/12.2.0/bin/gcc -O3 -flto -march=native -DNDEBUG -Wall -Wno-trigraphs -fPIC -falign-functions=64 -DMAGPIE_BUILD_TARGET=\"native\" -DBOARD_DIM=15 -DRACK_SIZE=7 -MMD -MP -c src/compat/linenoise.c -o obj/lib-gcc12-b15-r7/src/compat/linenoise.o
+/share/apps/common/gcc/12.2.0/bin/gcc -O3 -flto -march=native -DNDEBUG -Wall -Wno-trigraphs -fPIC -falign-functions=64 -DMAGPIE_BUILD_TARGET=\"native\" -DBOARD_DIM=15 -DRACK_SIZE=7 -MMD -MP -c src/compat/sha256/sha256.c -o obj/lib-gcc12-b15-r7/src/compat/sha256/sha256.o
+/share/apps/common/gcc/12.2.0/bin/gcc -O3 -flto -march=native -DNDEBUG -Wall -Wno-trigraphs -fPIC -falign-functions=64 -DMAGPIE_BUILD_TARGET=\"native\" -DBOARD_DIM=15 -DRACK_SIZE=7 -MMD -MP -c src/compat/xs_compress.c -o obj/lib-gcc12-b15-r7/src/compat/xs_compress.o
+/share/apps/common/gcc/12.2.0/bin/gcc -O3 -flto -march=native -DNDEBUG -Wall -Wno-trigraphs -fPIC -falign-functions=64 -DMAGPIE_BUILD_TARGET=\"native\" -DBOARD_DIM=15 -DRACK_SIZE=7 -MMD -MP -c src/ent/autoplay_results.c -o obj/lib-gcc12-b15-r7/src/ent/autoplay_results.o
+/share/apps/common/gcc/12.2.0/bin/gcc -O3 -flto -march=native -DNDEBUG -Wall -Wno-trigraphs -fPIC -falign-functions=64 -DMAGPIE_BUILD_TARGET=\"native\" -DBOARD_DIM=15 -DRACK_SIZE=7 -MMD -MP -c src/ent/bag.c -o obj/lib-gcc12-b15-r7/src/ent/bag.o
+/share/apps/common/gcc/12.2.0/bin/gcc -O3 -flto -march=native -DNDEBUG -Wall -Wno-trigraphs -fPIC -falign-functions=64 -DMAGPIE_BUILD_TARGET=\"native\" -DBOARD_DIM=15 -DRACK_SIZE=7 -MMD -MP -c src/ent/bai_result.c -o obj/lib-gcc12-b15-r7/src/ent/bai_result.o
+/share/apps/common/gcc/12.2.0/bin/gcc -O3 -flto -march=native -DNDEBUG -Wall -Wno-trigraphs -fPIC -falign-functions=64 -DMAGPIE_BUILD_TARGET=\"native\" -DBOARD_DIM=15 -DRACK_SIZE=7 -MMD -MP -c src/ent/bai_sched_stats.c -o obj/lib-gcc12-b15-r7/src/ent/bai_sched_stats.o
+/share/apps/common/gcc/12.2.0/bin/gcc -O3 -flto -march=native -DNDEBUG -Wall -Wno-trigraphs -fPIC -falign-functions=64 -DMAGPIE_BUILD_TARGET=\"native\" -DBOARD_DIM=15 -DRACK_SIZE=7 -MMD -MP -c src/ent/board_layout.c -o obj/lib-gcc12-b15-r7/src/ent/board_layout.o
+/share/apps/common/gcc/12.2.0/bin/gcc -O3 -flto -march=native -DNDEBUG -Wall -Wno-trigraphs -fPIC -falign-functions=64 -DMAGPIE_BUILD_TARGET=\"native\" -DBOARD_DIM=15 -DRACK_SIZE=7 -MMD -MP -c src/ent/checkpoint.c -o obj/lib-gcc12-b15-r7/src/ent/checkpoint.o
+/share/apps/common/gcc/12.2.0/bin/gcc -O3 -flto -march=native -DNDEBUG -Wall -Wno-trigraphs -fPIC -falign-functions=64 -DMAGPIE_BUILD_TARGET=\"native\" -DBOARD_DIM=15 -DRACK_SIZE=7 -MMD -MP -c src/ent/client_state.c -o obj/lib-gcc12-b15-r7/src/ent/client_state.o
+/share/apps/common/gcc/12.2.0/bin/gcc -O3 -flto -march=native -DNDEBUG -Wall -Wno-trigraphs -fPIC -falign-functions=64 -DMAGPIE_BUILD_TARGET=\"native\" -DBOARD_DIM=15 -DRACK_SIZE=7 -MMD -MP -c src/ent/conversion_results.c -o obj/lib-gcc12-b15-r7/src/ent/conversion_results.o
+/share/apps/common/gcc/12.2.0/bin/gcc -O3 -flto -march=native -DNDEBUG -Wall -Wno-trigraphs -fPIC -falign-functions=64 -DMAGPIE_BUILD_TARGET=\"native\" -DBOARD_DIM=15 -DRACK_SIZE=7 -MMD -MP -c src/ent/data_filepaths.c -o obj/lib-gcc12-b15-r7/src/ent/data_filepaths.o
+/share/apps/common/gcc/12.2.0/bin/gcc -O3 -flto -march=native -DNDEBUG -Wall -Wno-trigraphs -fPIC -falign-functions=64 -DMAGPIE_BUILD_TARGET=\"native\" -DBOARD_DIM=15 -DRACK_SIZE=7 -MMD -MP -c src/ent/dawg_packed.c -o obj/lib-gcc12-b15-r7/src/ent/dawg_packed.o
+/share/apps/common/gcc/12.2.0/bin/gcc -O3 -flto -march=native -DNDEBUG -Wall -Wno-trigraphs -fPIC -falign-functions=64 -DMAGPIE_BUILD_TARGET=\"native\" -DBOARD_DIM=15 -DRACK_SIZE=7 -MMD -MP -c src/ent/dictionary_word.c -o obj/lib-gcc12-b15-r7/src/ent/dictionary_word.o
+/share/apps/common/gcc/12.2.0/bin/gcc -O3 -flto -march=native -DNDEBUG -Wall -Wno-trigraphs -fPIC -falign-functions=64 -DMAGPIE_BUILD_TARGET=\"native\" -DBOARD_DIM=15 -DRACK_SIZE=7 -MMD -MP -c src/ent/endgame_results.c -o obj/lib-gcc12-b15-r7/src/ent/endgame_results.o
+/share/apps/common/gcc/12.2.0/bin/gcc -O3 -flto -march=native -DNDEBUG -Wall -Wno-trigraphs -fPIC -falign-functions=64 -DMAGPIE_BUILD_TARGET=\"native\" -DBOARD_DIM=15 -DRACK_SIZE=7 -MMD -MP -c src/ent/game.c -o obj/lib-gcc12-b15-r7/src/ent/game.o
+/share/apps/common/gcc/12.2.0/bin/gcc -O3 -flto -march=native -DNDEBUG -Wall -Wno-trigraphs -fPIC -falign-functions=64 -DMAGPIE_BUILD_TARGET=\"native\" -DBOARD_DIM=15 -DRACK_SIZE=7 -MMD -MP -c src/ent/game_history.c -o obj/lib-gcc12-b15-r7/src/ent/game_history.o
+/share/apps/common/gcc/12.2.0/bin/gcc -O3 -flto -march=native -DNDEBUG -Wall -Wno-trigraphs -fPIC -falign-functions=64 -DMAGPIE_BUILD_TARGET=\"native\" -DBOARD_DIM=15 -DRACK_SIZE=7 -MMD -MP -c src/ent/inference_results.c -o obj/lib-gcc12-b15-r7/src/ent/inference_results.o
+/share/apps/common/gcc/12.2.0/bin/gcc -O3 -flto -march=native -DNDEBUG -Wall -Wno-trigraphs -fPIC -falign-functions=64 -DMAGPIE_BUILD_TARGET=\"native\" -DBOARD_DIM=15 -DRACK_SIZE=7 -MMD -MP -c src/ent/klv.c -o obj/lib-gcc12-b15-r7/src/ent/klv.o
+/share/apps/common/gcc/12.2.0/bin/gcc -O3 -flto -march=native -DNDEBUG -Wall -Wno-trigraphs -fPIC -falign-functions=64 -DMAGPIE_BUILD_TARGET=\"native\" -DBOARD_DIM=15 -DRACK_SIZE=7 -MMD -MP -c src/ent/klv_csv.c -o obj/lib-gcc12-b15-r7/src/ent/klv_csv.o
+/share/apps/common/gcc/12.2.0/bin/gcc -O3 -flto -march=native -DNDEBUG -Wall -Wno-trigraphs -fPIC -falign-functions=64 -DMAGPIE_BUILD_TARGET=\"native\" -DBOARD_DIM=15 -DRACK_SIZE=7 -MMD -MP -c src/ent/kwg_woadwage.c -o obj/lib-gcc12-b15-r7/src/ent/kwg_woadwage.o
+/share/apps/common/gcc/12.2.0/bin/gcc -O3 -flto -march=native -DNDEBUG -Wall -Wno-trigraphs -fPIC -falign-functions=64 -DMAGPIE_BUILD_TARGET=\"native\" -DBOARD_DIM=15 -DRACK_SIZE=7 -MMD -MP -c src/ent/leave_rack.c -o obj/lib-gcc12-b15-r7/src/ent/leave_rack.o
+/share/apps/common/gcc/12.2.0/bin/gcc -O3 -flto -march=native -DNDEBUG -Wall -Wno-trigraphs -fPIC -falign-functions=64 -DMAGPIE_BUILD_TARGET=\"native\" -DBOARD_DIM=15 -DRACK_SIZE=7 -MMD -MP -c src/ent/move.c -o obj/lib-gcc12-b15-r7/src/ent/move.o
+/share/apps/common/gcc/12.2.0/bin/gcc -O3 -flto -march=native -DNDEBUG -Wall -Wno-trigraphs -fPIC -falign-functions=64 -DMAGPIE_BUILD_TARGET=\"native\" -DBOARD_DIM=15 -DRACK_SIZE=7 -MMD -MP -c src/ent/pat.c -o obj/lib-gcc12-b15-r7/src/ent/pat.o
+/share/apps/common/gcc/12.2.0/bin/gcc -O3 -flto -march=native -DNDEBUG -Wall -Wno-trigraphs -fPIC -falign-functions=64 -DMAGPIE_BUILD_TARGET=\"native\" -DBOARD_DIM=15 -DRACK_SIZE=7 -MMD -MP -c src/ent/pat_eval.c -o obj/lib-gcc12-b15-r7/src/ent/pat_eval.o
+/share/apps/common/gcc/12.2.0/bin/gcc -O3 -flto -march=native -DNDEBUG -Wall -Wno-trigraphs -fPIC -falign-functions=64 -DMAGPIE_BUILD_TARGET=\"native\" -DBOARD_DIM=15 -DRACK_SIZE=7 -MMD -MP -c src/ent/pat_features.c -o obj/lib-gcc12-b15-r7/src/ent/pat_features.o
+/share/apps/common/gcc/12.2.0/bin/gcc -O3 -flto -march=native -DNDEBUG -Wall -Wno-trigraphs -fPIC -falign-functions=64 -DMAGPIE_BUILD_TARGET=\"native\" -DBOARD_DIM=15 -DRACK_SIZE=7 -MMD -MP -c src/ent/pat_file.c -o obj/lib-gcc12-b15-r7/src/ent/pat_file.o
+/share/apps/common/gcc/12.2.0/bin/gcc -O3 -flto -march=native -DNDEBUG -Wall -Wno-trigraphs -fPIC -falign-functions=64 -DMAGPIE_BUILD_TARGET=\"native\" -DBOARD_DIM=15 -DRACK_SIZE=7 -MMD -MP -c src/ent/pat_lexicon.c -o obj/lib-gcc12-b15-r7/src/ent/pat_lexicon.o
+/share/apps/common/gcc/12.2.0/bin/gcc -O3 -flto -march=native -DNDEBUG -Wall -Wno-trigraphs -fPIC -falign-functions=64 -DMAGPIE_BUILD_TARGET=\"native\" -DBOARD_DIM=15 -DRACK_SIZE=7 -MMD -MP -c src/ent/pat_utility.c -o obj/lib-gcc12-b15-r7/src/ent/pat_utility.o
+/share/apps/common/gcc/12.2.0/bin/gcc -O3 -flto -march=native -DNDEBUG -Wall -Wno-trigraphs -fPIC -falign-functions=64 -DMAGPIE_BUILD_TARGET=\"native\" -DBOARD_DIM=15 -DRACK_SIZE=7 -MMD -MP -c src/ent/peg_adjust.c -o obj/lib-gcc12-b15-r7/src/ent/peg_adjust.o
+/share/apps/common/gcc/12.2.0/bin/gcc -O3 -flto -march=native -DNDEBUG -Wall -Wno-trigraphs -fPIC -falign-functions=64 -DMAGPIE_BUILD_TARGET=\"native\" -DBOARD_DIM=15 -DRACK_SIZE=7 -MMD -MP -c src/ent/player.c -o obj/lib-gcc12-b15-r7/src/ent/player.o
+/share/apps/common/gcc/12.2.0/bin/gcc -O3 -flto -march=native -DNDEBUG -Wall -Wno-trigraphs -fPIC -falign-functions=64 -DMAGPIE_BUILD_TARGET=\"native\" -DBOARD_DIM=15 -DRACK_SIZE=7 -MMD -MP -c src/ent/players_data.c -o obj/lib-gcc12-b15-r7/src/ent/players_data.o
+/share/apps/common/gcc/12.2.0/bin/gcc -O3 -flto -march=native -DNDEBUG -Wall -Wno-trigraphs -fPIC -falign-functions=64 -DMAGPIE_BUILD_TARGET=\"native\" -DBOARD_DIM=15 -DRACK_SIZE=7 -MMD -MP -c src/ent/rack_info_table.c -o obj/lib-gcc12-b15-r7/src/ent/rack_info_table.o
+/share/apps/common/gcc/12.2.0/bin/gcc -O3 -flto -march=native -DNDEBUG -Wall -Wno-trigraphs -fPIC -falign-functions=64 -DMAGPIE_BUILD_TARGET=\"native\" -DBOARD_DIM=15 -DRACK_SIZE=7 -MMD -MP -c src/ent/sim_results.c -o obj/lib-gcc12-b15-r7/src/ent/sim_results.o
+/share/apps/common/gcc/12.2.0/bin/gcc -O3 -flto -march=native -DNDEBUG -Wall -Wno-trigraphs -fPIC -falign-functions=64 -DMAGPIE_BUILD_TARGET=\"native\" -DBOARD_DIM=15 -DRACK_SIZE=7 -MMD -MP -c src/ent/stats.c -o obj/lib-gcc12-b15-r7/src/ent/stats.o
+/share/apps/common/gcc/12.2.0/bin/gcc -O3 -flto -march=native -DNDEBUG -Wall -Wno-trigraphs -fPIC -falign-functions=64 -DMAGPIE_BUILD_TARGET=\"native\" -DBOARD_DIM=15 -DRACK_SIZE=7 -MMD -MP -c src/ent/thread_control.c -o obj/lib-gcc12-b15-r7/src/ent/thread_control.o
+/share/apps/common/gcc/12.2.0/bin/gcc -O3 -flto -march=native -DNDEBUG -Wall -Wno-trigraphs -fPIC -falign-functions=64 -DMAGPIE_BUILD_TARGET=\"native\" -DBOARD_DIM=15 -DRACK_SIZE=7 -MMD -MP -c src/ent/validated_move.c -o obj/lib-gcc12-b15-r7/src/ent/validated_move.o
+/share/apps/common/gcc/12.2.0/bin/gcc -O3 -flto -march=native -DNDEBUG -Wall -Wno-trigraphs -fPIC -falign-functions=64 -DMAGPIE_BUILD_TARGET=\"native\" -DBOARD_DIM=15 -DRACK_SIZE=7 -MMD -MP -c src/ent/win_pct.c -o obj/lib-gcc12-b15-r7/src/ent/win_pct.o
+/share/apps/common/gcc/12.2.0/bin/gcc -O3 -flto -march=native -DNDEBUG -Wall -Wno-trigraphs -fPIC -falign-functions=64 -DMAGPIE_BUILD_TARGET=\"native\" -DBOARD_DIM=15 -DRACK_SIZE=7 -MMD -MP -c src/ent/win_pct_counts.c -o obj/lib-gcc12-b15-r7/src/ent/win_pct_counts.o
+/share/apps/common/gcc/12.2.0/bin/gcc -O3 -flto -march=native -DNDEBUG -Wall -Wno-trigraphs -fPIC -falign-functions=64 -DMAGPIE_BUILD_TARGET=\"native\" -DBOARD_DIM=15 -DRACK_SIZE=7 -MMD -MP -c src/ent/word_info_table.c -o obj/lib-gcc12-b15-r7/src/ent/word_info_table.o
+/share/apps/common/gcc/12.2.0/bin/gcc -O3 -flto -march=native -DNDEBUG -Wall -Wno-trigraphs -fPIC -falign-functions=64 -DMAGPIE_BUILD_TARGET=\"native\" -DBOARD_DIM=15 -DRACK_SIZE=7 -MMD -MP -c src/ent/words.c -o obj/lib-gcc12-b15-r7/src/ent/words.o
+/share/apps/common/gcc/12.2.0/bin/gcc -O3 -flto -march=native -DNDEBUG -Wall -Wno-trigraphs -fPIC -falign-functions=64 -DMAGPIE_BUILD_TARGET=\"native\" -DBOARD_DIM=15 -DRACK_SIZE=7 -MMD -MP -c src/ent/xoshiro.c -o obj/lib-gcc12-b15-r7/src/ent/xoshiro.o
+/share/apps/common/gcc/12.2.0/bin/gcc -O3 -flto -march=native -DNDEBUG -Wall -Wno-trigraphs -fPIC -falign-functions=64 -DMAGPIE_BUILD_TARGET=\"native\" -DBOARD_DIM=15 -DRACK_SIZE=7 -MMD -MP -c src/impl/analyze.c -o obj/lib-gcc12-b15-r7/src/impl/analyze.o
+/share/apps/common/gcc/12.2.0/bin/gcc -O3 -flto -march=native -DNDEBUG -Wall -Wno-trigraphs -fPIC -falign-functions=64 -DMAGPIE_BUILD_TARGET=\"native\" -DBOARD_DIM=15 -DRACK_SIZE=7 -MMD -MP -c src/impl/autoplay.c -o obj/lib-gcc12-b15-r7/src/impl/autoplay.o
+/share/apps/common/gcc/12.2.0/bin/gcc -O3 -flto -march=native -DNDEBUG -Wall -Wno-trigraphs -fPIC -falign-functions=64 -DMAGPIE_BUILD_TARGET=\"native\" -DBOARD_DIM=15 -DRACK_SIZE=7 -MMD -MP -c src/impl/autoplay_solvers.c -o obj/lib-gcc12-b15-r7/src/impl/autoplay_solvers.o
+/share/apps/common/gcc/12.2.0/bin/gcc -O3 -flto -march=native -DNDEBUG -Wall -Wno-trigraphs -fPIC -falign-functions=64 -DMAGPIE_BUILD_TARGET=\"native\" -DBOARD_DIM=15 -DRACK_SIZE=7 -MMD -MP -c src/impl/browser_game.c -o obj/lib-gcc12-b15-r7/src/impl/browser_game.o
+/share/apps/common/gcc/12.2.0/bin/gcc -O3 -flto -march=native -DNDEBUG -Wall -Wno-trigraphs -fPIC -falign-functions=64 -DMAGPIE_BUILD_TARGET=\"native\" -DBOARD_DIM=15 -DRACK_SIZE=7 -MMD -MP -c src/impl/census.c -o obj/lib-gcc12-b15-r7/src/impl/census.o
+/share/apps/common/gcc/12.2.0/bin/gcc -O3 -flto -march=native -DNDEBUG -Wall -Wno-trigraphs -fPIC -falign-functions=64 -DMAGPIE_BUILD_TARGET=\"native\" -DBOARD_DIM=15 -DRACK_SIZE=7 -MMD -MP -c src/impl/census_gen.c -o obj/lib-gcc12-b15-r7/src/impl/census_gen.o
+/share/apps/common/gcc/12.2.0/bin/gcc -O3 -flto -march=native -DNDEBUG -Wall -Wno-trigraphs -fPIC -falign-functions=64 -DMAGPIE_BUILD_TARGET=\"native\" -DBOARD_DIM=15 -DRACK_SIZE=7 -MMD -MP -c src/impl/census_play_scores.c -o obj/lib-gcc12-b15-r7/src/impl/census_play_scores.o
+/share/apps/common/gcc/12.2.0/bin/gcc -O3 -flto -march=native -DNDEBUG -Wall -Wno-trigraphs -fPIC -falign-functions=64 -DMAGPIE_BUILD_TARGET=\"native\" -DBOARD_DIM=15 -DRACK_SIZE=7 -MMD -MP -c src/impl/census_rollout.c -o obj/lib-gcc12-b15-r7/src/impl/census_rollout.o
+/share/apps/common/gcc/12.2.0/bin/gcc -O3 -flto -march=native -DNDEBUG -Wall -Wno-trigraphs -fPIC -falign-functions=64 -DMAGPIE_BUILD_TARGET=\"native\" -DBOARD_DIM=15 -DRACK_SIZE=7 -MMD -MP -c src/impl/cgp.c -o obj/lib-gcc12-b15-r7/src/impl/cgp.o
+/share/apps/common/gcc/12.2.0/bin/gcc -O3 -flto -march=native -DNDEBUG -Wall -Wno-trigraphs -fPIC -falign-functions=64 -DMAGPIE_BUILD_TARGET=\"native\" -DBOARD_DIM=15 -DRACK_SIZE=7 -MMD -MP -c src/impl/cmd_api.c -o obj/lib-gcc12-b15-r7/src/impl/cmd_api.o
+/share/apps/common/gcc/12.2.0/bin/gcc -O3 -flto -march=native -DNDEBUG -Wall -Wno-trigraphs -fPIC -falign-functions=64 -DMAGPIE_BUILD_TARGET=\"native\" -DBOARD_DIM=15 -DRACK_SIZE=7 -MMD -MP -c src/impl/command_input.c -o obj/lib-gcc12-b15-r7/src/impl/command_input.o
+/share/apps/common/gcc/12.2.0/bin/gcc -O3 -flto -march=native -DNDEBUG -Wall -Wno-trigraphs -fPIC -falign-functions=64 -DMAGPIE_BUILD_TARGET=\"native\" -DBOARD_DIM=15 -DRACK_SIZE=7 -MMD -MP -c src/impl/config.c -o obj/lib-gcc12-b15-r7/src/impl/config.o
+/share/apps/common/gcc/12.2.0/bin/gcc -O3 -flto -march=native -DNDEBUG -Wall -Wno-trigraphs -fPIC -falign-functions=64 -DMAGPIE_BUILD_TARGET=\"native\" -DBOARD_DIM=15 -DRACK_SIZE=7 -MMD -MP -c src/impl/contribute.c -o obj/lib-gcc12-b15-r7/src/impl/contribute.o
+/share/apps/common/gcc/12.2.0/bin/gcc -O3 -flto -march=native -DNDEBUG -Wall -Wno-trigraphs -fPIC -falign-functions=64 -DMAGPIE_BUILD_TARGET=\"native\" -DBOARD_DIM=15 -DRACK_SIZE=7 -MMD -MP -c src/impl/contribute_tables.c -o obj/lib-gcc12-b15-r7/src/impl/contribute_tables.o
+/share/apps/common/gcc/12.2.0/bin/gcc -O3 -flto -march=native -DNDEBUG -Wall -Wno-trigraphs -fPIC -falign-functions=64 -DMAGPIE_BUILD_TARGET=\"native\" -DBOARD_DIM=15 -DRACK_SIZE=7 -MMD -MP -c src/impl/convert.c -o obj/lib-gcc12-b15-r7/src/impl/convert.o
+/share/apps/common/gcc/12.2.0/bin/gcc -O3 -flto -march=native -DNDEBUG -Wall -Wno-trigraphs -fPIC -falign-functions=64 -DMAGPIE_BUILD_TARGET=\"native\" -DBOARD_DIM=15 -DRACK_SIZE=7 -MMD -MP -c src/impl/data_fetch.c -o obj/lib-gcc12-b15-r7/src/impl/data_fetch.o
+/share/apps/common/gcc/12.2.0/bin/gcc -O3 -flto -march=native -DNDEBUG -Wall -Wno-trigraphs -fPIC -falign-functions=64 -DMAGPIE_BUILD_TARGET=\"native\" -DBOARD_DIM=15 -DRACK_SIZE=7 -MMD -MP -c src/impl/endgame.c -o obj/lib-gcc12-b15-r7/src/impl/endgame.o
+/share/apps/common/gcc/12.2.0/bin/gcc -O3 -flto -march=native -DNDEBUG -Wall -Wno-trigraphs -fPIC -falign-functions=64 -DMAGPIE_BUILD_TARGET=\"native\" -DBOARD_DIM=15 -DRACK_SIZE=7 -MMD -MP -c src/impl/exec.c -o obj/lib-gcc12-b15-r7/src/impl/exec.o
+/share/apps/common/gcc/12.2.0/bin/gcc -O3 -flto -march=native -DNDEBUG -Wall -Wno-trigraphs -fPIC -falign-functions=64 -DMAGPIE_BUILD_TARGET=\"native\" -DBOARD_DIM=15 -DRACK_SIZE=7 -MMD -MP -c src/impl/gameplay.c -o obj/lib-gcc12-b15-r7/src/impl/gameplay.o
+/share/apps/common/gcc/12.2.0/bin/gcc -O3 -flto -march=native -DNDEBUG -Wall -Wno-trigraphs -fPIC -falign-functions=64 -DMAGPIE_BUILD_TARGET=\"native\" -DBOARD_DIM=15 -DRACK_SIZE=7 -MMD -MP -c src/impl/gcg.c -o obj/lib-gcc12-b15-r7/src/impl/gcg.o
+/share/apps/common/gcc/12.2.0/bin/gcc -O3 -flto -march=native -DNDEBUG -Wall -Wno-trigraphs -fPIC -falign-functions=64 -DMAGPIE_BUILD_TARGET=\"native\" -DBOARD_DIM=15 -DRACK_SIZE=7 -MMD -MP -c src/impl/gcg_tokenizer.c -o obj/lib-gcc12-b15-r7/src/impl/gcg_tokenizer.o
+/share/apps/common/gcc/12.2.0/bin/gcc -O3 -flto -march=native -DNDEBUG -Wall -Wno-trigraphs -fPIC -falign-functions=64 -DMAGPIE_BUILD_TARGET=\"native\" -DBOARD_DIM=15 -DRACK_SIZE=7 -MMD -MP -c src/impl/get_gcg.c -o obj/lib-gcc12-b15-r7/src/impl/get_gcg.o
+/share/apps/common/gcc/12.2.0/bin/gcc -O3 -flto -march=native -DNDEBUG -Wall -Wno-trigraphs -fPIC -falign-functions=64 -DMAGPIE_BUILD_TARGET=\"native\" -DBOARD_DIM=15 -DRACK_SIZE=7 -MMD -MP -c src/impl/help_table.c -o obj/lib-gcc12-b15-r7/src/impl/help_table.o
+/share/apps/common/gcc/12.2.0/bin/gcc -O3 -flto -march=native -DNDEBUG -Wall -Wno-trigraphs -fPIC -falign-functions=64 -DMAGPIE_BUILD_TARGET=\"native\" -DBOARD_DIM=15 -DRACK_SIZE=7 -MMD -MP -c src/impl/inference.c -o obj/lib-gcc12-b15-r7/src/impl/inference.o
+/share/apps/common/gcc/12.2.0/bin/gcc -O3 -flto -march=native -DNDEBUG -Wall -Wno-trigraphs -fPIC -falign-functions=64 -DMAGPIE_BUILD_TARGET=\"native\" -DBOARD_DIM=15 -DRACK_SIZE=7 -MMD -MP -c src/impl/kwg_maker.c -o obj/lib-gcc12-b15-r7/src/impl/kwg_maker.o
+/share/apps/common/gcc/12.2.0/bin/gcc -O3 -flto -march=native -DNDEBUG -Wall -Wno-trigraphs -fPIC -falign-functions=64 -DMAGPIE_BUILD_TARGET=\"native\" -DBOARD_DIM=15 -DRACK_SIZE=7 -MMD -MP -c src/impl/leave_blend.c -o obj/lib-gcc12-b15-r7/src/impl/leave_blend.o
+/share/apps/common/gcc/12.2.0/bin/gcc -O3 -flto -march=native -DNDEBUG -Wall -Wno-trigraphs -fPIC -falign-functions=64 -DMAGPIE_BUILD_TARGET=\"native\" -DBOARD_DIM=15 -DRACK_SIZE=7 -MMD -MP -c src/impl/move_gen.c -o obj/lib-gcc12-b15-r7/src/impl/move_gen.o
+/share/apps/common/gcc/12.2.0/bin/gcc -O3 -flto -march=native -DNDEBUG -Wall -Wno-trigraphs -fPIC -falign-functions=64 -DMAGPIE_BUILD_TARGET=\"native\" -DBOARD_DIM=15 -DRACK_SIZE=7 -MMD -MP -c src/impl/move_gen_threats.c -o obj/lib-gcc12-b15-r7/src/impl/move_gen_threats.o
+/share/apps/common/gcc/12.2.0/bin/gcc -O3 -flto -march=native -DNDEBUG -Wall -Wno-trigraphs -fPIC -falign-functions=64 -DMAGPIE_BUILD_TARGET=\"native\" -DBOARD_DIM=15 -DRACK_SIZE=7 -MMD -MP -c src/impl/movegen_woadwage.c -o obj/lib-gcc12-b15-r7/src/impl/movegen_woadwage.o
+/share/apps/common/gcc/12.2.0/bin/gcc -O3 -flto -march=native -DNDEBUG -Wall -Wno-trigraphs -fPIC -falign-functions=64 -DMAGPIE_BUILD_TARGET=\"native\" -DBOARD_DIM=15 -DRACK_SIZE=7 -MMD -MP -c src/impl/pat_gen.c -o obj/lib-gcc12-b15-r7/src/impl/pat_gen.o
+/share/apps/common/gcc/12.2.0/bin/gcc -O3 -flto -march=native -DNDEBUG -Wall -Wno-trigraphs -fPIC -falign-functions=64 -DMAGPIE_BUILD_TARGET=\"native\" -DBOARD_DIM=15 -DRACK_SIZE=7 -MMD -MP -c src/impl/path_move_lists.c -o obj/lib-gcc12-b15-r7/src/impl/path_move_lists.o
+make[1]: Leaving directory '/home/ltkhg4/Code/git/Alphable/vendor/magpie'
+make: Leaving directory '/home/ltkhg4/Code/git/Alphable/vendor/magpie'

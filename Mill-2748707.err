@@ -1,0 +1,186 @@
+make[1]: warning: -j24 forced in makefile: resetting jobserver mode.
+lto-wrapper: warning: using serial compilation of 27 LTRANS jobs
+lto-wrapper: note: see the ‘-flto’ option documentation for more information
+In function ‘rack_reset’,
+    inlined from ‘rack_create’ at src/ent/rack.h:28:3,
+    inlined from ‘player_create’ at src/ent/player.c:76:37,
+    inlined from ‘game_create’ at src/ent/game.c:783:9:
+src/ent/rack.h:21:3: warning: ‘memset’ writing 100 bytes into a region of size 0 overflows the destination [-Wstringop-overflow=]
+   21 |   memset(rack->array, 0, sizeof(rack->array));
+      |   ^
+In function ‘census_find_best_exchange_leave’,
+    inlined from ‘census_find_best_exchange_leave’ at src/impl/inference.c:312:5,
+    inlined from ‘get_best_exchange_equity’ at src/impl/inference.c:349:5,
+    inlined from ‘evaluate_possible_leave’ at src/impl/inference.c:456:9,
+    inlined from ‘iterate_through_all_possible_leaves’ at src/impl/inference.c:782:7,
+    inlined from ‘iterate_through_all_possible_leaves’ at src/impl/inference.c:773:6:
+src/impl/inference.c:299:33: warning: writing 16 bytes into a region of size 7 [-Wstringop-overflow=]
+  299 |         best_chosen[chosen_idx] =
+      |                                 ^
+src/impl/inference.c: In function ‘iterate_through_all_possible_leaves’:
+src/impl/inference.c:348:13: note: destination object ‘best_chosen’ of size 7
+  348 |     uint8_t best_chosen[RACK_SIZE] = {0};
+      |             ^
+In function ‘census_find_best_exchange_leave’,
+    inlined from ‘census_find_best_exchange_leave’ at src/impl/inference.c:312:5,
+    inlined from ‘get_best_exchange_equity’ at src/impl/inference.c:349:5,
+    inlined from ‘evaluate_possible_leave’ at src/impl/inference.c:456:9,
+    inlined from ‘iterate_through_all_possible_leaves’ at src/impl/inference.c:782:7,
+    inlined from ‘iterate_through_all_possible_leaves’ at src/impl/inference.c:773:6:
+src/impl/inference.c:299:33: warning: writing 1 byte into a region of size 0 [-Wstringop-overflow=]
+  299 |         best_chosen[chosen_idx] =
+      |                                 ^
+src/impl/inference.c: In function ‘iterate_through_all_possible_leaves’:
+src/impl/inference.c:348:13: note: at offset 7 into destination object ‘best_chosen’ of size 7
+  348 |     uint8_t best_chosen[RACK_SIZE] = {0};
+      |             ^
+In function ‘census_find_best_exchange_leave’,
+    inlined from ‘census_find_best_exchange_leave’ at src/impl/inference.c:312:5,
+    inlined from ‘get_best_exchange_equity’ at src/impl/inference.c:349:5,
+    inlined from ‘evaluate_possible_leave’ at src/impl/inference.c:456:9,
+    inlined from ‘iterate_through_all_possible_leaves’ at src/impl/inference.c:782:7,
+    inlined from ‘iterate_through_all_possible_leaves’ at src/impl/inference.c:773:6:
+src/impl/inference.c:299:33: warning: writing 1 byte into a region of size 0 [-Wstringop-overflow=]
+  299 |         best_chosen[chosen_idx] =
+      |                                 ^
+src/impl/inference.c: In function ‘iterate_through_all_possible_leaves’:
+src/impl/inference.c:348:13: note: at offset [8, 2147483646] into destination object ‘best_chosen’ of size 7
+  348 |     uint8_t best_chosen[RACK_SIZE] = {0};
+      |             ^
+In function ‘census_find_best_exchange_leave’,
+    inlined from ‘census_find_best_exchange_leave’ at src/impl/inference.c:312:5,
+    inlined from ‘get_best_exchange_equity’ at src/impl/inference.c:349:5,
+    inlined from ‘evaluate_possible_leave’ at src/impl/inference.c:456:9,
+    inlined from ‘iterate_through_all_possible_leaves’ at src/impl/inference.c:782:7,
+    inlined from ‘iterate_through_all_possible_leaves’ at src/impl/inference.c:773:6:
+src/impl/inference.c:299:33: warning: writing 1 byte into a region of size 0 [-Wstringop-overflow=]
+  299 |         best_chosen[chosen_idx] =
+      |                                 ^
+src/impl/inference.c: In function ‘iterate_through_all_possible_leaves’:
+src/impl/inference.c:348:13: note: at offset [9, 2147483646] into destination object ‘best_chosen’ of size 7
+  348 |     uint8_t best_chosen[RACK_SIZE] = {0};
+      |             ^
+In function ‘census_find_best_exchange_leave’,
+    inlined from ‘census_find_best_exchange_leave’ at src/impl/inference.c:312:5,
+    inlined from ‘get_best_exchange_equity’ at src/impl/inference.c:349:5,
+    inlined from ‘evaluate_possible_leave’ at src/impl/inference.c:456:9,
+    inlined from ‘iterate_through_all_possible_leaves’ at src/impl/inference.c:782:7,
+    inlined from ‘iterate_through_all_possible_leaves’ at src/impl/inference.c:773:6:
+src/impl/inference.c:299:33: warning: writing 1 byte into a region of size 0 [-Wstringop-overflow=]
+  299 |         best_chosen[chosen_idx] =
+      |                                 ^
+src/impl/inference.c: In function ‘iterate_through_all_possible_leaves’:
+src/impl/inference.c:348:13: note: at offset [10, 2147483646] into destination object ‘best_chosen’ of size 7
+  348 |     uint8_t best_chosen[RACK_SIZE] = {0};
+      |             ^
+In function ‘census_find_best_exchange_leave’,
+    inlined from ‘census_find_best_exchange_leave’ at src/impl/inference.c:312:5,
+    inlined from ‘get_best_exchange_equity’ at src/impl/inference.c:349:5,
+    inlined from ‘evaluate_possible_leave’ at src/impl/inference.c:456:9,
+    inlined from ‘iterate_through_all_possible_leaves’ at src/impl/inference.c:782:7,
+    inlined from ‘iterate_through_all_possible_leaves’ at src/impl/inference.c:773:6:
+src/impl/inference.c:299:33: warning: writing 1 byte into a region of size 0 [-Wstringop-overflow=]
+  299 |         best_chosen[chosen_idx] =
+      |                                 ^
+src/impl/inference.c: In function ‘iterate_through_all_possible_leaves’:
+src/impl/inference.c:348:13: note: at offset [11, 2147483646] into destination object ‘best_chosen’ of size 7
+  348 |     uint8_t best_chosen[RACK_SIZE] = {0};
+      |             ^
+In function ‘census_find_best_exchange_leave’,
+    inlined from ‘census_find_best_exchange_leave’ at src/impl/inference.c:312:5,
+    inlined from ‘get_best_exchange_equity’ at src/impl/inference.c:349:5,
+    inlined from ‘evaluate_possible_leave’ at src/impl/inference.c:456:9,
+    inlined from ‘iterate_through_all_possible_leaves’ at src/impl/inference.c:782:7,
+    inlined from ‘iterate_through_all_possible_leaves’ at src/impl/inference.c:773:6:
+src/impl/inference.c:299:33: warning: writing 1 byte into a region of size 0 [-Wstringop-overflow=]
+  299 |         best_chosen[chosen_idx] =
+      |                                 ^
+src/impl/inference.c: In function ‘iterate_through_all_possible_leaves’:
+src/impl/inference.c:348:13: note: at offset [12, 2147483646] into destination object ‘best_chosen’ of size 7
+  348 |     uint8_t best_chosen[RACK_SIZE] = {0};
+      |             ^
+In function ‘census_find_best_exchange_leave’,
+    inlined from ‘census_find_best_exchange_leave’ at src/impl/inference.c:312:5,
+    inlined from ‘get_best_exchange_equity’ at src/impl/inference.c:349:5,
+    inlined from ‘evaluate_possible_leave’ at src/impl/inference.c:456:9,
+    inlined from ‘iterate_through_all_possible_leaves’ at src/impl/inference.c:782:7,
+    inlined from ‘iterate_through_all_possible_leaves’ at src/impl/inference.c:773:6:
+src/impl/inference.c:299:33: warning: writing 1 byte into a region of size 0 [-Wstringop-overflow=]
+  299 |         best_chosen[chosen_idx] =
+      |                                 ^
+src/impl/inference.c: In function ‘iterate_through_all_possible_leaves’:
+src/impl/inference.c:348:13: note: at offset [13, 2147483646] into destination object ‘best_chosen’ of size 7
+  348 |     uint8_t best_chosen[RACK_SIZE] = {0};
+      |             ^
+In function ‘census_find_best_exchange_leave’,
+    inlined from ‘census_find_best_exchange_leave’ at src/impl/inference.c:312:5,
+    inlined from ‘get_best_exchange_equity’ at src/impl/inference.c:349:5,
+    inlined from ‘evaluate_possible_leave’ at src/impl/inference.c:456:9,
+    inlined from ‘iterate_through_all_possible_leaves’ at src/impl/inference.c:782:7,
+    inlined from ‘iterate_through_all_possible_leaves’ at src/impl/inference.c:773:6:
+src/impl/inference.c:299:33: warning: writing 1 byte into a region of size 0 [-Wstringop-overflow=]
+  299 |         best_chosen[chosen_idx] =
+      |                                 ^
+src/impl/inference.c: In function ‘iterate_through_all_possible_leaves’:
+src/impl/inference.c:348:13: note: at offset [14, 2147483646] into destination object ‘best_chosen’ of size 7
+  348 |     uint8_t best_chosen[RACK_SIZE] = {0};
+      |             ^
+In function ‘move_set_all_except_equity’,
+    inlined from ‘move_set_all_except_equity’ at src/impl/../ent/move.h:185:20,
+    inlined from ‘set_play_for_record_wmp’ at src/impl/move_gen.c:533:3,
+    inlined from ‘update_best_move_or_insert_into_movelist_wmp’ at src/impl/move_gen.c:635:5,
+    inlined from ‘record_wmp_play’ at src/impl/move_gen.c:777:3:
+src/impl/../ent/move.h:204:22: warning: writing 1 byte into a region of size 0 [-Wstringop-overflow=]
+  204 |       move->tiles[i] = strip[leftstrip + i];
+      |                      ^
+src/ent/move.h: In function ‘record_wmp_play’:
+src/ent/move.h:34:17: note: at offset 15 into destination object ‘tiles’ of size 15
+   34 |   MachineLetter tiles[MOVE_MAX_TILES];
+      |                 ^
+In function ‘move_set_all_except_equity’,
+    inlined from ‘move_set_all_except_equity’ at src/impl/../ent/move.h:185:20,
+    inlined from ‘set_play_for_record’ at src/impl/move_gen_base.h:498:3,
+    inlined from ‘update_best_move_or_insert_into_movelist’ at src/impl/move_gen_base.h:619:5:
+src/impl/../ent/move.h:204:22: warning: writing 1 byte into a region of size 0 [-Wstringop-overflow=]
+  204 |       move->tiles[i] = strip[leftstrip + i];
+      |                      ^
+src/ent/move.h: In function ‘update_best_move_or_insert_into_movelist’:
+src/ent/move.h:34:17: note: at offset 15 into destination object ‘tiles’ of size 15
+   34 |   MachineLetter tiles[MOVE_MAX_TILES];
+      |                 ^
+src/impl/peg.c: In function ‘peg_nest_push_job’:
+src/impl/peg.c:2046:33: warning: writing 1 byte into a region of size 0 [-Wstringop-overflow=]
+ 2046 |     job->mover_drawn[drawn_idx] = mover_drawn[drawn_idx];
+      |                                 ^
+src/impl/peg.c:1983:17: note: at offset 5 into destination object ‘mover_drawn’ of size 5
+ 1983 |   MachineLetter mover_drawn[PEG_MAX_BAG + 1];
+      |                 ^
+src/impl/peg.c:2046:33: warning: writing 1 byte into a region of size 0 [-Wstringop-overflow=]
+ 2046 |     job->mover_drawn[drawn_idx] = mover_drawn[drawn_idx];
+      |                                 ^
+src/impl/peg.c:1983:17: note: at offset 6 into destination object ‘mover_drawn’ of size 5
+ 1983 |   MachineLetter mover_drawn[PEG_MAX_BAG + 1];
+      |                 ^
+src/impl/peg.c:2049:33: warning: writing 1 byte into a region of size 0 [-Wstringop-overflow=]
+ 2049 |     job->bag_remaining[bag_idx] = bag_remaining[bag_idx];
+      |                                 ^
+src/impl/peg.c:1984:17: note: at offset 5 into destination object ‘bag_remaining’ of size 5
+ 1984 |   MachineLetter bag_remaining[PEG_MAX_BAG + 1];
+      |                 ^
+src/impl/peg.c:2049:33: warning: writing 1 byte into a region of size 0 [-Wstringop-overflow=]
+ 2049 |     job->bag_remaining[bag_idx] = bag_remaining[bag_idx];
+      |                                 ^
+src/impl/peg.c:1984:17: note: at offset 6 into destination object ‘bag_remaining’ of size 5
+ 1984 |   MachineLetter bag_remaining[PEG_MAX_BAG + 1];
+      |                 ^
+In function ‘move_set_all_except_equity’,
+    inlined from ‘set_play_for_record’ at src/impl/move_gen_base.h:498:3,
+    inlined from ‘update_best_move_or_insert_into_movelist.constprop’ at src/impl/move_gen_base.h:619:5:
+src/impl/../ent/move.h:204:22: warning: writing 1 byte into a region of size 0 [-Wstringop-overflow=]
+  204 |       move->tiles[i] = strip[leftstrip + i];
+      |                      ^
+src/ent/move.h: In function ‘update_best_move_or_insert_into_movelist.constprop’:
+src/ent/move.h:34:17: note: at offset 15 into destination object ‘tiles’ of size 15
+   34 |   MachineLetter tiles[MOVE_MAX_TILES];
+      |                 ^
+slurmstepd: error: *** JOB 2748707 ON compute-41-25 CANCELLED AT 2026-11-15T08:57:47 DUE TO TIME LIMIT ***
