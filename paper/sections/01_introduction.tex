@@ -1,36 +1,49 @@
 \section{Introduction}
 \label{sec:introduction}
 
-Imperfect-information games have long stood as grand challenge domains for artificial intelligence. While complete-information games such as Chess, Go, and Shogi have witnessed superhuman breakthroughs through deep reinforcement learning and Monte Carlo Tree Search \citep{silver2016mastering, silver2017mastering}, environments featuring hidden private states require fundamentally different algorithmic paradigms \citep{moravcik2017deepstack, brown2019superhuman, sokota2026scalable}. In imperfect-information settings, an agent must formulate strategic decisions without direct observation of opponent private assets, reasoning instead over probability distributions of hidden states while actively balancing offensive payoff, defensive lane exposure, and information revelation.
+Imperfect-information games have long served as benchmark domains for artificial intelligence. While complete-information games such as Chess and Go have yielded to deep reinforcement learning and Monte Carlo Tree Search \citep{silver2016mastering, silver2017mastering}, environments with hidden private states demand different algorithmic methods \citep{moravcik2017deepstack, brown2019superhuman, sokota2026scalable}. In imperfect-information settings, an agent must act without observing opponent private resources, evaluating actions over probability distributions of hidden states while balancing scoring, lane defense, and information disclosure.
 
-The game of Scrabble represents a classic, mathematically rich imperfect-information benchmark. Originating as a combinatorially complex linguistic board game, tournament Scrabble features:
+The game of Scrabble provides a classic imperfect-information testbed. Tournament Scrabble features four distinct structural properties:
 \begin{enumerate}
-    \item \textbf{Massive Action Space:} At any given turn, an agent selects from hundreds to tens of thousands of valid legal plays across a $15 \times 15$ grid, governed by strict lexical constraints (e.g., CSW24 or NWL23 lexica).
-    \item \textbf{Hidden Information Sets:} Each player possesses a private rack of up to 7 tiles drawn without replacement from a finite bag of 100 tiles. Opponent tiles are concealed until played onto the board.
-    \item \textbf{Stochastic State Transitions:} Tile replenishment after each play introduces environmental uncertainty governed by hypergeometric and multinomial probability laws.
-    \item \textbf{Asymmetric Tactical Coupling:} Placed tiles permanently alter board topology, opening or closing scoring hooks, premium multiplier lanes (Double/Triple Word and Letter scores), and rack-dumping opportunities for the opponent.
+    \item \textbf{Large Action Space:} At each turn, an agent selects from hundreds to tens of thousands of legal placements across a $15 \times 15$ grid under strict lexical constraints (such as the CSW24 or NWL23 lexica).
+    \item \textbf{Hidden Information Sets:} Each player holds a private rack of up to 7 tiles drawn without replacement from an initial bag of 100 tiles. Opponent tiles remain private until played.
+    \item \textbf{Stochastic State Transitions:} Tile draws following each play introduce environmental uncertainty governed by hypergeometric and multinomial distributions.
+    \item \textbf{Asymmetric Board Coupling:} Placed tiles permanently alter the board grid, opening or closing scoring hooks, premium multiplier squares, and rack-dumping opportunities for the opposing player.
 \end{enumerate}
 
-\subsection{The Status Quo and Its Limitations}
+\subsection{Existing Approaches and the Simulation Dilemma}
 
-For over two decades, competitive computer Scrabble has been dominated by two foundational algorithmic paradigms:
+Competitive Scrabble engines have traditionally followed two distinct paradigms:
 \begin{enumerate}
-    \item \textbf{Static 1-Ply Heuristic Engines:} Pioneer systems such as Maven \citep{sheppard2002world} and contemporary high-speed C engines such as \magpie\ evaluate candidate plays $a$ using a 1-ply static equity function:
+    \item \textbf{Static 1-Ply Heuristic Engines:} Systems derived from Maven \citep{sheppard2002world} and high-speed C engines such as default \magpie\ evaluate candidate plays using a 1-ply static equity function:
     \begin{equation}
         \label{eq:static_equity}
-        \equity(a) = \score(a) + \leaveval(r \setminus a)
+        \equity(a) = \score(a) + \leaveval(\rack \setminus a)
     \end{equation}
-    where $\score(a)$ represents immediate board points and $\leaveval$ is precomputed via lookup tables (e.g., Komodo Leave Values or KLV2) derived from millions of simulated rack draws. While exceptionally fast ($\sim 0.7$ ms per candidate generation), this formulation is myopic: it possesses zero multi-ply tactical lookahead, ignores opponent counterplay threats, and assumes rack leave quality is invariant to board configuration.
-    \item \textbf{Perfect Information Monte Carlo (PIMC):} Systems such as Quackle \citep{olaughlin2006quackle} evaluate candidate plays by sampling determinized opponent racks and simulating rollouts. However, PIMC suffers from the well-documented \textit{strategy fusion flaw} \citep{sokota2026scalable}: by determinizing the game during search, PIMC implicitly assumes the player will possess clairvoyant knowledge of the opponent's private tiles on subsequent plies, frequently causing engines to overvalue speculative defensive maneuvers that fail in real imperfect-information play.
+    where $\score(a)$ denotes immediate placement score and $\leaveval$ is precomputed via tabular lookup (e.g., Komodo Leave Values, KLV2) derived from offline simulated draws. This heuristic runs quickly ($\sim 0.7$ ms per candidate generation) but lacks tactical lookahead, ignores opponent counterplay threats, and evaluates rack leaves independently of board geometry.
+    \item \textbf{Perfect Information Monte Carlo (PIMC):} Systems such as \quackle\ \citep{olaughlin2006quackle} evaluate candidate plays by sampling determinized opponent racks and simulating rollouts. While effective in practice, PIMC suffers from the strategy fusion flaw \citep{sokota2026scalable}: determinizing the game during search assumes the player will possess clairvoyant knowledge of opponent private tiles on future turns. This causes engines to overvalue speculative defensive plays that fail in actual imperfect-information play.
 \end{enumerate}
 
-\subsection{Our Contributions}
+This dichotomy exposes a central question in imperfect-information game AI: Can learned neural evaluation and belief tracking surpass the raw tactical lookahead of compiled Monte Carlo simulation engines that generate nearly $100,000$ rollouts per second?
 
-In this paper, we introduce \textbf{\algo}, a championship-caliber, open-source Scrabble engine designed to bridge the gap between high-speed candidate generation and deep imperfect-information search. Our primary scientific contributions are as follows:
+\subsection{Research Process, Pitfalls, and Iterations}
+
+Our investigation proceeded through four distinct empirical phases:
 \begin{itemize}
-    \item \textbf{Deep Cross-Attention Value Valuation:} We develop a 28-channel spatial board tensor representation coupled with a ResNet-18 convolutional backbone and cross-attention cross-talk with 7-tile rack token embeddings. The network is distilled on massive game states via Huber loss to accurately predict positional equity conditioned on global board geometry.
-    \item \textbf{Belief-Augmented Monte Carlo Search (\bams):} We formulate an asymmetric 2-ply search algorithm that models opponent replies and our counter-replies across belief-weighted rack distributions, circumventing the strategy fusion flaw while maintaining real-time latency ($<70$ ms/turn).
-    \item \textbf{Bayesian Negative-Evidence Opponent Belief Tracking:} Rather than assuming uniform random sampling from unseen tiles, \algo\ tracks a dynamic posterior belief over the opponent's hidden rack. When an opponent bypasses an open 60-point bingo lane to make a modest 14-point play, our tracker applies Bayes' rule with negative evidence, decaying the posterior likelihood of high-threat tiles ($?$, S) and permitting offensive lane exploitation without ghost-threat paralysis.
-    \item \textbf{Compound Late-Game Optimization:} We integrate pre-endgame bag parity tracking (manipulating tile consumption to stick the opponent with heavy consonant penalties) with a native exact minimax alpha-beta solver when the bag reaches zero tiles.
-    \item \textbf{Empirical and Methodological Rigor:} Across 10,000 paired duplicate tournament games (5,000 duplicate pairs), \algo\ demonstrates a statistically verified $+7.06 \pm 0.81$ net point spread ($p = 2.90 \times 10^{-18}$) over 1-ply Static KLV Base \magpie. We provide an adversarial parameter ceiling audit revealing where 2-ply neural search triumphs and where raw C simulation throughput ($\sim 98,000$ rollouts/sec) retains an edge.
+    \item \textbf{Phase 1: Standalone Neural Search vs.\ Static Baselines.} We constructed a 28-channel spatial board tensor coupled with a ResNet-18 convolutional backbone and cross-attention rack query embeddings, evaluated via Belief-Augmented Monte Carlo Search (\bams). In a 10,000-game paired duplicate tournament against 1-ply static heuristic \magpie, 2-ply \bams\ demonstrated a $+7.06 \pm 0.81$ net point advantage per game ($p = 2.90 \times 10^{-18}$, $t = 8.75$).
+    \item \textbf{Phase 2: Adversarial Audit of the Simulation Ceiling.} When auditing Base \magpie, we found that its default mode disables its most capable components: compiled PIMC simulation rollouts ($\sim 98,134$ rollouts/s), Positional Adjustment Terms (\texttt{-pat CSW24}), and an exact minimax endgame solver. In exploratory 40-game probes against this Maximally Tuned configuration, standalone 2-ply \bams\ fell behind, revealing that shallow 2-ply neural lookahead cannot match deep simulation rollouts in complex midgame positions.
+    \item \textbf{Phase 3: The 40-Game Variance Trap.} In Scrabble, single-game standard deviation is large ($\sigma \approx 105.7$ points). In a 20-pair (40-game) duplicate tournament, standard error is $\text{SEM} \approx 23.6$ points, producing confidence intervals that span $\pm 47$ points. We determined that small-scale matches yield noise-dominated swings that mislead algorithmic comparisons.
+    \item \textbf{Phase 4: Engineering Hybrid PIMC and Cluster Execution.} To resolve the lookahead bottleneck, we developed \algo\ Hybrid PIMC, fusing native C simulation rollouts with neural cross-attention candidate re-ranking, Bayesian negative-evidence belief tracking, and late-game parity solvers. We resolved cluster memory bounds on SLURM and compiler compatibility issues in upstream C code to scale execution across 24 AMD EPYC cores on the Missouri S\&T HPC cluster.
+\end{itemize}
+
+\subsection{Summary of Contributions}
+
+In this paper, we document the design, theoretical foundations, and empirical validation of \algo:
+\begin{itemize}
+    \item \textbf{Cross-Attention Value Network:} We develop a 28-channel spatial board tensor and 7-tile rack token cross-attention network, trained with Huber loss to evaluate board-rack synergy.
+    \item \textbf{Bayesian Negative-Evidence Opponent Tracking:} We replace uniform rack sampling with a Bayesian tracker that updates posterior rack distributions when opponents bypass open high-scoring bingo lanes, eliminating ghost-threat paralysis.
+    \item \textbf{Hybrid PIMC Engine:} We fuse high-speed compiled C simulation rollouts ($\sim 98,000$ rollouts/s) with neural candidate beam re-ranking, unifying deep simulation lookahead with spatial pattern recognition.
+    \item \textbf{Decisive 9,998-Game HPC Benchmark:} In a confirmatory tournament of 4,999 duplicate pairs (9,998 individual games) against Maximally Tuned Base \magpie, \algo\ Hybrid PIMC achieves a $+4.15$ point net spread per game ($95\%$ CI: $[+2.68, +5.61]$, total net $+41,474$ points, paired $t = 5.5517$, $p = 2.83 \times 10^{-8}$).
+    \item \textbf{First-Player Initiative Decomposition:} We show that Hybrid PIMC generates its margin by maximizing first-turn initiative (+20.48 points in Game A vs.\ +12.18 points for Tuned \magpie\ in Game B) while preserving defense when moving second.
+    \item \textbf{Reproducible Open-Source Release:} We provide the complete codebase, model checkpoints, SLURM scripts, and tournament match telemetry under the GPLv3 license.
 \end{itemize}

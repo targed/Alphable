@@ -1,90 +1,83 @@
-\section{Belief-Augmented Monte Carlo Search}
+\section{Belief-Augmented Search and Hybrid PIMC Architecture}
 \label{sec:bams_search}
 
 \subsection{Asymmetric 2-Ply Nested Search Formulation}
 
-To overcome the computational cost of deep tree search while eliminating the strategy fusion flaw of PIMC, \algo\ implements \textbf{Belief-Augmented Monte Carlo Search (\bams)}. Instead of simulating deep unguided trajectories, \bams\ evaluates candidate plays across a structured, asymmetric 2-ply nested lookahead:
+To reduce the computational burden of deep unguided tree search while mitigating the strategy fusion flaw of unconstrained PIMC, \algo\ implements \textbf{Belief-Augmented Monte Carlo Search (\bams)}. \bams\ evaluates candidate plays across a structured, 2-ply nested lookahead:
 
 \begin{enumerate}
-    \item \textbf{Root Candidate Beam ($K = 15$):} The native C GADDAG generator generates all legal plays for current rack $\rack_1$ on board $\board$, pruning down to the top-$K$ candidate moves ranked by initial static equity $\score(c_i) + \leaveval(\rack_1 \setminus c_i)$.
-    \item \textbf{Opponent Counterplay Modeling ($N = 24$):} For each candidate play $c_i$, the hypothetical child board $\board_i = \board \oplus c_i$ is constructed. \bams\ draws $M$ opponent rack samples $\rack_{\opp}^{(m)} \sim b_t(\rack_{\opp})$ from the active Bayesian belief distribution. For each sample, the generator produces top-$N$ opponent replies $o_j \in \cA(\board_i, \rack_{\opp}^{(m)})$. The opponent's optimal counterplay $\hat{o}_i^{(m)}$ is identified:
+    \item \textbf{Root Candidate Beam ($K = 15$):} The compiled C move generator produces all legal placements for the current rack $\rack_1$ on board $\board$, pruning down to the top-$K$ candidate moves ranked by initial static equity $\score(c_i) + \leaveval(\rack_1 \setminus c_i)$.
+    \item \textbf{Opponent Counterplay Modeling ($N = 24$):} For each candidate play $c_i$, the prospective child board $\board_i = \board \oplus c_i$ is constructed. \bams\ draws $M$ opponent rack samples $\rack_{\opp}^{(m)} \sim b_t(\rack_{\opp})$ from the active Bayesian belief distribution. For each sampled rack, the generator produces the top-$N$ opponent replies $o_j \in \cA(\board_i, \rack_{\opp}^{(m)})$. The opponent's response $\hat{o}_i^{(m)}$ is identified:
     \begin{equation}
         \hat{o}_i^{(m)} = \arg\max_{o_j} \Big[ \score(o_j) + \leaveval(\rack_{\opp}^{(m)} \setminus o_j) \Big]
     \end{equation}
-    \item \textbf{Player Reply Evaluation:} Conditioning on opponent counterplay $\hat{o}_i^{(m)}$ and our simulated bag draw $d \sim \mathrm{Hypergeometric}(\bag \setminus \rack_{\opp}^{(m)}, |c_i|)$, the child state transitions to:
+    \item \textbf{Player Reply Evaluation:} Conditioned on opponent counterplay $\hat{o}_i^{(m)}$ and our simulated bag draw $d \sim \mathrm{Hypergeometric}(\bag \setminus \rack_{\opp}^{(m)}, |c_i|)$, the game state transitions to:
     \begin{equation}
         \board_i' = \board_i \oplus \hat{o}_i^{(m)}, \quad \rack_1' = (\rack_1 \setminus c_i) \cup d
     \end{equation}
-    Our best follow-up response $\hat{r}_i^{(m)} \in \cA(\board_i', \rack_1')$ is evaluated using the neural value network $\hat{V}$.
+    Our subsequent follow-up response $\hat{r}_i^{(m)} \in \cA(\board_i', \rack_1')$ is evaluated using the neural value network $\hat{V}$.
     \item \textbf{Expected 2-Ply Return:} The net equity of candidate $c_i$ is computed as:
-    \begin{equation}
+    \begin{align}
         \label{eq:bams_equity}
-        Q_{\bams}(c_i) = \score(c_i) + \frac{1}{M} \sum_{m=1}^M \Big[ -\score(\hat{o}_i^{(m)}) + \score(\hat{r}_i^{(m)}) + \hat{V}(\board_i', \rack_1'') \Big]
-    \end{equation}
+        Q_{\bams}(c_i) &= \score(c_i) \nonumber \\
+        &\quad + \frac{1}{M} \sum_{m=1}^M \Big[ -\score(\hat{o}_i^{(m)}) + \score(\hat{r}_i^{(m)}) \nonumber \\
+        &\qquad\qquad + \hat{V}(\board_i', \rack_1'') \Big]
+    \end{align}
 \end{enumerate}
-
-\begin{figure}[t]
-\begin{lstlisting}[language=Python,caption={High-Level Algorithmic Structure of BAMS Lookahead}]
-def bams_evaluate_play(board, rack, cand_play, belief_dist, M=16, N=24):
-    board_after = apply_move(board, cand_play)
-    tiles_played = cand_play.tiles_played
-    rollout_scores = []
-    
-    for m in range(M):
-        # Sample opponent rack from Bayesian belief posterior
-        opp_rack = belief_dist.sample_rack()
-        # Find best opponent counterplay on board_after
-        opp_cand = generator.generate_plays(board_after, opp_rack, top_n=N)
-        best_opp = max(opp_cand, key=lambda p: p.score + p.leave_val)
-        
-        # Sample player replenishment draw
-        draw = sample_hypergeometric(bag_unseen, len(tiles_played))
-        my_next_rack = (rack - tiles_played) + draw
-        
-        # Board after opponent counterplay
-        board_next = apply_move(board_after, best_opp)
-        my_replies = generator.generate_plays(board_next, my_next_rack, top_n=5)
-        best_reply = max(my_replies, key=lambda p: p.score + value_net(p))
-        
-        # Net 2-ply outcome
-        rollout_scores.append(cand_play.score - best_opp.score + best_reply.score)
-        
-    return mean(rollout_scores)
-\end{lstlisting}
-\end{figure}
 
 \subsection{Bayesian Negative-Evidence Opponent Belief Tracking}
 
-Classical engines assume unplayed opponent tiles are uniformly distributed across all unseen tiles $U = \bag \cup \rack_2$:
+Standard Scrabble engines assume that unplayed opponent tiles are distributed uniformly across all unseen tiles $U = \bag \cup \rack_2$:
 \begin{equation}
     \rack_2 \sim \mathrm{Hypergeometric}(U, 7)
 \end{equation}
-However, in expert human and AI play, unplayed letters leave definitive behavioral footprints. When an open bingo lane yielding $\ge 60$ points exists on the board, and the opponent plays a modest 14-point play elsewhere, the hypothesis that the opponent holds power bingo tiles ($?$, S) becomes exponentially improbable.
+In tournament play, however, unplayed tiles leave informative behavioral evidence. When an open bingo lane yielding $\ge 60$ points exists on the board and the opponent plays a modest 14-point play elsewhere, the hypothesis that the opponent holds power bingo tiles ($?$, S) becomes improbable.
 
-\algo\ models opponent rack distributions via a Bayesian tracker:
+\algo\ updates its estimate of opponent racks via Bayesian tracking:
 \begin{equation}
     b_{t+1}(\rack_2) \propto b_t(\rack_2) \cdot \Prob(a_{\opp} \mid \board_t, \rack_2)
 \end{equation}
-We formulate the likelihood function $\Prob(a_{\opp} \mid \board_t, \rack_2)$ via negative evidence:
+We formulate the likelihood function $\Prob(a_{\opp} \mid \board_t, \rack_2)$ through negative evidence:
 \begin{equation}
     \Prob(a_{\opp} \mid \board_t, \rack_2) = \begin{cases}
-        1.0 & \text{if } a_{\opp} \text{ was top play}, \\
+        1.0 & \text{if } a_{\opp} = a^*, \\
         \exp(-\Delta_{\mathrm{forf}} / T) & \text{otherwise}
     \end{cases}
 \end{equation}
-where $\Delta_{\mathrm{forf}}$ is the forfeited point spread and $T = 12.5$ is a calibrated behavioral temperature. This tracker eliminates ``ghost threats'': \algo\ recognizes when an opponent is stuck with unbalanced vowel racks or lacks blank tiles, permitting bold offensive lane creation without defensive paralysis.
+where $\Delta_{\mathrm{forf}} = \score(a^*) - \score(a_{\opp})$ is the forfeited point spread and $T = 12.5$ is a calibrated behavioral temperature. This tracker mitigates ``ghost threats'': when an opponent holds unbalanced vowel racks or lacks blank tiles, \algo\ recognizes the constraint and exploits open scoring lanes without defensive hesitation.
 
 \subsection{Volatility-Conditioned Margin Control}
 
-Point differential $\Delta = S_1 - S_2$ fundamentally alters risk preferences in Scrabble. Holding a 60-point lead in the midgame dictates board closure and variance reduction; conversely, trailing by 60 points requires high-volatility play to create mutual bingo opportunities.
+Point differential $\Delta = S_1 - S_2$ alters risk preferences in Scrabble. Holding a 60-point lead in the midgame warrants board closure and variance reduction. Conversely, trailing by 60 points favors volatile play to create mutual bingo opportunities.
 
-\algo\ modulates candidate scoring using a continuous volatility penalty:
+\algo\ adjusts candidate move scores using a continuous volatility penalty:
 \begin{equation}
     \label{eq:volatility}
-    \mathrm{Score}_{\mathrm{adj}}(c_i) = Q_{\bams}(c_i) - \lambda(\Delta) \cdot \Var_{\omega}[\score(\hat{o}_i)]
+    \mathrm{Score}_{\mathrm{adj}}(c_i) = Q(c_i) - \lambda(\Delta) \cdot \Var_{\omega}[\score(\hat{o}_i)]
 \end{equation}
-where the risk weight $\lambda(\Delta)$ ramps continuously across margins:
+where the risk parameter $\lambda(\Delta)$ varies continuously across match margins:
 \begin{equation}
     \lambda(\Delta) = \mathrm{clamp}\left(0.15 + \frac{\Delta}{100.0}, -0.30, +0.60\right)
 \end{equation}
-When leading ($\Delta > 0$), $\lambda > 0$, penalizing plays with high opponent response variance. When trailing ($\Delta < 0$), $\lambda < 0$, rewarding plays that widen opponent response variance and break open locked board configurations.
+When leading ($\Delta > 0$), $\lambda > 0$, penalizing plays with high opponent response variance. When trailing ($\Delta < 0$), $\lambda < 0$, rewarding plays that widen opponent response variance and reopen locked board positions.
+
+\subsection{The Hybrid PIMC Engine: Fusing Simulation with Neural Re-Ranking}
+\label{sec:hybrid_pimc}
+
+While 2-ply \bams\ eliminates strategy fusion in local tactical decisions, our parameter audit (\S\ref{sec:critical_audit}) revealed that deep midgame positions benefit substantially from large-sample rollout lookahead. At $\sim 98,000$ rollouts per second, compiled C simulation can explore hundreds of stochastic bag draw branches within standard tournament move time limits.
+
+To combine the strengths of both paradigms, we developed the \textbf{\algo\ Hybrid PIMC Engine}. The hybrid pipeline operates in four coordinated stages:
+\begin{enumerate}
+    \item \textbf{C Candidate Beam Generation:} The native C WoadWage DAG move generator produces candidate plays with static scores and KLV2 leave values, optionally augmented by Positional Adjustment Terms (\texttt{-pat CSW24}).
+    \item \textbf{High-Throughput Simulation Beam ($K_{\mathrm{sim}} = 12$):} The compiled PIMC simulation engine executes hundreds of determinized rollouts in native C, producing an empirical expected simulation equity $Q_{\mathrm{PIMC}}(c_i)$ for each candidate play.
+    \item \textbf{Cross-Attention Neural Re-Ranking:} For the top candidate beam, the spatial board tensor $\mathbf{X}_{\mathrm{board}} \oplus c_i$ and leave rack tokens are evaluated by the deep neural value network $\hat{V}_{\mathrm{net}}$. The composite valuation is computed as:
+    \begin{align}
+        \label{eq:hybrid_formula}
+        Q_{\mathrm{hybrid}}(c_i) &= Q_{\mathrm{PIMC}}(c_i) + \alpha \cdot \hat{V}_{\mathrm{net}}(s \oplus c_i) \nonumber \\
+        &\quad - \lambda(\Delta) \cdot \Var_{\omega}[\score(\hat{o}_i)]
+    \end{align}
+    where $\alpha = 0.35$ balances asymptotic simulation depth with learned spatial-rack synergy.
+    \item \textbf{Seamless Late-Game Hand-off:} When the tile bag reaches zero ($|\bag| = 0$), the engine hands off execution directly to the exact minimax alpha-beta solver (\S\ref{sec:late_game}).
+\end{enumerate}
+
+This hybrid design preserves the raw tactical speed of compiled C simulation while applying deep neural evaluation to select between strategically distinct plays with comparable immediate equity.
