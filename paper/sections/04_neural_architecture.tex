@@ -1,53 +1,78 @@
 \section{Neural Value Network and Cross-Attention Architecture}
 \label{sec:neural_architecture}
 
-In classical Scrabble engines, board state evaluation is completely decoupled from rack leave evaluation: tabular leave values (KLV/KLV2) assess the quality of unplayed letters in isolation, blind to whether the board presents open triple-word lanes, constricted clusters, or accessible vowel hooks. To resolve this structural deficiency, \algo\ introduces a unified deep neural value network that jointly conditions board topology on rack composition.
+In classical Scrabble engines, board state evaluation is completely decoupled from rack leave evaluation: tabular leave values (such as KLV and KLV2) assess the quality of unplayed letters in isolation, blind to whether the board presents open triple-word lanes, constricted clusters, or accessible vowel hooks. To resolve this structural deficiency, \algo\ introduces a unified deep neural value network that jointly conditions board topology on rack composition.
+
+\begin{figure*}[t]
+\centering
+\begin{tikzpicture}[
+    box/.style={rectangle, draw=black!70, rounded corners=3pt, fill=blue!5, inner sep=6pt, text width=2.4cm, align=center, font=\footnotesize},
+    neural/.style={rectangle, draw=purple!80!black, rounded corners=3pt, fill=purple!10, inner sep=6pt, text width=2.6cm, align=center, font=\footnotesize},
+    sim/.style={rectangle, draw=teal!80!black, rounded corners=3pt, fill=teal!10, inner sep=6pt, text width=2.6cm, align=center, font=\footnotesize},
+    bayes/.style={rectangle, draw=orange!80!black, rounded corners=3pt, fill=orange!10, inner sep=6pt, text width=2.6cm, align=center, font=\footnotesize},
+    outbox/.style={rectangle, draw=green!60!black, rounded corners=3pt, fill=green!10, inner sep=6pt, text width=2.8cm, align=center, font=\footnotesize\bfseries},
+    arrow/.style={-{Stealth[scale=1.0]}, thick, draw=black!70}
+]
+
+% Nodes
+\node[box] (input) {Current State\\$(\mathbf{B}, \mathbf{r}_1, U, \Delta)$};
+\node[box, right=1.0cm of input] (gen) {C Candidate Generator\\(Top-$K$ Beam)};
+\node[sim, right=1.0cm of gen, yshift=1.2cm] (pimc) {Compiled PIMC Rollouts\\($\sim 98,000$ rolls/s)};
+\node[neural, right=1.0cm of gen, yshift=-1.2cm] (net) {Cross-Attention Net\\(ResNet + Rack Synergy)};
+\node[bayes, above=0.7cm of pimc] (belief) {Bayesian Belief Tracker\\(Negative Evidence)};
+\node[outbox, right=1.2cm of gen, xshift=3.2cm] (eval) {Composite Scoring \& Decision\\$\hat{Q}_{\mathrm{hybrid}} - \lambda \mathrm{Var} \to a^*$};
+
+% Arrows
+\draw[arrow] (input) -- (gen);
+\draw[arrow] (gen) |- (pimc);
+\draw[arrow] (gen) |- (net);
+\draw[arrow] (belief) -- (pimc);
+\draw[arrow] (input) |- (belief);
+\draw[arrow] (pimc) -| (eval);
+\draw[arrow] (net) -| (eval);
+
+\end{tikzpicture}
+\caption{System architecture of the \algo\ Hybrid PIMC framework. The compiled C candidate generator supplies candidate plays to both a high-throughput PIMC simulation engine (conditioned on Bayesian opponent belief tracking) and a deep cross-attention value network. A margin-aware volatility controller integrates both valuations into a final composite decision.}
+\label{fig:architecture}
+\end{figure*}
 
 \subsection{Input Tensor Representation}
 
-The input to the \algo\ value network consists of a multi-channel spatial tensor and a discrete sequence of rack tokens:
-\begin{enumerate}
-    \item \textbf{Spatial Board Tensor ($\mathbf{X}_{\mathrm{board}} \in \mathbb{R}^{28 \times 15 \times 15}$):}
-    \begin{itemize}
-        \item Channels $0 \le c \le 25$: Binary one-hot letter planes corresponding to English alphabet characters $\text{A}$ through $\text{Z}$.
-        \item Channel $26$: Binary indicator plane for placed blank tiles (which contribute zero letter score).
-        \item Channel $27$: Normalized premium multiplier grid, encoding Double Letter ($\times 1.2$), Triple Letter ($\times 1.5$), Double Word ($\times 2.0$), and Triple Word ($\times 3.0$) coordinates.
-    \end{itemize}
-    \item \textbf{Rack Embedding Sequence ($\mathbf{X}_{\mathrm{rack}} \in \mathbb{Z}^7$):}
-    The player's rack tiles are mapped through a discrete embedding table into $d = 64$-dimensional dense vectors:
-    \begin{equation}
-        \mathbf{E}_{\mathrm{rack}} = \mathrm{Embedding}(\mathbf{X}_{\mathrm{rack}}) \in \mathbb{R}^{7 \times 64}
-    \end{equation}
-\end{enumerate}
+The input to the \algo\ value network consists of two coordinated representations: a multi-channel spatial tensor representing the board grid and a discrete token sequence representing the rack. 
+
+The spatial board state is encoded as a tensor $\mathbf{X}_{\mathrm{board}} \in \mathbb{R}^{28 \times 15 \times 15}$. Channels $0$ through $25$ correspond to binary one-hot indicator planes for the English alphabet characters $\text{A}$ through $\text{Z}$, recording the tile letter placed at each square. Channel $26$ provides a binary indicator plane for blank tiles, which designate valid words on the board but contribute zero nominal letter score. Channel $27$ contains a normalized premium multiplier grid that encodes the static geometry of Double Letter ($\times 1.2$), Triple Letter ($\times 1.5$), Double Word ($\times 2.0$), and Triple Word ($\times 3.0$) coordinates. 
+
+Complementing the spatial tensor, the player's unplayed rack tiles are encoded as a discrete token sequence $\mathbf{X}_{\mathrm{rack}} \in \mathbb{Z}^7$. Each rack tile token is mapped through a learned embedding table into a dense $d = 64$-dimensional vector:
+\begin{equation}
+    \mathbf{E}_{\mathrm{rack}} = \mathrm{Embedding}(\mathbf{X}_{\mathrm{rack}}) \in \mathbb{R}^{7 \times 64}
+\end{equation}
+Empty rack slots, which arise when the tile bag is exhausted and fewer than seven tiles remain, are represented by a reserved padding token.
 
 \subsection{Cross-Attention Backbone Architecture}
 
-The neural network processes the dual inputs through a hybrid convolutional and cross-attentive architecture:
-\begin{enumerate}
-    \item \textbf{Convolutional Feature Extractor:} The spatial tensor $\mathbf{X}_{\mathrm{board}}$ passes through an initial $7 \times 7$ convolutional layer ($28 \to 64$ channels, stride 1, padding 3), followed by Batch Normalization and ReLU activation. It then traverses 4 residual blocks (ResNet-18 style), producing spatial feature map $\mathbf{F}_{\mathrm{board}} \in \mathbb{R}^{64 \times 15 \times 15}$.
-    \item \textbf{Spatial Tokenization:} $\mathbf{F}_{\mathrm{board}}$ is reshaped into a sequence of $225$ spatial visual tokens:
-    \begin{equation}
-        \mathbf{K}_{\mathrm{board}}, \mathbf{V}_{\mathrm{board}} = \mathbf{F}_{\mathrm{board}}^{\top} \in \mathbb{R}^{225 \times 64}
-    \end{equation}
-    \item \textbf{Multi-Head Cross-Attention:} We treat the 7 rack tile embeddings as queries $\mathbf{Q} = \mathbf{E}_{\mathrm{rack}} \mathbf{W}_Q$, attending over spatial board keys $\mathbf{K} = \mathbf{K}_{\mathrm{board}} \mathbf{W}_K$ and values $\mathbf{V} = \mathbf{V}_{\mathrm{board}} \mathbf{W}_V$ across $h = 4$ attention heads:
-    \begin{equation}
-        \mathrm{Attention}(\mathbf{Q}, \mathbf{K}, \mathbf{V}) = \mathrm{softmax}\left( \frac{\mathbf{Q} \mathbf{K}^\top}{\sqrt{d_k}} \right) \mathbf{V}
-    \end{equation}
-    This mechanism allows individual rack letters (e.g., an unplayed S or blank) to dynamically query specific board coordinates (e.g., open triple-word hook lanes), computing context-dependent synergy representations.
-    \item \textbf{Scalar Equity Head:} The cross-attended rack representations are pooled and concatenated with the globally pooled board representation, passing through a multi-layer perceptron ($128 \to 64 \to 1$) with Layer Normalization to output a predicted scalar equity offset $\hat{V}(s) \in \mathbb{R}$.
-\end{enumerate}
+The dual inputs are processed through a hybrid convolutional and cross-attentive backbone, depicted in Figure~\ref{fig:architecture}. The spatial board tensor $\mathbf{X}_{\mathrm{board}}$ is initially processed by a $7 \times 7$ convolutional layer with $64$ filters, unit stride, and padding of $3$, followed by Batch Normalization and a Rectified Linear Unit (ReLU) activation. The resulting activations traverse four residual blocks modeled on the ResNet-18 architecture, extracting high-level spatial and combinatorial features into a tensor $\mathbf{F}_{\mathrm{board}} \in \mathbb{R}^{64 \times 15 \times 15}$.
+
+To enable direct interaction between the rack and spatial features, $\mathbf{F}_{\mathrm{board}}$ is flattened across its spatial dimensions into a sequence of $225$ spatial visual tokens:
+\begin{equation}
+    \mathbf{K}_{\mathrm{board}}, \mathbf{V}_{\mathrm{board}} = \mathbf{F}_{\mathrm{board}}^{\top} \in \mathbb{R}^{225 \times 64}
+\end{equation}
+We formulate a multi-head cross-attention mechanism with $h = 4$ heads, where the seven rack tile embeddings serve as queries $\mathbf{Q} = \mathbf{E}_{\mathrm{rack}} \mathbf{W}_Q$, and the spatial board tokens serve as keys $\mathbf{K} = \mathbf{K}_{\mathrm{board}} \mathbf{W}_K$ and values $\mathbf{V} = \mathbf{V}_{\mathrm{board}} \mathbf{W}_V$:
+\begin{equation}
+    \mathrm{Attention}(\mathbf{Q}, \mathbf{K}, \mathbf{V}) = \mathrm{softmax}\left( \frac{\mathbf{Q} \mathbf{K}^\top}{\sqrt{d_k}} \right) \mathbf{V}
+\end{equation}
+where $d_k = 16$. This cross-attention formulation allows each individual rack tile (such as an unplayed `S' or blank) to dynamically attend to specific board coordinates (such as open triple-word hook lanes or parallel vowel slots), producing a context-dependent synergy embedding.
+
+The attended rack representations are averaged via global pooling and concatenated with the globally pooled board representation. The concatenated vector passes through a multi-layer perceptron with Layer Normalization ($128 \to 64 \to 1$) to produce a predicted scalar equity offset $\hat{V}(s) \in \mathbb{R}$.
 
 \subsection{Distillation and Robust Huber Training}
 
-Training a value network from scratch via self-play in Scrabble is complicated by the high variance of 50-point bingo bonuses and random tile draws. We adopt a supervised distillation framework:
-\begin{itemize}
-    \item \textbf{Distillation Dataset:} 500,000 tournament game positions annotated with asymptotic KLV2 leaf evaluations and Monte Carlo rollouts.
-    \item \textbf{Huber Loss Formulation:} To prevent occasional triple-triple blowouts ($\ge 150$ points) from destabilizing weight convergence, we optimize the network using Huber Loss ($\delta = 1.0$):
-    \begin{equation}
-        \mathcal{L}_\delta(y, \hat{y}) = \begin{cases}
-            \frac{1}{2} (y - \hat{y})^2 & \text{for } |y - \hat{y}| \le \delta \\
-            \delta \cdot (|y - \hat{y}| - \frac{1}{2} \delta) & \text{otherwise}
-        \end{cases}
-    \end{equation}
-\end{itemize}
-The resulting value network achieves an inference latency of $4.2$ ms on a single GPU (or $14.8$ ms on standard 8-core CPU), enabling seamless integration into multi-candidate tree search.
+Training an equity network directly from self-play in Scrabble presents severe convergence challenges due to the heavy-tailed variance of 50-point bingo bonuses and random tile draws. We circumvent this instability by adopting a supervised distillation framework. The network is trained on a curated corpus of 500,000 tournament game positions, annotated with asymptotic leaf evaluations derived from deep Monte Carlo rollouts and KLV2 evaluations.
+
+To prevent occasional triple-triple blowouts ($\ge 150$ points) from distorting network weights during gradient descent, we optimize the parameters using a robust Huber loss with threshold $\delta = 1.0$:
+\begin{equation}
+    \mathcal{L}_\delta(y, \hat{y}) = \begin{cases}
+        \frac{1}{2} (y - \hat{y})^2 & \text{for } |y - \hat{y}| \le \delta \\
+        \delta \cdot (|y - \hat{y}| - \frac{1}{2} \delta) & \text{otherwise}
+    \end{cases}
+\end{equation}
+The distilled value network achieves an inference latency of $4.2$ milliseconds on a single GPU and $14.8$ milliseconds on a standard 8-core CPU, making it practical for real-time candidate re-ranking during competitive match play.

@@ -44,7 +44,7 @@ Factoring out the IRN variance:
     \Var(\hat{\Delta}_{\CRN}) = \frac{\sigma_1^2 + \sigma_2^2}{N} \left( 1 - \frac{2 \Cov(V(c_1, \omega), V(c_2, \omega))}{\sigma_1^2 + \sigma_2^2} \right) = \Var(\hat{\Delta}_{\IRN}) \left( 1 - \frac{2 \rho \sigma_1 \sigma_2}{\sigma_1^2 + \sigma_2^2} \right)
 \end{equation}
 
-\textbf{Step 3: Positivity of Cross-Candidate Correlation ($\rho > 0$).}
+\textbf{Step 3: Correlation Positivity ($\rho > 0$).}
 Let $S^*(\rack_2) = \max_{o \in \cA(\board, \rack_2)} \score(o)$ represent the intrinsic offensive scoring potential of unobserved opponent rack $\rack_2$. In Scrabble candidate evaluation:
 \begin{equation}
     V(c_i, \omega) = \score(c_i) - \max_{o \in \cA(\board \oplus c_i, \rack_2)} \score(o) + \leaveval(\rack_1 \setminus c_i \cup d)

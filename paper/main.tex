@@ -1,6 +1,7 @@
-\documentclass[10pt,twocolumn,letterpaper]{article}
+\documentclass[11pt,letterpaper]{article}
 
-\usepackage[top=0.75in,bottom=0.85in,left=0.75in,right=0.75in]{geometry}
+\usepackage[top=1.0in,bottom=1.0in,left=1.0in,right=1.0in]{geometry}
+\linespread{1.08}
 % Standard Computer Modern fonts with microtype protrusion
 \usepackage[expansion=false]{microtype}
 \usepackage{booktabs}
@@ -33,7 +34,8 @@
 \title{\textbf{Alphable: Belief-Augmented Monte Carlo Search and Cross-Attention Valuation in Imperfect-Information Scrabble}}
 
 \author{
-  \textbf{Luke Kaiser}\thanks{Source code, datasets, and pre-trained models are publicly available at \url{https://github.com/targed/Alphable}.} \\
+  \textbf{Luke Kaiser}\thanks{Correspondence: \texttt{ltklionel@gmail.com}. Source code, datasets, and pre-trained models are publicly available at \url{https://github.com/targed/Alphable}.} \\
+  \textit{Department of Computer Science, Missouri University of Science and Technology}
 }
 
 \date{\today}
@@ -59,7 +61,6 @@
 
 \clearpage
 \appendix
-\onecolumn
 \section{Theoretical Proofs and Mathematical Foundations}
 \input{appendix/proof_crn.tex}
 \input{appendix/proof_duplicate.tex}

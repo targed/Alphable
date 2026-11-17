@@ -5,21 +5,17 @@ Scientific rigor requires an adversarial audit of baseline configurations, failu
 
 \subsection{The Parameter Ceiling of Native MAGPIE}
 
-A source-level code audit of the \magpie\ engine (`vendor/magpie/src/`) reveals that the baseline designated as ``Base \magpie'' in previous literature operates in an unoptimized, 1-ply static greedy mode with all advanced simulation and positional modules disabled:
-\begin{enumerate}
-    \item \textbf{Positional Adjustment Terms (\texttt{-pat CSW24}):} A neural-linear evaluator assessing quadrant openness, vowel-consonant balance, and premium-square distances (\texttt{players\_data.c:48}, disabled by default).
-    \item \textbf{High-Throughput PIMC Simulation (\texttt{PlayChooser}):} Native C simulation lookahead operating at $\sim 98,134$ rollouts/second (\texttt{config.c:215}, disabled by default).
-    \item \textbf{Exact Alpha-Beta Endgame Solver (\texttt{-eplies}):} Minimax lookahead at zero bag (\texttt{endgame.c:85}, disabled by default).
-\end{enumerate}
+A source-level code audit of the \magpie\ engine (`vendor/magpie/src/`) reveals that the baseline designated as ``Base \magpie'' in previous literature operates in an unoptimized, 1-ply static greedy mode with all advanced simulation and positional modules disabled by default. 
 
-To quantify this parameter ceiling, we conducted exploratory duplicate matches across configurations, summarized in Table~\ref{tab:magpie_ceiling}.
+Specifically, three crucial competitive subsystems remain inactive in default builds. First, Positional Adjustment Terms (\texttt{-pat CSW24}) provide a neural-linear evaluator that scores board quadrant openness, vowel-consonant balance, and premium-square distances (\texttt{players\_data.c:48}). Second, native high-throughput PIMC simulation (\texttt{PlayChooser}) provides compiled C lookahead executing at $\sim 98,134$ rollouts per second (\texttt{config.c:215}). Third, an exact complete-information alpha-beta endgame solver (\texttt{-eplies}) performs exhaustive minimax lookahead when the tile bag reaches zero (\texttt{endgame.c:85}).
+
+To quantify the competitive impact of these dormant modules, we conducted exploratory duplicate matches across configuration pairs, summarized in Table~\ref{tab:magpie_ceiling}. Enabling these modules transforms \magpie\ into a formidable opponent, generating a $+63.02$ point net spread over default \magpie\ and establishing the true benchmark against which neural Scrabble systems must be evaluated.
 
 \begin{table}[t]
 \centering
 \small
 \caption{Exploratory Parameter Ceiling and Matchup Matrix.}
 \label{tab:magpie_ceiling}
-\resizebox{\columnwidth}{!}{%
 \begin{tabular}{lcccc}
 \toprule
 \textbf{Matchup Description} & \textbf{Pairs ($N$)} & \textbf{Win Rate} & \textbf{Net Spread} & \textbf{Paired $t$} \\
@@ -29,16 +25,15 @@ To quantify this parameter ceiling, we conducted exploratory duplicate matches a
 3. Standalone V4 vs.\ Default \magpie & 20 (40g) & 60.0\% & $+0.38\text{ pts}$ & $+0.03$ \\
 4. V4 (PAT-Gen) vs.\ V4 (Def-Gen) & 10 (20g) & 60.0\% & $+2.05\text{ pts}$ & $+0.09$ \\
 \bottomrule
-\end{tabular}%
-}
+\end{tabular}
 \end{table}
 
 \subsection{The 40-Game Variance Trap}
 \label{sec:variance_trap}
 
-The exploratory matches in Table~\ref{tab:magpie_ceiling} highlight the sample variance problem in Scrabble AI research. In Matchup 2, standalone 2-ply \bams\ showed a $-46.48$ point deficit over 20 pairs (40 games). However, treating a 40-game sample as a definitive measure of engine strength is a methodological error.
+The exploratory matches in Table~\ref{tab:magpie_ceiling} highlight the pervasive sample variance challenge in Scrabble AI research. In Matchup 2, standalone 2-ply \bams\ showed an apparent $-46.48$ point deficit over 20 pairs (40 games). However, treating a 40-game sample as a definitive measure of engine strength represents a fundamental methodological error.
 
-In duplicate Scrabble tournaments, individual match score differences exhibit high standard deviation ($\sigma \approx 105.7$ points per pair). For a sample of $N$ duplicate pairs, the standard error of the mean differential is:
+In duplicate Scrabble tournaments, individual match score differentials exhibit high standard deviation ($\sigma \approx 105.7$ points per pair). For a sample of $N$ duplicate pairs, the standard error of the mean differential is:
 \begin{equation}
     \label{eq:sem_formula}
     \mathrm{SEM} = \frac{\sigma}{\sqrt{N}}
@@ -47,32 +42,34 @@ For $N = 20$ pairs (40 games), $\mathrm{SEM} = 105.7 / \sqrt{20} \approx 23.63$ 
 \begin{equation}
     \mathrm{CI}_{95} = \bar{d} \pm 1.96 \times 11.82 \approx \bar{d} \pm 23.16\text{ pts / game}
 \end{equation}
-A confidence interval spanning $\pm 46.3$ points per pair means that random sampling noise completely overwhelms genuine performance deltas of 3 to 8 points. 
+An uncertainty band spanning $\pm 46.3$ points per pair means that random sampling noise completely overwhelms genuine performance deltas of 3 to 8 points. 
 
-As shown in our 10,000-game HPC benchmark (\S\ref{sec:hpc_benchmark}), scaling to $N = 5,000$ pairs compresses the standard error to $\mathrm{SEM} = 0.747$ points per game, yielding a narrow $95\%$ confidence interval of $[+2.68, +5.61]$ points. Small-scale benchmarks of 20 to 100 games produce deceptive fluctuations and cannot establish algorithmic superiority.
+As demonstrated in our 10,000-game supercomputer benchmark (\S\ref{sec:hpc_benchmark}), scaling the evaluation to $N = 5,000$ pairs compresses the standard error to $\mathrm{SEM} = 0.747$ points per game, yielding a narrow $95\%$ confidence interval of $[+2.68, +5.61]$ points. Small-scale benchmarks of 20 to 100 games produce deceptive fluctuations and cannot reliably establish algorithmic superiority.
 
 \subsection{Negative Results and Implementation Lessons}
 
-Transparent reporting requires documenting approaches that failed or required substantial architectural redesign:
-\begin{enumerate}
-    \item \textbf{Standalone 1-Ply Neural Valuation:} In early experiments, we tested replacing tabular KLV2 leave values with raw neural network evaluations without search lookahead. This configuration underperformed static KLV2 baselines. Immediate placement scores in Scrabble are large and discrete, and static neural evaluation failed to anticipate opponent counterplay on open multiplier squares without explicit response modeling.
-    \item \textbf{The Pure 2-Ply Lookahead Deficit:} While 2-ply \bams\ outperformed 1-ply static \magpie\ by $+7.06$ points/game, it struggled against Maximally Tuned \magpie\ when the latter executed unconstrained C simulation rollouts ($\sim 98,000$ rollouts/s). In deep midgame positions, evaluating candidate moves through only 2 plies failed to anticipate multi-turn bag depletion and long-horizon tile traps. This finding directly motivated our Hybrid PIMC architecture (\S\ref{sec:hybrid_pimc}), which uses native C simulation for candidate beam exploration and applies cross-attention neural networks for candidate re-ranking.
-    \item \textbf{Ghost Threats in Standard PIMC:} Pure PIMC assumes uniform sampling of opponent racks from unseen tiles $U = \bag \cup \rack_2$. In practice, this causes engines to over-block speculative opponent bingos that are inconsistent with the opponent's prior plays. Introducing Bayesian negative-evidence tracking eliminated these ghost threats by discounting racks containing tiles that would have enabled higher-scoring plays on preceding turns.
-\end{enumerate}
+Transparent reporting requires documenting approaches that failed or required substantial architectural redesign during development.
+
+\paragraph{Standalone 1-Ply Neural Valuation.} In early experiments, we attempted to directly replace tabular KLV2 leave values with raw neural network evaluations without search lookahead. This configuration underperformed static heuristic baselines. Immediate placement scores in Scrabble are large and discrete; static neural evaluation failed to anticipate immediate opponent counterplay on newly exposed premium multiplier squares without explicit search lookahead.
+
+\paragraph{The Pure 2-Ply Lookahead Deficit.} While 2-ply \bams\ comfortably outperformed 1-ply static \magpie\ by $+7.06$ points per game, it struggled against Maximally Tuned \magpie\ when the latter executed unconstrained C simulation rollouts ($\sim 98,000$ rollouts/s). In deep midgame positions, evaluating candidate moves through only two plies failed to anticipate multi-turn bag depletion and long-horizon tile traps. This negative result directly motivated our Hybrid PIMC architecture (\S\ref{sec:hybrid_pimc}), which harnesses native C simulation for broad candidate beam exploration and applies cross-attention neural networks for candidate re-ranking.
+
+\paragraph{Ghost Threats in Standard PIMC.} Standard PIMC assumes uniform sampling of opponent racks from unseen tiles $U = \bag \cup \rack_2$. In practice, this causes engines to over-block speculative opponent bingos that are completely inconsistent with the opponent's prior plays. Introducing Bayesian negative-evidence tracking successfully eliminated these ghost threats by discounting racks containing tiles that would have enabled higher-scoring plays on preceding turns.
 
 \subsection{Cluster Multiprocessing and HPC Engineering}
 
-Deploying the 10,000-game tournament on the Missouri S\&T HPC cluster revealed several systems-level challenges:
-\begin{itemize}
-    \item \textbf{Process Pool Memory Leaks and Cgroup OOM:} Running high-throughput parallel matches across 24 to 32 worker processes using Python's default \texttt{multiprocessing} fork mode caused worker memory footprints to grow steadily over tens of thousands of turns. On SLURM, this triggered Linux cgroup memory enforcement, resulting in job termination (\texttt{slurmstepd: error: Detected 1 oom-kill event(s)}). We resolved this by implementing bounded batch streaming and recycling worker processes every 250 duplicate matches.
-    \item \textbf{C Library and Compiler Compatibility:} Integrating native \magpie\ with Python \texttt{ctypes} on modern cluster environments (RHEL 9, GCC 12.2.0) exposed header collisions and pointer type mismatches. Upstream \magpie\ refactored internal cache index definitions into \texttt{src/compat/memory\_info.h} and modified the memory querying signature to \texttt{int64\_t *out}. We authored automated patch scripts (\texttt{scripts/patch\_magpie\_cluster.py}) to manage header dependencies, resolve enum re-declarations, and enforce thread safety.
-\end{itemize}
+Deploying the 10,000-game tournament on the Missouri S\&T HPC cluster revealed several systems-level engineering challenges that must be addressed when scaling imperfect-information game evaluations.
+
+\paragraph{Process Pool Memory Leaks and Cgroup Enforcement.} Running high-throughput parallel matches across 24 to 32 worker processes using Python's default \texttt{multiprocessing} fork mode caused worker memory footprints to grow steadily over tens of thousands of simulated turns. On the SLURM cluster environment, this triggered Linux cgroup memory limits, terminating the batch job via out-of-memory kill signals (\texttt{slurmstepd: error: Detected 1 oom-kill event(s)}). We resolved this issue by restructuring the worker orchestration into bounded batch streams, recycling worker processes every 250 duplicate matches to release cached C memory structures back to the operating system.
+
+\paragraph{C Library and Compiler Compatibility.} Integrating native \magpie\ shared libraries with Python \texttt{ctypes} on modern enterprise Linux clusters (RHEL 9 with GCC 12.2.0) exposed header collisions and pointer type mismatches. Upstream \magpie\ refactored internal cache index definitions into \texttt{src/compat/memory\_info.h} and modified the memory querying signature to \texttt{int64\_t *out}. We authored automated patch scripts (\texttt{scripts/patch\_magpie\_cluster.py}) to manage header dependencies, resolve enum re-declarations, and enforce thread safety across concurrent workers.
 
 \subsection{Bounding the Superiority Claim}
 
-We conclude with an explicit appraisal of what our results demonstrate:
-\begin{enumerate}
-    \item The $+4.15$ point net spread per game over Maximally Tuned \magpie\ represents an empirical margin of approximately $1.0\%$ relative to average game scores ($415$ points). It is a statistically verified edge ($p = 2.83 \times 10^{-8}$), not a blowout.
-    \item In tournament Scrabble, roughly 80\% of turns present a clear, high-equity play where top engines agree. The strategic delta generated by \algo\ resides in the remaining 20\% of non-obvious branching decisions: balancing vowel-consonant rack leaves, managing board volatility, avoiding ghost threats, and controlling late-game bag parity.
-    \item Learned neural valuation and high-throughput simulation are complementary rather than mutually exclusive. Deep neural networks provide spatial pattern valuation that heuristic tables cannot represent, while compiled simulation provides fast lookahead depth that neural models cannot match in latency. Fusing both yields the strongest tournament performance.
-\end{enumerate}
+We conclude our audit with an explicit, grounded appraisal of what our empirical results demonstrate and where boundaries remain.
+
+First, the $+4.15$ point net spread per game over Maximally Tuned \magpie\ represents an empirical margin of approximately $1.0\%$ relative to average game scores ($415$ points). While this margin is verified at the 5.5-sigma discovery standard ($p = 2.83 \times 10^{-8}$), it reflects a hard-fought competitive edge rather than a categorical blowout.
+
+Second, in tournament Scrabble, roughly 80\% of game turns present an obvious, high-equity play where top engines agree. The strategic delta generated by \algo\ resides in the remaining 20\% of non-obvious branching decisions: balancing vowel-consonant rack leaves, managing board volatility, avoiding ghost threats, and controlling late-game bag parity.
+
+Finally, learned neural valuation and high-throughput simulation are complementary rather than mutually exclusive. Deep neural networks provide spatial pattern valuation that heuristic tables cannot represent, while compiled simulation provides fast lookahead depth that neural models cannot match in latency. Fusing both within a unified hybrid framework yields the strongest tournament performance.

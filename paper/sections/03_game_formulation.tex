@@ -1,65 +1,45 @@
 \section{Game Formulation and Imperfect Information}
 \label{sec:game_formulation}
 
-\subsection{POMDP Mathematical Framework}
+\subsection{POMDP Framework and State Dynamics}
 
-Tournament Scrabble is formally modeled as a two-player, zero-sum Partially Observable Markov Decision Process (POMDP) defined by the tuple:
+Tournament Scrabble is formally modeled as a two-player zero-sum Partially Observable Markov Decision Process (POMDP). At turn $t$, the underlying state is completely defined by the tuple $s = (\board, \rack_1, \rack_2, \bag, \Delta)$, where $\board \in \{0, \dots, 27\}^{15 \times 15}$ represents the board grid of placed letters and blanks, $\rack_1$ and $\rack_2$ denote the private tile multisets of Player 1 and Player 2 with $|\rack_i| \le 7$, $\bag$ is the multiset of unobserved bag tiles, and $\Delta = S_1 - S_2$ is the cumulative score differential.
+
+On each turn, the active player chooses an action from the legal action set $\cA(\board, \rack_p)$, comprising word placements across existing anchor squares, tile exchanges with the bag (valid when $|\bag| \ge 7$), or a pass. Because private racks are concealed, an agent does not observe the true state $s$. Instead, Player 1 observes the public board $\board$, their private rack $\rack_1$, the score differential $\Delta$, and the multiset of all unseen tiles:
 \begin{equation}
-    \cM = \langle \cS, \cA, \cT, \cR, \Omega, \cO, \gamma \rangle
+    U = \bag \cup \rack_2
 \end{equation}
-where:
-\begin{itemize}
-    \item \textbf{State Space ($\cS$):} The true, complete game state at turn $t$ is represented by the 7-tuple:
-    \begin{equation}
-        s = (\board, \rack_1, \rack_2, \bag, \Delta, t, p) \in \cS
-    \end{equation}
-    where $\board \in \{0, \dots, 27\}^{15 \times 15}$ is the discrete board tensor representing placed letters and blanks; $\rack_1, \rack_2 \in \cM_7$ denote the private tile multisets of Player 1 and Player 2 ($|\rack_i| \le 7$); $\bag \in \cM_{\le 100}$ is the multiset of unobserved bag tiles; $\Delta = S_1 - S_2 \in \mathbb{Z}$ is the cumulative score differential; $t \in \mathbb{N}$ is the turn index; and $p \in \{1, 2\}$ is the active player.
-    \item \textbf{Action Space ($\cA$):} For active player $p$, the legal action set $\cA(\board, \rack_p)$ consists of:
-    \begin{enumerate}
-        \item Placements: Valid lexical word plays forming horizontal or vertical cross-checks on $\board$ using tiles $k \subseteq \rack_p$.
-        \item Exchanges: Exchanging $m$ tiles ($1 \le m \le |\rack_p|$) with the bag (valid only when $|\bag| \ge 7$).
-        \item Passes: Forfeiting the turn ($a = \varnothing$).
-    \end{enumerate}
-    \item \textbf{Observation Space ($\Omega$) and Function ($\cO$):} Player 1 does not observe $\rack_2$ or $\bag$ individually, but observes the public board $\board$, own rack $\rack_1$, margin $\Delta$, and the multiset of all unseen tiles:
-    \begin{equation}
-        U = \bag \cup \rack_2
-    \end{equation}
-    Thus, Player 1's observation is $o_1(s) = (\board, \rack_1, U, \Delta, t, p)$.
-    \item \textbf{Transition Dynamics ($\cT$):} When Player 1 executes play $a$ consuming tiles $k \subseteq \rack_1$:
-    \begin{enumerate}
-        \item Board updates deterministically: $\board' = \board \oplus a$.
-        \item Points scored: $\Delta' = \Delta + \score(a)$.
-        \item Replenishment: Player 1 draws $n = \min(|k|, |\bag|)$ tiles from $\bag$ governed by the hypergeometric distribution:
-        \begin{equation}
-            \Prob(d \mid \bag, n) = \frac{\prod_{c \in \Sigma} \binom{\bag(c)}{d(c)}}{\binom{|\bag|}{n}}
-        \end{equation}
-        yielding new bag $\bag' = \bag \setminus d$ and new rack $\rack_1' = (\rack_1 \setminus k) \cup d$.
-    \end{enumerate}
-\end{itemize}
+The agent's observation is therefore given by the information set $o_1(s) = (\board, \rack_1, U, \Delta)$. When a player commits a play $a$ consuming tiles $k \subseteq \rack_1$, the board updates deterministically to $\board' = \board \oplus a$, and the player draws replenishment tiles $d \subseteq \bag$ with $|d| = \min(|k|, |\bag|)$. The draw follows the multivariate hypergeometric distribution governed by the remaining bag composition:
+\begin{equation}
+    \Prob(d \mid \bag, |k|) = \frac{\prod_{c \in \Sigma} \binom{\bag(c)}{d(c)}}{\binom{|\bag|}{|k|}}
+\end{equation}
+This draw yields the successor bag $\bag' = \bag \setminus d$ and updated rack $\rack_1' = (\rack_1 \setminus k) \cup d$.
 
 \subsection{The Strategy Fusion Flaw in Classical PIMC}
 
-Classical Scrabble engines evaluate candidate move $a_1 \in \cA$ via Perfect Information Monte Carlo (PIMC). In PIMC, the search engine samples $K$ determinized opponent racks $\rack_2^{(k)} \sim \mathrm{Uniform}(U, 7)$ and simulates rollouts under the assumption of perfect information.
+Traditional tournament engines evaluate candidate plays using Perfect Information Monte Carlo (PIMC). Under PIMC, the search algorithm samples $K$ determinized opponent racks, $\rack_2^{(k)} \sim \mathrm{Uniform}(U, 7)$, and simulates play forward assuming perfect information.
 
-Let $\omega = (\rack_2, \bag)$ denote an unobserved environmental sample. The true imperfect-information value of candidate play $a_1$ under non-clairvoyant optimal play is:
+Let $\omega = (\rack_2, \bag)$ denote an unobserved environmental sample drawn from belief distribution $\cB$. In true imperfect-information play, the optimal non-clairvoyant value of a candidate play $a_1$ requires choosing follow-up responses that maximize expected return over the unresolved information set:
 \begin{equation}
     \label{eq:true_iig_val}
     V^*(a_1) = \E_{\omega \sim \cB} \left[ \min_{o_1 \in \cA(\board \oplus a_1, \rack_2)} \max_{a_2 \in \cA(\board \oplus a_1 \oplus o_1, \rack_1')} Q(s'') \right]
 \end{equation}
-In contrast, PIMC solves a determinized perfect-information game for each sample $\omega$:
+In contrast, PIMC solves a determinized perfect-information game separately for each sampled instance $\omega$:
 \begin{equation}
     \label{eq:pimc_val}
     V_{\mathrm{PIMC}}(a_1) = \E_{\omega \sim \cB} \left[ \min_{o_1} Q(s, a_1, o_1, \omega) \right]
 \end{equation}
 
-By Jensen's inequality and the minimax theorem, swapping the expectation operator $\E_\omega$ and the player's subsequent decision operator $\max_{a_2}$ induces the \textbf{Strategy Fusion Flaw} \citep{sokota2026scalable}:
+By Jensen's inequality and the minimax theorem, interchanging the expectation operator $\E_\omega$ and the player's subsequent decision operator $\max_{a_2}$ induces the strategy fusion flaw \citep{sokota2026scalable}.
+
+\begin{theorem}[Strategy Fusion in Determinized Evaluation]
+\label{thm:fusion}
+Let $\omega \in \Omega$ denote the hidden game state drawn from belief distribution $\cB$. For any candidate play $a_1$ and subsequent player response set $\cA_2$, interchanging the expectation and maximization operators induces a non-negative clairvoyance bias:
 \begin{equation}
     \label{eq:strategy_fusion}
-    \E_\omega \left[ \max_{a_2} V(a_1, a_2, \omega) \right] \ge \max_{a_2} \E_\omega \left[ V(a_1, a_2, \omega) \right]
+    \E_{\omega \sim \cB} \left[ \max_{a_2 \in \cA_2} V(a_1, a_2, \omega) \right] \ge \max_{a_2 \in \cA_2} \E_{\omega \sim \cB} \left[ V(a_1, a_2, \omega) \right]
 \end{equation}
-In tournament Scrabble, strategy fusion severely misleads engines:
-\begin{enumerate}
-    \item In PIMC rollouts, the simulated agent chooses its subsequent move $a_2$ with clairvoyant knowledge of which exact tiles the opponent held in $\omega$.
-    \item Consequently, PIMC systematically overestimates the defensive value of speculative blocking moves that neutralize specific opponent bingos, while underestimating robust, high-scoring center moves that perform well against the true unobserved distribution.
-\end{enumerate}
-\algo's \bams\ architecture directly circumvents strategy fusion by maintaining belief distributions and constraining second-ply evaluation to our own observable information set.
+Equality holds if and only if there exists a single action $a_2^* \in \cA_2$ that simultaneously maximizes $V(a_1, a_2, \omega)$ for all $\omega \in \mathrm{supp}(\cB)$.
+\end{theorem}
+
+In competitive Scrabble, strategy fusion systematically degrades decision quality. In determinized PIMC rollouts, the simulated agent chooses its second-ply follow-up move with clairvoyant knowledge of the opponent's exact private tiles. As a consequence, PIMC engines overestimate the defensive utility of speculative blocking moves that neutralize specific opponent bingos, while underestimating robust, flexible plays that score well across the true distribution of hidden racks. \algo\ avoids this pathology by coupling dynamic Bayesian belief tracking with belief-consistent value evaluation.

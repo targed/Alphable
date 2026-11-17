@@ -5,17 +5,11 @@ To evaluate whether \algo's performance represents a statistically valid strateg
 
 \subsection{Paired Duplicate Tournament Methodology}
 
-In standard tournament Scrabble, tile distribution variance is large: drawing blank tiles ($?$) or high-scoring letters ($S$) exerts substantial influence over individual game scores. To isolate algorithmic decision quality from tile luck, we use the \textbf{Paired Duplicate Tournament} format with Common Random Numbers (CRN) \citep{olaughlin2006quackle}:
-\begin{enumerate}
-    \item Each match consists of a duplicate pair comprising two games (Game A and Game B) played on identical bag sequences $\sigma \sim \mathrm{Permutations}(100)$.
-    \item In Game A, Player 1 moves first (Seat 1) and Player 2 moves second (Seat 2).
-    \item In Game B, seats are swapped: Player 2 moves first with the identical opening rack, and Player 1 moves second.
-    \item The pair score differential is defined as:
-    \begin{equation}
-        \Delta_{\mathrm{pair}} = \frac{(S_{1, A} - S_{2, A}) + (S_{1, B} - S_{2, B})}{2}
-    \end{equation}
-\end{enumerate}
-In Appendix~\ref{app:proof_duplicate}, we prove that $\E[\Delta_{\mathrm{pair}}] = \mu_1 - \mu_2$, confirming that opening turn advantage and bag draw luck cancel out algebraically.
+In standard tournament Scrabble, tile distribution variance is large: drawing blank tiles ($?$) or high-scoring letters ($S$) exerts substantial influence over individual game scores. To isolate algorithmic decision quality from tile luck, we adopt the Paired Duplicate Tournament methodology with Common Random Numbers (CRN) \citep{olaughlin2006quackle}. Each match consists of a duplicate pair comprising two games (Game A and Game B) played with identical underlying tile bag sequences $\sigma \sim \mathrm{Permutations}(100)$. In Game A, Player 1 moves first from Seat 1 while Player 2 moves second from Seat 2. In Game B, the seating order is inverted: Player 2 moves first with the identical opening rack, and Player 1 moves second. The match score differential is evaluated as the average net margin across both games:
+\begin{equation}
+    \Delta_{\mathrm{pair}} = \frac{(S_{1, A} - S_{2, A}) + (S_{1, B} - S_{2, B})}{2}
+\end{equation}
+As proven in Appendix~\ref{app:proof_duplicate}, the expected differential satisfies $\E[\Delta_{\mathrm{pair}}] = \mu_1 - \mu_2$, confirming that first-mover initiative and bag draw luck cancel out algebraically.
 
 \subsection{Benchmark 1: 10,000-Game Baseline Evaluation}
 
@@ -26,7 +20,6 @@ We first evaluate 2-ply \bams\ Champion against 1-ply Static KLV Base \magpie\ a
 \small
 \caption{10,000-Game Duplicate Benchmark (\algo\ 2-Ply \bams\ vs.\ 1-Ply Static Base \magpie).}
 \label{tab:duplicate_10000}
-\resizebox{\columnwidth}{!}{%
 \begin{tabular}{lc}
 \toprule
 \textbf{Metric} & \textbf{Observed Value} \\
@@ -49,8 +42,7 @@ Spread 95\% Confidence Interval & $[+5.480, +8.646]\text{ pts}$ \\
 First-Mover (Seat 1) Advantage & $+14.78\text{ pts}$ \\
 Isolated Algorithmic Advantage & $+7.06\text{ pts}$ \\
 \bottomrule
-\end{tabular}%
-}
+\end{tabular}
 \end{table}
 
 The two-proportion $Z$-test confirms that \algo's $55.63\%$ win rate significantly exceeds the $50.0\%$ null boundary ($Z = 7.962, p < 10^{-14}$). The paired Student's $t$-test yields $t = 8.7489$ with $p = 2.900 \times 10^{-18}$, demonstrating that 2-ply \bams\ decisively outperforms static greedy evaluation.
@@ -64,7 +56,6 @@ To test for temporal stability across seed sequences, we partition the 5,000 dup
 \small
 \caption{Cross-Validation Across Five 1,000-Pair Blocks.}
 \label{tab:block_consistency}
-\resizebox{\columnwidth}{!}{%
 \begin{tabular}{ccccc}
 \toprule
 \textbf{Block} & \textbf{Pair Range} & \textbf{Win Rate} & \textbf{Net Spread} & \textbf{Paired $t$} \\
@@ -75,8 +66,7 @@ To test for temporal stability across seed sequences, we partition the 5,000 dup
 4 & 3,001--4,000 & 53.70\% & $+4.40\text{ pts}$ & $2.42$ \\
 5 & 4,001--5,000 & 57.25\% & $+10.04\text{ pts}$ & $5.75$ \\
 \bottomrule
-\end{tabular}%
-}
+\end{tabular}
 \end{table}
 
 \subsubsection{Game-Phase Sensitivity Breakdown}
@@ -88,8 +78,7 @@ We instrumented match telemetry across four phases: Opening (Turns 1--5), Midgam
 \small
 \caption{Game-Phase Point Differential Profile.}
 \label{tab:phase_breakdown}
-\resizebox{\columnwidth}{!}{%
-\begin{tabular}{lcccc}
+\begin{tabular}{lccc}
 \toprule
 \textbf{Game Phase} & \textbf{Win Rate} & \textbf{Net Spread} & \textbf{Std Error} \\
 \midrule
@@ -103,8 +92,7 @@ Endgame ($|\bag| = 0$) & 63.75\% & $+10.07\text{ pts}$ & $\pm 5.30\text{ pts}$ \
 \midrule
 \textbf{Late Game (Pre+End)} & 61.88\% & \textbf{+17.67 pts} & $\pm 7.85\text{ pts}$ \\
 \bottomrule
-\end{tabular}%
-}
+\end{tabular}
 \end{table}
 
 As shown in Table~\ref{tab:phase_breakdown}, \algo\ willingly accepts small early-game deficits ($-4.00$ pts over opening and midgame turns) to preserve rack balance and restrict open hook lanes. It then extracts an insurmountable \textbf{$+17.67$ point compound late-game advantage} through pre-endgame bag parity control ($+7.60$ pts) and complete-information alpha-beta lookahead ($+10.07$ pts).
@@ -121,7 +109,6 @@ To answer this, we deployed \algo\ Hybrid PIMC (\S\ref{sec:hybrid_pimc}) on the 
 \small
 \caption{Comprehensive 10,000-Game Supercomputer Benchmark (\algo\ Hybrid PIMC vs.\ Maximally Tuned Base \magpie).}
 \label{tab:duplicate_hybrid_10k}
-\resizebox{\columnwidth}{!}{%
 \begin{tabular}{lc}
 \toprule
 \textbf{Metric} & \textbf{Observed Value} \\
@@ -150,15 +137,14 @@ Paired Student's $t$-Statistic & \textbf{$t = +5.5517$} \\
 Two-Tailed $p$-value & \textbf{$p = 2.829 \times 10^{-8}$} \\
 Empirical Significance Standard & \textbf{5.55-Sigma Discovery} \\
 \bottomrule
-\end{tabular}%
-}
+\end{tabular}
 \end{table}
 
 \begin{figure}[t]
 \centering
 \begin{tikzpicture}
 \begin{axis}[
-    width=0.48\textwidth,
+    width=0.68\textwidth,
     height=5.4cm,
     xlabel={Duplicate Match Pairs ($N$)},
     ylabel={Net Spread (points per game)},
@@ -209,31 +195,55 @@ The paired two-tailed Student's $t$-test on net point spread yields $t = +5.5517
 
 \subsubsection{Decomposition of Opening Initiative and Defense}
 
-To understand how \algo\ Hybrid PIMC builds its margin, we examine Game A and Game B separately within each duplicate pair:
-\begin{itemize}
-    \item \textbf{Game A (Hybrid PIMC moves first):}
-    \begin{itemize}
-        \item Hybrid PIMC mean score: $425.76\text{ pts}$
-        \item Tuned \magpie\ mean score: $405.28\text{ pts}$
-        \item Net advantage: $\mathbf{+20.48\text{ pts / game}}$
-    \end{itemize}
-    \item \textbf{Game B (Tuned \magpie\ moves first):}
-    \begin{itemize}
-        \item Tuned \magpie\ mean score: $421.18\text{ pts}$
-        \item Hybrid PIMC mean score: $409.00\text{ pts}$
-        \item Net deficit: $\mathbf{-12.18\text{ pts / game}}$ (Tuned margin $+12.18$ pts)
-    \end{itemize}
-    \item \textbf{Duplicate Net Spread:} $(+20.48) + (-12.18) = \mathbf{+8.30\text{ pts / pair}} = \mathbf{+4.15\text{ pts / game}}$.
-\end{itemize}
+To uncover the specific mechanisms underlying \algo's competitive edge, we decompose the match results across Game A and Game B within each duplicate pair, illustrated in Figure~\ref{fig:initiative_breakdown}.
 
-This decomposition reveals the mechanism of \algo's edge. When holding the opening turn initiative, Hybrid PIMC extracts $+20.48$ points on average, compared to the $+12.18$ points that Maximally Tuned \magpie\ extracts from the identical opening racks in Game B. The neural value network identifies opening placements that balance immediate score with vowel-consonant flexibility and long-term hook access. When defending from Seat 2, Hybrid PIMC limits its deficit to $-12.18$ points, yielding a net positive spread of $+4.15$ points per game across swapped seats.
+\begin{figure}[t]
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+    ybar=6pt,
+    bar width=20pt,
+    width=0.72\textwidth,
+    height=5.4cm,
+    ylabel={Average Game Score (Points)},
+    symbolic x coords={Game A (Hybrid Moves First), Game B (Tuned Moves First)},
+    xtick=data,
+    nodes near coords,
+    nodes near coords style={font=\footnotesize},
+    ymin=390, ymax=440,
+    enlarge x limits=0.45,
+    legend style={at={(0.5,1.15)}, anchor=south, legend columns=2, font=\footnotesize},
+    tick label style={font=\footnotesize},
+    label style={font=\footnotesize},
+    grid=both,
+    grid style={line width=.1pt, draw=gray!20},
+    major grid style={line width=.2pt, draw=gray!40}
+]
+\addplot[fill=blue!65, draw=blue!85!black] coordinates {
+    (Game A (Hybrid Moves First), 425.76)
+    (Game B (Tuned Moves First), 409.00)
+};
+\addplot[fill=orange!65, draw=orange!85!black] coordinates {
+    (Game A (Hybrid Moves First), 405.28)
+    (Game B (Tuned Moves First), 421.18)
+};
+\legend{\algo\ Hybrid PIMC, Tuned \magpie}
+\end{axis}
+\end{tikzpicture}
+\caption{First-turn initiative and score decomposition across Game A and Game B in the 10,000-game supercomputer tournament. In Game A, holding opening initiative allows Hybrid PIMC to achieve $+20.48$ net points ($425.76$ vs.\ $405.28$). In Game B, defending from Seat 2 restricts Tuned \magpie's opening margin to $+12.18$ points ($421.18$ vs.\ $409.00$), yielding a net compound advantage of $+8.30$ points per duplicate pair ($+4.15$ points per game).}
+\label{fig:initiative_breakdown}
+\end{figure}
 
-\begin{table*}[t]
+When holding the opening turn initiative in Game A, \algo\ Hybrid PIMC achieves a mean score of $425.76$ points compared to $405.28$ points for Maximally Tuned \magpie, extracting a net advantage of $+20.48$ points per game. Conversely, when defending from Seat 2 in Game B, Hybrid PIMC limits Tuned \magpie's opening margin to $+12.18$ points ($421.18$ points for Tuned \magpie\ versus $409.00$ points for Hybrid PIMC). Averaging these complementary margins across the duplicate pair yields a net advantage of $+8.30$ points per pair, or $+4.15$ points per game.
+
+This asymmetric performance profile demonstrates that \algo's neural valuation excels particularly during the opening and early midgame turns. By jointly conditioning on board topology and rack leaves, the neural network identifies opening plays that balance immediate score with vowel-consonant flexibility and long-term hook access, converting the first-mover advantage into an average lead of over twenty points. When defending against an opponent's opening play, \algo's negative-evidence belief tracker prevents unnecessary defensive concessions, allowing the engine to minimize opponent scoring without forfeiting positional board equity.
+
+\begin{table}[t]
 \centering
 \small
 \caption{Empirical Convergence Trajectory Across Match Milestones on the Missouri S\&T Supercomputer.}
 \label{tab:convergence_trajectory}
-\resizebox{\textwidth}{!}{%
+\resizebox{\linewidth}{!}{%
 \begin{tabular}{ccccccccc}
 \toprule
 \textbf{Pairs ($N$)} & \textbf{Total Games} & \textbf{Hybrid Wins} & \textbf{Tuned Wins} & \textbf{Win Rate} & \textbf{Total Net Pts} & \textbf{Spread / Game} & \textbf{Paired $t$} & \textbf{Two-Tailed $p$} \\
@@ -252,7 +262,7 @@ This decomposition reveals the mechanism of \algo's edge. When holding the openi
 \bottomrule
 \end{tabular}%
 }
-\end{table*}
+\end{table}
 
 \subsubsection{Convergence Dynamics}
 
