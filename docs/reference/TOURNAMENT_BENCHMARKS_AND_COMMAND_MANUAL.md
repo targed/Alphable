@@ -168,7 +168,7 @@ graph TD
 ```
 
 ### Pillar 1: Zero-Centered Relative Threat & Net Spread
-- **Implementation**: [`alphable_v4/search/bams.py:L331-L370`](file:///home/targed/Documents/Git/Alphable/alphable_v4/search/bams.py#L331-L370)
+- **Implementation**: [`alphable/search/bams.py:L331-L370`](file:///home/targed/Documents/Git/Alphable/alphable/search/bams.py#L331-L370)
 - **Problem Solved**: Raw subtraction of opponent scores caused overly conservative play by penalizing high-scoring moves on open boards. Centering relative to baseline opponent replies isolates moves that introduce disproportionate counterplay.
 - **Formulas**:
   $$\text{relative\_threat} = \mathbb{E}[\text{OppReply}(c)] - \text{baseline\_opp\_score}$$
@@ -176,18 +176,18 @@ graph TD
   $$\text{BAMS\_Score}(c) = (w_{\text{eq}} \cdot c.\text{equity}) - (w_{\text{opp}} \cdot \text{relative\_threat}) + (w_{\text{val}} \cdot \text{relative\_value})$$
 
 ### Pillar 2: Dynamic Game-State Adaptive Deficit & Beam
-- **Implementation**: [`alphable_v4/search/bams.py:L115-L144`](file:///home/targed/Documents/Git/Alphable/alphable_v4/search/bams.py#L115-L144)
+- **Implementation**: [`alphable/search/bams.py:L115-L144`](file:///home/targed/Documents/Git/Alphable/alphable/search/bams.py#L115-L144)
 - **Policy**:
   - Trailing by $\ge 25$ pts: Expands beam to $K=20..25$ and deficit to $7.5$ pts to evaluate high-ceiling comeback plays.
   - Leading by $\ge 35$ pts: Tightens beam to $K=8..10$ and deficit to $3.0$ pts for low-volatility board closure.
   - Early game ($\ge 50$ bag tiles): Beam $K=16$, deficit $6.0$ pts for strategic board openness.
 
 ### Pillar 3: Native Alpha-Beta Exact Endgame Solver
-- **Implementation**: [`alphable_v4/search/bams.py:L416-L465`](file:///home/targed/Documents/Git/Alphable/alphable_v4/search/bams.py#L416-L465)
+- **Implementation**: [`alphable/search/bams.py:L416-L465`](file:///home/targed/Documents/Git/Alphable/alphable/search/bams.py#L416-L465)
 - **Mechanism**: Calls MAGPIE's native C++ `endgame` solver. Resolves depth 6-10 perfect-information game trees in under 35 ms, executing deterministic endgame sequences and lockout lines.
 
 ### Pillar 4: Calibrated Hyperparameters
-- **Implementation**: [`alphable_v4/search/bams.py:L27-L49`](file:///home/targed/Documents/Git/Alphable/alphable_v4/search/bams.py#L27-L49)
+- **Implementation**: [`alphable/search/bams.py:L27-L49`](file:///home/targed/Documents/Git/Alphable/alphable/search/bams.py#L27-L49)
   - `num_samples`: `24`
   - `candidate_beam`: `15`
   - `max_static_deficit`: `3.5`

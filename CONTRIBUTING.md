@@ -71,7 +71,7 @@ Before opening a pull request, verify that all **185 tests** pass without errors
 
 - **Python Style**: Follow PEP 8 conventions. Use clear, self-explanatory variable and function names.
 - **Type Annotations**: Add type hints to public methods and dataclasses.
-- **Memory Safety**: Any ctypes bindings with native C libraries (`alphable_v4/engine/magpie_bindings.py`) must cleanly manage allocated strings and memory buffers (`magpie_free_string`).
+- **Memory Safety**: Any ctypes bindings with native C libraries (`alphable/engine/magpie_bindings.py`) must cleanly manage allocated strings and memory buffers (`magpie_free_string`).
 - **Deterministic Evaluation**: Use Common Random Numbers (CRN) and paired duplicate seeds when benchmarking to prevent tile distribution variance from distorting algorithmic evaluations.
 
 ---

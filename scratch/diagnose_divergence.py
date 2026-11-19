@@ -4,10 +4,10 @@ scratch/diagnose_divergence.py
 Diagnoses move choices of Hybrid PIMC vs Tuned MAGPIE on identical board states.
 """
 
-from alphable_v4.engine.magpie_bindings import MagpieEngine
-from alphable_v4.cli import build_policy
-from alphable_v4.platform.eval import GameSimulator, ScrabbleBag, get_game_phase
-from alphable_v4.engine.game_state import GameState
+from alphable.engine.magpie_bindings import MagpieEngine
+from alphable.cli import build_policy
+from alphable.platform.eval import GameSimulator, ScrabbleBag, get_game_phase
+from alphable.engine.game_state import GameState
 
 def diagnose():
     eng_sim = MagpieEngine(lexicon="CSW24")

@@ -129,7 +129,7 @@ fi
 # ------------------------------------------------------------------------------
 echo -e "\n[Step 4/5] Verifying Checkpoints & Data Directories..."
 
-CKPT_FILE="alphable_v4/models/checkpoints/v4_value_net_best.pt"
+CKPT_FILE="alphable/models/checkpoints/v4_value_net_best.pt"
 if [ ! -f "$CKPT_FILE" ]; then
     echo "WARNING: Model checkpoint $CKPT_FILE not found."
 fi

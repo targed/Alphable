@@ -1,11 +1,13 @@
 import sys, os
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from alphable_v4.engine.magpie_bindings import MagpieEngine
-from alphable_v4.engine.game_state import GameState
-from alphable_v4.search.bams import BAMSSearch, BAMSConfig
+from alphable.engine.magpie_bindings import MagpieEngine
+from alphable.engine.game_state import GameState
+from alphable.search.bams import BAMSSearch, BAMSConfig
 
 engine = MagpieEngine(lexicon='CSW24')
-ckpt = os.path.normpath(os.path.join(os.path.dirname(__file__), '..', 'models', 'checkpoints', 'v4_value_net_best.pt'))
+ckpt = os.path.normpath(os.path.join(os.path.dirname(__file__), '..', 'alphable', 'models', 'checkpoints', 'v4_value_net_best.pt'))
+if not os.path.exists(ckpt):
+    ckpt = os.path.normpath(os.path.join(os.path.dirname(__file__), '..', 'models', 'checkpoints', 'v4_value_net_best.pt'))
 bams = BAMSSearch.from_checkpoint(
     engine,
     ckpt,

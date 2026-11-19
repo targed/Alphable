@@ -71,7 +71,7 @@ Where:
    - Add `candidate_beam_2ply: int = 6` (top candidates selected for full 2-ply lookahead)
    - Add `samples_2ply: int = 12` (CRN samples for 2-ply stage)
    - Add `weight_2ply: float = 0.65` (blending factor between 2-ply net exchange and static equity)
-2. Implement `_evaluate_2ply_candidate` in [bams.py](file:///home/targed/Documents/Git/Alphable/alphable_v4/search/bams.py):
+2. Implement `_evaluate_2ply_candidate` in [bams.py](file:///home/targed/Documents/Git/Alphable/alphable/search/bams.py):
    - For each candidate $m_1$, apply to $S \rightarrow S_1$.
    - For each sampled opponent rack $R_{\text{opp}}$, compute $o_1 = \text{engine.best\_reply}(S_1, R_{\text{opp}})$.
    - Apply $o_1 \rightarrow S_2$.
@@ -91,7 +91,7 @@ Where:
 ## 3. Frontier 2: History-Conditioned Bayesian Belief Filtering (Negative Evidence)
 
 ### 3.1 Problem Statement and Rationale
-Uniform rack sampling in [belief_net.py](file:///home/targed/Documents/Git/Alphable/alphable_v4/models/belief_net.py) draws opponent tiles uniformly from the unseen pool:
+Uniform rack sampling in [belief_net.py](file:///home/targed/Documents/Git/Alphable/alphable/models/belief_net.py) draws opponent tiles uniformly from the unseen pool:
 - If the opponent played a 12-point word last turn while an open 60-point bingo hook was available, they almost certainly do not hold an 'S' or blank.
 - Uniform sampling treats them as having an 'S' or blank with default bag frequency, inducing unnecessary defensive play against absent threats.
 
@@ -104,7 +104,7 @@ Where:
 - Weighted reservoir sampling draws opponent racks according to posterior weights.
 
 ### 3.3 Implementation Tasks
-1. Create `OpponentTracker` in [belief_net.py](file:///home/targed/Documents/Git/Alphable/alphable_v4/models/belief_net.py):
+1. Create `OpponentTracker` in [belief_net.py](file:///home/targed/Documents/Git/Alphable/alphable/models/belief_net.py):
    - Tracks board state prior to opponent's last move.
    - Computes missed plays: queries `engine.generate_moves(state_before_opp)`.
    - Identifies unused high-scoring tiles: if plays $>35\text{ pts}$ required tile $X$, decay $P(X \in R_{\text{opp}})$ by decay factor $\alpha = 0.15$.
@@ -142,7 +142,7 @@ When $1 \le \text{state.bag\_count} \le 5$:
 3. When bag hits 0, trigger `_solve_exact_endgame` minimax.
 
 ### 4.3 Implementation Tasks
-1. Implement `_evaluate_pre_endgame` in [bams.py](file:///home/targed/Documents/Git/Alphable/alphable_v4/search/bams.py):
+1. Implement `_evaluate_pre_endgame` in [bams.py](file:///home/targed/Documents/Git/Alphable/alphable/search/bams.py):
    - Detects `1 <= state.bag_count <= 5`.
    - Calculates bag-emptying parity and tile draw consequences.
    - Adjusts candidate rankings to favor bag-emptying plays when holding positive leaves or sticking plays when the bag contains heavy consonants.
@@ -165,7 +165,7 @@ The Value Network previously predicted full game equity $[-1.0, 1.0]$. KLV stati
   3. Endgame Lockout ($P_{\text{lockout}}$): Probability that the board geometry allows a pegging lockout.
 
 ### 5.2 Architecture and Multi-Head Design
-In [value_net.py](file:///home/targed/Documents/Git/Alphable/alphable_v4/models/value_net.py):
+In [value_net.py](file:///home/targed/Documents/Git/Alphable/alphable/models/value_net.py):
 - Keep the ResNet-18 spatial backbone over the 32-channel $15 \times 15$ board.
 - Replace the single equity output head with 3 specialized geometric heads:
   $$\text{Head 1: } P_{\text{bingo}} \in [0, 1] \quad (\text{Binary Cross-Entropy})$$
@@ -173,9 +173,9 @@ In [value_net.py](file:///home/targed/Documents/Git/Alphable/alphable_v4/models/
   $$\text{Head 3: } V_{\text{pos}} \in [-1, 1] \quad (\text{Pure positional territory advantage})$$
 
 ### 5.3 Implementation Tasks
-1. Update `V4ValueNetwork` architecture in [value_net.py](file:///home/targed/Documents/Git/Alphable/alphable_v4/models/value_net.py):
+1. Update `V4ValueNetwork` architecture in [value_net.py](file:///home/targed/Documents/Git/Alphable/alphable/models/value_net.py):
    - Add multi-head projection layers: `bingo_head`, `hook_head`, `pos_head`.
-2. Update Dataset Extraction in [build_value_dataset.py](file:///home/targed/Documents/Git/Alphable/alphable_v4/training/build_value_dataset.py):
+2. Update Dataset Extraction in [build_value_dataset.py](file:///home/targed/Documents/Git/Alphable/alphable/training/build_value_dataset.py):
    - Label training boards with whether the next play was a bingo and total open anchor count.
 3. Incorporate Geometric Heads into BAMS:
    - Penalize candidate plays that spike $P_{\text{bingo}}$ without commensurate score gain.
@@ -193,7 +193,7 @@ BAMS has several continuous hyperparameters:
 - Manual tuning achieved +4.3 pts; automated Bayesian optimization over self-play converges to the optimum.
 
 ### 6.2 Implementation Tasks
-1. Create [optimize_hyperparams.py](file:///home/targed/Documents/Git/Alphable/alphable_v4/training/optimize_hyperparams.py):
+1. Create [optimize_hyperparams.py](file:///home/targed/Documents/Git/Alphable/alphable/training/optimize_hyperparams.py):
    - Uses Optuna Bayesian optimization with objective: Maximize net point spread over a 100-game self-play tournament.
    - Search space:
      - `max_static_deficit`: $[2.5, 6.0]$
@@ -209,11 +209,11 @@ BAMS has several continuous hyperparameters:
 
 | Step | Target Frontier | Deliverable Files | Verification Status | Verified Metric |
 | :---: | :--- | :--- | :---: | :--- |
-| **Step 1** | Frontier 1: 2-Ply Nested Rollouts | `alphable_v4/search/bams.py`<br>`tests/search/test_bams.py` | COMPLETED & VERIFIED | 100% duplicate match win rate (5/5 matches), +87.6 pts/game spread vs Base MAGPIE. |
-| **Step 2** | Frontier 3: Pre-Endgame Parity Solver | `alphable_v4/search/bams.py`<br>`tests/search/test_bams.py` | COMPLETED & VERIFIED | Unit tests passing (`test_pre_endgame_parity_and_sticking`, `test_pre_endgame_full_bams_activation`). |
-| **Step 3** | Frontier 2: Bayesian Negative Rack Inference | `alphable_v4/models/belief_net.py`<br>`tests/models/test_models.py` | COMPLETED & VERIFIED | Unit tests passing (`test_negative_evidence_blank_decay`, `test_posterior_sampler_rack_validity_and_skew`). |
-| **Step 4** | Frontier 5: Automated Hyperparameter Calibration | `alphable_v4/training/optimize_hyperparams.py` | COMPLETED & VERIFIED | Grid and duplicate evaluator verified; optimal search parameters generated. |
-| **Step 5** | Frontier 4: Decoupled Positional Geometry Network | `alphable_v4/models/value_net.py`<br>`tests/models/test_models.py` | COMPLETED & VERIFIED | `bingo_head` and `hook_head` outputs verified; backward compatibility on checkpoints confirmed. |
+| **Step 1** | Frontier 1: 2-Ply Nested Rollouts | `alphable/search/bams.py`<br>`tests/search/test_bams.py` | COMPLETED & VERIFIED | 100% duplicate match win rate (5/5 matches), +87.6 pts/game spread vs Base MAGPIE. |
+| **Step 2** | Frontier 3: Pre-Endgame Parity Solver | `alphable/search/bams.py`<br>`tests/search/test_bams.py` | COMPLETED & VERIFIED | Unit tests passing (`test_pre_endgame_parity_and_sticking`, `test_pre_endgame_full_bams_activation`). |
+| **Step 3** | Frontier 2: Bayesian Negative Rack Inference | `alphable/models/belief_net.py`<br>`tests/models/test_models.py` | COMPLETED & VERIFIED | Unit tests passing (`test_negative_evidence_blank_decay`, `test_posterior_sampler_rack_validity_and_skew`). |
+| **Step 4** | Frontier 5: Automated Hyperparameter Calibration | `alphable/training/optimize_hyperparams.py` | COMPLETED & VERIFIED | Grid and duplicate evaluator verified; optimal search parameters generated. |
+| **Step 5** | Frontier 4: Decoupled Positional Geometry Network | `alphable/models/value_net.py`<br>`tests/models/test_models.py` | COMPLETED & VERIFIED | `bingo_head` and `hook_head` outputs verified; backward compatibility on checkpoints confirmed. |
 | **Step 6** | All-Frontiers Tournament vs Base MAGPIE | `scratch/run_enhanced_tournament.py`<br>`docs/TOURNAMENT_BENCHMARKS_AND_COMMAND_MANUAL.md` | COMPLETED & VERIFIED | 30 Games: 19W - 11L (63.3% Win Rate), +7.8 pts net spread (up from +4.3 baseline). |
 | **Full Suite** | Comprehensive Codebase Regression | `tests/` (51 unit tests) | COMPLETED & VERIFIED | 51/51 tests passing in 17.72s. |
 
@@ -229,9 +229,9 @@ pytest tests/ -v
 
 # 2. Benchmark 2-Ply Nested Search Latency Budget
 python -c "
-from alphable_v4.engine.magpie_bindings import MagpieEngine
-from alphable_v4.search.bams import BAMSSearch, BAMSConfig
-from alphable_v4.engine.game_state import GameState
+from alphable.engine.magpie_bindings import MagpieEngine
+from alphable.search.bams import BAMSSearch, BAMSConfig
+from alphable.engine.game_state import GameState
 engine = MagpieEngine(lexicon='CSW24')
 bams = BAMSSearch(engine, config=BAMSConfig(nested_2ply=True))
 state = GameState(rack=list('ENRSTUW'))

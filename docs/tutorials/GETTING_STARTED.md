@@ -30,7 +30,7 @@ The installer performs these steps:
 2. Creates and activates an isolated virtual environment (`venv`).
 3. Installs dependencies (`torch`, `numpy`, `scipy`, `pandas`, `tqdm`, `requests`, `pyarrow`, `pytest`).
 4. Compiles the native C MAGPIE solver (`vendor/magpie/bin/libmagpie.so` or `libmagpie.dylib`).
-5. Confirms that neural network checkpoints exist in `alphable_v4/models/checkpoints/`.
+5. Confirms that neural network checkpoints exist in `alphable/models/checkpoints/`.
 6. Runs smoke tests to verify move generation and policy loading.
 
 ---

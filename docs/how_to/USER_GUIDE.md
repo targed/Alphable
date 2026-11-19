@@ -74,7 +74,7 @@ Pass any of the following names or aliases to `--model` (Player 1) or `--opponen
 ### 3. Loading custom checkpoints
 To load a specific weight file:
 ```bash
-python cli.py tournament --model-path alphable_v4/models/checkpoints/v4_value_net_rl_gen1.pt --opponent magpie --games 50
+python cli.py tournament --model-path alphable/models/checkpoints/v4_value_net_rl_gen1.pt --opponent magpie --games 50
 ```
 
 ---

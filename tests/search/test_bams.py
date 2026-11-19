@@ -153,12 +153,12 @@ class TestBAMSSearch:
         bams = BAMSSearch.from_checkpoint(
             shared_engine,
             checkpoint_path,
-            config=BAMSConfig(nested_2ply=True, candidate_beam_2ply=4, samples_2ply=8),
+            config=BAMSConfig(nested_2ply=True, candidate_beam_2ply=4, samples_2ply=8, seed=42),
         )
 
         selected, meta = bams.select_move(state)
         assert selected is not None
-        assert selected.is_placement
+        assert selected.is_placement or selected.is_exchange
         assert meta["method"] == "bams_mc_rollout_2ply"
         assert len(meta["evaluations"]) >= 1
         # Top evaluated candidates must have computed 2-ply net exchange

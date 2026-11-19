@@ -2,9 +2,9 @@
 
 Alphable V4 is a tournament Scrabble engine that combines four subsystems:
 1. **MAGPIE C-Native Engine**: Fast move generation and KLV leave valuation via [`vendor/magpie/bin/libmagpie.so`](file:///home/targed/Documents/Git/Alphable/vendor/magpie/bin/libmagpie.so).
-2. **Belief-Augmented Monte Carlo Search (BAMS)**: Opponent hidden-rack inference with Common Random Numbers (CRN) variance reduction in [`alphable_v4/search/bams.py`](file:///home/targed/Documents/Git/Alphable/alphable_v4/search/bams.py).
-3. **Hybrid ResNet-18 and Cross-Attention Value Network**: 32-channel spatial board tensor cross-attended over a 64-dimensional dynamic state vector in [`alphable_v4/models/value_net.py`](file:///home/targed/Documents/Git/Alphable/alphable_v4/models/value_net.py).
-4. **Macondo Ground-Truth Equity Distillation**: Continuous deficit labeling anchored against grandmaster-analyzed positions in [`alphable_v4/training/macondo_distill.py`](file:///home/targed/Documents/Git/Alphable/alphable_v4/training/macondo_distill.py).
+2. **Belief-Augmented Monte Carlo Search (BAMS)**: Opponent hidden-rack inference with Common Random Numbers (CRN) variance reduction in [`alphable/search/bams.py`](file:///home/targed/Documents/Git/Alphable/alphable/search/bams.py).
+3. **Hybrid ResNet-18 and Cross-Attention Value Network**: 32-channel spatial board tensor cross-attended over a 64-dimensional dynamic state vector in [`alphable/models/value_net.py`](file:///home/targed/Documents/Git/Alphable/alphable/models/value_net.py).
+4. **Macondo Ground-Truth Equity Distillation**: Continuous deficit labeling anchored against grandmaster-analyzed positions in [`alphable/training/macondo_distill.py`](file:///home/targed/Documents/Git/Alphable/alphable/training/macondo_distill.py).
 
 ---
 
@@ -55,7 +55,7 @@ The repository is structured with the core Python package at the root:
 ├── pyproject.toml          # Package configuration and build dependencies
 ├── requirements.txt        # Runtime and training dependencies
 ├── README.md               # Project overview and quickstart
-├── alphable_v4/            # Core engine package
+├── alphable/               # Core engine package
 │   ├── engine/             # Board representation and C engine bindings
 │   │   ├── game_state.py   # 15x15 board, CGP serialization, 32-ch tensor, 64-dim vector
 │   │   ├── magpie_bindings.py # ctypes wrapper for libmagpie.so
@@ -95,8 +95,8 @@ The repository is structured with the core Python package at the root:
 ```
 
 ### Key Module References
-- [`alphable_v4/engine/game_state.py`](file:///home/targed/Documents/Git/Alphable/alphable_v4/engine/game_state.py): Board representation, tensor creation, and move application.
-- [`alphable_v4/engine/magpie_bindings.py`](file:///home/targed/Documents/Git/Alphable/alphable_v4/engine/magpie_bindings.py): Low-level ctypes interface to the compiled C engine.
-- [`alphable_v4/models/value_net.py`](file:///home/targed/Documents/Git/Alphable/alphable_v4/models/value_net.py): ResNet-18 spatial encoder and cross-attention value predictor.
-- [`alphable_v4/models/belief_net.py`](file:///home/targed/Documents/Git/Alphable/alphable_v4/models/belief_net.py): Bayesian unseen tile tracker and negative-inference belief distribution.
-- [`alphable_v4/search/bams.py`](file:///home/targed/Documents/Git/Alphable/alphable_v4/search/bams.py): Candidate pruning, Monte Carlo rollout evaluator, and exact endgame solver.
+- [`alphable/engine/game_state.py`](file:///home/targed/Documents/Git/Alphable/alphable/engine/game_state.py): Board representation, tensor creation, and move application.
+- [`alphable/engine/magpie_bindings.py`](file:///home/targed/Documents/Git/Alphable/alphable/engine/magpie_bindings.py): Low-level ctypes interface to the compiled C engine.
+- [`alphable/models/value_net.py`](file:///home/targed/Documents/Git/Alphable/alphable/models/value_net.py): ResNet-18 spatial encoder and cross-attention value predictor.
+- [`alphable/models/belief_net.py`](file:///home/targed/Documents/Git/Alphable/alphable/models/belief_net.py): Bayesian unseen tile tracker and negative-inference belief distribution.
+- [`alphable/search/bams.py`](file:///home/targed/Documents/Git/Alphable/alphable/search/bams.py): Candidate pruning, Monte Carlo rollout evaluator, and exact endgame solver.

@@ -46,15 +46,15 @@ Alphable V4 is a hybrid neural-symbolic Scrabble artificial intelligence combini
 | M6 | Final Verification & Hardening | 100% E2E test pass + Tier 5 adversarial stress testing & clean audit | E2E, M5 | DONE |
 
 ## Interface Contracts
-### `alphable_v4/engine/magpie_bindings.py` ↔ `vendor/magpie/bin/libmagpie.so`
+### `alphable/engine/magpie_bindings.py` ↔ `vendor/magpie/bin/libmagpie.so`
 - `magpie_get_last_command_output(mp: c_void_p) -> c_void_p`: Return raw pointer, decode via `string_at()`, immediately free via `magpie_free_string(ptr)`.
 - `magpie_get_and_clear_error(mp: c_void_p) -> c_void_p`: Same safe memory management pattern.
 
-### `alphable_v4/engine/move.py` ↔ `alphable_v4/search/bams.py`
+### `alphable/engine/move.py` ↔ `alphable/search/bams.py`
 - `Move.tiles_placed`: Evaluated accurately from `Move` definition or calculated as `7 - len(cand.leave)` for placement moves.
 - `Move.parse_coordinate(coord: str) -> Tuple[int, int, str]`: Enforce `1 <= row <= 15` and `'A' <= col <= 'O'`. Raise `ValueError` on out-of-bounds coordinates.
 
-### `alphable_v4/platform/eval.py` ↔ `alphable_v4/cli.py`
+### `alphable/platform/eval.py` ↔ `alphable/cli.py`
 - `GameSimulator.play_game(...) -> MatchStats`: Track phase per move:
   - `OPENING`: turns 1 to 5
   - `MIDGAME`: turn > 5 and bag > 14
@@ -63,12 +63,12 @@ Alphable V4 is a hybrid neural-symbolic Scrabble artificial intelligence combini
 - Log phase score differentials and phase win contributions in duplicate game records.
 
 ## Code Layout
-- `alphable_v4/engine/`: `magpie_bindings.py`, `game_state.py`, `move.py`
-- `alphable_v4/models/`: `value_net.py`, `belief_net.py`, `checkpoints/`
-- `alphable_v4/search/`: `bams.py`
-- `alphable_v4/platform/`: `eval.py`, `woogles_bot.py`
-- `alphable_v4/training/`: `parse_gcg.py`, `train_value.py`, `train_rl.py`, etc.
-- `alphable_v4/cli.py` & `cli.py`: CLI tournament and analysis runner
+- `alphable/engine/`: `magpie_bindings.py`, `game_state.py`, `move.py`
+- `alphable/models/`: `value_net.py`, `belief_net.py`, `checkpoints/`
+- `alphable/search/`: `bams.py`
+- `alphable/platform/`: `eval.py`, `woogles_bot.py`
+- `alphable/training/`: `parse_gcg.py`, `train_value.py`, `train_rl.py`, etc.
+- `alphable/cli.py` & `cli.py`: CLI tournament and analysis runner
 - `tests/`: 57 core unit & integration tests
 - `visualizer/tests/`: 20 visualizer unit tests
 - `tests/e2e/`: Requirement-driven E2E test suite

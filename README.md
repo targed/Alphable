@@ -46,7 +46,7 @@ The script automatically:
 1. Configures a Python virtual environment (`venv`).
 2. Installs dependencies (`torch`, `scipy`, `pandas`, `pyarrow`, `tqdm`, `pytest`).
 3. Compiles the native C MAGPIE engine into `vendor/magpie/bin/libmagpie.so`.
-4. Verifies pre-trained value network weights (`alphable_v4/models/checkpoints/v4_value_net_best.pt`).
+4. Verifies pre-trained value network weights (`alphable/models/checkpoints/v4_value_net_best.pt`).
 5. Executes a smoke test to confirm end-to-end inference and move generation.
 
 ### 2. Verify Test Suite
@@ -176,7 +176,7 @@ To ensure complete scientific transparency, we audited unturned native MAGPIE pa
 ├── pyproject.toml              # Build config and pytest specifications
 ├── requirements.txt            # Python dependencies
 │
-├── alphable_v4/                # Core Python package
+├── alphable/                   # Core Python package
 │   ├── cli.py                  # CLI command implementation
 │   ├── engine/                 # MAGPIE C bindings, board state, move representations
 │   ├── models/                 # Neural value net, Bayesian belief net, checkpoints (.pt)

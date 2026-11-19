@@ -13,17 +13,19 @@ import os
 import sys
 import time
 
-from alphable_v4.engine.game_state import GameState
-from alphable_v4.engine.move import Move
-from alphable_v4.engine.magpie_bindings import MagpieEngine
-from alphable_v4.search.bams import BAMSSearch, BAMSConfig
-from alphable_v4.platform.eval import GameSimulator, MatchStats
+from alphable.engine.game_state import GameState
+from alphable.engine.move import Move
+from alphable.engine.magpie_bindings import MagpieEngine
+from alphable.search.bams import BAMSSearch, BAMSConfig
+from alphable.platform.eval import GameSimulator, MatchStats
 
 
 def run_benchmark(num_games: int = 20):
     print(f"=== Alphable V4 Phase 3 Benchmark Series ({num_games} games) ===")
     engine = MagpieEngine(lexicon="CSW24")
-    checkpoint_path = "models/checkpoints/v4_value_net_best.pt"
+    checkpoint_path = "alphable/models/checkpoints/v4_value_net_best.pt"
+    if not os.path.exists(checkpoint_path):
+        checkpoint_path = "models/checkpoints/v4_value_net_best.pt"
 
     bams = BAMSSearch.from_checkpoint(
         engine,

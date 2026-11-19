@@ -4,12 +4,12 @@ This reference catalogs trained model checkpoints, search presets, lexicons, and
 
 ---
 
-## 1. Neural Network Checkpoints (`alphable_v4/models/checkpoints/`)
+## 1. Neural Network Checkpoints (`alphable/models/checkpoints/`)
 
 Weights are stored as PyTorch state dictionaries in standard `.pt` format.
 
 ```
-alphable_v4/models/checkpoints/
+alphable/models/checkpoints/
 ├── v4_value_net_best.pt               # Production value network (52.6 MB, 32-ch ResNet-18 + Cross-Attention)
 ├── v4_value_net_rl_gen1.pt           # Reinforcement learning Gen-1 policy (52.9 MB, self-play fine-tuned)
 ├── v4_belief_net_best.pt             # Bayesian opponent belief model (366 KB, Dirichlet tile posterior estimator)
@@ -20,9 +20,9 @@ alphable_v4/models/checkpoints/
 
 | Checkpoint File | Size | Architecture | State Vector | Training Setup | Evaluation Focus | Status |
 | :--- | :---: | :--- | :---: | :--- | :--- | :--- |
-| [`v4_value_net_best.pt`](file:///home/targed/Documents/Git/Alphable/alphable_v4/models/checkpoints/v4_value_net_best.pt) | 52.6 MB | ResNet-18 + Cross-Attention (32 channels, 512-dim embedding, 8 heads) | 64 dims | Supervised distillation on 10,000+ grandmaster games with normalized equity targets. Full 157.8 MB Adam training checkpoint is archived as [`v4_value_net_best_full_training.pt`](file:///home/targed/Documents/Git/Alphable/alphable_v4/models/checkpoints/v4_value_net_best_full_training.pt). | Evaluates full-board positions for multi-turn bingo lanes, rack balance, vowel congestion, and defense. | Production default for `latest`, `5-frontiers`, and `scaled` presets. |
-| [`v4_value_net_rl_gen1.pt`](file:///home/targed/Documents/Git/Alphable/alphable_v4/models/checkpoints/v4_value_net_rl_gen1.pt) | 52.9 MB | ResNet-18 Value Network | 64 dims | Policy-gradient fine-tuning against anchored teacher weights ($D_{\text{KL}}$ penalty) to prevent policy collapse. | Tactical evaluation in contested midgame positions. | RL policy checkpoint, selectable via `--model rl-gen1`. |
-| [`v4_belief_net_best.pt`](file:///home/targed/Documents/Git/Alphable/alphable_v4/models/checkpoints/v4_belief_net_best.pt) | 366 KB | Bayesian Dirichlet-Multinomial Estimator | 27 dims | Unseen tile pool tracking combined with negative-evidence observation of opponent plays. | Predicts opponent rack distributions with dynamic blank-probability decay when high-value tiles are withheld. | Active inference tracker used across all BAMS searches. |
+| [`v4_value_net_best.pt`](file:///home/targed/Documents/Git/Alphable/alphable/models/checkpoints/v4_value_net_best.pt) | 52.6 MB | ResNet-18 + Cross-Attention (32 channels, 512-dim embedding, 8 heads) | 64 dims | Supervised distillation on 10,000+ grandmaster games with normalized equity targets. Full 157.8 MB Adam training checkpoint is archived as [`v4_value_net_best_full_training.pt`](file:///home/targed/Documents/Git/Alphable/alphable/models/checkpoints/v4_value_net_best_full_training.pt). | Evaluates full-board positions for multi-turn bingo lanes, rack balance, vowel congestion, and defense. | Production default for `latest`, `5-frontiers`, and `scaled` presets. |
+| [`v4_value_net_rl_gen1.pt`](file:///home/targed/Documents/Git/Alphable/alphable/models/checkpoints/v4_value_net_rl_gen1.pt) | 52.9 MB | ResNet-18 Value Network | 64 dims | Policy-gradient fine-tuning against anchored teacher weights ($D_{\text{KL}}$ penalty) to prevent policy collapse. | Tactical evaluation in contested midgame positions. | RL policy checkpoint, selectable via `--model rl-gen1`. |
+| [`v4_belief_net_best.pt`](file:///home/targed/Documents/Git/Alphable/alphable/models/checkpoints/v4_belief_net_best.pt) | 366 KB | Bayesian Dirichlet-Multinomial Estimator | 27 dims | Unseen tile pool tracking combined with negative-evidence observation of opponent plays. | Predicts opponent rack distributions with dynamic blank-probability decay when high-value tiles are withheld. | Active inference tracker used across all BAMS searches. |
 
 ---
 
@@ -101,7 +101,7 @@ python cli.py tournament --opponent v3-transformer --games 10
 
 #### Load Custom Checkpoints
 ```bash
-python cli.py tournament --model-path alphable_v4/models/checkpoints/my_custom_weights.pt --opponent magpie --games 20
+python cli.py tournament --model-path alphable/models/checkpoints/my_custom_weights.pt --opponent magpie --games 20
 ```
 
 ---

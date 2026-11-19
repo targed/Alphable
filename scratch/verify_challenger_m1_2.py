@@ -8,12 +8,12 @@ import sys
 import math
 import numpy as np
 from dataclasses import replace
-from alphable_v4.engine.move import Move
-from alphable_v4.engine.game_state import GameState
-from alphable_v4.engine.magpie_bindings import MagpieEngine
-from alphable_v4.search.bams import BAMSSearch, BAMSConfig
-from alphable_v4.platform.woogles_bot import WooglesBotAgent
-from alphable_v4.platform.eval import GameSimulator, get_game_phase
+from alphable.engine.move import Move
+from alphable.engine.game_state import GameState
+from alphable.engine.magpie_bindings import MagpieEngine
+from alphable.search.bams import BAMSSearch, BAMSConfig
+from alphable.platform.woogles_bot import WooglesBotAgent
+from alphable.platform.eval import GameSimulator, get_game_phase
 
 def test_bug02_parity_and_tiles_played():
     print("--- [TEST 1] BUG-02: Parity tempo & get_tiles_played stress tests ---")
