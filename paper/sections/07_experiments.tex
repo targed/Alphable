@@ -15,7 +15,7 @@ As proven in Appendix~\ref{app:proof_duplicate}, the expected differential satis
 
 We first evaluate 2-ply \bams\ Champion against 1-ply Static KLV Base \magpie\ across a duplicate tournament of $N = 5,000$ duplicate pairs ($10,000$ complete games), reported in Table~\ref{tab:duplicate_10000}.
 
-\begin{table}[t]
+\begin{table}[!htbp]
 \centering
 \small
 \caption{10,000-Game Duplicate Benchmark (\algo\ 2-Ply \bams\ vs.\ 1-Ply Static Base \magpie).}
@@ -51,7 +51,7 @@ The two-proportion $Z$-test confirms that \algo's $55.63\%$ win rate significant
 
 To test for temporal stability across seed sequences, we partition the 5,000 duplicate pairs into five sequential, non-overlapping blocks of 1,000 pairs (2,000 games each), shown in Table~\ref{tab:block_consistency}. All five independent partitions show a positive net spread with statistical significance ($t > 2.40, p < 0.05$).
 
-\begin{table}[t]
+\begin{table}[!htbp]
 \centering
 \small
 \caption{Cross-Validation Across Five 1,000-Pair Blocks.}
@@ -73,7 +73,9 @@ To test for temporal stability across seed sequences, we partition the 5,000 dup
 
 We instrumented match telemetry across four phases: Opening (Turns 1--5), Midgame ($|\bag| > 14$), Pre-Endgame ($1 \le |\bag| \le 14$), and Endgame ($|\bag| = 0$).
 
-\begin{table}[t]
+As shown in Table~\ref{tab:phase_breakdown}, \algo\ willingly accepts small early-game deficits ($-4.00$ pts over opening and midgame turns) to preserve rack balance and restrict open hook lanes. It then extracts an insurmountable \textbf{$+17.67$ point compound late-game advantage} through pre-endgame bag parity control ($+7.60$ pts) and complete-information alpha-beta lookahead ($+10.07$ pts).
+
+\begin{table}[!htbp]
 \centering
 \small
 \caption{Game-Phase Point Differential Profile.}
@@ -95,8 +97,6 @@ Endgame ($|\bag| = 0$) & 63.75\% & $+10.07\text{ pts}$ & $\pm 5.30\text{ pts}$ \
 \end{tabular}
 \end{table}
 
-As shown in Table~\ref{tab:phase_breakdown}, \algo\ willingly accepts small early-game deficits ($-4.00$ pts over opening and midgame turns) to preserve rack balance and restrict open hook lanes. It then extracts an insurmountable \textbf{$+17.67$ point compound late-game advantage} through pre-endgame bag parity control ($+7.60$ pts) and complete-information alpha-beta lookahead ($+10.07$ pts).
-
 \subsection{Benchmark 2: 10,000-Game Supercomputer Tournament Against Maximally Tuned MAGPIE}
 \label{sec:hpc_benchmark}
 
@@ -104,7 +104,7 @@ While defeating static 1-ply heuristics validates late-game search and belief tr
 
 To answer this, we deployed \algo\ Hybrid PIMC (\S\ref{sec:hybrid_pimc}) on the Missouri S\&T ``The Mill'' High-Performance Computing Cluster, utilizing 24 AMD EPYC processor cores under SLURM job scheduling with GCC 12.2.0 and Python 3.11.7. The tournament evaluated $N = 5,000$ duplicate pairs ($10,000$ individual games). The final verified telemetry is summarized in Table~\ref{tab:duplicate_hybrid_10k}.
 
-\begin{table}[t]
+\begin{table}[!htbp]
 \centering
 \small
 \caption{Comprehensive 10,000-Game Supercomputer Benchmark (\algo\ Hybrid PIMC vs.\ Maximally Tuned Base \magpie).}
@@ -140,7 +140,60 @@ Empirical Significance Standard & \textbf{5.55-Sigma Discovery} \\
 \end{tabular}
 \end{table}
 
-\begin{figure}[t]
+Across 10,000 games, \algo\ Hybrid PIMC achieved a match win rate of $53.30\%$ (2,652 match wins vs.\ 2,322 for Tuned \magpie\ with 25 draws), scoring a total of $4,172,954$ points ($417.38$ pts/game) against $4,131,480$ points ($413.23$ pts/game), for a cumulative advantage of $+41,474$ net points.
+
+The paired two-tailed Student's $t$-test on net point spread yields $t = +5.5517$ with $p = 2.829 \times 10^{-8}$. This test statistic exceeds the conventional $5\sigma$ threshold ($t > 5.0, p < 3 \times 10^{-7}$) commonly required for empirical discovery in physical and statistical sciences, rejecting the null hypothesis of equal playing strength.
+
+\subsubsection{Decomposition of Opening Initiative and Defense}
+
+To uncover the specific mechanisms underlying \algo's competitive edge, we decompose the match results across Game A and Game B within each duplicate pair, illustrated in Figure~\ref{fig:initiative_breakdown}.
+
+When holding the opening turn initiative in Game A, \algo\ Hybrid PIMC achieves a mean score of $425.76$ points compared to $405.28$ points for Maximally Tuned \magpie, extracting a net advantage of $+20.48$ points per game. Conversely, when defending from Seat 2 in Game B, Hybrid PIMC limits Tuned \magpie's opening margin to $+12.18$ points ($421.18$ points for Tuned \magpie\ versus $409.00$ points for Hybrid PIMC). Averaging these complementary margins across the duplicate pair yields a net advantage of $+8.30$ points per pair, or $+4.15$ points per game.
+
+This asymmetric performance profile demonstrates that \algo's neural valuation excels particularly during the opening and early midgame turns. By jointly conditioning on board topology and rack leaves, the neural network identifies opening plays that balance immediate score with vowel-consonant flexibility and long-term hook access, converting the first-mover advantage into an average lead of over twenty points. When defending against an opponent's opening play, \algo's negative-evidence belief tracker prevents unnecessary defensive concessions, allowing the engine to minimize opponent scoring without forfeiting positional board equity.
+
+\begin{figure}[!htbp]
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+    ybar=6pt,
+    bar width=20pt,
+    width=0.72\textwidth,
+    height=5.4cm,
+    ylabel={Average Game Score (Points)},
+    symbolic x coords={Game A (Hybrid Moves First), Game B (Tuned Moves First)},
+    xtick=data,
+    nodes near coords,
+    nodes near coords style={font=\footnotesize},
+    ymin=390, ymax=440,
+    enlarge x limits=0.45,
+    legend style={at={(0.5,1.15)}, anchor=south, legend columns=2, font=\footnotesize},
+    tick label style={font=\footnotesize},
+    label style={font=\footnotesize},
+    grid=both,
+    grid style={line width=.1pt, draw=gray!20},
+    major grid style={line width=.2pt, draw=gray!40}
+]
+\addplot[fill=blue!65, draw=blue!85!black] coordinates {
+    (Game A (Hybrid Moves First), 425.76)
+    (Game B (Tuned Moves First), 409.00)
+};
+\addplot[fill=orange!65, draw=orange!85!black] coordinates {
+    (Game A (Hybrid Moves First), 405.28)
+    (Game B (Tuned Moves First), 421.18)
+};
+\legend{\algo\ Hybrid PIMC, Tuned \magpie}
+\end{axis}
+\end{tikzpicture}
+\caption{First-turn initiative and score decomposition across Game A and Game B in the 10,000-game supercomputer tournament. In Game A, holding opening initiative allows Hybrid PIMC to achieve $+20.48$ net points ($425.76$ vs.\ $405.28$). In Game B, defending from Seat 2 restricts Tuned \magpie's opening margin to $+12.18$ points ($421.18$ vs.\ $409.00$), yielding a net compound advantage of $+8.30$ points per duplicate pair ($+4.15$ points per game).}
+\label{fig:initiative_breakdown}
+\end{figure}
+
+\subsubsection{Convergence Dynamics}
+
+Figure~\ref{fig:convergence} and Table~\ref{tab:convergence_trajectory} document the convergence trajectory across sample milestones. In the initial $N = 250$ pairs, sample variance produced an elevated mean spread of $+10.85$ points. As the tournament expanded through $1,000$, $2,500$, and $5,000$ pairs, the observed net spread converged toward its asymptotic value of $+4.15$ points per game, while the paired $t$-statistic grew monotonically from $+3.29$ to $+5.55$. The strictly positive lower bound of the $95\%$ confidence interval ($+2.68$ points) demonstrates that the empirical advantage remains positive regardless of seed sequence.
+
+\begin{figure}[!htbp]
 \centering
 \begin{tikzpicture}
 \begin{axis}[
@@ -189,56 +242,7 @@ Empirical Significance Standard & \textbf{5.55-Sigma Discovery} \\
 \label{fig:convergence}
 \end{figure}
 
-Across 10,000 games, \algo\ Hybrid PIMC achieved a match win rate of $53.30\%$ (2,652 match wins vs.\ 2,322 for Tuned \magpie\ with 25 draws), scoring a total of $4,172,954$ points ($417.38$ pts/game) against $4,131,480$ points ($413.23$ pts/game), for a cumulative advantage of $+41,474$ net points.
-
-The paired two-tailed Student's $t$-test on net point spread yields $t = +5.5517$ with $p = 2.829 \times 10^{-8}$. This test statistic exceeds the conventional $5\sigma$ threshold ($t > 5.0, p < 3 \times 10^{-7}$) commonly required for empirical discovery in physical and statistical sciences, rejecting the null hypothesis of equal playing strength.
-
-\subsubsection{Decomposition of Opening Initiative and Defense}
-
-To uncover the specific mechanisms underlying \algo's competitive edge, we decompose the match results across Game A and Game B within each duplicate pair, illustrated in Figure~\ref{fig:initiative_breakdown}.
-
-\begin{figure}[t]
-\centering
-\begin{tikzpicture}
-\begin{axis}[
-    ybar=6pt,
-    bar width=20pt,
-    width=0.72\textwidth,
-    height=5.4cm,
-    ylabel={Average Game Score (Points)},
-    symbolic x coords={Game A (Hybrid Moves First), Game B (Tuned Moves First)},
-    xtick=data,
-    nodes near coords,
-    nodes near coords style={font=\footnotesize},
-    ymin=390, ymax=440,
-    enlarge x limits=0.45,
-    legend style={at={(0.5,1.15)}, anchor=south, legend columns=2, font=\footnotesize},
-    tick label style={font=\footnotesize},
-    label style={font=\footnotesize},
-    grid=both,
-    grid style={line width=.1pt, draw=gray!20},
-    major grid style={line width=.2pt, draw=gray!40}
-]
-\addplot[fill=blue!65, draw=blue!85!black] coordinates {
-    (Game A (Hybrid Moves First), 425.76)
-    (Game B (Tuned Moves First), 409.00)
-};
-\addplot[fill=orange!65, draw=orange!85!black] coordinates {
-    (Game A (Hybrid Moves First), 405.28)
-    (Game B (Tuned Moves First), 421.18)
-};
-\legend{\algo\ Hybrid PIMC, Tuned \magpie}
-\end{axis}
-\end{tikzpicture}
-\caption{First-turn initiative and score decomposition across Game A and Game B in the 10,000-game supercomputer tournament. In Game A, holding opening initiative allows Hybrid PIMC to achieve $+20.48$ net points ($425.76$ vs.\ $405.28$). In Game B, defending from Seat 2 restricts Tuned \magpie's opening margin to $+12.18$ points ($421.18$ vs.\ $409.00$), yielding a net compound advantage of $+8.30$ points per duplicate pair ($+4.15$ points per game).}
-\label{fig:initiative_breakdown}
-\end{figure}
-
-When holding the opening turn initiative in Game A, \algo\ Hybrid PIMC achieves a mean score of $425.76$ points compared to $405.28$ points for Maximally Tuned \magpie, extracting a net advantage of $+20.48$ points per game. Conversely, when defending from Seat 2 in Game B, Hybrid PIMC limits Tuned \magpie's opening margin to $+12.18$ points ($421.18$ points for Tuned \magpie\ versus $409.00$ points for Hybrid PIMC). Averaging these complementary margins across the duplicate pair yields a net advantage of $+8.30$ points per pair, or $+4.15$ points per game.
-
-This asymmetric performance profile demonstrates that \algo's neural valuation excels particularly during the opening and early midgame turns. By jointly conditioning on board topology and rack leaves, the neural network identifies opening plays that balance immediate score with vowel-consonant flexibility and long-term hook access, converting the first-mover advantage into an average lead of over twenty points. When defending against an opponent's opening play, \algo's negative-evidence belief tracker prevents unnecessary defensive concessions, allowing the engine to minimize opponent scoring without forfeiting positional board equity.
-
-\begin{table}[t]
+\begin{table}[!htbp]
 \centering
 \small
 \caption{Empirical Convergence Trajectory Across Match Milestones on the Missouri S\&T Supercomputer.}
@@ -263,7 +267,3 @@ This asymmetric performance profile demonstrates that \algo's neural valuation e
 \end{tabular}%
 }
 \end{table}
-
-\subsubsection{Convergence Dynamics}
-
-Figure~\ref{fig:convergence} and Table~\ref{tab:convergence_trajectory} document the convergence trajectory across sample milestones. In the initial $N = 250$ pairs, sample variance produced an elevated mean spread of $+10.85$ points. As the tournament expanded through $1,000$, $2,500$, and $5,000$ pairs, the observed net spread converged toward its asymptotic value of $+4.15$ points per game, while the paired $t$-statistic grew monotonically from $+3.29$ to $+5.55$. The strictly positive lower bound of the $95\%$ confidence interval ($+2.68$ points) demonstrates that the empirical advantage remains positive regardless of seed sequence.

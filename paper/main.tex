@@ -16,7 +16,21 @@
 \pgfplotsset{compat=1.18}
 \usepgfplotslibrary{fillbetween}
 \usetikzlibrary{shapes,arrows.meta,positioning,calc}
+\usepackage[section]{placeins}
 \usepackage[colorlinks=true,linkcolor=blue,citecolor=blue,urlcolor=blue]{hyperref}
+
+% Prevent orphan and widow lines splitting paragraphs
+\widowpenalty=10000
+\clubpenalty=10000
+
+% Realistic float placement thresholds
+\renewcommand{\topfraction}{0.85}
+\renewcommand{\bottomfraction}{0.85}
+\renewcommand{\textfraction}{0.15}
+\renewcommand{\floatpagefraction}{0.7}
+\setcounter{topnumber}{3}
+\setcounter{bottomnumber}{2}
+\setcounter{totalnumber}{4}
 
 % Import notation and macros
 \input{macros.tex}
@@ -52,6 +66,7 @@
 \input{sections/04_neural_architecture.tex}
 \input{sections/05_bams_search.tex}
 \input{sections/06_late_game.tex}
+\clearpage
 \input{sections/07_experiments.tex}
 \input{sections/08_critical_audit.tex}
 \input{sections/09_conclusion.tex}
