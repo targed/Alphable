@@ -8,7 +8,7 @@ import sys
 import pytest
 from unittest.mock import patch
 
-from alphable_v4.cli import (
+from alphable.cli import (
     MODEL_REGISTRY,
     PRESET_ALIASES,
     resolve_preset,
@@ -16,7 +16,7 @@ from alphable_v4.cli import (
     cmd_models,
     get_shared_engine,
 )
-from alphable_v4.engine.game_state import GameState
+from alphable.engine.game_state import GameState
 
 
 def test_preset_registry_completeness():
@@ -121,7 +121,7 @@ def test_cmd_models_output():
 
 
 def test_cmd_history_ledger():
-    from alphable_v4.cli import cmd_history
+    from alphable.cli import cmd_history
     import argparse
 
     args = argparse.Namespace(show=None, compare=None, tag=None, model=None, limit=25)
@@ -138,7 +138,7 @@ def test_cmd_history_ledger():
 
 
 def test_cmd_history_show_and_compare():
-    from alphable_v4.cli import cmd_history
+    from alphable.cli import cmd_history
     import argparse
 
     # Test show

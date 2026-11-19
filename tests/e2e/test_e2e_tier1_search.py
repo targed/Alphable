@@ -15,11 +15,11 @@ import pytest
 import numpy as np
 import torch
 
-from alphable_v4.engine.game_state import GameState
-from alphable_v4.engine.move import Move
-from alphable_v4.engine.magpie_bindings import MagpieEngine
-from alphable_v4.models.value_net import V4ValueNetwork
-from alphable_v4.search.bams import BAMSSearch, BAMSConfig, BAMSCandidateEval
+from alphable.engine.game_state import GameState
+from alphable.engine.move import Move
+from alphable.engine.magpie_bindings import MagpieEngine
+from alphable.models.value_net import V4ValueNetwork
+from alphable.search.bams import BAMSSearch, BAMSConfig, BAMSCandidateEval
 
 
 class TestTier1SearchBAMSExecution:

@@ -20,11 +20,11 @@ import numpy as np
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from alphable_v4.engine.magpie_bindings import MagpieEngine
-from alphable_v4.engine.move import Move
-from alphable_v4.engine.game_state import GameState
-from alphable_v4.search.bams import BAMSSearch, BAMSConfig
-from alphable_v4.platform.eval import GameSimulator
+from alphable.engine.magpie_bindings import MagpieEngine
+from alphable.engine.move import Move
+from alphable.engine.game_state import GameState
+from alphable.search.bams import BAMSSearch, BAMSConfig
+from alphable.platform.eval import GameSimulator
 
 
 def evaluate_hyperparams(

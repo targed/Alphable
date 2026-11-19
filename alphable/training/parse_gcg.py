@@ -15,8 +15,8 @@ from dataclasses import dataclass, field, asdict
 from typing import List, Dict, Tuple, Optional, Any
 from pathlib import Path
 
-from alphable_v4.engine.move import Move
-from alphable_v4.engine.game_state import GameState, STANDARD_TILE_COUNTS
+from alphable.engine.move import Move
+from alphable.engine.game_state import GameState, STANDARD_TILE_COUNTS
 
 
 @dataclass

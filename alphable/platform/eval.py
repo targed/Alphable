@@ -23,12 +23,12 @@ from typing import List, Dict, Tuple, Optional, Any, Callable
 import numpy as np
 import scipy.stats as st
 
-from alphable_v4.engine.move import Move
-from alphable_v4.engine.game_state import GameState, STANDARD_TILE_COUNTS, TILE_VALUES
-from alphable_v4.engine.magpie_bindings import MagpieEngine
-from alphable_v4.search.bams import BAMSSearch, BAMSConfig
-from alphable_v4.platform.checkpoint import TournamentCheckpointManager
-from alphable_v4.platform.policies import build_policy
+from alphable.engine.move import Move
+from alphable.engine.game_state import GameState, STANDARD_TILE_COUNTS, TILE_VALUES
+from alphable.engine.magpie_bindings import MagpieEngine
+from alphable.search.bams import BAMSSearch, BAMSConfig
+from alphable.platform.checkpoint import TournamentCheckpointManager
+from alphable.platform.policies import build_policy
 
 
 @dataclass

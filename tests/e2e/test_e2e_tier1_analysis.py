@@ -14,10 +14,10 @@ import pytest
 import numpy as np
 import torch
 
-from alphable_v4.cli import MODEL_REGISTRY, PRESET_ALIASES, resolve_preset, format_board, build_policy
-from alphable_v4.engine.game_state import GameState
-from alphable_v4.models.value_net import V4ValueNetwork
-from alphable_v4.search.bams import BAMSSearch, BAMSConfig
+from alphable.cli import MODEL_REGISTRY, PRESET_ALIASES, resolve_preset, format_board, build_policy
+from alphable.engine.game_state import GameState
+from alphable.models.value_net import V4ValueNetwork
+from alphable.search.bams import BAMSSearch, BAMSConfig
 
 
 class TestTier1AnalysisModelRegistry:

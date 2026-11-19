@@ -16,7 +16,7 @@ import torch.nn as nn
 from torch.utils.data import Dataset, DataLoader
 from torch.optim import AdamW
 
-from alphable_v4.models.belief_net import NeuralBeliefNet
+from alphable.models.belief_net import NeuralBeliefNet
 
 
 class BeliefDataset(Dataset):
@@ -39,7 +39,7 @@ class BeliefDataset(Dataset):
 
 def train_belief_network(
     data_path: str = "data/belief/belief_dataset.npz",
-    checkpoint_dir: str = "alphable_v4/models/checkpoints",
+    checkpoint_dir: str = "alphable/models/checkpoints",
     epochs: int = 15,
     batch_size: int = 128,
     lr: float = 1e-3,

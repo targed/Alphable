@@ -5,7 +5,7 @@ Tests for CLI parallel tournament options and invocation.
 from pathlib import Path
 import pytest
 
-from alphable_v4.cli import build_parser, cmd_tournament
+from alphable.cli import build_parser, cmd_tournament
 
 
 def test_cli_parser_parallel_flags():

@@ -25,7 +25,7 @@ from torch.utils.data import Dataset, DataLoader
 from torch.optim import AdamW
 from torch.optim.lr_scheduler import CosineAnnealingLR
 
-from alphable_v4.models.value_net import V4ValueNetwork
+from alphable.models.value_net import V4ValueNetwork
 
 
 class ValueDataset(Dataset):
@@ -98,7 +98,7 @@ def compute_metrics(
 def train_value_network(
     train_path: str = "data/value/train_distilled.npz",
     val_path: str = "data/value/val_distilled.npz",
-    checkpoint_dir: str = "alphable_v4/models/checkpoints",
+    checkpoint_dir: str = "alphable/models/checkpoints",
     epochs: int = 30,
     batch_size: int = 128,
     lr: float = 1e-4,

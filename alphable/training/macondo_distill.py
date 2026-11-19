@@ -20,8 +20,8 @@ import torch
 import pandas as pd
 from tqdm import tqdm
 
-from alphable_v4.engine.game_state import GameState
-from alphable_v4.training.parse_gcg import parse_gcg_file, ParsedGame, ParsedTurn
+from alphable.engine.game_state import GameState
+from alphable.training.parse_gcg import parse_gcg_file, ParsedGame, ParsedTurn
 
 
 def extract_match_distillation_samples(match_dir: str) -> List[Dict[str, Any]]:

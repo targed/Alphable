@@ -11,9 +11,9 @@ Verifies:
 
 import time
 import pytest
-from alphable_v4.engine.game_state import GameState
-from alphable_v4.engine.magpie_bindings import MagpieEngine
-from alphable_v4.engine.move import Move
+from alphable.engine.game_state import GameState
+from alphable.engine.magpie_bindings import MagpieEngine
+from alphable.engine.move import Move
 
 
 # 10 Known Test Positions (FEN/CGP board strings + rack)

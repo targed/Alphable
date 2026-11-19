@@ -6,7 +6,7 @@ import json
 from pathlib import Path
 import pytest
 
-from alphable_v4.platform.checkpoint import TournamentCheckpointManager
+from alphable.platform.checkpoint import TournamentCheckpointManager
 
 
 def test_checkpoint_initialization_and_metadata(tmp_path: Path):

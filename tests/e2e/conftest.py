@@ -6,9 +6,9 @@ import os
 import pytest
 from typing import Generator
 
-from alphable_v4.engine.game_state import GameState
-from alphable_v4.engine.magpie_bindings import MagpieEngine
-from alphable_v4.search.bams import BAMSConfig
+from alphable.engine.game_state import GameState
+from alphable.engine.magpie_bindings import MagpieEngine
+from alphable.search.bams import BAMSConfig
 
 
 @pytest.fixture(scope="session")
@@ -32,7 +32,7 @@ def checkpoint_path() -> str:
     """Absolute path to the V4 Champion Value Network checkpoint."""
     base_dir = os.path.dirname(os.path.abspath(__file__))
     path = os.path.normpath(
-        os.path.join(base_dir, "..", "..", "alphable_v4", "models", "checkpoints", "v4_value_net_best.pt")
+        os.path.join(base_dir, "..", "..", "alphable", "models", "checkpoints", "v4_value_net_best.pt")
     )
     assert os.path.exists(path), f"Checkpoint not found at: {path}"
     return path
@@ -43,7 +43,7 @@ def rl_checkpoint_path() -> str:
     """Absolute path to the RL Gen-1 Value Network checkpoint."""
     base_dir = os.path.dirname(os.path.abspath(__file__))
     path = os.path.normpath(
-        os.path.join(base_dir, "..", "..", "alphable_v4", "models", "checkpoints", "v4_value_net_rl_gen1.pt")
+        os.path.join(base_dir, "..", "..", "alphable", "models", "checkpoints", "v4_value_net_rl_gen1.pt")
     )
     assert os.path.exists(path), f"RL Checkpoint not found at: {path}"
     return path

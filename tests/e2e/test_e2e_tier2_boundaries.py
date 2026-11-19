@@ -13,10 +13,10 @@ Covers:
 import pytest
 from typing import Dict, Any, Tuple
 
-from alphable_v4.engine.game_state import GameState, STANDARD_TILE_COUNTS, TILE_VALUES
-from alphable_v4.engine.move import Move
-from alphable_v4.engine.magpie_bindings import MagpieEngine
-from alphable_v4.platform.eval import ScrabbleBag, GameSimulator
+from alphable.engine.game_state import GameState, STANDARD_TILE_COUNTS, TILE_VALUES
+from alphable.engine.move import Move
+from alphable.engine.magpie_bindings import MagpieEngine
+from alphable.platform.eval import ScrabbleBag, GameSimulator
 
 
 class TestTier2BagAndScoreBoundaries:

@@ -8,17 +8,17 @@ import sys
 from pathlib import Path
 from typing import List, Dict, Any, Optional
 
-# Ensure repository root is importable for alphable_v4
+# Ensure repository root is importable for alphable
 REPO_ROOT = Path(__file__).resolve().parent.parent.parent.parent
 if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
 try:
-    from alphable_v4.engine.magpie_bindings import MagpieEngine
-    from alphable_v4.engine.game_state import GameState
-    from alphable_v4.engine.move import Move
-    from alphable_v4.search.bams import BAMSSearch, BAMSConfig
-    from alphable_v4.cli import MODEL_REGISTRY, PRESET_ALIASES, CHECKPOINTS_DIR
+    from alphable.engine.magpie_bindings import MagpieEngine
+    from alphable.engine.game_state import GameState
+    from alphable.engine.move import Move
+    from alphable.search.bams import BAMSSearch, BAMSConfig
+    from alphable.cli import MODEL_REGISTRY, PRESET_ALIASES, CHECKPOINTS_DIR
     V4_AVAILABLE = True
 except Exception as e:
     print(f"Warning: Alphable V4 import error: {e}")

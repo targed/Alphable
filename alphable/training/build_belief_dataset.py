@@ -13,8 +13,8 @@ import numpy as np
 import torch
 from tqdm import tqdm
 
-from alphable_v4.engine.game_state import GameState, STANDARD_TILE_COUNTS
-from alphable_v4.training.parse_gcg import parse_gcg_file, ParsedGame
+from alphable.engine.game_state import GameState, STANDARD_TILE_COUNTS
+from alphable.training.parse_gcg import parse_gcg_file, ParsedGame
 
 
 def extract_game_belief_samples(game: ParsedGame) -> List[Dict[str, Any]]:

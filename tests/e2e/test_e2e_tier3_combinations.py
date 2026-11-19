@@ -13,12 +13,12 @@ Covers:
 import pytest
 from typing import Dict, Any, Tuple
 
-from alphable_v4.engine.game_state import GameState
-from alphable_v4.engine.move import Move
-from alphable_v4.engine.magpie_bindings import MagpieEngine
-from alphable_v4.models.belief_net import OpponentTracker, BayesianRackInference
-from alphable_v4.platform.eval import GameSimulator, MatchStats
-from alphable_v4.search.bams import BAMSSearch, BAMSConfig
+from alphable.engine.game_state import GameState
+from alphable.engine.move import Move
+from alphable.engine.magpie_bindings import MagpieEngine
+from alphable.models.belief_net import OpponentTracker, BayesianRackInference
+from alphable.platform.eval import GameSimulator, MatchStats
+from alphable.search.bams import BAMSSearch, BAMSConfig
 
 
 class TestTier3BAMSWithBeliefTracking:

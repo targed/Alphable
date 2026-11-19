@@ -17,12 +17,12 @@ import numpy as np
 import scipy.stats as st
 from typing import Dict, Any, Tuple, List
 
-from alphable_v4.engine.game_state import GameState
-from alphable_v4.engine.move import Move
-from alphable_v4.engine.magpie_bindings import MagpieEngine
-from alphable_v4.platform.eval import GameSimulator, MatchStats
-from alphable_v4.search.bams import BAMSSearch, BAMSConfig
-from alphable_v4.training.parse_gcg import parse_gcg_file, parse_gcg_text
+from alphable.engine.game_state import GameState
+from alphable.engine.move import Move
+from alphable.engine.magpie_bindings import MagpieEngine
+from alphable.platform.eval import GameSimulator, MatchStats
+from alphable.search.bams import BAMSSearch, BAMSConfig
+from alphable.training.parse_gcg import parse_gcg_file, parse_gcg_text
 
 
 class TestTier4StatisticalHypothesisFormulas:

@@ -7,14 +7,14 @@ import time
 from pathlib import Path
 from typing import List, Dict, Any, Optional
 
-# Ensure repository root is importable for alphable_v4
+# Ensure repository root is importable for alphable
 REPO_ROOT = Path(__file__).resolve().parent.parent.parent.parent
 if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
 try:
-    from alphable_v4.engine.magpie_bindings import MagpieEngine
-    from alphable_v4.engine.game_state import GameState
+    from alphable.engine.magpie_bindings import MagpieEngine
+    from alphable.engine.game_state import GameState
     MAGPIE_AVAILABLE = True
 except Exception:
     MAGPIE_AVAILABLE = False

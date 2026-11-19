@@ -13,7 +13,7 @@ import ctypes
 import pytest
 import torch
 
-from alphable_v4.engine.game_state import (
+from alphable.engine.game_state import (
     GameState,
     DL_SQUARES,
     TL_SQUARES,
@@ -21,8 +21,8 @@ from alphable_v4.engine.game_state import (
     TW_SQUARES,
     STANDARD_TILE_COUNTS,
 )
-from alphable_v4.engine.move import Move
-from alphable_v4.engine.magpie_bindings import MagpieEngine, MAGPIE_SUCCESS
+from alphable.engine.move import Move
+from alphable.engine.magpie_bindings import MagpieEngine, MAGPIE_SUCCESS
 
 
 class TestTier1EngineCtypesMemory:

@@ -16,8 +16,8 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-from alphable_v4.engine.game_state import GameState, STANDARD_TILE_COUNTS
-from alphable_v4.engine.move import Move
+from alphable.engine.game_state import GameState, STANDARD_TILE_COUNTS
+from alphable.engine.move import Move
 
 
 class OpponentTracker:

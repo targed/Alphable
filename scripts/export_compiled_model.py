@@ -14,7 +14,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 import torch
-from alphable_v4.models.value_net import V4ValueNetwork
+from alphable.models.value_net import V4ValueNetwork
 
 
 def export_compiled(
@@ -58,6 +58,6 @@ def export_compiled(
 
 if __name__ == "__main__":
     repo_root = Path(__file__).resolve().parent.parent
-    ckpt = str(repo_root / "alphable_v4" / "models" / "checkpoints" / "v4_value_net_best.pt")
-    out = str(repo_root / "alphable_v4" / "models" / "checkpoints" / "v4_value_net_compiled.pt")
+    ckpt = str(repo_root / "alphable" / "models" / "checkpoints" / "v4_value_net_best.pt")
+    out = str(repo_root / "alphable" / "models" / "checkpoints" / "v4_value_net_compiled.pt")
     export_compiled(ckpt, out)

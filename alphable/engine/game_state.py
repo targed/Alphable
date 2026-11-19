@@ -13,7 +13,7 @@ from collections import Counter
 import numpy as np
 import torch
 
-from alphable_v4.engine.move import Move
+from alphable.engine.move import Move
 
 # Standard Scrabble English tile distribution (100 tiles)
 STANDARD_TILE_COUNTS: Dict[str, int] = {

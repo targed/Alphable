@@ -1,5 +1,5 @@
 """
-alphable_v4/models/compiled_inference.py
+alphable/models/compiled_inference.py
 
 High-throughput compiled TorchScript inference wrapper for V4ValueNetwork.
 Eliminates Python dispatch overhead and leverages multi-threaded C++ tensor kernels.
@@ -10,7 +10,7 @@ import os
 from typing import Optional
 import torch
 
-from alphable_v4.models.value_net import V4ValueNetwork
+from alphable.models.value_net import V4ValueNetwork
 
 
 class CompiledValueNetwork:

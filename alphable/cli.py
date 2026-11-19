@@ -24,14 +24,14 @@ import numpy as np
 import scipy.stats as st
 import torch
 
-from alphable_v4.engine.move import Move
-from alphable_v4.engine.game_state import GameState, STANDARD_TILE_COUNTS
-from alphable_v4.engine.magpie_bindings import MagpieEngine
-from alphable_v4.models.value_net import V4ValueNetwork
-from alphable_v4.models.belief_net import BayesianRackInference
-from alphable_v4.search.bams import BAMSSearch, BAMSConfig
-from alphable_v4.platform.eval import GameSimulator, MatchStats, ScrabbleBag, run_parallel_duplicate_tournament
-from alphable_v4.platform.checkpoint import TournamentCheckpointManager
+from alphable.engine.move import Move
+from alphable.engine.game_state import GameState, STANDARD_TILE_COUNTS
+from alphable.engine.magpie_bindings import MagpieEngine
+from alphable.models.value_net import V4ValueNetwork
+from alphable.models.belief_net import BayesianRackInference
+from alphable.search.bams import BAMSSearch, BAMSConfig
+from alphable.platform.eval import GameSimulator, MatchStats, ScrabbleBag, run_parallel_duplicate_tournament
+from alphable.platform.checkpoint import TournamentCheckpointManager
 
 
 CHECKPOINTS_DIR = os.path.normpath(
@@ -47,7 +47,7 @@ TOURNAMENTS_DIR = os.path.normpath(
 # ==============================================================================
 # MODEL REGISTRY & CONFIGURATION PRESETS
 # ==============================================================================
-from alphable_v4.platform.policies import (
+from alphable.platform.policies import (
     MODEL_REGISTRY,
     PRESET_ALIASES,
     resolve_preset,

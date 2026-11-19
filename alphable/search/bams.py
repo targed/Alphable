@@ -18,12 +18,12 @@ from typing import List, Tuple, Dict, Optional, Any, Union
 import numpy as np
 import torch
 
-from alphable_v4.engine.move import Move
-from alphable_v4.engine.game_state import GameState, TW_SQUARES, DW_SQUARES, VOWELS
-from alphable_v4.engine.magpie_bindings import MagpieEngine
-from alphable_v4.models.belief_net import BayesianRackInference, OpponentTracker
-from alphable_v4.models.value_net import V4ValueNetwork
-from alphable_v4.models.compiled_inference import CompiledValueNetwork
+from alphable.engine.move import Move
+from alphable.engine.game_state import GameState, TW_SQUARES, DW_SQUARES, VOWELS
+from alphable.engine.magpie_bindings import MagpieEngine
+from alphable.models.belief_net import BayesianRackInference, OpponentTracker
+from alphable.models.value_net import V4ValueNetwork
+from alphable.models.compiled_inference import CompiledValueNetwork
 
 
 @dataclass

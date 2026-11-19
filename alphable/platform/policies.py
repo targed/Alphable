@@ -15,10 +15,10 @@ from typing import Dict, Any, Tuple, Optional, Callable, List
 
 import torch
 
-from alphable_v4.engine.move import Move
-from alphable_v4.engine.game_state import GameState
-from alphable_v4.engine.magpie_bindings import MagpieEngine
-from alphable_v4.search.bams import BAMSSearch, BAMSConfig
+from alphable.engine.move import Move
+from alphable.engine.game_state import GameState
+from alphable.engine.magpie_bindings import MagpieEngine
+from alphable.search.bams import BAMSSearch, BAMSConfig
 
 
 CHECKPOINTS_DIR = os.path.normpath(

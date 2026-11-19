@@ -27,12 +27,12 @@ REPO_ROOT = os.path.normpath(os.path.join(os.path.dirname(__file__), ".."))
 if REPO_ROOT not in sys.path:
     sys.path.insert(0, REPO_ROOT)
 
-from alphable_v4.engine.magpie_bindings import MagpieEngine
-from alphable_v4.engine.game_state import GameState, STANDARD_TILE_COUNTS
-from alphable_v4.engine.move import Move
-from alphable_v4.platform.eval import GameSimulator, ScrabbleBag, get_game_phase
-from alphable_v4.search.bams import BAMSSearch, BAMSConfig
-from alphable_v4.cli import build_policy, MODEL_REGISTRY
+from alphable.engine.magpie_bindings import MagpieEngine
+from alphable.engine.game_state import GameState, STANDARD_TILE_COUNTS
+from alphable.engine.move import Move
+from alphable.platform.eval import GameSimulator, ScrabbleBag, get_game_phase
+from alphable.search.bams import BAMSSearch, BAMSConfig
+from alphable.cli import build_policy, MODEL_REGISTRY
 
 
 def wilson_interval(successes: float, n: int, confidence: float = 0.95) -> Tuple[float, float]:
@@ -207,7 +207,7 @@ def evaluate_generator_transfer(engine_default: MagpieEngine, engine_pat: Magpie
     engine_default.set_pat(None)
     engine_pat.set_pat("CSW24")
 
-    ckpt_path = os.path.join(REPO_ROOT, "alphable_v4", "models", "checkpoints", "v4_value_net_best.pt")
+    ckpt_path = os.path.join(REPO_ROOT, "alphable", "models", "checkpoints", "v4_value_net_best.pt")
     bams_default = BAMSSearch.from_checkpoint(engine_default, ckpt_path, config=BAMSConfig())
     bams_pat = BAMSSearch.from_checkpoint(engine_pat, ckpt_path, config=BAMSConfig())
 
@@ -357,7 +357,7 @@ def main():
                 "paired_t_p_value": m1_stats["paired_t_p_value"],
                 "ceiling_verdict": f"Tuned Base MAGPIE demonstrates an empirical +{m1_stats['mean_spread_pts']} pts advantage over Default Base MAGPIE (t={m1_stats['paired_t_statistic']}, p={m1_stats['paired_t_p_value']:.2e}). Claiming superiority over 'MAGPIE' without qualification is scientifically invalid; the advantage holds strictly against 1-ply Static KLV Base MAGPIE."
             },
-            "alphable_v4_vs_tuned_magpie": {
+            "alphable_vs_tuned_magpie": {
                 "win_rate_pct": m2_stats["win_rate_pct"],
                 "mean_spread_pts": m2_stats["mean_spread_pts"],
                 "paired_t_statistic": m2_stats["paired_t_statistic"],
@@ -433,7 +433,7 @@ def main():
                     "phase_breakdown": m1_stats["phase_breakdown"]
                 }
             },
-            "matchup_2_alphable_v4_vs_tuned_magpie": {
+            "matchup_2_alphable_vs_tuned_magpie": {
                 "description": "Alphable V4 Champion vs Maximally Tuned Base MAGPIE (PAT + PIMC + Endgame)",
                 "p1": m2_stats["p1_name"],
                 "p2": m2_stats["p2_name"],
@@ -453,7 +453,7 @@ def main():
                     "phase_breakdown": m2_stats["phase_breakdown"]
                 }
             },
-            "matchup_3_alphable_v4_vs_default_magpie": {
+            "matchup_3_alphable_vs_default_magpie": {
                 "description": "Alphable V4 Champion vs Default Base MAGPIE (1-ply static KLV)",
                 "p1": m3_stats["p1_name"],
                 "p2": m3_stats["p2_name"],

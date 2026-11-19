@@ -11,8 +11,8 @@ import os
 import sys
 from typing import List, Optional, Tuple, Dict, Any
 
-from alphable_v4.engine.move import Move
-from alphable_v4.engine.game_state import GameState
+from alphable.engine.move import Move
+from alphable.engine.game_state import GameState
 
 
 # Exit code enum from src/impl/cmd_api.h
@@ -28,7 +28,7 @@ def find_libmagpie() -> str:
     cwd = os.getcwd()
 
     candidates = [
-        # Relative to alphable_v4/engine: root vendor/
+        # Relative to alphable/engine: root vendor/
         os.path.join(base_dir, "..", "..", "vendor", "magpie", "bin", "libmagpie.so"),
         os.path.join(base_dir, "..", "..", "vendor", "magpie", "bin", "libmagpie.dylib"),
         os.path.join(real_dir, "..", "..", "vendor", "magpie", "bin", "libmagpie.so"),

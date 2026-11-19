@@ -21,12 +21,13 @@ sys.modules.setdefault("alphable_v4.search", search)
 sys.modules.setdefault("alphable_v4.training", training)
 
 from .engine import game_state, magpie_bindings
-from .models import value_net
+from .models import value_net, belief_net
 from .search import bams
 from .platform import eval
 
 sys.modules.setdefault("alphable_v4.engine.game_state", engine.game_state)
 sys.modules.setdefault("alphable_v4.engine.magpie_bindings", engine.magpie_bindings)
 sys.modules.setdefault("alphable_v4.models.value_net", models.value_net)
+sys.modules.setdefault("alphable_v4.models.belief_net", models.belief_net)
 sys.modules.setdefault("alphable_v4.search.bams", search.bams)
 sys.modules.setdefault("alphable_v4.platform.eval", platform.eval)

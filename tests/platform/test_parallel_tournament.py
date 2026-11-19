@@ -5,8 +5,8 @@ Tests for Parallel Duplicate Tournament Engine and Multi-Process Scaling.
 from pathlib import Path
 import pytest
 
-from alphable_v4.platform.eval import run_parallel_duplicate_tournament, _run_duplicate_pair_worker
-from alphable_v4.platform.checkpoint import TournamentCheckpointManager
+from alphable.platform.eval import run_parallel_duplicate_tournament, _run_duplicate_pair_worker
+from alphable.platform.checkpoint import TournamentCheckpointManager
 
 
 def test_run_duplicate_pair_worker():

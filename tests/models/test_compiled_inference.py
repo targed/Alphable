@@ -9,14 +9,14 @@ import os
 import pytest
 import torch
 
-from alphable_v4.models.value_net import V4ValueNetwork
-from alphable_v4.models.compiled_inference import CompiledValueNetwork
-from alphable_v4.search.bams import BAMSSearch, BAMSConfig
-from alphable_v4.engine.magpie_bindings import MagpieEngine
+from alphable.models.value_net import V4ValueNetwork
+from alphable.models.compiled_inference import CompiledValueNetwork
+from alphable.search.bams import BAMSSearch, BAMSConfig
+from alphable.engine.magpie_bindings import MagpieEngine
 
 
-CHECKPOINT_PATH = "alphable_v4/models/checkpoints/v4_value_net_best.pt"
-COMPILED_PATH = "alphable_v4/models/checkpoints/v4_value_net_compiled.pt"
+CHECKPOINT_PATH = "alphable/models/checkpoints/v4_value_net_best.pt"
+COMPILED_PATH = "alphable/models/checkpoints/v4_value_net_compiled.pt"
 
 
 @pytest.mark.unit

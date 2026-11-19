@@ -11,8 +11,8 @@ import os
 import pytest
 import torch
 
-from alphable_v4.engine.magpie_bindings import MagpieEngine
-from alphable_v4.training.train_rl import AnchoredRLTrainer
+from alphable.engine.magpie_bindings import MagpieEngine
+from alphable.training.train_rl import AnchoredRLTrainer
 
 
 @pytest.fixture(scope="module")
@@ -24,7 +24,7 @@ def shared_engine():
 
 def test_anchored_rl_initialization():
     checkpoint_path = os.path.join(
-        os.path.dirname(__file__), "..", "..", "alphable_v4", "models", "checkpoints", "v4_value_net_best.pt"
+        os.path.dirname(__file__), "..", "..", "alphable", "models", "checkpoints", "v4_value_net_best.pt"
     )
     checkpoint_path = os.path.normpath(checkpoint_path)
 
@@ -38,7 +38,7 @@ def test_anchored_rl_initialization():
 
 def test_anchored_rl_fine_tune_run(shared_engine, tmp_path):
     checkpoint_path = os.path.join(
-        os.path.dirname(__file__), "..", "..", "alphable_v4", "models", "checkpoints", "v4_value_net_best.pt"
+        os.path.dirname(__file__), "..", "..", "alphable", "models", "checkpoints", "v4_value_net_best.pt"
     )
     checkpoint_path = os.path.normpath(checkpoint_path)
 

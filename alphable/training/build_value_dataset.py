@@ -8,7 +8,7 @@ validating sample integrity and producing train and validation splits.
 from __future__ import annotations
 import os
 import argparse
-from alphable_v4.training.macondo_distill import build_macondo_distillation_dataset
+from alphable.training.macondo_distill import build_macondo_distillation_dataset
 
 
 def main():

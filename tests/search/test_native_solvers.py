@@ -8,10 +8,10 @@ Unit tests for native MAGPIE solver integration:
 """
 
 import pytest
-from alphable_v4.engine.magpie_bindings import MagpieEngine
-from alphable_v4.engine.game_state import GameState
-from alphable_v4.engine.move import Move
-from alphable_v4.search.bams import BAMSSearch, BAMSConfig
+from alphable.engine.magpie_bindings import MagpieEngine
+from alphable.engine.game_state import GameState
+from alphable.engine.move import Move
+from alphable.search.bams import BAMSSearch, BAMSConfig
 
 
 @pytest.fixture(scope="module")

@@ -21,11 +21,11 @@ import torch.nn as nn
 from torch.utils.data import Dataset, DataLoader
 from torch.optim import AdamW
 
-from alphable_v4.models.value_net import V4ValueNetwork
-from alphable_v4.engine.game_state import GameState
-from alphable_v4.engine.magpie_bindings import MagpieEngine
-from alphable_v4.search.bams import BAMSSearch, BAMSConfig
-from alphable_v4.platform.eval import GameSimulator
+from alphable.models.value_net import V4ValueNetwork
+from alphable.engine.game_state import GameState
+from alphable.engine.magpie_bindings import MagpieEngine
+from alphable.search.bams import BAMSSearch, BAMSConfig
+from alphable.platform.eval import GameSimulator
 
 
 class TrajectoryDataset(Dataset):
@@ -174,7 +174,7 @@ class AnchoredRLTrainer:
         num_games: int = 10,
         epochs: int = 5,
         lr: float = 2e-5,
-        output_checkpoint: str = "alphable_v4/models/checkpoints/v4_value_net_champion.pt",
+        output_checkpoint: str = "alphable/models/checkpoints/v4_value_net_champion.pt",
     ) -> str:
         """Runs the complete Anchored RL fine-tuning loop."""
         boards, states, targets = self.collect_self_play_games(engine, num_games=num_games)

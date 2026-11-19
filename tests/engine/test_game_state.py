@@ -4,9 +4,9 @@ Tests for GameState representation, tensor generation, and CGP conversion.
 
 import pytest
 import torch
-from alphable_v4.engine.game_state import GameState, DL_SQUARES, TL_SQUARES, DW_SQUARES, TW_SQUARES
-from alphable_v4.engine.move import Move
-from alphable_v4.engine.magpie_bindings import MagpieEngine
+from alphable.engine.game_state import GameState, DL_SQUARES, TL_SQUARES, DW_SQUARES, TW_SQUARES
+from alphable.engine.move import Move
+from alphable.engine.magpie_bindings import MagpieEngine
 
 
 def test_empty_game_state():

@@ -13,12 +13,12 @@ import os
 import pytest
 from typing import Tuple, Dict, Any
 
-from alphable_v4.engine.move import Move
-from alphable_v4.engine.game_state import GameState, STANDARD_TILE_COUNTS
-from alphable_v4.engine.magpie_bindings import MagpieEngine
-from alphable_v4.search.bams import BAMSSearch, BAMSConfig
-from alphable_v4.platform.eval import ScrabbleBag, GameSimulator, MatchStats
-from alphable_v4.platform.woogles_bot import WooglesBotAgent
+from alphable.engine.move import Move
+from alphable.engine.game_state import GameState, STANDARD_TILE_COUNTS
+from alphable.engine.magpie_bindings import MagpieEngine
+from alphable.search.bams import BAMSSearch, BAMSConfig
+from alphable.platform.eval import ScrabbleBag, GameSimulator, MatchStats
+from alphable.platform.woogles_bot import WooglesBotAgent
 
 
 @pytest.fixture(scope="module")
@@ -32,7 +32,7 @@ def shared_engine():
 @pytest.fixture(scope="module")
 def checkpoint_path():
     path = os.path.join(
-        os.path.dirname(__file__), "..", "..", "alphable_v4", "models", "checkpoints", "v4_value_net_best.pt"
+        os.path.dirname(__file__), "..", "..", "alphable", "models", "checkpoints", "v4_value_net_best.pt"
     )
     return os.path.normpath(path)
 

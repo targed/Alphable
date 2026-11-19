@@ -8,9 +8,9 @@ import pytest
 import numpy as np
 import torch
 
-from alphable_v4.training.parse_gcg import parse_gcg_text, parse_gcg_coordinate, parse_gcg_file
-from alphable_v4.training.macondo_distill import extract_match_distillation_samples
-from alphable_v4.training.build_belief_dataset import extract_game_belief_samples
+from alphable.training.parse_gcg import parse_gcg_text, parse_gcg_coordinate, parse_gcg_file
+from alphable.training.macondo_distill import extract_match_distillation_samples
+from alphable.training.build_belief_dataset import extract_game_belief_samples
 
 
 SAMPLE_GCG_TEXT = """#character-encoding UTF-8
@@ -118,12 +118,12 @@ def test_belief_samples_extraction():
 
 def test_hyperparameter_evaluation_function():
     """Verifies Frontier 5 hyperparameter evaluator runs duplicate match test cleanly."""
-    from alphable_v4.training.optimize_hyperparams import evaluate_hyperparams
-    from alphable_v4.engine.magpie_bindings import MagpieEngine
+    from alphable.training.optimize_hyperparams import evaluate_hyperparams
+    from alphable.engine.magpie_bindings import MagpieEngine
 
     engine = MagpieEngine(lexicon="CSW24")
     ckpt = os.path.normpath(
-        os.path.join(os.path.dirname(__file__), "..", "..", "alphable_v4", "models", "checkpoints", "v4_value_net_best.pt")
+        os.path.join(os.path.dirname(__file__), "..", "..", "alphable", "models", "checkpoints", "v4_value_net_best.pt")
     )
     params = {"weight_2ply": 0.18, "opp_penalty_weight": 0.12, "max_static_deficit": 3.5, "value_weight": 4.5}
 

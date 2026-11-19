@@ -13,10 +13,10 @@ import pytest
 import numpy as np
 import torch
 
-from alphable_v4.engine.game_state import GameState, STANDARD_TILE_COUNTS
-from alphable_v4.engine.move import Move
-from alphable_v4.models.value_net import V4ValueNetwork
-from alphable_v4.models.belief_net import BayesianRackInference, NeuralBeliefNet, OpponentTracker
+from alphable.engine.game_state import GameState, STANDARD_TILE_COUNTS
+from alphable.engine.move import Move
+from alphable.models.value_net import V4ValueNetwork
+from alphable.models.belief_net import BayesianRackInference, NeuralBeliefNet, OpponentTracker
 
 
 class TestValueNetwork:

@@ -17,7 +17,7 @@ import re
 import subprocess
 
 REPO_ROOT = os.path.normpath(os.path.join(os.path.dirname(__file__), ".."))
-SRC_HEADER = os.path.join(REPO_ROOT, "alphable_v4", "engine", "compat_memory_info.h")
+SRC_HEADER = os.path.join(REPO_ROOT, "alphable", "engine", "compat_memory_info.h")
 TARGET_COMPAT = os.path.join(REPO_ROOT, "vendor", "magpie", "src", "compat", "memory_info.h")
 LIBMAGPIE = os.path.join(REPO_ROOT, "vendor", "magpie", "bin", "libmagpie.so")
 
