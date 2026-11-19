@@ -231,4 +231,5 @@ v4_value_net_best_full_training.pt
 
 # External vendor libraries built locally
 /vendor/
-
+/.agents/
+/.superpowers/
