@@ -233,3 +233,8 @@ v4_value_net_best_full_training.pt
 /vendor/
 /.agents/
 /.superpowers/
+# Slurm & runtime logs
+Mill-*.out
+Mill-*.err
+*.log
+slurm/logs/
