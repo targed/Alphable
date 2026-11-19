@@ -3,9 +3,9 @@ requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "alphable-v4"
+name = "alphable"
 version = "0.4.0"
-description = "Alphable V4: Championship-tier Scrabble AI with MAGPIE, BAMS, and Cross-Attention Value Networks"
+description = "Alphable: Championship-tier Scrabble AI with MAGPIE, BAMS, and Cross-Attention Value Networks"
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
@@ -26,11 +26,11 @@ dev = [
 ]
 
 [project.scripts]
-alphable = "alphable_v4.cli:main"
+alphable = "alphable.cli:main"
 
 [tool.setuptools.packages.find]
 where = ["."]
-include = ["alphable_v4*"]
+include = ["alphable*"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

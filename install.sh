@@ -98,14 +98,14 @@ fi
 echo ""
 echo "==> Step 5: Verifying Neural Network Checkpoints..."
 
-VALUE_CKPT="$SCRIPT_DIR/alphable_v4/models/checkpoints/v4_value_net_best.pt"
-BELIEF_CKPT="$SCRIPT_DIR/alphable_v4/models/checkpoints/v4_belief_net_best.pt"
+VALUE_CKPT="$SCRIPT_DIR/alphable/models/checkpoints/v4_value_net_best.pt"
+BELIEF_CKPT="$SCRIPT_DIR/alphable/models/checkpoints/v4_belief_net_best.pt"
 
 if [ -f "$VALUE_CKPT" ] && [ -f "$BELIEF_CKPT" ]; then
     echo "✓ Value Network Checkpoint present: $(basename "$VALUE_CKPT") ($("$VENV_PYTHON" -c "import os; print(f'{os.path.getsize(\"$VALUE_CKPT\")/(1024*1024):.1f} MB')"))"
     echo "✓ Belief Network Checkpoint present: $(basename "$BELIEF_CKPT")"
 else
-    echo "WARNING: One or more model checkpoints are missing from alphable_v4/models/checkpoints/."
+    echo "WARNING: One or more model checkpoints are missing from alphable/models/checkpoints/."
 fi
 
 # ------------------------------------------------------------------------------
