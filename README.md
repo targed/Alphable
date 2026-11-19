@@ -1,4 +1,4 @@
-# Alphable V4: Championship-Caliber Scrabble AI
+# Alphable: Championship-Caliber Scrabble AI
 
 [![CI Tests](https://img.shields.io/badge/tests-196%20passed-brightgreen.svg)](tests/)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](LICENSE)
@@ -8,9 +8,9 @@
 
 **Alphable** is a tournament-caliber, open-source artificial intelligence engine for Scrabble. It unifies high-throughput C GADDAG move generation ([MAGPIE](https://github.com/jvc56/MAGPIE)) with a deep cross-attention value network (ResNet-18 spatial board backbone cross-attended with 7-tile rack token queries), Bayesian negative-evidence opponent rack belief tracking, and **Belief-Augmented Monte Carlo Search (BAMS)**.
 
-Across a massive **10,000-game paired duplicate tournament** (5,000 duplicate pairs, zero tile luck), Alphable V4 achieved a statistically verified **55.63% match win rate** ($p = 2.90 \times 10^{-18}$, paired $t = 8.749$) against 1-ply Static KLV Base MAGPIE, with an average net spread of **+7.06 ± 0.81 points per game**.
+Across a massive **10,000-game paired duplicate tournament** (5,000 duplicate pairs, zero tile luck), Alphable achieved a statistically verified **55.63% match win rate** ($p = 2.90 \times 10^{-18}$, paired $t = 8.749$) against 1-ply Static KLV Base MAGPIE, with an average net spread of **+7.06 ± 0.81 points per game**.
 
-Furthermore, to beat **Maximally Tuned Base MAGPIE** (which activates `-pat CSW24`, C PIMC rollouts at ~98,000 nps, and exact endgame solving), Alphable provides a **Hybrid PIMC Engine** (`--model hybrid-pimc`) that filters native C rollouts through Cross-Attention Value Network re-ranking and volatility margin control, achieving a **60.0% match win rate** (12W–8L–0D) in paired duplicate play.
+Furthermore, against **Maximally Tuned Base MAGPIE** (which activates `-pat CSW24`, C PIMC rollouts at ~98,000 nps, and exact endgame solving), Alphable's **Hybrid PIMC Engine** (`--model hybrid-pimc`) combines native C rollouts with Cross-Attention Value Network re-ranking and margin volatility control. In a 10,000-game supercomputer tournament on the Missouri S&T "The Mill" cluster (24 AMD EPYC cores), Alphable Hybrid PIMC achieved a statistically verified **53.30% match win rate** ($2,652\text{W} - 2,322\text{L} - 25\text{D}$) and **+4.15 points per game** net spread ($p = 2.83 \times 10^{-8}$, paired $t = 5.5517$, 5.55-sigma discovery standard).
 
 > 📄 **Research Paper**: For the theoretical POMDP formulation, strategy fusion proofs, Common Random Numbers variance reduction theorems, and empirical parameter ceiling audits, see our paper:  
 > [**Alphable: Belief-Augmented Monte Carlo Search and Cross-Attention Valuation in Imperfect-Information Scrabble**](paper/alphable_v4.pdf)
@@ -158,8 +158,8 @@ Evaluated against 1-ply Static KLV Base MAGPIE under Common Random Numbers (CRN)
 To ensure complete scientific transparency, we audited unturned native MAGPIE parameters:
 
 - **Unoptimized vs. Tuned MAGPIE**: Native MAGPIE contains high-speed C PIMC Monte Carlo simulation (`PlayChooser`, ~98,000 rollouts/sec), positional terms (`-pat CSW24`), and exact endgame solvers. Tuned MAGPIE outperforms default MAGPIE by $+63.02$ pts ($t = 4.54, p = 0.00022$).
-- **Claim Boundary**: Alphable V4's $+7.06$ pt advantage holds strictly against **1-ply Static KLV Base MAGPIE**. Against an unconstrained, deeply simulating Base MAGPIE running 98k rollouts/sec in native C, Alphable V4 incurs a $-46.48$ pt deficit due to simulation depth vs. 2-ply BAMS depth.
-- **Generator Transferability**: Passing `-pat CSW24` into Alphable V4's candidate generator boosts V4 by **+2.05 pts** in head-to-head play, confirming that native generator enhancements transfer directly to neural search.
+- **Claim Boundary**: Standalone 2-ply BAMS $+7.06$ pt advantage holds strictly against **1-ply Static KLV Base MAGPIE**. Against an unconstrained, deeply simulating Base MAGPIE running 98k rollouts/sec in native C, pure 2-ply lookahead incurs a $-46.48$ pt deficit due to simulation depth, which directly motivated our **Hybrid PIMC Engine** to overcome Tuned MAGPIE by $+4.15$ pts/game in the 10,000-game supercomputer benchmark.
+- **Generator Transferability**: Passing `-pat CSW24` into Alphable's candidate generator boosts performance by **+2.05 pts** in head-to-head play, confirming that native generator enhancements transfer directly to neural search.
 
 ---
 
@@ -197,7 +197,7 @@ To ensure complete scientific transparency, we audited unturned native MAGPIE pa
 │   └── reports/                # Milestone reports and scientific defense archives
 │
 ├── paper/                      # Publication-grade research paper (LaTeX)
-│   ├── alphable_v4.pdf         # Compiled research paper (13 pages, PDF)
+│   ├── alphable_v4.pdf         # Compiled research paper (23 pages, PDF)
 │   ├── main.tex                # Master LaTeX driver (NeurIPS/ICML preprint layout)
 │   ├── references.bib          # Scholarly BibTeX references
 │   ├── sections/               # Modular paper sections (Abstract, Intro, BAMS, etc.)
@@ -218,7 +218,7 @@ To ensure complete scientific transparency, we audited unturned native MAGPIE pa
 
 ## Citation
 
-If you use Alphable V4 in your research or reference our benchmarks, please cite our paper:
+If you use Alphable in your research or reference our benchmarks, please cite our paper:
 
 ```bibtex
 @article{alphable2026,

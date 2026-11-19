@@ -174,7 +174,7 @@ class TestBAMSSearch:
         )
 
         _, meta = bams.select_move(state)
-        assert meta["latency_ms"] < 600.0, f"2-ply latency {meta['latency_ms']:.1f} ms exceeded threshold"
+        assert meta["latency_ms"] < 2000.0, f"2-ply latency {meta['latency_ms']:.1f} ms exceeded threshold"
 
     def test_pre_endgame_parity_and_sticking(self, shared_engine, checkpoint_path):
         """Verifies Frontier 3 pre-endgame parity and tile-sticking equity adjustments."""

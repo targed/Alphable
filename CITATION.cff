@@ -1,12 +1,12 @@
 cff-version: 1.2.0
 message: "If you use this software or cite our paper, please cite it as below."
-title: "Alphable V4: Belief-Augmented Monte Carlo Search and Cross-Attention Valuation in Imperfect-Information Scrabble"
+title: "Alphable: Belief-Augmented Monte Carlo Search and Cross-Attention Valuation in Imperfect-Information Scrabble"
 authors:
-  - name: "Alphable Research Team"
+  - name: "Luke Kaiser"
 version: "4.0.0"
 date-released: "2026-11-10"
 license: "GPL-3.0-or-later"
-repository-code: "https://github.com/Alphable/Alphable"
+repository-code: "https://github.com/targed/Alphable"
 keywords:
   - "artificial intelligence"
   - "reinforcement learning"
@@ -19,6 +19,6 @@ preferred-citation:
   type: article
   title: "Alphable: Belief-Augmented Monte Carlo Search and Cross-Attention Valuation in Imperfect-Information Scrabble"
   authors:
-    - name: "Alphable Research Team"
+    - name: "Luke Kaiser"
   journal: "arXiv preprint"
   year: 2026
