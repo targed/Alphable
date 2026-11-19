@@ -177,7 +177,7 @@ python cli.py tournament --lexicon NWL23 --games 20
 ```
 
 ### Additional documentation
-- [ARCHITECTURE.md](ARCHITECTURE.md): BAMS formulation, tensor representations, and ResNet-18 architecture.
-- [USER_GUIDE.md](USER_GUIDE.md): CLI commands, search parameters, and tuning flags.
-- [TOURNAMENT_BENCHMARKS_AND_COMMAND_MANUAL.md](TOURNAMENT_BENCHMARKS_AND_COMMAND_MANUAL.md): Historical benchmark logs and model registry details.
-- [STATISTICAL_SIGNIFICANCE_AND_BENCHMARKING_GUIDE.md](STATISTICAL_SIGNIFICANCE_AND_BENCHMARKING_GUIDE.md): Statistical methodology and duplicate match configuration.
+- [ARCHITECTURE.md](../reference/ARCHITECTURE.md): BAMS formulation, tensor representations, and ResNet-18 architecture.
+- [USER_GUIDE.md](../how_to/USER_GUIDE.md): CLI commands, search parameters, and tuning flags.
+- [TOURNAMENT_BENCHMARKS_AND_COMMAND_MANUAL.md](../reference/TOURNAMENT_BENCHMARKS_AND_COMMAND_MANUAL.md): Historical benchmark logs and model registry details.
+- [STATISTICAL_SIGNIFICANCE_AND_BENCHMARKING_GUIDE.md](../explanation/STATISTICAL_SIGNIFICANCE_AND_BENCHMARKING_GUIDE.md): Statistical methodology and duplicate match configuration.

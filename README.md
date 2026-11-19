@@ -55,7 +55,7 @@ The script automatically:
 ./venv/bin/pytest tests/ visualizer/tests/ -q
 ```
 *Expected: 196 passed in ~20-25 seconds.*  
-For detailed documentation on the test hierarchy, paired duplicate methodology, and phase analysis, see [docs/TESTING_AND_VERIFICATION_GUIDE.md](docs/TESTING_AND_VERIFICATION_GUIDE.md).
+For detailed documentation on the test hierarchy, paired duplicate methodology, and phase analysis, see [docs/how_to/TESTING_AND_VERIFICATION_GUIDE.md](docs/how_to/TESTING_AND_VERIFICATION_GUIDE.md). For the complete documentation index, see [docs/README.md](docs/README.md).
 
 ### 3. Verify Published Research Benchmarks
 Instantly reproduce the statistical tables published in the research paper from primary tournament telemetry:
@@ -189,10 +189,12 @@ To ensure complete scientific transparency, we audited unturned native MAGPIE pa
 │   └── tournaments/            # Full 10,000-game duplicate run telemetry
 │
 ├── docs/                       # Comprehensive documentation suite (Diátaxis)
-│   ├── ALPHABLE_V4_SCIENTIFIC_DEFENSE_AND_AUDIT_REPORT.md # Technical defense report
-│   ├── ARCHITECTURE.md         # Detailed mathematical architecture specifications
-│   ├── GETTING_STARTED.md      # Setup walkthrough and verification
-│   └── USER_GUIDE.md           # CLI commands and configuration options
+│   ├── README.md               # Diátaxis documentation index
+│   ├── tutorials/              # Learning-oriented setup guides (GETTING_STARTED.md)
+│   ├── how_to/                 # Task-oriented runbooks (USER_GUIDE.md, TESTING_AND_VERIFICATION_GUIDE.md)
+│   ├── reference/              # Technical specifications (ARCHITECTURE.md, MODELS_AND_RESOURCES.md)
+│   ├── explanation/            # Background theory and statistical guides
+│   └── reports/                # Milestone reports and scientific defense archives
 │
 ├── paper/                      # Publication-grade research paper (LaTeX)
 │   ├── alphable_v4.pdf         # Compiled research paper (13 pages, PDF)

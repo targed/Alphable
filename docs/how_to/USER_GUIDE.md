@@ -3,9 +3,9 @@
 This guide covers model selection, command-line arguments, tournament benchmarking, run comparison, the Visualizer Studio, and how Alphable V4 differs from classical static engines.
 
 Related references:
-- [MODELS_AND_RESOURCES.md](MODELS_AND_RESOURCES.md): Neural checkpoints, search presets, architectures, parameters, and verified benchmarks.
-- [TOURNAMENT_BENCHMARKS_AND_COMMAND_MANUAL.md](TOURNAMENT_BENCHMARKS_AND_COMMAND_MANUAL.md): Master tournament logs, 1,000-game records, and duplicate benchmark reports.
-- [STATISTICAL_SIGNIFICANCE_AND_BENCHMARKING_GUIDE.md](STATISTICAL_SIGNIFICANCE_AND_BENCHMARKING_GUIDE.md): Methodology for paired duplicate matches and statistical tests.
+- [MODELS_AND_RESOURCES.md](../reference/MODELS_AND_RESOURCES.md): Neural checkpoints, search presets, architectures, parameters, and verified benchmarks.
+- [TOURNAMENT_BENCHMARKS_AND_COMMAND_MANUAL.md](../reference/TOURNAMENT_BENCHMARKS_AND_COMMAND_MANUAL.md): Master tournament logs, 1,000-game records, and duplicate benchmark reports.
+- [STATISTICAL_SIGNIFICANCE_AND_BENCHMARKING_GUIDE.md](../explanation/STATISTICAL_SIGNIFICANCE_AND_BENCHMARKING_GUIDE.md): Methodology for paired duplicate matches and statistical tests.
 
 ---
 
