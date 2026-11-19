@@ -1,6 +1,6 @@
 # Alphable V4: Tournament Benchmarks & Master Command Manual
 
-**Location**: `docs/TOURNAMENT_BENCHMARKS_AND_COMMAND_MANUAL.md`  
+**Location**: `docs/reference/TOURNAMENT_BENCHMARKS_AND_COMMAND_MANUAL.md`  
 **Last Updated**: 2026-11-12  
 **Status**: Verified & Active Reference  
 

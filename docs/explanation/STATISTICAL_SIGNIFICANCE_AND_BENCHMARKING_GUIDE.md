@@ -1,6 +1,6 @@
 # Alphable V4: Statistical Significance & Rigorous Benchmarking Guide
 
-**Location**: `docs/STATISTICAL_SIGNIFICANCE_AND_BENCHMARKING_GUIDE.md`  
+**Location**: `docs/explanation/STATISTICAL_SIGNIFICANCE_AND_BENCHMARKING_GUIDE.md`  
 **Target Audience**: Developers, researchers, and operators evaluating AI Scrabble engines.
 
 ---
